@@ -1,0 +1,1021 @@
+[
+  {
+    "iata": "AMS",
+    "name": "Amsterdam Airport Schiphol",
+    "cityCode": "AMS",
+    "countryCode": "NL",
+    "countryName": "Netherlands",
+    "regionName": "Europe",
+    "latitude": 52.309069,
+    "longitude": 4.763385
+  },
+  {
+    "iata": "ANC",
+    "name": "Ted Stevens Anchorage International Airport",
+    "cityCode": "ANC",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 61.174444,
+    "longitude": -149.996389
+  },
+  {
+    "iata": "ARN",
+    "name": "Stockholm Arlanda Airport",
+    "cityCode": "STO",
+    "countryCode": "SE",
+    "countryName": "Sweden",
+    "regionName": "Europe",
+    "latitude": 59.649818,
+    "longitude": 17.930364
+  },
+  {
+    "iata": "ATL",
+    "name": "Hartsfield-Jackson Atlanta International Airport",
+    "cityCode": "ATL",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 33.640067,
+    "longitude": -84.44403
+  },
+  {
+    "iata": "BCN",
+    "name": "Barcelona-El Prat Airport",
+    "cityCode": "BCN",
+    "countryCode": "ES",
+    "countryName": "Spain and Canary Islands",
+    "regionName": "Europe",
+    "latitude": 41.303027,
+    "longitude": 2.07593
+  },
+  {
+    "iata": "BKK",
+    "name": "Suvarnabhumi Airport",
+    "cityCode": "BKK",
+    "countryCode": "TH",
+    "countryName": "Thailand",
+    "regionName": "Asia",
+    "latitude": 13.693062,
+    "longitude": 100.752044
+  },
+  {
+    "iata": "BNE",
+    "name": "Brisbane Airport",
+    "cityCode": "BNE",
+    "countryCode": "AU",
+    "countryName": "Australia",
+    "regionName": "Oceania",
+    "latitude": -27.403031,
+    "longitude": 153.109058
+  },
+  {
+    "iata": "BOG",
+    "name": "El Dorado International Airport",
+    "cityCode": "BOG",
+    "countryCode": "CO",
+    "countryName": "Colombia",
+    "regionName": "South America",
+    "latitude": 4.698602,
+    "longitude": -74.143136
+  },
+  {
+    "iata": "BOM",
+    "name": "Chhatrapati Shivaji International Airport",
+    "cityCode": "BOM",
+    "countryCode": "IN",
+    "countryName": "India",
+    "regionName": "Asia",
+    "latitude": 19.089891,
+    "longitude": 72.868047
+  },
+  {
+    "iata": "BOS",
+    "name": "Logan International Airport",
+    "cityCode": "BOS",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 42.36646,
+    "longitude": -71.020176
+  },
+  {
+    "iata": "BRU",
+    "name": "Brussels Airport",
+    "cityCode": "BRU",
+    "countryCode": "BE",
+    "countryName": "Belgium",
+    "regionName": "Europe",
+    "latitude": 50.89717,
+    "longitude": 4.483602
+  },
+  {
+    "iata": "BWI",
+    "name": "Baltimore/Wash International Thurgood Marshall Airport",
+    "cityCode": "BWI",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 39.179526,
+    "longitude": -76.668941
+  },
+  {
+    "iata": "CAN",
+    "name": "Guangzhou Baiyun International Airport",
+    "cityCode": "CAN",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 23.387862,
+    "longitude": 113.29734
+  },
+  {
+    "iata": "CDG",
+    "name": "Charles de Gaulle Airport",
+    "cityCode": "PAR",
+    "countryCode": "FR",
+    "countryName": "France",
+    "regionName": "Europe",
+    "latitude": 49.003196,
+    "longitude": 2.567023
+  },
+  {
+    "iata": "CGH",
+    "name": "Sao Paulo/Congonhas Airport",
+    "cityCode": "SAO",
+    "countryCode": "BR",
+    "countryName": "Brazil",
+    "regionName": "South America",
+    "latitude": -23.626902,
+    "longitude": -46.659556
+  },
+  {
+    "iata": "CGK",
+    "name": "Soekarno-Hatta International Airport",
+    "cityCode": "JKT",
+    "countryCode": "ID",
+    "countryName": "Indonesia",
+    "regionName": "Asia",
+    "latitude": -6.130643,
+    "longitude": 106.655526
+  },
+  {
+    "iata": "CKG",
+    "name": "Chongqing Jiangbei International Airport",
+    "cityCode": "CKG",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 29.7192,
+    "longitude": 106.641998
+  },
+  {
+    "iata": "CLE",
+    "name": "Cleveland Hopkins International Airport",
+    "cityCode": "CLE",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 41.410856,
+    "longitude": -81.83821
+  },
+  {
+    "iata": "CLT",
+    "name": "Charlotte Douglas International Airport",
+    "cityCode": "CLT",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 35.219167,
+    "longitude": -80.935833
+  },
+  {
+    "iata": "CPH",
+    "name": "Copenhagen Airport",
+    "cityCode": "CPH",
+    "countryCode": "DK",
+    "countryName": "Denmark",
+    "regionName": "Europe",
+    "latitude": 55.629053,
+    "longitude": 12.647601
+  },
+  {
+    "iata": "CTU",
+    "name": "Chengdu Shuangliu International Airport",
+    "cityCode": "CTU",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 30.581134,
+    "longitude": 103.956799
+  },
+  {
+    "iata": "CVG",
+    "name": "Cincinnati/Northern Kentucky Airport",
+    "cityCode": "CVG",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 39.0555,
+    "longitude": -84.66145
+  },
+  {
+    "iata": "DAL",
+    "name": "Dallas Love Field",
+    "cityCode": "DFW",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 32.843909,
+    "longitude": -96.850002
+  },
+  {
+    "iata": "DCA",
+    "name": "Ronald Reagan National Airport",
+    "cityCode": "WAS",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 38.853434,
+    "longitude": -77.043457
+  },
+  {
+    "iata": "DEL",
+    "name": "Indira Gandhi International Airport",
+    "cityCode": "DEL",
+    "countryCode": "IN",
+    "countryName": "India",
+    "regionName": "Asia",
+    "latitude": 28.556162,
+    "longitude": 77.099958
+  },
+  {
+    "iata": "DEN",
+    "name": "Denver International Airport",
+    "cityCode": "DEN",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 39.851382,
+    "longitude": -104.673098
+  },
+  {
+    "iata": "DFW",
+    "name": "Dallas/Fort Worth International Airport",
+    "cityCode": "DFW",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 32.897462,
+    "longitude": -97.036128
+  },
+  {
+    "iata": "DME",
+    "name": "Moscow Domodedovo Airport",
+    "cityCode": "MOW",
+    "countryCode": "RU",
+    "countryName": "Russian Federation",
+    "regionName": "Europe",
+    "latitude": 55.414566,
+    "longitude": 37.899494
+  },
+  {
+    "iata": "DOH",
+    "name": "Hamad International Airport",
+    "cityCode": "DOH",
+    "countryCode": "QA",
+    "countryName": "Qatar",
+    "regionName": "Middle East",
+    "latitude": 25.260988,
+    "longitude": 51.613594
+  },
+  {
+    "iata": "DTW",
+    "name": "Detroit Metropolitan Wayne County Airport",
+    "cityCode": "DTT",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 42.207808,
+    "longitude": -83.356048
+  },
+  {
+    "iata": "DUS",
+    "name": "Dusseldorf International Airport",
+    "cityCode": "DUS",
+    "countryCode": "DE",
+    "countryName": "Germany",
+    "regionName": "Europe",
+    "latitude": 51.278327,
+    "longitude": 6.76558
+  },
+  {
+    "iata": "DXB",
+    "name": "Dubai Airport",
+    "cityCode": "DXB",
+    "countryCode": "AE",
+    "countryName": "United Arab Emirates",
+    "regionName": "Middle East",
+    "latitude": 25.248664,
+    "longitude": 55.352916
+  },
+  {
+    "iata": "EWR",
+    "name": "Newark Liberty International Airport",
+    "cityCode": "EWR",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 40.689071,
+    "longitude": -74.178753
+  },
+  {
+    "iata": "FCO",
+    "name": "Leonardo da Vinci-Fiumicino Airport",
+    "cityCode": "ROM",
+    "countryCode": "IT",
+    "countryName": "Italy",
+    "regionName": "Europe",
+    "latitude": 41.794594,
+    "longitude": 12.250346
+  },
+  {
+    "iata": "FLL",
+    "name": "Fort Lauderdale-Hollywood International Airport",
+    "cityCode": "FLL",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 26.071492,
+    "longitude": -80.144908
+  },
+  {
+    "iata": "FRA",
+    "name": "Frankfurt Airport",
+    "cityCode": "FRA",
+    "countryCode": "DE",
+    "countryName": "Germany",
+    "regionName": "Europe",
+    "latitude": 50.048952,
+    "longitude": 8.573678
+  },
+  {
+    "iata": "FUK",
+    "name": "Fukuoka Airport",
+    "cityCode": "FUK",
+    "countryCode": "JP",
+    "countryName": "Japan",
+    "regionName": "Asia",
+    "latitude": 33.584286,
+    "longitude": 130.443891
+  },
+  {
+    "iata": "GRU",
+    "name": "Sao Paulo-Guarulhos International Airport",
+    "cityCode": "SAO",
+    "countryCode": "BR",
+    "countryName": "Brazil",
+    "regionName": "South America",
+    "latitude": -23.425668,
+    "longitude": -46.481926
+  },
+  {
+    "iata": "HEL",
+    "name": "Helsinki-Vantaa Airport",
+    "cityCode": "HEL",
+    "countryCode": "FI",
+    "countryName": "Finland",
+    "regionName": "Europe",
+    "latitude": 60.317953,
+    "longitude": 24.966449
+  },
+  {
+    "iata": "HGH",
+    "name": "Hangzhou Xiaoshan International Airport",
+    "cityCode": "HGH",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 30.236934,
+    "longitude": 120.432356
+  },
+  {
+    "iata": "HKG",
+    "name": "Hong Kong International Airport",
+    "cityCode": "HKG",
+    "countryCode": "HK",
+    "countryName": "Hong Kong SAR",
+    "regionName": "Asia",
+    "latitude": 22.315248,
+    "longitude": 113.93649
+  },
+  {
+    "iata": "HND",
+    "name": "Haneda Airport",
+    "cityCode": "TYO",
+    "countryCode": "JP",
+    "countryName": "Japan",
+    "regionName": "Asia",
+    "latitude": 35.549069,
+    "longitude": 139.784524
+  },
+  {
+    "iata": "HNL",
+    "name": "Daniel K. Inouye International Airport",
+    "cityCode": "HNL",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 21.325833,
+    "longitude": -157.921667
+  },
+  {
+    "iata": "HOU",
+    "name": "William P. Hobby Airport",
+    "cityCode": "HOU",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 29.654513,
+    "longitude": -95.277018
+  },
+  {
+    "iata": "IAD",
+    "name": "Washington Dulles International Airport",
+    "cityCode": "WAS",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 38.95315,
+    "longitude": -77.447735
+  },
+  {
+    "iata": "IAH",
+    "name": "George Bush Intercontinental Airport",
+    "cityCode": "HOU",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 29.983333,
+    "longitude": -95.34
+  },
+  {
+    "iata": "ICN",
+    "name": "Incheon International Airport",
+    "cityCode": "SEL",
+    "countryCode": "KR",
+    "countryName": "Republic of Korea",
+    "regionName": "Asia",
+    "latitude": 37.448526,
+    "longitude": 126.451234
+  },
+  {
+    "iata": "IND",
+    "name": "Indianapolis International Airport",
+    "cityCode": "IND",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 39.71627,
+    "longitude": -86.292991
+  },
+  {
+    "iata": "IST",
+    "name": "Istanbul Airport",
+    "countryCode": "TR",
+    "countryName": "Turkey",
+    "regionName": "Europe",
+    "latitude": 41.260278,
+    "longitude": 28.741944
+  },
+  {
+    "iata": "ISL",
+    "name": "Istanbul Ataturk Airport",
+    "cityCode": "IST",
+    "countryCode": "TR",
+    "countryName": "Turkey",
+    "regionName": "Europe",
+    "latitude": 40.976667,
+    "longitude": 28.815278
+  },
+  {
+    "iata": "JFK",
+    "name": "John F. Kennedy International Airport",
+    "cityCode": "NYC",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 40.642335,
+    "longitude": -73.78817
+  },
+  {
+    "iata": "JNB",
+    "name": "O.R. Tambo International Airport",
+    "cityCode": "JNB",
+    "countryCode": "ZA",
+    "countryName": "South Africa",
+    "regionName": "Africa",
+    "latitude": -26.139164,
+    "longitude": 28.245999
+  },
+  {
+    "iata": "KMG",
+    "name": "Kunming Changshui International Airport",
+    "cityCode": "KMG",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 25.101944,
+    "longitude": 102.929167
+  },
+  {
+    "iata": "KUL",
+    "name": "Kuala Lumpur International Airport",
+    "cityCode": "KUL",
+    "countryCode": "MY",
+    "countryName": "Malaysia",
+    "regionName": "Asia",
+    "latitude": 2.744344,
+    "longitude": 101.717259
+  },
+  {
+    "iata": "LAS",
+    "name": "McCarran International Airport",
+    "cityCode": "LAS",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 36.081,
+    "longitude": -115.147599
+  },
+  {
+    "iata": "LAX",
+    "name": "Los Angeles International Airport",
+    "cityCode": "LAX",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 33.943399,
+    "longitude": -118.408279
+  },
+  {
+    "iata": "LGA",
+    "name": "LaGuardia Airport",
+    "cityCode": "NYC",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 40.774252,
+    "longitude": -73.871617
+  },
+  {
+    "iata": "LGW",
+    "name": "London Gatwick Airport",
+    "cityCode": "LON",
+    "countryCode": "GB",
+    "countryName": "United Kingdom",
+    "regionName": "Europe",
+    "latitude": 51.150836,
+    "longitude": -0.177416
+  },
+  {
+    "iata": "LHR",
+    "name": "London Heathrow Airport",
+    "cityCode": "LON",
+    "countryCode": "GB",
+    "countryName": "United Kingdom",
+    "regionName": "Europe",
+    "latitude": 51.469603,
+    "longitude": -0.453566
+  },
+  {
+    "iata": "MAD",
+    "name": "Adolfo Suarez Madrid-Barajas Airport",
+    "cityCode": "MAD",
+    "countryCode": "ES",
+    "countryName": "Spain and Canary Islands",
+    "regionName": "Europe",
+    "latitude": 40.49027,
+    "longitude": -3.564479
+  },
+  {
+    "iata": "MAN",
+    "name": "Manchester Airport",
+    "cityCode": "MAN",
+    "countryCode": "GB",
+    "countryName": "United Kingdom",
+    "regionName": "Europe",
+    "latitude": 53.362908,
+    "longitude": -2.273354
+  },
+  {
+    "iata": "MCO",
+    "name": "Orlando International Airport",
+    "cityCode": "ORL",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 28.432177,
+    "longitude": -81.308301
+  },
+  {
+    "iata": "MDW",
+    "name": "Chicago Midway International Airport",
+    "cityCode": "CHI",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 41.788136,
+    "longitude": -87.740871
+  },
+  {
+    "iata": "MEL",
+    "name": "Melbourne Tullamarine Airport",
+    "cityCode": "MEL",
+    "countryCode": "AU",
+    "countryName": "Australia",
+    "regionName": "Oceania",
+    "latitude": -37.673295,
+    "longitude": 144.843013
+  },
+  {
+    "iata": "MEM",
+    "name": "Memphis International Airport",
+    "cityCode": "MEM",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 35.044579,
+    "longitude": -89.982258
+  },
+  {
+    "iata": "MEX",
+    "name": "Benito Juarez International Airport",
+    "cityCode": "MEX",
+    "countryCode": "MX",
+    "countryName": "Mexico",
+    "regionName": "North America",
+    "latitude": 19.435278,
+    "longitude": -99.072778
+  },
+  {
+    "iata": "MIA",
+    "name": "Miami International Airport",
+    "cityCode": "MIA",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 25.796,
+    "longitude": -80.278234
+  },
+  {
+    "iata": "MNL",
+    "name": "Ninoy Aquino International Airport",
+    "cityCode": "MNL",
+    "countryCode": "PH",
+    "countryName": "Philippines",
+    "regionName": "Asia",
+    "latitude": 14.511205,
+    "longitude": 121.019208
+  },
+  {
+    "iata": "MSP",
+    "name": "Minneapolis-St. Paul International Airport",
+    "cityCode": "MSP",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 44.883016,
+    "longitude": -93.210922
+  },
+  {
+    "iata": "MUC",
+    "name": "Franz Josef Strauss Airport",
+    "cityCode": "MUC",
+    "countryCode": "DE",
+    "countryName": "Germany",
+    "regionName": "Europe",
+    "latitude": 48.353005,
+    "longitude": 11.790143
+  },
+  {
+    "iata": "NRT",
+    "name": "Narita International Airport",
+    "cityCode": "TYO",
+    "countryCode": "JP",
+    "countryName": "Japan",
+    "regionName": "Asia",
+    "latitude": 35.773213,
+    "longitude": 140.387443
+  },
+  {
+    "iata": "OAK",
+    "name": "Metropolitan Oakland International Airport",
+    "cityCode": "OAK",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 37.71188,
+    "longitude": -122.212011
+  },
+  {
+    "iata": "ORD",
+    "name": "O'Hare International Airport",
+    "cityCode": "CHI",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 41.976912,
+    "longitude": -87.904876
+  },
+  {
+    "iata": "ORY",
+    "name": "Paris Orly Airport",
+    "cityCode": "PAR",
+    "countryCode": "FR",
+    "countryName": "France",
+    "regionName": "Europe",
+    "latitude": 48.728283,
+    "longitude": 2.3597
+  },
+  {
+    "iata": "OSL",
+    "name": "Oslo Airport Gardermoen",
+    "cityCode": "OSL",
+    "countryCode": "NO",
+    "countryName": "Norway",
+    "regionName": "Europe",
+    "latitude": 60.194192,
+    "longitude": 11.100411
+  },
+  {
+    "iata": "PDX",
+    "name": "Portland International Airport",
+    "cityCode": "PDX",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 45.588995,
+    "longitude": -122.592901
+  },
+  {
+    "iata": "PEK",
+    "name": "Beijing Capital International Airport",
+    "cityCode": "BJS",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 40.078538,
+    "longitude": 116.587095
+  },
+  {
+    "iata": "PHL",
+    "name": "Philadelphia International Airport",
+    "cityCode": "PHL",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 39.876413,
+    "longitude": -75.243305
+  },
+  {
+    "iata": "PHX",
+    "name": "Phoenix Sky Harbor International Airport",
+    "cityCode": "PHX",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 33.435036,
+    "longitude": -112.000164
+  },
+  {
+    "iata": "PVG",
+    "name": "Shanghai Pudong International Airport",
+    "cityCode": "SHA",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 31.151824,
+    "longitude": 121.799808
+  },
+  {
+    "iata": "SAN",
+    "name": "San Diego International Airport",
+    "cityCode": "SAN",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 32.731938,
+    "longitude": -117.197312
+  },
+  {
+    "iata": "SDF",
+    "name": "Louisville International Airport-Standiford Field",
+    "cityCode": "SDF",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 38.174397,
+    "longitude": -85.73599
+  },
+  {
+    "iata": "SEA",
+    "name": "Seattle-Tacoma International Airport",
+    "cityCode": "SEA",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 47.443839,
+    "longitude": -122.301732
+  },
+  {
+    "iata": "SFO",
+    "name": "San Francisco International Airport",
+    "cityCode": "SFO",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 37.615215,
+    "longitude": -122.389881
+  },
+  {
+    "iata": "SHA",
+    "name": "Shanghai Hongqiao International Airport",
+    "cityCode": "SHA",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 31.19779,
+    "longitude": 121.333473
+  },
+  {
+    "iata": "SIN",
+    "name": "Changi International Airport",
+    "cityCode": "SIN",
+    "countryCode": "SG",
+    "countryName": "Singapore",
+    "regionName": "Asia",
+    "latitude": 1.361173,
+    "longitude": 103.990201
+  },
+  {
+    "iata": "SLC",
+    "name": "Salt Lake City International Airport",
+    "cityCode": "SLC",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 40.785645,
+    "longitude": -111.980673
+  },
+  {
+    "iata": "STL",
+    "name": "Lambert-St. Louis International Airport",
+    "cityCode": "STL",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 38.748707,
+    "longitude": -90.379002
+  },
+  {
+    "iata": "SVO",
+    "name": "Sheremetyevo International Airport",
+    "cityCode": "MOW",
+    "countryCode": "RU",
+    "countryName": "Russian Federation",
+    "regionName": "Europe",
+    "latitude": 55.966324,
+    "longitude": 37.416574
+  },
+  {
+    "iata": "SYD",
+    "name": "Sydney (Kingsford Smith) Airport",
+    "cityCode": "SYD",
+    "countryCode": "AU",
+    "countryName": "Australia",
+    "regionName": "Oceania",
+    "latitude": -33.932922,
+    "longitude": 151.179898
+  },
+  {
+    "iata": "SZX",
+    "name": "Shenzhen Bao'an International Airport",
+    "cityCode": "SZX",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 22.639444,
+    "longitude": 113.810833
+  },
+  {
+    "iata": "TPA",
+    "name": "Tampa International Airport",
+    "cityCode": "TPA",
+    "countryCode": "US",
+    "countryName": "United States",
+    "regionName": "North America",
+    "latitude": 27.979869,
+    "longitude": -82.535415
+  },
+  {
+    "iata": "TPE",
+    "name": "Taiwan Taoyuan International Airport",
+    "cityCode": "TPE",
+    "countryCode": "TW",
+    "countryName": "Taiwan",
+    "regionName": "Asia",
+    "latitude": 25.075512,
+    "longitude": 121.23248
+  },
+  {
+    "iata": "TXL",
+    "name": "Tegel Airport",
+    "cityCode": "BER",
+    "countryCode": "DE",
+    "countryName": "Germany",
+    "regionName": "Europe",
+    "latitude": 52.553944,
+    "longitude": 13.291722
+  },
+  {
+    "iata": "VIE",
+    "name": "Vienna International Airport",
+    "cityCode": "VIE",
+    "countryCode": "AT",
+    "countryName": "Austria",
+    "regionName": "Europe",
+    "latitude": 48.11972,
+    "longitude": 16.563583
+  },
+  {
+    "iata": "XIY",
+    "name": "Xianyang International Airport",
+    "cityCode": "SIA",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 34.438416,
+    "longitude": 108.760946
+  },
+  {
+    "iata": "XMN",
+    "name": "Xiamen Gaoqi International Airport",
+    "cityCode": "XMN",
+    "countryCode": "CN",
+    "countryName": "China",
+    "regionName": "Asia",
+    "latitude": 24.543064,
+    "longitude": 118.134178
+  },
+  {
+    "iata": "YUL",
+    "name": "Montreal-Pierre Elliott Trudeau International Airport",
+    "cityCode": "YMQ",
+    "countryCode": "CA",
+    "countryName": "Canada",
+    "regionName": "North America",
+    "latitude": 45.457715,
+    "longitude": -73.749906
+  },
+  {
+    "iata": "YVR",
+    "name": "Vancouver International Airport",
+    "cityCode": "YVR",
+    "countryCode": "CA",
+    "countryName": "Canada",
+    "regionName": "North America",
+    "latitude": 49.194697,
+    "longitude": -123.179191
+  },
+  {
+    "iata": "YYC",
+    "name": "Calgary International Airport",
+    "cityCode": "YYC",
+    "countryCode": "CA",
+    "countryName": "Canada",
+    "regionName": "North America",
+    "latitude": 51.131394,
+    "longitude": -114.010551
+  },
+  {
+    "iata": "YYZ",
+    "name": "Pearson International Airport",
+    "cityCode": "YTO",
+    "countryCode": "CA",
+    "countryName": "Canada",
+    "regionName": "North America",
+    "latitude": 43.681585,
+    "longitude": -79.61146
+  },
+  {
+    "iata": "ZRH",
+    "name": "Zurich Airport",
+    "cityCode": "ZRH",
+    "countryCode": "CH",
+    "countryName": "Switzerland",
+    "regionName": "Europe",
+    "latitude": 47.450604,
+    "longitude": 8.561746
+  }
+]

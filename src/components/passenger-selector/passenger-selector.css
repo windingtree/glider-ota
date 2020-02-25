@@ -1,0 +1,48 @@
+.passenger-selector--dropdown{
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    width: 175px;
+    height: 48px;
+}
+
+
+.passenger-selector--wrapper{
+    width: 200px;
+    display:flex;
+    background-color: gainsboro;
+
+}
+.passenger-selector--title{
+    /*border: 1px solid blue;*/
+    display:inline;
+    width: 100px;
+}
+.passenger-selector--title strong{
+}
+
+.passenger-selector--title small{
+    display: block;
+}
+
+
+.passenger-selector--button-decr{
+    display:inline;
+    /*border: 1px solid red;*/
+}
+.passenger-selector--button-incr{
+    display:inline;
+    /*border: 1px solid black;*/
+}
+
+.passenger-selector--button-decr .button-decr{
+    background: black;
+}
+
+.passenger-selector--pax-count{
+    display:inline;
+    /*border: 1px solid red;*/
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
