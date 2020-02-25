@@ -2,3 +2,6 @@ body {
 
 }
 
+.content-wrapper{
+    min-height: 600px;
+}
