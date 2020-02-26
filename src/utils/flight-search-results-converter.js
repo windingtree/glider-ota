@@ -104,4 +104,5 @@ class FlightSearchResultsConverter {
 }
 
 
-module.exports = FlightSearchResultsConverter;
+//module.exports = FlightSearchResultsConverter;
+export default FlightSearchResultsConverter;
