@@ -3,10 +3,9 @@ import FlightsSearchForm from '../components/flights-search-form/flights-search-
 import FlightsSearchResults from '../components/flights-search-results/flights-search-results'
 import SearchCriteriaBuilder from '../utils/search-criteria-builder'
 import FlightDetail from "../components/flights-search-results/flight-detailed-view";
-// import sample_response from '../data/response_before_conversion.json'
 import FlightSearchResultsConverter from '../utils/flight-search-results-converter'
 
-export default class SearchFlightsPage extends React.Component {
+export default class _SearchFlightsPage extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
