@@ -3,51 +3,31 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,useParams
 } from "react-router-dom";
 
 import ReactDOM from 'react-dom'
 import SearchFlightsPage from './pages/search-flights-page'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
-import Header from './components/header/header'
-import Footer from './components/footer/footer'
+import Header from './components/common/header/header'
+import Footer from './components/common/footer/footer'
 import FlightDetail from "./components/flights-search-results/flight-detailed-view";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import HotelsPage from "./pages/hotels"
+import FlightsPage from "./pages/flights"
+import HomePage from "./pages/home"
 
-function Index() {
-    return (
-    <>
-        <Header/>
-        Index
-        <Footer/>
-    </>
-    )
-}
-function Flights() {
-    return (
-        <>
-            <Header/>
-            <ContentWrapper>
-                <SearchFlightsPage/>
-            </ContentWrapper>
-            <Footer/>
-        </>
-    )
-}
 
-function Hotels() {
-    return (
-        <>
-            <Header/>Hotels
-            <Footer/>
-        </>
-    )
-}
 
-function FlightOffer() {
+
+
+function FlightOffer(){
+    let { combinationId ,offerId } = useParams();
+    console.log("CombinationID",combinationId)
+    console.log("offerId",offerId)
     return (
         <>
             <Header/>
@@ -58,43 +38,21 @@ function FlightOffer() {
 }
 
 
-function FlightDetails() {
-    return (
-        <>
-            <Header/>FlightDetails
-            <Footer/>
-        </>
-    )
-}
-
-function ContentWrapper(props){
-    return (
-        <Container>
-            <Row noGutters>
-                <Col className="content-wrapper">
-                {props.children}
-                </Col>
-            </Row>
-        </Container>
-    )
-}
 
 function Dispatcher() {
     return (
         <Router>
-            <span> <Link to="/">Home</Link> <Link to="/flights">Flights</Link> <Link to="/flight/details">Offer</Link> <Link to="/hotels">Hotels</Link></span>
+            <span> <Link to="/">Home</Link> <Link to="/flights">Flights</Link> <Link to="/flightoffer">Offer</Link> <Link to="/hotels">Hotels</Link></span>
                 <Switch>
                     <Route path="/hotels">
-                        <Hotels />
+                        <HotelsPage/>
                     </Route>
-                    <Route path="/flights/details/">
-                        <FlightOffer />
-                    </Route>
+
                     <Route path="/flights">
-                        <Flights />
+                        <FlightsPage/>
                     </Route>
                     <Route path="/">
-                        <Index />
+                        <HomePage />
                     </Route>
                 </Switch>
         </Router>

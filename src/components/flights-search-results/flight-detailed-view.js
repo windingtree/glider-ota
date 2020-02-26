@@ -1,68 +1,44 @@
 import React from 'react'
 import './flight-detailed-view.css'
-import {Container, Row,Col,Image} from 'react-bootstrap'
+import {Container, Row,Col,Image, Form, Button} from 'react-bootstrap'
 import {parseISO,format} from 'date-fns'
-import FlightSearchResultsConverter from './flight-search-results-converter'
-
 import logo from '../../assets/airline_logo.png'
-import dummyResponse from '../../data/response_after_conversion'
 import OfferUtils,{ItineraryWrapper} from '../../utils/offer-utils'
 
 
 export default class FlightDetail extends React.Component {
   constructor (props) {
     super(props);
-    // this.handleOfferDisplay = this.handleOfferDisplay.bind(this)
-
   }
-
-
-  loadDummyOffer(){
-
-    let converter = new FlightSearchResultsConverter();
-    // let offers = converter.convertResponse(dummyResponse)
-    let offers = dummyResponse;
-    for(let key in offers){
-      return offers[key]
-    }
-    let offer  = offers[0];
-  }
-
-
-
-
 
 
   render () {
-    let offer = this.loadDummyOffer();
+    let combination=this.props.selectedOffer;
+    let pricePlans=this.props.pricePlans;
 
-    // let offer=this.props.offer
-
-    if(offer===undefined){
+    if(combination===undefined){
       return (<>nothing to display</>)
     }
 
-    const outboundItinerary = OfferUtils.getOutboundItinerary(offer);
-    const returnItinerary = OfferUtils.doesReturnItineraryExist(offer)?OfferUtils.getReturnItinerary(offer) : undefined;
+    const outboundItinerary = OfferUtils.getOutboundItinerary(combination);
+    const returnItinerary = OfferUtils.doesReturnItineraryExist(combination)?OfferUtils.getReturnItinerary(combination) : undefined;
 
 
-    let itinWrapper=new ItineraryWrapper(outboundItinerary);
+    // let itinWrapper=new ItineraryWrapper(outboundItinerary);
     return (
       <>
         <Container className='offer-detail-wrapper'>
           <Row className='border'>
             <Col>
               <h1>Your flights</h1>
-              <ItineraryDetails itinerary={itinWrapper}/>
-
-
-
-
+              <ItineraryHeader outboundItinerary={outboundItinerary} returnItinerary={returnItinerary}/>
+              <ItineraryDetails itinerary={outboundItinerary}/>
+              {returnItinerary!==undefined &&
+              <ItineraryDetails itinerary={returnItinerary}/>
+              }
 {/*
 
-
-              <h1 className="offer-detail-title">Your flights</h1>
-              <h3 className="offer-detail-subtitle">{this.renderSubtitle(outboundItinerary,returnItinerary)}</h3>
+              <h3 className="combination-detail-subtitle">{this.renderSubtitle(outboundItinerary,returnItinerary)}</h3>
 */}
             </Col>
           </Row>
@@ -79,13 +55,18 @@ export default class FlightDetail extends React.Component {
           </Row>
           <Row>
             <Col>
+              <PassengerForm />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
               <h2>Contact information</h2>
             </Col>
           </Row>
 
           <Row>
             <Col md={12}>
-              {/*{ this.renderOffer(offer) })*/}
+              {/*{ this.renderOffer(combination) })*/}
             </Col>
             <Col />
           </Row>
@@ -96,89 +77,43 @@ export default class FlightDetail extends React.Component {
 
 
   renderSubtitle(outboundItinerary, returnItinerary){
-    const firstSegment = OfferUtils.getFirstSegmentOfItinerary(outboundItinerary);
-    const lastSegment = OfferUtils.getLastSegmentOfItinerary(outboundItinerary);
-    const departureDate = parseISO(OfferUtils.getItineraryDepartureDate(outboundItinerary));
 
-    let departureDateStr = format(departureDate, 'LLL dd (EEE)')
-
-    let returnDateStr = '';
-    if(returnItinerary!==undefined){
-      let returnDate = parseISO(OfferUtils.getItineraryDepartureDate(returnItinerary));
-      let returnDateStr  = format(returnDate, 'LLL dd (EEE)')
-    }
-
-
-    return (
-      <span >{OfferUtils.getCityNameByAirportCode(firstSegment.origin.iataCode)}-
-        {OfferUtils.getCityNameByAirportCode(lastSegment.destination.iataCode)} | {departureDateStr} | {returnDateStr}</span>
-    )
   }
 
-  renderItinerary (itinerary) {
-    return (
-      <Row className='offer-row offer-row-itinerary'>
-        <Col sm={4} className='offer-col offer-col-airports'>CDG-SVO</Col>
-        <Col sm={4} className='offer-col offer-col-duration'>2h 20 min</Col>
-        <Col sm={4} className='offer-col offer-col-stopover'>KRK,VIE</Col>
-      </Row>
-    )
-  }
 
-  getOutboundItinerary (offer) {
-    return offer.itineraries[0]
-  }
-
-  doesReturnItineraryExist(offer){
-    return offer.itineraries.length>1
-  }
-  getReturnItinerary (offer) {
-    //FIXME - what if there are more than two?
-    return offer.itineraries[1]
-  }
-
-  getFirstSegment (itinerary) {
-    return itinerary.segments[0]
-  }
-
-  getLastSegment (itinerary) {
-    return itinerary.segments[itinerary.segments.length - 1]
-  }
 }
 
 
 function ItineraryDetails(props){
   console.log("Itinerary",props.itinerary)
-  // let itin=new ItineraryWrapper(props.itinerary);
   return (
       <Container className="offer-detail-container">
         <Row>
-          <Col md={3} className='border'><AirlineAndFlight/></Col>
+          <Col md={3} className='border'><AirlineAndFlight itinerary={props.itinerary}/></Col>
           <Col className='border'><DepartureAndArrivalInfo itinerary={props.itinerary}/></Col>
-          <Col md={3} className='border'><h5>1h 23min</h5><PricePlan/></Col>
+          <Col md={3} className='border'><h5>{OfferUtils.calculateDuration(props.itinerary)}</h5><PricePlan/></Col>
         </Row>
       </Container>
   )
 }
 function DepartureAndArrivalInfo(props){
   let itin=props.itinerary;
-  let dptrDate=itin.getItineraryDepartureDate();
-  let arrivalDate=itin.getItineraryArrivalDate();
-
+  let dptrDate=OfferUtils.getItineraryDepartureDate(props.itinerary);
+  let arrivalDate=OfferUtils.getItineraryArrivalDate(props.itinerary);
   return (
       <Container className='border'>
         <Row>
-          <h4>{itin.getItineraryDepartureCityName()} - {itin.getItineraryArrivalCityName()}</h4>
+          <h4>{OfferUtils.getItineraryDepartureCityName(props.itinerary)} - {OfferUtils.getItineraryArrivalCityName(props.itinerary)}</h4>
         </Row>
         <Row>
           <Col md={4}>
             <h5>{format(dptrDate,'HH:mm')}<small>{format(dptrDate,'LLL dd (EEE)')}</small></h5>
-            <div><span>{itin.getItineraryDepartureAirportName()}</span><span>{itin.getItineraryDepartureAirportCode()}</span></div>
+            <div><span>{OfferUtils.getItineraryDepartureAirportCode(props.itinerary)}</span><span>{OfferUtils.getItineraryDepartureAirportCode(props.itinerary)}</span></div>
           </Col>
           <Col><span>-</span></Col>
           <Col md={4}>
             <h5>{format(arrivalDate,'HH:mm')}<small>{format(arrivalDate,'LLL dd (EEE)')}</small></h5>
-            <div><span>{itin.getItineraryArrivalCityName()}</span><span>{itin.getItineraryArrivalAirportCode()}</span></div>
+            <div><span>{OfferUtils.getItineraryArrivalCityName(props.itinerary)}</span><span>{OfferUtils.getItineraryArrivalAirportCode(props.itinerary)}</span></div>
           </Col>
         </Row>
       </Container>
@@ -193,13 +128,33 @@ function PricePlan(props) {
       </Container>
   )
 }
+
+function ItineraryHeader(props){
+  const outboundItinerary=props.outboundItinerary;
+  const returnItinerary=props.returnItinerary;
+  const depCityName = OfferUtils.getItineraryDepartureCityName(outboundItinerary);
+  const arrivCityName = OfferUtils.getItineraryArrivalCityName(outboundItinerary);
+  let departureDateStr = format(OfferUtils.getItineraryDepartureDate(outboundItinerary), 'LLL dd (EEE)')
+  let returnDateStr = '';
+  if(returnItinerary!==undefined){
+    returnDateStr  = ' | '+format(OfferUtils.getItineraryDepartureDate(returnItinerary), 'LLL dd (EEE)');
+  }
+
+
+  return (
+      <span >{depCityName}-{arrivCityName} | {departureDateStr} {returnDateStr}</span>
+  )
+
+}
+
 function AirlineAndFlight(props){
+  let operatingCarrier=OfferUtils.getItineraryOperatingCarrier(props.itinerary);
   return(
       <Container className='offer-detail--flightinfo'>
         <Row>
           <Col><Image src={logo} roundedCircle fluid/></Col>
           <Col>
-            <p>Vueling <small className="text-muted">VY-123,Airbus a320</small></p>
+            <p>{operatingCarrier.airlineName} <small className="text-muted">{operatingCarrier.flight}</small></p>
           </Col>
         </Row>
       </Container>
@@ -208,7 +163,7 @@ function AirlineAndFlight(props){
 
 function FlightRates(props){
   return(
-      <Container className='offer-detail--ratestinfo'>
+      <Container className='offer-detail--ratesinfo'>
         <Row>
           <Col>
             <h4>Flight#1</h4>
@@ -217,6 +172,42 @@ function FlightRates(props){
         <Row>
           <Col>
             <h5>Vueling (Paris-London)</h5>
+          </Col>
+        </Row>
+      </Container>
+  )
+}
+
+
+function PassengerForm(props){
+  return(
+      <Container className='offer-detail--ratesinfo'>
+        <Row>
+          <Col>
+            Enter your personal details as indicated in the travel document you are flying on. Use Latin letters.
+            <div><small>The number and type of passengers for this airline can only be changed with a new search</small></div>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <h5>Adult</h5>
+            <Form>
+              <Form.Group>
+                <Form.Label>Surname</Form.Label>
+                <Form.Control type="text" placeholder="Lastname" />
+              </Form.Group>
+
+              <Form.Group >
+                <Form.Label>Name</Form.Label>
+                <Form.Control type="text" placeholder="Firstname" />
+              </Form.Group>
+              <Form.Group controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="Check me out" />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
           </Col>
         </Row>
       </Container>

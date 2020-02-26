@@ -14,7 +14,8 @@
     "react-dom": "^16.12.0",
     "react-nice-dates": "^2.0.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "underscore": "^1.9.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -36,5 +37,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "mocha": "^7.0.1"
   }
 }

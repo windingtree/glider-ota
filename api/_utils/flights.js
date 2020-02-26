@@ -13,7 +13,7 @@ module.exports.searchOffers=function(criteria, callback) {
         },
         data: criteria,
         requestConfig: {
-            timeout: 10000,
+            timeout: 15000,
             noDelay: true,
             keepAlive: true,
             keepAliveDelay: 1000
@@ -48,7 +48,6 @@ module.exports.searchOffers=function(criteria, callback) {
     });
     request.on('error', function (err) {
         console.log('request error', err);
-        res.status(500).send('request error');
     })
 };
 
