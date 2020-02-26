@@ -14,6 +14,11 @@ input.input-birthdate{
     width:200px
 }
 
+.offer-detail--priceplan{
+    border: 1px solid red;
+    width:200px;
+}
+
 
 .offer-detail-title{
     font-family: Roboto;

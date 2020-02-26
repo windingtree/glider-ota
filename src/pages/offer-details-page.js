@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../components/common/header/header'
 import Footer from '../components/common/footer/footer'
 import FlightsSearchForm from '../components/flights-search-form/flights-search-form'
-import FlightDetail from "../components/flights-search-results/flight-detailed-view";
+import FlightDetail from "../components/flights-offer-details/flight-detailed-view";
 
 export default class FlightDetails extends React.Component {
   constructor (props) {

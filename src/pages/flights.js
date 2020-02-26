@@ -6,12 +6,12 @@ import FlightsSearchForm from '../components/flights-search-form/flights-search-
 import SearchCriteriaBuilder from "../utils/search-criteria-builder";
 import FlightSearchResultsConverter from "../utils/flight-search-results-converter";
 import FlightsSearchResults from "../components/flights-search-results/flights-search-results";
-import FlightDetail from "../components/flights-search-results/flight-detailed-view"
+import FlightDetail from "../components/flights-offer-details/flight-detailed-view"
 import dummy_data from '../data/response_converted.json'
 import {extendResponse} from  '../utils/response-processor'
-const OFFLINE_MODE = true;
+const OFFLINE_MODE = false;
 
-const API_URL='/api/searchOffers/'
+const API_URL='/api/searchOffers'
 
 export default class FlightsPage extends React.Component
 {
@@ -20,6 +20,7 @@ export default class FlightsPage extends React.Component
         super(props);
         this.state = {
             flight_search_results: OFFLINE_MODE?dummy_data:undefined,
+            selected_combination:undefined,
             selected_offer:undefined
         };
 
@@ -36,8 +37,8 @@ export default class FlightsPage extends React.Component
         console.log("Display offer, offerID:",offerId," combination", combinationId)
         let results = this.state.flight_search_results
         let selectedCombination = results.combinations.find(c=>{return c.combinationId === combinationId})
-        console.log("Found selected combination:",selectedCombination)
-        this.setState({selected_offer:selectedCombination});
+        let selectedOffer =selectedCombination.offers.find(o=>{return o.offerId === offerId})
+        this.setState({selected_combination:selectedCombination, selected_offer:selectedOffer});
     }
 
     search (criteria) {
@@ -82,44 +83,29 @@ export default class FlightsPage extends React.Component
     handleSearchResultsReceived(results){
         // let converter = new FlightSearchResultsConverter(results);
         let convertedResponse = extendResponse(results);
-        console.log("Converted results",convertedResponse)
         this.setState({ flight_search_results: convertedResponse })
     }
 
     render() {
-        let searchResults=this.state.flight_search_results;
-        let pricePlans = []
-        let passengers = []
-
-
-
-        let searchResultsAvailable = (searchResults !== undefined)
-        if (searchResultsAvailable) {
-            pricePlans = searchResults.pricePlans;
-            passengers = searchResults.passengers;
-            // selectedOffer = searchResults.combinations[0]
-        }
-
-        let offerWasSelected=(this.state.selected_offer!==undefined);
-        let selectedOffer;
-        if(offerWasSelected){
-            selectedOffer=this.state.selected_offer;
-        }
+        let searchResultsAvailable = (this.state.flight_search_results !== undefined)
+        let combinationWasSelected=(this.state.selected_combination!==undefined);
 
         return (
             <>
-                {/*<Header/>*/}
+                <Header/>
                 <ContentWrapper>
                     <FlightsSearchForm onSearchRequested={this.searchForFlights}/>
-                    { searchResultsAvailable && !offerWasSelected &&
-                        (<FlightsSearchResults onOfferDisplay={this.displayOffer} searchResults={searchResults} />)
+                    { searchResultsAvailable && !combinationWasSelected &&
+                        (<FlightsSearchResults onOfferDisplay={this.displayOffer} searchResults={this.state.flight_search_results} />)
                     }
 
-                    {offerWasSelected &&
-                        (<FlightDetail selectedOffer={selectedOffer} pricePlans={pricePlans} passengers={passengers}/>)
+                    {combinationWasSelected &&
+                        (<FlightDetail selectedCombination={this.state.selected_combination}
+                                       selectedOffer={this.state.selected_offer}
+                                       searchResults={this.state.flight_search_results} />)
                     }
                 </ContentWrapper>
-                {/*<Footer/>*/}
+                <Footer/>
             </>
         )
     }

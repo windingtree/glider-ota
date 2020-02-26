@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
 import Header from './components/common/header/header'
 import Footer from './components/common/footer/footer'
-import FlightDetail from "./components/flights-search-results/flight-detailed-view";
+import FlightDetail from "./components/flights-offer-details/flight-detailed-view";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";

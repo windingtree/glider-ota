@@ -39,27 +39,23 @@ export default class FlightsSearchResults extends React.Component {
             console.log('No data!!');
             return (<>Search for something</>)
         }
-        console.log(searchResults);
         return (
-            <>
-
-                <Container>
-                    <Row>
-                        <Col ms={2}>
-                            {<StopoverFilter/>}
-                        </Col>
-                        <Col sm={12} md={10} lg={8} xl={7} className='search-results-container'>
-                            <FastCheapFilter/>
-                            {
-                                searchResults.combinations.map(combination => {
-                                    return this.renderOffer(combination)
-                                })
-                            }
-                        </Col>
-                        <Col/>
-                    </Row>
-                </Container>
-            </>
+            <Container>
+                <Row>
+                    <Col ms={2}>
+                        {<StopoverFilter/>}
+                    </Col>
+                    <Col sm={12} md={10} lg={8} xl={7} className='search-results-container'>
+                        <FastCheapFilter/>
+                        {
+                            searchResults.combinations.map(combination => {
+                                return this.renderOffer(combination)
+                            })
+                        }
+                    </Col>
+                    <Col/>
+                </Row>
+            </Container>
         )
     }
 
@@ -69,8 +65,8 @@ export default class FlightsSearchResults extends React.Component {
         const firstSegment = OfferUtils.getFirstSegmentOfItinerary(outboundItinerary);
         const cheapestOffer = OfferUtils.getCheapestOffer(combination);
         return (
-            <Container className='offer-container'>
-                <Row className='offer-row offer-row-metainfo'>
+            <Container className='offer-container' key={combination.combinationId}>
+                <Row className='offer-row offer-row-metainfo' >
                     <Col sm={4}
                          className='offer-col offer-col-price'>{this.renderPrice(combination, cheapestOffer)}</Col>
                     <Col sm={4} className='offer-col offer-col-ancillaries'>2</Col>

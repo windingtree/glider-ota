@@ -2,7 +2,7 @@ import React from 'react'
 import FlightsSearchForm from '../components/flights-search-form/flights-search-form'
 import FlightsSearchResults from '../components/flights-search-results/flights-search-results'
 import SearchCriteriaBuilder from '../utils/search-criteria-builder'
-import FlightDetail from "../components/flights-search-results/flight-detailed-view";
+import FlightDetail from "../components/flights-offer-details/flight-detailed-view";
 import FlightSearchResultsConverter from '../utils/flight-search-results-converter'
 
 export default class _SearchFlightsPage extends React.Component {
