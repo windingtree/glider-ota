@@ -10,6 +10,10 @@
     min-height: 600px;
 }
 
+input.input-birthdate{
+    width:200px
+}
+
 
 .offer-detail-title{
     font-family: Roboto;

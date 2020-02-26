@@ -32,8 +32,8 @@ export default class FlightsSearchResults extends React.Component {
 
 
     render() {
-
         let searchResults = this.props.searchResults;
+        console.log("Displaying results",searchResults)
 
         if (searchResults === undefined) {
             console.log('No data!!');
@@ -51,7 +51,7 @@ export default class FlightsSearchResults extends React.Component {
                         <Col sm={12} md={10} lg={8} xl={7} className='search-results-container'>
                             <FastCheapFilter/>
                             {
-                                searchResults.map(combination => {
+                                searchResults.combinations.map(combination => {
                                     return this.renderOffer(combination)
                                 })
                             }

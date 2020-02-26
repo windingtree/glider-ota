@@ -8,10 +8,10 @@ import FlightSearchResultsConverter from "../utils/flight-search-results-convert
 import FlightsSearchResults from "../components/flights-search-results/flights-search-results";
 import FlightDetail from "../components/flights-search-results/flight-detailed-view"
 import dummy_data from '../data/response_converted.json'
+import {extendResponse} from  '../utils/response-processor'
 const OFFLINE_MODE = true;
 
-
-
+const API_URL='/api/searchOffers/'
 
 export default class FlightsPage extends React.Component
 {
@@ -19,12 +19,13 @@ export default class FlightsPage extends React.Component
     {
         super(props);
         this.state = {
-            flight_search_results: undefined,
+            flight_search_results: OFFLINE_MODE?dummy_data:undefined,
             selected_offer:undefined
         };
+
+
         this.searchForFlights = this.searchForFlights.bind(this);
         this.displayOffer = this.displayOffer.bind(this);
-
     }
 
     searchForFlights (criteria) {
@@ -32,8 +33,11 @@ export default class FlightsPage extends React.Component
     }
 
     displayOffer (combinationId,offerId) {
-        // this.search(criteria)
         console.log("Display offer, offerID:",offerId," combination", combinationId)
+        let results = this.state.flight_search_results
+        let selectedCombination = results.combinations.find(c=>{return c.combinationId === combinationId})
+        console.log("Found selected combination:",selectedCombination)
+        this.setState({selected_offer:selectedCombination});
     }
 
     search (criteria) {
@@ -65,7 +69,7 @@ export default class FlightsPage extends React.Component
             body: JSON.stringify(searchCriteria)
         };
         console.log("Request info:",requestInfo);
-        fetch('/api/searchOffers', requestInfo)
+        fetch(API_URL, requestInfo)
             .then(function (res) {
                 return res.json()
             })
@@ -76,32 +80,46 @@ export default class FlightsPage extends React.Component
         })
     }
     handleSearchResultsReceived(results){
-        let converter = new FlightSearchResultsConverter(results);
-        this.setState({ flight_search_results: converter.transformResults() })
+        // let converter = new FlightSearchResultsConverter(results);
+        let convertedResponse = extendResponse(results);
+        console.log("Converted results",convertedResponse)
+        this.setState({ flight_search_results: convertedResponse })
     }
 
-    render()
-    {
-        let searchResults=[];
+    render() {
+        let searchResults=this.state.flight_search_results;
         let pricePlans = []
-        let selectedOffer;
-        if (OFFLINE_MODE) {
-            searchResults = dummy_data;
+        let passengers = []
 
+
+
+        let searchResultsAvailable = (searchResults !== undefined)
+        if (searchResultsAvailable) {
+            pricePlans = searchResults.pricePlans;
+            passengers = searchResults.passengers;
+            // selectedOffer = searchResults.combinations[0]
         }
 
-        pricePlans = searchResults.pricePlans;
-        selectedOffer=searchResults.combinations[0]
+        let offerWasSelected=(this.state.selected_offer!==undefined);
+        let selectedOffer;
+        if(offerWasSelected){
+            selectedOffer=this.state.selected_offer;
+        }
 
         return (
             <>
-                <Header/>
+                {/*<Header/>*/}
                 <ContentWrapper>
                     <FlightsSearchForm onSearchRequested={this.searchForFlights}/>
-                    {/*<FlightsSearchResults onOfferDisplay={this.displayOffer} searchResults={searchResults} />*/}
-                    <FlightDetail selectedOffer={selectedOffer} pricePlans={pricePlans}/>
+                    { searchResultsAvailable && !offerWasSelected &&
+                        (<FlightsSearchResults onOfferDisplay={this.displayOffer} searchResults={searchResults} />)
+                    }
+
+                    {offerWasSelected &&
+                        (<FlightDetail selectedOffer={selectedOffer} pricePlans={pricePlans} passengers={passengers}/>)
+                    }
                 </ContentWrapper>
-                <Footer/>
+                {/*<Footer/>*/}
             </>
         )
     }
