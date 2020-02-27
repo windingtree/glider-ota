@@ -25,7 +25,7 @@ export default class OfferUtils {
   }
   static getReturnItinerary (combination) {
     //FIXME - what if there are more than two?
-    return OfferUtils.doesReturnItineraryExist(combination)==true?combination.itinerary[1]:undefined;
+    return OfferUtils.doesReturnItineraryExist(combination)===true?combination.itinerary[1]:undefined;
   }
 
   static getFirstSegmentOfItinerary (itinerary) {

@@ -32,7 +32,7 @@ export default class FlightsSearchResults extends React.Component {
 
     render() {
         let searchResults = this.props.searchResults;
-        console.log("Displaying results",searchResults)
+        // console.log("Displaying results",searchResults)
 
         if (searchResults === undefined) {
             console.log('No data!!');

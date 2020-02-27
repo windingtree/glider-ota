@@ -23,6 +23,9 @@ input.input-birthdate{
     border-radius: 5px;
     padding: 10px;
 }
+.selectedplan{
+    border: 3px solid black;
+}
 
 
 .offer-detail-title{

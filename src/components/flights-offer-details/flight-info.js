@@ -18,7 +18,7 @@ export default function YourFlightInfo({combination}){
         <Container >
             <Row>
                 <Col>
-                    <h1>Your flights</h1>
+                    <h1>YOUR FLIGHT</h1>
                     <ItineraryHeader combination={combination}/>
                     <ItineraryDetails itinerary={outboundItinerary}/>
                     {returnItinerary!==undefined &&

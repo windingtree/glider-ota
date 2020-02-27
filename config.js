@@ -9,6 +9,12 @@ const offersApiConfiguration =
             "request_timeout": 10000,
             "response_timeout": 10000,
         },
+        "createWithOffer": {
+            // "url": "https://wt-aggregator-3qb2x6vym.now.sh/api/v1/searchOffers",
+            "url": "https://staging.aggregator.windingtree.net/api/v1/orders/createWithOffer",
+            "request_timeout": 10000,
+            "response_timeout": 10000,
+        },
     };
 
 const responseHeaders =
