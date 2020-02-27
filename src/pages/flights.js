@@ -4,11 +4,10 @@ import Footer from '../components/common/footer/footer';
 import ContentWrapper from '../components/common/content-wrapper';
 import FlightsSearchForm from '../components/flights-search-form/flights-search-form'
 import SearchCriteriaBuilder from "../utils/search-criteria-builder";
-import FlightSearchResultsConverter from "../utils/flight-search-results-converter";
 import FlightsSearchResults from "../components/flights-search-results/flights-search-results";
 import FlightDetail from "../components/flights-offer-details/flight-detailed-view"
-import dummy_data from '../data/response_converted.json'
-import {extendResponse} from  '../utils/response-processor'
+import dummy_data from '../data/sample_response.json'
+import {extendResponse} from '../utils/flight-search-results-transformer'
 const OFFLINE_MODE = false;
 
 const API_URL='/api/searchOffers'

@@ -1,14 +1,10 @@
 import {parseISO,differenceInHours,differenceInMinutes} from "date-fns";
 
 
-
-
 export default class OfferUtils {
-
-
   static calculateDuration (itinerary) {
-    const firstSegment = this.getFirstSegmentOfItinerary(itinerary);
-    const lastSegment = this.getLastSegmentOfItinerary(itinerary);
+    const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
+    const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
     const startOfTrip = parseISO(firstSegment.departureTime);
     const endOfTrip = parseISO(lastSegment.arrivalTime);
 
@@ -22,30 +18,30 @@ export default class OfferUtils {
 
 
   static getOutboundItinerary (combination) {
-    return combination.itinerary[0]
+    return combination.itinerary[0];
   }
   static doesReturnItineraryExist(combination){
-    return combination.itinerary.length>1
+    return combination.itinerary.length>1;
   }
   static getReturnItinerary (combination) {
     //FIXME - what if there are more than two?
-    return combination.itinerary[1]
+    return OfferUtils.doesReturnItineraryExist(combination)==true?combination.itinerary[1]:undefined;
   }
 
   static getFirstSegmentOfItinerary (itinerary) {
-    return itinerary.segments[0]
+    return itinerary.segments[0];
   }
 
   static  getLastSegmentOfItinerary (itinerary) {
-    return itinerary.segments[itinerary.segments.length - 1]
+    return itinerary.segments[itinerary.segments.length - 1];
   }
 
   static getItineraryDepartureDate(itinerary){
-    return parseISO(this.getFirstSegmentOfItinerary(itinerary).departureTime);
+    return parseISO(OfferUtils.getFirstSegmentOfItinerary(itinerary).departureTime);
   }
 
   static getItineraryArrivalDate(itinerary){
-    return parseISO(this.getLastSegmentOfItinerary(itinerary).arrivalTime);
+    return parseISO(OfferUtils.getLastSegmentOfItinerary(itinerary).arrivalTime);
   }
 
   static getItinerarySegments(itinerary){
@@ -76,22 +72,22 @@ export default class OfferUtils {
   static getItineraryDepartureCityName(itinerary){
     let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
     //TODO replace with cityname
-    return '[City]'+firstSegment.origin.iataCode;
+    return firstSegment.origin.iataCode;
   }
   static getItineraryArrivalCityName(itinerary){
     let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
     //TODO replace with cityname
-    return '[City]'+lastSegment.destination.iataCode;
+    return lastSegment.destination.iataCode;
   }
   static getItineraryDepartureAirportName(itinerary){
     let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
     //TODO replace with full airport/station name
-    return '[Station]'+firstSegment.origin.iataCode;
+    return firstSegment.origin.iataCode;
   }
   static getItineraryArrivalAirportName(itinerary){
     let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
     //TODO replace with full airport/station name
-    return '[Station]'+lastSegment.destination.iataCode;
+    return lastSegment.destination.iataCode;
   }
   static getItineraryDepartureAirportCode(itinerary){
     let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
@@ -101,13 +97,4 @@ export default class OfferUtils {
     let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
     return lastSegment.destination.iataCode;
   }
-
-}
-
-export class OfferWrapper{
-    constructor(offer){
-        this.offer=offer;
-    }
-
-
 }

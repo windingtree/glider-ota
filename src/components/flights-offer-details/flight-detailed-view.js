@@ -1,12 +1,9 @@
-import React, { useState }  from 'react'
+import React  from 'react'
 import './flight-detailed-view.css'
-import {Container, Row,Col,Image, Form, Button, Alert} from 'react-bootstrap'
-import {parseISO,format} from 'date-fns'
-import logo from '../../assets/airline_logo.png'
-import OfferUtils,{ItineraryWrapper} from '../../utils/offer-utils'
-import _ from 'lodash'
+import {Container, Row,Col, Button} from 'react-bootstrap'
 import PassengersDetailsForm from './passenger-details'
 import YourFlightInfo from './flight-info'
+import FlightRates from './flight-rates'
 
 export default class FlightDetail extends React.Component {
   constructor (props) {
@@ -18,7 +15,6 @@ export default class FlightDetail extends React.Component {
     }
     this.handleContactDetailsChange = this.handleContactDetailsChange.bind(this);
     this.handlePayButtonClick = this.handlePayButtonClick.bind(this);
-    console.log(props)
   }
 
   handleContactDetailsChange(contactDetails){
@@ -53,10 +49,7 @@ export default class FlightDetail extends React.Component {
   }
 
   render () {
-
-    let combination = this.props.selectedCombination;
-    let selectedOffer = this.props.selectedOffer;
-    let searchResults = this.props.searchResults;
+    const {selectedCombination,selectedOffer,searchResults} = this.props;
     let passengers = searchResults.passengers;
     let pricePlans = searchResults.pricePlans;
 
@@ -67,16 +60,16 @@ export default class FlightDetail extends React.Component {
         <Container >
           <Row className='border'>
             <Col>
-              <YourFlightInfo combination={combination}/>
+              <YourFlightInfo combination={selectedCombination}/>
             </Col>
           </Row>
-{/*
+
           <Row>
             <Col>
-              <FlightRates combination={combination} pricePlans={{pricePlans}} selectedOffer={{selectedOffer}}/>
+              <FlightRates selectedCombination={selectedCombination} pricePlans={pricePlans} selectedOffer={selectedOffer}/>
             </Col>
           </Row>
-*/}
+
           <Row>
             <Col>
               <PassengersDetailsForm onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
@@ -96,50 +89,6 @@ export default class FlightDetail extends React.Component {
   }
 
 
-  renderSubtitle(outboundItinerary, returnItinerary){
-
-  }
-
-
-}
-
-
-function FlightRates(props){
-  let combination=props.combination;
-
-
-
-  let selectedOffer=props.selectedOffer;
-  let pricePlans=props.pricePlans;
-  let offers = combination.offers
-
-  return(
-      <Container>
-        <Row>
-          <Col>
-            <h2>Airline rates</h2>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <h4>Flight#1</h4>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <h5>Vueling (Paris-London)</h5>
-          </Col>
-        </Row>
-        {
-
-        }
-        <Row>
-          <Col>
-            <h5>Vueling (Paris-London)</h5>
-          </Col>
-        </Row>
-      </Container>
-  )
 }
 
 

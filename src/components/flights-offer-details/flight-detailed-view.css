@@ -15,8 +15,13 @@ input.input-birthdate{
 }
 
 .offer-detail--priceplan{
-    border: 1px solid red;
+    display: inline-block;
+    border: 1px solid grey;
     width:200px;
+    height:80px;
+    box-shadow: 0px 2px 8px gray;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 

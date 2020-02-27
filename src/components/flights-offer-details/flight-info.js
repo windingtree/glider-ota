@@ -5,10 +5,7 @@ import logo from "../../assets/airline_logo.png";
 import React from "react";
 
 
-export default function YourFlightInfo(props){
-
-    let combination=props.combination;
-
+export default function YourFlightInfo({combination}){
     if(combination===undefined){
         return (<>nothing to display</>)
     }
@@ -22,15 +19,11 @@ export default function YourFlightInfo(props){
             <Row>
                 <Col>
                     <h1>Your flights</h1>
-                    <ItineraryHeader outboundItinerary={outboundItinerary} returnItinerary={returnItinerary}/>
+                    <ItineraryHeader combination={combination}/>
                     <ItineraryDetails itinerary={outboundItinerary}/>
                     {returnItinerary!==undefined &&
                     <ItineraryDetails itinerary={returnItinerary}/>
                     }
-                    {/*
-
-              <h3 className="combination-detail-subtitle">{this.renderSubtitle(outboundItinerary,returnItinerary)}</h3>
-*/}
                 </Col>
             </Row>
 
@@ -39,45 +32,42 @@ export default function YourFlightInfo(props){
 }
 
 
-function ItineraryDetails(props){
-    console.log("Itinerary",props.itinerary)
+function ItineraryDetails({itinerary}){
     return (
         <Container className="offer-detail-container">
             <Row>
-                <Col md={3} className='border'><AirlineAndFlight itinerary={props.itinerary}/></Col>
-                <Col className='border'><DepartureAndArrivalInfo itinerary={props.itinerary}/></Col>
-                <Col md={3} className='border'><h5>{OfferUtils.calculateDuration(props.itinerary)}</h5><PricePlan/></Col>
+                <Col md={3} ><AirlineAndFlight itinerary={itinerary}/></Col>
+                <Col ><DepartureAndArrivalInfo itinerary={itinerary}/></Col>
+                <Col md={2} ><h5>{OfferUtils.calculateDuration(itinerary)}</h5>{/*<PricePlan/>*/}</Col>
             </Row>
         </Container>
     )
 }
-function DepartureAndArrivalInfo(props){
-    let itin=props.itinerary;
-    let dptrDate=OfferUtils.getItineraryDepartureDate(props.itinerary);
-    let arrivalDate=OfferUtils.getItineraryArrivalDate(props.itinerary);
+function DepartureAndArrivalInfo({itinerary}){
+    let dptrDate=OfferUtils.getItineraryDepartureDate(itinerary);
+    let arrivalDate=OfferUtils.getItineraryArrivalDate(itinerary);
     return (
-        <Container className='border'>
+        <Container >
             <Row>
-                <h4>{OfferUtils.getItineraryDepartureCityName(props.itinerary)} - {OfferUtils.getItineraryArrivalCityName(props.itinerary)}</h4>
+                <h4>{OfferUtils.getItineraryDepartureCityName(itinerary)} - {OfferUtils.getItineraryArrivalCityName(itinerary)}</h4>
             </Row>
             <Row>
-                <Col md={4}>
+                <Col md={5}>
                     <h5>{format(dptrDate,'HH:mm')}<small>{format(dptrDate,'LLL dd (EEE)')}</small></h5>
-                    <div><span>{OfferUtils.getItineraryDepartureAirportCode(props.itinerary)}</span><span>{OfferUtils.getItineraryDepartureAirportCode(props.itinerary)}</span></div>
+                    <div><span>{OfferUtils.getItineraryDepartureAirportCode(itinerary)}</span>,<span>{OfferUtils.getItineraryDepartureAirportCode(itinerary)}</span></div>
                 </Col>
                 <Col><span>-</span></Col>
-                <Col md={4}>
+                <Col md={5}>
                     <h5>{format(arrivalDate,'HH:mm')}<small>{format(arrivalDate,'LLL dd (EEE)')}</small></h5>
-                    <div><span>{OfferUtils.getItineraryArrivalCityName(props.itinerary)}</span><span>{OfferUtils.getItineraryArrivalAirportCode(props.itinerary)}</span></div>
+                    <div><span>{OfferUtils.getItineraryArrivalCityName(itinerary)}</span>,<span>{OfferUtils.getItineraryArrivalAirportCode(itinerary)}</span></div>
                 </Col>
             </Row>
         </Container>
     )
 }
-
-function ItineraryHeader(props){
-    const outboundItinerary=props.outboundItinerary;
-    const returnItinerary=props.returnItinerary;
+function ItineraryHeader({combination}){
+    const outboundItinerary = OfferUtils.getOutboundItinerary(combination);
+    const returnItinerary = OfferUtils.doesReturnItineraryExist(combination)?OfferUtils.getReturnItinerary(combination) : undefined;
     const depCityName = OfferUtils.getItineraryDepartureCityName(outboundItinerary);
     const arrivCityName = OfferUtils.getItineraryArrivalCityName(outboundItinerary);
     let departureDateStr = format(OfferUtils.getItineraryDepartureDate(outboundItinerary), 'LLL dd (EEE)')
@@ -92,9 +82,8 @@ function ItineraryHeader(props){
     )
 
 }
-
-function AirlineAndFlight(props){
-    let operatingCarrier=OfferUtils.getItineraryOperatingCarrier(props.itinerary);
+function AirlineAndFlight({itinerary}){
+    let operatingCarrier=OfferUtils.getItineraryOperatingCarrier(itinerary);
     return(
         <Container className='offer-detail--flightinfo'>
             <Row>
@@ -106,10 +95,7 @@ function AirlineAndFlight(props){
         </Container>
     )
 }
-
-
-function PricePlan(props) {
-    let pricePlan = props.pricePlan
+function PricePlan({pricePlan}) {
     return(
         <Container className='offer-detail--priceplan'>
             <Row>

@@ -1,27 +1,25 @@
 var _ = require('lodash')
 
 
-function extendResponse(response){
+/**
+ * Extend search results with additional collections to simplify UI
+ */
+function transformResponse(response){
     let combinations = getAllCombinations(response);
     let newResponse = {
         combinations:combinations,
         pricePlans:response.pricePlans,
         passengers:response.passengers
     }
-    // response.combinations = combinations;
     return newResponse;
 }
 
 
 function getAllCombinations(response){
     let flightCombinationOffersMap={};
-
-    let i=0;
     _.each(response.offers,(offer,offerId)=>{
-        i++;
         let flightCombination = getFlightCombination(offer.pricePlansReferences);
         let combinationId = createFlightCombinationId(flightCombination);
-        // let itineraryDetails = createItineraryInfo(response,flightCombination);
         let itineraryDetails = getItinerary(response,flightCombination);
         if(flightCombinationOffersMap[combinationId]===undefined){
             flightCombinationOffersMap[combinationId]={
@@ -75,12 +73,6 @@ function createFlightCombinationId(flightCombination){
     let flights=flightCombination.map(rec=>{return rec.flight});
     return flights.join(':')
 }
-
-function createItineraryInfo(response,flightCombination){
-    let flights=flightCombination.map(rec=>{return rec.flight});
-    return flights;
-}
-
 module.exports = {
-    extendResponse
+    extendResponse: transformResponse
 }

@@ -3,40 +3,15 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,useParams
+    Link
 } from "react-router-dom";
 
 import ReactDOM from 'react-dom'
-import SearchFlightsPage from './pages/search-flights-page'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
-import Header from './components/common/header/header'
-import Footer from './components/common/footer/footer'
-import FlightDetail from "./components/flights-offer-details/flight-detailed-view";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import HotelsPage from "./pages/hotels"
 import FlightsPage from "./pages/flights"
 import HomePage from "./pages/home"
-
-
-
-
-
-function FlightOffer(){
-    let { combinationId ,offerId } = useParams();
-    console.log("CombinationID",combinationId)
-    console.log("offerId",offerId)
-    return (
-        <>
-            <Header/>
-            <FlightDetail/>
-            <Footer/>
-        </>
-    )
-}
-
 
 
 function Dispatcher() {

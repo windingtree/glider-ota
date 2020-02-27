@@ -6,7 +6,6 @@ import {format, parseISO} from "date-fns";
 import StopoverFilter from '../filters/stopover-filter'
 import FastCheapFilter from '../filters/fast-cheap-filter'
 import OfferUtils from '../../utils/offer-utils'
-import _ from "lodash"
 
 
 
@@ -91,7 +90,6 @@ export default class FlightsSearchResults extends React.Component {
 
     renderPrice(combination, offerWrapper) {
         let offer = offerWrapper.offer
-        let link = '/flightoffer/' + combination.combinationId + '/' + offerWrapper.offerId;
         return (
             <>
                 <div className='offer-details--title'>BOOK</div>

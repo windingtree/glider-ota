@@ -1,45 +1,48 @@
-import React, { useState }  from 'react'
+import React  from 'react'
 import {Container, Row,Col, Form, Alert} from 'react-bootstrap'
 import _ from 'lodash'
 
 export default class PassengersDetailsForm extends React.Component {
     constructor(props) {
         super(props);
-        var initState = {
+        const {passengers} = props;
+
+        let initialState = {
             email: '',
             phone: ''
         }
-        _.map(props.passengers, (pax, id) => {
-            initState[id] = {
+        _.map(passengers, (pax, id) => {
+            initialState[id] = {
                 firstname: '',
                 lastname: '',
                 birthdate: '',
             }
         })
 
-        console.log("Init state:",initState)
-        this.state=(initState);
+        this.state=(initialState);
 
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     handleInputChange(event) {
         const target = event.target;
-        let name = target.name;
+        const name = target.name;
         const value = target.value;
         let paxId;
+        let fieldName;
         //if fieldname is prefixed with paxID (e.g. PAX1.lastname), set value for appropriate passenger
-        if(name.indexOf('.')!=-1){
+        if(name.indexOf('.')!==-1){
             paxId=name.split('.')[0]
-            name=name.split('.')[1]
+            fieldName=name.split('.')[1]
+        }else{
+            fieldName=name;
         }
-        console.log("change, name:", name, ",value:", value,' PaxID:',paxId);
         let s=this.state;
 
         if(paxId!==undefined)
-            s[paxId][name]=value;
+            s[paxId][fieldName]=value;
         else
-            s[name]=value;
+            s[fieldName]=value;
         this.setState(s)
 
         if(this.props.onDataChange!==undefined){
@@ -48,24 +51,9 @@ export default class PassengersDetailsForm extends React.Component {
     }
 
 
-    handleSubmit(event) {
-        event.preventDefault();
-        const data = new FormData(event.target);
-        console.log("Data:",data)
-    }
-
-
-
-
     render() {
-        let passengers = this.props.passengers;
-        // passengers=[]
-        _.map(passengers,(pax,id)=>{
-            console.log("Pax:",pax,"ID:",id)
-        })
+        const {passengers} = this.props;
 
-
-        console.log("State:",this.state)
         return (
             <Form onSubmit={this.handleSubmit}>
                 <Container>
@@ -87,12 +75,9 @@ export default class PassengersDetailsForm extends React.Component {
                         _.map(passengers,(pax,id)=>{
 
                             return (
-                                <Row>
+                                <Row key={id}>
                                     <Col>
                                         <h5>Adult {this.state[id].firstname} {this.state[id].lastname}</h5>
-
-
-
                                         <Form.Row>
                                             <Col>
                                                 <Form.Label>Surname</Form.Label>
@@ -112,20 +97,16 @@ export default class PassengersDetailsForm extends React.Component {
                                                               value={this.state[id].birthdate}
                                                               onChange={this.handleInputChange}/>
                                             </Col>
-
                                         </Form.Row>
                                     </Col>
                                 </Row>
-
                             )
                         })
                     }
                     <Row>
                         <Col>
                             <Alert variant="dark">
-                                This website doesn’t store any personal data you may enter while booking. All passneger’s information
-                                and
-                                buyer’s contact data is securely passed to supplier
+                                This website doesn’t store any personal data you may enter while booking. All passeneger’s information and  buyer’s contact data is securely passed to supplier
                             </Alert>
                         </Col>
                     </Row>
@@ -149,16 +130,11 @@ export default class PassengersDetailsForm extends React.Component {
                                                   onChange={this.handleInputChange}/>
                                 </Col>
                             </Form.Row>
-                            {/*                  <Button variant="primary" type="submit">
-                    Submit
-                  </Button>*/}
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            We will send a ticket to the ail, we will send an SMS to the phone about changes in the flight or in
-                            case
-                            of other emergency situations
+                            We will send a ticket to the ail, we will send an SMS to the phone about changes in the flight or in case of other emergency situations
                         </Col>
                     </Row>
                 </Container>
