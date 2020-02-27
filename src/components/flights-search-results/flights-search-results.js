@@ -6,7 +6,7 @@ import {format, parseISO} from "date-fns";
 import StopoverFilter from '../filters/stopover-filter'
 import FastCheapFilter from '../filters/fast-cheap-filter'
 import OfferUtils from '../../utils/offer-utils'
-
+import PriceRangeFilter from '../filters/price-range-filter'
 
 
 
@@ -42,7 +42,8 @@ export default class FlightsSearchResults extends React.Component {
             <Container>
                 <Row>
                     <Col ms={2}>
-                        {<StopoverFilter/>}
+                        <StopoverFilter/>
+                        <PriceRangeFilter/>
                     </Col>
                     <Col sm={12} md={10} lg={8} xl={7} className='search-results-container'>
                         <FastCheapFilter/>
