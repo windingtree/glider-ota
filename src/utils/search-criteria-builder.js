@@ -101,8 +101,7 @@ export default class SearchCriteriaBuilder {
       passengers: this.searchCriteria.passengers
     };
 
-    if ('arrivalTime' in this.searchCriteria) {
-      console.log('round trip');
+    if ('returnTime' in this.searchCriteria) {
       const returnSegment = {
         origin: this.searchCriteria.destination,
         destination: this.searchCriteria.origin,
