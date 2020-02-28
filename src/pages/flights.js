@@ -19,8 +19,7 @@ export default class FlightsPage extends React.Component
         super(props);
         this.state = {
             flight_search_results: OFFLINE_MODE?dummy_data:undefined,
-            selected_combination:undefined,
-            selected_offer:undefined
+            selected_combination:undefined
         };
 
 

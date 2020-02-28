@@ -1,38 +1,41 @@
 const Client = require('node-rest-client').Client;
-const {offersApiConfiguration} = require('../../config');
+const {API_CONFIG, COMMON_RESPONSE_HEADERS} = require('../../config');
 
 const client = new Client();
 
-module.exports.searchOffers=function(criteria, callback) {
-
+function createRequest(data) {
     const requestParameters = {
         headers: {
-            'Authorization': 'Bearer ' + offersApiConfiguration.token,
-            accept: 'application/json',
+            'Authorization': 'Bearer ' + API_CONFIG.TOKEN,
+            'accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        data: criteria,
+        data: data,
         requestConfig: {
-            timeout: 15000,
+            timeout: API_CONFIG.REQUEST_TIMEOUT,
             noDelay: true,
             keepAlive: true,
             keepAliveDelay: 1000
         },
         responseConfig: {
-            timeout: 10000 // response timeout
+            timeout: API_CONFIG.RESPONSE_TIMEOUT // response timeout
         }
     };
+    return requestParameters;
+}
 
-
+function post(url, data, callback) {
     let handleResponse = function (data, response) {
         console.log('Response received, HTTP Status:', response.statusCode);
         if (response.statusCode !== 200) {
-            console.log('Error returned from API:', data, ', criteria:',JSON.stringify(criteria))
+            console.log('Error returned from API:', data)
         }
-
         callback(data)
     };
-    const request = client.post(offersApiConfiguration.searchoffers.url, requestParameters, handleResponse);
+
+    const requestParameters = createRequest(data);
+    console.log(requestParameters)
+    const request = client.post(url, requestParameters, handleResponse);
     request.on('error', function (err) {
         console.log('something went wrong on the request', err.request.options)
     });
@@ -49,6 +52,20 @@ module.exports.searchOffers=function(criteria, callback) {
     request.on('error', function (err) {
         console.log('request error', err);
     })
+}
+
+
+module.exports.searchOffers = function (request, response) {
+    post(API_CONFIG.ENDPOINT + '/searchOffers', request, (data) => {
+
+        console.log(JSON.stringify(data))
+
+
+        for (let header of Object.keys(COMMON_RESPONSE_HEADERS)) {
+            response.setHeader(header, COMMON_RESPONSE_HEADERS[header]);
+        }
+        response.json(data);
+    });
 };
 
 

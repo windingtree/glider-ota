@@ -23,67 +23,22 @@ export default class FlightDetail extends React.Component {
     console.log("Offer changed",newOffer)
     this.setState({
       selectedOfferId:newOffer.offerId,
-      selectedOffer:newOffer
+      selectedOffer:newOffer,
+      contact_details:[]
     })
   }
 
   handleContactDetailsChange(contactDetails){
+    this.setState({ contact_details:contactDetails})
     console.log("Contact details",contactDetails)
   }
 
 
   handlePayButtonClick(){
-    let request={
-      "offerId": this.state.selectedOfferId,
-        "offerItems": this.state.selectedOffer.offerItems,
-      "passengers": {
-      "PAX1": {
-        "type": "ADT",
-            "civility": "MR",
-            "lastnames": [
-          "Marley"
-        ],
-            "firstnames": [
-          "Bob"
-        ],
-            "birthdate": "1980-03-21T00:00:00Z",
-            "contactInformation": [
-          "+32123456789",
-          "contact@org.co.uk"
-        ]
-      }
-    }
-    }
+    const contactDetails = this.state.contact_details;
+    const selectedOffer = this.state.selectedOffer;
+    console.log("Pay button clicked, offer:",selectedOffer, "pax details:", contactDetails);
 
-
-  }
-
-  createRequest(){
-    let req={
-      "offerId": "ad43a2d8-bbe4-4714-83a2-d8bbe4d70001",
-      "offerItems": {
-        "cc9d98f0-dd28-49b6-9d98-f0dd2879b608": {
-          "passengerReferences": "PAX1"
-        }
-      },
-      "passengers": {
-        "PAX1": {
-          "type": "ADT",
-          "civility": "MR",
-          "lastnames": [
-            "Marley"
-          ],
-          "firstnames": [
-            "Bob"
-          ],
-          "birthdate": "1980-03-21T00:00:00Z",
-          "contactInformation": [
-            "+32123456789",
-            "contact@org.co.uk"
-          ]
-        }
-      }
-    }
   }
 
 
@@ -96,7 +51,7 @@ export default class FlightDetail extends React.Component {
     let pricePlans = searchResults.pricePlans;
 
 
-    console.log("Render offer:",selectedOffer)
+    // console.log("Render offer:",selectedOffer)
     // let itinWrapper=new ItineraryWrapper(outboundItinerary);
     return (
       <>

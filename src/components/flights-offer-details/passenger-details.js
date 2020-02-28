@@ -22,6 +22,13 @@ export default class PassengersDetailsForm extends React.Component {
         this.state=(initialState);
 
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+    }
+
+    handleBlur(event) {
+        if(this.props.onDataChange!==undefined){
+            this.props.onDataChange(this.state);
+        }
     }
 
     handleInputChange(event) {
@@ -45,9 +52,6 @@ export default class PassengersDetailsForm extends React.Component {
             s[fieldName]=value;
         this.setState(s)
 
-        if(this.props.onDataChange!==undefined){
-            this.props.onDataChange(this.state);
-        }
     }
 
 
@@ -82,12 +86,12 @@ export default class PassengersDetailsForm extends React.Component {
                                             <Col>
                                                 <Form.Label>Surname</Form.Label>
                                                 <Form.Control type="text" placeholder="Lastname" name={id+'.lastname'} value={this.state[id].lastname}
-                                                              onChange={this.handleInputChange} />
+                                                              onChange={this.handleInputChange} onBlur={this.handleBlur}/>
                                             </Col>
                                             <Col>
                                                 <Form.Label>Name</Form.Label>
                                                 <Form.Control type="text" placeholder="Firstname" name={id+'.firstname'} value={this.state[id].firstname}
-                                                              onChange={this.handleInputChange}/>
+                                                              onChange={this.handleInputChange} onBlur={this.handleBlur}/>
                                             </Col>
                                         </Form.Row>
                                         <Form.Row>
@@ -95,7 +99,7 @@ export default class PassengersDetailsForm extends React.Component {
                                                 <Form.Label>Date of birth</Form.Label>
                                                 <Form.Control type="date" className="input-birthdate" name={id+'.birthdate'}
                                                               value={this.state[id].birthdate}
-                                                              onChange={this.handleInputChange}/>
+                                                              onChange={this.handleInputChange} onBlur={this.handleBlur}/>
                                             </Col>
                                         </Form.Row>
                                     </Col>
