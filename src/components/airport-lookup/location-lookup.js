@@ -1,25 +1,27 @@
 import React from 'react'
 import airports from './airports.json'
 import {Overlay,Popover,ListGroup,Form }  from 'react-bootstrap'
-import './airport-lookup.css'
+import './location-lookup.css'
 
-const MAX_AIRPORTS_DISPLAYED = 5;
+const MAX_LOCATIONS_DISPLAYED = 15;
 
-export default class AirportLookup extends React.Component {
+export default class LocationLookup extends React.Component {
   constructor (props) {
     super(props);
+    this.locationsSource=this.props.locationsSource;
     this.state = {
       value: '',
       target: undefined,
-      matchingAirports: [],
+      matchingLocations: [],
       selectedAirport: undefined
     };
-    this.onAirportSelected = this.onAirportSelected.bind(this);
+    this.onLocationSelected = this.onLocationSelected.bind(this);
     this.handleInputValueChange = this.handleInputValueChange.bind(this);
-    this.airports = this.preprocessLoadAirports()
+    this.preloadedLocations = this.preloadLocations()
   }
 
-  preprocessLoadAirports () {
+  preloadLocations () {
+    console.log('Load locations from:', this.locationsSource)
     return airports.map(rec => {
       return {
         id: rec.iata,
@@ -37,7 +39,7 @@ export default class AirportLookup extends React.Component {
     return this.state.selectedAirport
   }
 
-  setSelectedAirport (location) {
+  setSelectedLocation (location) {
     this.setState({ selectedAirport: location });
     this.notifyAboutSelectedAirportChange(location)
   }
@@ -60,20 +62,20 @@ export default class AirportLookup extends React.Component {
     if (!pattern || pattern.length < 2) {
       // don't search if only 1 character was entered
     } else {
-      // find matching and limit display to MAX_AIRPORTS_DISPLAYED
+      // find matching and limit display to MAX_LOCATIONS_DISPLAYED
       let matchingCounter = 0;
-      matchingAirports = this.airports.filter(rec => {
+      matchingAirports = this.preloadedLocations.filter(rec => {
         return ((this.checkPatternMatchIgnoreCase(rec.id, pattern) ||
                     this.checkPatternMatchIgnoreCase(rec.primary, pattern) ||
-                    this.checkPatternMatchIgnoreCase(rec.secondary, pattern)) && matchingCounter++ < MAX_AIRPORTS_DISPLAYED)
+                    this.checkPatternMatchIgnoreCase(rec.secondary, pattern)) && matchingCounter++ < MAX_LOCATIONS_DISPLAYED)
       });
 
       if (matchingAirports === undefined) { matchingAirports = [] }
     }
-    this.setMatchingAirports(matchingAirports)
+    this.setMatchingLocations(matchingAirports)
   }
 
-  setMatchingAirports (locations) {
+  setMatchingLocations (locations) {
     this.setState({ matchingAirports: locations })
   }
 
@@ -91,7 +93,7 @@ export default class AirportLookup extends React.Component {
     this.findMatchingAirports(enteredText)
   }
 
-  render () {
+  render (props) {
     let selectebleListOfAirports = '';
     let showMatchedAirportList = false;
     const matchingAirports = this.getMatchingAirports();
@@ -133,13 +135,14 @@ export default class AirportLookup extends React.Component {
 
   // create list of airports to be displayed in a popup (after user enters airport name)
   createSelectableListOfAirports (airports) {
+    let key=0;
     if (airports.length > 0) {
       const listItems = airports.map((airport) =>
         <ListGroup.Item
           action
           className='airports-record'
-          onClick={event => this.onAirportSelected(event, airport)}
-          key={airport.id}
+          onClick={event => this.onLocationSelected(event, airport)}
+          key={key++}
         >{this.renderSingleAirport(airport)}
         </ListGroup.Item>
       );
@@ -153,9 +156,9 @@ export default class AirportLookup extends React.Component {
     return <><div className='airports-record--primary'>{airport.primary}</div><div className='airports-record--id'>({airport.id})</div></>
   }
 
-  onAirportSelected (event, location) {
+  onLocationSelected (event, location) {
     console.log('Selected', location);
-    this.setSelectedAirport(location);
-    this.setMatchingAirports([])
+    this.setSelectedLocation(location);
+    this.setMatchingLocations([])
   }
 }

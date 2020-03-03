@@ -1,0 +1,6 @@
+.hotels-search-results-container{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+

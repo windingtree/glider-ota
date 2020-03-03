@@ -1,70 +1,78 @@
 import formatISO from 'date-fns/formatISO'
 
 export default class SearchCriteriaBuilder {
-  constructor () {
+  constructor (type) {
     this.searchCriteria = {
-
+      transportOrigin:undefined,
+      transportDepartureDate:undefined,
+      transportDestination:undefined,
+      transportReturnDate:undefined,
+      passengers:[],
+      accommodationLocation:undefined,
+      accommodationArrivalDate:undefined,
+      accommodationReturnDate:undefined,
     }
   }
 
-  withDepartureFromAirport (originAirport) {
-    this.searchCriteria.origin = {
-      locationType: 'airport',
-      iataCode: originAirport
+  validateLocation(location,locationType){
+    if(locationType === 'airport' || locationType === 'railstation' || locationType === 'city'){
+      if(location!== undefined && location.length == 3)
+        return true;
+      throw Error("Invalid location:",location);
+    }
+    if(locationType==='rectangle'){
+//TODO - add location rectangle validation
+    }
+  }
+
+
+  withTransportDepartureFromLocation (location,locationType='airport') {
+    this.validateLocation(location,locationType);
+    this.searchCriteria.transportOrigin = {
+      locationType: locationType,
+      iataCode: location
     };
-    return this
+    return this;
   }
 
-  withDepartureFromRailstation (originRailstation) {
-    this.searchCriteria.origin = {
-      locationType: 'railstation',
-      iataCode: originRailstation
+  withTransportReturnFromLocation (location,locationType='airport') {
+    this.validateLocation(location,locationType);
+    this.searchCriteria.transportDestination = {
+      locationType: locationType,
+      iataCode: location
     };
-    return this
+    return this;
   }
 
-  withDepartureFromCity (originCitycode) {
-    this.searchCriteria.origin = {
-      locationType: 'city',
-      iataCode: originCitycode
+  withTransportDepartureDate (departureDate) {
+    this.searchCriteria.transportDepartureDate = formatISO(departureDate);
+    return this;
+  }
+
+  withTransportReturnDate (returnDate) {
+    this.searchCriteria.transportReturnDate = formatISO(returnDate);
+    return this;
+  }
+
+  withAccommodationLocation (locationType,location='airport') {
+    this.validateLocation(location,locationType);
+    this.searchCriteria.accommodationLocation = {
+      locationType: locationType,
+      iataCode: location
     };
-    return this
+    return this;
   }
 
-  withReturnFromAirport (destinationAirport) {
-    this.searchCriteria.destination = {
-      locationType: 'airport',
-      iataCode: destinationAirport
-    };
-    return this
+  withAccommodationArrivalDate (arrivalDate) {
+    this.searchCriteria.accommodationArrivalDate = formatISO(arrivalDate);
+    return this;
+  }
+  withAccommodationReturnDate (arrivalDate) {
+    this.searchCriteria.accommodationReturnDate = formatISO(arrivalDate);
+    return this;
   }
 
-  withReturnFromRailstation (destinationRailstation) {
-    this.searchCriteria.destination = {
-      locationType: 'railstation',
-      iataCode: destinationRailstation
-    };
-    return this
-  }
 
-  withReturnFromCity (destinationCitycode) {
-    this.searchCriteria.destination = {
-      locationType: 'city',
-      iataCode: destinationCitycode
-    };
-    return this
-  }
-
-  withDepartureDate (departureDate) {
-    console.log('Date:', formatISO(departureDate));
-    this.searchCriteria.departureTime = formatISO(departureDate);
-    return this
-  }
-
-  withReturnDate (returnDate) {
-    this.searchCriteria.returnTime = formatISO(returnDate);
-    return this
-  }
 
   withPassengers (adult, children, infant) {
     this.searchCriteria.passengers = [];
@@ -89,28 +97,60 @@ export default class SearchCriteriaBuilder {
 
   build () {
     const request = {
-      itinerary: {
-        segments: [
-          {
-            origin: this.searchCriteria.origin,
-            destination: this.searchCriteria.destination,
-            departureTime: this.searchCriteria.departureTime
-          }
-        ]
-      },
       passengers: this.searchCriteria.passengers
     };
 
-    if ('returnTime' in this.searchCriteria) {
-      const returnSegment = {
-        origin: this.searchCriteria.destination,
-        destination: this.searchCriteria.origin,
-        departureTime: this.searchCriteria.returnTime
-      };
-      request.itinerary.segments.push(returnSegment)
+    if(this.searchCriteria.transportOrigin!==undefined){
+      request.itinerary = this.buildItineraryRequest();
     }
-    // console.log(request)
 
+    if(this.searchCriteria.accommodationLocation!==undefined){
+      request.accommodation = this.buildItineraryRequest();
+    }
+
+    console.log(JSON.stringify(request))
     return request
   }
+
+  buildItineraryRequest () {
+    const itineraryRequest = {
+        segments: [
+          {
+            origin: this.searchCriteria.transportOrigin,
+            destination: this.searchCriteria.transportDestination,
+            departureTime: this.searchCriteria.transportDepartureDate
+          }
+        ]
+      };
+
+    if (this.searchCriteria.transportReturnDate!==undefined) {
+      const returnSegment = {
+        origin: this.searchCriteria.transportDestination,
+        destination: this.searchCriteria.transportOrigin,
+        departureTime: this.searchCriteria.transportReturnDate
+      };
+      itineraryRequest.segments.push(returnSegment)
+    }
+
+    return itineraryRequest;
+  }
+
+  buildAccomodationRequest () {
+    const accomodationRequest = {
+        location : {
+          rectangle: {
+            south: "50.0929802",
+            west: "14.4012451",
+            north: "50.0812615",
+            east: "14.4394467",
+          }
+        },
+        arrival: this.searchCriteria.accommodationArrivalDate,
+        departure: this.searchCriteria.accommodationReturnDate
+    };
+
+    return accomodationRequest;
+  }
+
+
 }

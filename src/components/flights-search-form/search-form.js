@@ -1,11 +1,11 @@
 import React from 'react'
 import {Container,Row} from 'react-bootstrap'
-import AirportLookup from '../airport-lookup/airport-lookup'
+import LocationLookup from '../airport-lookup/location-lookup'
 import TravelDatepickup from '../travel-datepickup/travel-datepickup'
 import './flights-search-form.css'
 import PassengerSelector from '../passenger-selector/passenger-selector'
 
-export default class FlightsSearchForm extends React.Component {
+export default class SearchForm extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -17,31 +17,27 @@ export default class FlightsSearchForm extends React.Component {
       children:undefined,
       infants:undefined
     };
-    this.handleOriginAirportChanged = this.handleOriginAirportChanged.bind(this);
-    this.handleDestinationAirportChanged = this.handleDestinationAirportChanged.bind(this);
+    this.handleOriginChanged = this.handleOriginChanged.bind(this);
+    this.handleDestinationChanged = this.handleDestinationChanged.bind(this);
     this.handleStartDateChanged = this.handleStartDateChanged.bind(this);
     this.handleEndDateChanged = this.handleEndDateChanged.bind(this);
     this.handlePaxSelectionChanged = this.handlePaxSelectionChanged.bind(this);
     this.handleSearchBtn = this.handleSearchBtn.bind(this)
   }
 
-  handleOriginAirportChanged (airport) {
-    console.log('Origin changed to:', airport);
+  handleOriginChanged (airport) {
     this.setState({ origin: airport })
   }
 
-  handleDestinationAirportChanged (airport) {
-    console.log('Destination changed to:', airport);
+  handleDestinationChanged (airport) {
     this.setState({ destination: airport })
   }
 
   handleStartDateChanged (date) {
-    console.log('Start date:', date);
     this.setState({ departureDate: date })
   }
 
   handleEndDateChanged (date) {
-    console.log('End date:', date);
     this.setState({ returnDate: date })
   }
 
@@ -81,21 +77,24 @@ export default class FlightsSearchForm extends React.Component {
     const returnDate=this.state.returnDate;
     if (returnDate!==undefined) {
       return dptrDate!==undefined && returnDate >= dptrDate;
+    }else{
+      return false
     }
     return true;
   }
 
-  isValid() {
-    return this.isOriginValid() && this.isDepartureDateValid() && this.isReturnDateValid() && this.isDestinationValid();
+  isValid(enableOrigin,oneWayAllowed) {
+    return (this.isOriginValid() || !enableOrigin) && this.isDepartureDateValid() && (this.isReturnDateValid() || oneWayAllowed) && this.isDestinationValid();
   }
 
   render () {
-    const isValid=this.isValid();
+    const {enableOrigin,locationsSource, oneWayAllowed} = this.props;
+    const isValid=this.isValid(enableOrigin, oneWayAllowed);
     return (
       <Container>
         <Row className='flightsearch-row'>
-          <AirportLookup onSelectedAirportChanged={this.handleOriginAirportChanged} />
-          <AirportLookup onSelectedAirportChanged={this.handleDestinationAirportChanged} />
+          {enableOrigin && (<LocationLookup onSelectedAirportChanged={this.handleOriginChanged} locationsSource={locationsSource}/>)}
+          <LocationLookup onSelectedAirportChanged={this.handleDestinationChanged} locationsSource={locationsSource}/>
           <TravelDatepickup onStartDateChanged={this.handleStartDateChanged} onEndDateChanged={this.handleEndDateChanged} />
           <PassengerSelector onPaxSelectionChanged={this.handlePaxSelectionChanged}/>
           <button className='flightsearch-searchbutton' disabled={!isValid} onClick={this.handleSearchBtn}>Search</button>

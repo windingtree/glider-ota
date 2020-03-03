@@ -2,11 +2,11 @@ import React from 'react';
 import Header from '../components/common/header/header';
 import Footer from '../components/common/footer/footer';
 import ContentWrapper from '../components/common/content-wrapper';
-import FlightsSearchForm from '../components/flights-search-form/flights-search-form'
+import SearchForm from '../components/flights-search-form/search-form'
 import SearchCriteriaBuilder from "../utils/search-criteria-builder";
 import FlightsSearchResults from "../components/flights-search-results/flights-search-results";
 import FlightDetail from "../components/flights-offer-details/flight-detailed-view"
-import dummy_data from '../data/sample_response.json'
+import dummy_data from '../data/sample_response_flights.json'
 import {extendResponse} from '../utils/flight-search-results-transformer'
 const OFFLINE_MODE = false;
 
@@ -45,10 +45,10 @@ export default class FlightsPage extends React.Component
 
         // TODO - handle search from city/railstation and different pax types
         const searchCriteria = criteriaBuilder
-            .withDepartureFromAirport(criteria.origin.id)
-            .withDepartureDate(criteria.departureDate)
-            .withReturnFromAirport(criteria.destination.id)
-            .withReturnDate(criteria.returnDate)
+            .withTransportDepartureFromLocation(criteria.origin.id)
+            .withTransportDepartureDate(criteria.departureDate)
+            .withTransportReturnFromLocation(criteria.destination.id)
+            .withTransportReturnDate(criteria.returnDate)
             .withPassengers(criteria.adults,criteria.children,criteria.infants)
             .build();
 
@@ -92,7 +92,7 @@ export default class FlightsPage extends React.Component
             <>
                 <Header/>
                 <ContentWrapper>
-                    <FlightsSearchForm onSearchRequested={this.searchForFlights}/>
+                    <SearchForm onSearchRequested={this.searchForFlights} enableOrigin = {true} locationsSource={'airports'} oneWayAllowed={true}/>
                     { searchResultsAvailable && !combinationWasSelected &&
                         (<FlightsSearchResults onOfferDisplay={this.displayOffer} searchResults={this.state.flight_search_results} />)
                     }
