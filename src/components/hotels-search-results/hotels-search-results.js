@@ -1,6 +1,6 @@
 import React from 'react'
 import './hotel-search-results.css'
-import {Container, Row, Col, Image} from 'react-bootstrap'
+import {Container, Row, Col, Image, Button } from 'react-bootstrap'
 import _ from 'lodash'
 import default_hotel_image from "../../assets/default_hotel_image.png";
 
@@ -54,14 +54,47 @@ export default class HotelsSearchResults extends React.Component {
 }
 
 
-function SingleHotel({hotel,id}){
-    const image=(hotel.media!==undefined && hotel.media.length>5)?hotel.media[2].url:default_hotel_image
+function SingleHotel({hotel,handleClick}){
+    const image=(hotel.media!==undefined && hotel.media.length>0)?hotel.media[0].url:default_hotel_image;
+
+/*
+    const handleClick=function(id,hotel){
+        console.log("Handle click",id)
+    }
+*/
+
+
     return (
-        <Container className='offer-container' key={id}>
-            <Row className='border' >
-                <Col sm={4} className='border'><Image src={image} width={300}/></Col>
-                <Col sm={4} className='border'>{hotel.name}</Col>
+        <Container className='hotel-offer-container' >
+            <Row className='boarder' >
+                <Col sm={4} className='border'>{<Image width={180} className='hotel-image-main' src={image} />}</Col>
+                <Col  className='border'>
+                    <Container>
+                        <Row className='hotel-name'>
+                            {hotel.name}
+                        </Row>
+                        <Row className='hotel-address'>
+                            Moscow, Olympic St 14
+                        </Row>
+                        <Row  className='hotel-description'>
+                            {extractShortInfoFromHotelDescription(hotel.description,100)}
+                        </Row>
+                        <Row className='hotel-price-text'>
+                            from <span className='hotel-price-amount'>130 EUR</span> per night
+                            <Button className='hotel-selectroom-button'
+                            onClick={() => { handleClick(hotel)}}>select room</Button>
+
+                        </Row>
+                    </Container>
+
+                </Col>
             </Row>
         </Container>
     )
+}
+
+
+//TODO - ideally it should not cut the text in the middle of a sentence
+const extractShortInfoFromHotelDescription = (description, maxlen)=>{
+        return description.slice(0,Math.min(maxlen,description.length));
 }

@@ -29,7 +29,7 @@ input.input-birthdate{
 
 
 .offer-detail-title{
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 40px;
@@ -44,7 +44,7 @@ input.input-birthdate{
     left: 89px;
     top: 253px;
 
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 300;
     font-size: 24px;
@@ -137,7 +137,7 @@ input.input-birthdate{
 }
 
 .offer-details-price{
-    /*font-family: Roboto;*/
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 17px;

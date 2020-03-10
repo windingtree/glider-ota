@@ -9,6 +9,8 @@ import SearchCriteriaBuilder from "../utils/search-criteria-builder";
 import {extendResponse} from '../utils/flight-search-results-transformer'
 import FlightsPage from "./flights";
 import HotelsPage from "./hotels";
+import {config} from "../config";
+
 const SEARCH_TYPE={
     FLIGHTS:'FLIGHTS',
     HOTELS:'HOTELS'
@@ -19,8 +21,6 @@ const SEARCH_STATE={
     FAILED:'FAILED',
     FINISHED:'FINISHED'
 }
-
-const API_URL='/api/searchOffers'
 
 export default function HomePage() {
     const [searchType, setSearchType] = useState([SEARCH_TYPE.FLIGHTS]);
@@ -64,11 +64,9 @@ function buildFlightsSearchCriteria(origin,destination,departureDate,returnDate,
 
 function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, adults,children,infants) {
     const criteriaBuilder = new SearchCriteriaBuilder();
+    let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,config.LOCATION_BOUNDING_BOX_IN_KM)
     const searchCriteria = criteriaBuilder
-        .withAccommodationLocation({
-            latitude:latitude,
-            longitude:longitude
-        },'rectangle')
+        .withAccommodationLocation(boundingBoxForSelectedLocation,'rectangle')
         .withAccommodationArrivalDate(arrivalDate)
         .withAccommodationReturnDate(returnDate)
         .withPassengers(adults,children,infants)
@@ -100,21 +98,18 @@ const search = (criteria, mode, onSearchSuccessCallback,onSearchFailureCallback)
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(searchRequest)
     };
-    // console.log('Search criteria', searchRequest);
-    // console.log("Request info:",requestInfo);
-    fetch(API_URL, requestInfo)
+    fetch(config.SEARCH_OFFERS_URL, requestInfo)
         .then(function (res) {
             return res.json()
         })
         .then(function (data) {
-            console.log("Search results arrived")
+            console.debug("Search results arrived")
             let searchResultsTransformed=extendResponse(data);
             onSearchSuccessCallback(searchResultsTransformed);
         }).catch(function (err) {
+            console.error("Search failed", err)
             onSearchFailureCallback();
-        console.log(err)
     })
-    // this.setState({lastSearchCriteria: criteria, lastSearchType: SEARCH_TYPE.FLIGHTS})
 }
 
 
