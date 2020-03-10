@@ -6,8 +6,8 @@ var _ = require('lodash')
  */
 function transformResponse(response){
     let combinations = getAllCombinations(response);
-    addAccommodationIdToEveryHotel(response.accommodations)
-    addPricePlanIdPlan(response.pricePlans);
+    decorateHotelWithAccommodationId(response.accommodations)
+    decoratePricePlanWithPricePlanId(response.pricePlans);
     response.combinations=combinations;
     return response;
 }
@@ -73,21 +73,20 @@ function createFlightCombinationId(flightCombination){
 }
 
 
-function addAccommodationIdToEveryHotel(accommodations){
-
+function decorateHotelWithAccommodationId(accommodations){
     _.map(accommodations,(hotel,hotelId)=>{
         hotel.accommodationId=hotelId;
-        addRoomTypeIdToRoom(hotel.roomTypes)
+        decorateRoomTypeWithRoomTypeId(hotel.roomTypes)
     })
 }
 
-function addRoomTypeIdToRoom(roomTypes){
+function decorateRoomTypeWithRoomTypeId(roomTypes){
     _.map(roomTypes,(roomType,roomTypeId)=>{
         roomType.roomTypeId=roomTypeId;
     })
 }
 
-function addPricePlanIdPlan(pricePlans){
+function decoratePricePlanWithPricePlanId(pricePlans){
     _.map(pricePlans,(pricePlan,pricePlanId)=>{
         pricePlan.pricePlanId=pricePlanId;
     })

@@ -1,6 +1,6 @@
 import React from 'react'
-import {Container,Row} from 'react-bootstrap'
-import LocationLookup from '../airport-lookup/location-lookup'
+import {Button, Container, Row} from 'react-bootstrap'
+import LocationLookup from '../location-lookup/location-lookup'
 import TravelDatepickup from '../travel-datepickup/travel-datepickup'
 import './flights-search-form.css'
 import PassengerSelector from '../passenger-selector/passenger-selector'

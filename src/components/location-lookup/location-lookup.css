@@ -5,9 +5,10 @@
     border: 1px solid #000000;
 }
 
+
 .airports-component .airports-input {
     height: 48px;
-    font-family: "Roboto";
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 300;
     font-size: 14px;

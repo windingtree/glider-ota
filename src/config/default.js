@@ -1,5 +1,6 @@
 const config = {
-    "API_URL":"http://localhost:3000/api/searchOffers"
+    SEARCH_OFFERS_URL:"/api/searchOffers",
+    LOCATION_BOUNDING_BOX_IN_KM:10
 };
 
 

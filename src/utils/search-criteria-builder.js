@@ -55,12 +55,11 @@ export default class SearchCriteriaBuilder {
     return this;
   }
 
-  withAccommodationLocation (location,locationType='airport', locationBoundingBoxSizeInKm=10) {
+  withAccommodationLocation (location,locationType='rectangle') {
     this.validateLocation(location,locationType);
     this.searchCriteria.accommodationLocation = {
       locationType: locationType,
-      location: location,
-      locationBoundingBoxSizeInKm:locationBoundingBoxSizeInKm
+      location: location
     };
     return this;
   }
@@ -113,21 +112,20 @@ export default class SearchCriteriaBuilder {
     console.log(JSON.stringify(request))
     return request
   }
-
-  getBoundsFromLatLng(lat, lng, boxSizeInKm){
-    var lat_change = 10/111.2;
-    var lon_change = Math.abs(Math.cos(lat*(Math.PI/180)));
-    var bounds = {
-      lat_min : lat - lat_change,
-      lon_min : lng - lon_change,
-      lat_max : lat + lat_change,
-      lon_max : lng + lon_change
-    };
-    return bounds;
+  boundingBox(latitude,longitude, distanceInKm)
+  {
+    const adjust = .008983112; // 1km at equator(in degrees).
+    const lngRatio = 1/Math.cos(latitude*(Math.PI/180));
+    return {
+      north:latitude + ( distanceInKm * adjust),
+      south:latitude - ( distanceInKm * adjust),
+      west:longitude + (distanceInKm * adjust) * lngRatio,
+      east:longitude - (distanceInKm * adjust) * lngRatio
+    }
   }
 
+
   buildItineraryRequest () {
-    const locationBoundingBoxSizeInKm=this.searchCriteria.accommodationLocation.locationBoundingBoxSizeInKm;
     const itineraryRequest = {
         segments: [
           {
@@ -153,12 +151,7 @@ export default class SearchCriteriaBuilder {
   buildAccomodationRequest () {
     const accomodationRequest = {
         location : {
-          rectangle: {
-            south: "50.0929802",
-            west: "14.4012451",
-            north: "50.0812615",
-            east: "14.4394467",
-          }
+          rectangle: this.searchCriteria.accommodationLocation.location
         },
         arrival: this.searchCriteria.accommodationArrivalDate,
         departure: this.searchCriteria.accommodationReturnDate
