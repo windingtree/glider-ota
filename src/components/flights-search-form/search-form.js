@@ -93,11 +93,11 @@ export default class SearchForm extends React.Component {
     return (
       <Container>
         <Row className='flightsearch-row'>
-          {enableOrigin && (<LocationLookup onSelectedAirportChanged={this.handleOriginChanged} locationsSource={locationsSource}/>)}
-          <LocationLookup onSelectedAirportChanged={this.handleDestinationChanged} locationsSource={locationsSource}/>
+          {enableOrigin && (<LocationLookup onLocationSelected={this.handleOriginChanged} locationsSource={locationsSource}/>)}
+          <LocationLookup  onLocationSelected={this.handleDestinationChanged} locationsSource={locationsSource}/>
           <TravelDatepickup onStartDateChanged={this.handleStartDateChanged} onEndDateChanged={this.handleEndDateChanged} />
           <PassengerSelector onPaxSelectionChanged={this.handlePaxSelectionChanged}/>
-          <button className='flightsearch-searchbutton' disabled={!isValid} onClick={this.handleSearchBtn}>Search</button>
+          <Button  className='flightsearch-searchbutton' disabled={!isValid} onClick={this.handleSearchBtn}>Search</Button>
         </Row>
       </Container>
     )

@@ -24,7 +24,7 @@ export default class FlightDetail extends React.Component {
     this.setState({
       selectedOfferId:newOffer.offerId,
       selectedOffer:newOffer,
-      contact_details:[]
+      // contact_details:[]
     })
   }
 
@@ -38,7 +38,6 @@ export default class FlightDetail extends React.Component {
     const contactDetails = this.state.contact_details;
     const selectedOffer = this.state.selectedOffer;
     console.log("Pay button clicked, offer:",selectedOffer, "pax details:", contactDetails);
-
   }
 
 
@@ -50,13 +49,10 @@ export default class FlightDetail extends React.Component {
     let passengers = searchResults.passengers;
     let pricePlans = searchResults.pricePlans;
 
-
-    // console.log("Render offer:",selectedOffer)
-    // let itinWrapper=new ItineraryWrapper(outboundItinerary);
     return (
       <>
         <Container >
-          <Row className='border'>
+          <Row >
             <Col>
               <YourFlightInfo combination={selectedCombination}/>
             </Col>
@@ -75,13 +71,7 @@ export default class FlightDetail extends React.Component {
           </Row>
           <Row>
             <Col>
-              <Alert variant="dark">
-                <h4>Pay {selectedOffer.offer.price.public} {selectedOffer.offer.price.currency} to complete the booking</h4>
-                <Button variant="primary" onClick={this.handlePayButtonClick}>
-                  Pay now
-                </Button>
-
-              </Alert>
+              <PriceSummary price={selectedOffer.offer.price} onPayButtonClick={this.handlePayButtonClick}/>
             </Col>
           </Row>
         </Container>
@@ -94,5 +84,13 @@ export default class FlightDetail extends React.Component {
 
 
 
+const PriceSummary = ({price, onPayButtonClick}) =>{
+  return (
+      <Alert variant="dark">
+        <h4>Pay {price.public} {price.currency} to complete the booking</h4>
+        <Button variant="primary" onClick={onPayButtonClick}>Pay now</Button>
+      </Alert>
+  )
+}
 
 

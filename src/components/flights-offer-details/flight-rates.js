@@ -1,4 +1,4 @@
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import React from "react";
 import OfferUtils from "../../utils/offer-utils";
 
@@ -8,7 +8,6 @@ export default class FlightRates extends React.Component {
         super(props);
         const {selectedCombination, selectedOffer, pricePlans} = this.props
         this.plansManager = new PricePlansManager(selectedCombination.offers, pricePlans);
-        const itineraries = selectedCombination.itinerary;
         this.state={
             selection:this.initializeState(selectedOffer.flightCombination)
         }
@@ -18,7 +17,7 @@ export default class FlightRates extends React.Component {
     initializeState(flightCombination){
         let state={}
         flightCombination.map(rec=>{
-            state[rec.flight]=rec.pricePlan;
+            return state[rec.flight]=rec.pricePlan;
         })
         return state;
     }
@@ -40,12 +39,8 @@ export default class FlightRates extends React.Component {
 
 
     render() {
-        const {selectedCombination, selectedOffer, pricePlans} = this.props;
-        let offers = selectedCombination.offers;
+        const {selectedCombination} = this.props;
         const itineraries = selectedCombination.itinerary;
-        // let availablePricePlans=getAllPossiblePricePlans(selectedCombination.offers)
-        const returnItinExists = OfferUtils.doesReturnItineraryExist(selectedCombination);
-
         return (
             <Container>
                 <Row>
@@ -64,8 +59,10 @@ export default class FlightRates extends React.Component {
                 {
                     itineraries.map(itinerary=>{
                         let itinId=itinerary.itinId;
-                        return (<DisplayItineraryRates itinerary={itinerary} plansManager={this.plansManager}
-                                                onPricePlanSelected={this.handlePricePlanSelection} selectedPlan={this.state.selection[itinId]}/>)
+                        return (
+                            <DisplayItineraryRates key={itinId} itinerary={itinerary} plansManager={this.plansManager}
+                                                   onPricePlanSelected={this.handlePricePlanSelection}
+                                                   selectedPlan={this.state.selection[itinId]}/>)
 
                     })
                 }
@@ -99,7 +96,7 @@ function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,sel
                         let bagsAllowance=pricePlan.checkedBaggages.quantity;
                         let allowedKilos = bagsAllowance*23;
                         return (
-                            <span className={className} onClick={() => { onPricePlanSelected(itineraryId, pricePlanId)}}>
+                            <span className={className} key={pricePlanId} onClick={() => { onPricePlanSelected(itineraryId, pricePlanId)}}>
                                 <div className="priceplan-name">{pricePlan.name}</div>
                                 <div className="priceplan-bags">{bagsAllowance==='0'?'No luggage':('Baggage '+allowedKilos+' kg')}</div>
                             </span>
@@ -132,7 +129,7 @@ class PricePlansManager {
      */
     initialize() {
         let itinPricePlans = this.offers.map(offer => {
-            //for each offer, store: offerID, price and flights with associated price plans
+            //for each offer, index: offerID, price and flights with associated price plans
             return {
                 offerId: offer.offerId,
                 flightCombination: offer.flightCombination,
@@ -145,7 +142,8 @@ class PricePlansManager {
         this.cheapestOffer = itinPricePlans[0];
         const cheapestPrice = this.cheapestOffer.price.public;
         itinPricePlans.map(r => {
-            r.upsellPrice = r.price.public - cheapestPrice
+            r.upsellPrice = r.price.public - cheapestPrice;
+            return true;
         })
 
         this.pricePlanCombinations = itinPricePlans;
@@ -161,6 +159,7 @@ class PricePlansManager {
                         results.push(f.pricePlan)
                 }
             })
+            return true;
         })
         return results;
     }
@@ -172,11 +171,10 @@ class PricePlansManager {
     }
 
     findOffer(itinPlans) {
-        console.log("Available offers:",this.pricePlanCombinations);
-        console.log("Selection state:",itinPlans);
+        // console.log("Available offers:",this.pricePlanCombinations);
+        // console.log("Selection state:",itinPlans);
 
         let found = this.pricePlanCombinations.find(rec=>{
-            let offerId=rec.offerId;
             let flightCombination=rec.flightCombination;
             let allKeysMatch=true;
             flightCombination.map(combination=>{

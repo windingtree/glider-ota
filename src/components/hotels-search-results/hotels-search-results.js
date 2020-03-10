@@ -10,13 +10,13 @@ export default class HotelsSearchResults extends React.Component {
         super(props);
         this.state = {
         };
-        this.handleOfferDisplay = this.handleOfferDisplay.bind(this);
+        this.handleHotelSelected = this.handleHotelSelected.bind(this);
     }
 
-    handleOfferDisplay(combinationId,offerId) {
-        // console.log("handleOfferDisplay", offer);
-        if (this.props.onOfferDisplay) {
-            this.props.onOfferDisplay(combinationId,offerId)
+    handleHotelSelected(hotel) {
+        // console.log("handleHotelSelected", hotel);
+        if (this.props.onHotelSelected) {
+            this.props.onHotelSelected(hotel)
         }
     }
 
@@ -39,7 +39,7 @@ export default class HotelsSearchResults extends React.Component {
                         {/*<FastCheapFilter/>*/}
                         {
                             _.map(hotels, (hotel, id) => {
-                           return (<SingleHotel hotel={hotel} id={id}/>)
+                           return (<SingleHotel hotel={hotel} key={id} handleClick={this.handleHotelSelected}/>)
                             })
                         }
                     </Col>

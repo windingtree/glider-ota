@@ -11,17 +11,18 @@ export default class SearchCriteriaBuilder {
       accommodationLocation:undefined,
       accommodationArrivalDate:undefined,
       accommodationReturnDate:undefined,
+      locationBoundingBoxSizeInKm:10
     }
   }
 
   validateLocation(location,locationType){
     if(locationType === 'airport' || locationType === 'railstation' || locationType === 'city'){
-      if(location!== undefined && location.length == 3)
+      if(location!== undefined && location.length === 3)
         return true;
-      throw Error("Invalid location:",location);
+      throw Error("Invalid location:"+location);
     }
     if(locationType==='rectangle'){
-//TODO - add location rectangle validation
+      //TODO - add location rectangle validation
     }
   }
 
@@ -54,11 +55,12 @@ export default class SearchCriteriaBuilder {
     return this;
   }
 
-  withAccommodationLocation (locationType,location='airport') {
+  withAccommodationLocation (location,locationType='airport', locationBoundingBoxSizeInKm=10) {
     this.validateLocation(location,locationType);
     this.searchCriteria.accommodationLocation = {
       locationType: locationType,
-      iataCode: location
+      location: location,
+      locationBoundingBoxSizeInKm:locationBoundingBoxSizeInKm
     };
     return this;
   }
@@ -105,14 +107,27 @@ export default class SearchCriteriaBuilder {
     }
 
     if(this.searchCriteria.accommodationLocation!==undefined){
-      request.accommodation = this.buildItineraryRequest();
+      request.accommodation = this.buildAccomodationRequest();
     }
 
     console.log(JSON.stringify(request))
     return request
   }
 
+  getBoundsFromLatLng(lat, lng, boxSizeInKm){
+    var lat_change = 10/111.2;
+    var lon_change = Math.abs(Math.cos(lat*(Math.PI/180)));
+    var bounds = {
+      lat_min : lat - lat_change,
+      lon_min : lng - lon_change,
+      lat_max : lat + lat_change,
+      lon_max : lng + lon_change
+    };
+    return bounds;
+  }
+
   buildItineraryRequest () {
+    const locationBoundingBoxSizeInKm=this.searchCriteria.accommodationLocation.locationBoundingBoxSizeInKm;
     const itineraryRequest = {
         segments: [
           {

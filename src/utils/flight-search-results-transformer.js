@@ -6,12 +6,10 @@ var _ = require('lodash')
  */
 function transformResponse(response){
     let combinations = getAllCombinations(response);
-    let newResponse = {
-        combinations:combinations,
-        pricePlans:response.pricePlans,
-        passengers:response.passengers
-    }
-    return newResponse;
+    addAccommodationIdToEveryHotel(response.accommodations)
+    addPricePlanIdPlan(response.pricePlans);
+    response.combinations=combinations;
+    return response;
 }
 
 
@@ -73,6 +71,33 @@ function createFlightCombinationId(flightCombination){
     let flights=flightCombination.map(rec=>{return rec.flight});
     return flights.join(':')
 }
+
+
+function addAccommodationIdToEveryHotel(accommodations){
+
+    _.map(accommodations,(hotel,hotelId)=>{
+        hotel.accommodationId=hotelId;
+        addRoomTypeIdToRoom(hotel.roomTypes)
+    })
+}
+
+function addRoomTypeIdToRoom(roomTypes){
+    _.map(roomTypes,(roomType,roomTypeId)=>{
+        roomType.roomTypeId=roomTypeId;
+    })
+}
+
+function addPricePlanIdPlan(pricePlans){
+    _.map(pricePlans,(pricePlan,pricePlanId)=>{
+        pricePlan.pricePlanId=pricePlanId;
+    })
+}
+
+
+
 module.exports = {
     extendResponse: transformResponse
 }
+
+
+

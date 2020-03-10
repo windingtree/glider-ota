@@ -24,3 +24,5 @@ yarn-error.log*
 
 .now
 package-lock.json
+
+.now

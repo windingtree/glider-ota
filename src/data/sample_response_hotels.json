@@ -1,237 +1,5 @@
-{
+  {
   "accommodations": {
-    "erevmax.02034": {
-      "name": "Quality Hotel 11 Gothenburg",
-      "type": "hotel",
-      "description": "All rooms at Quality Hotel 11 & Eriksbergshallen feature a flat-screen satellite TV and seating area. Each room features Scandinavian design and d�cor. Some rooms also have a balcony with river views. Free wellness centre access includes use of gym equipment and a dry sauna. Massage treatments can be booked on site. K�k & Bar 67 offers � la carte dining on the 6th and 7th floors. Guests can try lighter dishes in the bar or Caf� Eriksberg. Guests can reach the Gothenburg city centre by local transportation in 15 minutes. There are bus and ferry stops right next to Quality Hotel 11 & Eriksbergshallen.",
-      "location": {
-        "coordinates": {
-          "latitude": "57.70109464",
-          "longitude": "11.91391245"
-        }
-      },
-      "rating": "4",
-      "contactInformation": {
-        "phoneNumbers": [
-          "46 +46 31 779 11 11"
-        ],
-        "emails": [
-          "q.11@choice.se"
-        ]
-      },
-      "checkinoutPolicy": {
-        "checkinTime": "15:00",
-        "checkoutTime": "24:00"
-      },
-      "otherPolicies": {
-        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "Legal": "",
-        "child_policy": "Children of any age are welcome. Children aged 10 years and above are considered adults at this property.",
-        "Others Not Allowed": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "smoking_policy": "Non smoking throughout.",
-        "parking_shuttle": "NOnsite free parking.",
-        "pet_policy": "Pets not allowed."
-      },
-      "media": [
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "681",
-          "url": "https://s3.amazonaws.com/images.hotels/images/02034/QualityHotel11Gothenburg1.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "419",
-          "height": "500",
-          "url": "https://s3.amazonaws.com/images.hotels/images/02034/QualityHotel11Gothenburg2.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/02034/QualityHotel11Gothenburg3.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "576",
-          "url": "https://s3.amazonaws.com/images.hotels/images/02034/QualityHotel11Gothenburg4.jpg"
-        }
-      ]
-    },
-    "erevmax.04393": {
-      "name": "Clarion Hotel The Hub",
-      "type": "hotel",
-      "description": "Clarion Hotel The Hub offers an organic breakfast buffet, free WiFi and free sauna, steam bath and swimming pool access. Clarion Hotel The Hub is a certified environmental-friendly hotel with its own urban garden Grow Hub. All rooms have air-conditioning, cable TV and a tea/coffee maker. Scandinavian inspired dishes and sustainable food can be enjoyed under the high glass roof of the � la carte Restaurant Norda on the top floor, with a concept by the famed chef Marcus Samuelsson. In summer, the terrace is a nice place for afternoon coffee or evening cocktails. Clarion Hotel The Hub has 24 meeting rooms with a capacity of up to 1850 people, including 10 boardrooms and a VIP room of 80 square metres. A 180 square metres gym is also available.",
-      "location": {
-        "coordinates": {
-          "latitude": "59.91207189",
-          "longitude": "10.75123385"
-        }
-      },
-      "rating": "4",
-      "contactInformation": {
-        "phoneNumbers": [
-          "47 47 950 65 554"
-        ],
-        "emails": [
-          "joris.overbeek@choice.no"
-        ]
-      },
-      "checkinoutPolicy": {
-        "checkinTime": "15:00",
-        "checkoutTime": "24:00"
-      },
-      "otherPolicies": {
-        "Legal": "",
-        "child_policy": "Children of any age are welcome. Children aged 18 years and above are considered adults at this property.",
-        "Others Not Allowed": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "smoking_policy": "Non smoking throughout.",
-        "parking_shuttle": "NOnsite free parking.",
-        "pet_policy": "Pets not allowed."
-      },
-      "media": [
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "564",
-          "url": "https://s3.amazonaws.com/images.hotels/images/04393/ClarionHotelTheHub1.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "667",
-          "url": "https://s3.amazonaws.com/images.hotels/images/04393/ClarionHotelTheHub2.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/04393/ClarionHotelTheHub3.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/04393/ClarionHotelTheHub4.jpg"
-        }
-      ]
-    },
-    "erevmax.537108": {
-      "name": "Comfort Hotel Xpress Tromso",
-      "type": "hotel",
-      "description": "This modern hotel is located in central Troms�. It offers guest rooms with free WiFi, contemporary furnishings and a flat-screen TV. Storgata shopping street is just 1 minutes’ walk away.\nA seating area, work desk and private bathroom with shower are featured in all rooms at Comfort Hotel Xpress Troms�. Some rooms offer city and sea views.\nSnacks and drinks can be bought in the 24-hour lobby shop. Several restaurants, caf�s and bars are found in the surrounding streets\nPolaria Experience Centre is 500 metres from Comfort Hotel Xpress. Troms�s Hurtiguten terminal is a 6-minute walk away.",
-      "location": {
-        "coordinates": {
-          "latitude": "69.647276",
-          "longitude": "18.952136"
-        }
-      },
-      "rating": "3",
-      "contactInformation": {
-        "phoneNumbers": [
-          "47 +47 77 60 05 50"
-        ],
-        "emails": [
-          "xpress.tromso@choice.no"
-        ]
-      },
-      "checkinoutPolicy": {
-        "checkinTime": "15:00",
-        "checkoutTime": "24:00"
-      },
-      "otherPolicies": {
-        "Cards accepted at this property": "Hover over the cards for more info.",
-        "Children and ExtraBeds": "Children and Extra Beds",
-        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "Legal": "",
-        "Others Not Allowed": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "child_policy": "Children of any age are welcome.",
-        "smoking_policy": "Non smoking throughout.",
-        "parking_shuttle": "NOnsite free parking.",
-        "pet_policy": "Pets Not allowed"
-      },
-      "media": [
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/537108/ComfortHotelXpressTromso1.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "333",
-          "height": "500",
-          "url": "https://s3.amazonaws.com/images.hotels/images/537108/ComfortHotelXpressTromso2.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "763",
-          "url": "https://s3.amazonaws.com/images.hotels/images/537108/ComfortHotelXpressTromso3.jpg"
-        }
-      ]
-    },
-    "erevmax.568259": {
-      "name": "Clarion Hotel Helsinki",
-      "type": "hotel",
-      "description": "The Clarion Hotel Helsinki is located in the new J�tk�saari (Busholmen) urban investment district in the central West Harbour area. The hotel is a vibrant meeting place for both locals and hotel guests. How about some delicious drinks in the sky bar looking out over the city rooftops, a relaxed evening with chilled music in the Clarion Living Room or a delicious meal at our Kitchen & Table restaurant followed by a great nights sleep? Helsinkis city centre, shops and metro station are just a short walk away. Alternatively you can hop on a tram right next to the hotel.",
-      "location": {
-        "coordinates": {
-          "latitude": "60.1598169",
-          "longitude": "24.9219572"
-        }
-      },
-      "rating": "4",
-      "contactInformation": {
-        "phoneNumbers": [
-          "358 +358 10 850 3820"
-        ],
-        "emails": [
-          "cl.helsinki@choice.fi"
-        ]
-      },
-      "checkinoutPolicy": {
-        "checkinTime": "15:00",
-        "checkoutTime": "24:00"
-      },
-      "otherPolicies": {
-        "child_policy": "Children of any age are welcome. Children aged 10 years and above are considered adults at this property.",
-        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "Legal": "",
-        "Others Not Allowed": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "smoking_policy": "Non-smoking throughout.",
-        "parking_shuttle": "Public parking is available at a location nearby against charges.",
-        "pet_policy": "Pets are allowed against charges of 25 EUR per accommodation, per stay."
-      },
-      "media": [
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/568259/81416782.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/568259/ClarionHotelHelsinki2.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/568259/ClarionHotelHelsinki3.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/568259/ClarionHotelHelsinki4.jpg"
-        }
-      ]
-    },
     "erevmax.07119": {
       "name": "Comfort Hotel Xpress Stockholm Central",
       "type": "hotel",
@@ -313,326 +81,268 @@
           "height": "672",
           "url": "https://s3.amazonaws.com/images.hotels/images/07119/4.jpg"
         }
-      ]
-    },
-    "erevmax.568362": {
-      "name": "Clarion Collection Hotel Borgen",
-      "type": "hotel",
-      "description": "This hotel is located in central �rebro, along the calm Svart�n River. �rebro Castle is only 200 m away and Conventum is 700 m away. Restaurants and shopping are within walking distance. Each room includes a flat-screen TV with cable channels. All rooms are fitted with a private bathroom fitted with a bath or shower. You will find a 24-hour front desk at the property.Other services include free access to a fitness room and shared sauna. �rebro County Museum is 400 m from Clarion Collection Hotel Borgen, while �rebro University Hospital is 800 m away.",
-      "location": {
-        "coordinates": {
-          "latitude": "59.2744489",
-          "longitude": "15.2120792"
+      ],
+      "roomTypes": {
+        "ND": {
+          "name": "Standard, queen bed",
+          "description": "Standard  Double",
+          "amenities": [
+            "Hairdryer",
+            "Large work area",
+            "Shower"
+          ],
+          "size": {
+            "value": "12",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND3.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND4.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND5.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "Accessible rooms provided on request subject to availability"
+          }
+        },
+        "ND1": {
+          "name": "Superior, twin bed/ king size",
+          "description": "Superior Double",
+          "amenities": [
+            "Hairdryer",
+            "Large work area",
+            "Shower"
+          ],
+          "size": {
+            "value": "20",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_3.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_4.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "All rooms are Accessible rooms"
+          }
+        },
+        "NMD": {
+          "name": "Moderate, No window",
+          "description": "Modrate Double",
+          "amenities": [
+            "Hairdryer",
+            "Large work area",
+            "Shower"
+          ],
+          "size": {
+            "value": "12",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD3.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD4.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD5.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "Accessible rooms provided on request subject to availability"
+          }
         }
-      },
-      "rating": "4",
-      "contactInformation": {
-        "phoneNumbers": [
-          "46 46736903441"
-        ],
-        "emails": [
-          "cc.borgen@choice.se"
-        ]
-      },
-      "checkinoutPolicy": {
-        "checkinTime": "15:00",
-        "checkoutTime": "11:00"
-      },
-      "otherPolicies": {
-        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "child_policy": "Children of any age are welcome.",
-        "Legal": "",
-        "Others Not Allowed": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "smoking_policy": "Non smoking throughout.",
-        "parking_shuttle": "NOnsite free parking.",
-        "pet_policy": "Pets not allowed."
-      },
-      "media": [
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "681",
-          "url": "https://s3.amazonaws.com/images.hotels/images/568362/ClarionCollectionHotelBorgen1.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "500",
-          "height": "500",
-          "url": "https://s3.amazonaws.com/images.hotels/images/568362/ClarionCollectionHotelBorgen2.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "682",
-          "url": "https://s3.amazonaws.com/images.hotels/images/568362/ClarionCollectionHotelBorgen3.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "768",
-          "url": "https://s3.amazonaws.com/images.hotels/images/568362/ClarionCollectionHotelBorgen4.jpg"
-        }
-      ]
-    },
-    "erevmax.209093": {
-      "name": "Clarion Hotel Energy",
-      "type": "hotel",
-      "description": "Every room at this hotel is air conditioned and has a flat-screen TV. Certain units feature a seating area for your convenience. You will find a kettle in the room. Rooms have a private bathroom fitted with a bath or shower. For your comfort, you will find free toiletries and a hair dryer. You will find a 24-hour front desk at the property. You can engage in various activities, such as golfing and hiking. The hotel also offers bike hire. Stavanger Maritime Museum is 3 km from Clarion Hotel Energy, while Stavanger Art Museum is 3 km away. Sola Airport is 9 km from the property.",
-      "location": {
-        "coordinates": {
-          "latitude": "58.9535861",
-          "longitude": "5.6884671"
-        }
-      },
-      "rating": "4",
-      "contactInformation": {
-        "phoneNumbers": [
-          "47 +47 51 34 78 00"
-        ],
-        "emails": [
-          "jill-heidi.kristiansen@choice.no"
-        ]
-      },
-      "checkinoutPolicy": {
-        "checkinTime": "15:00",
-        "checkoutTime": "24:00"
-      },
-      "otherPolicies": {
-        "Cards accepted at this property": "Hover over the cards for more info.",
-        "Children and ExtraBeds": "Children and Extra Beds",
-        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "Legal": "",
-        "child_policy": "Children of any age are welcome. Children aged 10 years and above are considered adults at this property.",
-        "Others Not Allowed": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "smoking_policy": "Non smoking throughout.",
-        "parking_shuttle": "NOnsite free parking.",
-        "pet_policy": "Pets Not allowed"
-      },
-      "media": [
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel00.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "225",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel01.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel02.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel03.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel04.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "267",
-          "height": "400",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel05.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel06.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel07.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel08.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel09.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel10.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "400",
-          "height": "267",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/209093ClarionHotel11.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/ClarionHotelEnergy1.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/ClarionHotelEnergy2.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/ClarionHotelEnergy3.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/209093/ClarionHotelEnergy4.jpg"
-        }
-      ]
-    },
-    "erevmax.32788": {
-      "name": "Clarion Hotel Grand Ostersund",
-      "type": "hotel",
-      "description": "The Hotel offers free WiFi, free pool and sauna access and rooms with modern d�cor. A flat-screen TV, work desk and seating area are standard at Clarion Hotel Grand �stersund. Kitchen & Table is a restaurant concept by renowned Swedish chef Marcus Samuelsson. It combines the best of local, Scandinavian ingredients with Manhattan’s unique mix of international flavors. The Lobby Bar serves cocktails, wines, locally brewed beers and a variety of snacks. Active guests can take advantage of the hotel’s fitness center and on-site bicycle rentals. Clarion staff can recommend several restaurants, caf�s and shops within walking distance. The hotel is right around the corner from �stersund’s Stortorget square. Lake Storsj�n is only 400 m away.",
-      "location": {
-        "coordinates": {
-          "latitude": "63.17994135",
-          "longitude": "14.63636847"
-        }
-      },
-      "rating": "4",
-      "contactInformation": {
-        "phoneNumbers": [
-          "46 +46 63 55 60 00"
-        ],
-        "emails": [
-          "cl.ostersund@choice.se"
-        ]
-      },
-      "checkinoutPolicy": {
-        "checkinTime": "15:00",
-        "checkoutTime": "24:00"
-      },
-      "otherPolicies": {
-        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "Legal": "",
-        "Others Not Allowed": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "child_policy": "Children of all ages are welcome. Children 13 and above are considered adults at this property.",
-        "smoking_policy": "Non smoking throughout.",
-        "parking_shuttle": "NOnsite free parking.",
-        "pet_policy": "Pets not allowed."
-      },
-      "media": [
-        {
-          "type": "photo",
-          "width": "740",
-          "height": "414",
-          "url": "https://s3.amazonaws.com/images.hotels/images/32788/ClarionHotelGrandOstersund1.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/32788/ClarionHotelGrandOstersund2.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/32788/ClarionHotelGrandOstersund3.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/32788/ClarionHotelGrandOstersund4.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/32788/ClarionHotelGrandOstersund5.jpg"
-        }
-      ]
-    },
-    "erevmax.08801": {
-      "name": "Quality Hotel the Mill",
-      "type": "hotel",
-      "description": "The hotel offers free WiFi, an on-site restaurant with bar, as well as free access to a fitness centre. A flat-screen TV with satellite channels, along with a desk and ironing facilities can be found in all rooms at Quality Hotel The Mill. Some rooms feature a sea view. Guests can enjoy a daily buffet breakfast at the hotel. Lunch and � la carte dinner options are served in the Brasserie X restaurant. Folkets Park is 650 m away, while both Lilla Torg and Stortorget are about 15 minutes walk from Quality Hotel The Mill. Malm� Airport and Copenhagen Airport are both 30 km away. Norr is a great choice for travellers interested in Old Town exploring, atmosphere and caf�s.",
-      "location": {
-        "coordinates": {
-          "latitude": "55.59966077",
-          "longitude": "13.00733216"
-        }
-      },
-      "rating": "4",
-      "contactInformation": {
-        "phoneNumbers": [
-          "46 46 73 3296 080"
-        ],
-        "emails": [
-          "jens.waldelius@choice.se,burim.sumiq@choice.se"
-        ]
-      },
-      "checkinoutPolicy": {
-        "checkinTime": "15:00",
-        "checkoutTime": "24:00"
-      },
-      "otherPolicies": {
-        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "child_policy": "Children of any age are welcome.",
-        "Legal": "",
-        "Others Not Allowed": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
-        "smoking_policy": "Non smoking throughout.",
-        "parking_shuttle": "NOnsite free parking.",
-        "pet_policy": "Pets not allowed."
-      },
-      "media": [
-        {
-          "type": "photo",
-          "width": "333",
-          "height": "500",
-          "url": "https://s3.amazonaws.com/images.hotels/images/08801/QualityHoteltheMill1.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/08801/QualityHoteltheMill2.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/08801/QualityHoteltheMill3.jpg"
-        },
-        {
-          "type": "photo",
-          "width": "1024",
-          "height": "683",
-          "url": "https://s3.amazonaws.com/images.hotels/images/08801/QualityHoteltheMill4.jpg"
-        }
-      ]
+      }
     }
   },
-  "offers": {},
+  "pricePlans": {
+    "LSAVE": {
+      "name": "Web Price Prepaid",
+      "penalties": {
+        "refund": {
+          "refundable": false
+        }
+      }
+    },
+    "BAR": {
+      "name": "Winding Tree BAR",
+      "penalties": {
+        "refund": {
+          "refundable": false
+        }
+      }
+    }
+  },
+  "offers": {
+    "b64a914d-53a1-4df0-a5a3-731dd780e8b5": {
+      "pricePlansReferences": {
+        "LSAVE": {
+          "accommodation": "erevmax.07119",
+          "roomType": "ND"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "576.0",
+        "taxes": -64
+      }
+    },
+    "e5452467-20a5-480d-8cf8-c1f79cb34b17": {
+      "pricePlansReferences": {
+        "LSAVE": {
+          "accommodation": "erevmax.07119",
+          "roomType": "ND1"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "756.0",
+        "taxes": -84
+      }
+    },
+    "046fdae6-7f84-46d0-82bd-b56f99cc90f9": {
+      "pricePlansReferences": {
+        "LSAVE": {
+          "accommodation": "erevmax.07119",
+          "roomType": "NMD"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "531.0",
+        "taxes": -59
+      }
+    },
+    "9d8fa892-7c81-46c0-a1a1-7fe6e67140c7": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "erevmax.07119",
+          "roomType": "ND"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "640.0",
+        "taxes": 0
+      }
+    },
+    "a483c662-e893-4f88-b0b3-46bead4a6929": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "erevmax.07119",
+          "roomType": "ND1"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "840.0",
+        "taxes": 0
+      }
+    },
+    "8f00f219-ef4a-4c6a-befb-ce0be7701bc0": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "erevmax.07119",
+          "roomType": "NMD"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "590.0",
+        "taxes": 0
+      }
+    }
+  },
   "passengers": {
     "PAX1": {
       "type": "ADT"
