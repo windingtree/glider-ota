@@ -31,9 +31,7 @@ export default class FlightsSearchResults extends React.Component {
 
 
     render() {
-        let searchResults = this.props.searchResults;
-        // console.log("Displaying results",searchResults)
-
+        const {searchResults} = this.props;
         if (searchResults === undefined) {
             console.log('No data!!');
             return (<>Search for something</>)
@@ -49,7 +47,7 @@ export default class FlightsSearchResults extends React.Component {
                         <FastCheapFilter/>
                         {
                             searchResults.combinations.map(combination => {
-                                return this.renderOffer(combination)
+                                return (<Offer combination={combination} onOfferDisplay={this.handleOfferDisplay}/>)
                             })
                         }
                     </Col>
@@ -59,94 +57,96 @@ export default class FlightsSearchResults extends React.Component {
         )
     }
 
-    renderOffer(combination) {
-        const outboundItinerary = OfferUtils.getOutboundItinerary(combination);
-        const returnItinerary = OfferUtils.doesReturnItineraryExist(combination) ? OfferUtils.getReturnItinerary(combination) : undefined;
-        const firstSegment = OfferUtils.getFirstSegmentOfItinerary(outboundItinerary);
-        const cheapestOffer = OfferUtils.getCheapestOffer(combination);
-        return (
-            <Container className='offer-container' key={combination.combinationId}>
-                <Row className='offer-row offer-row-metainfo' >
-                    <Col sm={4}
-                         className='offer-col offer-col-price'>{this.renderPrice(combination, cheapestOffer)}</Col>
-                    <Col sm={4} className='offer-col offer-col-ancillaries'>2</Col>
-                    <Col sm={4}
-                         className='offer-col offer-col-operator'>{this.renderAirlineLogo(firstSegment.operator)}</Col>
-                </Row>
-                {this.renderItinerary(outboundItinerary)}
-                {returnItinerary !== undefined && this.renderItinerary(returnItinerary)}
-            </Container>
-        )
-    }
+}
 
-    renderItinerary(itinerary) {
-        return (
-            <Row className='offer-row offer-row-itinerary'>
-                <Col sm={4} className='offer-col offer-col-airports'>{this.renderAirports(itinerary)}</Col>
-                <Col sm={4} className='offer-col offer-col-duration'>{this.renderDuration(itinerary)}</Col>
-                <Col sm={4} className='offer-col offer-col-stopover'>{this.renderStopoverInformation(itinerary)}</Col>
+const Offer = ({combination,onOfferDisplay}) =>{
+    const outboundItinerary = OfferUtils.getOutboundItinerary(combination);
+    const returnItinerary = OfferUtils.doesReturnItineraryExist(combination) ? OfferUtils.getReturnItinerary(combination) : undefined;
+    const firstSegment = OfferUtils.getFirstSegmentOfItinerary(outboundItinerary);
+    const cheapestOffer = OfferUtils.getCheapestOffer(combination);
+    return (
+        <Container className='offer-container' key={combination.combinationId}>
+            <Row className='offer-row offer-row-metainfo' >
+                <Col sm={4}
+                     className='offer-col offer-col-price'><Price combination={combination} offerWrapper={cheapestOffer} onOfferDisplay={onOfferDisplay}/></Col>
+                <Col sm={4} className='offer-col offer-col-ancillaries'>2</Col>
+                <Col sm={4}
+                     className='offer-col offer-col-operator'><AirlineLogo operator={firstSegment.operator}/></Col>
             </Row>
-        )
+            <Itinerary itinerary={outboundItinerary}/>
+            {returnItinerary !== undefined && <Itinerary itinerary={returnItinerary}/>}
+        </Container>
+    )
+}
+
+
+
+const Itinerary = ({itinerary}) =>{
+    return (
+        <Row className='offer-row offer-row-itinerary'>
+            <Col sm={4} className='offer-col offer-col-airports'><Airports itinerary={itinerary}/></Col>
+            <Col sm={4} className='offer-col offer-col-duration'><Duration itinerary={itinerary}/></Col>
+            <Col sm={4} className='offer-col offer-col-stopover'><StopOverInfo itinerary={itinerary}/></Col>
+        </Row>
+    )
+}
+
+
+
+const Price = ({combination, offerWrapper, onOfferDisplay}) =>{
+    let offer = offerWrapper.offer
+    return (
+        <>
+            <div className='offer-details--title'>BOOK</div>
+            <div className='offer-details--content'>
+                {/*<Link to={link} className='offer-details-price'>{offer.price.public} {offer.price.currency}</Link>*/}
+                <button className='offer-details-price' onClick={() => {
+                    onOfferDisplay(combination.combinationId,offerWrapper.offerId)
+                }}>{offer.price.public} {offer.price.currency}</button>
+            </div>
+        </>
+    )
+}
+
+const Airports = ({itinerary}) =>{
+    const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
+    const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
+    const startOfTrip = parseISO(firstSegment.departureTime);
+    const endOfTrip = parseISO(lastSegment.arrivalTime);
+    return (<>
+            <div
+                className='offer-details--title'>{firstSegment.origin.iataCode}-{lastSegment.destination.iataCode}</div>
+            <div
+                className='offer-details--content'>{format(startOfTrip, 'HH:mm')}-{format(endOfTrip, 'HH:mm')}</div>
+        </>
+    )
+}
+const Duration = ({itinerary}) =>{
+    return (<>
+            <div className='offer-details--title'>DURATION</div>
+            <div className='offer-details--content'>{OfferUtils.calculateDuration(itinerary)}</div>
+        </>
+    )
+}
+
+const StopOverInfo = ({itinerary}) =>{
+    const segments = OfferUtils.getItinerarySegments(itinerary);
+    const stops = [];
+    for (let i = 0; i < segments.length - 1; i++) {
+        const segment = segments[i];
+        if (i > 0)
+            stops.push(',');
+        stops.push(segment.destination.iataCode)
     }
+    return (<>
+            <div className='offer-details--title'>STOPS</div>
+            <div className='offer-details--content'>{stops}</div>
+        </>
+    )
+}
 
-    renderPrice(combination, offerWrapper) {
-        let offer = offerWrapper.offer
-        return (
-            <>
-                <div className='offer-details--title'>BOOK</div>
-                <div className='offer-details--content'>
-                    {/*<Link to={link} className='offer-details-price'>{offer.price.public} {offer.price.currency}</Link>*/}
-                    <button className='offer-details-price' onClick={() => {
-                        this.handleOfferDisplay(combination.combinationId,offerWrapper.offerId)
-                    }}>{offer.price.public} {offer.price.currency}</button>
-                </div>
-            </>
-        )
-    }
-
-    renderAirports(itinerary) {
-        const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
-        const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
-        const startOfTrip = parseISO(firstSegment.departureTime);
-        const endOfTrip = parseISO(lastSegment.arrivalTime);
-        return (<>
-                <div
-                    className='offer-details--title'>{firstSegment.origin.iataCode}-{lastSegment.destination.iataCode}</div>
-                <div
-                    className='offer-details--content'>{format(startOfTrip, 'HH:mm')}-{format(endOfTrip, 'HH:mm')}</div>
-            </>
-        )
-    }
-
-    renderDuration(itinerary) {
-        return (<>
-                <div className='offer-details--title'>DURATION</div>
-                <div className='offer-details--content'>{OfferUtils.calculateDuration(itinerary)}</div>
-            </>
-        )
-    }
-
-    renderStopoverInformation(itinerary) {
-        const segments = OfferUtils.getItinerarySegments(itinerary);
-        const stops = [];
-        for (let i = 0; i < segments.length - 1; i++) {
-            const segment = segments[i];
-            if (i > 0)
-                stops.push(',');
-            stops.push(segment.destination.iataCode)
-        }
-        return (<>
-                <div className='offer-details--title'>STOPS</div>
-                <div className='offer-details--content'>{stops}</div>
-            </>
-        )
-    }
-
-    renderAirlineLogo(operator) {
-        return (
-            <Image src={logo}/>
-        )
-    }
-
-
+const AirlineLogo = ({operator})=>{
+    return (
+        <Image src={logo}/>
+    )
 }

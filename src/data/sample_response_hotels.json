@@ -1,0 +1,351 @@
+  {
+  "accommodations": {
+    "erevmax.07119": {
+      "name": "Comfort Hotel Xpress Stockholm Central",
+      "type": "hotel",
+      "description": "The Comfort Hotel Xpress Stockholm Central enjoys a fabulous location right next to Stockholm Central Station. The citys amazing range of restaurants, shops, museums and nightclubs are all within easy reach! This is a cash-free hotel. The Comfort Hotel Xpress Stockholm Central is located within Stockholms World Trade Center, with a direct link to Stockholm Central Station. Stockholms amazing restaurants, shopping, night clubs and sights are all within easy walking distance. If you arrive by car, you can easily park in the parking garage right next door to the hotel.",
+      "location": {
+        "coordinates": {
+          "latitude": "59.33309777",
+          "longitude": "18.05437602"
+        }
+      },
+      "rating": "3",
+      "contactInformation": {
+        "phoneNumbers": [
+          "46 46 8 566 222 00"
+        ],
+        "emails": [
+          "xpress.stockholmcentral@choice.se"
+        ]
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {
+        "Legal": "",
+        "Others": "The Comfort Hotel Xpress Stockholm Central is a cash-free hotel. Credit Cards accepted:",
+        "child_policy": "Children up-to 9 years can stay free with existing bed.",
+        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
+        "smoking_policy": "A non smoking hotel",
+        "parking_shuttle": "NIf you arrive by car, we recommend that you park in the garage located in the same building as Comfort Hotel Xpress Stockholm Central. The price is SEK 280 per day, every day of the week.",
+        "pet_policy": "At Comfort Hotel Xpress Stockholm Central we also welcome your four-legged friends. For SEK 250 extra per visit they can stay with you at the hotel. Guide dogs are of course welcome at no extra charge. But remember to tell us when you make your reservation, so that we can find a suitable room for you and your dog"
+      },
+      "media": [
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "683",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/110997074.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "662",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/110998049.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "677",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/161752398.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "678",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/161752404.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "683",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/1.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "678",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/2.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "662",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/3.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "672",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/4.jpg"
+        }
+      ],
+      "roomTypes": {
+        "ND": {
+          "name": "Standard, queen bed",
+          "description": "Standard  Double",
+          "amenities": [
+            "Hairdryer",
+            "Large work area",
+            "Shower"
+          ],
+          "size": {
+            "value": "12",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND3.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND4.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND5.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "Accessible rooms provided on request subject to availability"
+          }
+        },
+        "ND1": {
+          "name": "Superior, twin bed/ king size",
+          "description": "Superior Double",
+          "amenities": [
+            "Hairdryer",
+            "Large work area",
+            "Shower"
+          ],
+          "size": {
+            "value": "20",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_3.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_4.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "All rooms are Accessible rooms"
+          }
+        },
+        "NMD": {
+          "name": "Moderate, No window",
+          "description": "Modrate Double",
+          "amenities": [
+            "Hairdryer",
+            "Large work area",
+            "Shower"
+          ],
+          "size": {
+            "value": "12",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD3.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD4.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD5.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "Accessible rooms provided on request subject to availability"
+          }
+        }
+      }
+    }
+  },
+  "pricePlans": {
+    "LSAVE": {
+      "name": "Web Price Prepaid",
+      "penalties": {
+        "refund": {
+          "refundable": false
+        }
+      }
+    },
+    "BAR": {
+      "name": "Winding Tree BAR",
+      "penalties": {
+        "refund": {
+          "refundable": false
+        }
+      }
+    }
+  },
+  "offers": {
+    "b64a914d-53a1-4df0-a5a3-731dd780e8b5": {
+      "pricePlansReferences": {
+        "LSAVE": {
+          "accommodation": "erevmax.07119",
+          "roomType": "ND"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "576.0",
+        "taxes": -64
+      }
+    },
+    "e5452467-20a5-480d-8cf8-c1f79cb34b17": {
+      "pricePlansReferences": {
+        "LSAVE": {
+          "accommodation": "erevmax.07119",
+          "roomType": "ND1"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "756.0",
+        "taxes": -84
+      }
+    },
+    "046fdae6-7f84-46d0-82bd-b56f99cc90f9": {
+      "pricePlansReferences": {
+        "LSAVE": {
+          "accommodation": "erevmax.07119",
+          "roomType": "NMD"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "531.0",
+        "taxes": -59
+      }
+    },
+    "9d8fa892-7c81-46c0-a1a1-7fe6e67140c7": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "erevmax.07119",
+          "roomType": "ND"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "640.0",
+        "taxes": 0
+      }
+    },
+    "a483c662-e893-4f88-b0b3-46bead4a6929": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "erevmax.07119",
+          "roomType": "ND1"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "840.0",
+        "taxes": 0
+      }
+    },
+    "8f00f219-ef4a-4c6a-befb-ce0be7701bc0": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "erevmax.07119",
+          "roomType": "NMD"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": "590.0",
+        "taxes": 0
+      }
+    }
+  },
+  "passengers": {
+    "PAX1": {
+      "type": "ADT"
+    }
+  }
+}

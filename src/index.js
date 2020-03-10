@@ -22,7 +22,6 @@ function Dispatcher() {
                     <Route path="/hotels">
                         <HotelsPage/>
                     </Route>
-
                     <Route path="/flights">
                         <FlightsPage/>
                     </Route>

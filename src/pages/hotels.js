@@ -1,16 +1,16 @@
-import React from 'react';
-import Header from '../components/common/header/header';
-import Footer from '../components/common/footer/footer';
-import ContentWrapper from '../components/common/content-wrapper';
+import React, {useState} from 'react';
+import HotelsSearchResults from "../components/hotels-search-results/hotels-search-results";
+import HotelDetails from "../components/hotels-rooms/hotel-details";
 
-export default function HotelsPage() {
+export default function HotelsPage({searchResults}) {
+    const [selectedHotel, setSelectedHotel] = useState();
+    console.log("searchResults", searchResults)
     return (
         <>
-            <Header/>
-            <ContentWrapper>
-            Hotels
-            </ContentWrapper>
-            <Footer/>
+            {selectedHotel === undefined &&
+            <HotelsSearchResults onHotelSelected={setSelectedHotel} searchResults={searchResults}/>}
+            {selectedHotel !== undefined && <HotelDetails searchResults={searchResults} hotel={selectedHotel}/>}
         </>
     )
 }
+
