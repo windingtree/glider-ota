@@ -9,7 +9,7 @@ import SearchCriteriaBuilder from "../utils/search-criteria-builder";
 import {extendResponse} from '../utils/flight-search-results-transformer'
 import FlightsPage from "./flights";
 import HotelsPage from "./hotels";
-import {config} from "../config";
+import {config} from "../config/default";
 
 const SEARCH_TYPE={
     FLIGHTS:'FLIGHTS',

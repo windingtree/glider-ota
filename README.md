@@ -15,7 +15,7 @@ List of airports that is used in origin/destination lookup fields is taken from 
 It's curated with a script that transforms data to JSON format and filters out unwanted types
 
 ```bash
-    /tools/airports/airports.js
+    /tools/locations/airports.js
 ```
 Original list contains not only airports but also heliports, railstations, ferry ports.
 Unwanted locations can be filtered out
@@ -29,5 +29,5 @@ List of locations that is used in hotels lookup fields is taken from geonames.or
 It's also curated with a script that transforms data to JSON format and filters out unwanted cities (currently cities with population over 300000 are taken into account)
 
 ```bash
-    /tools/airports/locations.js
+    /tools/locations/cities.js
 ```
