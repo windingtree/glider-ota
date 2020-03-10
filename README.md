@@ -8,7 +8,7 @@ OTA monorepo
 * now dev
 
 
-####List of airports
+#### List of airports
 List of airports that is used in origin/destination lookup fields is taken from IATA list
 * https://github.com/opentraveldata/opentraveldata/tree/master/data/IATA
 
@@ -22,7 +22,7 @@ Unwanted locations can be filtered out
 
 
 
-####List of locations
+#### List of locations
 List of locations that is used in hotels lookup fields is taken from geonames.org list of cities
 * https://download.geonames.org/export/dump/
 
