@@ -1,6 +1,6 @@
 import React from 'react'
 import {Overlay, Popover, ListGroup, Form} from 'react-bootstrap'
-import './location-lookup.css'
+import './location-lookup.scss'
 export const LOCATION_SOURCE={
     AIRPORTS:'airports',
     CITIES:'cities'
@@ -22,7 +22,7 @@ export default class LocationLookup extends React.Component {
     }
 
     handleLocationSelected(event, location) {
-        console.log('Selected', location);
+        console.debug('Selected location', location);
         this.setState({selectedLocation: location,matchingAirports: []});
         this.props.onLocationSelected(location)
     }
@@ -51,24 +51,23 @@ export default class LocationLookup extends React.Component {
                 type: this.locationsSource,
                 query: enteredText
             }
+            console.debug('Lookup request:',request)
             let me=this;
             fetch('/api/lookup', {
                 method: 'POST',
                 headers: {
-                    "Content-type": "application/json"
+                    'Content-type': 'application/json'
                 },
                 body: JSON.stringify(request)
+
             })
                 .then((resp) => resp.json())
                 .then(function (data) {
-                    console.log('Request succeeded with JSON response', data);
                     let results = data.results;
-                    console.log('Results',results);
                     me.setState({matchingAirports: results})
-
                 })
                 .catch(function (error) {
-                    console.log('Request failed', error);
+                    console.error('Lookup request failed', error);
                 });
         }
 
@@ -84,19 +83,19 @@ export default class LocationLookup extends React.Component {
         }
 
         return (
-            <div className='airports-component'>
+            <div className="location-lookup">
                 <Form.Control
-                    type='text'
+                    type="text"
                     value={value}
                     onChange={this.handleInputValueChange}
-                    className='airports-input'>
+                    className="location-lookup__input">
                 </Form.Control>
                 <Overlay
                     show={matchingAirports.length > 0}
                     target={this.state.target}
-                    placement='bottom'>
-                    <Popover id='popover-contained' className='airports-popover'>
-                        <Popover.Content className='airports-popovercontent'>
+                    placement="bottom">
+                    <Popover id="popover-contained" className="location-lookup__popover">
+                        <Popover.Content className="location-lookup__popover-content">
                             <LocationsList locations={matchingAirports} onLocationSelected={this.handleLocationSelected}/>
                         </Popover.Content>
                     </Popover>
@@ -112,10 +111,10 @@ export default class LocationLookup extends React.Component {
 
 const LocationsList = ({locations, onLocationSelected}) =>{
     let key = 0;
-    return (<ListGroup variant='flush' className='airports-list'>
+    return (<ListGroup variant="flush" className="location-lookup__listgroup">
         {locations.map(location=>{
             return (<ListGroup.Item
-                action className='airports-record' key={key++}
+                action className="location-lookup__listgroup-item" key={key++}
                 onClick={event => onLocationSelected(event, location)}>
                 <Location primaryText={location.primary} secondaryText={location.secondary}/>
             </ListGroup.Item>)
@@ -125,7 +124,7 @@ const LocationsList = ({locations, onLocationSelected}) =>{
 
 const Location = ({primaryText,secondaryText}) =>{
     return (<>
-        <div className='airports-record--primary'>{primaryText}</div>
-        <div className='airports-record--id'>{secondaryText}</div>
+        <div className="location-lookup__listgroup-item--primary">{primaryText}</div>
+        <div className="location-lookup__listgroup-item--secondary">{secondaryText}</div>
     </>)
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import './flights-search-results.css'
+import './flights-search-results.scss'
 import {Container, Row, Col, Image} from 'react-bootstrap'
 import logo from '../../assets/airline_logo.png'
 import {format, parseISO} from "date-fns";

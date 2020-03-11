@@ -1,5 +1,5 @@
 import React from 'react'
-import './fast-cheap-filter.css'
+import './fast-cheap-filter.scss'
 import { ButtonGroup, ToggleButton } from 'react-bootstrap'
 export default class FastCheapFilter extends React.Component {
   constructor (props) {

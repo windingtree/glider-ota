@@ -1,5 +1,5 @@
 import React from 'react'
-import './stopover-filter.css'
+import './stopover-filter.scss'
 import Form from 'react-bootstrap/Form'
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import "bootstrap-slider/dist/css/bootstrap-slider.css"

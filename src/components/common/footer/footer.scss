@@ -1,0 +1,15 @@
+.footer{
+    background-color: #f5f6f7;
+
+    &__nav{
+        &-title{
+            font-weight: bold;
+        }
+        &-link{
+            color: black;
+
+        }
+    }
+}
+
+

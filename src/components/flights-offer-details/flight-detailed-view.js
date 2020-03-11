@@ -1,5 +1,5 @@
 import React  from 'react'
-import './flight-detailed-view.css'
+import './flight-detailed-view.scss'
 import {Container, Row, Col, Button, Alert} from 'react-bootstrap'
 import PassengersDetailsForm from './passenger-details'
 import YourFlightInfo from './flight-info'

@@ -1,6 +1,6 @@
 import default_hotel_image from "../../assets/default_hotel_image.png";
 import {Image} from "react-bootstrap";
-import './hotel-image.css'
+import './hotel-image.scss'
 import React from "react";
 
 const HotelLeadingImage = ({images}) => {

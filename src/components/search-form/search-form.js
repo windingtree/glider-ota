@@ -2,7 +2,7 @@ import React from 'react'
 import {Button, Container, Row} from 'react-bootstrap'
 import LocationLookup from '../location-lookup/location-lookup'
 import TravelDatepickup from '../travel-datepickup/travel-datepickup'
-import './flights-search-form.css'
+import './search-form.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
 
 export default class SearchForm extends React.Component {
@@ -97,7 +97,7 @@ export default class SearchForm extends React.Component {
           <LocationLookup  onLocationSelected={this.handleDestinationChanged} locationsSource={locationsSource}/>
           <TravelDatepickup onStartDateChanged={this.handleStartDateChanged} onEndDateChanged={this.handleEndDateChanged} />
           <PassengerSelector onPaxSelectionChanged={this.handlePaxSelectionChanged}/>
-          <Button  className='flightsearch-searchbutton' disabled={!isValid} onClick={this.handleSearchBtn}>Search</Button>
+          <Button  className='flightsearch-searchbutton' variant="dark" disabled={!isValid} onClick={this.handleSearchBtn}>Search</Button>
         </Row>
       </Container>
     )

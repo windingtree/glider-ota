@@ -1,0 +1,34 @@
+.location-lookup{
+    width: 175px;
+    height: 48px;
+    border: 1px solid #000000;
+    &__input{
+        height: 48px;
+        border-radius: 0;
+        /* or 267% */
+     }
+    &__popover{
+        border:1px solid black !important;
+        max-width: 410px;
+        &-content{
+            padding: 0 !important;
+            width: 400px;
+        }
+    }
+    &__listgroup{
+
+    }
+    &__listgroup-item{
+        padding: 5px !important;
+
+        &--primary{
+            width: 300px;
+            display: inline;
+        }
+        &--secondary{
+            display: inline;
+            width: 50px;
+            padding-left: 10px;
+        }
+    }
+}

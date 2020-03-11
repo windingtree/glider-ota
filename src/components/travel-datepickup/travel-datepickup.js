@@ -3,7 +3,7 @@ import { enGB } from 'date-fns/locale'
 import { DateRangePicker, START_DATE, END_DATE } from 'react-nice-dates'
 
 import 'react-nice-dates/build/style.css'
-import './travel-datepickup.css'
+import './travel-datepickup.scss'
 
 export default class TravelDatepickup extends React.Component {
   constructor (props) {

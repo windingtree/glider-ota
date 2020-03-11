@@ -1,5 +1,5 @@
 import React from 'react'
-import './stopover-filter.css'
+import './stopover-filter.scss'
 import Form from 'react-bootstrap/Form'
 export default class StopoverFilter extends React.Component {
   constructor (props) {

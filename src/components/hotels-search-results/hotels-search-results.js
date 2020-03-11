@@ -1,5 +1,5 @@
 import React from 'react'
-import './hotel-search-results.css'
+import './hotel-search-results.scss'
 import {Container, Row, Col, Image, Button } from 'react-bootstrap'
 import _ from 'lodash'
 import default_hotel_image from "../../assets/default_hotel_image.png";

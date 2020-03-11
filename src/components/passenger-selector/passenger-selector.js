@@ -1,5 +1,5 @@
 import React from 'react'
-import './passenger-selector.css'
+import './passenger-selector.scss'
 import { Button, Dropdown } from 'react-bootstrap'
 
 export default class PassengerSelector extends React.Component {

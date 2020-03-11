@@ -2,14 +2,15 @@ import React, {useState} from 'react';
 import Header from '../components/common/header/header';
 import Footer from '../components/common/footer/footer';
 import ContentWrapper from '../components/common/content-wrapper';
-import {ToggleButton, ToggleButtonGroup} from "react-bootstrap";
-import {LOCATION_SOURCE} from "../components/location-lookup/location-lookup";
-import SearchForm from "../components/flights-search-form/search-form";
-import SearchCriteriaBuilder from "../utils/search-criteria-builder";
+import {Container,Row,Col,ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
+import {LOCATION_SOURCE} from '../components/location-lookup/location-lookup';
+import SearchForm from '../components/search-form/search-form';
+import SearchCriteriaBuilder from '../utils/search-criteria-builder';
 import {extendResponse} from '../utils/flight-search-results-transformer'
-import FlightsPage from "./flights";
-import HotelsPage from "./hotels";
-import {config} from "../config/default";
+import FlightsPage from './flights';
+import HotelsPage from './hotels';
+import {config} from '../config/default';
+import css from './home.scss'
 
 const SEARCH_TYPE={
     FLIGHTS:'FLIGHTS',
@@ -30,14 +31,14 @@ export default function HomePage() {
 
     const onFlightsSearch = (criteria) =>{onSearchStart();setSearchCriteria(criteria);search(criteria,SEARCH_TYPE.FLIGHTS, onSearchSuccess,onSearchFailure)};
     const onHotelsSearch = (criteria) =>{onSearchStart();setSearchCriteria(criteria);search(criteria,SEARCH_TYPE.HOTELS, onSearchSuccess,onSearchFailure)};
-    const onSearchSuccess = (results) =>{console.log("onSearchSuccess()");setSearchResults(results);setSearchState(SEARCH_STATE.FINISHED);}
-    const onSearchFailure = () =>{console.log("onSearchFailure()");setSearchResults(undefined);setSearchState(SEARCH_STATE.FAILED);}
-    const onSearchStart = () =>{console.log("onSearchStart()");setSearchState(SEARCH_STATE.IN_PROGRESS);}
+    const onSearchSuccess = (results) =>{setSearchResults(results);setSearchState(SEARCH_STATE.FINISHED);}
+    const onSearchFailure = () =>{setSearchResults(undefined);setSearchState(SEARCH_STATE.FAILED);}
+    const onSearchStart = () =>{setSearchState(SEARCH_STATE.IN_PROGRESS);}
     return (
         <>
             <Header/>
             <ContentWrapper>
-                <h1>Book Travel with Winding Tree</h1>
+                <h1 className="page-title">Book Travel with Winding Tree</h1>
                 <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
                 {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
                 {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
@@ -76,15 +77,13 @@ function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, ad
 
 const search = (criteria, mode, onSearchSuccessCallback,onSearchFailureCallback) => {
     let searchRequest;
-    console.debug("Raw search criteria:",criteria)
     if (mode === SEARCH_TYPE.FLIGHTS)
         searchRequest = buildFlightsSearchCriteria(criteria.origin.iata, criteria.destination.iata, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
     else if (mode === SEARCH_TYPE.HOTELS)
         searchRequest = buildHotelsSearchCriteria(criteria.destination.latitude, criteria.destination.longitude, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
     else
-        throw Error("Unknown search mode");
-    console.debug("API request criteria:",searchRequest)
-    // const me = this;
+        throw Error('Unknown search mode');
+    console.debug('Raw search criteria:',criteria,' API search criteria', searchRequest)
 
     const requestInfo = {
         method: 'POST',
@@ -103,11 +102,11 @@ const search = (criteria, mode, onSearchSuccessCallback,onSearchFailureCallback)
             return res.json()
         })
         .then(function (data) {
-            console.debug("Search results arrived")
+            console.debug('Search results arrived')
             let searchResultsTransformed=extendResponse(data);
             onSearchSuccessCallback(searchResultsTransformed);
         }).catch(function (err) {
-            console.error("Search failed", err)
+            console.error('Search failed', err)
             onSearchFailureCallback();
     })
 }
@@ -117,10 +116,17 @@ const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
     const [value, setValue] = useState([defaultValue]);
     const handleChange = val => {setValue(val);onToggle(val);}
     return (
-        <ToggleButtonGroup type="radio" name="test" value={value} onChange={handleChange}>
-            <ToggleButton value={SEARCH_TYPE.FLIGHTS}>Flights</ToggleButton>
-            <ToggleButton value={SEARCH_TYPE.HOTELS}>Hotels</ToggleButton>
-        </ToggleButtonGroup>)
+        <Container>
+            <Row className="searchmode-selector">
+                <ToggleButtonGroup  type="radio" name="test" value={value}
+                                   onChange={handleChange}>
+                    <ToggleButton className="searchmode-selector__button" variant="outline-dark"
+                                  value={SEARCH_TYPE.FLIGHTS}>Flights</ToggleButton>
+                    <ToggleButton className="searchmode-selector__button" variant="outline-dark"
+                                  value={SEARCH_TYPE.HOTELS}>Hotels</ToggleButton>
+                </ToggleButtonGroup>
+            </Row>
+        </Container>)
 }
 
 const FlightsSearchForm = ({onFlightsSearch}) =>{
@@ -151,7 +157,7 @@ const HotelsSearchForm = ({onHotelsSearch}) =>{
 const SearchResults = ({searchResults, searchType})=>{
     return (
         <>
-            <div>Search results will be here</div>
+            <div>Search results</div>
             {searchType === SEARCH_TYPE.FLIGHTS && <FlightsPage searchResults={searchResults}/> }
             {searchType === SEARCH_TYPE.HOTELS && <HotelsPage searchResults={searchResults} />}
         </>

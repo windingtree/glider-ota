@@ -1,0 +1,14 @@
+
+.page-title
+{
+  text-align: center;
+}
+
+/*toggle buttons on top of the main page to select search type (flights or hotels)*/
+.searchmode-selector{
+  justify-content: center;
+  flex-wrap: nowrap;
+  &__button{
+
+  }
+}

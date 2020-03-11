@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 
 import ReactDOM from 'react-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './index.css'
+// import 'bootstrap/dist/css/bootstrap.min.css'
+import './index.scss'
 import HotelsPage from "./pages/hotels"
 import FlightsPage from "./pages/flights"
 import HomePage from "./pages/home"
@@ -17,14 +17,14 @@ import HomePage from "./pages/home"
 function Dispatcher() {
     return (
         <Router>
-            <span> <Link to="/">Home</Link> <Link to="/flights">Flights</Link> <Link to="/flightoffer">Offer</Link> <Link to="/hotels">Hotels</Link></span>
+            {/*<span> <Link to="/">Home</Link> <Link to="/flights">Flights</Link> <Link to="/flightoffer">Offer</Link> <Link to="/hotels">Hotels</Link></span>*/}
                 <Switch>
-                    <Route path="/hotels">
+{/*                    <Route path="/hotels">
                         <HotelsPage/>
                     </Route>
                     <Route path="/flights">
                         <FlightsPage/>
-                    </Route>
+                    </Route>*/}
                     <Route path="/">
                         <HomePage />
                     </Route>

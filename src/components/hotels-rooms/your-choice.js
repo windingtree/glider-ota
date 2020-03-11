@@ -1,6 +1,6 @@
 import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
-import './your-choice.css'
+import './your-choice.scss'
 import _ from 'lodash'
 
 

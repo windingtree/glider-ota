@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Col, Container, Row} from "react-bootstrap";
 import {RoomImage} from "./hotel-image";
-import './room-offer.css'
+import './room-offer.scss'
 import _ from 'lodash'
 
 

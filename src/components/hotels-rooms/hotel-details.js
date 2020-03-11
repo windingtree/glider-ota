@@ -1,5 +1,5 @@
 import React from 'react'
-import './hotel-details.css'
+import './hotel-details.scss'
 import {Container, Row, Col} from 'react-bootstrap'
 import _ from 'lodash'
 import PassengersDetailsForm from "../flights-offer-details/passenger-details";
