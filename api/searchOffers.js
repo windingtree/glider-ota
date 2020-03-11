@@ -1,4 +1,4 @@
-const {searchOffers} = require('./_utils/flights');
+const {searchOffers} = require('./_utils/aggregator-api');
 
 module.exports = (req, response) => {
   searchOffers(req.body,response);

@@ -3,14 +3,14 @@ const {API_CONFIG, COMMON_RESPONSE_HEADERS} = require('../../config');
 
 const client = new Client();
 
-function createRequest(data) {
+function createRequest(payload) {
     const requestParameters = {
         headers: {
             'Authorization': 'Bearer ' + API_CONFIG.TOKEN,
             'accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        data: data,
+        data: payload,
         requestConfig: {
             timeout: API_CONFIG.REQUEST_TIMEOUT,
             noDelay: true,
@@ -24,7 +24,7 @@ function createRequest(data) {
     return requestParameters;
 }
 
-function post(url, data, callback) {
+function post(url, payload, callback) {
     let handleResponse = function (data, response) {
         console.debug('Response received, HTTP Status:', response.statusCode);
         if (response.statusCode !== 200) {
@@ -33,8 +33,8 @@ function post(url, data, callback) {
         callback(data)
     };
 
-    const requestParameters = createRequest(data);
-    console.debug("Search criteria:", data)
+    console.debug("Payload:", payload)
+    const requestParameters = createRequest(payload);
     const request = client.post(url, requestParameters, handleResponse);
     request.on('error', function (err) {
         console.error('something went wrong on the request', err.request.options)
@@ -54,15 +54,30 @@ function post(url, data, callback) {
     })
 }
 
+function postprocess(response){
+    for (let header of Object.keys(COMMON_RESPONSE_HEADERS)) {
+        response.setHeader(header, COMMON_RESPONSE_HEADERS[header]);
+    }
+}
+
+
+
 
 module.exports.searchOffers = function (request, response) {
+    console.info("call to /searchOffers")
     post(API_CONFIG.ENDPOINT + '/searchOffers', request, (data) => {
-        // console.log(JSON.stringify(data))
-        for (let header of Object.keys(COMMON_RESPONSE_HEADERS)) {
-            response.setHeader(header, COMMON_RESPONSE_HEADERS[header]);
-        }
+        postprocess(response)
         response.json(data);
     });
 };
+
+module.exports.createWithOffer = function (request, response) {
+    console.info("call to /createWithOffer")
+    post(API_CONFIG.ENDPOINT + '/createWithOffer', request, (data) => {
+        postprocess(response)
+        response.json(data);
+    });
+};
+
 
 

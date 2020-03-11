@@ -1,12 +1,6 @@
-const {createOffer} = require('./_utils/flights');
-const {responseHeaders} = require('../config');
-module.exports = (req, response) => {
+const {createWithOffer} = require('./_utils/aggregator-api');
 
-  searchOffers(req.body,(data)=>{
-    //add common headers
-    for (let header of Object.keys(responseHeaders)) {
-      response.setHeader(header, responseHeaders[header]);
-    }
-    response.json(data);
-  })
+module.exports = (req, response) => {
+  createWithOffer(req.body,response);
 };
+
