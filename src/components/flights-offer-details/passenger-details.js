@@ -126,12 +126,12 @@ export default class PassengersDetailsForm extends React.Component {
                                 <Col>
                                     <Form.Label>Email {this.state.email}</Form.Label>
                                     <Form.Control type="email" placeholder="email" name="email" value={this.state.email}
-                                                  onChange={this.handleInputChange}/>
+                                                  onChange={this.handleInputChange} onBlur={this.handleBlur}/>
                                 </Col>
                                 <Col>
                                     <Form.Label>Telephone</Form.Label>
                                     <Form.Control type="phone" placeholder="+7" name="phone" value={this.state.phone}
-                                                  onChange={this.handleInputChange}/>
+                                                  onChange={this.handleInputChange} onBlur={this.handleBlur}/>
                                 </Col>
                             </Form.Row>
                         </Col>

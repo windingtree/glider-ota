@@ -1,11 +1,28 @@
 const fetch = require('node-fetch');
 const _ = require('underscore');
-let response = require('./results.json');
+// let response = require('./results.json');
 let META = {orig: 'CDG', dest: 'PRG', 'departureTime': '2020-06-14T00:00:00Z'};
 const SEARCH_OFFERS_URL = 'http://localhost:3000/api/searchOffers';
 const CREATE_WITH_OFFER_URL = 'http://localhost:3000/api/createWithOffer';
+const CHECKOUT_URL = 'http://localhost:3000/api/checkoutUrl';
 
+function createHTTPRequest(payload){
+    let requestInfo = {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'cookie':'wt-ota-session-id=DUMMY-SESSIONID;'
+        },
 
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(payload)
+    };
+    return requestInfo;
+}
 function createSearchRequest(params) {
     let criteria = {
         "itinerary": {
@@ -30,48 +47,59 @@ function createSearchRequest(params) {
             }
         ]
     }
-
-    let requestInfo = {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(criteria)
-    };
-    return requestInfo;
+    return criteria;
 
 }
 
-async function fetchOffers(request) {
-    return await fetch(SEARCH_OFFERS_URL, request)
+async function searchOffers(criteria) {
+    let request = createHTTPRequest(criteria);
+    console.log("/serachOffers criteria:", JSON.stringify(criteria));
+    return fetch(SEARCH_OFFERS_URL, request)
         .then(function (res) {
             return res.json()
         })
         .then(function (data) {
-            console.debug('Search results arrived')
+            console.debug('Search results arrived:', JSON.stringify(data));
             return data;
         }).catch(function (err) {
-            console.error('Search failed', err)
+            console.error('Search failed', err);
         })
 }
 
-async function createOrder(request) {
-    return await fetch(CREATE_WITH_OFFER_URL, request)
+async function createWithOffer(criteria) {
+    let request = createHTTPRequest(criteria);
+    console.log("/createWithOffer criteria:", JSON.stringify(criteria))
+    return fetch(CREATE_WITH_OFFER_URL, request)
         .then(function (res) {
+            console.debug('Order arrived - convert to json')
             return res.json()
         })
         .then(function (data) {
-            console.debug('Order arrived')
+            console.debug('Order arrived:',JSON.stringify(data))
             return data;
         }).catch(function (err) {
-            console.error('Search failed', err)
+            console.error('Create order failed', err)
         })
 }
+
+
+async function checkout(criteria) {
+    let request = createHTTPRequest(criteria);
+    console.log("/checkout criteria:", JSON.stringify(criteria))
+    return fetch(CHECKOUT_URL, request)
+        .then(function (res) {
+            console.debug('Checkout response arrived - convert to json')
+            return res.json()
+        })
+        .then(function (data) {
+            console.debug('Checkout response arrived:',JSON.stringify(data))
+            return data;
+        }).catch(function (err) {
+            console.error('Checkout failed', err)
+        })
+}
+
+
 
 function takeFirstOffer(offers) {
     let result = undefined;
@@ -86,7 +114,7 @@ function takeFirstOffer(offers) {
 
 function createOrderRequest(offer) {
     return {
-        "offerId": offer,
+        "offerId": offer.offerId,
         "offerItems": offer.offerItems,
         "passengers": {
             "PAX1": {
@@ -108,19 +136,22 @@ function createOrderRequest(offer) {
     }
 }
 
-let request = createSearchRequest(META);
+function createCheckoutRequest(order){
+    return {
+        type:'card',
+        orderId:order.orderId
+    }
+}
 
-/*fetchOffers(request).then(data=>{
-    console.log("done with results")
-    console.log(JSON.stringify(data))
-});*/
+async function flow() {
+    let request = createSearchRequest(META);
+    let searchResults = await searchOffers(request);
+    let offer = takeFirstOffer(searchResults.offers);
+    let orderRequest = createOrderRequest(offer);
+    let orderResponse = await createWithOffer(orderRequest);
+    let checkoutRequest = createCheckoutRequest(orderResponse);
+    let checkoutResponse = await checkout(checkoutRequest);
+    console.log("Checkout response:", checkoutResponse)
+}
 
-let offer = takeFirstOffer(response.offers);
-let orderRequest = createOrderRequest(offer);
-createOrder(orderRequest).then(data => {
-    console.log("Order created:", JSON.stringify(data))
-}).catch(function (err) {
-    console.error('Order creation failed', err)
-})
-
-
+flow();

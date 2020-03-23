@@ -12,10 +12,13 @@ import './index.scss'
 import HotelsPage from "./pages/hotels"
 import FlightsPage from "./pages/flights"
 import HomePage from "./pages/home"
+import PaymentForm from "./pages/payment";
+import { CookiesProvider } from 'react-cookie';
 
 
 function Dispatcher() {
     return (
+        <CookiesProvider>
         <Router>
             {/*<span> <Link to="/">Home</Link> <Link to="/flights">Flights</Link> <Link to="/flightoffer">Offer</Link> <Link to="/hotels">Hotels</Link></span>*/}
                 <Switch>
@@ -25,11 +28,15 @@ function Dispatcher() {
                     <Route path="/flights">
                         <FlightsPage/>
                     </Route>*/}
+                    <Route path="/payments/:orderID">
+                        <PaymentForm/>
+                    </Route>
                     <Route path="/">
                         <HomePage />
                     </Route>
                 </Switch>
         </Router>
+        </CookiesProvider>
     );
 }
 

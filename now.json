@@ -6,5 +6,14 @@
           "maxDuration": 60,
           "includeFiles":"api/_data/*.json"
         }
-    }
+    },
+  "env": {
+    "MONGO_URL": "@staging.mongo.uri",
+    "MONGO_DNNAME": "@staging.mongo.dbname",
+    "REDIS_HOST": "@staging.redis.host",
+    "REDIS_PASSWORD": "@staging.redis.password",
+    "STRIPE_PUBLISHABLE_KEY":"@staging.stripe.publishable_key",
+    "STRIPE_SECRET_KEY":"@staging.stripe.secret_key",
+    "STRIPE_WEBHOOK_SECRET":"@staging.stripe.webhook_secret"
+  }
 }

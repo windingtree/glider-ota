@@ -1,0 +1,888 @@
+{
+  "offers": {
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0001": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "b8da9bbe-3066-4101-9a9b-be3066810157": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC18": {
+          "flights": [
+            "FL1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "109.10",
+        "commission": "0.78",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0002": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "e30ce1c5-fd94-4b85-8ce1-c5fd948b8543": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC14": {
+          "flights": [
+            "FL1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "141.10",
+        "commission": "1.10",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0003": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "d440040a-4349-44a1-8004-0a4349c4a1e5": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC16": {
+          "flights": [
+            "FL1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "219.10",
+        "commission": "1.88",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0004": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "a43cc0b1-14ce-40e3-bcc0-b114ce00e3dd": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC1": {
+          "flights": [
+            "FL1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "451.74",
+        "commission": "4.03",
+        "taxes": "48.74"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0005": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "c405f02b-f239-45f1-85f0-2bf239d5f1d5": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC7": {
+          "flights": [
+            "FL2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "123.10",
+        "commission": "0.92",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0006": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "c9d3e696-e0d0-4ddf-93e6-96e0d04ddf95": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC11": {
+          "flights": [
+            "FL2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "156.10",
+        "commission": "1.25",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0007": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "a1661102-163c-4fff-a611-02163c4fff7e": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC15": {
+          "flights": [
+            "FL2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "234.10",
+        "commission": "2.03",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0008": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "bdc3904e-9aea-4fef-8390-4e9aeaafef7c": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC1": {
+          "flights": [
+            "FL2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "451.74",
+        "commission": "4.03",
+        "taxes": "48.74"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0009": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "b1b1993e-8ac9-4057-b199-3e8ac9b0571a": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC12": {
+          "flights": [
+            "FL3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "151.72",
+        "commission": "1.12",
+        "taxes": "39.72"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e000a": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "d2cec626-53a4-438a-8ec6-2653a4038a2d": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC8": {
+          "flights": [
+            "FL3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "183.72",
+        "commission": "1.44",
+        "taxes": "39.72"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e000b": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "c1dd29aa-eb27-4477-9d29-aaeb2704775f": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC13": {
+          "flights": [
+            "FL3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "261.72",
+        "commission": "2.22",
+        "taxes": "39.72"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e000c": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "a8bd53e4-78ac-4a80-bd53-e478acea8046": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC5": {
+          "flights": [
+            "FL3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "902.36",
+        "commission": "8.45",
+        "taxes": "57.36"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e000d": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "a2dccc22-db03-474d-9ccc-22db03674d55": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC17": {
+          "flights": [
+            "FL4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "165.10",
+        "commission": "1.34",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e000e": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "c28e7ed3-6518-400e-8e7e-d36518200e45": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC2": {
+          "flights": [
+            "FL4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "198.10",
+        "commission": "1.67",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e000f": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "ae1efee2-d464-4ccf-9efe-e2d464accf3b": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC6": {
+          "flights": [
+            "FL4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "276.10",
+        "commission": "2.45",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0010": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "ec393c5a-0d0e-4f79-b93c-5a0d0e1f7962": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC1": {
+          "flights": [
+            "FL4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "451.74",
+        "commission": "4.03",
+        "taxes": "48.74"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0011": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "ce5188f2-7823-4238-9188-f27823c23806": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC17": {
+          "flights": [
+            "FL5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "165.10",
+        "commission": "1.34",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0012": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "e5d38f21-e628-4ccd-938f-21e628dccd73": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC2": {
+          "flights": [
+            "FL5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "198.10",
+        "commission": "1.67",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0013": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "b1fce4ce-bde6-415e-bce4-cebde6f15e26": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC3": {
+          "flights": [
+            "FL5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "276.10",
+        "commission": "2.45",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0014": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "d1d214c2-4ff7-49b4-9214-c24ff729b49b": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC1": {
+          "flights": [
+            "FL5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "451.74",
+        "commission": "4.03",
+        "taxes": "48.74"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0015": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "e3222e64-ef18-47ab-a22e-64ef1837abba": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC9": {
+          "flights": [
+            "FL6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "177.10",
+        "commission": "1.46",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0016": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "b596d89a-7608-4eb1-96d8-9a7608aeb1a3": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC10": {
+          "flights": [
+            "FL6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "209.10",
+        "commission": "1.78",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0017": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "b6a6a6d2-2d7e-40ea-a6a6-d22d7ed0ea91": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC19": {
+          "flights": [
+            "FL6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "287.10",
+        "commission": "2.56",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0018": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "c5f14ee3-8b70-4042-b14e-e38b70c0426b": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC1": {
+          "flights": [
+            "FL6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "451.74",
+        "commission": "4.03",
+        "taxes": "48.74"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e0019": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "b8049fc8-4422-45a6-849f-c8442245a65e": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC9": {
+          "flights": [
+            "FL7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "177.10",
+        "commission": "1.46",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e001a": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "a3ee358d-72f8-4bef-ae35-8d72f8bbef1b": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC10": {
+          "flights": [
+            "FL7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "209.10",
+        "commission": "1.78",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e001b": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "b49688dc-931a-4447-9688-dc931a844718": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC4": {
+          "flights": [
+            "FL7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "287.10",
+        "commission": "2.56",
+        "taxes": "31.10"
+      }
+    },
+    "ac31e22d-b3b5-4e18-b1e2-2db3b51e001c": {
+      "expiration": "2020-03-21T06:08:56.358",
+      "offerItems": {
+        "ba2c8b38-be1c-46ea-ac8b-38be1c96ea0d": {
+          "passengerReferences": "PAX1"
+        }
+      },
+      "pricePlansReferences": {
+        "PC1": {
+          "flights": [
+            "FL7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": "451.74",
+        "commission": "4.03",
+        "taxes": "48.74"
+      }
+    }
+  },
+  "itineraries": {
+    "combinations": {
+      "FL1": [
+        "SEG1"
+      ],
+      "FL2": [
+        "SEG2"
+      ],
+      "FL3": [
+        "SEG3",
+        "SEG4"
+      ],
+      "FL4": [
+        "SEG5"
+      ],
+      "FL5": [
+        "SEG6"
+      ],
+      "FL6": [
+        "SEG7"
+      ],
+      "FL7": [
+        "SEG8"
+      ]
+    },
+    "segments": {
+      "SEG1": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AF"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "CDG"
+        },
+        "departureTime": "2020-04-14T05:05:00.000Z",
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "PRG"
+        },
+        "arrivalTime": "2020-04-14T06:45:00.000Z"
+      },
+      "SEG2": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "OK"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "CDG"
+        },
+        "departureTime": "2020-04-14T18:10:00.000Z",
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "PRG"
+        },
+        "arrivalTime": "2020-04-14T19:55:00.000Z"
+      },
+      "SEG3": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AF"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "CDG"
+        },
+        "departureTime": "2020-04-14T06:15:00.000Z",
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "LYS"
+        },
+        "arrivalTime": "2020-04-14T07:20:00.000Z"
+      },
+      "SEG4": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "A5"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "LYS"
+        },
+        "departureTime": "2020-04-14T08:35:00.000Z",
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "PRG"
+        },
+        "arrivalTime": "2020-04-14T10:20:00.000Z"
+      },
+      "SEG5": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AF"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "CDG"
+        },
+        "departureTime": "2020-04-14T16:05:00.000Z",
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "PRG"
+        },
+        "arrivalTime": "2020-04-14T17:45:00.000Z"
+      },
+      "SEG6": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "OK"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "CDG"
+        },
+        "departureTime": "2020-04-14T07:45:00.000Z",
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "PRG"
+        },
+        "arrivalTime": "2020-04-14T09:30:00.000Z"
+      },
+      "SEG7": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AF"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "CDG"
+        },
+        "departureTime": "2020-04-14T10:50:00.000Z",
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "PRG"
+        },
+        "arrivalTime": "2020-04-14T12:30:00.000Z"
+      },
+      "SEG8": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "OK"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "CDG"
+        },
+        "departureTime": "2020-04-14T13:00:00.000Z",
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "PRG"
+        },
+        "arrivalTime": "2020-04-14T14:45:00.000Z"
+      }
+    }
+  },
+  "pricePlans": {
+    "PC1": {
+      "name": "BUSINESS FLEX",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "2"
+      }
+    },
+    "PC2": {
+      "name": "Standard",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC3": {
+      "name": "Flex",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC4": {
+      "name": "Flex",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC5": {
+      "name": "BUSINESS FLEX",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "2"
+      }
+    },
+    "PC6": {
+      "name": "Flex",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC7": {
+      "name": "Light",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "0"
+      }
+    },
+    "PC8": {
+      "name": "Standard",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC9": {
+      "name": "Light",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "0"
+      }
+    },
+    "PC10": {
+      "name": "Standard",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC11": {
+      "name": "Standard",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC12": {
+      "name": "Light",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "0"
+      }
+    },
+    "PC13": {
+      "name": "Flex",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC14": {
+      "name": "Standard",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC15": {
+      "name": "Flex",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC16": {
+      "name": "Flex",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    },
+    "PC17": {
+      "name": "Light",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "0"
+      }
+    },
+    "PC18": {
+      "name": "Light",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "0"
+      }
+    },
+    "PC19": {
+      "name": "Flex",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": "1"
+      }
+    }
+  },
+  "passengers": {
+    "PAX1": {
+      "type": "ADT"
+    }
+  }
+}
