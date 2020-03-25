@@ -58,7 +58,7 @@ function connect(){
  * @param doc - document to be inserted
  * @returns {Promise<Promise>}
  */
-function insert(collection, doc){
+async function insert(collection, doc){
     return getConn().then(db=>{
         logger.debug("InsertOne to collection:%s",collection)
         return db.collection(collection).insertOne(doc);
@@ -97,7 +97,7 @@ function updateOne(collection, criteria, doc){
  * @returns {Promise<*>}
  */
 
-function storeOrder(orderId,order){
+async function storeOrder(orderId,order){
     let object={
         orderId:orderId,
         order:order,
@@ -183,7 +183,8 @@ function updatePaymentStatus(orderId, payment_status, comment, transactionDetail
 
 
 module.exports = {
-    saveOrderInDatabase: storeOrder,findOrder,updateOrderStatus,updatePaymentStatus,ORDER_STATUSES,PAYMENT_STATUSES
+    storeOrder,findOrder,updateOrderStatus,updatePaymentStatus,ORDER_STATUSES,PAYMENT_STATUSES,
+    insert,findOne
 }
 
 

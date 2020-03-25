@@ -2,7 +2,7 @@ const {createPaymentIntent, convertPriceToMinorUnits,convertPriceToMajorUnits,PA
 const {createLogger} = require('./_lib/logger')
 const {SessionStorage} = require('./_lib/session-storage');
 const {decorate} = require('./_lib/decorators');
-const {saveOrderInDatabase} = require('./_lib/mongo-dao');
+const {storeOrder} = require('./_lib/mongo-dao');
 const logger = createLogger('/checkoutUrl')
 
 
@@ -47,8 +47,9 @@ const checkoutUrlController = async (req, res) => {
         return;
     }
 
-    saveOrderInDatabase(orderId,order);
-
+    logger.debug("Storing order %s in a database",orderId)
+    await storeOrder(orderId,order);
+    logger.debug("Order saved")
     let price = order.order.price;
     let priceInBaseUnits = convertPriceToMinorUnits(price.public, price.currency);
     logger.debug("Will create payment intent, sessionID:%s, orderID:%s, amount %s %s",sessionID,orderId,price.currency, price.public)

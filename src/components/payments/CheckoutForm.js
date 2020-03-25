@@ -30,7 +30,7 @@ export default function CheckoutForm({orderID}) {
       })
       .then(data => {
         setClientSecret(data.client_secret);
-        setAmount(data.amount / 100);
+        setAmount(data.amount);
         setCurrency(data.currency);
       })
       .catch(err => {

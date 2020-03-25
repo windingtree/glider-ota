@@ -8,12 +8,13 @@
         }
     },
   "env": {
-    "MONGO_URL": "@staging.mongo.uri",
-    "MONGO_DNNAME": "@staging.mongo.dbname",
-    "REDIS_HOST": "@staging.redis.host",
-    "REDIS_PASSWORD": "@staging.redis.password",
-    "STRIPE_PUBLISHABLE_KEY":"@staging.stripe.publishable_key",
-    "STRIPE_SECRET_KEY":"@staging.stripe.secret_key",
-    "STRIPE_WEBHOOK_SECRET":"@staging.stripe.webhook_secret"
+    "MONGO_URL": "@staging.glider-ota.mongo.uri",
+    "MONGO_DNNAME": "@staging.glider-ota.mongo.dbname",
+    "REDIS_HOST": "@staging.glider-ota.redis.host",
+    "REDIS_PASSWORD": "@staging.glider-ota.redis.password",
+    "STRIPE_PUBLISHABLE_KEY":"@staging.glider-ota.stripe.publishable_key",
+    "STRIPE_SECRET_KEY":"@staging.glider-ota.stripe.secret_key",
+    "STRIPE_WEBHOOK_SECRET":"@staging.glider-ota.stripe.webhook_secret",
+    "ELASTIC_URL":"@staging.glider-ota.elastic.url"
   }
 }

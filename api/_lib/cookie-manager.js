@@ -1,5 +1,5 @@
 const cookie = require('cookie');
-import {v4 as uuidv4} from 'uuid';
+const {v4} = require('uuid');
 const {createLogger} = require('./logger');
 const logger = createLogger('session-storage');
 
@@ -53,7 +53,7 @@ function getSessionID(req) {
 
 
 function generateSessionId() {
-    return uuidv4();
+    return v4();
 }
 
 module.exports = {

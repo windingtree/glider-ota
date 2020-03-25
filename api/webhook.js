@@ -48,9 +48,13 @@ const webhookController = async (request,response)=>{
     }
 }
 
-
+/**
+ * Extract orderID from stripe event (orderID is passed as metadata)
+ * @param event Stripe event
+ * @returns {string}
+ */
 function getOrderId(event){
-    return event.data.metadata.orderId;
+    return event.data.object.metadata.orderId;
 }
 
 /**

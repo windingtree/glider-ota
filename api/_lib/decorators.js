@@ -1,5 +1,9 @@
 const {ensureSessionIdCookie} = require('./cookie-manager');
 const {createLogger} = require('./logger');
+const {v4} = require('uuid');
+
+const createNamespace = require('continuation-local-storage').createNamespace;
+const session = createNamespace('ota');
 
 
 // log REST calls to a separate logger
@@ -12,13 +16,8 @@ const restlogger = createLogger('rest-logger');
  */
 function restLoggerDecorator(fn) {
     const requestLogger = (req) => {
-        try{
-            restlogger.debug("RQ body %s", JSON.stringify(req.body))
-            restlogger.debug("RQ headers %s", JSON.stringify(req.headers))
-        }catch(err){
-            restlogger.debug("Cannot stringify request: %s",err)
-        }
-        // console.log(req.body)
+        restlogger.debug("RQ body %s", JSON.stringify(req.body))
+        restlogger.debug("RQ headers %s", JSON.stringify(req.headers))
     }
 
     const responseLogger = (res) => {
@@ -54,12 +53,23 @@ function exceptionInterceptorDecorator(fn) {
         try {
             await fn(req, res);
         } catch (err) {
-            restlogger.error("Exception occurred while processing request %s, error:%s", req.url, err.message)
+            restlogger.error("Exception occurred while processing request %s, error:%s", req.url, err.message, err)
             res.status(500).send(`Failure: ${err.message}`);
         }
     }
 }
 
+
+
+
+function clsDecorator(fn) {
+    return async function (req, res) {
+        session.run(() => {
+            session.set('correlationID', v4());
+            fn(req, res);
+        })
+    };
+};
 
 
 /**
@@ -69,9 +79,10 @@ function exceptionInterceptorDecorator(fn) {
  * @returns {Function}
  */
 function decorate(fn){
-    let wrapper = sessionDecorator(fn);
-    wrapper = restLoggerDecorator(wrapper);
-    wrapper = exceptionInterceptorDecorator(wrapper);
+    let wrapper = clsDecorator(fn);             //decorate with correlationID
+    wrapper = sessionDecorator(wrapper);        //add sessionID cookie
+    wrapper = restLoggerDecorator(wrapper);     //log request/response
+    wrapper = exceptionInterceptorDecorator(wrapper);   //capture any uncaught exceptions and log it
     return wrapper;
 }
 module.exports={
