@@ -28,3 +28,4 @@ package-lock.json
 .now
 /.env
 /.secrets
+/.idea/
