@@ -1,5 +1,13 @@
-const {searchOffers} = require('./_utils/aggregator-api');
+const {searchOffers} = require('./_lib/glider-api');
+const {createLogger} = require('./_lib/logger')
+const {decorate} = require('./_lib/decorators');
+// const logger = createLogger('/searchOffers')
 
-module.exports = (req, response) => {
-  searchOffers(req.body,response);
-};
+const searchOffersController = async (req, res) => {
+  let order = await searchOffers(req.body);
+  res.json(order);
+}
+
+
+module.exports = decorate(searchOffersController);
+
