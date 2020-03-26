@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 .now
-package-lock.json
+#package-lock.json
 
 .now
 /.env
