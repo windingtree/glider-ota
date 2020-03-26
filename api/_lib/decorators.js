@@ -1,7 +1,6 @@
 const {ensureSessionIdCookie} = require('./cookie-manager');
 const {createLogger} = require('./logger');
 const {v4} = require('uuid');
-
 const createNamespace = require('continuation-local-storage').createNamespace;
 const session = createNamespace('ota');
 

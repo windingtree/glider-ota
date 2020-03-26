@@ -1,21 +1,58 @@
-const API_CONFIG =
+const GLIDER_BASEURL = "https://staging.aggregator.windingtree.net/api/v1"
+
+
+const GLIDER_CONFIG =
     {
-        //TODO - externalize token
-        TOKEN: "eyJhbGciOiJFVEgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiIweEE4MjgxNzcyOTBiREFmNzhFZTcxQzA2ZTgwRTg1NzhDRkQ3MzgyQUYiLCJhdWQiOiJkaWQ6b3JnaWQ6MHg3RDRkNmQwNjU4N2RFNDhGMzM5RTIwOTY4N2ZBNTNDYzZjMTY5MzE5IiwiZXhwIjoxNTkwMTI3NTkyLCJzY29wZSI6InJlYWQ6b3JkZXJzIHJlYWQ6b2ZmZXJzIHdyaXRlOm9mZmVycyB3cml0ZTpvcmRlcnMifQ.R9og101JGJwMNpDap3-6Or4pwxjEG4Q1fGuVfWRr_VATYKq4-l5p7gDRYlrndbY4R0aSvwlh9XKVU4rV5wfXtxw",
-        ENDPOINT: "https://staging.aggregator.windingtree.net/api/v1",
-        REQUEST_TIMEOUT: 20000,
-        RESPONSE_TIMEOUT: 20000
+        GLIDER_TOKEN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJpc3MiOiJkaWQ6b3JnaWQ6MHgwOGZmZmMxNGRmOTNhMzA1ZjFiYmMyZWUyNjE3MTg4NWZlZTgwMTgxNDQ1ZDg5MjNhYjg0ODkyOTUzYzA5M2YyI3dlYnNlcnZlciIsImF1ZCI6ImRpZDpvcmdpZDoweDcxY2QxNzgxYTMwODJmMzNkMjUyMWFjODI5MGM5ZDRiM2IzYjExNmU0ZTg1NDhhNDkxNGI3MWExZjcyMDFkYTAiLCJpYXQiOjE1ODQ0MTc5MzcsImV4cCI6MTU5MjE5MzkzN30.D0vRZ4vFs4xXJXfTzE040lQeuLtPER2fgtaVsf1To69cRia1FdX5ZoBv8d6Nz31mkboJfq-akIcQDNcKau45gw",
+        SEARCH_OFFERS_URL: GLIDER_BASEURL + "/searchOffers",
+        CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
+        FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
+        ORGID:"0x71cd1781a3082f33d2521ac8290c9d4b3b3b116e4e8548a4914b71a1f7201da0"
     };
 
-const COMMON_RESPONSE_HEADERS =
+const ORGID = {
+    OTA_ORGID:"0x08fffc14df93a305f1bbc2ee26171885fee80181445d8923ab84892953c093f2"
+}
+
+const SIMARD_BASEURL = "https://staging.api.simard.io/api/v1"
+
+const SIMARD_CONFIG =
     {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, GET',
-        'Access-Control-Max-Age': '3600',
-        'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With'
+        SIMARD_TOKEN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJpc3MiOiJkaWQ6b3JnaWQ6MHgwOGZmZmMxNGRmOTNhMzA1ZjFiYmMyZWUyNjE3MTg4NWZlZTgwMTgxNDQ1ZDg5MjNhYjg0ODkyOTUzYzA5M2YyI3dlYnNlcnZlciIsImF1ZCI6ImRpZDpvcmdpZDoweDVlNjk5NGY3Njc2NGNlYjQyYzQ3NmEyNTA1MDY1YTYxNzAxNzhhMjRjMDNkODFjOWYzNzI1NjM4MzAwMDExNzEiLCJpYXQiOjE1ODQ0MTc5MzcsImV4cCI6MTU5MjE5MzkzN30.mJutBPjYnEvUYtaKHny9Pw4f1oL-xYgMLH0rMNlrUySq4Z-V6zvNEmBx-bXRa77nNj0cePz9l5E9q3uIwT9Y7g",
+        GUARANTEES_URL: SIMARD_BASEURL + "/balances/guarantees",
+        CREATE_WITH_OFFER_URL: SIMARD_BASEURL + "/orders/createWithOffer",
+        ORGID:"0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171",
+        DEPOSIT_EXPIRY_DAYS:14
     };
 
+
+const REDIS_CONFIG =
+    {
+        REDIS_PORT: 14563,
+        REDIS_HOST: process.env.REDIS_HOST,
+        REDIS_PASSWORD: process.env.REDIS_PASSWORD,
+        SESSION_TTL_IN_SECS: 60 * 60
+    };
+
+const MONGO_CONFIG =
+    {
+        DBNAME: process.env.MONGO_DNNAME,
+        URL: process.env.MONGO_URL
+    };
+
+const STRIPE_CONFIG =
+    {
+        PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+        SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+        WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    };
+const ELASTIC_CONFIG =
+    {
+        URL: process.env.ELASTIC_URL
+    };
 
 module.exports = {
-    API_CONFIG, COMMON_RESPONSE_HEADERS
+    GLIDER_CONFIG, SIMARD_CONFIG,
+    REDIS_CONFIG, MONGO_CONFIG,
+    STRIPE_CONFIG, ELASTIC_CONFIG
 };

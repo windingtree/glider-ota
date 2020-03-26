@@ -4,7 +4,6 @@ const {decorate} = require('./_lib/decorators');
 const {SessionStorage} = require('./_lib/session-storage');
 const logger = createLogger('/createWithOffer')
 
-
 /**
  * /createWithOffer controller
  * This basically forwards a call to Glider

@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
 const _ = require('underscore');
-// let response = require('./results.json');
 let META = {orig: 'CDG', dest: 'PRG', 'departureTime': '2020-06-14T00:00:00Z'};
 const SEARCH_OFFERS_URL = 'http://localhost:3000/api/searchOffers';
 const CREATE_WITH_OFFER_URL = 'http://localhost:3000/api/createWithOffer';

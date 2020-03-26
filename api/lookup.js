@@ -1,6 +1,5 @@
 const fs = require("fs");
 const MAX_LOOKUP_RESULTS=30;
-
 let records = {
     cities: undefined,
     airports: undefined

@@ -3,7 +3,6 @@ const {MONGO_CONFIG} = require('../../config');
 const {createLogger} = require('./logger');
 const logger = createLogger('dao');
 
-
 const ORDER_STATUSES={
     NEW:'NEW',
     FULFILLED:'FULFILLED',

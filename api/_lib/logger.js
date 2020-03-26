@@ -8,6 +8,7 @@ const client = new Client({
     index: 'ota-default'
 });
 
+
 function createLogger(loggerName) {
     const logger = winston.createLogger({
         level: 'debug',

@@ -2,7 +2,6 @@ const cookie = require('cookie');
 const {v4} = require('uuid');
 const {createLogger} = require('./logger');
 const logger = createLogger('session-storage');
-
 const SESSION_ID_COOKIE = "wt-ota-session-id";
 
 /**

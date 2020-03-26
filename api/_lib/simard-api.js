@@ -4,7 +4,6 @@ const axios = require('axios').default;
 const {SIMARD_CONFIG,GLIDER_CONFIG} = require('../../config');
 const logger = createLogger('simard-api');
 
-
 /**
  * Creates guarantee in Simar for a given amount of money.
  * Guarantee is needed to fulfill an order
