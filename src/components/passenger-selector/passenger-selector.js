@@ -47,8 +47,8 @@ export default class PassengerSelector extends React.Component {
     const total = this.total();
     return (
       <>
-        <Dropdown>
-          <Dropdown.Toggle variant='outline-dark' className='passenger-selector--dropdown' id='dropdown-basic'>
+        <Dropdown bsPrefix='passenger-selector'>
+          <Dropdown.Toggle className='passenger-selector--dropdown' id='dropdown-basic' as="button">
             {total} passenger{total > 1 ? 's' : ''}
           </Dropdown.Toggle>
           <Dropdown.Menu>

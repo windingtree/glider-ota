@@ -1,0 +1,13 @@
+@import '../../styles/utils';
+
+
+.offer-detail--header{
+    @include glider-font-h1;
+    padding-bottom: 20px;
+}
+
+
+.offer-detail--subheader{
+    @include glider-font-medium;
+    padding-bottom: 30px;
+}

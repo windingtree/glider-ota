@@ -1,3 +1,6 @@
+@import '../../styles/utils';
+
+
 .search-results-container{
     justify-content: center;
     display: flex;
@@ -5,87 +8,76 @@
 }
 
 
-.offer-container{
-    /*border:1px solid blue;*/
+.offer-highlight--container{
     background: #FFFFFF;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+    padding: 30px 20px;
+
+    width: 350px;
+    @include glider-media-small {
+        width: 576px;
+    }
+    @include glider-media-medium {
+        width: 700px;
+    }
+    @include glider-media-large {
+        width: 950px;
+    }
+    @include glider-media-xlarge {
+        width: 950px;
+    }
 }
 
-.offer-container:hover {
+.offer-highlight--container:hover {
     background-color: aliceblue;
 }
 
 
-.offer-row{
+.offer-highlight--itinerary-row{
     min-height: 80px;
 }
 
-.offer-row-metainfo{
 
-}
-.offer-row-itinerary{
-
-}
-
-.offer-col{
-    /*width: 120px;*/
+.offer-highlight--column{
+    width: 295px;
+    padding-left: 20px;
 }
 
-.offer-col-price{
-}
-
-.offer-col-ancillaries{
-}
-
-.offer-col-operator{
+.offer-highlight--column-small{
+    width: 295px;
+    //line-height: 120%;
 }
 
 
-.offer-col-airports{
-}
-
-.offer-col-duration{
-}
-.offer-col-stopover{
-}
-
-
-
-.offer-details--title{
-    /*font-family: "Open Sans";*/
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 18px;
-    /* identical to box height, or 150% */
+.offer-highlight--title{
+    @include glider-font-h3;
     display: flex;
     align-items: center;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 
-    color: #A0B0B9;
+    color: $glider-color-background;
 }
 
-.offer-details--content{
-    /* Open Sans Mobile/h5. Semibold, 14 */
 
-    /*font-family: Open Sans;*/
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 21px;
-    /* identical to box height, or 150% */
 
+.offer-highlight--content-big{
+    @include glider-font-h2;
     display: flex;
     align-items: center;
-
-    /* Frequently Used/Primary Content */
-
-    color: #4A4A4A;
+    color: $glider-color-text;
 }
 
-.offer-details-price{
+.offer-highlight--content-small{
+    @include glider-font-h3;
+    display: flex;
+    align-items: center;
+    color: $glider-color-text;
+
+}
+
+.offer-highlight-price{
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -99,4 +91,12 @@
     background: #000000;
     border:1px solid #000000;
 
+}
+
+.offer-highlight--logos-and-ancillaries{
+    margin-top: 20px;
+}
+
+.offer-highlight--logos-and-ancillaries img{
+    width:40px;
 }

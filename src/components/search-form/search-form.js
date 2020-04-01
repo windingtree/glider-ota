@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Container, Row} from 'react-bootstrap'
+import {Button, Container, Row, Col} from 'react-bootstrap'
 import LocationLookup from '../location-lookup/location-lookup'
 import TravelDatepickup from '../travel-datepickup/travel-datepickup'
 import './search-form.scss'
@@ -91,13 +91,13 @@ export default class SearchForm extends React.Component {
     const {enableOrigin,locationsSource, oneWayAllowed} = this.props;
     const isValid=this.isValid(enableOrigin, oneWayAllowed);
     return (
-      <Container>
-        <Row className='flightsearch-row'>
+      <Container fluid={true} >
+        <Row className='d-flex justify-content-center'>
           {enableOrigin && (<LocationLookup onLocationSelected={this.handleOriginChanged} locationsSource={locationsSource}/>)}
           <LocationLookup  onLocationSelected={this.handleDestinationChanged} locationsSource={locationsSource}/>
           <TravelDatepickup onStartDateChanged={this.handleStartDateChanged} onEndDateChanged={this.handleEndDateChanged} />
           <PassengerSelector onPaxSelectionChanged={this.handlePaxSelectionChanged}/>
-          <Button  className='flightsearch-searchbutton' variant="dark" disabled={!isValid} onClick={this.handleSearchBtn}>Search</Button>
+          <Button className='flightsearch-searchbutton' variant="primary" size="lg" disabled={isValid} onClick={this.handleSearchBtn}>Search</Button>
         </Row>
       </Container>
     )

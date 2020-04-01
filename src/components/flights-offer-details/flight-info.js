@@ -3,6 +3,8 @@ import {Col, Container, Image, Row} from "react-bootstrap";
 import {format} from "date-fns";
 import logo from "../../assets/airline_logo.png";
 import React from "react";
+import "./flight-info.scss";
+import airportToCityMap from "../../data/airport-city-map";
 
 
 export default function YourFlightInfo({combination}){
@@ -18,7 +20,7 @@ export default function YourFlightInfo({combination}){
         <Container >
             <Row>
                 <Col>
-                    <h1>YOUR FLIGHT</h1>
+                    <div className='offer-detail--header'>YOUR FLIGHT</div>
                     <ItineraryHeader combination={combination}/>
                     <ItineraryDetails itinerary={outboundItinerary}/>
                     {returnItinerary!==undefined &&
@@ -78,7 +80,7 @@ function ItineraryHeader({combination}){
 
 
     return (
-        <span >{depCityName}-{arrivCityName} | {departureDateStr} {returnDateStr}</span>
+        <span className='offer-detail--subheader'>{airportToCity(depCityName)}-{airportToCity(arrivCityName)} | {departureDateStr} {returnDateStr}</span>
     )
 
 }
@@ -103,4 +105,9 @@ function PricePlan({pricePlan}) {
             </Row>
         </Container>
     )
+}
+
+
+function airportToCity(iata){
+    return airportToCityMap[iata];
 }

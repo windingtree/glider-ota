@@ -48,6 +48,28 @@ export default class OfferUtils {
     return itinerary.segments;
   }
 
+  /**
+   * Returns a list of operating carriers for a given itinerary.
+   * If there are multiple operators, only unique operators will be returned (same carrier will not be repeated)
+   *
+   * @param list of records, example record:
+   * {
+   *     operatorType:"airline"
+   *     iataCode:"AF"
+   * }
+   */
+  static getItineraryOperatingCarriers(itinerary){
+    let segments = OfferUtils.getItinerarySegments(itinerary);
+    let operators = {};
+    if(segments){
+      for(let i=0;i<segments.length;i++){
+        let operator = segments[i].operator;
+        operators[operator.iataCode]=operator;
+      }
+    }
+    return operators;
+  }
+
   static getCheapestOffer(combination){
     let offers=combination.offers;
     offers.sort((a,b)=>{

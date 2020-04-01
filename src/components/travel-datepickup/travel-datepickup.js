@@ -40,13 +40,13 @@ export default class TravelDatepickup extends React.Component {
         {({ startDateInputProps, endDateInputProps, focus }) => (
           <div className='date-range'>
             <input
-              className={'input' + (focus === START_DATE ? ' -focused' : '')}
+              className={'date-range__input' + (focus === START_DATE ? ' -focused' : '')}
               {...startDateInputProps}
               placeholder='Departure'
             />
             <span className='date-range_arrow' />
             <input
-              className={'input' + (focus === END_DATE ? ' -focused' : '')}
+              className={'date-range__input' + (focus === END_DATE ? ' -focused' : '')}
               {...endDateInputProps}
               placeholder='Return'
             />

@@ -1,0 +1,27 @@
+$glider-color-primary: #7161D6;
+$glider-color-background: #C6C6C1;
+$glider-color-body-background: #F3F4F6;
+$glider-color-hover: #F1FCFF;
+$glider-color-text: #202020;
+$glider-font-family-base:'apercuregular';
+
+
+
+//BREAKPOINTS
+
+// Small devices (landscape phones, 576px and up)
+$glider-break-sm: 576px;
+// Medium devices (tablets, 768px and up)
+$glider-break-md: 768px;
+// Large devices (desktops, 992px and up)
+$glider-break-lg: 992px;
+// Extra large devices (large desktops, 1600px and up)
+$glider-break-xl: 1600px;
+
+
+
+//override bootstrap variables
+$primary:      $glider-color-primary ;
+$font-family-base: $glider-font-family-base;
+$font-size-base :1rem;
+$font-size-lg: $font-size-base * 1.5;

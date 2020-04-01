@@ -1,24 +1,22 @@
-.row.flightsearch-row {
-    flex-wrap: nowrap;
-    justify-content: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
-}
+@import '../../styles/utils';
 
 .flightsearch-searchbutton{
-    font-family: 'Roboto', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 17px;
-    line-height: 24px;
-    /* identical to box height, or 141% */
-    text-align: center;
-    color: #FFFFFF;
-    background: #000000;
-    border: 1px solid #000000;
-    box-sizing: border-box;
-    width: 175px;
-    height: 48px;
+    height: 64px;
+
+    width: 140px;
+    @include glider-media-small {
+        width: 280px;
+    }
+    @include glider-media-medium {
+        width: 310px;
+    }
+    @include glider-media-large {
+        width: 310px;
+    }
+    @include glider-media-xlarge {
+        width: 280px;
+    }
+
 }
 
 .flightsearch-searchbutton:disabled{

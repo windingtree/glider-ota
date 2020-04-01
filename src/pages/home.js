@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Header from '../components/common/header/header';
 import Footer from '../components/common/footer/footer';
 import ContentWrapper from '../components/common/content-wrapper';
-import {Container,Row,Col,ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
+import {Container,Row,Col,ToggleButton, ToggleButtonGroup,Button} from 'react-bootstrap';
 import {LOCATION_SOURCE} from '../components/location-lookup/location-lookup';
 import SearchForm from '../components/search-form/search-form';
 import SearchCriteriaBuilder from '../utils/search-criteria-builder';
@@ -11,6 +11,16 @@ import FlightsPage from './flights';
 import HotelsPage from './hotels';
 import {config} from '../config/default';
 import css from './home.scss'
+import logo from "../assets/glider-logo.png";
+
+//OFFLINE MODE
+import offline_flight_results from "../data/sample_response_flights"
+import offline_hotels_results from "../data/sample_response_hotels"
+const OFFLINE_MODE=true;
+
+
+
+
 
 const SEARCH_TYPE={
     FLIGHTS:'FLIGHTS',
@@ -24,7 +34,7 @@ const SEARCH_STATE={
 }
 
 export default function HomePage() {
-    const [searchType, setSearchType] = useState([SEARCH_TYPE.FLIGHTS]);
+    const [searchType, setSearchType] = useState(SEARCH_TYPE.FLIGHTS);
     const [searchCriteria, setSearchCriteria] = useState();
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
@@ -37,17 +47,30 @@ export default function HomePage() {
     return (
         <>
             <Header/>
-            <ContentWrapper>
-                <h1 className="page-title">Book Travel with Winding Tree</h1>
+            <Container fluid={true} className='flightsearch-container'>
+                <Row>
+                <OtaTest text="one"/>
+                <OtaTest text="two"/>
+                <OtaTest text="three"/>
+                </Row>
+            </Container>
+            {/*<ContentWrapper>*/}
                 <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
                 {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
                 {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
                 {searchState === SEARCH_STATE.IN_PROGRESS && <SearchInProgress />}
                 {searchState === SEARCH_STATE.FAILED && <SearchFailed />}
                 {searchState === SEARCH_STATE.FINISHED && <SearchResults searchResults={searchResults} searchType={searchType}/>}
-            </ContentWrapper>
-            <Footer/>
+            {/*</ContentWrapper>*/}
+            {/*<Footer/>*/}
         </>    )
+}
+
+
+const OtaTest = ({text="default"}) => {
+    return (
+        <div className='ota-test'>{text}</div>
+    )
 }
 
 function buildFlightsSearchCriteria(origin,destination,departureDate,returnDate, adults,children,infants) {
@@ -76,6 +99,15 @@ function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, ad
 }
 
 const search = (criteria, mode, onSearchSuccessCallback,onSearchFailureCallback) => {
+    if(OFFLINE_MODE){
+        if (mode === SEARCH_TYPE.FLIGHTS){
+            onSearchSuccessCallback(offline_flight_results);
+        }
+        else if (mode === SEARCH_TYPE.HOTELS){
+            onSearchSuccessCallback(offline_hotels_results);
+        }
+    }else {
+
     let searchRequest;
     if (mode === SEARCH_TYPE.FLIGHTS)
         searchRequest = buildFlightsSearchCriteria(criteria.origin.iata, criteria.destination.iata, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
@@ -97,34 +129,35 @@ const search = (criteria, mode, onSearchSuccessCallback,onSearchFailureCallback)
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(searchRequest)
     };
-    fetch(config.SEARCH_OFFERS_URL, requestInfo)
-        .then(function (res) {
-            return res.json()
-        })
-        .then(function (data) {
-            console.debug('Search results arrived')
-            let searchResultsTransformed=extendResponse(data);
-            onSearchSuccessCallback(searchResultsTransformed);
-        }).catch(function (err) {
+
+
+        fetch(config.SEARCH_OFFERS_URL, requestInfo)
+            .then(function (res) {
+                return res.json()
+            })
+            .then(function (data) {
+                console.debug('Search results arrived')
+                let searchResultsTransformed = extendResponse(data);
+                onSearchSuccessCallback(searchResultsTransformed);
+            }).catch(function (err) {
             console.error('Search failed', err)
             onSearchFailureCallback();
-    })
+        })
+    }
 }
 
-
+// Toggle buttons on the top of the main page to select if you search hotels or flights
 const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
-    const [value, setValue] = useState([defaultValue]);
-    const handleChange = val => {setValue(val);onToggle(val);}
+    const [value, setValue] = useState(defaultValue);
+    const onFlightClick = () => {setValue(SEARCH_TYPE.FLIGHTS);onToggle(SEARCH_TYPE.FLIGHTS);}
+    const onHotelClick = ()  => {setValue(SEARCH_TYPE.HOTELS);onToggle(SEARCH_TYPE.HOTELS);}
+    console.log("defaultValue="+defaultValue)
+    console.log("value="+value)
     return (
-        <Container>
-            <Row className="searchmode-selector">
-                <ToggleButtonGroup  type="radio" name="test" value={value}
-                                   onChange={handleChange}>
-                    <ToggleButton className="searchmode-selector__button" variant="outline-dark"
-                                  value={SEARCH_TYPE.FLIGHTS}>Flights</ToggleButton>
-                    <ToggleButton className="searchmode-selector__button" variant="outline-dark"
-                                  value={SEARCH_TYPE.HOTELS}>Hotels</ToggleButton>
-                </ToggleButtonGroup>
+        <Container fluid={false}>
+            <Row className="flight-or-hotel-toggle">
+                <Button className="flight-or-hotel-toggle__btn" variant={value==SEARCH_TYPE.FLIGHTS?"primary":"outline-primary"} size="lg" onClick={onFlightClick}>Flights</Button>
+                <Button className="flight-or-hotel-toggle__btn" variant={value==SEARCH_TYPE.HOTELS?"primary":"outline-primary"} size="lg" onClick={onHotelClick}>Hotels</Button>
             </Row>
         </Container>)
 }

@@ -1,0 +1,34 @@
+/**
+glider.scss
+ */
+@import './variables';
+@import './utils';
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import 'src/styles/fonts';
+/*
+.border{
+
+  border: 1px solid green;
+  !*
+
+  @media (min-width: 400px) {
+   border: 4px solid green;
+  }
+  @media (min-width: 600px) {
+    border: 6px solid pink;
+  }
+  @media (min-width: 800px) {
+    border: 8px solid blue;
+  }
+  *!
+
+}*/
+
+
+.content-wrapper{
+  min-height: 600px;
+}
+
+body{
+  background: $glider-color-body-background;
+}

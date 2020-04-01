@@ -1,0 +1,72 @@
+@import './variables';
+
+//MEDIA QUERIES
+
+// Small devices
+@mixin glider-media-small {
+  @media (min-width: $glider-break-sm) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin glider-media-medium{
+  @media (min-width: $glider-break-md) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin glider-media-large{
+  @media (min-width: $glider-break-lg) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin glider-media-xlarge{
+  @media (min-width: $glider-break-xl) {
+    @content;
+  }
+}
+
+
+@mixin glider-font-regular {
+  font-family: apercuregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 110%;
+}
+
+@mixin glider-font-medium {
+  font-family: apercuregular;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+@mixin glider-font-h1 {
+  font-family: apercuregular;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 110%;
+}
+
+@mixin glider-font-h2 {
+  font-family: apercuregular;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 120%;
+}
+
+@mixin glider-font-h3 {
+  font-family: apercuregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  //line-height: 110%;
+}

@@ -1,4 +1,5 @@
-/* Variables */
+/*
+!* Variables *!
 :root {
   --gray-offset: rgba(0, 0, 0, 0.03);
   --gray-border: rgba(0, 0, 0, 0.15);
@@ -14,7 +15,7 @@
   --form-width: 343px;
 }
 
-/* Base */
+!* Base *!
 * {
   box-sizing: border-box;
 }
@@ -45,7 +46,7 @@ h4 {
   color: var(--gray-light);
 }
 
-/* Layout */
+!* Layout *!
 .App {
   min-height: 100vh;
   display: flex;
@@ -112,7 +113,7 @@ h4 {
   margin-top: 12px;
 }
 
-/* Form */
+!* Form *!
 .sr-form-row {
   margin: 16px 0;
 }
@@ -123,7 +124,7 @@ label {
   display: inline-block;
 }
 
-/* Inputs */
+!* Inputs *!
 .sr-input,
 .sr-select,
 input[type="text"] {
@@ -154,7 +155,7 @@ input[type="text"]::placeholder {
   color: var(--gray-light);
 }
 
-/* Checkbox */
+!* Checkbox *!
 .sr-checkbox-label {
   position: relative;
   cursor: pointer;
@@ -190,7 +191,7 @@ input[type="text"]::placeholder {
   background-position: -1px -1px;
 }
 
-/* Select */
+!* Select *!
 .sr-select {
   display: block;
   height: 44px;
@@ -221,7 +222,7 @@ input[type="text"]::placeholder {
   background-opacity: 0.4;
 }
 
-/* Combo inputs */
+!* Combo inputs *!
 .sr-combo-inputs {
   display: flex;
   flex-direction: column;
@@ -275,7 +276,7 @@ input[type="text"]::placeholder {
   border-radius: 0 0 var(--radius) var(--radius);
 }
 
-/* Buttons and links */
+!* Buttons and links *!
 button {
   background: var(--accent-color);
   border-radius: var(--radius);
@@ -319,7 +320,7 @@ a:active {
   filter: brightness(0.5);
 }
 
-/* Code block */
+!* Code block *!
 .sr-callout {
   background: var(--gray-offset);
   padding: 12px;
@@ -333,7 +334,7 @@ pre {
   font-size: 12px;
 }
 
-/* todo: spinner/processing state, errors, animations */
+!* todo: spinner/processing state, errors, animations *!
 
 .spinner,
 .spinner:before,
@@ -405,7 +406,7 @@ pre {
   }
 }
 
-/* Animated form */
+!* Animated form *!
 
 .sr-root {
   animation: 0.4s form-in;
@@ -420,7 +421,7 @@ pre {
   transform-origin: 50% 0%;
 }
 
-/* need saas for loop :D  */
+!* need saas for loop :D  *!
 .sr-payment-form .sr-form-row:nth-child(1) {
   animation-delay: 0;
 }
@@ -466,7 +467,7 @@ pre {
   }
 }
 
-/* Responsiveness */
+!* Responsiveness *!
 @media (max-width: 720px) {
   .sr-root {
     flex-direction: column;
@@ -495,12 +496,12 @@ pre {
 
 
 
-/* Pasha styles – Brand-overrides, can split these out */
+!* Pasha styles – Brand-overrides, can split these out *!
 :root {
   --accent-color: #ed5f74;
   --success-color: #5fed82;
   --headline-color: var(--accent-color);
-  /*--logo-image: url("https://storage.googleapis.com/stripe-sample-images/logo-pasha.svg");*/
+  !*--logo-image: url("https://storage.googleapis.com/stripe-sample-images/logo-pasha.svg");*!
 }
 
 .pasha-image-stack {
@@ -548,3 +549,4 @@ pre {
     top: 0;
   }
 }
+*/

@@ -1,12 +1,13 @@
 import React from 'react'
 import './flights-search-results.scss'
-import {Container, Row, Col, Image} from 'react-bootstrap'
+import {Container, Row, Col, Image, Button} from 'react-bootstrap'
 import logo from '../../assets/airline_logo.png'
 import {format, parseISO} from "date-fns";
 import StopoverFilter from '../filters/stopover-filter'
 import FastCheapFilter from '../filters/fast-cheap-filter'
 import OfferUtils from '../../utils/offer-utils'
 import PriceRangeFilter from '../filters/price-range-filter'
+import _ from 'lodash'
 
 
 
@@ -23,7 +24,7 @@ export default class FlightsSearchResults extends React.Component {
     }
 
     handleOfferDisplay(combinationId,offerId) {
-        // console.log("handleOfferDisplay", offer);
+        console.log("handleOfferDisplay", offerId);
         if (this.props.onOfferDisplay) {
             this.props.onOfferDisplay(combinationId,offerId)
         }
@@ -47,11 +48,10 @@ export default class FlightsSearchResults extends React.Component {
                         <FastCheapFilter/>
                         {
                             searchResults.combinations.map(combination => {
-                                return (<Offer combination={combination} onOfferDisplay={this.handleOfferDisplay}/>)
+                                return (<Offer key={combination.combinationId} combination={combination} onOfferDisplay={this.handleOfferDisplay}/>)
                             })
                         }
                     </Col>
-                    <Col/>
                 </Row>
             </Container>
         )
@@ -65,16 +65,16 @@ const Offer = ({combination,onOfferDisplay}) =>{
     const firstSegment = OfferUtils.getFirstSegmentOfItinerary(outboundItinerary);
     const cheapestOffer = OfferUtils.getCheapestOffer(combination);
     return (
-        <Container className='offer-container' key={combination.combinationId}>
-            <Row className='offer-row offer-row-metainfo' >
-                <Col sm={4}
-                     className='offer-col offer-col-price'><Price combination={combination} offerWrapper={cheapestOffer} onOfferDisplay={onOfferDisplay}/></Col>
-                <Col sm={4} className='offer-col offer-col-ancillaries'>2</Col>
-                <Col sm={4}
-                     className='offer-col offer-col-operator'><AirlineLogo operator={firstSegment.operator}/></Col>
-            </Row>
+        <Container className='offer-highlight--container d-flex' key={combination.combinationId}>
+            <div className='border'>
             <Itinerary itinerary={outboundItinerary}/>
             {returnItinerary !== undefined && <Itinerary itinerary={returnItinerary}/>}
+            </div>
+            <div className='offer-highlight--column border'>
+                <Carriers itinerary={outboundItinerary}/>
+                <Ancillaries combination={combination}/>
+                <Price combination={combination} offerWrapper={cheapestOffer} onOfferDisplay={onOfferDisplay}/>
+            </div>
         </Container>
     )
 }
@@ -83,10 +83,12 @@ const Offer = ({combination,onOfferDisplay}) =>{
 
 const Itinerary = ({itinerary}) =>{
     return (
-        <Row className='offer-row offer-row-itinerary'>
-            <Col sm={4} className='offer-col offer-col-airports'><Airports itinerary={itinerary}/></Col>
-            <Col sm={4} className='offer-col offer-col-duration'><Duration itinerary={itinerary}/></Col>
-            <Col sm={4} className='offer-col offer-col-stopover'><StopOverInfo itinerary={itinerary}/></Col>
+        <Row className='offer-highlight--itinerary-row'>
+            <div className='offer-highlight--column pb-3 pt-3'><Airports itinerary={itinerary}/></div>
+            <div className='offer-highlight--column-small d-flex'>
+                <Duration itinerary={itinerary}/>
+                <StopOverInfo itinerary={itinerary}/>
+            </div>
         </Row>
     )
 }
@@ -96,16 +98,31 @@ const Itinerary = ({itinerary}) =>{
 const Price = ({combination, offerWrapper, onOfferDisplay}) =>{
     let offer = offerWrapper.offer
     return (
-        <>
-            <div className='offer-details--title'>BOOK</div>
-            <div className='offer-details--content'>
-                {/*<Link to={link} className='offer-details-price'>{offer.price.public} {offer.price.currency}</Link>*/}
-                <button className='offer-details-price' onClick={() => {
+            <div className='offer-highlight--content-big'>
+                <Button className="offer-highlight--price" variant={"outline-primary"} size="lg" onClick={() => {
                     onOfferDisplay(combination.combinationId,offerWrapper.offerId)
-                }}>{offer.price.public} {offer.price.currency}</button>
+                }}>{offer.price.public} {offer.price.currency}</Button>
             </div>
-        </>
     )
+}
+
+const Carriers = ({itinerary}) =>{
+    const operators = OfferUtils.getItineraryOperatingCarriers(itinerary);
+    return (<span className='offer-highlight--logos-and-ancillaries'>
+        {
+            _.map(operators, (operator, id) => {
+                let imgPath="/airlines/"+id+".png";
+                return (<><img key={id} src={imgPath} className='offer-highlight--logos-and-ancillaries'/></>)
+            })
+        }
+    </span>)
+}
+
+//TODO - extract ancillaries
+const Ancillaries = ({combination}) =>{
+    return (<span className='offer-highlight--logos-and-ancillaries'>
+        <img src="/ancillaries/baggage.png" className='offer-highlight--logos-and-ancillaries'/>
+    </span>)
 }
 
 const Airports = ({itinerary}) =>{
@@ -115,17 +132,17 @@ const Airports = ({itinerary}) =>{
     const endOfTrip = parseISO(lastSegment.arrivalTime);
     return (<>
             <div
-                className='offer-details--title'>{firstSegment.origin.iataCode}-{lastSegment.destination.iataCode}</div>
+                className='offer-highlight--title'>{firstSegment.origin.iataCode}-{lastSegment.destination.iataCode}</div>
             <div
-                className='offer-details--content'>{format(startOfTrip, 'HH:mm')}-{format(endOfTrip, 'HH:mm')}</div>
+                className='offer-highlight--content-big'>{format(startOfTrip, 'HH:mm')}-{format(endOfTrip, 'HH:mm')}</div>
         </>
     )
 }
 const Duration = ({itinerary}) =>{
-    return (<>
-            <div className='offer-details--title'>DURATION</div>
-            <div className='offer-details--content'>{OfferUtils.calculateDuration(itinerary)}</div>
-        </>
+    return (<div className='pl-4 pr-4' >
+            <div className='offer-highlight--title '>DURATION</div>
+            <div className='offer-highlight--content-small'>{OfferUtils.calculateDuration(itinerary)}</div>
+        </div>
     )
 }
 
@@ -138,15 +155,10 @@ const StopOverInfo = ({itinerary}) =>{
             stops.push(',');
         stops.push(segment.destination.iataCode)
     }
-    return (<>
-            <div className='offer-details--title'>STOPS</div>
-            <div className='offer-details--content'>{stops}</div>
-        </>
+    return (<div className='pl-4 pr-4'>
+            <div className='offer-highlight--title'>STOPS</div>
+            <div className='offer-highlight--content-small'>HKG,JNB{stops}</div>
+        </div>
     )
 }
 
-const AirlineLogo = ({operator})=>{
-    return (
-        <Image src={logo}/>
-    )
-}

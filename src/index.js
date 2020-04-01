@@ -8,26 +8,30 @@ import {
 
 import ReactDOM from 'react-dom'
 // import 'bootstrap/dist/css/bootstrap.min.css'
-import './index.scss'
+import './styles/glider.scss'
 import HotelsPage from "./pages/hotels"
 import FlightsPage from "./pages/flights"
 import HomePage from "./pages/home"
 import PaymentForm from "./pages/payment";
+import Typography from "./typography/index";
 import { CookiesProvider } from 'react-cookie';
 
 
 function Dispatcher() {
     return (
         <CookiesProvider>
-        <Router>
-            {/*<span> <Link to="/">Home</Link> <Link to="/flights">Flights</Link> <Link to="/flightoffer">Offer</Link> <Link to="/hotels">Hotels</Link></span>*/}
+            <Router>
+                {/*<span> <Link to="/">Home</Link> <Link to="/flights">Flights</Link> <Link to="/flightoffer">Offer</Link> <Link to="/hotels">Hotels</Link></span>*/}
                 <Switch>
-{/*                    <Route path="/hotels">
+                    {/*                    <Route path="/hotels">
                         <HotelsPage/>
                     </Route>
                     <Route path="/flights">
                         <FlightsPage/>
                     </Route>*/}
+                    <Route path="/typography">
+                        <Typography/>
+                    </Route>
                     <Route path="/payments/:orderID">
                         <PaymentForm/>
                     </Route>
@@ -35,7 +39,7 @@ function Dispatcher() {
                         <HomePage />
                     </Route>
                 </Switch>
-        </Router>
+            </Router>
         </CookiesProvider>
     );
 }

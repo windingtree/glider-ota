@@ -1,11 +1,33 @@
+@import '../../styles/utils';
+
+
 .location-lookup{
-    width: 175px;
-    height: 48px;
-    border: 1px solid #000000;
+    border: 1px solid $glider-color-background;
+    box-sizing: border-box;
+    border-radius: 5px;
+    height: 68px;
+    width: 280px;
+    background: #FFFFFF;
+    /* Normal element */
+
+    @include glider-media-small {
+        width: 560px;
+    }
+    @include glider-media-medium {
+        width: 415px;
+    }
+    @include glider-media-large {
+        width: 640px;
+    }
+    @include glider-media-xlarge {
+        width: 290px;
+    }
     &__input{
         height: 48px;
-        border-radius: 0;
-        /* or 267% */
+        padding-left: 10px;
+        color: $glider-color-text;
+        @include glider-font-regular;
+        //line-height: 110%;
      }
     &__popover{
         border:1px solid black !important;
@@ -31,4 +53,8 @@
             padding-left: 10px;
         }
     }
+}
+
+.location-lookup .form-control{
+    height:100%;
 }

@@ -1,6 +1,6 @@
-.border{
-    border: 1px solid red;
-}
+@import '../../styles/utils';
+
+
 
 .offer-detail-container h3{
     color: red;
@@ -67,7 +67,7 @@ input.input-birthdate{
     background-color: aliceblue;
 }
 
-
+/*
 .offer-row{
     min-height: 80px;
 }
@@ -80,7 +80,7 @@ input.input-birthdate{
 }
 
 .offer-col{
-    /*width: 120px;*/
+    !*width: 120px;*!
 }
 
 .offer-col-price{
@@ -99,7 +99,7 @@ input.input-birthdate{
 .offer-col-duration{
 }
 .offer-col-stopover{
-}
+}*/
 
 
 

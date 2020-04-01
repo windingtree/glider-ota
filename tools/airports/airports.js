@@ -17,6 +17,8 @@ const types_map = {
 
 function process_airports(inputFilename, outputFilename) {
     let records = [];
+    let airportToCityMap={};
+
     const response = fs.createReadStream(inputFilename)
         .pipe(csv({separator: '^'}))
         .on('data', (row) => {
@@ -25,11 +27,22 @@ function process_airports(inputFilename, outputFilename) {
         .on('end', () => {
             console.log('Input file:', inputFilename, ',number of records in an input file:', records.length);
             records = filterLocations(records);
+            airportToCityMap = createAirportToCityMap(records);
             console.log('Output file:', outputFilename, ',number of records in an output file:', records.length, ', location types used:', FILTER);
             saveOutput(records, outputFilename)
+            saveOutput(airportToCityMap, "map-"+outputFilename);
         });
     // response
     return records;
+}
+
+function createAirportToCityMap(airports){
+    let airportToCityMap = {};
+    airports.map(record=>{
+        console.log(record);
+        airportToCityMap[record.iata]=record.primary;
+    });
+    return airportToCityMap;
 }
 
 function filterLocations(airports){

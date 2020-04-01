@@ -1,14 +1,39 @@
-
-.page-title
-{
-  text-align: center;
-}
+@import '../styles/utils';
 
 /*toggle buttons on top of the main page to select search type (flights or hotels)*/
-.searchmode-selector{
+.flight-or-hotel-toggle{
   justify-content: center;
   flex-wrap: nowrap;
-  &__button{
+
+  &__btn{
+    height: 60px;
+    //margin-left: 20px;
+    //margin-left: 10px;
+
+    width: 140px;
+    @include glider-media-small {
+      width: 280px;
+    }
+    @include glider-media-medium {
+      width: 310px;
+    }
+    @include glider-media-large {
+      width: 310px;
+    }
+    @include glider-media-xlarge {
+      width: 280px;
+    }
 
   }
 }
+
+.ota-test{
+  border: 1px solid blue;
+  width: 300px;
+
+
+}
+
+
+
+

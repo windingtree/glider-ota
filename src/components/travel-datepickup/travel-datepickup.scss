@@ -1,12 +1,35 @@
-.date-range .input{
-    width: 175px;
-    height: 48px;
-    left: 432px;
-    top: 130px;
+@import '../../styles/utils';
 
-    background: #FFFFFF;
-    border: 1px solid #000000;
+.date-range {
+    width: 280px;
+    height: 68px;
     box-sizing: border-box;
+    
+    @include glider-media-small {
+        width: 560px;
+    }
+    @include glider-media-medium {
+        width: 414px;
+    }
+    @include glider-media-large {
+        width: 640px;
+    }
+    @include glider-media-xlarge {
+        width: 580px;
+    }
+    &__input {
+        border: 1px solid $glider-color-background;
+        color: $glider-color-text;
+        @include glider-font-regular;
+        border-radius: 5px;
+        width:50%;
+        height:100%;
+        padding-left: 10px;
+    }
+    &__input::placeholder {
+        color: $glider-color-background;
+    }
+
 }
 
 
