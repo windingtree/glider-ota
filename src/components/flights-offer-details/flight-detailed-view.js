@@ -130,23 +130,18 @@ export default class FlightDetail extends React.Component {
 
     return (
       <>
-        <Container >
+        <Container>
           <Row >
-            <Col>
+            <Col className='offer-detail-wrapper'>
               <YourFlightInfo combination={selectedCombination}/>
             </Col>
           </Row>
-
           <Row>
-            <Col>
               <FlightRates selectedCombination={selectedCombination} pricePlans={pricePlans} selectedOffer={selectedOffer} onOfferChange={this.handleSelectedOfferChange}/>
-            </Col>
           </Row>
 
           <Row>
-            <Col>
               <PassengersDetailsForm onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
-            </Col>
           </Row>
           <Row>
             <Col>

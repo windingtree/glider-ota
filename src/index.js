@@ -13,7 +13,7 @@ import HotelsPage from "./pages/hotels"
 import FlightsPage from "./pages/flights"
 import HomePage from "./pages/home"
 import PaymentForm from "./pages/payment";
-import Typography from "./typography/index";
+import Sandbox from "./sandbox/index";
 import { CookiesProvider } from 'react-cookie';
 
 
@@ -29,8 +29,8 @@ function Dispatcher() {
                     <Route path="/flights">
                         <FlightsPage/>
                     </Route>*/}
-                    <Route path="/typography">
-                        <Typography/>
+                    <Route path="/sandbox">
+                        <Sandbox/>
                     </Route>
                     <Route path="/payments/:orderID">
                         <PaymentForm/>

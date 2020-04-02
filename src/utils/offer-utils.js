@@ -84,10 +84,11 @@ export default class OfferUtils {
   }
 
   static getItineraryOperatingCarrier(itinerary){
-    //TODO
+    let segment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
+
     return {
-      airlineCode:'VL',
-      airlineName:'Vueling',
+      iataCode:segment.operator.iataCode,
+      airlineName:'Vuelingaaa',
       flight:'VL-123'
     }
   }

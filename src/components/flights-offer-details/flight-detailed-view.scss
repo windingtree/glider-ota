@@ -8,6 +8,19 @@
 
 .offer-detail-wrapper{
     min-height: 600px;
+    width: 280px;
+    @include glider-media-small {
+        width: 280px;
+    }
+    @include glider-media-medium {
+        width: 560px;
+    }
+    @include glider-media-large {
+        width: 950px;
+    }
+    @include glider-media-xlarge {
+        width: 950px;
+    }
 }
 
 input.input-birthdate{
@@ -63,9 +76,11 @@ input.input-birthdate{
     border-radius: 5px;
 }
 
+/*
 .offer-detail-container:hover {
     background-color: aliceblue;
 }
+*/
 
 /*
 .offer-row{

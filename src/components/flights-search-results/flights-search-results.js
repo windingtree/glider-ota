@@ -40,10 +40,10 @@ export default class FlightsSearchResults extends React.Component {
         return (
             <Container>
                 <Row>
-                    <Col ms={2}>
+{/*                    <Col ms={2}>
                         <StopoverFilter/>
                         <PriceRangeFilter/>
-                    </Col>
+                    </Col>*/}
                     <Col sm={12} md={10} lg={8} xl={7} className='search-results-container'>
                         <FastCheapFilter/>
                         {

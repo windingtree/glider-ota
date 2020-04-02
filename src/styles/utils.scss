@@ -31,7 +31,16 @@
 }
 
 
-@mixin glider-font-regular {
+@mixin glider-font-small-13 {
+  font-family: apercuregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 110%;
+}
+
+
+@mixin glider-font-regular-18 {
   font-family: apercuregular;
   font-style: normal;
   font-weight: normal;
@@ -39,7 +48,7 @@
   line-height: 110%;
 }
 
-@mixin glider-font-medium {
+@mixin glider-font-medium-24 {
   font-family: apercuregular;
   font-style: normal;
   font-weight: 600;
