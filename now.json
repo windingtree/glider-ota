@@ -2,8 +2,8 @@
     "version": 2,
     "functions": {
         "api/*.js": {
-          "memory": 1024,
-          "maxDuration": 9,
+          "memory": 3000,
+          "maxDuration": 60,
           "includeFiles":"api/_data/*.json"
         }
     },
