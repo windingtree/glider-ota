@@ -1,13 +1,21 @@
+@import '../../../styles/utils';
+
 .footer{
     background-color: #f5f6f7;
 
     &__nav{
         &-title{
-            font-weight: bold;
+
         }
         &-link{
             color: black;
-
+            @include _glider-font-text16;
+            color:$glider-color-text;
+        }
+        &-link.disabled{
+            font-weight: bold;
+            @include _glider-font-text24medium;
+            color:$glider-color-primary;
         }
     }
 }

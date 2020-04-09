@@ -9,6 +9,7 @@ import SearchCriteriaBuilder from '../utils/search-criteria-builder';
 import {extendResponse} from '../utils/flight-search-results-transformer'
 import FlightsPage from './flights';
 import HotelsPage from './hotels';
+import MainPageContent from './main-page-content';
 import {config} from '../config/default';
 import {findFlights, findHotels} from '../utils/search';
 
@@ -43,19 +44,30 @@ export default function HomePage() {
     const onSearchStart = () =>{setSearchState(SEARCH_STATE.IN_PROGRESS);}
     return (
         <>
-
-            {/*<ContentWrapper>*/}
-            <div className='main-page-header'>
+            {searchState === SEARCH_STATE.NOT_STARTED &&
+                <>
+                    <div className='main-page-header'>
+                        <Header/>
+                        <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
+                        {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
+                        {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
+                    </div>
+                    <MainPageContent/>
+                    <Footer/>
+                </>
+            }
+            {searchState !== SEARCH_STATE.NOT_STARTED &&
+            <div>
                 <Header/>
                 <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
                 {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
                 {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
-                {searchState === SEARCH_STATE.IN_PROGRESS && <SearchInProgress />}
-                {searchState === SEARCH_STATE.FAILED && <SearchFailed />}
-                {searchState === SEARCH_STATE.FINISHED && <SearchResults searchResults={searchResults} searchType={searchType}/>}
+                {searchState === SEARCH_STATE.IN_PROGRESS && <SearchInProgress/>}
+                {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
+                {searchState === SEARCH_STATE.FINISHED &&
+                <SearchResults searchResults={searchResults} searchType={searchType}/>}
             </div>
-            {/*</ContentWrapper>*/}
-            <Footer/>
+            }
         </>    )
 }
 

@@ -4,7 +4,7 @@ import LocationLookup from '../location-lookup/location-lookup'
 import TravelDatepickup from '../travel-datepickup/travel-datepickup'
 import './search-form.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
-
+import {config} from '../../config/default'
 export default class SearchForm extends React.Component {
   constructor (props) {
     super(props);
@@ -101,8 +101,8 @@ export default class SearchForm extends React.Component {
       </Container>
         <Container fluid={true} >
         <Row className='d-flex justify-content-center pt-5'>
-          {/*<Button className='flightsearch-searchbutton' variant="primary" size="lg" disabled={!isValid} onClick={this.handleSearchBtn}>Search flights</Button>*/}
-          <Button className='flightsearch-searchbutton' variant="primary" size="lg" onClick={this.handleSearchBtn}>Search </Button>
+          <Button className='flightsearch-searchbutton' variant="primary" size="lg" disabled={!isValid && !config.OFFLINE_MODE} onClick={this.handleSearchBtn}>Search</Button>
+          {/*<Button className='flightsearch-searchbutton' variant="primary" size="lg" onClick={this.handleSearchBtn}>Search </Button>*/}
         </Row>
         </Container>
       </>
