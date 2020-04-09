@@ -38,10 +38,10 @@ export default class FlightsSearchResults extends React.Component {
             return (<>Search for something</>)
         }
         return (
-            <Container fluid={false} className='d-flex flex-row'>
-                <div className='filters-wrapper '><Filters/>
+            <Container fluid={false} className='flights-search-results-container d-flex flex-row'>
+                <div><Filters/>
                 </div>
-                <div className='flights-search-results-container border border-danger'>
+                <div>
                     {/*    <FastCheapFilter/>*/}
                         {
                             searchResults.combinations.map(combination => {
@@ -62,7 +62,7 @@ const Offer = ({combination,onOfferDisplay}) =>{
     const cheapestOffer = OfferUtils.getCheapestOffer(combination);
     let offer = cheapestOffer.offer
     return (
-        <div className='flight-search-offer-container d-flex flex-row flex-wrap my-2 p-4' key={combination.combinationId}>
+        <div className='flight-search-offer-container d-flex flex-row flex-wrap mb-2 p-4' key={combination.combinationId}>
             <div>
                 <Itinerary itinerary={outboundItinerary}/>
                 {returnItinerary !== undefined && <Itinerary itinerary={returnItinerary}/>}

@@ -11,7 +11,7 @@ export default function Filters({}) {
     return (
         <>
             <div className="filters-container d-flex flex-column flex-fill">
-                <div className="glider-font-h2-fg pb-4">Filters</div>
+                {/*<div className="glider-font-h2-fg pb-4">Filters</div>*/}
                 {/*<div className="glider-font-h2-fg pb-4">Search results: [84]</div>*/}
                 <SelectionFilter id='airlines' title='STOPS' items={airlines}/>
                 <RangeFilter min={12} max={100} unit='EUR' title='Price'/>

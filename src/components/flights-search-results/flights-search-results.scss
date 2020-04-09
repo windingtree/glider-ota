@@ -1,6 +1,8 @@
 @import '../../styles/utils';
 
 
+
+
 .flights-search-results-container{
     justify-content: center;
     display: flex;
@@ -55,22 +57,26 @@
     width:40px;
 }
 
+.filters-wrapper{
 
+}
 .filters-container{
     justify-content: center;
     display: flex;
-    padding: 20px;
-        @include glider-media-small_576 {
-          min-width: 200px;
-        }
-        @include glider-media-medium_768 {
-          min-width: 200px;
-        }
-        @include glider-media-large_992 {
-          min-width: 200px;
-        }
-        @include glider-media-xlarge_1600 {
-          min-width: 400px;
-        }
+    padding: 0 20px 20px 20px;
+    @include glider-media-small_576 {
+      width: 0px;
+        visibility: hidden;
+    }
+    @include glider-media-medium_768 {
+        width: 0px;
+    }
+    @include glider-media-large_992 {
+        width: 0px;
+    }
+    @include glider-media-xlarge_1600 {
+      min-width: 400px;
+        visibility: visible;
+    }
 
 }
