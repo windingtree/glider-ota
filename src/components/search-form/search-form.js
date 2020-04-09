@@ -90,16 +90,22 @@ export default class SearchForm extends React.Component {
   render () {
     const {enableOrigin,locationsSource, oneWayAllowed} = this.props;
     const isValid=this.isValid(enableOrigin, oneWayAllowed);
-    return (
+    return (<>
       <Container fluid={true} >
         <Row className='d-flex justify-content-center'>
           {enableOrigin && (<LocationLookup onLocationSelected={this.handleOriginChanged} locationsSource={locationsSource}/>)}
           <LocationLookup  onLocationSelected={this.handleDestinationChanged} locationsSource={locationsSource}/>
           <TravelDatepickup onStartDateChanged={this.handleStartDateChanged} onEndDateChanged={this.handleEndDateChanged} />
           <PassengerSelector onPaxSelectionChanged={this.handlePaxSelectionChanged}/>
-          <Button className='flightsearch-searchbutton' variant="primary" size="lg" disabled={isValid} onClick={this.handleSearchBtn}>Search</Button>
         </Row>
       </Container>
+        <Container fluid={true} >
+        <Row className='d-flex justify-content-center pt-5'>
+          {/*<Button className='flightsearch-searchbutton' variant="primary" size="lg" disabled={!isValid} onClick={this.handleSearchBtn}>Search flights</Button>*/}
+          <Button className='flightsearch-searchbutton' variant="primary" size="lg" onClick={this.handleSearchBtn}>Search </Button>
+        </Row>
+        </Container>
+      </>
     )
   }
 }

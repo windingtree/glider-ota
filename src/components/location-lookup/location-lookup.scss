@@ -2,7 +2,7 @@
 
 
 .location-lookup{
-    border: 1px solid $glider-color-background;
+    border: 1px solid $glider-color-text-background;
     box-sizing: border-box;
     border-radius: 5px;
     height: 68px;
@@ -10,23 +10,23 @@
     background: #FFFFFF;
     /* Normal element */
 
-    @include glider-media-small {
+    @include glider-media-small_576 {
         width: 560px;
     }
-    @include glider-media-medium {
+    @include glider-media-medium_768 {
         width: 415px;
     }
-    @include glider-media-large {
+    @include glider-media-large_992 {
         width: 640px;
     }
-    @include glider-media-xlarge {
+    @include glider-media-xlarge_1600 {
         width: 290px;
     }
     &__input{
         height: 48px;
         padding-left: 10px;
         color: $glider-color-text;
-        @include glider-font-regular-18;
+        @include _glider-font-regular18;
         //line-height: 110%;
      }
     &__popover{

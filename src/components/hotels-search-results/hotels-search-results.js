@@ -29,21 +29,18 @@ export default class HotelsSearchResults extends React.Component {
         }
         const hotels = searchResults.accommodations;
         return (
-            <Container>
-                <Row>
-                    <Col ms={2}>
+            <Container fluid={false}>
+                <Row className='hotels-search-results-wrapper'>
+                    {/*<Col ms={2}>*/}
                         {/*<StopoverFilter/>*/}
                         {/*<PriceRangeFilter/>*/}
-                    </Col>
-                    <Col sm={12} md={10} lg={8} xl={7} className='hotels-search-results-container'>
+                    {/*</Col>*/}
                         {/*<FastCheapFilter/>*/}
                         {
                             _.map(hotels, (hotel, id) => {
                            return (<SingleHotel hotel={hotel} key={id} handleClick={this.handleHotelSelected}/>)
                             })
                         }
-                    </Col>
-                    <Col/>
                 </Row>
             </Container>
         )
@@ -56,40 +53,22 @@ export default class HotelsSearchResults extends React.Component {
 
 function SingleHotel({hotel,handleClick}){
     const image=(hotel.media!==undefined && hotel.media.length>0)?hotel.media[0].url:default_hotel_image;
-
-/*
-    const handleClick=function(id,hotel){
-        console.log("Handle click",id)
-    }
-*/
-
-
     return (
-        <Container className='hotel-offer-container' >
-            <Row className='boarder' >
-                <Col sm={4} className='border'>{<Image width={180} className='hotel-image-main' src={image} />}</Col>
-                <Col  className='border'>
-                    <Container>
-                        <Row className='hotel-name'>
-                            {hotel.name}
-                        </Row>
-                        <Row className='hotel-address'>
-                            Moscow, Olympic St 14
-                        </Row>
-                        <Row  className='hotel-description'>
-                            {extractShortInfoFromHotelDescription(hotel.description,100)}
-                        </Row>
-                        <Row className='hotel-price-text'>
-                            from <span className='hotel-price-amount'>130 EUR</span> per night
-                            <Button className='hotel-selectroom-button'
-                            onClick={() => { handleClick(hotel)}}>select room</Button>
-
-                        </Row>
-                    </Container>
-
-                </Col>
-            </Row>
-        </Container>
+        <div className="hotel-search-offer-container d-flex flex-row flex-wrap p-3">
+            <div className="hotel-offer-container__image"><Image height={140}  src={image} /></div>
+            <div>
+                <div>
+                    <div className="glider-font-text24medium-fg ">{hotel.name}</div>
+                    <div className="glider-font-caps12medium-bg ">[Moscow, Olympic St 14]</div>
+                    <div className="glider-font-text16-fg  mb-2">{extractShortInfoFromHotelDescription(hotel.description,100)}</div>
+                </div>
+                <div className='d-flex flex-row flex-wrap flex-fill'>
+                    <div className="glider-font-text12-fg min-w100 min-w100 flex-fill">from <span className='glider-font-h2-fg'>130 EUR</span> per night</div>
+                    <div className="min-w100 align-self-end"><Button variant="outline-primary" size="lg"
+                                                                         onClick={() => { handleClick(hotel)}}>select room</Button></div>
+                </div>
+            </div>
+        </div>
     )
 }
 

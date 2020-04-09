@@ -1,17 +1,13 @@
 import React from 'react'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Nav from 'react-bootstrap/Nav'
-
+import {Container,Row,Col,Nav} from 'react-bootstrap'
 import css from './footer.scss'
 
 export default function Footer (props) {
   return (
     <footer className="footer">
-      <Container>
+      <Container fluid={true}>
         <Row>
-          <Col sm={2}><img alt="logo" src="https://windingtree.com/assets/img/logo/sm-color.svg" /></Col>
+          <Col sm={2}><img alt="logo" src="/images/logo.png" className="logo-small"/></Col>
           <Col>
             <Nav defaultActiveKey="/" className="footer__nav flex-column">
               <Nav.Link disabled className="footer__nav-title">Solutions</Nav.Link>

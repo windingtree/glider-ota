@@ -1,35 +1,35 @@
 @import '../../styles/utils';
 
 
-.search-results-container{
+.flights-search-results-container{
     justify-content: center;
     display: flex;
     flex-direction: column;
 }
 
 
-.offer-highlight--container{
+.flight-search-offer-container{
     background: #FFFFFF;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    padding: 30px 20px;
+    //padding: 30px 20px;
 
     width: 350px;
-    @include glider-media-small {
+    @include glider-media-small_576 {
         width: 576px;
     }
-    @include glider-media-medium {
+    @include glider-media-medium_768 {
         width: 700px;
     }
-    @include glider-media-large {
+    @include glider-media-large_992 {
         width: 950px;
     }
-    @include glider-media-xlarge {
-        width: 950px;
+    @include glider-media-xlarge_1600 {
+        width: 1320px;
     }
 }
 
-.offer-highlight--container:hover {
+.flight-search-offer-container:hover {
     background-color: aliceblue;
 }
 
@@ -40,63 +40,37 @@
 
 
 .offer-highlight--column{
-    width: 295px;
-    padding-left: 20px;
-}
-
-.offer-highlight--column-small{
-    width: 295px;
-    //line-height: 120%;
-}
-
-
-.offer-highlight--title{
-    @include glider-font-h3;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-
-    color: $glider-color-background;
+    min-width: 295px;
+    //padding-left: 20px;
 }
 
 
 
-.offer-highlight--content-big{
-    @include glider-font-h2;
-    display: flex;
-    align-items: center;
-    color: $glider-color-text;
-}
-
-.offer-highlight--content-small{
-    @include glider-font-h3;
-    display: flex;
-    align-items: center;
-    color: $glider-color-text;
-
-}
-
-.offer-highlight-price{
-    font-family: 'Roboto', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 17px;
-    line-height: 24px;
-    /* identical to box height, or 141% */
-
-    text-align: center;
-
-    color: #FFFFFF;
-    background: #000000;
-    border:1px solid #000000;
-
-}
 
 .offer-highlight--logos-and-ancillaries{
-    margin-top: 20px;
+    //margin-top: 20px;
 }
 
 .offer-highlight--logos-and-ancillaries img{
     width:40px;
+}
+
+
+.filters-container{
+    justify-content: center;
+    display: flex;
+    padding: 20px;
+        @include glider-media-small_576 {
+          min-width: 200px;
+        }
+        @include glider-media-medium_768 {
+          min-width: 200px;
+        }
+        @include glider-media-large_992 {
+          min-width: 200px;
+        }
+        @include glider-media-xlarge_1600 {
+          min-width: 400px;
+        }
+
 }

@@ -2,19 +2,19 @@
 
 
 .glider-font-regular {
-  @include glider-font-regular-18;
+  @include _glider-font-regular18;
 }
 
 .glider-font-medium {
-  @include glider-font-medium-24;
+  @include _glider-font-text24medium;
 }
 .glider-font-h1 {
-  @include glider-font-h1;
+  @include _glider-font-h1;
 }
 .glider-font-h2 {
-  @include glider-font-h2;
+  @include _glider-font-h2;
 }
 .glider-font-h3 {
-  @include glider-font-h3;
+  @include _glider-font-h3;
 }
 

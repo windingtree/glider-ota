@@ -2,30 +2,43 @@
 
 /*toggle buttons on top of the main page to select search type (flights or hotels)*/
 .flight-or-hotel-toggle{
-  justify-content: center;
-  flex-wrap: nowrap;
-
+  width: 280px;
+  @include glider-media-small_576 {
+    width: 560px;
+  }
+  @include glider-media-medium_768 {
+    width: 620px;
+  }
+  @include glider-media-large_992 {
+    width: 620px;
+  }
+  @include glider-media-xlarge_1600 {
+    width: 620px;
+  }
+  //button
   &__btn{
     height: 60px;
     //margin-left: 20px;
     //margin-left: 10px;
-
-    width: 140px;
-    @include glider-media-small {
-      width: 280px;
-    }
-    @include glider-media-medium {
-      width: 310px;
-    }
-    @include glider-media-large {
-      width: 310px;
-    }
-    @include glider-media-xlarge {
-      width: 280px;
-    }
-
   }
 }
+.main-page-header{
+  @include glider-media-small_576 {
+  }
+  @include glider-media-medium_768 {
+  }
+  @include glider-media-large_992 {
+    height: 800px;
+    background: url("/images/main_bg.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  @include glider-media-xlarge_1600 {
+  }
+}
+
+
 
 .ota-test{
   border: 1px solid blue;

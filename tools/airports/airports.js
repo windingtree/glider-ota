@@ -23,6 +23,9 @@ function process_airports(inputFilename, outputFilename) {
         .pipe(csv({separator: '^'}))
         .on('data', (row) => {
             records.push(convertRecord(row))
+            if(row.por_code === 'CDG'){
+                // console.log(row);
+            }
         })
         .on('end', () => {
             console.log('Input file:', inputFilename, ',number of records in an input file:', records.length);
@@ -39,8 +42,11 @@ function process_airports(inputFilename, outputFilename) {
 function createAirportToCityMap(airports){
     let airportToCityMap = {};
     airports.map(record=>{
-        console.log(record);
-        airportToCityMap[record.iata]=record.primary;
+        // console.log(record);
+        airportToCityMap[record.iata]={
+            city:record.city,
+            airport:record.port_name
+        };
     });
     return airportToCityMap;
 }
@@ -61,6 +67,8 @@ function convertRecord(row) {
         primary: row.city_name,
         secondary: row.por_code,
         search: row.city_name+' '+row.por_code,
+        city: row.city_name,
+        port_name: row.por_name,
         iata: row.por_code,
         type: types_map[row.loc_type]
     }

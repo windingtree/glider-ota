@@ -1,22 +1,47 @@
 @import '../../styles/utils';
 
+/*toggle buttons on top of the main page to select search type (flights or hotels)*/
+.main-search-form{
+    width: 280px;
+    @include glider-media-small_576 {
+        width: 560px;
+    }
+    @include glider-media-medium_768 {
+        width: 560px;
+    }
+    @include glider-media-large_992 {
+        width: 830px;
+    }
+    @include glider-media-larger_1400 {
+        width: 1280px;
+    }
+    @include glider-media-xlarge_1600 {
+        width: 1440px;
+    }
+    &__btn{
+        height: 60px;
+        //margin-left: 20px;
+        //margin-left: 10px;
+    }
+}
+
+
+
 .flightsearch-searchbutton{
     height: 64px;
-
-    width: 140px;
-    @include glider-media-small {
-        width: 280px;
+    width: 280px;
+    @include glider-media-small_576 {
+        width: 560px;
     }
-    @include glider-media-medium {
-        width: 310px;
+    @include glider-media-medium_768 {
+        width: 400px;
     }
-    @include glider-media-large {
-        width: 310px;
+    @include glider-media-large_992 {
+        width: 400px;
     }
-    @include glider-media-xlarge {
-        width: 280px;
+    @include glider-media-xlarge_1600 {
+        width: 400px;
     }
-
 }
 
 .flightsearch-searchbutton:disabled{

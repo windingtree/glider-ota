@@ -1,6 +1,8 @@
 import React  from 'react'
 import {Container, Row,Col, Form, Alert} from 'react-bootstrap'
 import _ from 'lodash'
+import "./passenger-details.scss";
+
 
 export default class PassengersDetailsForm extends React.Component {
     constructor(props) {
@@ -60,88 +62,75 @@ export default class PassengersDetailsForm extends React.Component {
 
         return (
             <Form onSubmit={this.handleSubmit}>
-                <Container>
-                    <Row>
-                        <Col>
-                            <h2>Passengers for reservation</h2>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            Enter your personal details as indicated in the travel document you are flying on. Use Latin letters.
-                            <div>
-                                <small>The number and type of passengers for this airline can only be changed with a new search
-                                </small>
-                            </div>
-                        </Col>
-                    </Row>
+                <div>
+                    <h2 className='glider-font-h2-fg py-4'>Passengers for reservation</h2>
+                    <div className='glider-font-text18medium-fg pb-2'>
+                        Enter your personal details as indicated in the travel document you are flying on. Use Latin letters.
+                    </div>
+                    <div className='glider-font-filtercategories13-fg py-3'>The number and type of passengers for this airline can only be changed with a new search</div>
+                </div>
+                <div className='paxdetails'>
                     {
                         _.map(passengers,(pax,id)=>{
 
                             return (
-                                <Row key={id}>
-                                    <Col>
-                                        <h5>Adult {this.state[id].firstname} {this.state[id].lastname}</h5>
+                                       <>
+                                       <div className='glider-font-text24medium-fg pb-3'>Adult {this.state[id].firstname} {this.state[id].lastname}</div>
                                         <Form.Row>
                                             <Col>
-                                                <Form.Label>Surname</Form.Label>
-                                                <Form.Control type="text" placeholder="Lastname" name={id+'.lastname'} value={this.state[id].lastname}
-                                                              onChange={this.handleInputChange} onBlur={this.handleBlur}/>
+                                                <Form.Label >Surname</Form.Label>
+                                                <Form.Control type="text" placeholder="Lastname"
+                                                              name={id + '.lastname'}
+                                                              value={this.state[id].lastname}
+                                                              onChange={this.handleInputChange}
+                                                              onBlur={this.handleBlur}/>
                                             </Col>
                                             <Col>
-                                                <Form.Label>Name</Form.Label>
-                                                <Form.Control type="text" placeholder="Firstname" name={id+'.firstname'} value={this.state[id].firstname}
-                                                              onChange={this.handleInputChange} onBlur={this.handleBlur}/>
+                                                <Form.Label bsPrefix='glider-font-text12-fg'>Name</Form.Label>
+                                                <Form.Control type="text" placeholder="Firstname"
+                                                              name={id + '.firstname'}
+                                                              value={this.state[id].firstname}
+                                                              onChange={this.handleInputChange}
+                                                              onBlur={this.handleBlur}/>
                                             </Col>
+
                                         </Form.Row>
                                         <Form.Row>
-                                            <Col>
+                                            <div>
                                                 <Form.Label>Date of birth</Form.Label>
                                                 <Form.Control type="date" className="input-birthdate" name={id+'.birthdate'}
                                                               value={this.state[id].birthdate}
                                                               onChange={this.handleInputChange} onBlur={this.handleBlur}/>
-                                            </Col>
+                                            </div>
                                         </Form.Row>
-                                    </Col>
-                                </Row>
+                                       </>
                             )
                         })
                     }
-                    <Row>
-                        <Col>
-                            <Alert variant="dark">
+                            <div className='glider-font-text18medium-fg py-3'>
                                 This website doesn’t store any personal data you may enter while booking. All passeneger’s information and  buyer’s contact data is securely passed to supplier
-                            </Alert>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <h2>Contact details</h2>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-
-                            <Form.Row>
-                                <Col>
-                                    <Form.Label>Email {this.state.email}</Form.Label>
-                                    <Form.Control type="email" placeholder="email" name="email" value={this.state.email}
-                                                  onChange={this.handleInputChange} onBlur={this.handleBlur}/>
-                                </Col>
-                                <Col>
-                                    <Form.Label>Telephone</Form.Label>
-                                    <Form.Control type="phone" placeholder="+7" name="phone" value={this.state.phone}
-                                                  onChange={this.handleInputChange} onBlur={this.handleBlur}/>
-                                </Col>
-                            </Form.Row>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
+                            </div>
+                    <div>
+                        <h2 className='glider-font-text24medium-fg py-4'>Contact information</h2>
+                    </div>
+                    <div>
+                        <Form.Row>
+                            <Col>
+                                <Form.Label>Email {this.state.email}</Form.Label>
+                                <Form.Control type="email" placeholder="email" name="email" value={this.state.email}
+                                              onChange={this.handleInputChange} onBlur={this.handleBlur}/>
+                            </Col>
+                            <Col>
+                                <Form.Label>Telephone</Form.Label>
+                                <Form.Control type="phone" placeholder="+7" name="phone" value={this.state.phone}
+                                              onChange={this.handleInputChange} onBlur={this.handleBlur}/>
+                            </Col>
+                        </Form.Row>
+                    </div>
+                    <div className='glider-font-text16-fg pt-3'>
                             We will send a ticket to the ail, we will send an SMS to the phone about changes in the flight or in case of other emergency situations
-                        </Col>
-                    </Row>
-                </Container>
+                    </div>
+                </div>
             </Form>
         )
     }

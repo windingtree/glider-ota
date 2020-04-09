@@ -4,7 +4,7 @@ import {Container, Row, Col, Button, Alert} from 'react-bootstrap'
 import PassengersDetailsForm from './passenger-details'
 import YourFlightInfo from './flight-info'
 import FlightRates from './flight-rates'
-
+import {config} from "../../config/default";
 import {Link} from "react-router-dom";
 
 const createOffer = options => {
@@ -130,18 +130,23 @@ export default class FlightDetail extends React.Component {
 
     return (
       <>
+        {config.DEBUG_MODE && <span>{selectedOffer.offerId}</span>}
         <Container>
-          <Row >
-            <Col className='offer-detail-wrapper'>
+          <Row>
+            <Col className='flight-offer-details-wrapper'>
               <YourFlightInfo combination={selectedCombination}/>
             </Col>
           </Row>
           <Row>
+            <Col>
               <FlightRates selectedCombination={selectedCombination} pricePlans={pricePlans} selectedOffer={selectedOffer} onOfferChange={this.handleSelectedOfferChange}/>
+            </Col>
           </Row>
 
           <Row>
+            <Col>
               <PassengersDetailsForm onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
+            </Col>
           </Row>
           <Row>
             <Col>
@@ -181,10 +186,16 @@ export default class FlightDetail extends React.Component {
 
 const PriceSummary = ({price, onPayButtonClick}) =>{
   return (
-      <Alert variant="dark">
-        <h4>Pay {price.public} {price.currency} to complete the booking</h4>
-        <Button variant="primary" onClick={onPayButtonClick}>Pay now</Button>
-      </Alert>
+      <>
+        <Row className='pt-5'>
+          <Col >
+      <div className='glider-font-h2-fg'>Pay {price.public} {price.currency} to complete the booking</div>
+          </Col>
+          <Col xl={2}>
+      <Button variant="primary" onClick={onPayButtonClick} size="lg" >Pay now</Button>
+          </Col>
+        </Row>
+      </>
   )
 }
 

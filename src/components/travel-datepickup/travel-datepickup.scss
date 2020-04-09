@@ -5,29 +5,29 @@
     height: 68px;
     box-sizing: border-box;
     
-    @include glider-media-small {
+    @include glider-media-small_576 {
         width: 560px;
     }
-    @include glider-media-medium {
+    @include glider-media-medium_768 {
         width: 414px;
     }
-    @include glider-media-large {
+    @include glider-media-large_992 {
         width: 640px;
     }
-    @include glider-media-xlarge {
+    @include glider-media-xlarge_1600 {
         width: 580px;
     }
     &__input {
-        border: 1px solid $glider-color-background;
+        border: 1px solid $glider-color-text-background;
         color: $glider-color-text;
-        @include glider-font-regular-18;
+        @include _glider-font-regular18;
         border-radius: 5px;
         width:50%;
         height:100%;
         padding-left: 10px;
     }
     &__input::placeholder {
-        color: $glider-color-background;
+        color: $glider-color-text-background;
     }
 
 }

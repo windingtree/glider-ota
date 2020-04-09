@@ -1,29 +1,26 @@
 @import '../../styles/utils';
 
 
-
-
 .offer-detail--header{
-    @include glider-font-h1;
+    @include _glider-font-h1;
+    color: $glider-color-text;
     padding-bottom: 20px;
 }
 
 
-.offer-detail--trip-route{
-    @include glider-font-medium-24;
-    padding-bottom: 30px;
+.min-width-100 {
     min-width: 100px;
-    padding-right: 20px;
 }
 
+.min-width-210 {
+    min-width: 210px;
+}
+.min-width-290{
+    min-width: 290px;
+}
 
-
-
-.offer-detail--trip-dates{
-    @include glider-font-regular-18;
-    padding-bottom: 30px;
-    color: $glider-color-background;
-    min-width: 250px;
+.min-width-330{
+    min-width: 330px;
 }
 
 
@@ -33,16 +30,6 @@
 }
 
 
-.offer-detail--trip-carrier-name{
-    @include glider-font-small-13;
-    color: $glider-color-text;
-}
-
-.offer-detail--trip-flight-number{
-    @include glider-font-small-13;
-    color: $glider-color-background;
-
-}
 
 .box-200{
     width: 200px;
@@ -51,45 +38,3 @@
 .box-500{
     width: 700px;
 }
-
-.font-small-background{
-    @include glider-font-small-13;
-    color: $glider-color-background;
-}
-
-.font-small-foreground{
-    @include glider-font-small-13;
-    color: $glider-color-text;
-}
-
-.font-regular-background{
-    @include glider-font-regular-18;
-    color: $glider-color-background;
-}
-
-.font-regular-foreground{
-    @include glider-font-regular-18;
-    color: $glider-color-text;
-}
-
-
-.font-medium-background{
-    @include glider-font-medium-24;
-    color: $glider-color-background;
-}
-
-.font-medium-foreground{
-    @include glider-font-medium-24;
-    color: $glider-color-text;
-}
-
-.font-h2-background{
-    @include glider-font-h2;
-    color: $glider-color-background;
-}
-
-.font-h2-foreground{
-    @include glider-font-h2;
-    color: $glider-color-text;
-}
-

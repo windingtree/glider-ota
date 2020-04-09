@@ -1,0 +1,15 @@
+@import '../../styles/utils';
+
+
+.paxdetails{
+
+}
+
+
+.paxdetails label{
+    @include _glider-font-text12;
+}
+
+.paxdetails input::placeholder{
+    color: $glider-color-text-background;
+}

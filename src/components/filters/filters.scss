@@ -1,0 +1,46 @@
+@import '../../styles/utils';
+
+
+.filters-container{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid red;
+
+    /*
+    @include glider-media-small_576 {
+     display: none;
+    }
+    @include glider-media-medium_768 {
+      display: none;
+    }
+    @include glider-media-large_992 {
+      min-width: 830px;
+    }
+    @include glider-media-xlarge_1600 {
+      min-min-width: 950px;
+    }
+    */
+
+  }
+
+.filter{
+  @include _glider-font-regular18;
+  color: $glider-color-text;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding:20px;
+  margin-top: 20px;
+  &__title{
+    text-transform: uppercase;
+    padding-bottom: 20px;
+  }
+
+  &__checkbox{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    //margin-bottom: 10px;
+  }
+}

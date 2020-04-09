@@ -4,19 +4,19 @@
     height: 68px;
     width: 280px;
     box-sizing: border-box;
-    border: 1px solid $glider-color-background;
+    border: 1px solid $glider-color-text-background;
     border-radius: 5px;
 
-    @include glider-media-small {
+    @include glider-media-small_576 {
         width: 560px;
     }
-    @include glider-media-medium {
+    @include glider-media-medium_768 {
         width: 415px;
     }
-    @include glider-media-large {
+    @include glider-media-large_992 {
         width: 640px;
     }
-    @include glider-media-xlarge {
+    @include glider-media-xlarge_1600 {
         width: 290px;
     }
 }
@@ -28,8 +28,8 @@
     border: 0px;
     box-sizing: border-box;
     background: #ffffff;
-    @include glider-font-regular-18;
-    color: $glider-color-background;
+    @include _glider-font-regular18;
+    color: $glider-color-text-background;
 }
 
 

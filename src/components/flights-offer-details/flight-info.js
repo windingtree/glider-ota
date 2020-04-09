@@ -2,9 +2,10 @@ import OfferUtils from "../../utils/offer-utils";
 import {Col, Container, Image, Row} from "react-bootstrap";
 import {format} from "date-fns";
 import logo from "../../assets/airline_logo.png";
+import {iataToCityName} from "../../utils/offer-utils"
 import React from "react";
 import "./flight-info.scss";
-import airportToCityMap from "../../data/airport-city-map";
+
 
 
 export default function YourFlightInfo({combination}){
@@ -48,8 +49,8 @@ function ItineraryHeader({combination}){
 
     return (
         <div className='d-flex flex-row flex-wrap mb-2'>
-            <span className='font-medium-foreground'>{airportToCity(depCityName)}-{airportToCity(arrivCityName)} </span>
-            <span className='font-regular-background'> {departureDateStr} {returnDateStr}</span>
+            <span className='glider-font-text24medium-fg pr-3'>{depCityName}-{arrivCityName} </span>
+            <span className='glider-font-text18medium-bg'> {departureDateStr} {returnDateStr}</span>
         </div>
     )
 
@@ -63,111 +64,49 @@ function ItineraryDetailsNew({itinerary}){
     let operatingCarrier=OfferUtils.getItineraryOperatingCarrier(itinerary);
 
     return (
-        <div className="offer-detail-container d-flex flex-row flex-wrap border border-danger my-3 p-3">
+        <div className="offer-detail-container d-flex flex-row flex-wrap my-5 p-4">
             <div>
-                <div className='border border-dark d-flex flex-row flex-wrap mb-5'>
-                    <div className='box-200 border font-medium-foreground'>{format(dptrDate,'MMMM d')}</div>
-                    <div className='box-200 border font-regular-foreground'>{OfferUtils.getItineraryDepartureCityName(itinerary)} - {OfferUtils.getItineraryArrivalCityName(itinerary)}</div>
+                <div className='d-flex flex-row flex-wrap mb-5'>
+                    <div className='glider-font-text24medium-fg min-width-290'>{format(dptrDate,'MMMM d')}</div>
+                    <div className='glider-font-regular18-fg'>{OfferUtils.getItineraryDepartureCityName(itinerary)} - {OfferUtils.getItineraryArrivalCityName(itinerary)}</div>
                 </div>
-                <div className='border border-dark d-flex flex-row flex-wrap-reverse box-500'>
-                    <div className='box-200'>
-                        <div className='d-flex flex-row'>
-                            <div><img src={"/airlines/"+operatingCarrier.iataCode+".png"} className='offer-detail--trip-logo'/></div>
-                            <div className='d-flex flex-column'>
-                                <div className='offer-detail--trip-carrier-name'>{operatingCarrier.airlineName}</div>
-                                <div className='font-small-background'>{operatingCarrier.flight}</div>
+                <div className='d-flex flex-row flex-wrap-reverse'>
+                    <div className='d-flex flex-row min-width-290'>
+                        <div><img src={"/airlines/"+operatingCarrier.iataCode+".png"} className='offer-detail--trip-logo'/></div>
+                        <div className='d-flex flex-column'>
+                            <div className='glider-font-filtercategories13-fg'>{operatingCarrier.airlineName}</div>
+                            <div className='glider-font-filtercategories13-bg'>{operatingCarrier.flight}</div>
+                        </div>
+                    </div>
+                    <div className='d-flex flex-column flex-wrap'>
+                        <div className='d-flex flex-row flex-wrap  pb-4'>
+                            <div className='flex-row flex-wrap min-width-210'>
+                                <span className='glider-font-h2-fg pr-1'>{format(dptrDate, 'HH:mm')}</span>
+                                <span className='glider-font-regular18-fg pr-3 align-self-center'>{format(dptrDate, 'MMM dd')}</span>
+                            </div>
+                            <div className='flex-row flex-wrap  min-width-330'>
+                                <span className='glider-font-filtercategories13-fg pr-1'>{OfferUtils.getItineraryDepartureAirportName(itinerary)}</span>
+                                <span className='glider-font-filtercategories13-bg'>{OfferUtils.getItineraryDepartureAirportCode(itinerary)}</span>
+                            </div>
+                        </div>
+                        <div className='d-flex flex-row flex-wrap '>
+                            <div className='flex-row flex-wrap min-width-210'>
+                                <span className='glider-font-h2-fg glider-font-h2-fg pr-1'>{format(arrivalDate, 'HH:mm')}</span>
+                                <span className='glider-font-regular18-fg align-self-center'>{format(arrivalDate, 'MMM dd')}</span>
+                            </div>
+                            <div className='flex-row flex-wrap  min-width-330'>
+                                <span className='glider-font-filtercategories13-fg pr-1'>{OfferUtils.getItineraryArrivalAirportName(itinerary)}</span>
+                                <span className='glider-font-filtercategories13-bg'>{OfferUtils.getItineraryArrivalAirportCode(itinerary)}</span>
                             </div>
                         </div>
                     </div>
-                    <div className='border border-dark d-flex flex-row'>
-                        <div className='box-200 border d-flex flex-row'>
-                            <span className='font-h2-foreground'>{format(dptrDate, 'HH:mm')}</span>
-                            <span className='font-regular-foreground'>{format(dptrDate, 'MMM dd')}</span>
-                            <span className='font-small-foreground'>{OfferUtils.getItineraryDepartureAirportName(itinerary)}</span>,
-                            <span className='font-small-background'>{OfferUtils.getItineraryDepartureAirportCode(itinerary)}</span>
-                        </div>
-                        <div className='box-200 border'>
-                            <span className='font-h2-foreground'>{format(arrivalDate, 'HH:mm')}</span>
-                            <span className='font-regular-foreground'>{format(arrivalDate, 'MMM dd')}</span>
-                            <span className='font-small-foreground'>{OfferUtils.getItineraryArrivalAirportName(itinerary)}</span>
-                            <span className='font-small-background'>{OfferUtils.getItineraryArrivalAirportCode(itinerary)}</span>
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div className='border border-dark d-flex flex-row flex-wrap flight-detail--col3'>
-                <div className='box-200 border font-regular-foreground'>{OfferUtils.calculateDuration(itinerary)}</div>
-                <div className='box-200 border font-small-foreground'>No luggage</div>
+            <div className='d-flex flex-row flex-wrap'>
+                <div className='glider-font-regular18-fg py-3 min-width-100'>{OfferUtils.calculateDuration(itinerary)}</div>
+                <div className='glider-font-filtercategories13-fg py-3 min-width-100'>No luggage</div>
             </div>
         </div>
     )
 }
 
-function ItineraryDetails({itinerary}){
-    return (
-        <div className="offer-detail-container">
-            <div>
-                <DepartureAndArrivalInfo itinerary={itinerary}/>
-            </div>
-            <div className='border box-200'>
-                <AirlineAndFlightNumber itinerary={itinerary}/>
-            </div>
-            <div md={2} ><h5>{OfferUtils.calculateDuration(itinerary)}</h5>{/*<PricePlan/>*/}</div>
-        </div>
-    )
-}
-function DepartureAndArrivalInfo({itinerary}){
-    let dptrDate=OfferUtils.getItineraryDepartureDate(itinerary);
-    let arrivalDate=OfferUtils.getItineraryArrivalDate(itinerary);
-    return (
-        <div>
-            <Row>
-                <h4>{OfferUtils.getItineraryDepartureCityName(itinerary)} - {OfferUtils.getItineraryArrivalCityName(itinerary)}</h4>
-            </Row>
-            <Row>
-                <Col md={5}>
-                    <h5>{format(dptrDate,'HH:mm')}<small>{format(dptrDate,'LLL dd (EEE)')}</small></h5>
-                    <div><span>{OfferUtils.getItineraryDepartureAirportCode(itinerary)}</span>,<span>{OfferUtils.getItineraryDepartureAirportCode(itinerary)}</span></div>
-                </Col>
-                <Col><span>-</span></Col>
-                <Col md={5}>
-                    <h5>{format(arrivalDate,'HH:mm')}<small>{format(arrivalDate,'LLL dd (EEE)')}</small></h5>
-                    <div><span>{OfferUtils.getItineraryArrivalCityName(itinerary)}</span>,<span>{OfferUtils.getItineraryArrivalAirportCode(itinerary)}</span></div>
-                </Col>
-            </Row>
-        </div>
-    )
-}
-
-/**
- * Operating carrier logo + name (e.g. "Air France"), flight number(e.g. "AF-123")  and aircraft details (e.g. "Boeing 737")
- * @param itinerary
- * @returns {*}
- * @constructor
- */
-function AirlineAndFlightNumber({itinerary}){
-    let operatingCarrier=OfferUtils.getItineraryOperatingCarrier(itinerary);
-    return(
-        <div className='d-flex flex-row'>
-            <div><img src={"/airlines/MN.png"} className='offer-detail--trip-logo'/></div>
-            <div className='d-flex flex-column'>
-                <div className='offer-detail--trip-carrier-name'>{operatingCarrier.airlineName}</div>
-                <div className='offer-detail--trip-flight-number'>{operatingCarrier.flight}</div>
-            </div>
-        </div>
-    )
-}
-function PricePlan({pricePlan}) {
-    return(
-        <Container className='offer-detail--priceplan'>
-            <Row>
-                {/*{pricePlan.name}*/}
-            </Row>
-        </Container>
-    )
-}
-
-
-function airportToCity(iata){
-    return airportToCityMap[iata];
-}

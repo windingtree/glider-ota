@@ -1,4 +1,4 @@
-  {
+{
   "accommodations": {
     "erevmax.07119": {
       "name": "Comfort Hotel Xpress Stockholm Central",
@@ -264,7 +264,7 @@
     }
   },
   "offers": {
-    "b64a914d-53a1-4df0-a5a3-731dd780e8b5": {
+    "31f71d88-0355-461f-91be-08baf13b6674": {
       "pricePlansReferences": {
         "LSAVE": {
           "accommodation": "erevmax.07119",
@@ -273,11 +273,11 @@
       },
       "price": {
         "currency": "SEK",
-        "public": "576.0",
-        "taxes": -64
+        "public": "776.0",
+        "taxes": 136
       }
     },
-    "e5452467-20a5-480d-8cf8-c1f79cb34b17": {
+    "81167e15-fcbe-49f8-bed0-c1fd4cfe4e9a": {
       "pricePlansReferences": {
         "LSAVE": {
           "accommodation": "erevmax.07119",
@@ -286,11 +286,11 @@
       },
       "price": {
         "currency": "SEK",
-        "public": "756.0",
-        "taxes": -84
+        "public": "956.0",
+        "taxes": 116
       }
     },
-    "046fdae6-7f84-46d0-82bd-b56f99cc90f9": {
+    "29de15b0-c874-4ccf-8696-3a0aed8a2db8": {
       "pricePlansReferences": {
         "LSAVE": {
           "accommodation": "erevmax.07119",
@@ -299,11 +299,11 @@
       },
       "price": {
         "currency": "SEK",
-        "public": "531.0",
-        "taxes": -59
+        "public": "631.0",
+        "taxes": 41
       }
     },
-    "9d8fa892-7c81-46c0-a1a1-7fe6e67140c7": {
+    "7ed6503f-70b6-408d-a60e-a5c04a1f0161": {
       "pricePlansReferences": {
         "BAR": {
           "accommodation": "erevmax.07119",
@@ -316,7 +316,7 @@
         "taxes": 0
       }
     },
-    "a483c662-e893-4f88-b0b3-46bead4a6929": {
+    "166e45a8-700f-43fb-ab8a-062c192ed0e5": {
       "pricePlansReferences": {
         "BAR": {
           "accommodation": "erevmax.07119",
@@ -329,7 +329,7 @@
         "taxes": 0
       }
     },
-    "8f00f219-ef4a-4c6a-befb-ce0be7701bc0": {
+    "a9361e7c-676f-48f5-804a-af0c2def34d6": {
       "pricePlansReferences": {
         "BAR": {
           "accommodation": "erevmax.07119",

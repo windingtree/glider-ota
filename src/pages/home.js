@@ -10,13 +10,10 @@ import {extendResponse} from '../utils/flight-search-results-transformer'
 import FlightsPage from './flights';
 import HotelsPage from './hotels';
 import {config} from '../config/default';
+import {findFlights, findHotels} from '../utils/search';
+
 import css from './home.scss'
 import logo from "../assets/glider-logo.png";
-
-//OFFLINE MODE
-import offline_flight_results from "../data/sample_response_flights"
-import offline_hotels_results from "../data/sample_response_hotels"
-const OFFLINE_MODE=true;
 
 
 
@@ -46,23 +43,19 @@ export default function HomePage() {
     const onSearchStart = () =>{setSearchState(SEARCH_STATE.IN_PROGRESS);}
     return (
         <>
-            <Header/>
-            <Container fluid={true} className='flightsearch-container'>
-                <Row>
-                <OtaTest text="one"/>
-                <OtaTest text="two"/>
-                <OtaTest text="three"/>
-                </Row>
-            </Container>
+
             {/*<ContentWrapper>*/}
+            <div className='main-page-header'>
+                <Header/>
                 <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
                 {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
                 {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
                 {searchState === SEARCH_STATE.IN_PROGRESS && <SearchInProgress />}
                 {searchState === SEARCH_STATE.FAILED && <SearchFailed />}
                 {searchState === SEARCH_STATE.FINISHED && <SearchResults searchResults={searchResults} searchType={searchType}/>}
+            </div>
             {/*</ContentWrapper>*/}
-            {/*<Footer/>*/}
+            <Footer/>
         </>    )
 }
 
@@ -99,65 +92,43 @@ function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, ad
 }
 
 const search = (criteria, mode, onSearchSuccessCallback,onSearchFailureCallback) => {
-    if(OFFLINE_MODE){
-        if (mode === SEARCH_TYPE.FLIGHTS){
-            onSearchSuccessCallback(offline_flight_results);
-        }
-        else if (mode === SEARCH_TYPE.HOTELS){
-            onSearchSuccessCallback(offline_hotels_results);
-        }
-    }else {
 
     let searchRequest;
-    if (mode === SEARCH_TYPE.FLIGHTS)
-        searchRequest = buildFlightsSearchCriteria(criteria.origin.iata, criteria.destination.iata, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
-    else if (mode === SEARCH_TYPE.HOTELS)
-        searchRequest = buildHotelsSearchCriteria(criteria.destination.latitude, criteria.destination.longitude, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
-    else
-        throw Error('Unknown search mode');
-    console.debug('Raw search criteria:',criteria,' API search criteria', searchRequest)
 
-    const requestInfo = {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(searchRequest)
-    };
-
-
-        fetch(config.SEARCH_OFFERS_URL, requestInfo)
-            .then(function (res) {
-                return res.json()
-            })
-            .then(function (data) {
-                console.debug('Search results arrived')
-                let searchResultsTransformed = extendResponse(data);
-                onSearchSuccessCallback(searchResultsTransformed);
-            }).catch(function (err) {
-            console.error('Search failed', err)
-            onSearchFailureCallback();
-        })
+    if(!config.OFFLINE_MODE) { //no need to fill search criteria in OFFLINE_MODE
+        if (mode === SEARCH_TYPE.FLIGHTS)
+            searchRequest = buildFlightsSearchCriteria(criteria.origin.iata, criteria.destination.iata, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
+        else if (mode === SEARCH_TYPE.HOTELS)
+            searchRequest = buildHotelsSearchCriteria(criteria.destination.latitude, criteria.destination.longitude, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
+        else
+            throw Error('Unknown search mode');
     }
-}
+
+    console.debug('Raw search criteria:',criteria,' API search criteria', searchRequest)
+    let findPromise;
+    if(mode === SEARCH_TYPE.FLIGHTS)
+        findPromise=findFlights(searchRequest);
+    else if (mode === SEARCH_TYPE.HOTELS)
+        findPromise=findHotels(searchRequest);
+
+    findPromise.then(results=>{
+        onSearchSuccessCallback(results);
+    }).catch(function (err) {
+        console.error('Search failed', err)
+        onSearchFailureCallback();
+    });
+};
 
 // Toggle buttons on the top of the main page to select if you search hotels or flights
 const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
     const [value, setValue] = useState(defaultValue);
     const onFlightClick = () => {setValue(SEARCH_TYPE.FLIGHTS);onToggle(SEARCH_TYPE.FLIGHTS);}
     const onHotelClick = ()  => {setValue(SEARCH_TYPE.HOTELS);onToggle(SEARCH_TYPE.HOTELS);}
-    console.log("defaultValue="+defaultValue)
-    console.log("value="+value)
     return (
-        <Container fluid={false}>
-            <Row className="flight-or-hotel-toggle">
-                <Button className="flight-or-hotel-toggle__btn" variant={value==SEARCH_TYPE.FLIGHTS?"primary":"outline-primary"} size="lg" onClick={onFlightClick}>Flights</Button>
-                <Button className="flight-or-hotel-toggle__btn" variant={value==SEARCH_TYPE.HOTELS?"primary":"outline-primary"} size="lg" onClick={onHotelClick}>Hotels</Button>
+        <Container fluid={true} className='d-flex justify-content-center pb-5'>
+            <Row className="flight-or-hotel-toggle d-flex flex-row">
+                <Button className="flight-or-hotel-toggle__btn flex-fill " variant={value==SEARCH_TYPE.FLIGHTS?"primary":"outline-primary"} size="lg" onClick={onFlightClick}>Flights</Button>
+                <Button className="flight-or-hotel-toggle__btn flex-fill" variant={value==SEARCH_TYPE.HOTELS?"primary":"outline-primary"} size="lg" onClick={onHotelClick}>Hotels</Button>
             </Row>
         </Container>)
 }

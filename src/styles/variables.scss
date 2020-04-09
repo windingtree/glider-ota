@@ -1,8 +1,9 @@
 $glider-color-primary: #7161D6;
-$glider-color-background: #C6C6C1;
-$glider-color-body-background: #F3F4F6;
+$glider-color-body-background: #DFE3E7;
+$glider-color-primary-background: #ffffff;
 $glider-color-hover: #F1FCFF;
 $glider-color-text: #202020;
+$glider-color-text-background: #C6C6C1;
 $glider-font-family-base:'apercuregular';
 
 
@@ -15,6 +16,8 @@ $glider-break-sm: 576px;
 $glider-break-md: 768px;
 // Large devices (desktops, 992px and up)
 $glider-break-lg: 992px;
+// Even larger devices (large desktops, 1400px and up)
+$glider-break-ll: 1400px;
 // Extra large devices (large desktops, 1600px and up)
 $glider-break-xl: 1600px;
 

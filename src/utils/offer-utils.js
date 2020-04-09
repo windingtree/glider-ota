@@ -1,5 +1,5 @@
 import {parseISO,differenceInHours,differenceInMinutes} from "date-fns";
-
+import airportToCityMap from "../data/airport-city-map";
 
 export default class OfferUtils {
   static calculateDuration (itinerary) {
@@ -94,30 +94,45 @@ export default class OfferUtils {
   }
   static getItineraryDepartureCityName(itinerary){
     let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
-    //TODO replace with cityname
-    return firstSegment.origin.iataCode;
+    return iataToCityName(firstSegment.origin.iataCode);
   }
   static getItineraryArrivalCityName(itinerary){
     let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
-    //TODO replace with cityname
-    return lastSegment.destination.iataCode;
+    return iataToCityName(lastSegment.destination.iataCode);
   }
   static getItineraryDepartureAirportName(itinerary){
     let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
-    //TODO replace with full airport/station name
-    return firstSegment.origin.iataCode;
+    return iataToAirportName(firstSegment.origin.iataCode);
   }
   static getItineraryArrivalAirportName(itinerary){
     let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
-    //TODO replace with full airport/station name
-    return lastSegment.destination.iataCode;
+    return iataToAirportName(lastSegment.destination.iataCode);
   }
   static getItineraryDepartureAirportCode(itinerary){
-    let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
+    let firstSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
     return firstSegment.origin.iataCode;
   }
   static getItineraryArrivalAirportCode(itinerary){
-    let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
+    let lastSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
     return lastSegment.destination.iataCode;
   }
 }
+
+
+export function iataToCityName(iata){
+  let rec=airportToCityMap[iata];
+  if(rec){
+    return rec.city;
+  }else{
+    return "["+iata+"]";
+  }
+}
+export function iataToAirportName(iata){
+  let rec=airportToCityMap[iata];
+  if(rec){
+    return rec.airport;
+  }else{
+    return "["+iata+"]";
+  }
+}
+

@@ -1,7 +1,7 @@
 import {Col, Container, Row} from "react-bootstrap";
 import React from "react";
 import OfferUtils from "../../utils/offer-utils";
-
+import "./flight-rates.scss";
 
 export default class FlightRates extends React.Component {
     constructor(props) {
@@ -42,20 +42,11 @@ export default class FlightRates extends React.Component {
         const {selectedCombination} = this.props;
         const itineraries = selectedCombination.itinerary;
         return (
-            <Container>
-                <Row>
-                    <Col>
-                        <h2>Airline rates</h2>
-                        {/*
-                    {
-                        availablePricePlans.map(plan => {
-                            return (<div>{plan.offerId}</div>)
-                        })
-                    }
-*/}
-                    </Col>
-                </Row>
-
+            <>
+            <div>
+                <h2 className='glider-font-h2-fg'>Airline rates</h2>
+            </div>
+            <div>
                 {
                     itineraries.map(itinerary=>{
                         let itinId=itinerary.itinId;
@@ -67,7 +58,8 @@ export default class FlightRates extends React.Component {
                     })
                 }
 
-            </Container>
+            </div>
+            </>
         )
     }
 }
@@ -80,32 +72,24 @@ function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,sel
     let arrivalCity = OfferUtils.getItineraryArrivalCityName(itinerary)
     let allPricePlans = plansManager.getAllPricePlans();
     return (<>
-             <Row>
-            <Col>
-                <h5>Flight {departureCity} - {arrivalCity}</h5>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
+        <div className='glider-font-regular18-fg py-4'>Flight {departureCity} - {arrivalCity}</div>
+        <div className='d-flex flex-row flex-wrap'>
                 {
                     availablePricePlans.map((pricePlanId) => {
                         let pricePlan = allPricePlans[pricePlanId];
-                        let className='offer-detail--priceplan'
-                        if(selectedPlan === pricePlanId)
-                            className='offer-detail--priceplan selectedplan'
                         let bagsAllowance=pricePlan.checkedBaggages.quantity;
                         let allowedKilos = bagsAllowance*23;
                         return (
-                            <span className={className} key={pricePlanId} onClick={() => { onPricePlanSelected(itineraryId, pricePlanId)}}>
-                                <div className="priceplan-name">{pricePlan.name}</div>
+                            <div className={'offer-detail--priceplan '+(selectedPlan === pricePlanId?'selectedplan':'')} key={pricePlanId}
+                                 onClick={() => { onPricePlanSelected(itineraryId, pricePlanId)}}>
+                                <div className="glider-font-text18medium-fg">{pricePlan.name}</div>
                                 <div className="priceplan-bags">{bagsAllowance==='0'?'No luggage':('Baggage '+allowedKilos+' kg')}</div>
-                            </span>
+                            </div>
                         )
 
                     })
                 }
-            </Col>
-        </Row>
+        </div>
     </>)
 }
 
