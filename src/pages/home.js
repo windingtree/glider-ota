@@ -173,7 +173,7 @@ const HotelsSearchForm = ({onHotelsSearch}) =>{
 const SearchResults = ({searchResults, searchType})=>{
     return (
         <>
-            <div>Search results</div>
+            {/*<div>Search results</div>*/}
             {searchType === SEARCH_TYPE.FLIGHTS && <FlightsPage searchResults={searchResults}/> }
             {searchType === SEARCH_TYPE.HOTELS && <HotelsPage searchResults={searchResults} />}
         </>

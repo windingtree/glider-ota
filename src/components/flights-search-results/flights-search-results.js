@@ -39,7 +39,8 @@ export default class FlightsSearchResults extends React.Component {
         }
         return (
             <Container fluid={false} className='flights-search-results-container d-flex flex-row'>
-                <div><Filters/>
+                <div>
+                    <Filters searchResults={searchResults}/>
                 </div>
                 <div>
                     {/*    <FastCheapFilter/>*/}
