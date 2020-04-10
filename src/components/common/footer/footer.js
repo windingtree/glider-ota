@@ -45,8 +45,8 @@ export default function Footer (props) {
                 </Col>
                 <Col md={3}>
                   <Nav defaultActiveKey="/" className="footer__nav flex-column">
-                    <Nav.Link disabled className="footer__nav-link">Solutions</Nav.Link>
-                    <Nav.Link disabled>Harju maakond, <br/>Tallinn Kesklinna linnaosa, <br/>Tartu mnt 67/1-13b, 10115</Nav.Link>
+                    <Nav.Link disabled className="footer__nav-link">Address</Nav.Link>
+                    <Nav.Link className="footer__nav-link">Harju maakond, <br/>Tallinn Kesklinna linnaosa, <br/>Tartu mnt 67/1-13b, 10115</Nav.Link>
                     <Nav.Link className="footer__nav-link" href="mailto:info@windingtree.com">info@windingtree.com</Nav.Link>
                   </Nav>
                 </Col>
