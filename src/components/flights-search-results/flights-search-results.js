@@ -2,57 +2,37 @@ import React from 'react'
 import './flights-search-results.scss'
 import {Container, Row, Col, Image, Button} from 'react-bootstrap'
 import {format, parseISO} from "date-fns";
-// import {config} from "../../config/default"
-import Filters from '../filters/filters'
-import FastCheapFilter from '../filters/fast-cheap-filter'
 import OfferUtils from '../../utils/offer-utils'
-import PriceRangeFilter from '../filters/price-range-filter'
 import _ from 'lodash'
 
 
-
-export default class FlightsSearchResults extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-        this.handleInputValueChange = this.handleInputValueChange.bind(this);
-        this.handleOfferDisplay = this.handleOfferDisplay.bind(this);
+export default function FlightsSearchResults({searchResults: combinations, onOfferDisplay}) {
+    console.log("FlightsSearchResults")
+    function handleInputValueChange(event) {
     }
 
-    handleInputValueChange(event) {
-    }
-
-    handleOfferDisplay(combinationId,offerId) {
+    function handleOfferDisplay(combinationId, offerId) {
         console.log("handleOfferDisplay", offerId);
-        if (this.props.onOfferDisplay) {
-            this.props.onOfferDisplay(combinationId,offerId)
-        }
+        onOfferDisplay(combinationId, offerId);
     }
 
-
-    render() {
-        const {searchResults} = this.props;
-        if (searchResults === undefined) {
-            console.log('No data!!');
-            return (<>Search for something</>)
-        }
-        return (
-            <Container fluid={false} className='flights-search-results-container d-flex flex-row'>
-                <div>
-                    <Filters searchResults={searchResults}/>
-                </div>
-                <div>
-                    {/*    <FastCheapFilter/>*/}
-                        {
-                            searchResults.combinations.map(combination => {
-                                return (<Offer key={combination.combinationId} combination={combination} onOfferDisplay={this.handleOfferDisplay}/>)
-                            })
-                        }
-                </div>
-            </Container>
-        )
+    if (combinations === undefined) {
+        console.log('No data!!');
+        return (<>Search for something</>)
     }
+    return (
+        <Container fluid={false} className='flights-search-results-container d-flex flex-row'>
+            <div>
+                {/*    <FastCheapFilter/>*/}
+                {
+                    combinations.map(combination => {
+                        return (<Offer key={combination.combinationId} combination={combination}
+                                       onOfferDisplay={handleOfferDisplay}/>)
+                    })
+                }
+            </div>
+        </Container>
+    )
 
 }
 
@@ -61,14 +41,14 @@ const Offer = ({combination,onOfferDisplay}) =>{
     const returnItinerary = OfferUtils.doesReturnItineraryExist(combination) ? OfferUtils.getReturnItinerary(combination) : undefined;
     const firstSegment = OfferUtils.getFirstSegmentOfItinerary(outboundItinerary);
     const cheapestOffer = OfferUtils.getCheapestOffer(combination);
-    let offer = cheapestOffer.offer
+    let offer = cheapestOffer.offer;
     return (
         <div className='flight-search-offer-container d-flex flex-row flex-wrap mb-2 p-4' key={combination.combinationId}>
-            <div>
-                <Itinerary itinerary={outboundItinerary}/>
-                {returnItinerary !== undefined && <Itinerary itinerary={returnItinerary}/>}
+            <div >
+                <Itinerary itinerary={outboundItinerary} offer={cheapestOffer}/>
+                {returnItinerary !== undefined && <Itinerary itinerary={returnItinerary} offer={cheapestOffer}/>}
             </div>
-            <div className='flex-fill '>
+            <div className='flex-fill ' >
                 <Button className="offer-highlight--price align-self-center" variant="outline-primary" size="lg" onClick={() => {
                     onOfferDisplay(combination.combinationId,cheapestOffer.offerId)
                 }}>{offer.price.public} {offer.price.currency}</Button>
@@ -79,12 +59,13 @@ const Offer = ({combination,onOfferDisplay}) =>{
 
 
 
-const Itinerary = ({itinerary}) =>{
+const Itinerary = ({itinerary, offer}) =>{
     const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
     const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
     const startOfTrip = parseISO(firstSegment.departureTime);
     const endOfTrip = parseISO(lastSegment.arrivalTime);
     const segments = OfferUtils.getItinerarySegments(itinerary);
+    const pricePlan = OfferUtils.getItineraryPricePlan(itinerary);
     const stops = [];
     for (let i = 0; i < segments.length - 1; i++) {
         const segment = segments[i];
@@ -114,12 +95,13 @@ const Itinerary = ({itinerary}) =>{
                 {
                     _.map(operators, (operator, id) => {
                         let imgPath="/airlines/"+id+".png";
-                        return (<><img key={id} src={imgPath} className='offer-highlight--logos-and-ancillaries'/></>)
+                        return (<img key={id} src={imgPath} className='offer-highlight--logo'/>)
                     })
                 }
                 </span>
                 <span className='offer-highlight--logos-and-ancillaries pl-4'>
-                    <img src="/ancillaries/baggage.png" className='offer-highlight--logos-and-ancillaries'/>
+                    {pricePlan.checkedBaggages.quantity === 0 && <img src="/ancillaries/luggage_notallowed.png" className='offer-highlight--ancillaries'/>}
+                    {pricePlan.checkedBaggages.quantity>0 && <img src="/ancillaries/luggage_allowed.png" className='offer-highlight--ancillaries'/>}
                 </span>
             </div>
         </div>

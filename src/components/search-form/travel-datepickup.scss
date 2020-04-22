@@ -1,0 +1,60 @@
+@import 'src/styles/utils';
+
+.date-range {
+    //width: 280px;
+    //height: 68px;
+    box-sizing: border-box;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+
+    &__input {
+        border: 1px solid $glider-color-text-background;
+        color: $glider-color-text;
+        @include _glider-font-regular18;
+        border-radius: 5px;
+        width:100%;
+        height: 68px;
+        padding: 18px 16px;
+    }
+    &__input::placeholder {
+        color: $glider-color-text-background;
+    }
+
+}
+
+.nice-dates{
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+
+.nice-dates-navigation{
+    color: $glider-color-primary;
+}
+
+.nice-dates-day{
+    color: $glider-color-text;
+}
+
+.nice-dates-day_date{
+    color: $glider-color-text;
+}
+
+.nice-dates-popover {
+    box-shadow: none;
+    border: 1px solid black;
+    border-radius: 2px;
+    width: 480px;
+    transition: none;
+}
+
+.nice-dates-day::before{
+    background: $glider-color-primary;
+    color: white;
+
+}

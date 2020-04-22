@@ -1,22 +1,14 @@
 import React, {useState} from 'react';
-import Header from '../components/common/header/header';
+import Header  from '../components/common/header/header';
 import Footer from '../components/common/footer/footer';
-import ContentWrapper from '../components/common/content-wrapper';
 import {Container,Row,Col,ToggleButton, ToggleButtonGroup,Button} from 'react-bootstrap';
-import {LOCATION_SOURCE} from '../components/location-lookup/location-lookup';
-import SearchForm from '../components/search-form/search-form';
-import SearchCriteriaBuilder from '../utils/search-criteria-builder';
-import {extendResponse} from '../utils/flight-search-results-transformer'
-import FlightsPage from './flights';
-import HotelsPage from './hotels';
+import {LOCATION_SOURCE} from '../components/search-form/location-lookup';
+import {SearchForm} from '../components/search-form/search-form';
 import MainPageContent from './main-page-content';
-import {config} from '../config/default';
-import {findFlights, findHotels} from '../utils/search';
+import {format} from "date-fns";
 
 import css from './home.scss'
-import logo from "../assets/glider-logo.png";
-
-
+import {useHistory} from "react-router-dom";
 
 
 
@@ -31,105 +23,59 @@ const SEARCH_STATE={
     FINISHED:'FINISHED'
 }
 
+function createFlightsURL(criteria){
+    let origin=criteria.origin.iata;
+    let destination=criteria.destination.iata;
+    let adults=criteria.adults;
+    let children=criteria.children;
+    let infants=criteria.infants;
+    let departureDate=dateToStr(criteria.departureDate);
+    let returnDate=dateToStr(criteria.returnDate);
+    const url = '/flights/'+origin+"/"+destination+"/"+departureDate+"/"+returnDate+"/"+adults+"/"+children+"/"+infants;
+    console.log("Criteria==>URL, Criteria:",criteria,"URL:",url);
+    return url;
+}
+function createHotelsURL(criteria){
+    let origin=criteria.origin.iata;
+    let destination=criteria.destination.iata;
+    let adults=criteria.adults;
+    let children=criteria.children;
+    let infants=criteria.infants;
+    let departureDate=dateToStr(criteria.departureDate);
+    let returnDate=dateToStr(criteria.returnDate);
+    const url = '/hotels/'+origin+"/"+destination+"/"+departureDate+"/"+returnDate+"/"+adults+"/"+children+"/"+infants;
+    console.log("Criteria==>URL, Criteria:",criteria,"URL:",url);
+    return url;
+}
+
+function dateToStr(date){
+    return format(date,'yyyyMMdd');
+}
+
+
 export default function HomePage() {
     const [searchType, setSearchType] = useState(SEARCH_TYPE.FLIGHTS);
     const [searchCriteria, setSearchCriteria] = useState();
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
-
-    const onFlightsSearch = (criteria) =>{onSearchStart();setSearchCriteria(criteria);search(criteria,SEARCH_TYPE.FLIGHTS, onSearchSuccess,onSearchFailure)};
-    const onHotelsSearch = (criteria) =>{onSearchStart();setSearchCriteria(criteria);search(criteria,SEARCH_TYPE.HOTELS, onSearchSuccess,onSearchFailure)};
+    let history = useHistory();
+    const onFlightsSearch = (criteria) =>{history.push(createFlightsURL(criteria));};
+    const onHotelsSearch = (criteria) =>{history.push(createHotelsURL(criteria));};
     const onSearchSuccess = (results) =>{setSearchResults(results);setSearchState(SEARCH_STATE.FINISHED);}
     const onSearchFailure = () =>{setSearchResults(undefined);setSearchState(SEARCH_STATE.FAILED);}
     const onSearchStart = () =>{setSearchState(SEARCH_STATE.IN_PROGRESS);}
     return (
         <>
-            {searchState === SEARCH_STATE.NOT_STARTED &&
-                <>
-                    <div className='main-page-header'>
-                        <Header/>
-                        <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
-                        {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
-                        {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
-                    </div>
-                    <MainPageContent/>
-                    <Footer/>
-                </>
-            }
-            {searchState !== SEARCH_STATE.NOT_STARTED &&
-            <div>
-                <Header/>
+            <div className='main-page-header'>
+                <Header type='white'/>
                 <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
                 {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
                 {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
-                {searchState === SEARCH_STATE.IN_PROGRESS && <SearchInProgress/>}
-                {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
-                {searchState === SEARCH_STATE.FINISHED &&
-                <SearchResults searchResults={searchResults} searchType={searchType}/>}
             </div>
-            }
-        </>    )
+            <MainPageContent/>
+            <Footer/>
+        </>)
 }
-
-
-const OtaTest = ({text="default"}) => {
-    return (
-        <div className='ota-test'>{text}</div>
-    )
-}
-
-function buildFlightsSearchCriteria(origin,destination,departureDate,returnDate, adults,children,infants) {
-    const criteriaBuilder = new SearchCriteriaBuilder();
-    // TODO - handle search from city/railstation and different pax types
-    const searchCriteria = criteriaBuilder
-        .withTransportDepartureFromLocation(origin)
-        .withTransportDepartureDate(departureDate)
-        .withTransportReturnFromLocation(destination)
-        .withTransportReturnDate(returnDate)
-        .withPassengers(adults,children,infants)
-        .build();
-    return searchCriteria;
-}
-
-function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, adults,children,infants) {
-    const criteriaBuilder = new SearchCriteriaBuilder();
-    let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,config.LOCATION_BOUNDING_BOX_IN_KM)
-    const searchCriteria = criteriaBuilder
-        .withAccommodationLocation(boundingBoxForSelectedLocation,'rectangle')
-        .withAccommodationArrivalDate(arrivalDate)
-        .withAccommodationReturnDate(returnDate)
-        .withPassengers(adults,children,infants)
-        .build();
-    return searchCriteria;
-}
-
-const search = (criteria, mode, onSearchSuccessCallback,onSearchFailureCallback) => {
-
-    let searchRequest;
-
-    if(!config.OFFLINE_MODE) { //no need to fill search criteria in OFFLINE_MODE
-        if (mode === SEARCH_TYPE.FLIGHTS)
-            searchRequest = buildFlightsSearchCriteria(criteria.origin.iata, criteria.destination.iata, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
-        else if (mode === SEARCH_TYPE.HOTELS)
-            searchRequest = buildHotelsSearchCriteria(criteria.destination.latitude, criteria.destination.longitude, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
-        else
-            throw Error('Unknown search mode');
-    }
-
-    console.debug('Raw search criteria:',criteria,' API search criteria', searchRequest)
-    let findPromise;
-    if(mode === SEARCH_TYPE.FLIGHTS)
-        findPromise=findFlights(searchRequest);
-    else if (mode === SEARCH_TYPE.HOTELS)
-        findPromise=findHotels(searchRequest);
-
-    findPromise.then(results=>{
-        onSearchSuccessCallback(results);
-    }).catch(function (err) {
-        console.error('Search failed', err)
-        onSearchFailureCallback();
-    });
-};
 
 // Toggle buttons on the top of the main page to select if you search hotels or flights
 const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
@@ -137,10 +83,14 @@ const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
     const onFlightClick = () => {setValue(SEARCH_TYPE.FLIGHTS);onToggle(SEARCH_TYPE.FLIGHTS);}
     const onHotelClick = ()  => {setValue(SEARCH_TYPE.HOTELS);onToggle(SEARCH_TYPE.HOTELS);}
     return (
-        <Container fluid={true} className='d-flex justify-content-center pb-5'>
-            <Row className="flight-or-hotel-toggle d-flex flex-row">
-                <Button className="flight-or-hotel-toggle__btn flex-fill " variant={value==SEARCH_TYPE.FLIGHTS?"primary":"outline-primary"} size="lg" onClick={onFlightClick}>Flights</Button>
-                <Button className="flight-or-hotel-toggle__btn flex-fill" variant={value==SEARCH_TYPE.HOTELS?"primary":"outline-primary"} size="lg" onClick={onHotelClick}>Hotels</Button>
+        <Container fluid={true} className='flight-or-hotel-toggle pb-3'>
+            <Row >
+                <Col xs={6} className="d-flex ">
+                    <Button className="flight-or-hotel-toggle__btn flex-fill " variant={value==SEARCH_TYPE.FLIGHTS?"primary":"outline-primary"} size="lg" onClick={onFlightClick}>Flights</Button>
+                </Col>
+                <Col xs={6} className="d-flex ">
+                    <Button className="flight-or-hotel-toggle__btn flex-fill" variant={value==SEARCH_TYPE.HOTELS?"primary":"outline-primary"} size="lg" onClick={onHotelClick}>Hotels</Button>
+                </Col>
             </Row>
         </Container>)
 }
@@ -148,7 +98,7 @@ const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
 const FlightsSearchForm = ({onFlightsSearch}) =>{
     return (
         <SearchForm
-            onSearchRequested={onFlightsSearch}
+            onSearchButtonClick={onFlightsSearch}
             enableOrigin = {true}
             locationsSource={LOCATION_SOURCE.AIRPORTS}
             oneWayAllowed={true}/>
@@ -160,7 +110,7 @@ const FlightsSearchForm = ({onFlightsSearch}) =>{
 const HotelsSearchForm = ({onHotelsSearch}) =>{
     return (
         <SearchForm
-            onSearchRequested={onHotelsSearch}
+            onSearchButtonClick={onHotelsSearch}
             enableOrigin={false}
             locationsSource={LOCATION_SOURCE.CITIES}
             oneWayAllowed={false}/>
@@ -168,28 +118,5 @@ const HotelsSearchForm = ({onHotelsSearch}) =>{
 }
 
 
-
-
-const SearchResults = ({searchResults, searchType})=>{
-    return (
-        <>
-            {/*<div>Search results</div>*/}
-            {searchType === SEARCH_TYPE.FLIGHTS && <FlightsPage searchResults={searchResults}/> }
-            {searchType === SEARCH_TYPE.HOTELS && <HotelsPage searchResults={searchResults} />}
-        </>
-    )
-}
-
-const SearchFailed = ()=>{
-    return (
-        <div>Oooooops....Something went wrong</div>
-    )
-}
-
-const SearchInProgress = ()=>{
-    return (
-        <div>Search is in progress.....please wait</div>
-    )
-}
 
 

@@ -16,7 +16,6 @@ export default class OfferUtils {
     return durationString
   }
 
-
   static getOutboundItinerary (combination) {
     return combination.itinerary[0];
   }
@@ -46,6 +45,11 @@ export default class OfferUtils {
 
   static getItinerarySegments(itinerary){
     return itinerary.segments;
+  }
+
+  static calculateNumberOfStops (itinerary) {
+    let segCount = OfferUtils.getItinerarySegments(itinerary).length;
+    return segCount>0?segCount-1:0;
   }
 
   /**
@@ -116,6 +120,19 @@ export default class OfferUtils {
     let lastSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
     return lastSegment.destination.iataCode;
   }
+
+//TODO - replace with correct body
+  static getItineraryPricePlan(itinerary) {
+    return {
+      "name": "Economy",
+      "amenities": [],
+      "checkedBaggages": {
+        "quantity": Math.floor(Math.random() * (+2 - +0)) + +0
+      },
+      "pricePlanId": "PC1"
+    }
+  }
+
 }
 
 

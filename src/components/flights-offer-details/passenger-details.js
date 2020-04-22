@@ -96,7 +96,7 @@ export default class PassengersDetailsForm extends React.Component {
 
                                         </Form.Row>
                                         <Form.Row>
-                                            <div>
+                                            <div className='pb-3'>
                                                 <Form.Label>Date of birth</Form.Label>
                                                 <Form.Control type="date" className="input-birthdate" name={id+'.birthdate'}
                                                               value={this.state[id].birthdate}

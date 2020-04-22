@@ -20,31 +20,25 @@
     }
     &__btn{
         height: 60px;
-        //margin-left: 20px;
-        //margin-left: 10px;
     }
 }
 
 
-
-.flightsearch-searchbutton{
-    height: 64px;
-    width: 280px;
-    @include glider-media-small_576 {
-        width: 560px;
+.searchbutton{
+    &__container{
+        @include glider-media-medium_768 {
+            width: 620px;
+        }
     }
-    @include glider-media-medium_768 {
-        width: 400px;
+    &__button{
+        height: 64px;
+        @include glider-media-medium_768 {
+            width: 620px;
+        }
     }
-    @include glider-media-large_992 {
-        width: 400px;
-    }
-    @include glider-media-xlarge_1600 {
-        width: 400px;
+    &__button:disabled {
+        background: white;
+        color: grey;
     }
 }
 
-.flightsearch-searchbutton:disabled{
-    background: white;
-    color: grey;
-}

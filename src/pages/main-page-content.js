@@ -1,15 +1,13 @@
 import React, {useState} from 'react';
 import {Container,Row,Col,ToggleButton, ToggleButtonGroup,Button} from 'react-bootstrap';
 
-
-
 export default function MainPageContent() {
     return (
         <>
             <Container>
                 <Row noGutters={true}>
                     <Col md={12} >
-                        <div class='glider-font-h1-fg py-3'>This is special</div>
+                        <div className='glider-font-h1-fg py-3'>This is special</div>
                         <Container className='p-0'>
                             <Row noGutters={true}>
                                 <Col md={8} className='glider-font-text16-fg p-0' >Glider is Fair Trade Travel. That means no gatekeepers taking commissions or charging hidden fees. Book direct with hotels and airlines so that 100% of your money goes to the travel provider. The result is a fairer travel ecosystem for everyone.</Col>
@@ -20,7 +18,7 @@ export default function MainPageContent() {
                 </Row>
                 <Row noGutters={true}>
                     <Col md={12} >
-                        <div class='glider-font-h1-fg py-3'>Our partners</div>
+                        <div className='glider-font-h1-fg py-3'>Our partners</div>
                         <Container className='p-0'>
                             <Row className='my-5' noGutters={true}>
                                 <Col md={6}><img width='500' src='/images/partner_nordic.png'/></Col>

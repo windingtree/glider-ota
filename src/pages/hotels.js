@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import HotelsSearchResults from "../components/hotels-search-results/hotels-search-results";
 import HotelDetails from "../components/hotels-rooms/hotel-details";
 
-export default function HotelsPage({searchResults}) {
+export default function HotelsPageContent({searchResults}) {
     const [selectedHotel, setSelectedHotel] = useState();
     console.log("searchResults", searchResults)
     return (

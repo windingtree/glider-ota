@@ -20,3 +20,20 @@
     //margin-bottom: 10px;
   }
 }
+
+.input-range__track--active{
+  background: $glider-color-primary;
+}
+
+.input-range__label {
+  @include _glider-font-filtercategories13;
+  color: $glider-color-text;
+}
+
+.input-range__label--min {
+  visibility: hidden;
+}
+
+.input-range__label--max {
+  visibility: hidden;
+}

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import "./CheckoutForm.css";
 import api from "./api";
+import {Button, Form} from "react-bootstrap";
+import Spinner from "../../components/common/spinner"
 
 export default function CheckoutForm({orderID}) {
   const [amount, setAmount] = useState(0);
@@ -39,6 +41,7 @@ export default function CheckoutForm({orderID}) {
   }, []);
 
   const handleSubmit = async ev => {
+    console.log("Submit")
     ev.preventDefault();
     setProcessing(true);
 
@@ -69,8 +72,7 @@ export default function CheckoutForm({orderID}) {
   const renderSuccess = () => {
     return (
       <div className="sr-field-success message">
-        <h1>Your test payment succeeded</h1>
-        <p>View PaymentIntent response:</p>
+        <h1>Your payment succeeded</h1>
         <pre className="sr-callout">
           <code>{JSON.stringify(metadata, null, 2)}</code>
         </pre>
@@ -79,68 +81,57 @@ export default function CheckoutForm({orderID}) {
   };
 
   const renderForm = () => {
-    const options = {
+    const CARD_OPTIONS = {
+      iconStyle: 'solid',
       style: {
         base: {
-          color: "#32325d",
-          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-          fontSmoothing: "antialiased",
-          fontSize: "16px",
-          "::placeholder": {
-            color: "#aab7c4"
-          }
+          iconColor: '#7161D6',
+          color: 'black',
+          fontWeight: 500,
+          fontFamily: 'sans-serif,Roboto, Open Sans, Segoe UI',
+          fontSize: '16px',
+          fontSmoothing: 'antialiased',
+          ':-webkit-autofill': {color: '#fce883'}, '::placeholder': {color: '#87bbfd'},
         },
         invalid: {
-          color: "#fa755a",
-          iconColor: "#fa755a"
-        }
-      }
+          iconColor: '#ffc7ee',
+          color: '#ffc7ee',
+        },
+      },
     };
 
     return (
-      <form onSubmit={handleSubmit}>
-        <h1>
-          {currency}{" "}{amount}
-        </h1>
-
-        <div className="sr-combo-inputs">
-          <div className="sr-combo-inputs-row">
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Name"
-              autoComplete="cardholder"
-              className="sr-input"
-            />
+      <>
+        <Form.Row>
+          <div className='pb-3 min-width-330'>
+            <Form.Label>Card owner</Form.Label>
+            <Form.Control type="text" id="name" name="name" placeholder="Name" autoComplete="cardholder"/>
           </div>
-
-          <div className="sr-combo-inputs-row">
-            <CardElement
-              className="sr-input sr-card-element"
-              options={options}
-            />
+        </Form.Row>
+        <Form.Row>
+          <div className='pb-3 min-width-330'>
+            <CardElement className="sr-input" options={CARD_OPTIONS}/>
           </div>
-        </div>
-
-        {error && <div className="message sr-field-error">{error}</div>}
-
-        <button
-          className="btn"
-          disabled={processing || !clientSecret || !stripe}
-        >
-          {processing ? "Processing…" : "Pay"}
-        </button>
-      </form>
+        </Form.Row>
+        <Form.Row>
+          <div className='pb-3'>
+            {error && <div className="message sr-field-error">ERR {error}</div>}
+            <Button variant="primary"  size="lg"  disabled={processing || !clientSecret || !stripe} onClick={handleSubmit}>
+              {processing ? "Processing...." : "Pay with credit card"}
+            </Button>
+          </div>
+        </Form.Row>
+        Processing:{processing}<br/>
+        clientSecret:{clientSecret}<br/>
+        stripe:{processing}<br/>
+        <Spinner enabled={processing===true}/>
+      </>
     );
   };
 
   return (
-    <div className="checkout-form">
-      <div className="sr-payment-form">
-        <div className="sr-form-row" />
+    <>
         {succeeded ? renderSuccess() : renderForm()}
-      </div>
-    </div>
+    </>
   );
 }

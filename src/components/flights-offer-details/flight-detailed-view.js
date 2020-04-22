@@ -6,6 +6,11 @@ import YourFlightInfo from './flight-info'
 import FlightRates from './flight-rates'
 import {config} from "../../config/default";
 import {Link} from "react-router-dom";
+import _ from 'lodash';
+import Spinner from "../common/spinner";
+import PaymentForm from "../../pages/payment";
+
+
 
 const createOffer = options => {
   return window
@@ -64,15 +69,18 @@ export default class FlightDetail extends React.Component {
     console.log("Contact details",contactDetails)
   }
 
-  createPassenger(firstName, lastName, contactEmail, contactPhone){
+  createPassenger(rec, contactEmail, contactPhone){
+    console.log("createPassenger",rec)
+    // let dateStr = rec.birthdate;
+    // let dateIsoStr =
     return {
       "type": "ADT",
       "civility": "MR",
       "lastnames": [
-        lastName
+        rec.lastname
       ],
       "firstnames": [
-        firstName
+        rec.firstname
       ],
       "birthdate": "1980-03-21T00:00:00Z",
       "contactInformation": [
@@ -91,9 +99,16 @@ export default class FlightDetail extends React.Component {
       offerId:selectedOffer.offerId,
       offerItems:selectedOffer.offer.offerItems,
       passengers:{
-        "PAX1":this.createPassenger(contactDetails.PAX1.firstname,contactDetails.PAX1.lastname,contactDetails.email,contactDetails.phone)
+        // "PAX1":this.createPassenger(contactDetails).PAX1.firstname,contactDetails.PAX1.lastname,contactDetails.PAX1.birthdate,contactDetails.email,contactDetails.phone)
       }
     }
+    _.each(contactDetails,(pax,id)=>{
+      if(id.startsWith("PAX"))
+      {
+        request.passengers[id]=this.createPassenger(pax,contactDetails.email,contactDetails.phone)
+      }
+    })
+
     console.log("Request:",request)
     this.setProcessingInProgress(true)
     this.setProcessingError(undefined)
@@ -124,6 +139,7 @@ export default class FlightDetail extends React.Component {
   render () {
 
     const {selectedOffer} = this.state;
+    console.log("Flight detailed view - selected ofer", selectedOffer)
     const {selectedCombination,searchResults} = this.props;
     let passengers = searchResults.passengers;
     let pricePlans = searchResults.pricePlans;
@@ -148,32 +164,24 @@ export default class FlightDetail extends React.Component {
               <PassengersDetailsForm onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
             </Col>
           </Row>
-          <Row>
+          {(this.state.processingInProgress!==true || this.state.order!==undefined) &&
+          <Row className='pb-5'>
             <Col>
               <PriceSummary price={selectedOffer.offer.price} onPayButtonClick={this.handlePayButtonClick}/>
             </Col>
           </Row>
-          {this.state.processingInProgress &&
-          (<Row>
-            <Col>
-              <Alert variant="primary">Transaction in progress....</Alert>
-            </Col>
-          </Row>)}
+          }
+          <Spinner enabled={this.state.processingInProgress===true}/>
           {this.state.processingError!==undefined &&
           (<Row>
             <Col>
               <Alert variant="danger">{this.state.processingError}</Alert>
             </Col>
           </Row>)}
-          {this.state.order!==undefined &&
-          (<Row>
-            <Col>
-              <Alert variant="success">Pay with:
-                <Link to={`/payments/${this.state.order.orderId}`}>card</Link>
-              </Alert>
-            </Col>
-          </Row>)}
+          {this.state.order!==undefined && (<PaymentForm orderID={this.state.order.orderId}/>)}
+          <Row className='pb-5'>
 
+          </Row>
         </Container>
       </>
     )
@@ -192,7 +200,7 @@ const PriceSummary = ({price, onPayButtonClick}) =>{
       <div className='glider-font-h2-fg'>Pay {price.public} {price.currency} to complete the booking</div>
           </Col>
           <Col xl={2}>
-      <Button variant="primary" onClick={onPayButtonClick} size="lg" >Pay now</Button>
+            <Button variant="primary" onClick={onPayButtonClick} size="lg" >Pay now</Button>
           </Col>
         </Row>
       </>

@@ -2,7 +2,6 @@
 
 
 
-
 .flights-search-results-container{
     justify-content: center;
     display: flex;
@@ -14,21 +13,7 @@
     background: #FFFFFF;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    //padding: 30px 20px;
 
-    width: 350px;
-    @include glider-media-small_576 {
-        width: 576px;
-    }
-    @include glider-media-medium_768 {
-        width: 700px;
-    }
-    @include glider-media-large_992 {
-        width: 950px;
-    }
-    @include glider-media-xlarge_1600 {
-        width: 1320px;
-    }
 }
 
 .flight-search-offer-container:hover {
@@ -53,30 +38,36 @@
     //margin-top: 20px;
 }
 
-.offer-highlight--logos-and-ancillaries img{
-    width:40px;
+img.offer-highlight--logo {
+    width:30px;
+}
+IMG.offer-highlight--ancillaries {
+
 }
 
 .filters-wrapper{
-
-}
-.filters-container{
     justify-content: center;
     display: flex;
     padding: 0 20px 20px 20px;
+    visibility: hidden;
+    width: 0px;
     @include glider-media-small_576 {
-      width: 0px;
         visibility: hidden;
     }
     @include glider-media-medium_768 {
-        width: 0px;
+        visibility: hidden;
     }
     @include glider-media-large_992 {
-        width: 0px;
-    }
-    @include glider-media-xlarge_1600 {
-      min-width: 400px;
+        min-width: 305px;
+        max-width: 400px;
         visibility: visible;
     }
+    @include glider-media-xlarge_1600 {
+        min-width: 305px;
+        max-width: 400px;
+        visibility: visible;
+    }
+}
+.filters-container{
 
 }

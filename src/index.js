@@ -9,33 +9,29 @@ import {
 import ReactDOM from 'react-dom'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/glider.scss'
-import HotelsPage from "./pages/hotels"
+import FlightOffer from "./pages/flightoffer"
 import FlightsPage from "./pages/flights"
+import HotelsPage from "./pages/h"
 import HomePage from "./pages/home"
-import PaymentForm from "./pages/payment";
-import Sandbox from "./sandbox/index";
 import { CookiesProvider } from 'react-cookie';
+import PaymentForm from "./pages/payment";
 
 
 function Dispatcher() {
     return (
         <CookiesProvider>
             <Router>
-                {/*<span> <Link to="/">Home</Link> <Link to="/flights">Flights</Link> <Link to="/flightoffer">Offer</Link> <Link to="/hotels">Hotels</Link></span>*/}
                 <Switch>
-                    {/*                    <Route path="/hotels">
-                        <HotelsPage/>
+                    <Route path="/flightoffer/:combinationId?/:offerId?" component={FlightOffer}>
                     </Route>
-                    <Route path="/flights">
-                        <FlightsPage/>
-                    </Route>*/}
-                    <Route path="/sandbox">
-                        <Sandbox/>
+                    <Route path="/flights/:orig?/:dest?/:departureDate?/:returnDate?/:adults?/:children?/:infants?" component={FlightsPage}>
                     </Route>
-                    <Route path="/payments/:orderID">
-                        <PaymentForm/>
+                    <Route path="/hotels/:dest?/:departureDate?/:returnDate?/:adults?/:children?/:infants?" component={HotelsPage}>
                     </Route>
-                    <Route path="/">
+                    <Route path="/payments" >
+                        <PaymentForm />
+                    </Route>
+                    <Route path="/" >
                         <HomePage />
                     </Route>
                 </Switch>
