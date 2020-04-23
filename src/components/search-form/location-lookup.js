@@ -19,14 +19,10 @@ export default function LocationLookup({locationsSource,initialLocation,onLocati
         setSelectedLocation(location);
         setMatchingLocations([]);
         setValue(location.primary);
-        onLocationSelected(location)
+        onLocationSelected(location.iata)
     }
     function isLocationSelected() {
         return selectedLocation !== undefined;
-    }
-
-    function getSelectedLocation() {
-        return selectedLocation;
     }
 
     function clearSelectedLocation() {
@@ -36,16 +32,12 @@ export default function LocationLookup({locationsSource,initialLocation,onLocati
 
     function handleInputValueChange(event) {
         const enteredText = event.target.value;
-        console.log(event)
-        console.log(event.target)
         setValue(enteredText);
         setTarget(event.target);
         // unset only if exact location was already set (to prevent unnecessary event triggering)
         if (isLocationSelected()) {
-            console.log("handleInputValueChange -clear", enteredText);
             clearSelectedLocation()
         }
-        console.log("handleInputValueChange - before call", enteredText);
         // setMatchingLocations(result.results);
 
         if (enteredText.length>=2) {
@@ -53,8 +45,6 @@ export default function LocationLookup({locationsSource,initialLocation,onLocati
                 type: locationsSource,
                 query: enteredText
             }
-            console.debug('Lookup request:',request)
-            // let me=this;
             fetch('/api/lookup', {
                 method: 'POST',
                 headers: {
@@ -66,7 +56,6 @@ export default function LocationLookup({locationsSource,initialLocation,onLocati
                 .then((resp) => resp.json())
                 .then(function (data) {
                     let results = data.results;
-                    // me.setState({matchingAirports: results})
                     setMatchingLocations(results);
                 })
                 .catch(function (error) {

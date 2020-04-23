@@ -15,6 +15,14 @@ export default class OfferUtils {
     if (mins > 0) { durationString += mins + 'm' }
     return durationString
   }
+  static calculateDurationInMins (itinerary) {
+    const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
+    const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
+    const startOfTrip = parseISO(firstSegment.departureTime);
+    const endOfTrip = parseISO(lastSegment.arrivalTime);
+    const mins = differenceInMinutes(endOfTrip, startOfTrip);
+    return mins;
+  }
 
   static getOutboundItinerary (combination) {
     return combination.itinerary[0];
@@ -92,8 +100,8 @@ export default class OfferUtils {
 
     return {
       iataCode:segment.operator.iataCode,
-      airlineName:'Vuelingaaa',
-      flight:'VL-123'
+      airlineName:segment.operator.iataCode,
+      flight:segment.operator.iataCode+'-123'
     }
   }
   static getItineraryDepartureCityName(itinerary){

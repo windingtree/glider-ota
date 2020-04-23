@@ -24,14 +24,14 @@ const SEARCH_STATE={
 }
 
 function createFlightsURL(criteria){
-    let origin=criteria.origin.iata;
-    let destination=criteria.destination.iata;
+    let origin=criteria.origin;
+    let destination=criteria.destination;
     let adults=criteria.adults;
     let children=criteria.children;
     let infants=criteria.infants;
     let departureDate=dateToStr(criteria.departureDate);
     let returnDate=dateToStr(criteria.returnDate);
-    const url = '/flights/'+origin+"/"+destination+"/"+departureDate+"/"+returnDate+"/"+adults+"/"+children+"/"+infants;
+    const url = '/flights/search/'+origin+"/"+destination+"/"+departureDate+"/"+returnDate+"/"+adults+"/"+children+"/"+infants;
     console.log("Criteria==>URL, Criteria:",criteria,"URL:",url);
     return url;
 }
@@ -43,13 +43,13 @@ function createHotelsURL(criteria){
     let infants=criteria.infants;
     let departureDate=dateToStr(criteria.departureDate);
     let returnDate=dateToStr(criteria.returnDate);
-    const url = '/hotels/'+origin+"/"+destination+"/"+departureDate+"/"+returnDate+"/"+adults+"/"+children+"/"+infants;
+    const url = '/hotels/search/'+origin+"/"+destination+"/"+departureDate+"/"+returnDate+"/"+adults+"/"+children+"/"+infants;
     console.log("Criteria==>URL, Criteria:",criteria,"URL:",url);
     return url;
 }
 
 function dateToStr(date){
-    return format(date,'yyyyMMdd');
+    return date?format(date,'yyyyMMdd'):'';
 }
 
 
@@ -68,9 +68,19 @@ export default function HomePage() {
         <>
             <div className='main-page-header'>
                 <Header type='white'/>
-                <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
-                {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
-                {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
+                <Container fluid={true} className='flight-results-outer-boundary'>
+                    <Row className='pb-md-5 pb-2' >
+                        <Col>
+                            <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
+                        </Col>
+                    </Row>
+                    <Row className='pt-5'>
+                        <Col>
+                            {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
+                            {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
+                        </Col>
+                    </Row>
+                </Container>
             </div>
             <MainPageContent/>
             <Footer/>

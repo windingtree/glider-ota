@@ -8,7 +8,8 @@ import {config} from "../../config/default";
 import {Link} from "react-router-dom";
 import _ from 'lodash';
 import Spinner from "../common/spinner";
-import PaymentForm from "../../pages/payment";
+import PaymentForm from "../payments/payment-form";
+import { withRouter } from 'react-router'
 
 
 
@@ -38,7 +39,10 @@ const createOffer = options => {
       });
 };
 
-export default class FlightDetail extends React.Component {
+
+
+
+class FlightDetail extends React.Component {
   constructor (props) {
     super(props);
     const {selectedCombination,selectedOffer}=props;
@@ -53,6 +57,8 @@ export default class FlightDetail extends React.Component {
     this.handleContactDetailsChange = this.handleContactDetailsChange.bind(this);
     this.handlePayButtonClick = this.handlePayButtonClick.bind(this);
     this.handleSelectedOfferChange= this.handleSelectedOfferChange.bind(this);
+    this.onPaymentFailure=this.onPaymentFailure.bind(this);
+    this.onPaymentSuccess=this.onPaymentSuccess.bind(this);
   }
 
   handleSelectedOfferChange(newOffer){
@@ -136,6 +142,15 @@ export default class FlightDetail extends React.Component {
     this.setState({order:order})
   }
 
+  onPaymentSuccess(){
+    this.props.history.push("/confirmation/"+this.state.order.orderId);
+  }
+
+  onPaymentFailure(){
+    // this.props.history.push("/confirmation/"+this.state.order.orderId);
+    console.log("payment failed")
+  }
+
   render () {
 
     const {selectedOffer} = this.state;
@@ -164,7 +179,7 @@ export default class FlightDetail extends React.Component {
               <PassengersDetailsForm onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
             </Col>
           </Row>
-          {(this.state.processingInProgress!==true || this.state.order!==undefined) &&
+          {(this.state.processingInProgress!==true && this.state.order===undefined) &&
           <Row className='pb-5'>
             <Col>
               <PriceSummary price={selectedOffer.offer.price} onPayButtonClick={this.handlePayButtonClick}/>
@@ -178,7 +193,7 @@ export default class FlightDetail extends React.Component {
               <Alert variant="danger">{this.state.processingError}</Alert>
             </Col>
           </Row>)}
-          {this.state.order!==undefined && (<PaymentForm orderID={this.state.order.orderId}/>)}
+          {this.state.order!==undefined && (<PaymentForm orderID={this.state.order.orderId} onPaymentFailure={this.onPaymentFailure} onPaymentSuccess={this.onPaymentSuccess}/>)}
           <Row className='pb-5'>
 
           </Row>
@@ -208,3 +223,7 @@ const PriceSummary = ({price, onPayButtonClick}) =>{
 }
 
 
+
+
+FlightDetail = withRouter(FlightDetail)
+export default FlightDetail;

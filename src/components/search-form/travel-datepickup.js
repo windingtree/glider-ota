@@ -1,38 +1,29 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { enGB } from 'date-fns/locale'
 import { DateRangePicker, START_DATE, END_DATE } from 'react-nice-dates'
-
 import 'react-nice-dates/build/style.css'
 import './travel-datepickup.scss'
 
-export default class TravelDatepickup extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      startDate: undefined,
-      endDate: undefined
-    };
-    this.handleStartDateChange = this.handleStartDateChange.bind(this);
-    this.handleEndDateChange = this.handleEndDateChange.bind(this)
+export default function TravelDatepickup({initialStart,initialEnd,onStartDateChanged,onEndDateChanged}) {
+  const [startDate, setStartDate] = useState(initialStart);
+  const [endDate, setEndDate] = useState(initialEnd);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    onStartDateChanged(date);
   }
 
-  handleStartDateChange (date) {
-    this.setState({ startDate: date });
-    if (this.props.onStartDateChanged) { this.props.onStartDateChanged(date) }
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+    onEndDateChanged(date);
   }
-
-  handleEndDateChange (date) {
-    this.setState({ endDate: date });
-    if (this.props.onEndDateChanged) { this.props.onEndDateChanged(date) }
-  }
-
-  render () {
+console.log("initialStart",initialStart, "startData:",startDate)
     return (<>
       <DateRangePicker
-        startDate={this.state.startDate}
-        endDate={this.state.endDate}
-        onStartDateChange={this.handleStartDateChange}
-        onEndDateChange={this.handleEndDateChange}
+        startDate={startDate}
+        endDate={endDate}
+        onStartDateChange={handleStartDateChange}
+        onEndDateChange={handleEndDateChange}
         minimumDate={new Date()}
         format='MMM dd, EEE'
         locale={enGB}
@@ -60,5 +51,4 @@ export default class TravelDatepickup extends React.Component {
       </DateRangePicker>
             </>
     )
-  }
 }

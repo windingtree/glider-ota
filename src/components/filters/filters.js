@@ -11,34 +11,28 @@ const AIRLINES_FILTER_ID = 'airlines';
 const MAXSTOPS_FILTER_ID = 'maxStops';
 const PRICERANGE_FILTER_ID = 'priceRange';
 const LAYOVERDURATION_FILTER_ID = 'layoverDuration';
+const BAGS_FILTER_ID = 'bags';
 
 
 export default function Filters({searchResults, onFilterApply, filtersStates, onFiltersStateChanged}) {
 
     function filterStateChanged(id, filterState) {
-        console.log("Update filter, id=", id, "state:",filterState)
         let newfiltersState = Object.assign({}, filtersStates);
         newfiltersState[id] = filterState;
         let afterFilter = filterSearchResults(searchResults, newfiltersState);
         onFilterApply(afterFilter);
     }
 
-/*
-    function onApplyButton() {
-        console.log("onApplyButton, predicates:", filtersStates)
 
-        console.log("Filtered results:",afterFilter)
-
-    }
-
-*/
     return (
         <>
             <div className="filters-container d-flex flex-column flex-fill">
                 {/*{searchResults != undefined && <div className="glider-font-regular18-fg pb-4">Search results: {searchResults.length}</div>}*/}
-                {filtersStates !== undefined && (<SelectionFilter id={AIRLINES_FILTER_ID} title='Airlines' filterState={filtersStates[AIRLINES_FILTER_ID]} onFilterStateChange={filterStateChanged}/>)}
                 {filtersStates !== undefined && (<SelectionFilter id={MAXSTOPS_FILTER_ID} title='Stops' filterState={filtersStates[MAXSTOPS_FILTER_ID]} onFilterStateChange={filterStateChanged} />)}
                 {filtersStates !== undefined && (<RangeFilter id={PRICERANGE_FILTER_ID} title='Price'  unit='EUR'  filterState={filtersStates[PRICERANGE_FILTER_ID]} onFilterStateChange={filterStateChanged} />)}
+                {filtersStates !== undefined && (<RangeFilter id={LAYOVERDURATION_FILTER_ID} title='Layover duration'  unit='hr'  filterState={filtersStates[LAYOVERDURATION_FILTER_ID]} onFilterStateChange={filterStateChanged} />)}
+                {filtersStates !== undefined && (<SelectionFilter id={BAGS_FILTER_ID} title='Baggage' filterState={filtersStates[BAGS_FILTER_ID]} onFilterStateChange={filterStateChanged} />)}
+                {filtersStates !== undefined && (<SelectionFilter id={AIRLINES_FILTER_ID} title='Airlines' filterState={filtersStates[AIRLINES_FILTER_ID]} onFilterStateChange={filterStateChanged}/>)}
                 {/*<RangeFilter min={1} max={maxPrice} unit='HR' title='MOW-HKT Flight duration'/>*/}
                 {/*<RangeFilter min={1} max={24} unit='HR' title='HKT-MOW Flight duration'/>*/}
                 {/*<RangeFilter id={PREDICATES.LAYOVERDURATION} min={1} max={24} unit='HR' title='Layover duration' predicate={filterStateChanged}/>*/}
@@ -57,6 +51,8 @@ export function generateFiltersStates(searchResults) {
     filtersState[AIRLINES_FILTER_ID] = createAirlinesFilter(searchResults);
     filtersState[MAXSTOPS_FILTER_ID] = createMaxStopsFilter(searchResults);
     filtersState[PRICERANGE_FILTER_ID] = createMinMaxPriceRangeFilter(searchResults);
+    filtersState[BAGS_FILTER_ID] = createBagsFilter(searchResults);
+    filtersState[LAYOVERDURATION_FILTER_ID] = createLayoverDurationFilter(searchResults);
     // PREDICATES.LAYOVERDURATION:undefined,
     return filtersState;
 }
@@ -147,11 +143,8 @@ function RangeFilter({id, unit = '[eur]', title = '[missing]', onFilterStateChan
         let newFilterState = Object.assign({}, filterState);
         newFilterState.min=currentValue.min;
         newFilterState.max=currentValue.max;
-        console.log("On change complete, new state:",newFilterState, "current value:", currentValue)
         onFilterStateChange(id, newFilterState)
     }
-    console.log("range filter - filter state:",filterState)
-    console.log("range filter - currentValue:",currentValue)
     return (
         <div className='filter'>
             <div className='filter__title'>{title}</div>
@@ -215,7 +208,7 @@ function createAirlinesFilter(results) {
         let code = segment.operator.iataCode;
         carriers[code] = {
             key: code,
-            display: 'Airline:' + code,
+            display: code,
             selected: true
         };
     })
@@ -273,4 +266,24 @@ function getMaxStops(results) {
             maxStops = stopCount;
     })
     return maxStops;
+}
+
+
+
+function createBagsFilter(searchResults) {
+    let items = [{key: 'all', display: 'All', selected: true},
+        {key: '0',display: 'Carry on bag',selected: true},
+        {key: '1',display: 'Checked baggage',selected: true}
+        ];
+    return items;
+}
+
+
+function createLayoverDurationFilter(results) {
+    if (results == undefined || results.combinations == undefined)
+        return {lowest: 0, min: 0, max: 0, highest: 0};
+
+
+    return {lowest: 0, min: 0, max: 12, highest: 12};
+
 }

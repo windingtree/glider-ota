@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import "./CheckoutForm.css";
+import "./checkout-form.css";
 import api from "./api";
 import {Button, Form} from "react-bootstrap";
 import Spinner from "../../components/common/spinner"
 
-export default function CheckoutForm({orderID}) {
+export default function CheckoutForm({orderID, onPaymentSuccess, onPaymentFailure}) {
   const [amount, setAmount] = useState(0);
   const [currency, setCurrency] = useState("");
   const [clientSecret, setClientSecret] = useState(null);
@@ -59,12 +59,16 @@ export default function CheckoutForm({orderID}) {
     if (payload.error) {
       setError(`Payment failed: ${payload.error.message}`);
       setProcessing(false);
+      if(onPaymentFailure)
+        onPaymentFailure(payload)
       console.log("[error]", payload.error);
     } else {
       setError(null);
       setSucceeded(true);
       setProcessing(false);
       setMetadata(payload.paymentIntent);
+      if(onPaymentSuccess)
+        onPaymentSuccess(payload)
       console.log("[PaymentIntent]", payload.paymentIntent);
     }
   };
@@ -95,7 +99,7 @@ export default function CheckoutForm({orderID}) {
         },
         invalid: {
           iconColor: '#ffc7ee',
-          color: '#ffc7ee',
+          color: 'red',
         },
       },
     };
@@ -110,6 +114,7 @@ export default function CheckoutForm({orderID}) {
         </Form.Row>
         <Form.Row>
           <div className='pb-3 min-width-330'>
+            <Form.Label>Card details</Form.Label>
             <CardElement className="sr-input" options={CARD_OPTIONS}/>
           </div>
         </Form.Row>

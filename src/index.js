@@ -14,7 +14,9 @@ import FlightsPage from "./pages/flights"
 import HotelsPage from "./pages/h"
 import HomePage from "./pages/home"
 import { CookiesProvider } from 'react-cookie';
-import PaymentForm from "./pages/payment";
+import PaymentForm from "./components/payments/payment-form";
+import TestHistory from "./components/payments/test";
+import ConfirmationPage from "./pages/confirmation-page";
 
 
 function Dispatcher() {
@@ -24,12 +26,17 @@ function Dispatcher() {
                 <Switch>
                     <Route path="/flightoffer/:combinationId?/:offerId?" component={FlightOffer}>
                     </Route>
-                    <Route path="/flights/:orig?/:dest?/:departureDate?/:returnDate?/:adults?/:children?/:infants?" component={FlightsPage}>
+                    <Route path="/flights/:action?/:orig?/:dest?/:departureDate?/:returnDate?/:adults?/:children?/:infants?" component={FlightsPage}>
                     </Route>
-                    <Route path="/hotels/:dest?/:departureDate?/:returnDate?/:adults?/:children?/:infants?" component={HotelsPage}>
+                    <Route path="/hotels/:action?/:dest?/:departureDate?/:returnDate?/:adults?/:children?/:infants?" component={HotelsPage}>
+                    </Route>
+                    <Route path="/confirmation/:orderId" component={ConfirmationPage}>
                     </Route>
                     <Route path="/payments" >
                         <PaymentForm />
+                    </Route>
+                    <Route path="/test" >
+                        <TestHistory/>
                     </Route>
                     <Route path="/" >
                         <HomePage />

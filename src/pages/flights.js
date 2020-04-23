@@ -2,13 +2,14 @@ import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {SearchForm,buildFlightsSearchCriteria,searchForFlightsWithCriteria} from '../components/search-form/search-form';
 import {LOCATION_SOURCE} from '../components/search-form/location-lookup';
-import {parse} from "date-fns";
+import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
 import Filters,{generateFiltersStates} from "../components/filters/filters";
 import FlightsSearchResults from "../components/flights-search-results/flights-search-results";
 import {useHistory} from "react-router-dom";
 import cssdefs from './flights.scss'
 import Spinner from "../components/common/spinner"
+import {uiEvent} from "../utils/events";
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -27,18 +28,20 @@ function createOfferURL(offerId,combinationId){
 
 export default function FlightsPage({match}) {
     let history = useHistory();
-    const [searchFormCriteria, setSearchFormCriteria] = useState();
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
     const [filtersStates, setFiltersStates] = useState();
     const [unfilteredSearchResults, setUnfilteredSearchResults] = useState();
 
     const onFlightsSearch = (criteria) => {
-        console.log("onFlightsSearch")
         onSearchStart();
         searchForFlightsWithCriteria(criteria)
-            .then(results=>{onSearchSuccess(results)})
-            .catch(err=>{onSearchFailure()})
+            .then(results=>{
+                uiEvent("/flights, search completed");
+                onSearchSuccess(results)})
+            .catch(err=>{
+                uiEvent("/flights, search failed", err);
+                onSearchFailure(err)})
     };
     const onSearchSuccess = (results) => {
         setSearchResults(results.combinations);
@@ -47,7 +50,7 @@ export default function FlightsPage({match}) {
         setFiltersStates(filters);
         setSearchState(SEARCH_STATE.FINISHED);
     }
-    const onSearchFailure = () => {
+    const onSearchFailure = (err) => {
         setSearchResults(undefined);
         setSearchState(SEARCH_STATE.FAILED);
     }
@@ -58,15 +61,17 @@ export default function FlightsPage({match}) {
         setSearchResults(combinations);
     }
 
-    //retrieve parameters from URL(if provided - values should be used as defaults in search form and also search should be performed)
-    let adults = parseInt(match.params.adults)||1;
-    let children = parseInt(match.params.children)||0;
-    let infants = parseInt(match.params.infants)||0;
-    let origin = match.params.orig;
-    let destination = match.params.dest;
-    let departureDate = parse(match.params.departureDate,'yyyyMMdd',new Date());
-    let returnDate = parse(match.params.returnDate,'yyyyMMdd',new Date());
-    // useEffect(()=>{initialSearch(match,onSearchSuccess,onSearchFailure)});
+    const initialParameters = parseDeeplinkParams(match.params);
+    const deeplinkAction = match.params.action;
+
+
+    useEffect(()=>{
+        if(deeplinkAction === 'search'){
+            console.log("Deeplink search")
+            onFlightsSearch(initialParameters);
+        }
+        },[]);
+
 
 
 
@@ -75,7 +80,7 @@ export default function FlightsPage({match}) {
         history.push(url);
     };
 
-    console.log("Render search results",searchResults)
+
     return (
         <div>
             <div>
@@ -91,8 +96,8 @@ export default function FlightsPage({match}) {
                                 onSearchButtonClick={onFlightsSearch}
                                 enableOrigin={true}
                                 locationsSource={LOCATION_SOURCE.AIRPORTS}
-                                oneWayAllowed={true} initAdults={adults} initChildren={children} initInfants={infants}
-                                initiDest={destination} initOrigin={origin} initDepartureDate={departureDate} initReturnDate={returnDate}
+                                oneWayAllowed={true} initAdults={initialParameters.adults} initChildren={initialParameters.children} initInfants={initialParameters.infants}
+                                initiDest={initialParameters.destination} initOrigin={initialParameters.origin} initDepartureDate={initialParameters.departureDate} initReturnDate={initialParameters.returnDate}
                             />
                             <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
                             {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
@@ -112,8 +117,21 @@ export default function FlightsPage({match}) {
 
 const SearchFailed = ()=>{
     return (
-        <div>Search failed</div>
+        <div className='glider-font-h1-fg pt-3'>ooops..... something went wrong with the search</div>
     )
 }
 
 
+const parseDeeplinkParams = (params) =>{
+    let dptr =  parse(params.departureDate,'yyyyMMdd',new Date());
+    let ret =  parse(params.returnDate,'yyyyMMdd',new Date());
+    return {
+        origin: params.orig,
+        destination: params.dest,
+        departureDate: isValid(dptr)?dptr:undefined,
+        returnDate: isValid(ret)?ret:undefined,
+        adults: parseInt(params.adults)||1,
+        children: parseInt(params.children)||0,
+        infants:  parseInt(params.infants)||0
+    }
+}

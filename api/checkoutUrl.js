@@ -4,7 +4,7 @@ const {SessionStorage} = require('./_lib/session-storage');
 const {decorate} = require('./_lib/decorators');
 const {storeOrder} = require('./_lib/mongo-dao');
 const logger = createLogger('/checkoutUrl')
-const DEV_MODE=true;
+const DEV_MODE=false;
 /**
  * /checkoutUrl call handler
  * This creates payment intent to be later paid with a given form of payment

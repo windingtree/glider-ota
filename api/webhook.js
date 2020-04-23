@@ -7,18 +7,19 @@ const {createGuarantee} = require('./_lib/simard-api');
 const _ = require('lodash');
 const {updateOrderStatus,updatePaymentStatus,findOrder,ORDER_STATUSES,PAYMENT_STATUSES} = require('./_lib/mongo-dao');
 const logger = createLogger("/webhook");
-const DISABLE_SIG_CHECK=true;
+const DISABLE_SIG_CHECK=false;
 
 /**
  * /webhook call handler
  * This is invoked by Stripe after a given event related to a payment occurs.
  */
-const _webhookController = async (request,response)=>{
-        logger.debug("/webhook triggered")
-        try {
+const webhookController = async (request,response)=>{
+    logger.debug("/webhook triggered, DISABLE_SIG_CHECK=%s",DISABLE_SIG_CHECK)
+
+    try {
             let event;
             if(DISABLE_SIG_CHECK){
-                event = req.body;
+                event = request.body;
             }else{
                 let rawBody = await getRawBodyFromRequest(request);
                 let stripeSignature = request.headers['stripe-signature'];
@@ -33,7 +34,7 @@ const _webhookController = async (request,response)=>{
 }
 
 
-const webhookController = async (request,response)=>{
+const _webhookController = async (request,response)=>{
     logger.debug("/webhook triggered")
     try {
         let stripeSignature = request.headers['stripe-signature'];

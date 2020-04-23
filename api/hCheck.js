@@ -38,7 +38,7 @@ function checkEnv(log){
     // printKeys("MONGO_CONFIG",MONGO_CONFIG);
     // printKeys("REDIS_CONFIG",REDIS_CONFIG);
     // printKeys("ELASTIC_CONFIG",ELASTIC_CONFIG);
-    // printKeys("ENV",process.env);
+    printKeys("ENV",process.env);
     return log;
 }
 

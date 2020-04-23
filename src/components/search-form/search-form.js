@@ -7,26 +7,17 @@ import PassengerSelector from './passenger-selector'
 import {config} from '../../config/default'
 import SearchCriteriaBuilder from "../../utils/search-criteria-builder";
 import {findFlights, findHotels} from "../../utils/search";
+import {uiEvent} from "../../utils/events";
 
 
 export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initAdults,initChildren,initInfants,onSearchButtonClick, enableOrigin,locationsSource, oneWayAllowed}){
   const [origin, setOrigin] = useState(initOrigin);
   const [destination, setDestination] = useState(initiDest);
-  const [departureDate, setDepartureDate] = useState();
-  const [returnDate, setReturnDate] = useState();
+  const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
+  const [returnDate, setReturnDate] = useState(initReturnDate?initReturnDate:undefined);
   const [adults, setAdults] = useState(initAdults||1);
   const [childrn, setChildren] = useState(initChildren||0);
   const [infants, setInfants] = useState(initInfants||0);
-
-
- /* function searchFormChanged(){
-    console.log("searchFormChanged");
-    const searchFormCriteria = serializeSearchForm();
-    if(onSearchFormChanged) {
-      console.log("searchFormChanged OK");
-      onSearchFormChanged(searchFormCriteria);
-    }
-  }*/
 
   function serializeSearchForm(){
     return {
@@ -43,9 +34,8 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
   }
 
   function searchButtonClick () {
-    console.log("searchButtonClick()")
     const searchCriteria = serializeSearchForm();
-    console.log("searchButtonClick() - searchCriteria",searchCriteria)
+    uiEvent("/flights, search click", searchCriteria);
     if(onSearchButtonClick)
       onSearchButtonClick(searchCriteria)
   }
@@ -79,11 +69,11 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
       <Container fluid={true} >
         <Row >
           {enableOrigin && (
-            <Col lg={6} className='pb-4'><LocationLookup onLocationSelected={setOrigin} locationsSource={locationsSource}/></Col>)}
-            <Col lg={6} className='pb-4'><LocationLookup onLocationSelected={setDestination} locationsSource={locationsSource}/></Col>
+            <Col lg={6} className='pb-4'><LocationLookup initialLocation={initOrigin} onLocationSelected={setOrigin} locationsSource={locationsSource}/></Col>)}
+            <Col lg={6} className='pb-4'><LocationLookup initialLocation={initiDest} onLocationSelected={setDestination} locationsSource={locationsSource}/></Col>
         </Row>
         <Row>
-          <Col lg={6} ><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} /></Col>
+          <Col lg={6} ><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate}/></Col>
           <Col lg={6} className='pb-4'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
         </Row>
       </Container>
@@ -100,17 +90,14 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
 }
 
 export async function searchForFlightsWithCriteria(criteria){
-  console.log('searchForFlights2', criteria);
-  return searchForFlights(criteria.origin.iata, criteria.destination.iata, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
+  return searchForFlights(criteria.origin, criteria.destination, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
 }
 
 export async function searchForFlights(originCode, destinationCode, departureDate, returnDate, adults, children, infants){
   let searchRequest;
-  console.log('searchForFlights', originCode);
   if(!config.OFFLINE_MODE) { //no need to fill search criteria in OFFLINE_MODE
     searchRequest = buildFlightsSearchCriteria(originCode, destinationCode, departureDate, returnDate, adults, children, infants);
   }
-  console.log('API search criteria', searchRequest);
   return findFlights(searchRequest);
 }
 
@@ -131,17 +118,23 @@ export async function searchForHotels(criteria, onSearchSuccessCallback,onSearch
 
 
 export function buildFlightsSearchCriteria(origin,destination,departureDate,returnDate, adults,children,infants) {
-  console.log("buildFlightsSearchCriteria", origin)
+  uiEvent(`flight search params RAW origin=[${origin}] destination=[${destination}}] departureDate=[${departureDate}}] returnDate=[${returnDate}}] adults=[${adults}}] children=[${children}}] infants=[${infants}}]`);
   const criteriaBuilder = new SearchCriteriaBuilder();
   // TODO - handle search from city/railstation and different pax types
-  const searchCriteria = criteriaBuilder
+   criteriaBuilder
       .withTransportDepartureFromLocation(origin)
       .withTransportDepartureDate(departureDate)
       .withTransportReturnFromLocation(destination)
-      .withTransportReturnDate(returnDate)
-      .withPassengers(adults,children,infants)
-      .build();
-  console.log("buildFlightsSearchCriteria  criteria", searchCriteria)
+
+      .withPassengers(adults,children,infants);
+  console.log("returnDate!==undefined:",returnDate!==undefined)
+  console.log("returnDate!==null:",returnDate!==null)
+   if(returnDate!==undefined)
+     criteriaBuilder.withTransportReturnDate(returnDate);
+
+  const searchCriteria = criteriaBuilder.build();
+
+  uiEvent('flight search criteria',searchCriteria);
   return searchCriteria;
 }
 
@@ -156,5 +149,7 @@ export function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnD
       .withAccommodationReturnDate(returnDate)
       .withPassengers(adults,children,infants)
       .build();
+  uiEvent(`hotel search params RAW latitude=[${latitude}] longitude=[${longitude}}] arrivalDate=[${arrivalDate}}] returnDate=[${returnDate}}] adults=[${adults}}] children=[${children}}] infants=[${infants}}]`);
+  uiEvent('hotel search criteria',searchCriteria);
   return searchCriteria;
 }

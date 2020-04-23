@@ -11,19 +11,14 @@ export default function FlightOffer({match}) {
     let combinationId = match.params.combinationId;
 
     let searchResults = retrieveSearchResultsFromLocalStorage();
-    console.log("Search results from local storage:",searchResults)
     let selectedCombination = findCombination(searchResults,combinationId)
-    console.log(" selectedCombination:",selectedCombination)
     let selectedOffer = findSelectedOffer(selectedCombination,offerId);
-    console.log(" selectedOffer:",selectedOffer)
 
 
     return (
         <>
             <div>
                 <Header type='violet'/>
-                combinaitonID:{combinationId}
-                combinaitonID:{combinationId}
                <FlightDetail
                     selectedCombination={selectedCombination}
                     selectedOffer={selectedOffer}
@@ -35,9 +30,7 @@ export default function FlightOffer({match}) {
 
 
 function findCombination(searchResults,combinationId){
-    console.log("findCombination",combinationId)
     let selectedCombination = searchResults.combinations.find(c => {
-        console.log("findCombination - check",c.combinationId)
         return c.combinationId === combinationId
     })
     return selectedCombination;

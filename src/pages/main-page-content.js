@@ -1,45 +1,61 @@
 import React, {useState} from 'react';
 import {Container,Row,Col,ToggleButton, ToggleButtonGroup,Button} from 'react-bootstrap';
+import './main-page-content.css'
 
 export default function MainPageContent() {
     return (
         <>
             <Container>
-                <Row noGutters={true}>
-                    <Col md={12} >
-                        <div className='glider-font-h1-fg py-3'>This is special</div>
-                        <Container className='p-0'>
-                            <Row noGutters={true}>
-                                <Col md={8} className='glider-font-text16-fg p-0' >Glider is Fair Trade Travel. That means no gatekeepers taking commissions or charging hidden fees. Book direct with hotels and airlines so that 100% of your money goes to the travel provider. The result is a fairer travel ecosystem for everyone.</Col>
-                                <Col md={4}><img src='/images/zero-comission.png'/></Col>
+                <Row className='py-5'>
+                    <Col md={9} className='border border-danger'>
+                        <Container>
+                            <Row className='glider-font-h1-fg py-5'>
+                                No hidden fees, no data selling. <br/>
+                                Book flights and hotels direct. <br/>
+                                It's 100% fair trade travel.
+                            </Row>
+                            <Row className='glider-font-text16-fg'>
+                                That means no gatekeepers taking commissions or charging hidden fees. Book direct with hotels and airlines so that 100% of your money goes to the travel provider. The result is a fairer travel ecosystem for everyone
+                            </Row>
+                        </Container>
+
+                    </Col>
+                    <Col md={3} className='justify-content-center border border-dark align-self-center'>
+                        <img className='imgmain ' src='/images/zero-comission.png'/>
+                    </Col>
+                </Row>
+                <Row className='py-5'>
+                    <Col  md={6} className='border border-dark'>
+
+                        <Container>
+                            <Row className='glider-font-h2-fg'>
+                                Conventional system
+                            </Row>
+                            <Row className='glider-font-text18medium-fg'>
+                                Gatekeepers taking commissions or charging hidden fees so you pay more
+                            </Row>
+                            <Row className='justify-content-center'>
+                                <img className='imgmain' src='/images/main-img-left.png'/>
                             </Row>
                         </Container>
                     </Col>
-                </Row>
-                <Row noGutters={true}>
-                    <Col md={12} >
-                        <div className='glider-font-h1-fg py-3'>Our partners</div>
-                        <Container className='p-0'>
-                            <Row className='my-5' noGutters={true}>
-                                <Col md={6}><img width='500' src='/images/partner_nordic.png'/></Col>
-                                <Col md={6}><img width='500' src='/images/partner_airnz.png'/></Col>
+                    <Col  md={6} className='border border-primary'>
+                        <Container >
+                            <Row className='glider-font-h2-fg'>
+                                Glider
                             </Row>
-                            <Row className='my-5' noGutters={true}>
-                                <Col md={6}><img width='500' src='/images/partner_etihad.png'/></Col>
-                                <Col md={6}><img width='500' src='/images/partner_zep.png'/></Col>
+                            <Row className='glider-font-text18medium-fg'>
+                                You pay less, because 100% of your money goes to the travel supplier
+                            </Row>
+                            <Row className='justify-content-center'>
+                                <img className='py-5 imgmain' src='/images/main-img-right.png'/>
                             </Row>
                         </Container>
                     </Col>
-                </Row>
-                <Row className='justify-content-center'>
-                    <Button variant={"outline-primary"} size={"lg"}>Become our partner</Button>
-                </Row>
-                <Row>
-                    <br/><br/><br/>
                 </Row>
             </Container>
+
+
         </>
     )
 };
-
-
