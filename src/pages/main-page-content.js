@@ -7,7 +7,7 @@ export default function MainPageContent() {
         <>
             <Container>
                 <Row className='py-5'>
-                    <Col md={9} className='border border-danger'>
+                    <Col md={9} >
                         <Container>
                             <Row className='glider-font-h1-fg py-5'>
                                 No hidden fees, no data selling. <br/>
@@ -20,12 +20,12 @@ export default function MainPageContent() {
                         </Container>
 
                     </Col>
-                    <Col md={3} className='justify-content-center border border-dark align-self-center'>
+                    <Col md={3} className='justify-content-center align-self-center'>
                         <img className='imgmain ' src='/images/zero-comission.png'/>
                     </Col>
                 </Row>
                 <Row className='py-5'>
-                    <Col  md={6} className='border border-dark'>
+                    <Col  md={6} >
 
                         <Container>
                             <Row className='glider-font-h2-fg'>
@@ -39,7 +39,7 @@ export default function MainPageContent() {
                             </Row>
                         </Container>
                     </Col>
-                    <Col  md={6} className='border border-primary'>
+                    <Col  md={6} >
                         <Container >
                             <Row className='glider-font-h2-fg'>
                                 Glider
