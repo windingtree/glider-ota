@@ -28,7 +28,8 @@ function createURL(route,criteria){
         children:criteria.children,
         infants:criteria.infants,
         departureDate:departureDate,
-        returnDate:returnDate
+        returnDate:returnDate,
+        action:'search'
     };
     return route+stringify(params);
 }
