@@ -10,12 +10,13 @@ import ReactDOM from 'react-dom'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/glider.scss'
 import FlightOffer from "./pages/flightoffer"
+import Hotel from "./pages/hotel"
 import FlightsPage from "./pages/flights"
-import HotelsPage from "./pages/h"
+import HotelsPage from "./pages/hotels"
 import HomePage from "./pages/home"
 import { CookiesProvider } from 'react-cookie';
 import PaymentForm from "./components/payments/payment-form";
-import TestHistory from "./components/payments/test";
+import Sandbox from "./pages/sandbox/test";
 import ConfirmationPage from "./pages/confirmation-page";
 
 
@@ -24,23 +25,16 @@ function Dispatcher() {
         <CookiesProvider>
             <Router>
                 <Switch>
-                    <Route path="/flightoffer/:combinationId?/:offerId?" component={FlightOffer}>
-                    </Route>
-                    <Route path="/flights/:action?/:orig?/:dest?/:departureDate?/:returnDate?/:adults?/:children?/:infants?" component={FlightsPage}>
-                    </Route>
-                    <Route path="/hotels/:action?/:dest?/:departureDate?/:returnDate?/:adults?/:children?/:infants?" component={HotelsPage}>
-                    </Route>
-                    <Route path="/confirmation/:orderId" component={ConfirmationPage}>
-                    </Route>
+                    <Route path="/flightoffer/:combinationId?/:offerId?" component={FlightOffer}/>
+                    <Route path="/flights/" component={FlightsPage}/>
+                    <Route path="/hotels/" component={HotelsPage}/>
+                    <Route path="/hotel/:accommodationId?" component={Hotel}/>
+                    <Route path="/confirmation/:orderId" component={ConfirmationPage}/>
                     <Route path="/payments" >
                         <PaymentForm />
                     </Route>
-                    <Route path="/test" >
-                        <TestHistory/>
-                    </Route>
-                    <Route path="/" >
-                        <HomePage />
-                    </Route>
+                    <Route path="/test" component={Sandbox}/>
+                    <Route path="/" component={HomePage} />
                 </Switch>
             </Router>
         </CookiesProvider>

@@ -10,6 +10,7 @@ import {useHistory} from "react-router-dom";
 import cssdefs from './flights.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
+import {parseUrl}  from 'query-string';
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -18,22 +19,14 @@ const SEARCH_STATE={
     FINISHED:'FINISHED'
 }
 
-
-function createOfferURL(offerId,combinationId){
-    const url = "/flightoffer/"+combinationId+"/"+offerId;
-    return url;
-}
-
-
-
-export default function FlightsPage({match}) {
+export default function FlightsPage({match,location}) {
     let history = useHistory();
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
     const [filtersStates, setFiltersStates] = useState();
     const [unfilteredSearchResults, setUnfilteredSearchResults] = useState();
 
-    const onFlightsSearch = (criteria) => {
+    const onSearchButtonClick = (criteria) => {
         onSearchStart();
         searchForFlightsWithCriteria(criteria)
             .then(results=>{
@@ -61,14 +54,14 @@ export default function FlightsPage({match}) {
         setSearchResults(combinations);
     }
 
-    const initialParameters = parseDeeplinkParams(match.params);
-    const deeplinkAction = match.params.action;
+    const initialParameters = parseDeeplinkParams(location);
+    const deeplinkAction = initialParameters.action;
 
 
     useEffect(()=>{
         if(deeplinkAction === 'search'){
-            console.log("Deeplink search")
-            onFlightsSearch(initialParameters);
+            console.log("Deeplink search",initialParameters)
+            // onSearchButtonClick(initialParameters);
         }
         },[]);
 
@@ -93,11 +86,17 @@ export default function FlightsPage({match}) {
                         </Col>
                         <Col >
                             <SearchForm
-                                onSearchButtonClick={onFlightsSearch}
+                                onSearchButtonClick={onSearchButtonClick}
                                 enableOrigin={true}
                                 locationsSource={LOCATION_SOURCE.AIRPORTS}
-                                oneWayAllowed={true} initAdults={initialParameters.adults} initChildren={initialParameters.children} initInfants={initialParameters.infants}
-                                initiDest={initialParameters.destination} initOrigin={initialParameters.origin} initDepartureDate={initialParameters.departureDate} initReturnDate={initialParameters.returnDate}
+                                oneWayAllowed={true}
+                                initAdults={initialParameters.adults}
+                                initChildren={initialParameters.children}
+                                initInfants={initialParameters.infants}
+                                initiDest={initialParameters.destination}
+                                initOrigin={initialParameters.origin}
+                                initDepartureDate={initialParameters.departureDate}
+                                initReturnDate={initialParameters.returnDate}
                             />
                             <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
                             {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
@@ -121,17 +120,36 @@ const SearchFailed = ()=>{
     )
 }
 
+function createOfferURL(offerId,combinationId){
+    const url = "/flightoffer/"+combinationId+"/"+offerId;
+    return url;
+}
 
-const parseDeeplinkParams = (params) =>{
+
+
+
+const parseDeeplinkParams = (location) =>{
+    let parsedUrl=parseUrl(location.search);
+    let params = parsedUrl.query;
     let dptr =  parse(params.departureDate,'yyyyMMdd',new Date());
     let ret =  parse(params.returnDate,'yyyyMMdd',new Date());
     return {
-        origin: params.orig,
-        destination: params.dest,
+        origin: parseJSONWithDefault(params.origin,''),
+        destination: parseJSONWithDefault(params.destination,''),
         departureDate: isValid(dptr)?dptr:undefined,
         returnDate: isValid(ret)?ret:undefined,
         adults: parseInt(params.adults)||1,
         children: parseInt(params.children)||0,
-        infants:  parseInt(params.infants)||0
+        infants:  parseInt(params.infants)||0,
+        action:params.action
+    }
+}
+
+
+function parseJSONWithDefault(obj,defaultValue){
+    try{
+        return JSON.parse(obj)
+    }catch{
+        return defaultValue;
     }
 }

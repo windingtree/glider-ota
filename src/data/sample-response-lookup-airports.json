@@ -1,0 +1,214 @@
+{
+  "results": [
+    {
+      "primary": "Herlong",
+      "secondary": "AHC",
+      "search": "Herlong AHC",
+      "iata": "AHC",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Avalon",
+      "secondary": "AVX",
+      "search": "Avalon AVX",
+      "iata": "AVX",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Barcelonnette",
+      "secondary": "BAE",
+      "search": "Barcelonnette BAE",
+      "iata": "BAE",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Barcelona",
+      "secondary": "BCN",
+      "search": "Barcelona BCN",
+      "iata": "BCN",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Barcelona",
+      "secondary": "BLA",
+      "search": "Barcelona BLA",
+      "iata": "BLA",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Blonduos",
+      "secondary": "BLO",
+      "search": "Blonduos BLO",
+      "iata": "BLO",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Bollon",
+      "secondary": "BLS",
+      "search": "Bollon BLS",
+      "iata": "BLS",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Bellona",
+      "secondary": "BNY",
+      "search": "Bellona BNY",
+      "iata": "BNY",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Castellon de la Plana",
+      "secondary": "CDT",
+      "search": "Castellon de la Plana CDT",
+      "iata": "CDT",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Cloncurry",
+      "secondary": "CNJ",
+      "search": "Cloncurry CNJ",
+      "iata": "CNJ",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Wulong",
+      "secondary": "CQW",
+      "search": "Wulong CQW",
+      "iata": "CQW",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Colonsay",
+      "secondary": "CSA",
+      "search": "Colonsay CSA",
+      "iata": "CSA",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Colonia del Sacramento",
+      "secondary": "CYR",
+      "search": "Colonia del Sacramento CYR",
+      "iata": "CYR",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Dillon",
+      "secondary": "DLL",
+      "search": "Dillon DLL",
+      "iata": "DLL",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Dillon",
+      "secondary": "DLN",
+      "search": "Dillon DLN",
+      "iata": "DLN",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Dillon's Bay",
+      "secondary": "DLY",
+      "search": "Dillon's Bay DLY",
+      "iata": "DLY",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "East London",
+      "secondary": "ELS",
+      "search": "East London ELS",
+      "iata": "ELS",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Geelong",
+      "secondary": "GEX",
+      "search": "Geelong GEX",
+      "iata": "GEX",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Longview",
+      "secondary": "GGG",
+      "search": "Longview GGG",
+      "iata": "GGG",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Groton/New London",
+      "secondary": "GON",
+      "search": "Groton/New London GON",
+      "iata": "GON",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Long Pasia",
+      "secondary": "GSA",
+      "search": "Long Pasia GSA",
+      "iata": "GSA",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Chilonzuine Island",
+      "secondary": "IDC",
+      "search": "Chilonzuine Island IDC",
+      "iata": "IDC",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Zielona Gora",
+      "secondary": "IEG",
+      "search": "Zielona Gora IEG",
+      "iata": "IEG",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Along",
+      "secondary": "IXV",
+      "search": "Along IXV",
+      "iata": "IXV",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Long Banga",
+      "secondary": "LBP",
+      "search": "Long Banga LBP",
+      "iata": "LBP",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Long Bawan",
+      "secondary": "LBW",
+      "search": "Long Bawan LBW",
+      "iata": "LBW",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Loncopue",
+      "secondary": "LCP",
+      "search": "Loncopue LCP",
+      "iata": "LCP",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Longyan",
+      "secondary": "LCX",
+      "search": "Longyan LCX",
+      "iata": "LCX",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Londrina",
+      "secondary": "LDB",
+      "search": "Londrina LDB",
+      "iata": "LDB",
+      "type": "AIRPORT"
+    },
+    {
+      "primary": "Yichun (Heilongjiang)",
+      "secondary": "LDS",
+      "search": "Yichun (Heilongjiang) LDS",
+      "iata": "LDS",
+      "type": "AIRPORT"
+    }
+  ]
+}

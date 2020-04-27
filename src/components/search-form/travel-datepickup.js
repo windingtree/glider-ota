@@ -17,7 +17,6 @@ export default function TravelDatepickup({initialStart,initialEnd,onStartDateCha
     setEndDate(date);
     onEndDateChanged(date);
   }
-console.log("initialStart",initialStart, "startData:",startDate)
     return (<>
       <DateRangePicker
         startDate={startDate}

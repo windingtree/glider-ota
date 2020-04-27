@@ -31,11 +31,6 @@ export default class HotelsSearchResults extends React.Component {
         return (
             <Container fluid={false}>
                 <Row className='hotels-search-results-wrapper'>
-                    {/*<Col ms={2}>*/}
-                        {/*<StopoverFilter/>*/}
-                        {/*<PriceRangeFilter/>*/}
-                    {/*</Col>*/}
-                        {/*<FastCheapFilter/>*/}
                         {
                             _.map(hotels, (hotel, id) => {
                            return (<SingleHotel hotel={hotel} key={id} handleClick={this.handleHotelSelected}/>)
@@ -53,23 +48,24 @@ export default class HotelsSearchResults extends React.Component {
 
 function SingleHotel({hotel,handleClick}){
     const image=(hotel.media!==undefined && hotel.media.length>0)?hotel.media[0].url:default_hotel_image;
-    return (
-        <div className="hotel-search-offer-container d-flex flex-row flex-wrap p-3">
-            <div className="hotel-offer-container__image"><Image height={140}  src={image} /></div>
-            <div>
-                <div>
-                    <div className="glider-font-text24medium-fg ">{hotel.name}</div>
-                    <div className="glider-font-caps12medium-bg ">[Moscow, Olympic St 14]</div>
-                    <div className="glider-font-text16-fg  mb-2">{extractShortInfoFromHotelDescription(hotel.description,100)}</div>
-                </div>
-                <div className='d-flex flex-row flex-wrap flex-fill'>
-                    <div className="glider-font-text12-fg min-w100 min-w100 flex-fill">from <span className='glider-font-h2-fg'>130 EUR</span> per night</div>
-                    <div className="min-w100 align-self-end"><Button variant="outline-primary" size="lg"
-                                                                         onClick={() => { handleClick(hotel)}}>select room</Button></div>
-                </div>
-            </div>
-        </div>
-    )
+    console.log("Single hotel",hotel);
+    return(
+        <Container  className="hotel-search-offer__container d-flex flex-row flex-wrap p-3">
+            <Row >
+            <Col xs={12} md={3} className="hotel-search-offer__imagecontainer"><Image className="hotel-search-offer__image" height={140}  src={image} /></Col>
+            <Col>
+                <Container >
+                    <Row className="hotel-search-offer__hotelname py-4">{hotel.name}</Row>
+                    <Row className="hotel-search-offer__address pb-2">[Moscow, Olympic St 14]</Row>
+                    <Row className="hotel-search-offer__description pb-2">{extractShortInfoFromHotelDescription(hotel.description,100)}</Row>
+                    <Row noGutters={true}>
+                        <Col md={8} xs={12} className="hotel-search-offer__price  pb-2">from <span className='glider-font-h2-fg'>130 EUR</span> per night</Col>
+                        <Col className="align-self-end "><Button className="w-100" variant="outline-primary" size="lg" onClick={() => { handleClick(hotel)}}>select</Button></Col>
+                    </Row>
+                </Container>
+            </Col>
+            </Row>
+        </Container>)
 }
 
 

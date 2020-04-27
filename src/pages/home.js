@@ -6,64 +6,43 @@ import {LOCATION_SOURCE} from '../components/search-form/location-lookup';
 import {SearchForm} from '../components/search-form/search-form';
 import MainPageContent from './main-page-content';
 import {format} from "date-fns";
-
+import  {stringify}  from 'query-string';
 import css from './home.scss'
 import {useHistory} from "react-router-dom";
-
 
 
 const SEARCH_TYPE={
     FLIGHTS:'FLIGHTS',
     HOTELS:'HOTELS'
 }
-const SEARCH_STATE={
-    NOT_STARTED:'NOT_STARTED',
-    IN_PROGRESS:'IN_PROGRESS',
-    FAILED:'FAILED',
-    FINISHED:'FINISHED'
+
+
+function createURL(route,criteria){
+    console.log("Criteria:",criteria)
+    let departureDate=dateToStr(criteria.departureDate,'');
+    let returnDate=dateToStr(criteria.returnDate,'');
+    let params={
+        origin:JSON.stringify(criteria.origin),
+        destination:JSON.stringify(criteria.destination),
+        adults:criteria.adults,
+        children:criteria.children,
+        infants:criteria.infants,
+        departureDate:departureDate,
+        returnDate:returnDate
+    };
+    return route+stringify(params);
 }
 
-function createFlightsURL(criteria){
-    let origin=criteria.origin;
-    let destination=criteria.destination;
-    let adults=criteria.adults;
-    let children=criteria.children;
-    let infants=criteria.infants;
-    let departureDate=dateToStr(criteria.departureDate);
-    let returnDate=dateToStr(criteria.returnDate);
-    const url = '/flights/search/'+origin+"/"+destination+"/"+departureDate+"/"+returnDate+"/"+adults+"/"+children+"/"+infants;
-    console.log("Criteria==>URL, Criteria:",criteria,"URL:",url);
-    return url;
-}
-function createHotelsURL(criteria){
-    let origin=criteria.origin.iata;
-    let destination=criteria.destination.iata;
-    let adults=criteria.adults;
-    let children=criteria.children;
-    let infants=criteria.infants;
-    let departureDate=dateToStr(criteria.departureDate);
-    let returnDate=dateToStr(criteria.returnDate);
-    const url = '/hotels/search/'+origin+"/"+destination+"/"+departureDate+"/"+returnDate+"/"+adults+"/"+children+"/"+infants;
-    console.log("Criteria==>URL, Criteria:",criteria,"URL:",url);
-    return url;
-}
-
-function dateToStr(date){
-    return date?format(date,'yyyyMMdd'):'';
+function dateToStr(date,defaultValue){
+    return date?format(date,'yyyyMMdd'):defaultValue;
 }
 
 
 export default function HomePage() {
     const [searchType, setSearchType] = useState(SEARCH_TYPE.FLIGHTS);
-    const [searchCriteria, setSearchCriteria] = useState();
-    const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
-    const [searchResults, setSearchResults] = useState();
     let history = useHistory();
-    const onFlightsSearch = (criteria) =>{history.push(createFlightsURL(criteria));};
-    const onHotelsSearch = (criteria) =>{history.push(createHotelsURL(criteria));};
-    const onSearchSuccess = (results) =>{setSearchResults(results);setSearchState(SEARCH_STATE.FINISHED);}
-    const onSearchFailure = () =>{setSearchResults(undefined);setSearchState(SEARCH_STATE.FAILED);}
-    const onSearchStart = () =>{setSearchState(SEARCH_STATE.IN_PROGRESS);}
+    const onFlightsSearch = (criteria) =>{history.push(createURL('/flights/?',criteria));};
+    const onHotelsSearch = (criteria) =>{history.push(createURL('hotels/?',criteria));};
     return (
         <>
             <div className='main-page-header'>
@@ -115,8 +94,6 @@ const FlightsSearchForm = ({onFlightsSearch}) =>{
     )
 }
 
-
-
 const HotelsSearchForm = ({onHotelsSearch}) =>{
     return (
         <SearchForm
@@ -126,7 +103,4 @@ const HotelsSearchForm = ({onHotelsSearch}) =>{
             oneWayAllowed={false}/>
             )
 }
-
-
-
 

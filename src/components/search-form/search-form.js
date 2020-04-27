@@ -35,7 +35,7 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
 
   function searchButtonClick () {
     const searchCriteria = serializeSearchForm();
-    uiEvent("/flights, search click", searchCriteria);
+    uiEvent("search click", searchCriteria);
     if(onSearchButtonClick)
       onSearchButtonClick(searchCriteria)
   }
@@ -58,19 +58,27 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
     }
     return true;
   }
-
-  function validate(){
-    return (isOriginValid() || !enableOrigin) && isDepartureDateValid() && (isReturnDateValid() || oneWayAllowed) && isDestinationValid();
+  function isPaxSelectionValid(){
+    return (adults>0)
   }
 
+  function validate(){
+    let originValid =  isOriginValid() || !enableOrigin;
+    let destinationValid =  isDestinationValid();
+    let departureDateValid = isDepartureDateValid();
+    let returnDateValid = isReturnDateValid() || oneWayAllowed;
+    let paxSelectionValid = isPaxSelectionValid();
+    let isFormValid = originValid && destinationValid && departureDateValid && returnDateValid && paxSelectionValid;
+    return isFormValid;
+  }
     const isValid=validate();
    // searchFormChanged();
     return (<>
       <Container fluid={true} >
         <Row >
           {enableOrigin && (
-            <Col lg={6} className='pb-4'><LocationLookup initialLocation={initOrigin} onLocationSelected={setOrigin} locationsSource={locationsSource}/></Col>)}
-            <Col lg={6} className='pb-4'><LocationLookup initialLocation={initiDest} onLocationSelected={setDestination} locationsSource={locationsSource}/></Col>
+            <Col lg={6} className='pb-4'><LocationLookup initialLocation={initOrigin} onLocationSelected={setOrigin} locationsSource={locationsSource} placeHolder='Origin'/></Col>)}
+            <Col lg={6} className='pb-4'><LocationLookup initialLocation={initiDest} onLocationSelected={setDestination} locationsSource={locationsSource} placeHolder='Destination'/></Col>
         </Row>
         <Row>
           <Col lg={6} ><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate}/></Col>
@@ -102,15 +110,13 @@ export async function searchForFlights(originCode, destinationCode, departureDat
 }
 
 
-export async function searchForHotels(criteria, onSearchSuccessCallback,onSearchFailureCallback){
+export async function searchForHotels(criteria){
 
   let searchRequest;
 
   if(!config.OFFLINE_MODE) { //no need to fill search criteria in OFFLINE_MODE
     searchRequest = buildHotelsSearchCriteria(criteria.destination.latitude, criteria.destination.longitude, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
   }
-
-  console.debug('Raw search criteria:',criteria,' API search criteria', searchRequest)
   return findHotels(searchRequest);
 }
 
@@ -127,8 +133,6 @@ export function buildFlightsSearchCriteria(origin,destination,departureDate,retu
       .withTransportReturnFromLocation(destination)
 
       .withPassengers(adults,children,infants);
-  console.log("returnDate!==undefined:",returnDate!==undefined)
-  console.log("returnDate!==null:",returnDate!==null)
    if(returnDate!==undefined)
      criteriaBuilder.withTransportReturnDate(returnDate);
 

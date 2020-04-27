@@ -7,55 +7,55 @@
     flex-direction: column;
 }
 
-.hotel-search-offer-container{
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    min-height: 180px;
-
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-
-    background: #FFFFFF;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-
-    min-width: 280px;
-    @include glider-media-small_576 {
-        min-width: 560px;
+.hotel-search-offer{
+    &__container {
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        min-height: 180px;
+        justify-content: center;
+        background: #FFFFFF;
     }
-    @include glider-media-medium_768 {
-        min-width: 700px;
+    &__container:hover {
+        background-color: aliceblue;
     }
-    @include glider-media-large_992 {
-        min-width: 830px;
-    }
-    @include glider-media-xlarge_1600 {
-        min-width: 950px;
-    }
-    &__image{
-        min-height: 70px;
-        min-width: 110px;
-        flex: 1 1 auto;
+    &__imagecontainer{
+        height: 158px;
         @include glider-media-small_576 {
-            min-width: 250px;
         }
         @include glider-media-medium_768 {
-            min-width: 250px;
+            height: 264px;
         }
         @include glider-media-large_992 {
-            min-width: 102px;
-            min-height: 121px;
         }
         @include glider-media-xlarge_1600 {
-            min-width: 140px;
-            min-height: 121px;
         }
     }
 
-}
+    &__image{
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
 
-.hotel-search-offer-container:hover {
-    background-color: aliceblue;
+    }
+    &__textblock {
+    }
+    &__hotelname {
+        @include _glider-font-text24medium;
+        color:$glider-color-text;
+    }
+    &__description {
+        @include _glider-font-text16;
+        color:$glider-color-text;
+    }
+    &__address {
+        @include _glider-font-caps12medium;
+        color:$glider-color-text-background;
+    }
+
+    &__price {
+        @include _glider-font-text12;
+        color:$glider-color-text;
+        text-align: center;
+    }
 }
 

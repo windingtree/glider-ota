@@ -12,6 +12,9 @@
         color: $glider-color-text;
         @include _glider-font-regular18;
      }
+    &__input::placeholder {
+        color: $glider-color-text-background;
+    }
     &__popover{
         background: #FFFFFF;
         box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);

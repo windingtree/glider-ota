@@ -54,9 +54,9 @@ export default class HotelDetails extends React.Component {
         }
 
         return (
-            <Container>
+            <Container >
                 <Row>
-                    <Col className='hotel-offer-details-wrapper'>
+                    <Col className='hotel-offer-details__wrapper'>
                         <div className='glider-font-h1-fg mb-4'>
                             Book your room
                         </div>
@@ -66,7 +66,7 @@ export default class HotelDetails extends React.Component {
                         <div className='glider-font-text16-fg mb-5'>
                             on Olympuc st 14, Moscow | 1 adult for 2 nights
                         </div>
-                        <div className='pb-4'>
+                        <div className='hotel-offer-details_main-image-container pb-4'>
                             <HotelLeadingImage images={hotel.media}/>
                         </div>
                         <div>
@@ -256,13 +256,13 @@ function RoomPolicies({policies}) {
 const HotelLeadingImage = ({images}) => {
     const image = (images !== undefined && images.length > 0) ? images[0].url : default_hotel_image;
     return (
-        <Image className='hotel-image-main' src={image}/>
+        <Image className='hotel-offer-details_main-image' src={image}/>
     )
 }
 
 const RoomImage = ({images}) => {
     const image = (images !== undefined && images.length > 0) ? images[0].url : default_hotel_image;
-    return (<Image width={180} className='room-image-main' src={image}/>)
+    return (<Image width={180} className='hotel-offer-details_room-image' src={image}/>)
 }
 
 
