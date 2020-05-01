@@ -10,7 +10,7 @@ import cssdefs from './flights.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
-import HotelsSearchResults from "../components/hotels-search-results/hotels-search-results";
+import HotelsSearchResults from "../components/hotels/hotels-search-results";
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',

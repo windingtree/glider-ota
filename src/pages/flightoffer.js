@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {Button, Container,  Row, Col} from "react-bootstrap";
-import FlightDetail from "../components/flights-offer-details/flight-detailed-view"
+import FlightDetail from "../components/flights/flight-detailed-view"
 import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/search"
 

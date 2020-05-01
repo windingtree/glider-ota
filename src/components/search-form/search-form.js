@@ -73,26 +73,65 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
   }
     const isValid=validate();
    // searchFormChanged();
+
+
+
+
+  const renderHotelForm = () =>{
     return (<>
-      <Container fluid={true} >
-        <Row >
-          {enableOrigin && (
-            <Col lg={6} className='pb-4'><LocationLookup initialLocation={initOrigin} onLocationSelected={setOrigin} locationsSource={locationsSource} placeHolder='Origin'/></Col>)}
-            <Col lg={6} className='pb-4'><LocationLookup initialLocation={initiDest} onLocationSelected={setDestination} locationsSource={locationsSource} placeHolder='Destination'/></Col>
-        </Row>
-        <Row>
-          <Col lg={6} ><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate}/></Col>
-          <Col lg={6} className='pb-4'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
-        </Row>
-      </Container>
-      <Container fluid={true} className='searchbutton__container'>
-        <Row className='pt-5'>
-          <Col xs={12} className='d-flex'>
-          <Button className='searchbutton__button flex-fill' variant="primary" size="lg"
-                  disabled={!isValid && !config.OFFLINE_MODE} onClick={searchButtonClick}>Search</Button>
-          </Col>
-        </Row>
-      </Container>
+          <Container fluid={true} >
+            <Row >
+              <Col lg={6} className='pb-4'><LocationLookup initialLocation={initiDest} onLocationSelected={setDestination} locationsSource={locationsSource} placeHolder='Destination'/></Col>
+              <Col lg={6} className='pb-4'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
+            </Row>
+            <Row>
+              <Col><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} startPlaceholder='Check in' endPlaceholder='Check out'/></Col>
+            </Row>
+          </Container>
+          <Container fluid={true} className='searchbutton__container'>
+            <Row className='pt-5'>
+              <Col xs={12} className='d-flex'>
+                <Button className='searchbutton__button flex-fill' variant="primary" size="lg"
+                        disabled={!isValid && !config.OFFLINE_MODE} onClick={searchButtonClick}>Search</Button>
+              </Col>
+            </Row>
+          </Container>
+        </>
+    )
+  }
+
+  const renderFlightsForm = () =>{
+    return (<>
+          <Container fluid={true} >
+            <Row >
+              <Col lg={6} className='pb-4'><LocationLookup initialLocation={initOrigin} onLocationSelected={setOrigin} locationsSource={locationsSource} placeHolder='Origin'/></Col>
+              <Col lg={6} className='pb-4'><LocationLookup initialLocation={initiDest} onLocationSelected={setDestination} locationsSource={locationsSource} placeHolder='Destination'/></Col>
+            </Row>
+            <Row>
+              <Col lg={6} ><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate}/></Col>
+              <Col lg={6} className='pb-4'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
+            </Row>
+          </Container>
+          <Container fluid={true} className='searchbutton__container'>
+            <Row className='pt-5'>
+              <Col xs={12} className='d-flex'>
+                <Button className='searchbutton__button flex-fill' variant="primary" size="lg"
+                        disabled={!isValid && !config.OFFLINE_MODE} onClick={searchButtonClick}>Search</Button>
+              </Col>
+            </Row>
+          </Container>
+        </>
+    )
+  }
+
+
+
+
+
+
+  return (<>
+        {enableOrigin && renderFlightsForm()}
+        {!enableOrigin && renderHotelForm()}
       </>
     )
 }
@@ -157,3 +196,6 @@ export function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnD
   uiEvent('hotel search criteria',searchCriteria);
   return searchCriteria;
 }
+
+
+

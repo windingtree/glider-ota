@@ -4,7 +4,7 @@ import { DateRangePicker, START_DATE, END_DATE } from 'react-nice-dates'
 import 'react-nice-dates/build/style.css'
 import './travel-datepickup.scss'
 
-export default function TravelDatepickup({initialStart,initialEnd,onStartDateChanged,onEndDateChanged}) {
+export default function TravelDatepickup({initialStart,initialEnd,onStartDateChanged,onEndDateChanged, startPlaceholder='Departure', endPlaceholder='Return'}) {
   const [startDate, setStartDate] = useState(initialStart);
   const [endDate, setEndDate] = useState(initialEnd);
 
@@ -34,14 +34,14 @@ export default function TravelDatepickup({initialStart,initialEnd,onStartDateCha
                   <input
                       className={'date-range__input' + (focus === START_DATE ? ' -focused' : '')}
                       {...startDateInputProps}
-                      placeholder='Departure'
+                      placeholder={startPlaceholder}
                   />
                 </div>
                 <div className='col-sm-6 pb-4'>
                   <input
                       className={'date-range__input' + (focus === END_DATE ? ' -focused' : '')}
                       {...endDateInputProps}
-                      placeholder='Return'
+                      placeholder={endPlaceholder}
                   />
                 </div>
               </div>
