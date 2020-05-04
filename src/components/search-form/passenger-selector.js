@@ -1,9 +1,20 @@
 import React, {useState} from 'react'
-import './passenger-selector.scss'
-import {Button, Dropdown, Container,Row,Col} from 'react-bootstrap'
+import style from './passenger-selector.module.scss'
 
-export default function PassengerSelector({adults, childrn, infants, onAdultsChange, onChildrenChange, onInfantsChange}) {
+import {Button, Dropdown, Container, Row, Col, Form, FormCheck} from 'react-bootstrap'
+import {InputGroupRadio} from "react-bootstrap/InputGroup";
 
+export default function PassengerSelector({adults, childrn, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy'}) {
+
+    function handleChange(evt){
+        console.log("handleChange",evt.target)
+        console.log("handleChange state",evt.target.state)
+        console.log("handleChange value",evt.target.value)
+        console.log("handleChange id",evt.target.id)
+        let id = evt.target.id;
+        let value = evt.target.value;
+
+    }
     function increase(type) {
         switch (type) {
             case 'adults':
@@ -39,55 +50,66 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
     const total = getTotal();
     return (
         <>
-            <Dropdown bsPrefix='passenger-selector'>
-                <Dropdown.Toggle className='passenger-selector__dropdown' id='dropdown-basic' as="button">
-                    {total} passenger{total > 1 ? 's' : ''}
+            <Dropdown bsPrefix={style.paxSelector}>
+                <Dropdown.Toggle className={style.paxSelectorDropdown} id='dropdown-basic' as="button">
+                    {total} {placeholder}{total > 1 ? 's' : ''}
                 </Dropdown.Toggle>
-                <Dropdown.Menu className='passenger-selector__container' >
+                <Dropdown.Menu className={style.paxSelectorContainer} >
                     <Container>
-                        <Row className='passenger-selector__row'>
+                        <Row className={style.paxSelectorRow}>
                             <Col xs={6}>
-                                <div className='passenger-selector__title'>
+                                <div className={style.paxSelectorTitle}>
                                     Adults
                                 </div>
-                                <div className='passenger-selector__subtitle'>
+                                <div className={style.paxSelectorSubtitle}>
                                     over 12
                                 </div>
                             </Col>
-                            <Col xs={6} className='passenger-selector__buttons'>
-                                <Button onClick={() => decrease('adults')} variant='light' size='sm'>-</Button>
-                                <span className='passenger-selector__pax-count px-2'>{adults}</span>
-                                <Button onClick={() => increase('adults')} variant='primary' size='sm'>+</Button>
+                            <Col xs={6} className={style.paxSelectorButtons}>
+                                <Button className={style.paxSelectorButton} onClick={() => decrease('adults')} variant=' pax-btn-circle pax-btn-decrease' size='sm'>—</Button>
+                                <span className={style.paxSelectorPaxCount}>{adults}</span>
+                                <Button className={style.paxSelectorButton} onClick={() => increase('adults')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
                             </Col>
                         </Row>
-                        <Row className='passenger-selector__row'>
+                        <Row className={style.paxSelectorRow}>
                             <Col xs={6}>
-                                <div className='passenger-selector__title'>
+                                <div className={style.paxSelectorTitle}>
                                     Children
                                 </div>
-                                <div className='passenger-selector__subtitle'>
+                                <div className={style.paxSelectorSubtitle}>
                                     2-12
                                 </div>
                             </Col>
-                            <Col xs={6} className='passenger-selector__buttons'>
-                                <Button onClick={() => decrease('children')} variant='light' size='sm'>-</Button>
-                                <span className='passenger-selector__pax-count px-2'>{childrn}</span>
-                                <Button onClick={() => increase('children')} variant='primary' size='sm'>+</Button>
+                            <Col xs={6} className={style.paxSelectorButtons}>
+                                <Button onClick={() => decrease('children')} variant=' pax-btn-circle pax-btn-decrease' size='sm'>—</Button>
+                                <span className={style.paxSelectorPaxCount}>{childrn}</span>
+                                <Button onClick={() => increase('children')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
                             </Col>
                         </Row>
-                        <Row className='passenger-selector__row'>
+                        <Row className={style.paxSelectorRow}>
                             <Col xs={6}>
-                                <div className='passenger-selector__title'>
+                                <div className={style.paxSelectorTitle}>
                                     Infants
                                 </div>
-                                <div className='passenger-selector__subtitle'>
+                                <div className={style.paxSelectorSubtitle}>
                                     Under 2, lap infant
                                 </div>
                             </Col>
-                            <Col xs={6} className='passenger-selector__buttons'>
-                                <Button onClick={() => decrease('infants')} variant='light' size='sm'>-</Button>
-                                <span className='passenger-selector__pax-count px-2'>{infants}</span>
-                                <Button onClick={() => increase('infants')} variant='primary' size='sm'>+</Button>
+                            <Col xs={6} className={style.paxSelectorButtons}>
+                                <Button onClick={() => decrease('infants')} variant=' pax-btn-circle pax-btn-decrease' size='sm'>—</Button>
+                                <span className={style.paxSelectorPaxCount}>{infants}</span>
+                                <Button onClick={() => increase('infants')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
+                            </Col>
+                        </Row>
+                        <Row >
+                            <Col className={style.divider}>
+                                <div className={style.radioLabel}>
+                                    <input type="radio"  className={style.radio} id="economy_cabin" name="cabin" checked={true}/>Economy
+                                </div>
+
+                                <div className={style.radioLabel}>
+                                    <input type="radio" className={style.radio} id="business_cabin" name="cabin" disabled={true}/><label> Business</label>
+                                </div>
                             </Col>
                         </Row>
                     </Container>

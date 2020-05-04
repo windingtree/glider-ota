@@ -1,7 +1,7 @@
 const csv = require('csv-parser');
 const fs = require('fs');
 
-const INPUT_FILENAME = 'cities15000.txt';
+const INPUT_FILENAME = 'cities.txt';
 const OUTPUT_FILENAME = 'cities.json';
 
 function process_locations(inputFilename,outputFilename) {

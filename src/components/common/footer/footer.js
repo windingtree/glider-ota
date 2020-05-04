@@ -1,52 +1,72 @@
 import React from 'react'
-import {Container,Row,Col,Nav} from 'react-bootstrap'
-import css from './footer.scss'
+import {Container, Row, Col, Nav} from 'react-bootstrap'
+import style from './footer.module.scss'
+import Logo from "../logo";
 
-export default function Footer (props) {
-  return (
-    <footer className="footer py-5">
-      <Container fluid={true}>
-        <Row>
-          <Col md={4} sm={12} >
-
+export default function Footer(props) {
+    return (
+        <footer className={style.footer}>
             <Container fluid={true}>
-              <Row className='logo '>
-                <div><img alt="logo" src="/images/logo_violet.png" /></div>
-                <div className='logo_black'>Glider</div>
-              </Row>
-            </Container>
+                <Row noGutters={true}>
+                    <Col lg={4} xs={12}>
+                      <div className={style.logo}><Logo violet={true}/></div>
+                    </Col>
+                    <Col lg={8} xs={12}>
 
-          </Col>
-          <Col md={8} sm={12}>
+                        <Container fluid={true}>
+                            <Row noGutters={true}>
+                                <Col xs={12} sm={3} >
+                                    <div className={style.footerNavTitle}>Airlines</div>
+                                    <div className={style.footerNavLink}><a href="https://www.airfrance.com">Air
+                                        France</a></div>
+                                    <div className={style.footerNavLink}><a href="https://www.aircanada.com">Air
+                                        Canada</a></div>
 
-            <Container>
-              <Row>
-                <Col md={3} >
-                  <div className='footer__nav-title'>Airlines</div>
-                  <div className='footer__nav-link'>Air France</div>
-                  <div className='footer__nav-link'>Air Canada</div>
-                </Col>
-                <Col md={3}>
-                  <div className='footer__nav-title'>Hotels</div>
-                  <div className='footer__nav-link'>Nordic Choice Hotels</div>
-                  <div className='footer__nav-link'>Machefert Hotels</div>
-                </Col>
-                <Col md={6}>
-                  <div className='footer__nav-title'>Contact</div>
-                  <div className='footer__nav-link'>
-                    Harju maakond, Tallinn Kesklinna linnaosa, Tartu mnt 67/1-13b, 10115
-                  </div>
-                  <div className='footer__nav-link'><a href='mailto:info@windingtree.com'>info@windingtree.com</a></div>
-                </Col>
-              </Row>
+                                </Col>
+                                <Col xs={12} sm={3}>
+                                    <div className={style.footerNavTitle}>Hotels</div>
+                                    <div className={style.footerNavLink}><a href="https://www.nordicchoicehotels.com">Nordic
+                                        Choice Hotels</a></div>
+                                    <div className={style.footerNavLink}><a href="https://www.mhc.travel">Machefert
+                                        Hotels</a></div>
+                                </Col>
+                                <Col xs={12} sm={6}>
+                                    <div className={style.footerNavTitle}>Contact</div>
+                                    <div className={style.footerNavLink}>
+                                        Harju maakond, Tallinn Kesklinna linnaosa, Tartu mnt 67/1-13b, 10115
+                                    </div>
+                                    <div className={style.footerNavLink}><a
+                                        href='mailto:info@windingtree.com'>info@windingtree.com</a></div>
+                                </Col>
+                            </Row>
+                            <Row noGutters={true}>
+                                <Col xs={12} sm={3}>
+                                    <div className={style.footerNavLink}>Operated by Simard OÜ</div>
+                                </Col>
+                                <Col xs={12} sm={3}>
+                                    <div className={style.footerNavLink}>Terms of use</div>
+                                </Col>
+                                <Col xs={12} sm={6}>
+                                    <Container fluid={true}>
+                                        <Row noGutters={true}>
+                                            <Col><a href="http://"><img src="images/github_icon.png"
+                                                                        className={style.icon} border="0"/></a></Col>
+                                            <Col><a href="http://"><img src="images/twitter_icon.png"
+                                                                        className={style.icon} border="0"/></a></Col>
+                                            <Col><a href="http://"><img src="images/medium_icon.png"
+                                                                        className={style.icon} border="0"/></a></Col>
+                                            <Col><a href="http://"><img src="images/telegram_icon.png"
+                                                                        className={style.icon} border="0"/></a></Col>
+                                            <Col><a href="http://"><img src="images/reddit_icon.png"
+                                                                        className={style.icon} border="0"/></a></Col>
+                                        </Row>
+                                    </Container>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </Col>
+                </Row>
+
             </Container>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={4} sm={12}></Col>
-          <Col className='footer__nav-link'>Operated by Simard OÜ</Col>
-          <Col className='footer__nav-link'>Terms of use</Col>
-        </Row>
-      </Container>
-    </footer>)
+        </footer>)
 }

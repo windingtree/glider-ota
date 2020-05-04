@@ -1,7 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {SearchForm,buildFlightsSearchCriteria,searchForFlightsWithCriteria} from '../components/search-form/search-form';
-import {LOCATION_SOURCE} from '../components/search-form/location-lookup';
 import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
 import Filters,{generateFiltersStates} from "../components/filters/filters";
@@ -28,13 +27,14 @@ export default function FlightsPage({match,location}) {
 
     const onSearchButtonClick = (criteria) => {
         onSearchStart();
-        searchForFlightsWithCriteria(criteria)
+        console.log("Search criteria:",criteria)
+/*        searchForFlightsWithCriteria(criteria)
             .then(results=>{
                 uiEvent("/flights, search completed");
                 onSearchSuccess(results)})
             .catch(err=>{
                 uiEvent("/flights, search failed", err);
-                onSearchFailure(err)})
+                onSearchFailure(err)})*/
     };
     const onSearchSuccess = (results) => {
         setSearchResults(results.combinations);
@@ -77,7 +77,7 @@ export default function FlightsPage({match,location}) {
     return (
         <div>
             <div>
-                <Header type='violet'/>
+                <Header violet={true}/>
                 {/*<div className='d-flex flex-column container-fluid justify-content-center'>*/}
                 <Container fluid={true} className='flight-results-outer-boundary'>
                     <Row>
@@ -88,7 +88,6 @@ export default function FlightsPage({match,location}) {
                             <SearchForm
                                 onSearchButtonClick={onSearchButtonClick}
                                 enableOrigin={true}
-                                locationsSource={LOCATION_SOURCE.AIRPORTS}
                                 oneWayAllowed={true}
                                 initAdults={initialParameters.adults}
                                 initChildren={initialParameters.children}

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Button, Container, Row, Col} from 'react-bootstrap'
-import LocationLookup from './location-lookup'
+import LookupField from '../lookup/lookup-field'
 import TravelDatepickup from './travel-datepickup'
 import './search-form.scss'
 import PassengerSelector from './passenger-selector'
@@ -8,6 +8,7 @@ import {config} from '../../config/default'
 import SearchCriteriaBuilder from "../../utils/search-criteria-builder";
 import {findFlights, findHotels} from "../../utils/search";
 import {uiEvent} from "../../utils/events";
+import {AirportLookup,CityLookup} from "../lookup/lookup";
 
 
 export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initAdults,initChildren,initInfants,onSearchButtonClick, enableOrigin,locationsSource, oneWayAllowed}){
@@ -79,17 +80,18 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
 
   const renderHotelForm = () =>{
     return (<>
+
           <Container fluid={true} >
             <Row >
-              <Col lg={6} className='pb-4'><LocationLookup initialLocation={initiDest} onLocationSelected={setDestination} locationsSource={locationsSource} placeHolder='Destination'/></Col>
-              <Col lg={6} className='pb-4'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
+              <Col lg={6} className='form-elem'><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
+              <Col lg={6} className='form-elem'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest'/></Col>
             </Row>
             <Row>
-              <Col><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} startPlaceholder='Check in' endPlaceholder='Check out'/></Col>
+              <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} startPlaceholder='Check in' endPlaceholder='Check out'/></Col>
             </Row>
           </Container>
           <Container fluid={true} className='searchbutton__container'>
-            <Row className='pt-5'>
+            <Row >
               <Col xs={12} className='d-flex'>
                 <Button className='searchbutton__button flex-fill' variant="primary" size="lg"
                         disabled={!isValid && !config.OFFLINE_MODE} onClick={searchButtonClick}>Search</Button>
@@ -104,16 +106,16 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
     return (<>
           <Container fluid={true} >
             <Row >
-              <Col lg={6} className='pb-4'><LocationLookup initialLocation={initOrigin} onLocationSelected={setOrigin} locationsSource={locationsSource} placeHolder='Origin'/></Col>
-              <Col lg={6} className='pb-4'><LocationLookup initialLocation={initiDest} onLocationSelected={setDestination} locationsSource={locationsSource} placeHolder='Destination'/></Col>
+              <Col xs={12} md={6} className='form-elem'><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin'/></Col>
+              <Col xs={12} md={6} className='form-elem'><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
             </Row>
             <Row>
-              <Col lg={6} ><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate}/></Col>
-              <Col lg={6} className='pb-4'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
+              <Col xs={12} lg={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate}/></Col>
+              <Col xs={12} lg={6} className='form-elem'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
             </Row>
           </Container>
           <Container fluid={true} className='searchbutton__container'>
-            <Row className='pt-5'>
+            <Row >
               <Col xs={12} className='d-flex'>
                 <Button className='searchbutton__button flex-fill' variant="primary" size="lg"
                         disabled={!isValid && !config.OFFLINE_MODE} onClick={searchButtonClick}>Search</Button>

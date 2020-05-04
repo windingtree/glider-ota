@@ -16,7 +16,7 @@ import HotelsPage from "./pages/hotels"
 import HomePage from "./pages/home"
 import { CookiesProvider } from 'react-cookie';
 import PaymentForm from "./components/payments/payment-form";
-import Sandbox from "./pages/sandbox/test";
+import Sandbox from "./pages/sandbox/sandbox";
 import ConfirmationPage from "./pages/confirmation-page";
 
 

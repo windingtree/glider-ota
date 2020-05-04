@@ -1,0 +1,7 @@
+@import  "../../styles/mixins";
+
+.componentOne{
+  background: $glider-color-body-background;
+  border: 1px solid $glider-color-primary;
+  color:red;
+}

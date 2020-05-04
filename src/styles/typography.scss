@@ -1,2 +1,136 @@
-@import './variables';
+@import './mixins';
+/**
+typography.scss
+font definitions
+ */
+.glider-font-text12-bg{
+    @include _glider-font-text12;
+    color: $glider-color-text-background;
+  }
 
+  .glider-font-text12-fg {
+    @include _glider-font-text12;
+    color: $glider-color-text;
+  }
+
+
+  .glider-font-caps12medium-bg {
+    @include _glider-font-caps12medium;
+    color: $glider-color-text-background;
+  }
+
+  .glider-font-caps12medium-fg {
+    @include _glider-font-caps12medium;
+    color: $glider-color-text;
+  }
+
+  .glider-font-filtercategories13-bg {
+    @include _glider-font-filtercategories13;
+    color: $glider-color-text-background;
+  }
+
+  .glider-font-filtercategories13-fg {
+    @include _glider-font-filtercategories13;
+    color: $glider-color-text;
+  }
+
+  .glider-font-h1-bg {
+    @include _glider-font-h1;
+    color: $glider-color-text-background;
+  }
+
+  .glider-font-h1-fg {
+    @include _glider-font-h1;
+    color: $glider-color-text;
+  }
+
+
+  .glider-font-h2-bg {
+    @include _glider-font-h2;
+    color: $glider-color-text-background;
+  }
+
+  .glider-font-h2-fg {
+    @include _glider-font-h2;
+    color: $glider-color-text;
+  }
+
+
+  .glider-font-text16-bg {
+    @include _glider-font-text16;
+    color: $glider-color-text-background;
+  }
+
+  .glider-font-text16-fg {
+    @include _glider-font-text16;
+    color: $glider-color-text;
+  }
+
+
+  .glider-font-text16-primary {
+    @include _glider-font-text16;
+    color: $glider-color-primary;
+  }
+
+  //regular 18 px
+  .glider-font-regular18-bg {
+    @include _glider-font-regular18;
+    color: $glider-color-text-background;
+  }
+
+  .glider-font-regular18-fg {
+    @include _glider-font-regular18;
+    color: $glider-color-text;
+  }
+
+  //caps 18px
+  .glider-font-caps18-bg {
+    @include _glider-font-regular18;
+    color: $glider-color-text-background;
+    text-transform: uppercase;
+  }
+
+  .glider-font-caps18-fg {
+    @include _glider-font-regular18;
+    color: $glider-color-text;
+    text-transform: uppercase;
+  }
+
+  .glider-font-text18medium-bg {
+    @include _glider-font-text18;
+    color: $glider-color-text-background;
+  }
+
+  .glider-font-text18medium-fg {
+    @include _glider-font-text18;
+    color: $glider-color-text;
+  }
+
+
+  .glider-font-text24medium-bg {
+    @include _glider-font-text24medium;
+    color: $glider-color-text-background;
+  }
+
+  .glider-font-text24medium-fg {
+    @include _glider-font-text24medium;
+    color: $glider-color-text;
+  }
+
+  .glider-font-h3-bg {
+    @include _glider-font-h3;
+    color: $glider-color-text-background;
+  }
+
+  .glider-font-h3-fg {
+    @include _glider-font-h3;
+    color: $glider-color-text;
+  }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
+
+  .underline {
+    text-decoration-line: underline;
+  }

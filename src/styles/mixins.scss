@@ -1,0 +1,123 @@
+@import './variables';
+/**
+mixins.scss
+mixins re-used in multiple other scripts
+ */
+
+
+//MEDIA QUERIES
+
+// Small devices
+@mixin glider-media-small_576 {
+  @media (min-width: $glider-break-sm) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin glider-media-medium_768 {
+  @media (min-width: $glider-break-md) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin glider-media-large_992 {
+  @media (min-width: $glider-break-lg) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin glider-media-xlarge_1600 {
+  @media (min-width: $glider-break-xl) {
+    @content;
+  }
+}
+
+
+
+
+//text 12px (regular 150%)
+@mixin _glider-font-text12 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 150%;
+}
+//caps 12px medium
+@mixin _glider-font-caps12medium {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 110%;
+}
+
+
+//filter categories 13px
+@mixin _glider-font-filtercategories13 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 110%;
+}
+
+@mixin _glider-font-h1 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 110%;
+}
+
+@mixin _glider-font-h2 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 120%;
+}
+
+@mixin _glider-font-text16 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+
+@mixin _glider-font-regular18 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 110%;
+}
+
+@mixin _glider-font-text18 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 120%;
+}
+
+@mixin _glider-font-text24medium {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+@mixin _glider-font-h3 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  //line-height: 110%;
+}

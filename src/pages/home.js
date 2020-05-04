@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import Header  from '../components/common/header/header';
 import Footer from '../components/common/footer/footer';
 import {Container,Row,Col,ToggleButton, ToggleButtonGroup,Button} from 'react-bootstrap';
-import {LOCATION_SOURCE} from '../components/search-form/location-lookup';
+import {LOCATION_SOURCE} from '../components/lookup/lookup-field';
 import {SearchForm} from '../components/search-form/search-form';
 import MainPageContent from './main-page-content';
 import {format} from "date-fns";
 import  {stringify}  from 'query-string';
-import css from './home.scss'
+import style from './home.module.scss'
 import {useHistory} from "react-router-dom";
 
 
@@ -46,15 +46,15 @@ export default function HomePage() {
     const onHotelsSearch = (criteria) =>{history.push(createURL('hotels/?',criteria));};
     return (
         <>
-            <div className='main-page-header'>
-                <Header type='white'/>
+            <div className={style.mainPageBackground}>
+                <Header violet={false}/>
                 <Container fluid={true} className='flight-results-outer-boundary'>
-                    <Row className='pb-md-5 pb-2' >
+                    <Row >
                         <Col>
                             <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
                         </Col>
                     </Row>
-                    <Row className='pt-5'>
+                    <Row className={style.searchFormWrapper}>
                         <Col>
                             {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
                             {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
@@ -73,13 +73,13 @@ const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
     const onFlightClick = () => {setValue(SEARCH_TYPE.FLIGHTS);onToggle(SEARCH_TYPE.FLIGHTS);}
     const onHotelClick = ()  => {setValue(SEARCH_TYPE.HOTELS);onToggle(SEARCH_TYPE.HOTELS);}
     return (
-        <Container fluid={true} className='flight-or-hotel-toggle pb-3'>
-            <Row >
+        <Container fluid={true} className={style.flightOrHotelToggle}>
+            <Row className={style.flightOrHotelToggleContainer}>
                 <Col xs={6} className="d-flex ">
-                    <Button className="flight-or-hotel-toggle__btn flex-fill " variant={value==SEARCH_TYPE.FLIGHTS?"primary":"outline-primary"} size="lg" onClick={onFlightClick}>Flights</Button>
+                    <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.FLIGHTS?"primary":"outline-primary"} size="lg" onClick={onFlightClick}>Flights</Button>
                 </Col>
                 <Col xs={6} className="d-flex ">
-                    <Button className="flight-or-hotel-toggle__btn flex-fill" variant={value==SEARCH_TYPE.HOTELS?"primary":"outline-primary"} size="lg" onClick={onHotelClick}>Hotels</Button>
+                    <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.HOTELS?"primary":"outline-primary"} size="lg" onClick={onHotelClick}>Hotels</Button>
                 </Col>
             </Row>
         </Container>)

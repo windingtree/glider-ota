@@ -29,5 +29,5 @@ List of locations that is used in hotels lookup fields is taken from geonames.or
 It's also curated with a script that transforms data to JSON format and filters out unwanted cities (currently cities with population over 300000 are taken into account)
 
 ```bash
-    /tools/locations/cities.js
+    /tools/locations/process_dictionary_data.js
 ```

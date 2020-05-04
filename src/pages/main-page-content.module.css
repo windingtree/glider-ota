@@ -1,0 +1,10 @@
+
+.imgmain{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.content{
+    border: 1px solid red;
+    padding-top:170px;
+}

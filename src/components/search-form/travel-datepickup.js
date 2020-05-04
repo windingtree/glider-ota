@@ -30,14 +30,14 @@ export default function TravelDatepickup({initialStart,initialEnd,onStartDateCha
         {({ startDateInputProps, endDateInputProps, focus }) => (
             <div className='date-range container-fluid '>
               <div className='row '>
-                <div className='col-sm-6 pb-4'>
-                  <input
+                <div className='col-sm-6 pb-4 form-elem'>
+                  <input readOnly={true}
                       className={'date-range__input' + (focus === START_DATE ? ' -focused' : '')}
                       {...startDateInputProps}
                       placeholder={startPlaceholder}
                   />
                 </div>
-                <div className='col-sm-6 pb-4'>
+                <div className='col-sm-6 pb-4 form-elem'>
                   <input
                       className={'date-range__input' + (focus === END_DATE ? ' -focused' : '')}
                       {...endDateInputProps}

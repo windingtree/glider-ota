@@ -1,8 +1,10 @@
 /**
 glider.scss
+global stylesheets
  */
-@import './variables';
-@import './utils';
+//@import './variables';
+@import 'src/styles/mixins';
+@import 'src/styles/typography';
 @import "../../node_modules/bootstrap/scss/bootstrap";
 /*
 .border{

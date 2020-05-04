@@ -1,27 +1,27 @@
 import React, {useState} from 'react';
 import {Container,Row,Col,ToggleButton, ToggleButtonGroup,Button} from 'react-bootstrap';
-import './main-page-content.css'
+import style from './main-page-content.module.css'
 
 export default function MainPageContent() {
     return (
         <>
-            <Container>
-                <Row className='py-5'>
+            <Container className={style.content}>
+                <Row >
                     <Col md={9} >
                         <Container>
-                            <Row className='glider-font-h1-fg py-5'>
+                            <Row className='glider-font-h1-fg '>
                                 No hidden fees, no data selling. <br/>
                                 Book flights and hotels direct. <br/>
                                 It's 100% fair trade travel.
                             </Row>
-                            <Row className='glider-font-text16-fg'>
+                            <Row className='glider-font-text16-fg py-5'>
                                 That means no gatekeepers taking commissions or charging hidden fees. Book direct with hotels and airlines so that 100% of your money goes to the travel provider. The result is a fairer travel ecosystem for everyone
                             </Row>
                         </Container>
 
                     </Col>
                     <Col md={3} className='justify-content-center align-self-center'>
-                        <img className='imgmain ' src='/images/zero-comission.png'/>
+                        <img className={style.imgmain} src='/images/zero-comission.png'/>
                     </Col>
                 </Row>
                 <Row className='py-5'>
@@ -35,7 +35,7 @@ export default function MainPageContent() {
                                 Gatekeepers taking commissions or charging hidden fees so you pay more
                             </Row>
                             <Row className='justify-content-center'>
-                                <img className='imgmain' src='/images/main-img-left.png'/>
+                                <img className={style.imgmain} src='/images/main-img-left.png'/>
                             </Row>
                         </Container>
                     </Col>
@@ -48,7 +48,7 @@ export default function MainPageContent() {
                                 You pay less, because 100% of your money goes to the travel supplier
                             </Row>
                             <Row className='justify-content-center'>
-                                <img className='py-5 imgmain' src='/images/main-img-right.png'/>
+                                <img className={style.imgmain} src='/images/main-img-right.png'/>
                             </Row>
                         </Container>
                     </Col>

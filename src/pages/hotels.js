@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {SearchForm,buildFlightsSearchCriteria,searchForHotels} from '../components/search-form/search-form';
-import {LOCATION_SOURCE} from '../components/search-form/location-lookup';
+import {LOCATION_SOURCE} from '../components/lookup/lookup-field';
 import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
 import Filters,{generateFiltersStates} from "../components/filters/filters";

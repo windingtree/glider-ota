@@ -23,8 +23,8 @@ function process_airports(inputFilename, outputFilename) {
         .pipe(csv({separator: '^'}))
         .on('data', (row) => {
             records.push(convertRecord(row))
-            if(row.por_code === 'CDG'){
-                // console.log(row);
+            if(row.por_code === 'CDG' || row.por_code === 'KRK' || row.por_code === 'NYC' || row.por_code === 'JFK' || row.por_code === 'BRU'){
+                console.log(row);
             }
         })
         .on('end', () => {

@@ -1,6 +1,6 @@
 const {STRIPE_CONFIG} = require('../../config');
 const {createLogger} = require('./logger');
-const currencies = require('../_data/currencies')
+const currencies = require('../_data/old/currencies')
 const logger = createLogger("stripe-api")
 
 const stripe = require("stripe")(STRIPE_CONFIG.SECRET_KEY);
