@@ -1,7 +1,6 @@
 import React  from 'react'
 import './flight-detailed-view.scss'
 import {Container, Row, Col, Button, Alert} from 'react-bootstrap'
-import PassengersDetailsForm from './passenger-details'
 import YourFlightInfo from './flight-info'
 import FlightRates from './flight-rates'
 import {config} from "../../config/default";
@@ -10,6 +9,7 @@ import _ from 'lodash';
 import Spinner from "../common/spinner";
 import PaymentForm from "../payments/payment-form";
 import { withRouter } from 'react-router'
+import PaxDetails from "./pax-details";
 
 
 
@@ -70,50 +70,47 @@ class FlightDetail extends React.Component {
     })
   }
 
-  handleContactDetailsChange(contactDetails){
-    this.setState({ contact_details:contactDetails})
-    console.log("Contact details",contactDetails)
+  handleContactDetailsChange(passengers){
+    console.log("Passengers details changed",passengers)
+    this.setState({ contact_details:passengers})
   }
 
-  createPassenger(rec, contactEmail, contactPhone){
-    console.log("createPassenger",rec)
-    // let dateStr = rec.birthdate;
-    // let dateIsoStr =
-    return {
-      "type": "ADT",
+  createPassenger(passenger){
+    console.log("createPassenger before",passenger);
+
+    let result =  {
+      "type": passenger.type,
       "civility": "MR",
       "lastnames": [
-        rec.lastname
+        passenger.lastName
       ],
       "firstnames": [
-        rec.firstname
+        passenger.firstName
       ],
-      "birthdate": "1980-03-21T00:00:00Z",
+      "birthdate": passenger.birthdate,
       "contactInformation": [
-        contactPhone,
-        contactEmail
+        passenger.phone,
+        passenger.email,
       ]
     }
+    console.log("createPassenger after",result);
+    return result;
   }
 
   handlePayButtonClick(){
     const contactDetails = this.state.contact_details;
     const selectedOffer = this.state.selectedOffer;
     console.log("Pay button clicked, offer:",selectedOffer, "pax details:", contactDetails);
-//todo - remove hardcoded paxID, add birthdate, pax type
     let request = {
       offerId:selectedOffer.offerId,
       offerItems:selectedOffer.offer.offerItems,
       passengers:{
-        // "PAX1":this.createPassenger(contactDetails).PAX1.firstname,contactDetails.PAX1.lastname,contactDetails.PAX1.birthdate,contactDetails.email,contactDetails.phone)
       }
     }
-    _.each(contactDetails,(pax,id)=>{
-      if(id.startsWith("PAX"))
-      {
-        request.passengers[id]=this.createPassenger(pax,contactDetails.email,contactDetails.phone)
-      }
-    })
+    _.each(contactDetails,(pax)=>{
+      console.log("Will convert:",pax)
+        request.passengers[pax.id]=this.createPassenger(pax)
+    });
 
     console.log("Request:",request)
     this.setProcessingInProgress(true)
@@ -151,13 +148,29 @@ class FlightDetail extends React.Component {
     console.log("payment failed")
   }
 
+  //temporary - convert pax from search results into format required by pax component
+  //TODO - that should be replaced by session data
+  createInitialPaxParameter(searchResults){
+    let requestedPassengers = searchResults.passengers;
+    let passengers = [];
+    _.each(requestedPassengers,(rec,paxId)=>{
+      passengers.push({
+        id:paxId,
+        type:rec.type
+      })
+    })
+    return passengers;
+  }
+
   render () {
 
     const {selectedOffer} = this.state;
     console.log("Flight detailed view - selected ofer", selectedOffer)
     const {selectedCombination,searchResults} = this.props;
-    let passengers = searchResults.passengers;
+    let passengers = this.createInitialPaxParameter(searchResults);
+    console.log("Will pass",passengers)
     let pricePlans = searchResults.pricePlans;
+
 
     return (
       <>
@@ -176,7 +189,7 @@ class FlightDetail extends React.Component {
 
           <Row>
             <Col>
-              <PassengersDetailsForm onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
+              <PaxDetails  onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
             </Col>
           </Row>
           {(this.state.processingInProgress!==true && this.state.order===undefined) &&

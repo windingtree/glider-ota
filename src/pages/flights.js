@@ -28,13 +28,13 @@ export default function FlightsPage({match,location}) {
     const onSearchButtonClick = (criteria) => {
         onSearchStart();
         console.log("Search criteria:",criteria)
-/*        searchForFlightsWithCriteria(criteria)
+        searchForFlightsWithCriteria(criteria)
             .then(results=>{
                 uiEvent("/flights, search completed");
                 onSearchSuccess(results)})
             .catch(err=>{
                 uiEvent("/flights, search failed", err);
-                onSearchFailure(err)})*/
+                onSearchFailure(err)})
     };
     const onSearchSuccess = (results) => {
         setSearchResults(results.combinations);
@@ -61,7 +61,7 @@ export default function FlightsPage({match,location}) {
     useEffect(()=>{
         if(deeplinkAction === 'search'){
             console.log("Deeplink search",initialParameters)
-            // onSearchButtonClick(initialParameters);
+            onSearchButtonClick(initialParameters);
         }
         },[]);
 

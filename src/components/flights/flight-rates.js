@@ -77,7 +77,7 @@ function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,sel
                 {
                     availablePricePlans.map((pricePlanId) => {
                         let pricePlan = allPricePlans[pricePlanId];
-                        console.log("Price plan:",pricePlan);
+                        // console.log("Price plan:",pricePlan);
                         let bagsAllowance=pricePlan.checkedBaggages.quantity;
                         let allowedKilos = bagsAllowance*23;
                         return (

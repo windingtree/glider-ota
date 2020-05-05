@@ -1,0 +1,24 @@
+@import 'src/styles/mixins';
+
+.paxdetails{
+
+}
+
+
+.paxdetails label{
+    @include _glider-font-text12;
+}
+
+.paxdetails input::placeholder{
+    color: $glider-color-text-background;
+}
+
+.label{
+    @include _glider-font-regular18;
+}
+
+.header{
+    @include _glider-font-text24medium;
+    padding-bottom: 20px;
+    padding-top:60px;
+}

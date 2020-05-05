@@ -14350,6 +14350,9 @@
   "passengers": {
     "PAX1": {
       "type": "ADT"
+    },
+    "PAX2": {
+      "type": "CHD"
     }
   }
 }

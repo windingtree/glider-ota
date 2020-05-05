@@ -59,7 +59,7 @@ export default class PassengersDetailsForm extends React.Component {
 
     render() {
         const {passengers} = this.props;
-
+        console.log("Passengers",passengers)
         return (
             <Form onSubmit={this.handleSubmit}>
                 <div>
