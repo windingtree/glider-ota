@@ -50,3 +50,40 @@
 :global(.input-range__label--max) {
   visibility: hidden;
 }
+
+
+
+.fastest-cheapest-wrapper{
+}
+
+label.fastest-cheapest-button{
+  /*background: white;*/
+  /*color: black;*/
+}
+
+
+
+
+/*toggle buttons on top of the main page to select search type (flights or hotels)*/
+.fastCheapFilterContainer{
+  padding-left:15px;
+  padding-right:15px;
+}
+
+
+.fastCheapFilterToggle {
+  padding-bottom: 40px;
+  @include glider-media-medium_768 {
+    width: 620px;
+    padding-bottom: 100px;
+  }
+}
+
+.fastCheapFilterToggleBtn {
+  height: 60px;
+  //padding: 20px;
+  -ms-flex: 1 1 auto !important;
+  flex: 1 1 auto !important;
+  padding-right: 0px;
+  padding-left: 0px;
+}

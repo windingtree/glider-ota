@@ -1,0 +1,75 @@
+@import 'src/styles/mixins';
+
+
+.offer-detail--header{
+    @include _glider-font-h1;
+    color: $glider-color-text;
+    padding-bottom: 20px;
+}
+
+
+
+
+.offer-detail--trip-logo{
+    width:40px;
+    margin-right: 20px;
+}
+
+
+
+.box-200{
+    width: 200px;
+}
+
+.box-500{
+    width: 700px;
+}
+
+
+.itinHeader{
+    @include _glider-font-h1;
+    color: $glider-color-text;
+    padding-bottom: 20px;
+}
+
+.itinRoute{
+    @include _glider-font-text24medium;
+    color: $glider-color-text;
+
+}
+.itinDates{
+    @include _glider-font-regular18;
+    color: $glider-color-text-background;
+}
+
+
+
+.segmentDptrDate{
+    @include _glider-font-text24medium;
+    color:$glider-color-text;
+}
+
+.segmentDptrTime{
+    @include _glider-font-h2;
+    color:$glider-color-text;
+    padding-top: 20px;
+}
+.segmentAirportname{
+    @include _glider-font-filtercategories13;
+    color:$glider-color-text;
+    padding-top: 15px;
+    @include glider-media-medium_768 {
+        padding-top: 5px;
+        line-height: 5em;
+    }
+}
+.segmentNormalText{
+    @include _glider-font-filtercategories13;
+    color:$glider-color-text;
+    padding-top: 20px;
+}
+
+.segmentCarrierLogo{
+    margin-right: 20px;
+    height:30px;
+}

@@ -4,7 +4,7 @@ import {SearchForm,buildFlightsSearchCriteria,searchForFlightsWithCriteria} from
 import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
 import Filters,{generateFiltersStates} from "../components/filters/filters";
-import FlightsSearchResults from "../components/flights/flights-search-results";
+import FlightsSearchResults from "../components/flightresults/flights-search-results";
 import {useHistory} from "react-router-dom";
 import cssdefs from './flights.scss'
 import Spinner from "../components/common/spinner"

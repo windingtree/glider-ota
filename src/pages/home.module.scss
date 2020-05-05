@@ -42,10 +42,12 @@
   border-color: $glider-color-primary;
 }
 
-:global(.btn-outline-primary) {
+
+:global(.btn-primary-inactive) {
   color: white;
   border-color: white;
 }
+
 
 .mainPageBackground {
   background: url("/images/main_bg.png");

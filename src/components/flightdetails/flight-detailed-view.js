@@ -1,7 +1,7 @@
 import React  from 'react'
 import './flight-detailed-view.scss'
 import {Container, Row, Col, Button, Alert} from 'react-bootstrap'
-import YourFlightInfo from './flight-info'
+import TripDetails from '../flightdetails/trip-details'
 import FlightRates from './flight-rates'
 import {config} from "../../config/default";
 import {Link} from "react-router-dom";
@@ -178,7 +178,7 @@ class FlightDetail extends React.Component {
         <Container>
           <Row>
             <Col className='flight-offer-details-wrapper'>
-              <YourFlightInfo combination={selectedCombination}/>
+              <TripDetails itineraries={selectedCombination.itinerary}/>
             </Col>
           </Row>
           <Row>

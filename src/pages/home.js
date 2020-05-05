@@ -76,10 +76,10 @@ const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
         <Container fluid={true} className={style.flightOrHotelToggle}>
             <Row className={style.flightOrHotelToggleContainer}>
                 <Col xs={6} className="d-flex ">
-                    <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.FLIGHTS?"primary":"outline-primary"} size="lg" onClick={onFlightClick}>Flights</Button>
+                    <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.FLIGHTS?"primary":"primary-inactive"} size="lg" onClick={onFlightClick}>Flights</Button>
                 </Col>
                 <Col xs={6} className="d-flex ">
-                    <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.HOTELS?"primary":"outline-primary"} size="lg" onClick={onHotelClick}>Hotels</Button>
+                    <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.HOTELS?"primary":"primary-inactive"} size="lg" onClick={onHotelClick}>Hotels</Button>
                 </Col>
             </Row>
         </Container>)

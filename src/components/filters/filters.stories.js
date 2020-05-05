@@ -3,7 +3,7 @@ import {
     action
 } from '@storybook/addon-actions';
 
-import {RangeFilter, SelectionFilter} from "./filters"
+import {FastCheapFilter, RangeFilter, SelectionFilter} from "./filters"
 
 export default {
     title: 'Filters',
@@ -24,3 +24,5 @@ const sample_airline_selection=[
 ]
 export const RangeFilterPrice = () => (<RangeFilter id='price' filterState={sample_price_range} title='Price' unit='EUR' onFilterStateChange={action("onFilterStateChange")}/>);
 export const SelectionFilterAirline = () => (<SelectionFilter id='airline' filterState={sample_airline_selection} title='Airlines' onFilterStateChange={action("onFilterStateChange")}/>);
+export const FastCheapDefault = () => (<FastCheapFilter onToggle={action("onToggle")}/>);
+export const FastCheapFastest = () => (<FastCheapFilter defaultValue='duration' onToggle={action("onToggle")}/>);

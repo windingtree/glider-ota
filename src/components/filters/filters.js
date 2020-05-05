@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import style from "./filters.module.scss"
-import {Container, Row, Col, Button, Form} from "react-bootstrap";
+import {Container, Row, Col, Button, Form, ButtonGroup, ToggleButton} from "react-bootstrap";
 import InputRange from 'react-input-range';
 import OfferUtils from '../../utils/offer-utils';
 import "react-input-range/lib/css/index.css";
@@ -290,4 +290,25 @@ function createLayoverDurationFilter(results) {
 
     return {lowest: 0, min: 0, max: 12, highest: 12};
 
+}
+
+
+const VALUE_PRICE='price';
+const VALUE_DURATION='duration';
+export function FastCheapFilter({defaultValue = VALUE_PRICE, onToggle}){
+
+    const [value, setValue] = useState(defaultValue);
+    const onPriceClick = () => {setValue(VALUE_PRICE);onToggle(VALUE_PRICE);}
+    const onDurationClick = ()  => {setValue(VALUE_DURATION);onToggle(VALUE_DURATION);}
+    return (
+        <Container className={style.fastCheapFilterToggle}>
+            <Row className={style.fastCheapFilterContainer}>
+                <Col xs={6} className="d-flex ">
+                    <Button className={style.fastCheapFilterToggleBtn} variant={value==VALUE_PRICE?"primary":"outline-primary"} size="lg" onClick={onPriceClick}>Cheapest</Button>
+                </Col>
+                <Col xs={6} className="d-flex ">
+                    <Button className={style.fastCheapFilterToggleBtn} variant={value==VALUE_DURATION?"primary":"outline-primary"} size="lg" onClick={onDurationClick}>Fastest</Button>
+                </Col>
+            </Row>
+        </Container>)
 }
