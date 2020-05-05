@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import "./filters.scss"
+import style from "./filters.module.scss"
 import {Container, Row, Col, Button, Form} from "react-bootstrap";
 import InputRange from 'react-input-range';
 import OfferUtils from '../../utils/offer-utils';
@@ -15,6 +15,9 @@ const BAGS_FILTER_ID = 'bags';
 
 
 export default function Filters({searchResults, onFilterApply, filtersStates, onFiltersStateChanged}) {
+
+    console.log("Filter states:",filtersStates)
+
 
     function filterStateChanged(id, filterState) {
         let newfiltersState = Object.assign({}, filtersStates);
@@ -54,6 +57,7 @@ export function generateFiltersStates(searchResults) {
     filtersState[BAGS_FILTER_ID] = createBagsFilter(searchResults);
     filtersState[LAYOVERDURATION_FILTER_ID] = createLayoverDurationFilter(searchResults);
     // PREDICATES.LAYOVERDURATION:undefined,
+
     return filtersState;
 }
 
@@ -136,7 +140,7 @@ function maxStopsPredicate(itineraries, filtersState) {
 }
 
 
-function RangeFilter({id, unit = '[eur]', title = '[missing]', onFilterStateChange, filterState}) {
+export function RangeFilter({id, unit = '[eur]', title = '[missing]', onFilterStateChange, filterState}) {
     const [currentValue, setCurrentValue] = useState(filterState);
 
     function onChangeComplete(){
@@ -146,9 +150,9 @@ function RangeFilter({id, unit = '[eur]', title = '[missing]', onFilterStateChan
         onFilterStateChange(id, newFilterState)
     }
     return (
-        <div className='filter'>
-            <div className='filter__title'>{title}</div>
-            <div className='filter__content '>
+        <div className={style.filter}>
+            <div className={style.filterTitle}>{title}</div>
+            <div className={style.filterContainer}>
                 <InputRange
                     maxValue={filterState.highest}
                     minValue={filterState.lowest}
@@ -162,7 +166,7 @@ function RangeFilter({id, unit = '[eur]', title = '[missing]', onFilterStateChan
 }
 
 
-function SelectionFilter({id, title = '[missing]', filterState, onFilterStateChange}) {
+export function SelectionFilter({id, title = '[missing]', filterState, onFilterStateChange}) {
     const selectionState = {};
 
     function selectionChanged(itemId, checked) {
@@ -179,13 +183,13 @@ function SelectionFilter({id, title = '[missing]', filterState, onFilterStateCha
     return (
         <Form>
             <Form.Group id="formGridCheckbox">
-                <div className='filter'>
-                    <div className='filter__title'>{title}</div>
-                    <div className='filter__content '>
+                <div className={style.filter}>
+                    <div className={style.filterTitle}>{title}</div>
+                    <div className={style.filterContainer}>
                         {
                             _.map(filterState, (item) => {
                                 return (<span key={item.key}>
-                            <Form.Check id={item.key} className='filter__checkbox' defaultChecked={item.selected}
+                            <Form.Check id={item.key} className={style.filterCheckbox} defaultChecked={item.selected}
                                         label={item.display}
                                         onChange={(event) => selectionChanged(event.target.id, event.target.checked)}/>
                             </span>)
