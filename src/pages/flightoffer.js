@@ -1,6 +1,5 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
-import {Button, Container,  Row, Col} from "react-bootstrap";
 import FlightDetail from "../components/flightdetails/flight-detailed-view"
 import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/search"
@@ -18,11 +17,13 @@ export default function FlightOffer({match}) {
     return (
         <>
             <div>
-                <Header type='violet'/>
+                <Header violet={true}/>
+                <div className='root-container-subpages'>
                <FlightDetail
                     selectedCombination={selectedCombination}
                     selectedOffer={selectedOffer}
                     searchResults={searchResults}/>
+                </div>
             </div>
         </>
     )

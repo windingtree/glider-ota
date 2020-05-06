@@ -2,7 +2,7 @@ import React from 'react'
 import './hotel-details.scss'
 import {Container, Row, Col, Button, Image} from 'react-bootstrap'
 import _ from 'lodash'
-import PassengersDetailsForm from "../flightdetails/passenger-details";
+import PaxDetails from "../flightdetails/pax-details";
 // import Room from "./room-offer"
 import YourChoice from "./your-choice";
 import default_hotel_image from "../../assets/default_hotel_image.png";
@@ -87,7 +87,7 @@ export default class HotelDetails extends React.Component {
                                     )}
                         </div>
                         <div>
-                                <PassengersDetailsForm onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
+                                <PaxDetails onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
                         </div>
                         {this.state.selectedOffer!==undefined && (
                                 <HotelPriceSummary price={this.state.selectedOffer.price} onPayButtonClick={payButtonClick}/>

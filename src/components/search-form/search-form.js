@@ -139,7 +139,7 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
 }
 
 export async function searchForFlightsWithCriteria(criteria){
-  return searchForFlights(criteria.origin, criteria.destination, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
+  return searchForFlights(criteria.origin.code, criteria.destination.code, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
 }
 
 export async function searchForFlights(originCode, destinationCode, departureDate, returnDate, adults, children, infants){

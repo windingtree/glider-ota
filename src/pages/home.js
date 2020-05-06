@@ -48,7 +48,7 @@ export default function HomePage() {
         <>
             <div className={style.mainPageBackground}>
                 <Header violet={false}/>
-                <Container fluid={true} className='flight-results-outer-boundary'>
+                <Container fluid={true} className='root-container-mainpage'>
                     <Row >
                         <Col>
                             <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
@@ -60,9 +60,16 @@ export default function HomePage() {
                             {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
                         </Col>
                     </Row>
+
                 </Container>
             </div>
-            <MainPageContent/>
+            <Container fluid={true} className='root-container-mainpage'>
+                <Row>
+                    <MainPageContent/>
+                </Row>
+            </Container>
+
+
             <Footer/>
         </>)
 }

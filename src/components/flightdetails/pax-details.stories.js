@@ -7,7 +7,7 @@ import PaxDetails from "./pax-details";
 
 export default {
     component: PaxDetails,
-    title: 'All pax details form',
+    title: 'Pax details',
 };
 
 const no_initial_details = [{
@@ -40,6 +40,6 @@ const initial_details_preset = [{
 ];
 
 
-export const NoInitialData = () => (<PaxDetails passengers={no_initial_details} onDataChange={action("onDataChange")}/>);
-export const WithInitialData = () => (<PaxDetails passengers={initial_details_preset} onDataChange={action("onDataChange")}/>);
+export const fullFormWithoutInitialData = () => (<PaxDetails passengers={no_initial_details} onDataChange={action("onDataChange")}/>);
+export const fullFormWithInitialData = () => (<PaxDetails passengers={initial_details_preset} onDataChange={action("onDataChange")}/>);
 

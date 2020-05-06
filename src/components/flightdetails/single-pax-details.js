@@ -43,7 +43,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     return (
         <>
                 <div className={style.header}>{paxTypeLabel}</div>
-                <Form.Row>
+                <Form.Row className={style.paxDetailsFormRow}>
                     <Col>
                         <Form.Label className={style.label}>Surname</Form.Label>
                         <Form.Control type="text" placeholder="Lastname"

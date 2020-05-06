@@ -14369,8 +14369,8 @@
       "type": "ADT"
     },
     "PAX2": {
-      "type": "CHD"
-    },
+      "type": "ADT"
+    }
   },
   "combinations": [
     {

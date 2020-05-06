@@ -1,0 +1,51 @@
+@import 'src/styles/mixins';
+
+.ratesHeader{
+    @include _glider-font-h2;
+    color: $glider-color-text;
+    padding-top:80px;
+}
+
+.ratesItinRoute{
+    @include _glider-font-text18;
+    color: $glider-color-text;
+    padding-top: 50px;
+}
+
+.ratesPlanName{
+    @include _glider-font-text18;
+    color: $glider-color-text;
+}
+
+.ratesPlanDetails{
+    @include _glider-font-text12;
+    color: $glider-color-text;
+}
+
+.priceplanContainer{
+    background: $glider-color-primary-background;
+    border: 1px solid $glider-color-text-background;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 16px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    min-width: 305px;
+    cursor: pointer;
+}
+
+.priceplanContainerSelected{
+    background: $glider-color-primary-background;
+    border: 2px solid $glider-color-primary;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 16px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    min-width: 305px;
+    cursor: pointer;
+}
+
+

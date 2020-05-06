@@ -76,15 +76,18 @@ export default function FlightsPage({match,location}) {
 
     return (
         <div>
-            <div>
-                <Header violet={true}/>
-                {/*<div className='d-flex flex-column container-fluid justify-content-center'>*/}
-                <Container fluid={true} className='flight-results-outer-boundary'>
-                    <Row>
-                        <Col xs={0} lg={2} className="filters-wrapper">
+            <Header violet={true}/>
+            <div className='root-container-subpages'>
+
+
+                {/*<Container fluid={true} className='flight-results-outer-boundary root-container-subpages'>*/}
+                <div className='d-flex flex-row '>
+                    <div className="filters-wrapper">
+                        {/*<Col xs={3}  className="filters-wrapper">*/}
                             <Filters searchResults={unfilteredSearchResults} filtersStates={filtersStates} onFiltersStateChanged={setFiltersStates} onFilterApply={onResultsFiltered}/>
-                        </Col>
-                        <Col >
+                    </div>
+                        {/*</Col>*/}
+                        <div >
                             <SearchForm
                                 onSearchButtonClick={onSearchButtonClick}
                                 enableOrigin={true}
@@ -103,9 +106,8 @@ export default function FlightsPage({match,location}) {
                             <FlightsSearchResults onOfferDisplay={onOfferSelected}
                                                   searchResults={searchResults}/>
                             }
-                        </Col>
-                    </Row>
-                </Container>
+                        </div>
+                    </div>
             </div>
         </div>
     )

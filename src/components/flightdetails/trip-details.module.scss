@@ -30,23 +30,55 @@
     @include _glider-font-h1;
     color: $glider-color-text;
     padding-bottom: 20px;
+    padding-top: 70px;
 }
 
 .itinRoute{
     @include _glider-font-text24medium;
     color: $glider-color-text;
-
 }
 .itinDates{
     @include _glider-font-regular18;
     color: $glider-color-text-background;
+    padding-top: 15px;
+    display: block;
+    @include glider-media-medium_768{
+        display: inline;
+        padding-bottom: 20px;
+    }
 }
 
 
+.segmentContainer{
+    background: #FFFFFF;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+
+    border-radius: 5px;
+    margin-top:40px;
+
+    @include glider-media-medium_768{
+        padding-left: 25px;
+    }
+
+}
+.segmentRow{
+    min-height: 70px;
+    //border: 1px solid blue;
+}
 
 .segmentDptrDate{
     @include _glider-font-text24medium;
     color:$glider-color-text;
+    padding-top:20px;
+}
+
+.segmentDuration{
+    @include _glider-font-text18;
+    color:$glider-color-text;
+    @include glider-media-medium_768 {
+        //padding-top: 15px;
+    }
+    padding-top:20px;
 }
 
 .segmentDptrTime{
@@ -58,7 +90,7 @@
     @include _glider-font-filtercategories13;
     color:$glider-color-text;
     padding-top: 15px;
-    @include glider-media-medium_768 {
+    @include glider-media-large_992 {
         padding-top: 5px;
         line-height: 5em;
     }
@@ -69,7 +101,16 @@
     padding-top: 20px;
 }
 
-.segmentCarrierLogo{
+.segmentCarrierLogoContainer{
+    display: inline;
+}
+
+.segmentCarrierLogoImg{
     margin-right: 20px;
     height:30px;
 }
+
+.segmentFlightInfoContainer{
+    display: inline;
+}
+

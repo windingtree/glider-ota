@@ -11,17 +11,21 @@ export default {
 const segment1={
   "operator": {
     "operatorType": "airline",
-    "iataCode": "AF"
+    "iataCode": "VY",
+    "carrier_name":"Vueling",
+    "flight_number":"VY-8783",
+    "flight_info":"Boeing 737",
   },
   "origin": {
     "locationType": "airport",
-    "iataCode": "JFK",
-    "airport_name":"John Kennedy Airport"
+    "iataCode": "DME",
+    "airport_name":"Moscow Domodedovo Airport"
   },
   "departureTime": "2020-07-14T17:50:00.000Z",
   "destination": {
     "locationType": "airport",
-    "iataCode": "ORY"
+    "iataCode": "DOH",
+    "airport_name":"Doha Hamad International Airport"
   },
   "arrivalTime": "2020-07-15T07:30:00.000Z"
 }
@@ -51,17 +55,21 @@ const itinerary1 = {
     {
       "operator": {
         "operatorType": "airline",
-        "iataCode": "AF"
+        "iataCode": "VY",
+        "carrier_name":"Vueling",
+        "flight_number":"VY-8783",
+        "flight_info":"Boeing 737",
       },
       "origin": {
         "locationType": "airport",
-        "iataCode": "JFK"
-
+        "iataCode": "DME",
+        "airport_name":"Moscow Domodedovo Airport"
       },
       "departureTime": "2020-07-14T17:50:00.000Z",
       "destination": {
         "locationType": "airport",
-        "iataCode": "ORY"
+        "iataCode": "DOH",
+        "airport_name":"Doha Hamad International Airport"
       },
       "arrivalTime": "2020-07-15T07:30:00.000Z"
     },

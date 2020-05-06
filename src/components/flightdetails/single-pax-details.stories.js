@@ -7,7 +7,7 @@ import SinglePaxDetails from "./single-pax-details"
 
 export default {
     component: SinglePaxDetails,
-    title: 'Single pax form',
+    title: 'Pax details',
 };
 
 const bareMinimum={
@@ -33,8 +33,8 @@ const initialData={
     phone:'+1 234 567 890'
 }
 
-export const Default = () => (<SinglePaxDetails onDataChange={action("onDataChange")}/>);
-export const adultExample = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")}/>);
-export const childExample = () => (<SinglePaxDetails passengerId="PAX1" passengerType="CHD" onDataChange={action("onDataChange")} />);
-export const infantExample = () => (<SinglePaxDetails passengerId="PAX1" passengerType="INF" onDataChange={action("onDataChange")} />);
-export const withInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData}/>);
+export const SinglePaxDefault = () => (<SinglePaxDetails onDataChange={action("onDataChange")}/>);
+export const SingleAdult = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")}/>);
+export const SingleChild = () => (<SinglePaxDetails passengerId="PAX1" passengerType="CHD" onDataChange={action("onDataChange")} />);
+export const SingleInfnant = () => (<SinglePaxDetails passengerId="PAX1" passengerType="INF" onDataChange={action("onDataChange")} />);
+export const SingleAdultWithInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData}/>);

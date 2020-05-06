@@ -22,7 +22,7 @@ export default function FlightsSearchResults({searchResults: combinations, onOff
         return (<>Search for something</>)
     }
     return (
-        <Container fluid={false} className={style.flightssearchresultscontainer}>
+        <Container fluid={true} className={style.flightssearchresultscontainer}>
             <div>
                 {/*    <FastCheapFilter/>*/}
                 {
@@ -42,7 +42,7 @@ export default function FlightsSearchResults({searchResults: combinations, onOff
 
 export function Offer({itineraries=[],price, offerId, combinationId, onOfferDisplay}){
     return (
-        <Container className={style.flightsearchoffercontainer}>
+        <Container fluid={true} className={style.flightsearchoffercontainer}>
             <Row >
                 {itineraries.length>0 && (<Itinerary itinerary={itineraries[0]}/>)}
                 {itineraries.length>1 && (<Itinerary itinerary={itineraries[1]}/>)}

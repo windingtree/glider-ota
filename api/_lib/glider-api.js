@@ -3,6 +3,7 @@ const _ = require('lodash');
 const axios = require('axios').default;
 const {GLIDER_CONFIG} = require('../../config');
 const logger = createLogger('aggregator-api');
+const {enrichResponseWithDictionaryData} = require('./response-decorator');
 
 
 function createHeaders(token) {
@@ -25,6 +26,13 @@ async function searchOffers(criteria) {
         data: criteria,
         headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
     });
+    let searchResults = response.data;
+    try {
+        enrichResponseWithDictionaryData(searchResults)
+    }catch(error){
+        logger.error("Failed to enrich search results with dictionary data:%s",error.message,error);
+        throw new Error("Failed to enrich search results with dictionary data");
+    }
     return response.data;
 }
 
@@ -81,6 +89,9 @@ function createFulfilmentRequest(orderItems,passengers,guaranteeId){
     }
 }
 
+
+
+function addAirports(){}
 
 module.exports = {
     createWithOffer, searchOffers, fulfill

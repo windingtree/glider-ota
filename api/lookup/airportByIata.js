@@ -14,7 +14,7 @@ const lookupController = async (req, res) => {
         let results = dictionary.getAirportByIataCode(iataCode)
         res.json({ results: results})
     }catch(error){
-        logger.error("Got error while lookup, error:%s",error.message,error)
+        logger.error("Got error while lookup, error:%s",error.message,error);
         sendErrorResponse(res,500,ERRORS.INTERNAL_SERVER_ERROR);
     }
 };

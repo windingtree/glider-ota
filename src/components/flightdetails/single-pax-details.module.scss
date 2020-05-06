@@ -13,6 +13,10 @@
     color: $glider-color-text-background;
 }
 
+.paxDetailsFormRow{
+    padding-bottom: 20px;
+}
+
 .label{
     @include _glider-font-regular18;
 }
@@ -22,3 +26,4 @@
     padding-bottom: 20px;
     padding-top:60px;
 }
+

@@ -175,9 +175,9 @@ class FlightDetail extends React.Component {
     return (
       <>
         {config.DEBUG_MODE && <span>{selectedOffer.offerId}</span>}
-        <Container>
+        <Container fluid={true}>
           <Row>
-            <Col className='flight-offer-details-wrapper'>
+            <Col >
               <TripDetails itineraries={selectedCombination.itinerary}/>
             </Col>
           </Row>
@@ -234,8 +234,6 @@ const PriceSummary = ({price, onPayButtonClick}) =>{
       </>
   )
 }
-
-
 
 
 FlightDetail = withRouter(FlightDetail)

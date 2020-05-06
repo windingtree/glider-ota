@@ -1,7 +1,7 @@
 import {Col, Container, Row} from "react-bootstrap";
 import React from "react";
 import OfferUtils from "../../utils/offer-utils";
-import style from "./flight-rates.module.scss"
+import "./flight-rates.module.scss";
 
 export default class FlightRates extends React.Component {
     constructor(props) {
@@ -44,7 +44,7 @@ export default class FlightRates extends React.Component {
         return (
             <>
             <div>
-                <h2 className={style.ratesHeader}>Airline rates</h2>
+                <h2 className='glider-font-h2-fg'>Airline rates</h2>
             </div>
             <div>
                 {
@@ -66,36 +66,25 @@ export default class FlightRates extends React.Component {
 
 
 function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,selectedPlan}) {
-    let firstSegment=itinerary.segments[0];
-    let tripOrigin = firstSegment.origin;
-    let lastSegment = itinerary.segments[itinerary.segments.length - 1];
-    let tripDestination = lastSegment.destination;
-
     let itineraryId = itinerary.itinId;
-    let availablePricePlans = plansManager.getItineraryUniquePricePlans(itinerary.itinId);
-
+    let availablePricePlans = plansManager.getItineraryUniquePricePlans(itinerary.itinId)
+    let departureCity = OfferUtils.getItineraryDepartureCityName(itinerary);
+    let arrivalCity = OfferUtils.getItineraryArrivalCityName(itinerary)
     let allPricePlans = plansManager.getAllPricePlans();
-    console.log("itinerary.itinId",itinerary.itinId)
-    console.log("Available price plans for itinerary:",availablePricePlans)
-    console.log("All price plans for itinerary:",allPricePlans)
     return (<>
-        <div className={style.ratesItinRoute}>Flight {tripOrigin.city_name?tripOrigin.city_name:tripOrigin.iataCode} —> {tripDestination.city_name?tripDestination.city_name:tripDestination.iataCode}</div>
+        <div className='glider-font-regular18-fg py-4'>Flight {departureCity} - {arrivalCity}</div>
         <div className='d-flex flex-row flex-wrap'>
                 {
                     availablePricePlans.map((pricePlanId) => {
-                        console.log("price plan ID:",pricePlanId)
                         let pricePlan = allPricePlans[pricePlanId];
                         // console.log("Price plan:",pricePlan);
                         let bagsAllowance=pricePlan.checkedBaggages.quantity;
                         let allowedKilos = bagsAllowance*23;
-                        let styleName = style.priceplanContainer;
-                        if(selectedPlan === pricePlanId)
-                            styleName = style.priceplanContainerSelected;
                         return (
-                            <div className={styleName} key={pricePlanId}
+                            <div className={'offer-detail--priceplan '+(selectedPlan === pricePlanId?'selectedplan':'')} key={pricePlanId}
                                  onClick={() => { onPricePlanSelected(itineraryId, pricePlanId)}}>
-                                <div className={style.ratesPlanName}>{pricePlan.name}</div>
-                                <div className={style.ratesPlanDetails}>{bagsAllowance==='0'?'No luggage':('Baggage '+allowedKilos+' kg')}</div>
+                                <div className="glider-font-text18medium-fg">{pricePlan.name}</div>
+                                <div className="priceplan-bags">{bagsAllowance==='0'?'No luggage':('Baggage '+allowedKilos+' kg')}</div>
                             </div>
                         )
 
@@ -110,8 +99,6 @@ function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,sel
 
 class PricePlansManager {
     constructor(offers, allPricePlans) {
-        console.log("PricePlansManager constructor")
-        console.log("PricePlansManager allPricePlans:",allPricePlans)
         this.pricePlanCombinations = undefined;
         this.cheapestOffer = undefined;
         this.selectedOfferId = undefined;
@@ -189,14 +176,4 @@ class PricePlansManager {
         return this.offers.find(offer=>offer.offerId === offerId);
     }
 
-}
-
-
-
-function getFirstSegment (segments) {
-    return segments[0];
-}
-
-function  getLastSegment (segments) {
-    return ;
 }

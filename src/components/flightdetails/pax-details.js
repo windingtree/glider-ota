@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import {Container, Row, Col, Form, Alert} from 'react-bootstrap'
 import _ from 'lodash'
 import style from "./pax-details.module.scss"
 import SinglePaxDetails from "./single-pax-details";
