@@ -4,7 +4,7 @@ import style from './passenger-selector.module.scss'
 import {Button, Dropdown, Container, Row, Col, Form, FormCheck} from 'react-bootstrap'
 import {InputGroupRadio} from "react-bootstrap/InputGroup";
 
-export default function PassengerSelector({adults, childrn, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy'}) {
+export default function PassengerSelector({adults, childrn, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false}) {
 
     function handleChange(evt){
         console.log("handleChange",evt.target)
@@ -101,6 +101,7 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
                                 <Button onClick={() => increase('infants')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
                             </Col>
                         </Row>
+                        {showCabin == true && (
                         <Row >
                             <Col className={style.divider}>
                                 <div className={style.radioLabel}>
@@ -111,7 +112,7 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
                                     <input type="radio" className={style.radio} id="business_cabin" name="cabin" disabled={true}/><label> Business</label>
                                 </div>
                             </Col>
-                        </Row>
+                        </Row>)}
                     </Container>
                 </Dropdown.Menu>
             </Dropdown>

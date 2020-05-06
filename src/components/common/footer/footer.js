@@ -49,15 +49,15 @@ export default function Footer(props) {
                                 <Col xs={12} sm={6}>
                                     <Container fluid={true}>
                                         <Row noGutters={true}>
-                                            <Col><a href="http://"><img src="images/github_icon.png"
+                                            <Col><a href="https://github.com/windingtree"><img src="images/github_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
-                                            <Col><a href="http://"><img src="images/twitter_icon.png"
+                                            <Col><a href="https://blog.windingtree.com/"><img src="images/twitter_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
-                                            <Col><a href="http://"><img src="images/medium_icon.png"
+                                            <Col><a href="https://blog.windingtree.com/"><img src="images/medium_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
-                                            <Col><a href="http://"><img src="images/telegram_icon.png"
+                                            <Col><a href="https://t.me/windingtree"><img src="images/telegram_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
-                                            <Col><a href="http://"><img src="images/reddit_icon.png"
+                                            <Col><a href="https://www.reddit.com/r/windingtree/"><img src="images/reddit_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
                                         </Row>
                                     </Container>
