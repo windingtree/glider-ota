@@ -29,6 +29,7 @@ package-lock.json
 /.env
 /.secrets
 /.idea/
+**.env
 
 .now
 /glider-ota-fresh.iml
