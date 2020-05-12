@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 
 export default function FlightsSearchResults({searchResults: combinations, onOfferDisplay}) {
-    console.log("FlightsSearchResults")
+    //console.log("FlightsSearchResults", combinations);
     function handleInputValueChange(event) {
     }
 

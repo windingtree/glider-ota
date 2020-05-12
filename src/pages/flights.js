@@ -10,7 +10,6 @@ import cssdefs from './flights.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
-import {expandSearchResult} from "../utils/offer-utils"; 
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -32,9 +31,7 @@ export default function FlightsPage({match,location}) {
         searchForFlightsWithCriteria(criteria)
             .then(results=>{
                 uiEvent("/flights, search completed");
-                const expandedResults = expandSearchResult(criteria, results);
-                //console.log('expandedResults>>>', expandedResults);
-                onSearchSuccess(expandedResults)})
+                onSearchSuccess(results)})
             .catch(err=>{
                 uiEvent("/flights, search failed", err);
                 onSearchFailure(err)})

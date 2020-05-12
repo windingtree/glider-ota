@@ -33,3 +33,4 @@ package-lock.json
 
 .now
 /glider-ota-fresh.iml
+/storybook-static
