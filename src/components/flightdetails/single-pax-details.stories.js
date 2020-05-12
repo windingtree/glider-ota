@@ -7,7 +7,7 @@ import SinglePaxDetails from "./single-pax-details"
 
 export default {
     component: SinglePaxDetails,
-    title: 'Pax details',
+    title: 'SinglePaxDetails',
 };
 
 const bareMinimum={
@@ -36,5 +36,5 @@ const initialData={
 export const SinglePaxDefault = () => (<SinglePaxDetails onDataChange={action("onDataChange")}/>);
 export const SingleAdult = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")}/>);
 export const SingleChild = () => (<SinglePaxDetails passengerId="PAX1" passengerType="CHD" onDataChange={action("onDataChange")} />);
-export const SingleInfnant = () => (<SinglePaxDetails passengerId="PAX1" passengerType="INF" onDataChange={action("onDataChange")} />);
+export const SingleInfant = () => (<SinglePaxDetails passengerId="PAX1" passengerType="INF" onDataChange={action("onDataChange")} />);
 export const SingleAdultWithInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData}/>);

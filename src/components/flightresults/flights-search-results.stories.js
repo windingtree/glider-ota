@@ -4,9 +4,11 @@ import {
 } from '@storybook/addon-actions';
 
 import {Itinerary,Offer} from "./flights-search-results"
+import PaxDetails from "../flightdetails/pax-details";
 
 export default {
-  title: 'Flight search results components',
+  title: 'Itinerary and Offer',
+  component: Itinerary,
 };
 
 const itinerary1 = {

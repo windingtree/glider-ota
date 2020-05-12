@@ -7,7 +7,7 @@ import sample_response from "../../data/sample_response_flights_transformed"
 
 export default {
     component: FlightRates,
-    title: 'Flight details components',
+    title: 'FlightRates',
 };
 
 

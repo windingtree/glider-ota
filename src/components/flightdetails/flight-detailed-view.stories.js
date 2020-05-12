@@ -7,7 +7,7 @@ import sample_response from "../../data/sample_response_flights_transformed"
 
 export default {
     component: FlightDetail,
-    title: 'Flight details components',
+    title: 'FlightDetail',
 };
 
 let selectedCombination = sample_response.combinations[0];

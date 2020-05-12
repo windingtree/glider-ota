@@ -26,15 +26,18 @@ function Dispatcher() {
         <CookiesProvider>
             <Router>
                 <Switch>
+                    {/*Flights flow*/}
                     <Route path="/flights/" component={FlightsPage}/>
                     <Route path="/flightoffer/:combinationId/:offerId" component={FlightOffer}/>
-                    <Route path="/seatmap/:offerId" component={SeatmapPage}/>
+                    <Route path="/seatmap/:offerId/:segmentId?" component={SeatmapPage}/>
                     {/*<Route path="/summary/:offerId" component={FlightOffer}/>*/}
                     {/*<Route path="/confirmation/" component={FlightOffer}/>*/}
 
+                    {/*Hotels flow*/}
                     <Route path="/hotels/" component={HotelsPage}/>
                     <Route path="/hotel/:accommodationId?" component={Hotel}/>
                     <Route path="/confirmation/:orderId" component={ConfirmationPage}/>
+
                     <Route path="/payments" >
                         <PaymentForm />
                     </Route>
