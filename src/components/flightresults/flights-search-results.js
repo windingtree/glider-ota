@@ -9,7 +9,7 @@ import {FastCheapFilter} from "../filters/filters";
 
 
 export default function FlightsSearchResults({searchResults: combinations, onOfferDisplay}) {
-    console.log("FlightsSearchResults")
+    //console.log("FlightsSearchResults", combinations);
     function handleInputValueChange(event) {
     }
 
@@ -123,7 +123,7 @@ function ItineraryOperatingAirlines({operators}) {
         {
             _.map(operators, (operator, id) => {
                 let imgPath = "/airlines/" + id + ".png";
-                return (<img key={id} src={imgPath} className={style.itinCarrierLogo}/>)
+                return (<img key={id} src={imgPath} alt={id} className={style.itinCarrierLogo}/>)
             })
         }
         </span>
