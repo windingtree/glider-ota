@@ -1,6 +1,6 @@
 const {STRIPE_CONFIG} = require('../../config');
 const {createLogger} = require('./logger');
-const currencies = require('../_data/currencies')
+const {getCurrencyByCode} = require('./dictionary-data-cache')
 const logger = createLogger("stripe-api")
 
 const stripe = require("stripe")(STRIPE_CONFIG.SECRET_KEY);
@@ -14,21 +14,21 @@ const PAYMENT_TYPES={CARD:'card'}
 /**
  * Creates payment intent - that's required before authorizing payment by stripe.
  * For security reasons, server side must future transaction details, before card can be authorized.
- * OrderID is passed to stripe intent as metadata, so that it can be later on retrieved in a webhook call (after successful payment)
+ * confirmedOfferId is passed to stripe intent as metadata, so that it can be later on retrieved in a webhook call (after successful payment)
  * @param payment_method_type
  * @param amount
  * @param currency
- * @param orderId
+ * @param confirmedOfferId
  * @returns {Promise<Stripe.PaymentIntent|*>}
  */
-async function createPaymentIntent(payment_method_type, amount, currency, orderId){
+async function createPaymentIntent(payment_method_type, amount, currency, confirmedOfferId){
 
     const options = {
         payment_method_types:[payment_method_type],
         amount: amount,
         currency: currency,
         metadata:{
-            orderId:orderId
+            confirmedOfferId:confirmedOfferId
         }
     };
     try {
@@ -55,7 +55,7 @@ function validateWebhook(rawBody, sig){
         event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
     }
     catch (err) {
-        logger.error("Stripe webhook cannot be validated: %s",err)
+        logger.error("Stripe webhook cannot be validated: %s, stripe-signature header:[%s], webhook secret:[%s]",err,sig,endpointSecret);
         throw new Error(`Stripe webhook cannot be validated: ${err.message}`)
     }
     logger.info("Successfully verified webhook, event.type:%s",event.type)
@@ -69,7 +69,7 @@ function validateWebhook(rawBody, sig){
  * @returns {number}
  */
 function convertPriceToMinorUnits(price, currencyCode){
-    let currencyDefinition = currencies[currencyCode.toUpperCase()];
+    let currencyDefinition = getCurrencyByCode(currencyCode);
     if(!currencyDefinition)
         throw new Error (`Cannot convert amount in currency:${currencyCode} to minor units - missing definition`);
     let multiplier = Math.pow(10,currencyDefinition.minor_unit);
@@ -83,7 +83,7 @@ function convertPriceToMinorUnits(price, currencyCode){
  * @returns {number}
  */
 function convertPriceToMajorUnits(price, currencyCode){
-    let currencyDefinition = currencies[currencyCode.toUpperCase()];
+    let currencyDefinition = getCurrencyByCode(currencyCode);
     if(!currencyDefinition)
         throw new Error (`Cannot convert amount in currency:${currencyCode} to major units - missing definition`);
     let multiplier = Math.pow(10,currencyDefinition.minor_unit);

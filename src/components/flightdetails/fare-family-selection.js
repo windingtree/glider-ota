@@ -10,7 +10,6 @@ import Spinner from "../common/spinner";
 import PaymentForm from "../payments/payment-form";
 import { withRouter } from 'react-router'
 import PaxDetails from "./pax-details";
-import {stringify} from "query-string";
 
 
 
@@ -60,7 +59,6 @@ class FlightDetail extends React.Component {
     this.handleSelectedOfferChange= this.handleSelectedOfferChange.bind(this);
     this.onPaymentFailure=this.onPaymentFailure.bind(this);
     this.onPaymentSuccess=this.onPaymentSuccess.bind(this);
-    this.proceedButtonClick=this.proceedButtonClick.bind(this);
   }
 
   handleSelectedOfferChange(newOffer){
@@ -172,11 +170,6 @@ class FlightDetail extends React.Component {
     return passengers;
   }
 
-   proceedButtonClick(){
-       let url='/seatmap/'+this.state.selectedOfferId;
-     this.props.history.push(url);
-  }
-
   render () {
 
     const {selectedOffer} = this.state;
@@ -196,20 +189,20 @@ class FlightDetail extends React.Component {
               <TripDetails itineraries={selectedCombination.itinerary}/>
             </Col>
           </Row>
-
+{/*
           <Row>
             <Col>
               <FlightRates selectedCombination={selectedCombination} pricePlans={pricePlans} selectedOffer={selectedOffer} onOfferChange={this.handleSelectedOfferChange}/>
             </Col>
           </Row>
+*/}
 
-{/*
-          <Row>
+ {/*         <Row>
             <Col>
               <PaxDetails  onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
             </Col>
-          </Row>
-
+          </Row>*/}
+{/*
           {(this.state.processingInProgress!==true && this.state.order===undefined) &&
           <Row className='pb-5'>
             <Col>
@@ -224,14 +217,14 @@ class FlightDetail extends React.Component {
               <Alert variant="danger">{this.state.processingError}</Alert>
             </Col>
           </Row>)}
-          {this.state.order!==undefined && (<PaymentForm orderID={this.state.order.orderId} onPaymentFailure={this.onPaymentFailure} onPaymentSuccess={this.onPaymentSuccess}/>)}*/}
+          {this.state.order!==undefined && (<PaymentForm orderID={this.state.order.orderId} onPaymentFailure={this.onPaymentFailure} onPaymentSuccess={this.onPaymentSuccess}/>)}
           <Row className='pb-5'>
 
           </Row>
-
+*/}
           <Row className='py-5'>
             <Col className='d-flex justify-content-end'>
-              <Button className='primary' onClick={this.proceedButtonClick}>Proceed to seatmap</Button>
+              <Button className='primary' onClick={proceedButtonClick}>Proceed to fare family selection</Button>
             </Col>
           </Row>
 

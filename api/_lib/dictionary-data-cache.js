@@ -4,11 +4,11 @@ const DB_LOCATION="api/_data/";
 const {createLogger} = require('./logger');
 const logger = createLogger('dictionary-data-cache')
 const TABLES={
+    AIRLINES:'airlines',
     AIRPORTS:'airports',
     CITIES:'CITIES',
     CURRENCIES:'currencies',
-    COUNTRIES:'COUNTRIES',
-    AIRLINES:'AIRLINES'
+    COUNTRIES:'COUNTRIES'
 }
 
 const CACHE={
@@ -106,6 +106,9 @@ function ensureTablesIsLoaded(tableName){
 function loadTableIntoCache(tableName) {
     let data;
     switch(tableName){
+        case TABLES.AIRLINES:
+            data = loadAirlines();
+            break;
         case TABLES.AIRPORTS:
             data = loadAirports();
             break;
@@ -124,6 +127,16 @@ function loadTableIntoCache(tableName) {
     return data;
 }
 
+function loadAirlines(){
+    console.log("Loading airlines into memory")
+    let path = `${DB_LOCATION}${TABLES.AIRLINES}.json`;
+    let data = JSON.parse(fs.readFileSync(path));
+    let airlineMap = {};
+    _.each(data,rec=>{
+        airlineMap[rec.airline_iata_code]=rec;
+    })
+    return airlineMap;
+}
 function loadAirports(){
     console.log("Loading airports into memory")
     let path = `${DB_LOCATION}${TABLES.AIRPORTS}.json`;
@@ -189,6 +202,15 @@ function getAirportByIataCode(airportIataCode){
 }
 
 /**
+ * Get airline by iata code
+ * @param airline_iata_code Airport code (case sensitive)
+ * @returns {*}
+ */
+function getAirlineByIataCode(airline_iata_code){
+    return getTableRecordByKey(TABLES.AIRLINES,airline_iata_code.toUpperCase());
+}
+
+/**
  * Search for airport by iata code/city code/city name
  * @param query Airport code (case insensitive)
  * @returns {*}
@@ -209,7 +231,7 @@ function findCity(query,maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
 
 
 module.exports = {
-    findTableRecords,getTableRecordByKey,TABLES, getCurrencyByCode,getAirportByIataCode,getCountryByCountryCode,findAirport,findCity
+    findTableRecords,getTableRecordByKey,TABLES, getCurrencyByCode,getAirportByIataCode,getCountryByCountryCode,findAirport,findCity, getAirlineByIataCode
 }
 
 

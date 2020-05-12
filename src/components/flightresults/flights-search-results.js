@@ -5,6 +5,7 @@ import {Container, Row, Col, Image, Button} from 'react-bootstrap'
 import {format, parseISO} from "date-fns";
 import OfferUtils from '../../utils/offer-utils'
 import _ from 'lodash'
+import {FastCheapFilter} from "../filters/filters";
 
 
 export default function FlightsSearchResults({searchResults: combinations, onOfferDisplay}) {
@@ -21,9 +22,14 @@ export default function FlightsSearchResults({searchResults: combinations, onOff
         console.log('No data!!');
         return (<>Search for something</>)
     }
+
+    function cheapFastFilterTogggle(){
+
+    }
     return (
         <Container fluid={true} className={style.flightssearchresultscontainer}>
-            <div>
+            <div className='pt-3'>
+                <FastCheapFilter onToggle={cheapFastFilterTogggle}/>
                 {/*    <FastCheapFilter/>*/}
                 {
                     combinations.map(combination => {

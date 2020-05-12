@@ -5,7 +5,8 @@ const logger = createLogger('session-storage');
 
 const KEYS = {
     OFFERS: 'OFFERS',
-    ORDER: 'ORDER'
+    ORDER: 'ORDER',
+    CONFIRMED_OFFER: 'CONFIRMED_OFFER',
 }
 
 
@@ -13,6 +14,7 @@ const client = redis.createClient({
     port: REDIS_CONFIG.REDIS_PORT,
     host: REDIS_CONFIG.REDIS_HOST,
     password: REDIS_CONFIG.REDIS_PASSWORD,
+    // enable_offline_queue:false,
     retry_strategy: function (options) {
         if (options.error && options.error.code === "ECONNREFUSED") {
             // End reconnecting on a specific error and flush all commands with
@@ -91,12 +93,14 @@ class SessionStorage {
      * @param key
      * @param value
      */
-    storeInSession(key, value) {
+    async storeInSession(key, value) {
         this.assertNotEmpty("key",key);
         key = this._createKey(key);
         let ttl=REDIS_CONFIG.SESSION_TTL_IN_SECS;
-        logger.debug("Storing in session key:[%s], ttl: %s", key, ttl)
-        client.multi().set(key, value).expire(key, ttl).exec(function (err, replies) {
+        value=JSON.stringify(value);
+        logger.debug("storeInSession(%s) start",key)
+        await client.multi().set(key, value).expire(key, ttl).exec(function (err, replies) {
+            logger.debug("storeInSession(%s) completed",key)
             if(err){
                 logger.error("Redis error %s",err);
             }
@@ -112,7 +116,12 @@ class SessionStorage {
     async retrieveFromSession(key) {
         this.assertNotEmpty("key",key);
         key = this._createKey(key);
-        return client.get(key);
+        let value = await client.get(key);
+        if(value!==null){
+            value = JSON.parse(value)
+        }
+        logger.debug("retrieveFromSession(%s) completed",key,value)
+        return value;
     }
 
 
@@ -121,7 +130,7 @@ class SessionStorage {
      * @param order
      */
     storeOrder(order) {
-        this.storeInSession(KEYS.ORDER, JSON.stringify(order));
+        this.storeInSession(KEYS.ORDER, order);
     }
 
     /**
@@ -131,11 +140,35 @@ class SessionStorage {
      */
     retrieveOrder(orderId) {
         let key = KEYS.ORDER;
-        let retFromSession = this.retrieveFromSession(key);
+        return this.retrieveFromSession(key);
+    }
+
+
+    /**
+     * Stores confirmed(re-priced) offer in a session
+     * @param confirmedOffer
+     */
+    storeConfirmedOffer(confirmedOffer) {
+        this.storeInSession(KEYS.CONFIRMED_OFFER, confirmedOffer);
+    }
+
+    /**
+     * Retrieve confirmed(re-priced) offer from session storage
+     * @param confirmedOfferId
+     * @returns {Promise<*>}
+     */
+    retrieveConfirmedOffer(confirmedOfferId) {
+        //todo check if offerID matches with the one in session
+        let key = KEYS.CONFIRMED_OFFER;
+        return this.retrieveFromSession(key);
+/*
         return retFromSession.then(data=> {
             return JSON.parse(data);
         })
+*/
     }
+
+
 
 
     _printKeys(match) {

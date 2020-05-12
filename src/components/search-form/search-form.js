@@ -20,6 +20,8 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
   const [childrn, setChildren] = useState(initChildren||0);
   const [infants, setInfants] = useState(initInfants||0);
 
+  console.log("SearchForm, origin:",initOrigin,", dest:",initiDest)
+
   function serializeSearchForm(){
     return {
       origin: origin,
@@ -110,7 +112,7 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
               <Col xs={12} md={6} className='form-elem'><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
             </Row>
             <Row>
-              <Col xs={12} lg={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate}/></Col>
+              <Col xs={12} lg={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate}/></Col>
               <Col xs={12} lg={6} className='form-elem'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
             </Row>
           </Container>

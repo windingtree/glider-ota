@@ -26,6 +26,8 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
         })
     }
 
+    console.log("Auirport lookup, placeholder:", placeHolder," initialLocation:",initialLocation)
+
     return (
         <LookupField initialLocation={initialLocation} onSelectedLocationChange={onSelectedLocationChange}
                      placeHolder={placeHolder} onQueryEntered={onQueryEntered} locations={searchResults}/>

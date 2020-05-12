@@ -18,6 +18,7 @@ import { CookiesProvider } from 'react-cookie';
 import PaymentForm from "./components/payments/payment-form";
 import Sandbox from "./pages/sandbox/sandbox";
 import ConfirmationPage from "./pages/confirmation-page";
+import SeatmapPage from "./pages/seatmap";
 
 
 function Dispatcher() {
@@ -25,8 +26,12 @@ function Dispatcher() {
         <CookiesProvider>
             <Router>
                 <Switch>
-                    <Route path="/flightoffer/:combinationId?/:offerId?" component={FlightOffer}/>
                     <Route path="/flights/" component={FlightsPage}/>
+                    <Route path="/flightoffer/:combinationId/:offerId" component={FlightOffer}/>
+                    <Route path="/seatmap/:offerId" component={SeatmapPage}/>
+                    {/*<Route path="/summary/:offerId" component={FlightOffer}/>*/}
+                    {/*<Route path="/confirmation/" component={FlightOffer}/>*/}
+
                     <Route path="/hotels/" component={HotelsPage}/>
                     <Route path="/hotel/:accommodationId?" component={Hotel}/>
                     <Route path="/confirmation/:orderId" component={ConfirmationPage}/>

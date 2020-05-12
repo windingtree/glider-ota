@@ -26,6 +26,9 @@ const COUNTRIES_OUTPUT_FILENAME = 'countries.json';
 const CURRENCIES_INPUT_FILENAME = 'currencies.csv';
 const CURRENCIES_OUTPUT_FILENAME = 'currencies.json';
 
+const AIRLINES_INPUT_FILENAME = 'airlines.csv';
+const AIRLINES_OUTPUT_FILENAME = 'airlines.json';
+
 
 function loadCities() {
     let records = [];
@@ -60,6 +63,34 @@ function createCityRecord(row) {
     }
 }
 
+
+function loadAirlines() {
+    let records = [];
+    return new Promise((resolve, reject) => {
+        const response = fs.createReadStream(INPUT_FOLDER + AIRLINES_INPUT_FILENAME)
+            .pipe(csv({separator: '^'}))
+            .on('data', (row) => {
+                if(filterAirline(row))
+                    records.push(createAirlineRecord(row))
+            })
+            .on('end', () => {
+                resolve(records);
+            });
+    });
+}
+
+function createAirlineRecord(row) {
+    console.log(row);
+    return {
+        airline_iata_code:row['2char_code'],
+        airline_name:row.name
+    }
+}
+
+function filterAirline(row) {
+    let valid_to=row.validity_to;
+    return valid_to === '';
+}
 
 function loadAirports() {
     let records = [];
@@ -168,16 +199,12 @@ function saveJsonToFile(records, fileName) {
         .write(JSON.stringify(records));
 }
 
-console.log("Start loading");
+
 let citiesPromise = loadCities();
 let airportsPromise = loadAirports();
 let countriesPromise = loadCountries();
 let currenciesPromise = loadCurrencies();
-console.log("After loading");
-// citiesPromise.then(d=>{console.log("cities",d)})
-// airportsPromise.then(d=>{console.log("airports",d)})
-// countriesPromise.then(d=>{console.log("countries",d)})
-// currenciesPromise.then(d=>{console.log("currencies",d)})
+let airlinesPromise = loadAirlines();
 
 
 function createCountriesMap(listOfCountries) {
@@ -209,7 +236,7 @@ function enrichAirportsWithCountryName(listOfAirports, countriesMap) {
     })
 }
 
-Promise.all([citiesPromise, airportsPromise, countriesPromise, currenciesPromise]).then(function (values) {
+Promise.all([citiesPromise, airportsPromise, countriesPromise, currenciesPromise, airlinesPromise]).then(function (values) {
     let currenciesList = values[3];
 
     let countriesList = values[2];
@@ -221,6 +248,8 @@ Promise.all([citiesPromise, airportsPromise, countriesPromise, currenciesPromise
     let airportsList = values[1];
     enrichAirportsWithCountryName(airportsList, countriesMap);
 
+    let airlinesList = values[4];
+
     console.log("Number of currencies:",currenciesList.length)
     saveJsonToFile(currenciesList,OUTPUT_FOLDER+CURRENCIES_OUTPUT_FILENAME)
 
@@ -231,5 +260,8 @@ Promise.all([citiesPromise, airportsPromise, countriesPromise, currenciesPromise
     saveJsonToFile(cityList,OUTPUT_FOLDER+CITIES_OUTPUT_FILENAME)
 
     console.log("Number of airports:",airportsList.length)
-    saveJsonToFile(airportsList,OUTPUT_FOLDER+AIRPORTS_OUTPUT_FILENAME)
+    saveJsonToFile(airportsList,OUTPUT_FOLDER+AIRPORTS_OUTPUT_FILENAME);
+
+    console.log("Number of airlines:",airlinesList.length)
+    saveJsonToFile(airlinesList,OUTPUT_FOLDER+AIRLINES_OUTPUT_FILENAME)
 });

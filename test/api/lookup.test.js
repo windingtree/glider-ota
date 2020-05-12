@@ -1,8 +1,4 @@
-// console.log("before",process.env);
-const dotenv = require('dotenv')
-dotenv.config({path: '.env'})
-// console.log("after",process.env);
-
+const dotenv = require('dotenv').config();  //load .env
 const dict = require('../../api/_lib/dictionary-data-cache');
 const {TABLES} = require('../../api/_lib/dictionary-data-cache');
 const assert = require('assert');
@@ -50,6 +46,15 @@ describe('dictionary-data-cache', function () {
         it('should return undefined if currency does not exist', function () {
             let result = dict.getCurrencyByCode('XYZ');
             assert.equal(result,undefined);
+        });
+    });
+
+    describe('#getAirlineByIataCode()', function () {
+        it('should return existing airline by IATA code ', function () {
+            let result = dict.getAirlineByIataCode('SN');
+            assert.notEqual(result,undefined);
+            assert.equal(result.airline_iata_code,'SN')
+            assert.equal(result.airline_name,'Brussels Airlines')
         });
     });
 

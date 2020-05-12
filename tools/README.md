@@ -23,6 +23,8 @@ List of currencies
 List of cities (with population over 15000 is used but can be custom)
 * https://download.geonames.org/export/dump/
 
+List of airlines (only airlines that operate currently will be used)
+* https://github.com/opentraveldata/opentraveldata/blob/master/opentraveldata/optd_airline_best_known_so_far.csv
 
 ## Dictionary data maintenance
 Dictionary data is considered static however there may be times when it has to be updated.
@@ -46,6 +48,12 @@ This document explain steps needed to re-generate all dictionary data.
 #### Airports
 * Download list of airports from https://github.com/opentraveldata/opentraveldata/blob/master/data/IATA/iata_airport_list_latest.csv 
 * Save it as /tools/dictionary/input/airports.csv
+
+#### Airlines
+* Download list of airlines from https://github.com/opentraveldata/opentraveldata/blob/master/opentraveldata/optd_airline_best_known_so_far.csv 
+* Save it as /tools/dictionary/input/airlines.csv
+
+
 ### Step 2 - Process downloaded data 
 
 * remove contents of folder /tools/dictionary/output

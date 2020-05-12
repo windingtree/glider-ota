@@ -91,7 +91,7 @@ return (
         <Container className={style.segmentNormalText}>
             <Row>
                 <div className={style.segmentCarrierLogoContainer}><img src={"/airlines/"+operator.iataCode+".png"} className={style.segmentCarrierLogoImg}/></div>
-                <div className={style.segmentFlightInfoContainer}><div>{operator.carrier_name}</div> <div>{operator.flight_number} {operator.flight_info}</div></div>
+                <div className={style.segmentFlightInfoContainer}><div>{operator.airline_name}</div> <div>{operator.flightNumber} {operator.flight_info}</div></div>
             </Row>
         </Container>
     )

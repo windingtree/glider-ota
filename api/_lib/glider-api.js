@@ -53,6 +53,26 @@ async function createWithOffer(criteria) {
 
 
 /**
+ * Create offer in Glider API
+ * @param offerId - offerID to be repriced
+ * @returns {Promise<any>} response from Glider
+ */
+async function reprice(offerId) {
+    let urlTemplate=GLIDER_CONFIG.REPRICE_OFFER_URL;
+    let urlWithOfferId = urlTemplate.replace("{offerId}",offerId);
+    logger.debug("Reprice URL:[%s]",urlWithOfferId);
+    let response = await axios({
+        method: 'post',
+        url: urlWithOfferId,
+        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
+    });
+    logger.debug("Reprice response",response.data);
+    return response.data;
+}
+
+
+
+/**
  * Fulfills an order in Glider
  * @param orderId - ID of a previously created order in Glider
  * @param orderItems
@@ -62,7 +82,6 @@ async function createWithOffer(criteria) {
  */
 async function fulfill(orderId,orderItems,passengers, guaranteeId) {
     let request = createFulfilmentRequest(orderItems,passengers,guaranteeId)
-    logger.debug("Creating fulfillment for order:%s, request:%s",orderId,JSON.stringify(request));
     let urlTemplate=GLIDER_CONFIG.FULFILL_URL;
     let urlWithOrderId = urlTemplate.replace("{orderId}",orderId);
     logger.debug("Fulfillment URL:[%s]",urlWithOrderId);
@@ -94,6 +113,6 @@ function createFulfilmentRequest(orderItems,passengers,guaranteeId){
 function addAirports(){}
 
 module.exports = {
-    createWithOffer, searchOffers, fulfill
+    createWithOffer, searchOffers, fulfill, reprice
 }
 

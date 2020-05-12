@@ -1,5 +1,5 @@
 const {createLogger} = require('./logger');
-const {getAirportByIataCode,getCountryByCountryCode} = require ('./dictionary-data-cache')
+const {getAirportByIataCode,getCountryByCountryCode, getAirlineByIataCode} = require ('./dictionary-data-cache')
 const _ = require('lodash');
 
 // log REST calls to a separate logger
@@ -9,6 +9,7 @@ const restlogger = createLogger('response-decorator-logger');
 
 function enrichResponseWithDictionaryData(results){
     enrichAirportCodesWithAirportDetails(results);
+    enrichOperatingCarrierWithAirlineNames(results);
 }
 
 function enrichAirportCodesWithAirportDetails(results){
@@ -39,7 +40,24 @@ function enrichAirportCodesWithAirportDetails(results){
 }
 
 
+function enrichOperatingCarrierWithAirlineNames(results){
+    let segments = _.get(results,'itineraries.segments',[])
+    _.each(segments, (segment,id)=>{
+        let operator = segment.operator;
+        let airlineCode  = operator.iataCode;
+        let airlineDetails = getAirlineByIataCode(airlineCode);
+        //{"airline_iata_code":"AQ","airline_name":"9 Air"},{"airline_iata_code":"RL","airline_name":"Royal Flight"}
+        if(airlineDetails!==undefined){
+            operator.airline_name=airlineDetails.airline_name;
+        }else{
+            logger.warn("Airline definition not found for airline code:%s",airlineCode)
+        }
+    });
+
+}
+
+
 
 module.exports={
-    enrichResponseWithDictionaryData,enrichAirportCodesWithAirportDetails
+    enrichResponseWithDictionaryData,enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames
 }

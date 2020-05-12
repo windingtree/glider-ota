@@ -7,13 +7,15 @@ export const LOCATION_SOURCE={
     CITIES:'cities'
 }
 
-const SEARCH_TIMEOUT_MILLIS=1000;
+const SEARCH_TIMEOUT_MILLIS=100;
 
 export default function LookupField({initialLocation,onSelectedLocationChange, placeHolder, onQueryEntered, locations=[]})  {
     const [value, setValue] = useState(initialLocation!=undefined?initialLocation.primary:'');
     const [target, setTarget] = useState();
     const [selectedLocation, setSelectedLocation] = useState(initialLocation);
     const [searchQueryTimeout, setSearchQueryTimeout] = useState();
+
+
 
     function handleLocationSelected(location) {
         console.log("select")

@@ -65,6 +65,12 @@ export async function findHotels(criteria) {
     return results;
 }
 
+
+export function retrieveOfferFromLocalStorage(offerId){
+    let searchResults = retrieveSearchResultsFromLocalStorage();
+    return searchResults.offers[offerId];
+}
+
 export function retrieveSearchResultsFromLocalStorage(){
     let searchResults = JSON.parse(localStorage.getItem('searchResults'));
     console.log("retrieveSearchResultsFromLocalStorage",searchResults)

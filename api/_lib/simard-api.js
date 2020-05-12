@@ -26,8 +26,26 @@ async function createGuarantee(amount, currency) {
         data: request,
         headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
     });
+    logger.debug("Guarantee created",response.data);
     return response.data;
 }
+
+async function simulateDeposit(amount, currency) {
+    logger.debug("Simulate deposit for %s %s",amount,currency);
+    let request = {
+        "currency": currency,
+        "amount": amount
+    };
+    let response = await axios({
+        method: 'post',
+        url: SIMARD_CONFIG.SIMULATE_DEPOSIT_URL,
+        data: request,
+        headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+    });
+    logger.debug("Deposit created",response.data);
+    return response.data;
+}
+
 
 
 function createHeaders(token) {
@@ -41,6 +59,6 @@ function createHeaders(token) {
 
 
 module.exports = {
-   createGuarantee
+   createGuarantee,simulateDeposit
 }
 
