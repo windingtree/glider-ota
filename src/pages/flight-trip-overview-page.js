@@ -1,11 +1,13 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
-import FlightDetail from "../components/flightdetails/flight-detailed-view"
 import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/search"
+import {Button, Col, Container, Row} from "react-bootstrap";
+import TripDetails from "../components/flightdetails/trip-details";
 
 
-export default function FlightOfferDetailsPage({match}) {
+export default function FlightTripOverviewPage({match}) {
+    let history = useHistory();
     let offerId = match.params.offerId;
     let combinationId = match.params.combinationId;
 
@@ -14,16 +16,25 @@ export default function FlightOfferDetailsPage({match}) {
     let selectedOffer = findSelectedOffer(selectedCombination,offerId);
 
 
+    function proceedButtonClick(){
+        let url='/flights/farefamilies/'+combinationId+'/'+offerId;
+        history.push(url);
+    }
+
     return (
         <>
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-               <FlightDetail
-                    selectedCombination={selectedCombination}
-                    selectedOffer={selectedOffer}
-                    searchResults={searchResults}/>
+                    <Container fluid={true}>
+                        <Row>
+                            <Col >
+                                <TripDetails itineraries={selectedCombination.itinerary}/>
+                            </Col>
+                        </Row>
+                    </Container>
                 </div>
+                <Button className='primary' onClick={proceedButtonClick}>Proceed to fare family selection</Button>
             </div>
         </>
     )

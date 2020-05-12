@@ -122,7 +122,7 @@ const SearchFailed = ()=>{
 }
 
 function createOfferURL(offerId,combinationId){
-    const url = "/flights/offerdetails/"+combinationId+"/"+offerId;
+    const url = "/flights/tripoverview/"+combinationId+"/"+offerId;
     return url;
 }
 

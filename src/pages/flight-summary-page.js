@@ -22,7 +22,7 @@ export default function FlightSummaryPage({match}) {
 
                     Summary: {offerId}
 
-                    <Button className='primary' onClick={onProceedButtonClick}>Pay</Button>
+                    <Button className='primary' onClick={onProceedButtonClick}>Proceed to payment</Button>
                 </div>
             </div>
         </>

@@ -72,7 +72,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                     </Col>
                     <Col>
                         <Form.Label className={style.label}>Gender</Form.Label>
-                        <Form.Control type="date" className="input-birthdate" name='gender'/>
+                        {/*<Form.Control type="date" className="input-birthdate" name='gender'/>*/}
                     </Col>
                 </Form.Row>
                 <div className={style.header}>Contact information</div>

@@ -3,10 +3,10 @@ import {
   action
 } from '@storybook/addon-actions';
 
-import {ItineraryDetails,SegmentDetails} from "./trip-details"
+import TripDetails, {ItineraryDetails,SegmentDetails} from "./trip-details"
 
 export default {
-  title: 'SegmentDetails and ItineraryDetails',
+  title: 'Segment, Itinerary and Trip details',
 };
 const segment1={
   "operator": {
@@ -158,3 +158,4 @@ const roundtrip = [itinerary1,itinerary2];
 
 export const singleSegmentDetails = () => (<SegmentDetails segment={segment1}/>);
 export const itineraryDetails = () => (<ItineraryDetails itinerary={itinerary1}/>);
+export const tripDetails = () => (<TripDetails itineraries={roundtrip}/>);
