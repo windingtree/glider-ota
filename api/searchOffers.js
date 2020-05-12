@@ -4,8 +4,10 @@ const {decorate} = require('./_lib/decorators');
 // const logger = createLogger('/searchOffers')
 
 const searchOffersController = async (req, res) => {
-  let order = await searchOffers(req.body);
-  res.json(order);
+  // Call glider API to get offers
+  let offerResult = await searchOffers(req.body);
+
+  res.json(offerResult);
 }
 
 
