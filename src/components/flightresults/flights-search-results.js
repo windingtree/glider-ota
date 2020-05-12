@@ -1,6 +1,5 @@
 import React from 'react'
 import style from './flights-search-results.module.scss'
-// import './flights-search-results.scss'
 import {Container, Row, Col, Image, Button} from 'react-bootstrap'
 import {format, parseISO} from "date-fns";
 import OfferUtils from '../../utils/offer-utils'
@@ -9,9 +8,6 @@ import {FastCheapFilter} from "../filters/filters";
 
 
 export default function FlightsSearchResults({searchResults: combinations, onOfferDisplay}) {
-    //console.log("FlightsSearchResults", combinations);
-    function handleInputValueChange(event) {
-    }
 
     function handleOfferDisplay(combinationId, offerId) {
         console.log("handleOfferDisplay", offerId);

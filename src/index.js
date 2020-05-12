@@ -9,16 +9,18 @@ import {
 import ReactDOM from 'react-dom'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/glider.scss'
-import FlightOffer from "./pages/flightoffer"
+import FlightOfferDetailsPage from "./pages/flight-offer-details-page"
 import Hotel from "./pages/hotel"
-import FlightsPage from "./pages/flights"
+import FlightsSearchPage from "./pages/flights-search-page"
 import HotelsPage from "./pages/hotels"
-import HomePage from "./pages/home"
+import HomePage from "./pages/home-page"
 import { CookiesProvider } from 'react-cookie';
 import PaymentForm from "./components/payments/payment-form";
-import Sandbox from "./pages/sandbox/sandbox";
 import ConfirmationPage from "./pages/confirmation-page";
-import SeatmapPage from "./pages/seatmap";
+import FlightSeatmapPage from "./pages/flight-seatmap-page";
+import FlightFareFamiliesPage from "./pages/flight-farefamilies-page";
+import FlightPassengersPage from "./pages/flight-passengers-page";
+import FlightSummaryPage from "./pages/flight-summary-page";
 
 
 function Dispatcher() {
@@ -27,9 +29,12 @@ function Dispatcher() {
             <Router>
                 <Switch>
                     {/*Flights flow*/}
-                    <Route path="/flights/" component={FlightsPage}/>
-                    <Route path="/flightoffer/:combinationId/:offerId" component={FlightOffer}/>
-                    <Route path="/seatmap/:offerId/:segmentId?" component={SeatmapPage}/>
+                    <Route path="/flights/offerdetails/:combinationId/:offerId" component={FlightOfferDetailsPage}/>
+                    <Route path="/flights/farefamilies/:offerId/:itineraryId?" component={FlightFareFamiliesPage}/>
+                    <Route path="/flights/seatmap/:offerId/:segmentId?" component={FlightSeatmapPage}/>
+                    <Route path="/flights/passengers/:offerId" component={FlightPassengersPage}/>
+                    <Route path="/flights/summary/:offerId" component={FlightSummaryPage}/>
+                    <Route path="/flights/" component={FlightsSearchPage}/>
                     {/*<Route path="/summary/:offerId" component={FlightOffer}/>*/}
                     {/*<Route path="/confirmation/" component={FlightOffer}/>*/}
 
@@ -41,7 +46,6 @@ function Dispatcher() {
                     <Route path="/payments" >
                         <PaymentForm />
                     </Route>
-                    <Route path="/test" component={Sandbox}/>
                     <Route path="/" component={HomePage} />
                 </Switch>
             </Router>

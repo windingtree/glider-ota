@@ -6,7 +6,7 @@ import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
 import Filters,{generateFiltersStates} from "../components/filters/filters";
 import {useHistory} from "react-router-dom";
-import cssdefs from './flights.scss'
+import cssdefs from './flights-search-page.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';

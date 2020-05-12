@@ -173,7 +173,7 @@ class FlightDetail extends React.Component {
   }
 
    proceedButtonClick(){
-       let url='/seatmap/'+this.state.selectedOfferId;
+       let url='/flights/farefamilies/'+this.state.selectedOfferId;
      this.props.history.push(url);
   }
 
@@ -231,7 +231,7 @@ class FlightDetail extends React.Component {
 
           <Row className='py-5'>
             <Col className='d-flex justify-content-end'>
-              <Button className='primary' onClick={this.proceedButtonClick}>Proceed to seatmap</Button>
+              <Button className='primary' onClick={this.proceedButtonClick}>Proceed to fare family selection</Button>
             </Col>
           </Row>
 

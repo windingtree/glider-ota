@@ -5,7 +5,7 @@ import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/search"
 
 
-export default function FlightOffer({match}) {
+export default function FlightOfferDetailsPage({match}) {
     let offerId = match.params.offerId;
     let combinationId = match.params.combinationId;
 

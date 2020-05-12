@@ -6,7 +6,7 @@ import {Button, Container,  Row, Col} from "react-bootstrap";
 import Filters,{generateFiltersStates} from "../components/filters/filters";
 import FlightsSearchResults from "../components/flightresults/flights-search-results";
 import {useHistory} from "react-router-dom";
-import cssdefs from './flights.scss'
+import cssdefs from './flights-search-page.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
@@ -18,7 +18,7 @@ const SEARCH_STATE={
     FINISHED:'FINISHED'
 }
 
-export default function FlightsPage({match,location}) {
+export default function FlightsSearchPage({match,location}) {
     let history = useHistory();
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
@@ -122,7 +122,7 @@ const SearchFailed = ()=>{
 }
 
 function createOfferURL(offerId,combinationId){
-    const url = "/flightoffer/"+combinationId+"/"+offerId;
+    const url = "/flights/offerdetails/"+combinationId+"/"+offerId;
     return url;
 }
 
