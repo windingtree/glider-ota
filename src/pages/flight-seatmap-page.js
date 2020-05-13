@@ -3,7 +3,7 @@ import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
 import {retrieveOfferFromLocalStorage} from "../utils/search"
 import {Button} from "react-bootstrap";
-
+import SeatMap from '../components/seatmap/seatmap'
 
 export default function FlightSeatmapPage({match}) {
     let history = useHistory();
@@ -23,6 +23,7 @@ export default function FlightSeatmapPage({match}) {
                 <div className='root-container-subpages'>
 
                     Seatmap for offer: {offerId}, segmentId:{segmentId}
+                    <SeatMap/>
 
                     <Button className='primary' onClick={onProceedButtonClick}>Proceed to summary</Button>
                 </div>
