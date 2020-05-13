@@ -1,0 +1,65 @@
+
+.seat {
+
+    // Hide the checkbox
+    input {
+        transform: scale(0);
+        opacity: 0;
+        position: absolute;
+    }
+
+    label {
+        width: 27.6px;
+        height: 27.6px;
+        left: calc(50% - 27.6px/2 - 0px);
+        top: calc(50% - 27.6px/2 + 0px);
+        display: block;
+        position: relative;
+        margin: 5px;
+        //padding: 15px 30px 15px 62px;
+        border: 1px solid #fff;
+        color: #fff;
+        background-color: #202020;
+        white-space: nowrap;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color .3s, box-shadow .3s;
+    }
+    
+    label:hover, input:focus + label {
+        box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    }
+    
+    input:checked + label {
+        background: url(../assets/tick.svg), #7161D6;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    input:disabled + label {
+        background: url(../assets/cross.svg), #BBBBBB;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    p {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 9.2px;
+        line-height: 150%;
+        
+        /* identical to box height, or 14px */
+        text-align: center;
+        
+        /* White */
+        color: #FFFFFF;
+        
+        /* Inside Auto Layout */
+        flex: none;
+        order: 0;
+        margin: 0px 0px;
+    }
+
+}
+

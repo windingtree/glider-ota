@@ -1,17 +1,20 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Container, Row, Col, Table} from 'react-bootstrap'
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import Seat from './seat'
 
-const CabinLayout = (props) => {
+
+export default function Cabin(props) {
     // Destructure properties
     const {
         layout,
         name,
         firstRow,
         lastRow,
-    } = props.cabin;
+        seats,
+    } = props;
 
-    // Determine the columns
+    // Determine the columns and rows
     const columns = Array.from(layout);
     const rows = Array.from(
         {length:Number(lastRow) - Number(firstRow) + 1},
@@ -19,12 +22,21 @@ const CabinLayout = (props) => {
     );
 
     // Index seats
-    const seats =  props.cabin.seats.reduce((acc, seat) => {
+    const indexedSeats = seats.reduce((acc, seat) => {
         acc[seat.number]=seat;
         return acc;
     }, {});
 
-    // Get the display of a seat
+    // The seats selected for the users
+    // @TODO
+
+    // Handle a change in seat selection
+    const onSeatSelectionChange = (seatNumber, selected) => {
+        console.log(`SEAT #${seatNumber} selected: ${selected}`);
+        indexedSeats[seatNumber].selected = selected;
+    }
+
+    // Get the display of an element at a given position
     const getElement = (row, column) => {
         // Check if it is an Aisle
         if(column === ' ') {
@@ -34,13 +46,17 @@ const CabinLayout = (props) => {
         // Another element
         else {
             // Retrieve the seat at this position
-            const seat = seats[row+column];
+            const seatNumber = `${row}${column}`;
+            const seat = indexedSeats[seatNumber];
             if(seat) {
                 return (
                     <Seat
-                        number={row+column}
+                        number={seatNumber}
                         available={seat.available}
+                        selected={seat.selected}
                         characteristics={seat.characteristics}
+                        disabled={false}
+                        onSelectionChange={onSeatSelectionChange}
                     />
                 );
             }
@@ -56,27 +72,29 @@ const CabinLayout = (props) => {
             <Row>{name}</Row>
             <Row>{layout}</Row>
             <Row>
-                <Table bordered hover justify center size="sm">
+                <Table bordered hover justify="true" center="true" size="sm">
                     <thead>
                         <tr>
                         { // Letters of the columns
-                        columns.map(column => (
-                            <th>{column}</th>
+                        columns.map((column, c) => (
+                            <th key={c}>{column}</th>
                         ))}
                         </tr>
                     </thead>
                     <tbody>
-                    { // Draw the rows
-                    rows.map(row => (
-                        <tr>
-                        { // Draw each element in the row
-                        columns.map(column => (
-                            <td>
-                                {getElement(row, column)}
-                            </td>
+                        
+                        { // Draw the rows
+                        rows.map((row, r) => (
+                            <tr key={r}>
+                            { // Draw each element in the row
+                            columns.map((column,c) => (
+                                <td key={c}>
+                                    {getElement(row, column)}
+                                </td>
+                            ))}
+                            </tr>
                         ))}
-                        </tr>
-                    ))}
+                        
                     </tbody>
                 </Table>
             </Row>
@@ -84,20 +102,3 @@ const CabinLayout = (props) => {
     );
 };
 
-
-export default function Cabin(props) {
-    const {cabin} = props;
-
-    // Render Component
-    return (
-        <Container>
-            <Row>
-                <Col xs lg="1">Left Wing</Col>
-                <Col>
-                    <CabinLayout cabin={cabin}/>
-                </Col>
-                <Col xs lg="1">Right Wing</Col>
-            </Row>
-        </Container>
-    );
-}

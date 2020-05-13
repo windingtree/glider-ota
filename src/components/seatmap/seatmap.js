@@ -9,8 +9,8 @@ export default function SeatMap(props) {
     return (
         <Container>
         {
-            cabins.map(cabin => (
-                <Row>
+            cabins.map((cabin, c) => (
+                <Row key={c}>
                     <Cabin cabin={cabin}/>
                 </Row>
             ))
