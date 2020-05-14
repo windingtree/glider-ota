@@ -1,8 +1,4 @@
-import React from 'react';
-import {
-  action
-} from '@storybook/addon-actions';
-
+import React, {useState} from 'react';
 import Seat from './seat'
 import Cabin from './cabin'
 
@@ -10,34 +6,104 @@ export default {
   title: 'Seatmap',
 };
 
-export const availableSeat = () => (
+export const availableFreeSeat = () => (
     <Seat
         number={'23F'}
         available={true}
-        disabled={false}
         characteristics={[]}
         onSelectionChange={console.log}
+        price={{
+            currency: 'CAD',
+            public: '0.00',
+            taxes: '0.00',
+        }}
     ></Seat>
 );
 
-export const selectedSeat = () => (
+export const availableFreePremiumSeat = () => (
+    <Seat
+        number={'23F'}
+        available={true}
+        characteristics={['PS']}
+        onSelectionChange={console.log}
+        price={{
+            currency: 'CAD',
+            public: '0.00',
+            taxes: '0.00',
+        }}
+    ></Seat>
+);
+
+export const selectedFreeSeat = () => (
     <Seat
         number='23F'
         available={true}
-        disabled={false}
-        selected={true}
         characteristics={[]}
         onSelectionChange={console.log}
+        price={{
+            currency: 'CAD',
+            public: '0.00',
+            taxes: '0.00',
+        }}
     ></Seat>
 );
 
-export const occupiedSeat = () => (
+export const occupiedFreeSeat = () => (
     <Seat
         number='23F'
         available={false}
-        disabled={false}
         characteristics={[]}
         onSelectionChange={console.log}
+        price={{
+            currency: 'CAD',
+            public: '0.00',
+            taxes: '0.00',
+        }}
+    ></Seat>
+);
+
+export const availableChargeableSeat = () => {
+
+    return (
+        <Seat
+            number={'23F'}
+            available={true}
+            characteristics={[]}
+            onSelectionChange={console.log}
+            price={{
+                currency: 'CAD',
+                public: '20.00',
+                taxes: '5.00',
+            }}
+        ></Seat>
+    );
+};
+
+export const selectedChargeableSeat = () => (
+    <Seat
+        number='23F'
+        available={true}
+        characteristics={[]}
+        onSelectionChange={console.log}
+        price={{
+            currency: 'CAD',
+            public: '20.00',
+            taxes: '5.00',
+        }}
+    ></Seat>
+);
+
+export const occupiedChargeableSeat = () => (
+    <Seat
+        number='23F'
+        available={false}
+        characteristics={[]}
+        onSelectionChange={console.log}
+        price={{
+            currency: 'CAD',
+            public: '20.00',
+            taxes: '5.00',
+        }}
     ></Seat>
 );
 
@@ -55,7 +121,7 @@ export const smallCabin = () => (
                     "PS",
                     "W"
                 ],
-                "optionCode": "divNonAir34.ASPW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "1B",
@@ -63,8 +129,7 @@ export const smallCabin = () => (
                 "characteristics": [
                     "PS",
                     "W"
-                ],
-                "optionCode": "divNonAir34.ASPW_3"
+                ]
             },
             {
                 "number": "2B",
@@ -73,9 +138,21 @@ export const smallCabin = () => (
                     "PS",
                     "W"
                 ],
-                "optionCode": "divNonAir34.ASPW_3"
+                "optionCode": "A1"
             },
         ]}
+        prices={{
+            "A0": {
+                "currency": "CAD",
+                "public": "0.00",
+                "taxes": "0.00"
+            },
+            "A1": {
+                "currency": "CAD",
+                "public": "50.00",
+                "taxes": "0.00"
+            },
+        }}
     >
     </Cabin>
 )
@@ -94,7 +171,7 @@ export const largeCabin = () => (
                     "PS",
                     "W"
                 ],
-                "optionCode": "divNonAir34.ASPW_3"
+                "optionCode": "A1"
             },
             {
                 "number": "18B",
@@ -103,7 +180,7 @@ export const largeCabin = () => (
                     "N",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "18C",
@@ -112,7 +189,7 @@ export const largeCabin = () => (
                     "A",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "18D",
@@ -123,7 +200,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "18E",
@@ -133,7 +210,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "18F",
@@ -143,7 +220,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "18G",
@@ -153,7 +230,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "18H",
@@ -170,7 +247,7 @@ export const largeCabin = () => (
                     "N",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "18K",
@@ -179,7 +256,7 @@ export const largeCabin = () => (
                     "PS",
                     "W"
                 ],
-                "optionCode": "divNonAir34.ASPW_3"
+                "optionCode": "A1"
             },
             {
                 "number": "19A",
@@ -194,7 +271,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "19C",
@@ -211,7 +288,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "19E",
@@ -219,7 +296,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "19F",
@@ -227,7 +304,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "19G",
@@ -236,7 +313,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "19H",
@@ -245,7 +322,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "19J",
@@ -253,7 +330,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "19K",
@@ -261,7 +338,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20A",
@@ -269,7 +346,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20B",
@@ -277,7 +354,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20C",
@@ -286,7 +363,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20D",
@@ -295,7 +372,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20E",
@@ -303,7 +380,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20F",
@@ -311,7 +388,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20G",
@@ -320,7 +397,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20H",
@@ -329,7 +406,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20J",
@@ -337,7 +414,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "20K",
@@ -345,7 +422,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21A",
@@ -353,7 +430,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21B",
@@ -361,7 +438,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21C",
@@ -370,7 +447,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21D",
@@ -379,7 +456,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21E",
@@ -387,7 +464,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21F",
@@ -395,7 +472,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21G",
@@ -404,7 +481,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21H",
@@ -413,7 +490,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21J",
@@ -421,7 +498,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "21K",
@@ -429,7 +506,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22A",
@@ -437,7 +514,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22B",
@@ -445,7 +522,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22C",
@@ -454,7 +531,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22D",
@@ -463,7 +540,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22E",
@@ -471,7 +548,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22F",
@@ -479,7 +556,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22G",
@@ -488,7 +565,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22H",
@@ -497,7 +574,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22J",
@@ -505,7 +582,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "22K",
@@ -513,7 +590,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23A",
@@ -522,7 +599,7 @@ export const largeCabin = () => (
                     "LA",
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23B",
@@ -531,7 +608,7 @@ export const largeCabin = () => (
                     "LA",
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23C",
@@ -541,7 +618,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23D",
@@ -551,7 +628,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23E",
@@ -560,7 +637,7 @@ export const largeCabin = () => (
                     "LA",
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23F",
@@ -569,7 +646,7 @@ export const largeCabin = () => (
                     "LA",
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23G",
@@ -579,7 +656,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23H",
@@ -589,7 +666,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23J",
@@ -598,7 +675,7 @@ export const largeCabin = () => (
                     "LA",
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "23K",
@@ -607,7 +684,7 @@ export const largeCabin = () => (
                     "LA",
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "30D",
@@ -617,7 +694,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "30E",
@@ -627,7 +704,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "30F",
@@ -637,7 +714,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "30G",
@@ -648,7 +725,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "31A",
@@ -659,7 +736,7 @@ export const largeCabin = () => (
                     "PS",
                     "W"
                 ],
-                "optionCode": "divNonAir34.ASPW_3"
+                "optionCode": "A1"
             },
             {
                 "number": "31B",
@@ -670,7 +747,7 @@ export const largeCabin = () => (
                     "IE",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "31C",
@@ -682,7 +759,7 @@ export const largeCabin = () => (
                     "IE",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "31D",
@@ -691,7 +768,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "31E",
@@ -699,7 +776,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "31F",
@@ -707,7 +784,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "31G",
@@ -716,7 +793,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "31H",
@@ -728,7 +805,7 @@ export const largeCabin = () => (
                     "IE",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "31J",
@@ -739,7 +816,7 @@ export const largeCabin = () => (
                     "IE",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "31K",
@@ -750,7 +827,7 @@ export const largeCabin = () => (
                     "PS",
                     "W"
                 ],
-                "optionCode": "divNonAir34.ASPW_3"
+                "optionCode": "A1"
             },
             {
                 "number": "32A",
@@ -758,7 +835,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "32B",
@@ -766,7 +843,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "32C",
@@ -775,7 +852,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "32D",
@@ -784,7 +861,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "32E",
@@ -792,7 +869,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "32F",
@@ -800,7 +877,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "32G",
@@ -809,7 +886,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "32H",
@@ -818,7 +895,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "32J",
@@ -826,7 +903,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "32K",
@@ -834,7 +911,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "33A",
@@ -849,7 +926,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "33C",
@@ -858,7 +935,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "33D",
@@ -867,7 +944,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "33E",
@@ -875,7 +952,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "33F",
@@ -883,7 +960,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "33G",
@@ -892,7 +969,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "33H",
@@ -901,7 +978,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "33J",
@@ -909,7 +986,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "33K",
@@ -917,7 +994,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34A",
@@ -925,7 +1002,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34B",
@@ -933,7 +1010,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34C",
@@ -942,7 +1019,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34D",
@@ -951,7 +1028,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34E",
@@ -959,7 +1036,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34F",
@@ -967,7 +1044,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34G",
@@ -976,7 +1053,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34H",
@@ -985,7 +1062,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34J",
@@ -993,7 +1070,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "34K",
@@ -1001,7 +1078,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35A",
@@ -1009,7 +1086,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35B",
@@ -1017,7 +1094,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35C",
@@ -1026,7 +1103,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35D",
@@ -1035,7 +1112,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35E",
@@ -1043,7 +1120,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35F",
@@ -1051,7 +1128,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35G",
@@ -1060,7 +1137,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35H",
@@ -1069,7 +1146,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35J",
@@ -1077,7 +1154,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "35K",
@@ -1085,7 +1162,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36A",
@@ -1093,7 +1170,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36B",
@@ -1101,7 +1178,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36C",
@@ -1110,7 +1187,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36D",
@@ -1119,7 +1196,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36E",
@@ -1127,7 +1204,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36F",
@@ -1135,7 +1212,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36G",
@@ -1144,7 +1221,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36H",
@@ -1153,7 +1230,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36J",
@@ -1161,7 +1238,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "36K",
@@ -1169,7 +1246,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37A",
@@ -1177,7 +1254,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37B",
@@ -1185,7 +1262,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37C",
@@ -1194,7 +1271,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37D",
@@ -1203,7 +1280,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37E",
@@ -1211,7 +1288,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37F",
@@ -1219,7 +1296,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37G",
@@ -1228,7 +1305,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37H",
@@ -1237,7 +1314,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37J",
@@ -1245,7 +1322,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "37K",
@@ -1253,7 +1330,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38A",
@@ -1261,7 +1338,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38B",
@@ -1269,7 +1346,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38C",
@@ -1278,7 +1355,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38D",
@@ -1287,7 +1364,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38E",
@@ -1295,7 +1372,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38F",
@@ -1303,7 +1380,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38G",
@@ -1312,7 +1389,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38H",
@@ -1321,7 +1398,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38J",
@@ -1329,7 +1406,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "38K",
@@ -1337,7 +1414,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39A",
@@ -1345,7 +1422,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39B",
@@ -1353,7 +1430,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39C",
@@ -1362,7 +1439,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39D",
@@ -1371,7 +1448,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39E",
@@ -1379,7 +1456,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39F",
@@ -1387,7 +1464,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39G",
@@ -1396,7 +1473,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39H",
@@ -1405,7 +1482,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39J",
@@ -1413,7 +1490,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "39K",
@@ -1421,7 +1498,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40A",
@@ -1429,7 +1506,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40B",
@@ -1437,7 +1514,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40C",
@@ -1446,7 +1523,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40D",
@@ -1455,7 +1532,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40E",
@@ -1463,7 +1540,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40F",
@@ -1471,7 +1548,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40G",
@@ -1480,7 +1557,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40H",
@@ -1489,7 +1566,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40J",
@@ -1497,7 +1574,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "40K",
@@ -1505,7 +1582,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41A",
@@ -1513,7 +1590,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41B",
@@ -1521,7 +1598,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41C",
@@ -1530,7 +1607,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41D",
@@ -1539,7 +1616,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41E",
@@ -1547,7 +1624,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41F",
@@ -1555,7 +1632,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41G",
@@ -1564,7 +1641,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41H",
@@ -1573,7 +1650,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41J",
@@ -1581,7 +1658,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "41K",
@@ -1589,7 +1666,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42A",
@@ -1597,7 +1674,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42B",
@@ -1605,7 +1682,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42C",
@@ -1614,7 +1691,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42D",
@@ -1623,7 +1700,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42E",
@@ -1631,7 +1708,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42F",
@@ -1639,7 +1716,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42G",
@@ -1648,7 +1725,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42H",
@@ -1657,7 +1734,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42J",
@@ -1665,7 +1742,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "42K",
@@ -1673,7 +1750,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43A",
@@ -1682,7 +1759,7 @@ export const largeCabin = () => (
                     "LA",
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43B",
@@ -1691,7 +1768,7 @@ export const largeCabin = () => (
                     "LA",
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43C",
@@ -1701,7 +1778,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43D",
@@ -1711,7 +1788,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43E",
@@ -1720,7 +1797,7 @@ export const largeCabin = () => (
                     "GN",
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43F",
@@ -1729,7 +1806,7 @@ export const largeCabin = () => (
                     "GN",
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43G",
@@ -1739,7 +1816,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43H",
@@ -1748,7 +1825,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43J",
@@ -1756,7 +1833,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "43K",
@@ -1764,7 +1841,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "44H",
@@ -1773,7 +1850,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "44J",
@@ -1781,7 +1858,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "44K",
@@ -1789,7 +1866,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "45H",
@@ -1798,7 +1875,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "45J",
@@ -1806,7 +1883,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A2"
             },
             {
                 "number": "45K",
@@ -1814,7 +1891,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A2"
             },
             {
                 "number": "50D",
@@ -1825,7 +1902,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "50E",
@@ -1835,7 +1912,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "50F",
@@ -1845,7 +1922,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "50G",
@@ -1855,7 +1932,7 @@ export const largeCabin = () => (
                     "K",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "51A",
@@ -1876,7 +1953,7 @@ export const largeCabin = () => (
                     "IE",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "51C",
@@ -1888,7 +1965,7 @@ export const largeCabin = () => (
                     "IE",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "51D",
@@ -1897,7 +1974,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A2"
             },
             {
                 "number": "51E",
@@ -1905,7 +1982,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "51F",
@@ -1913,7 +1990,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "51G",
@@ -1922,7 +1999,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "51H",
@@ -1934,7 +2011,7 @@ export const largeCabin = () => (
                     "IE",
                     "PS"
                 ],
-                "optionCode": "divNonAir36.ASPA_3"
+                "optionCode": "A1"
             },
             {
                 "number": "51J",
@@ -1945,7 +2022,7 @@ export const largeCabin = () => (
                     "IE",
                     "PS"
                 ],
-                "optionCode": "divNonAir35.ASPM_3"
+                "optionCode": "A1"
             },
             {
                 "number": "51K",
@@ -1963,7 +2040,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "52B",
@@ -1971,7 +2048,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "52C",
@@ -1980,7 +2057,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "52D",
@@ -1989,7 +2066,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "52E",
@@ -1997,7 +2074,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "52F",
@@ -2005,7 +2082,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "52G",
@@ -2014,7 +2091,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "52H",
@@ -2023,7 +2100,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "52J",
@@ -2031,7 +2108,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "52K",
@@ -2039,7 +2116,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53A",
@@ -2047,7 +2124,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53B",
@@ -2055,7 +2132,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53C",
@@ -2064,7 +2141,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53D",
@@ -2073,7 +2150,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53E",
@@ -2081,7 +2158,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53F",
@@ -2089,7 +2166,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53G",
@@ -2098,7 +2175,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53H",
@@ -2107,7 +2184,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53J",
@@ -2115,7 +2192,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "53K",
@@ -2123,7 +2200,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54A",
@@ -2131,7 +2208,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54B",
@@ -2139,7 +2216,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54C",
@@ -2148,7 +2225,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54D",
@@ -2157,7 +2234,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54E",
@@ -2165,7 +2242,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54F",
@@ -2173,7 +2250,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54G",
@@ -2182,7 +2259,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54H",
@@ -2191,7 +2268,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54J",
@@ -2199,7 +2276,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "54K",
@@ -2207,7 +2284,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55A",
@@ -2215,7 +2292,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55B",
@@ -2223,7 +2300,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55C",
@@ -2232,7 +2309,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55D",
@@ -2241,7 +2318,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55E",
@@ -2249,7 +2326,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55F",
@@ -2257,7 +2334,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55G",
@@ -2266,7 +2343,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55H",
@@ -2275,7 +2352,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55J",
@@ -2283,7 +2360,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "55K",
@@ -2291,7 +2368,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56A",
@@ -2299,7 +2376,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56B",
@@ -2307,7 +2384,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56C",
@@ -2316,7 +2393,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56D",
@@ -2325,7 +2402,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56E",
@@ -2333,7 +2410,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56F",
@@ -2341,7 +2418,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56G",
@@ -2350,7 +2427,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56H",
@@ -2359,7 +2436,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56J",
@@ -2367,7 +2444,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "56K",
@@ -2375,7 +2452,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57A",
@@ -2383,7 +2460,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57B",
@@ -2391,7 +2468,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57C",
@@ -2400,7 +2477,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57D",
@@ -2409,7 +2486,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57E",
@@ -2417,7 +2494,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57F",
@@ -2425,7 +2502,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57G",
@@ -2434,7 +2511,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57H",
@@ -2443,7 +2520,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57J",
@@ -2451,7 +2528,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "57K",
@@ -2459,7 +2536,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58A",
@@ -2467,7 +2544,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58B",
@@ -2475,7 +2552,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58C",
@@ -2484,7 +2561,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58D",
@@ -2493,7 +2570,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58E",
@@ -2501,7 +2578,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58F",
@@ -2509,7 +2586,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58G",
@@ -2518,7 +2595,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58H",
@@ -2527,7 +2604,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58J",
@@ -2535,7 +2612,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "58K",
@@ -2543,7 +2620,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59A",
@@ -2551,7 +2628,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59B",
@@ -2559,7 +2636,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59C",
@@ -2568,7 +2645,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59D",
@@ -2577,7 +2654,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59E",
@@ -2585,7 +2662,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59F",
@@ -2593,7 +2670,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59G",
@@ -2602,7 +2679,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59H",
@@ -2611,7 +2688,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59J",
@@ -2619,7 +2696,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "59K",
@@ -2627,7 +2704,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60A",
@@ -2635,7 +2712,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60B",
@@ -2643,7 +2720,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60C",
@@ -2652,7 +2729,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60D",
@@ -2661,7 +2738,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60E",
@@ -2669,7 +2746,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60F",
@@ -2677,7 +2754,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60G",
@@ -2686,7 +2763,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60H",
@@ -2695,7 +2772,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60J",
@@ -2703,7 +2780,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "60K",
@@ -2711,7 +2788,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "61A",
@@ -2719,7 +2796,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "61B",
@@ -2728,7 +2805,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "61D",
@@ -2737,7 +2814,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "61E",
@@ -2745,7 +2822,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "61F",
@@ -2753,7 +2830,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "61G",
@@ -2762,7 +2839,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "61J",
@@ -2785,7 +2862,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "62B",
@@ -2794,7 +2871,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "62D",
@@ -2803,7 +2880,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "62E",
@@ -2811,7 +2888,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "62F",
@@ -2819,7 +2896,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "62G",
@@ -2828,7 +2905,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "62J",
@@ -2851,7 +2928,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             },
             {
                 "number": "63B",
@@ -2860,7 +2937,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "63D",
@@ -2869,7 +2946,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "63E",
@@ -2877,7 +2954,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "63F",
@@ -2885,7 +2962,7 @@ export const largeCabin = () => (
                 "characteristics": [
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "63G",
@@ -2894,7 +2971,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "63J",
@@ -2934,7 +3011,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "64E",
@@ -2943,7 +3020,7 @@ export const largeCabin = () => (
                     "GN",
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "64F",
@@ -2952,7 +3029,7 @@ export const largeCabin = () => (
                     "GN",
                     "N"
                 ],
-                "optionCode": "divNonAir32.ASTM_3"
+                "optionCode": "A0"
             },
             {
                 "number": "64G",
@@ -2962,7 +3039,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "64J",
@@ -2971,7 +3048,7 @@ export const largeCabin = () => (
                     "A",
                     "H"
                 ],
-                "optionCode": "divNonAir33.ASTA_3"
+                "optionCode": "A0"
             },
             {
                 "number": "64K",
@@ -2979,9 +3056,26 @@ export const largeCabin = () => (
                 "characteristics": [
                     "W"
                 ],
-                "optionCode": "divNonAir31.ASTW_3"
+                "optionCode": "A0"
             }
         ]}
+        prices={{
+            "A0": {
+                "currency": "CAD",
+                "public": "0.00",
+                "taxes": "0.00"
+            },
+            "A1": {
+                "currency": "CAD",
+                "public": "50.00",
+                "taxes": "0.00"
+            },
+            "A2": {
+                "currency": "CAD",
+                "public": "20.00",
+                "taxes": "0.00"
+            },
+        }}
     >
     </Cabin>
 )

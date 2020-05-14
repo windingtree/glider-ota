@@ -12,6 +12,7 @@ export default function Cabin(props) {
         firstRow,
         lastRow,
         seats,
+        prices,
     } = props;
 
     // Determine the columns and rows
@@ -23,7 +24,10 @@ export default function Cabin(props) {
 
     // Index seats
     const indexedSeats = seats.reduce((acc, seat) => {
-        acc[seat.number]=seat;
+        acc[seat.number] = {
+            ...seat,
+            price: prices[seat.optionCode]
+        };
         return acc;
     }, {});
 
@@ -53,9 +57,8 @@ export default function Cabin(props) {
                     <Seat
                         number={seatNumber}
                         available={seat.available}
-                        selected={seat.selected}
                         characteristics={seat.characteristics}
-                        disabled={false}
+                        price={seat.price}
                         onSelectionChange={onSeatSelectionChange}
                     />
                 );
