@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import './seatmap.scss';
 
 export default function Seat(props) {
@@ -10,14 +10,16 @@ export default function Seat(props) {
         onSelectionChange,
     } = props;
 
+    // Manage React states
     const [selected, setSelected] = useState(false);
     
-
     const handleSelectionChange = () => {
         setSelected(!selected);
         onSelectionChange(number, !selected);
     };
 
+
+    // Helper functions
     const getPriceDisplay = () => {
         if(price && Number(price.public) > 0) {
             return Number(price.public).toFixed(0);

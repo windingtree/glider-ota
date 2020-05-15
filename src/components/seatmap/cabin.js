@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
 import {Container, Row, Col, Table} from 'react-bootstrap'
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import Seat from './seat'
-
+import './seatmap.scss';
 
 export default function Cabin(props) {
     // Destructure properties
@@ -11,6 +10,8 @@ export default function Cabin(props) {
         name,
         firstRow,
         lastRow,
+        wingFirst,
+        wingLast,
         seats,
         prices,
     } = props;
@@ -44,7 +45,7 @@ export default function Cabin(props) {
     const getElement = (row, column) => {
         // Check if it is an Aisle
         if(column === ' ') {
-            return (<span>{row}</span>);
+            return (<span className='aisle'>{row}</span>);
         }
         
         // Another element
@@ -69,37 +70,77 @@ export default function Cabin(props) {
         }
     }
 
+    // Determine the Wing Cell
+    const getWingCell = (row, isLeft) => {
+        const wingClass = isLeft ? 'wing-left' : 'wing-right';
+        const airClass = isLeft ? 'air-left' : 'air-right';
+
+        // If the row is the first on the wing, it takes all the wing
+        if(row === wingFirst) {
+            // Wing starts from first row
+            return (<td rowSpan={wingLast - wingFirst + 1} className={wingClass}></td>);
+        }
+
+        // If the row is the first row, it takes until the beginning of the wing
+        else if(row === firstRow) {
+            // Row is before the wing
+            if(firstRow < wingFirst) {
+                return (<td rowSpan={wingFirst - firstRow} className={airClass}></td>);
+            }
+            
+            // Row is already on the wing
+            else {
+                return (<td rowSpan={wingLast - firstRow + 1} className={wingClass}></td>);
+            }
+            
+        }
+
+        // If the row is just after the wing, it takes the rest of the rows
+        else if(row === wingLast + 1) {
+            return (<td rowSpan={lastRow - wingLast} className={airClass}></td>);
+        }
+
+        // Otherwise, no cell
+        return null;
+    };
+
     // Render Component
     return (
         <Container>
             <Row>{name}</Row>
             <Row>{layout}</Row>
             <Row>
-                <Table bordered hover justify="true" center="true" size="sm">
-                    <thead>
-                        <tr>
-                        { // Letters of the columns
-                        columns.map((column, c) => (
-                            <th key={c}>{column}</th>
-                        ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                        { // Draw the rows
-                        rows.map((row, r) => (
-                            <tr key={r}>
-                            { // Draw each element in the row
-                            columns.map((column,c) => (
-                                <td key={c}>
-                                    {getElement(row, column)}
-                                </td>
+                <div className='plane'>
+                    <table /*bordered*/  cellspacing="0" size="sm">
+                        <thead>
+                            <tr>
+                            <th/>
+                            { // Letters of the columns
+                            columns.map((column, c) => (
+                                <th key={c}>{column}</th>
                             ))}
+                            <th/>
                             </tr>
-                        ))}
-                        
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            { // Draw the rows
+                            rows.map((row, r) => (
+                                <tr key={r}>
+                                    {getWingCell(row, true)}
+                                    { // Draw each element in the row
+                                    columns.map((column,c) => (
+                                        
+                                        <td key={c}>
+                                            {getElement(row, column)}
+                                        </td>
+                                        
+                                    ))}
+                                    {getWingCell(row, false)}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </Row>
         </Container>
     );

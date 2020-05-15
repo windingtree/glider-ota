@@ -113,6 +113,8 @@ export const smallCabin = () => (
         name='VIP'
         firstRow={1}
         lastRow={2}
+        wingFirst={1}
+        wingLast={2}
         seats={[
             {
                 "number": "1A",
@@ -163,6 +165,8 @@ export const largeCabin = () => (
         name='Economy'
         firstRow={18}
         lastRow={64}
+        wingFirst={18}
+        wingLast={38}
         seats={[
             {
                 "number": "18A",
