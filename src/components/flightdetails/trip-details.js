@@ -1,4 +1,3 @@
-import OfferUtils from "../../utils/offer-utils";
 import {Col, Container, Image, Row} from "react-bootstrap";
 import {differenceInHours, differenceInMinutes, format, parseISO} from "date-fns";
 import logo from "../../assets/airline_logo.png";
@@ -9,19 +8,18 @@ import style from "./trip-details.module.scss";
 
 
 export default function TripDetails({itineraries=[]}){
-    let firstFlightHeader = 'Departure flight';
-    let secondFlightHeader = 'Return flight';
-    if(itineraries.length>2) {
-        firstFlightHeader=secondFlightHeader = '';
+    //iterate over trip itineraries and render each itinerary
+    for(let i=0;i<itineraries.length;i++)
+    {
+        let itinerary = itineraries[i];
+        let itineraryHeader='';
+        //only if there is 1 or 2 trips, display trip headers as 'departure' and 'return', otherwise don't display anything
+        if(itineraries.length<=2){
+            if(i==0) itineraryHeader='Departure flight';
+            if(i==1) itineraryHeader='Return flight';
+        }
+        return (<ItineraryDetails itinerary={itinerary} header={itineraryHeader}/>)
     }
-    return(
-        <>
-            {itineraries.length>0 && (<ItineraryDetails itinerary={itineraries[0]} header={firstFlightHeader}/>)}
-            {itineraries.length>1 && (<ItineraryDetails itinerary={itineraries[1]} header={secondFlightHeader}/>)}
-            {itineraries.length>2 && (<ItineraryDetails itinerary={itineraries[2]} header=''/>)}
-            {itineraries.length>3 && (<ItineraryDetails itinerary={itineraries[3]} header=''/>)}
-        </>
-    )
 }
 
 

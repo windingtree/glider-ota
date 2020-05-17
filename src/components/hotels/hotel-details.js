@@ -2,7 +2,7 @@ import React from 'react'
 import './hotel-details.scss'
 import {Container, Row, Col, Button, Image} from 'react-bootstrap'
 import _ from 'lodash'
-import PaxDetails from "../flightdetails/pax-details";
+import PaxDetails from "../passengers/pax-details";
 // import Room from "./room-offer"
 import YourChoice from "./your-choice";
 import default_hotel_image from "../../assets/default_hotel_image.png";

@@ -1,6 +1,6 @@
 const dotenv = require('dotenv').config();  //load .env
-const dict = require('../../api/_lib/dictionary-data-cache');
-const {TABLES} = require('../../api/_lib/dictionary-data-cache');
+const dict = require('../../../api/_lib/dictionary-data-cache');
+const {TABLES} = require('../../../api/_lib/dictionary-data-cache');
 const assert = require('assert');
 
 describe('dictionary-data-cache', function () {

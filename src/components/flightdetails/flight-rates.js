@@ -1,45 +1,36 @@
 import {Col, Container, Row} from "react-bootstrap";
-import React from "react";
+import React, {useState} from 'react';
 import OfferUtils from "../../utils/offer-utils";
 import style from "./flight-rates.module.scss"
+import {ItineraryDetails} from "./trip-details";
 
-export default class FlightRates extends React.Component {
-    constructor(props) {
-        super(props);
-        const {selectedCombination, selectedOffer, pricePlans} = this.props
-        this.plansManager = new PricePlansManager(selectedCombination.offers, pricePlans);
-        this.state={
-            selection:this.initializeState(selectedOffer.flightCombination)
-        }
-        this.handlePricePlanSelection = this.handlePricePlanSelection.bind(this);
-    }
+export default function TripRates({selectedCombination, selectedOffer, pricePlans, onOfferChange}) {
+    const [selection, setSelection] = useState(initializeState(selectedOffer.flightCombination))
+        let plansManager = new PricePlansManager(selectedCombination.offers, pricePlans);
 
-    initializeState(flightCombination){
+    function initializeState(flightCombination){
         let state={}
         flightCombination.map(rec=>{
             return state[rec.flight]=rec.pricePlan;
         })
+        console.log("Intialize:",state)
         return state;
     }
 
-    handlePricePlanSelection(itinId, pricePlanId) {
+    function handlePricePlanSelection(itinId, pricePlanId) {
         console.log("Price plan selected, itinID:", itinId, ", price plan:", pricePlanId)
-        let state=this.state;
-        state.selection[itinId]=pricePlanId;
-        let newOffer = this.plansManager.findOffer(state.selection)
+        let state=Object.assign({},selection);
+        state[itinId]=pricePlanId;
+        let newOffer = plansManager.findOffer(selection)
         if(newOffer!==undefined){
             console.log("Found new offer")
-            this.props.onOfferChange(newOffer);
+            onOfferChange(newOffer);
         }
         else {
             console.log("Offer not found")
         }
-        this.setState(state);
+        setSelection(state)
     }
-
-
-    render() {
-        const {selectedCombination} = this.props;
         const itineraries = selectedCombination.itinerary;
         return (
             <>
@@ -51,9 +42,9 @@ export default class FlightRates extends React.Component {
                     itineraries.map(itinerary=>{
                         let itinId=itinerary.itinId;
                         return (
-                            <DisplayItineraryRates key={itinId} itinerary={itinerary} plansManager={this.plansManager}
-                                                   onPricePlanSelected={this.handlePricePlanSelection}
-                                                   selectedPlan={this.state.selection[itinId]}/>)
+                            <ItineraryRates key={itinId} itinerary={itinerary} plansManager={plansManager}
+                                                   onPricePlanSelected={handlePricePlanSelection}
+                                                   selectedPlanId={selection[itinId]}/>)
 
                     })
                 }
@@ -61,11 +52,14 @@ export default class FlightRates extends React.Component {
             </div>
             </>
         )
-    }
 }
 
+/**
+ * Render price plans of an itinerary
+ */
 
-function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,selectedPlan}) {
+function ItineraryRates({itinerary, plansManager, onPricePlanSelected,selectedPlanId}) {
+    const [selectedPricePlanId,setSelectedPricePlanId] = useState(selectedPlanId);
     let firstSegment=itinerary.segments[0];
     let tripOrigin = firstSegment.origin;
     let lastSegment = itinerary.segments[itinerary.segments.length - 1];
@@ -75,28 +69,26 @@ function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,sel
     let availablePricePlans = plansManager.getItineraryUniquePricePlans(itinerary.itinId);
 
     let allPricePlans = plansManager.getAllPricePlans();
-    console.log("itinerary.itinId",itinerary.itinId)
-    console.log("Available price plans for itinerary:",availablePricePlans)
-    console.log("All price plans for itinerary:",allPricePlans)
+
+    function selectPlan(itineraryId,pricePlanId){
+        // console.log("selectPlan, itineraryId:",itineraryId,", pricePlanId:",pricePlanId);
+        onPricePlanSelected(itineraryId,pricePlanId)
+    }
+    // console.log("itinerary.itinId",itinerary.itinId)
+    // console.log("Available price plans for itinerary:",availablePricePlans)
+    // console.log("All price plans for itinerary:",allPricePlans)
     return (<>
-        <div className={style.ratesItinRoute}>Flight {tripOrigin.city_name?tripOrigin.city_name:tripOrigin.iataCode} —> {tripDestination.city_name?tripDestination.city_name:tripDestination.iataCode}</div>
+        {/*<div className={style.ratesItinRoute}>Flight {tripOrigin.city_name?tripOrigin.city_name:tripOrigin.iataCode} —> {tripDestination.city_name?tripDestination.city_name:tripDestination.iataCode}</div>*/}
+        <ItineraryDetails itinerary={itinerary}/>
+        <div className='py-5'/>
+        <div className={style.ratesHeader}>Select a fare below</div>
         <div className='d-flex flex-row flex-wrap'>
                 {
                     availablePricePlans.map((pricePlanId) => {
-                        console.log("price plan ID:",pricePlanId)
+                        // console.log("itineraryId:", itineraryId,",render price plan ID:",pricePlanId,"selectedPlanId:",selectedPlanId, "selectedPricePlanId:",selectedPricePlanId)
                         let pricePlan = allPricePlans[pricePlanId];
-                        // console.log("Price plan:",pricePlan);
-                        let bagsAllowance=pricePlan.checkedBaggages.quantity;
-                        let allowedKilos = bagsAllowance*23;
-                        let styleName = style.priceplanContainer;
-                        if(selectedPlan === pricePlanId)
-                            styleName = style.priceplanContainerSelected;
                         return (
-                            <div className={styleName} key={pricePlanId}
-                                 onClick={() => { onPricePlanSelected(itineraryId, pricePlanId)}}>
-                                <div className={style.ratesPlanName}>{pricePlan.name}</div>
-                                <div className={style.ratesPlanDetails}>{bagsAllowance==='0'?'No luggage':('Baggage '+allowedKilos+' kg')}</div>
-                            </div>
+                            <FareFamilyBenefits amenities={pricePlan.amenities} price={123} familyName={pricePlan.name} isSelected={pricePlanId === selectedPlanId} onClick={() => { selectPlan(itineraryId, pricePlanId)}}/>
                         )
 
                     })
@@ -106,6 +98,44 @@ function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,sel
 }
 
 
+
+const Amenity = ({text,type, isSelected})=>{
+    let className = 'amenityicon';
+    if(isSelected)
+        className+= ' amenityActive';
+    else
+        className+= ' amenityInactive';
+    if(type)
+        className+=' gicon-'+type;
+    return (<>
+        <div className='ratesPlanDetails'><i className={className}/>{text}</div>
+    </>)
+}
+
+/**
+ * Render single fare family with it's benefits list and price
+ * @param familyName
+ * @param price
+ * @param isSelected
+ * @param amenities
+ * @param onClick
+ * @returns {*}
+ * @constructor
+ */
+export function FareFamilyBenefits({familyName, price, isSelected, amenities=[], onClick}) {
+    let styleName = style.priceplanContainer;
+    if(isSelected)
+        styleName = style.priceplanContainerSelected;
+    return (
+        <div className={styleName} onClick={onClick}>
+            <div className={style.ratesPlanName}>{familyName}</div>
+            <div className={style.ratesPlanPrice}>{price}</div>
+            {
+                amenities.map((record) =><Amenity text={record} type={record.type} isSelected={isSelected}/>)
+            }
+        </div>
+    )
+}
 
 
 class PricePlansManager {

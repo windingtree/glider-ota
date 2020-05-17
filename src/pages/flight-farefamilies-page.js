@@ -5,7 +5,7 @@ import {retrieveOfferFromLocalStorage, retrieveSearchResultsFromLocalStorage} fr
 import {Button, Col, Container, Row} from "react-bootstrap";
 import {config} from "../config/default";
 import TripDetails from "../components/flightdetails/trip-details";
-import FlightRates from "../components/flightdetails/flight-rates";
+import TripRates from "../components/flightdetails/flight-rates";
 import { withRouter } from 'react-router'
 
 export default function FlightFareFamiliesPage({match}) {
@@ -96,7 +96,7 @@ class FareFamilies extends React.Component {
 
                     <Row>
                         <Col>
-                            <FlightRates selectedCombination={selectedCombination} pricePlans={pricePlans} selectedOffer={selectedOffer} onOfferChange={this.handleSelectedOfferChange}/>
+                            <TripRates selectedCombination={selectedCombination} pricePlans={pricePlans} selectedOffer={selectedOffer} onOfferChange={this.handleSelectedOfferChange}/>
                         </Col>
                     </Row>
                     <Row className='pb-5'>

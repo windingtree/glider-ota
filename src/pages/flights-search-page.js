@@ -37,6 +37,8 @@ export default function FlightsSearchPage({match,location}) {
                 onSearchFailure(err)})
     };
     const onSearchSuccess = (results) => {
+        console.log("results:", results)
+        console.log("results.combinations:", results.combinations)
         setSearchResults(results.combinations);
         setUnfilteredSearchResults(results);
         let filters=generateFiltersStates(results);
@@ -74,6 +76,7 @@ export default function FlightsSearchPage({match,location}) {
     };
 
 
+    console.log("render flight results, searchResults:",searchResults)
     return (
         <div>
             <Header violet={true}/>

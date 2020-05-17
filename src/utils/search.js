@@ -1,5 +1,5 @@
 import {config} from "../config/default";
-import {extendResponse} from "./flight-search-results-transformer";
+import extendResponse from "./flight-search-results-transformer";
 import offline_flight_results from "../data/sample_response_flights";
 import offline_hotels_results from "../data/sample_response_hotels";
 import {uiEvent} from "./events";
@@ -73,14 +73,18 @@ export function retrieveOfferFromLocalStorage(offerId){
 }
 
 export function retrieveSearchResultsFromLocalStorage(){
-    let searchResults = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem('searchResults')));
-    //console.log("retrieveSearchResultsFromLocalStorage",searchResults)
+    // let searchResults = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem('searchResults')));
+    let searchResults = JSON.parse(localStorage.getItem('searchResults'));
+    console.log("retrieveSearchResultsFromLocalStorage",searchResults)
     return searchResults;
 }
 export function clearSearchResultsInLocalStorage(){
-    localStorage.setItem('searchResults',LZString.compressToUTF16({}));
+    // localStorage.setItem('searchResults',LZString.compressToUTF16({}));
+    localStorage.setItem('searchResults',{});
+
 }
 export function storeSearchResultsInLocalStorage(searchResults){
     //console.log("storeSearchResultsInLocalStorage",searchResults)
-    localStorage.setItem('searchResults', LZString.compressToUTF16(JSON.stringify(searchResults)));
+    localStorage.setItem('searchResults', JSON.stringify(searchResults));
+    // localStorage.setItem('searchResults', LZString.compressToUTF16(JSON.stringify(searchResults)));
 }

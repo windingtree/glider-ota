@@ -1,7 +1,7 @@
 const dotenv = require('dotenv')
 dotenv.config({path: '.env'})
-const sample_response = require('./sample_flights_response')
-const {enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames} = require('../../api/_lib/response-decorator');
+const sample_response = require('../sample_flights_response')
+const {enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames} = require('../../../api/_lib/response-decorator');
 const assert = require('assert');
 const _ = require('lodash');
 

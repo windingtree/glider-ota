@@ -9,6 +9,7 @@ import {
 import ReactDOM from 'react-dom'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/glider.scss'
+// import './styles/icons.css'
 import FlightTripOverviewPage from "./pages/flight-trip-overview-page"
 import Hotel from "./pages/hotel"
 import FlightsSearchPage from "./pages/flights-search-page"

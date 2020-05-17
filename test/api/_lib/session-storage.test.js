@@ -1,5 +1,5 @@
 require('dotenv').config();  //load .env
-const {SessionStorage} = require('../../api/_lib/session-storage');
+const {SessionStorage} = require('../../../api/_lib/session-storage');
 const assert = require('assert');
 const {v4} = require('uuid');
 

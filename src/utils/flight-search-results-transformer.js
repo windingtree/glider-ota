@@ -1,4 +1,4 @@
-var _ = require('lodash')
+const _ = require('lodash')
 
 
 const mergeRoundTripOffers = (searchResults) => {
@@ -91,8 +91,8 @@ const mergeRoundTripOffers = (searchResults) => {
 /**
  * Extend search results with additional collections to simplify UI
  */
-function transformResponse(response){
-    response = mergeRoundTripOffers(response);
+export default function extendResponse(response){
+    // response = mergeRoundTripOffers(response);
     let combinations = getAllCombinations(response);
     decorateHotelWithAccommodationId(response.accommodations)
     decoratePricePlanWithPricePlanId(response.pricePlans);
@@ -180,11 +180,10 @@ function decoratePricePlanWithPricePlanId(pricePlans){
     })
 }
 
+/*
 
 
 module.exports = {
-    extendResponse: transformResponse
+    extendResponse
 }
-
-
-
+*/

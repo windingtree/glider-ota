@@ -28,13 +28,25 @@ const infant={
 const initialData={
     firstName:'John',
     lastName:'Doe',
-    birthDate:'',
+    birthdate:'1978-02-20',
     email:'john@doe.com',
-    phone:'+1 234 567 890'
+    phone:'+1 234 567 890',
+    gender:'male'
+}
+
+const initialDataFemale={
+    firstName:'Anna',
+    lastName:'Doe',
+    birthdate:'1978-02-20',
+    email:'john@doe.com',
+    phone:'+1 234 567 890',
+    gender:'female'
 }
 
 export const SinglePaxDefault = () => (<SinglePaxDetails onDataChange={action("onDataChange")}/>);
 export const SingleAdult = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")}/>);
 export const SingleChild = () => (<SinglePaxDetails passengerId="PAX1" passengerType="CHD" onDataChange={action("onDataChange")} />);
 export const SingleInfant = () => (<SinglePaxDetails passengerId="PAX1" passengerType="INF" onDataChange={action("onDataChange")} />);
-export const SingleAdultWithInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData}/>);
+export const SingleAdultMaleWithInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData}/>);
+export const SingleAdultFemaleWithInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialDataFemale}/>);
+export const WithSubmitButton = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData} showSubmitButton={true}/>);

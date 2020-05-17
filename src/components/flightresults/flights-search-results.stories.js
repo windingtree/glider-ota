@@ -3,8 +3,14 @@ import {
   action
 } from '@storybook/addon-actions';
 
-import {Itinerary,Offer} from "./flights-search-results"
-import PaxDetails from "../flightdetails/pax-details";
+import FlightSearchResults,{Itinerary,Offer} from "./flights-search-results"
+import PaxDetails from "../passengers/pax-details";
+import extendResponse from "../../utils/flight-search-results-transformer";
+import searchResults from "../../data/sample_response_unprocessed2"
+
+
+let results  = extendResponse(searchResults);
+
 
 export default {
   title: 'Itinerary and Offer',
@@ -114,3 +120,4 @@ const price = {
 export const SingleItineraryExample = () => (<Itinerary itinerary={itinerary1}/>);
 export const TwoItinsExample = () => (<><Itinerary itinerary={itinerary1}/><Itinerary itinerary={itinerary2}/></>);
 export const EntireOffer = () => (<Offer itineraries={[itinerary1,itinerary2]} offerId="offer1" price={price} onOfferDisplay={action("onOfferDisplay")}/> );
+export const FullFlightSearchResults = () => (<FlightSearchResults searchResults={results.combinations} onOfferDisplay={action("onOfferDisplay")}/> );

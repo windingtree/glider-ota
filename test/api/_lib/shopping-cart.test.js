@@ -1,5 +1,5 @@
 require('dotenv').config();  //load .env
-const {ShoppingCart} = require('../../api/_lib/shopping-cart');
+const {ShoppingCart} = require('../../../api/_lib/shopping-cart');
 const assert = require('assert');
 const {v4} = require('uuid');
 

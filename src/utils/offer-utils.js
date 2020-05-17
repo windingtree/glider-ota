@@ -2,6 +2,9 @@ import {parseISO,differenceInHours,differenceInMinutes} from "date-fns";
 import airportToCityMap from "../data/airport-city-map";
 
 export default class OfferUtils {
+
+
+
   static calculateDuration (itinerary) {
     const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
     const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);

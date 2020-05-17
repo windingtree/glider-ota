@@ -22,6 +22,9 @@ export default function FlightsSearchResults({searchResults: combinations, onOff
     function cheapFastFilterTogggle(){
 
     }
+    console.log("Display search results")
+    console.log("combinations",combinations)
+
     return (
         <Container fluid={true} className={style.flightssearchresultscontainer}>
             <div className='pt-3'>

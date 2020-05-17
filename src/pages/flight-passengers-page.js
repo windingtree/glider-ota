@@ -3,7 +3,7 @@ import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
 import {retrieveOfferFromLocalStorage,retrieveSearchResultsFromLocalStorage} from "../utils/search"
 import {Button} from "react-bootstrap";
-import PaxDetails from "../components/flightdetails/pax-details";
+import PaxDetails from "../components/passengers/pax-details";
 
 
 export default function FlightPassengersPage({match}) {

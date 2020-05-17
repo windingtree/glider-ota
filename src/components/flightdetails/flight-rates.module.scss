@@ -1,10 +1,11 @@
 @import 'src/styles/mixins';
 
-.ratesHeader{
-    @include _glider-font-h2;
+.ratesHeader {
+    @include _glider-font-text24medium;
     color: $glider-color-text;
-    padding-top:80px;
 }
+
+
 
 .ratesItinRoute{
     @include _glider-font-text18;
@@ -15,11 +16,24 @@
 .ratesPlanName{
     @include _glider-font-text18;
     color: $glider-color-text;
+    padding-bottom: 13px;
 }
 
-.ratesPlanDetails{
+.ratesPlanPrice{
+    @include _glider-font-text18;
+    color: $glider-color-primary;
+    padding-bottom: 16px;
+}
+
+:global(.ratesPlanDetails){
     @include _glider-font-text12;
     color: $glider-color-text;
+    padding-bottom: 10px;
+}
+
+
+:global(.selectedamenity){
+    color: red;
 }
 
 .priceplanContainer{
@@ -32,6 +46,7 @@
     margin-bottom: 10px;
     margin-top: 10px;
     min-width: 305px;
+    max-width: 305px;
     cursor: pointer;
 }
 
@@ -45,7 +60,27 @@
     margin-bottom: 10px;
     margin-top: 10px;
     min-width: 305px;
+    max-width: 305px;
     cursor: pointer;
 }
 
 
+:global(.amenityicon){
+    font-size: 18px;
+    vertical-align: middle;
+    display: inline-block;
+    //width: 30px;
+}
+
+:global(.gicon-empty) {
+    height:30px;
+    display: inline-block;
+}
+
+:global(.amenityActive) {
+    color: black;
+}
+
+:global(.amenityInactive) {
+    color: #bbb;
+}

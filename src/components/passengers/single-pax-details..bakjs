@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Container, Row, Col, Form, Alert} from 'react-bootstrap'
 import _ from 'lodash'
 import style from "./single-pax-details.module.scss";
+import Button from "react-bootstrap/Button";
 const DEFAULT_PAXTYPE='ADT';
 
 export default function SinglePaxDetails({passengerId, passengerType, onDataChange, initial}) {
@@ -10,10 +11,18 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     const [firstName, setFirstname] = useState(initial?initial.firstName:'');
     const [lastName, setLastName] = useState(initial?initial.lastName:'');
     const [birthdate, setBirthdate] = useState(initial?initial.birthdate:'');
+    const [validated, setValidated] = useState(false);
 
-    function handleBlur() {
+    function _handleBlur() {
         onDataChange(passengerId,createPaxRecord());
     }
+
+    function handleBlur(evt) {
+        // onDataChange(passengerId,createPaxRecord());
+        console.log("Hnagle blur:",evt," target:",evt.target)
+
+    }
+
 
     function createPaxRecord() {
         return {
@@ -27,8 +36,40 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         }
     }
 
-    function handleSubmit() {
-        // onDataChange();
+    function handleSubmit(event) {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        setValidated(true);
+    }
+    function onInput(e){
+        let field=e.target.name;
+        let value=e.target.value;
+        console.log(`Field: ${field}. Value: ${value}, check validity:${e.target.checkValidity()}`)
+        if(e.target.checkValidity()){
+            e.target.setCustomValidity('')
+        }else{
+            e.target.setCustomValidity('aaa')
+        }
+/*
+        switch(field){
+            case 'lastname':
+            case 'firstname':
+            case 'email':
+            case 'phone':
+
+        }
+*/
+        if(e.target.value=="DUPA") {
+            // setValidated(false);
+            // e.target.setCustomValidity('dooopa')
+        }
+        else {
+        // setValidated(true);
+            // e.target.setCustomValidity('')
+        }
     }
 
     let typeToLabel={
@@ -43,6 +84,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     return (
         <>
                 <div className={style.header}>{paxTypeLabel}</div>
+            <Form validated={validated} onSubmit={handleSubmit}>
                 <Form.Row className={style.paxDetailsFormRow}>
                     <Col>
                         <Form.Label className={style.label}>Surname</Form.Label>
@@ -50,7 +92,12 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       name='lastname'
                                       onBlur={handleBlur}
                                       onChange={(e) => setLastName(e.target.value)}
-                                      value={lastName}/>
+                                      value={lastName} required
+                                      isInvalid={true}
+                                        onInput={onInput}/>
+                        <div className="invalid-feedback">
+                            Field is required
+                        </div>
                     </Col>
                     <Col>
                         <Form.Label className={style.label}>Name</Form.Label>
@@ -59,7 +106,13 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       onBlur={handleBlur}
                                       value={firstName}
                                       onChange={(e) => setFirstname(e.target.value)}
+                                      onInput={onInput}
+                                      isValid={true}
+                                      required
                         />
+                        <div className="invalid-feedback">
+                            Field is required
+                        </div>
                     </Col>
 
                 </Form.Row>
@@ -68,7 +121,12 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                         <Form.Label className={style.label}>Date of birth</Form.Label>
                         <Form.Control type="date" className="input-birthdate" name='birthdate'
                                       value={birthdate}
-                                      onChange={(e) => setBirthdate(e.target.value)} onBlur={handleBlur}/>
+                                      onChange={(e) => setBirthdate(e.target.value)} onBlur={handleBlur}
+                                      onInput={onInput} required/>
+
+                        <div className="invalid-feedback">
+                            Field is required
+                        </div>
                     </Col>
                     <Col>
                         <Form.Label className={style.label}>Gender</Form.Label>
@@ -81,15 +139,26 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                         <Col>
                             <Form.Label className={style.label}>Email</Form.Label>
                             <Form.Control type="email" placeholder="email" name="email" value={email}
-                                          onChange={(e) => setEmail(e.target.value)} onBlur={handleBlur}/>
+                                          onChange={(e) => setEmail(e.target.value)}
+                                          onBlur={handleBlur}
+                                          onInput={onInput} required/>
+                            <div className="invalid-feedback">
+                                Field is required
+                            </div>
                         </Col>
                         <Col>
                             <Form.Label className={style.label}>Telephone</Form.Label>
                             <Form.Control type="phone" placeholder="+7" name="phone" value={phone}
-                                          onChange={(e) => setPhone(e.target.value)} onBlur={handleBlur}/>
+                                          onChange={(e) => setPhone(e.target.value)} onBlur={handleBlur}
+                                          onInput={onInput} required/>
+                            <div className="invalid-feedback">
+                                Field is required
+                            </div>
                         </Col>
                     </Form.Row>
                 </div>
+                <Button type="submit">Submit form</Button>
+            </Form>
         </>
     )
 }
