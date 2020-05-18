@@ -8,6 +8,7 @@ import style from "./trip-details.module.scss";
 
 
 export default function TripDetails({itineraries=[]}){
+    console.log("Itineraries",itineraries)
     //iterate over trip itineraries and render each itinerary
     for(let i=0;i<itineraries.length;i++)
     {

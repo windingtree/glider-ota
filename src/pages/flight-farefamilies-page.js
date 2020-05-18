@@ -90,7 +90,7 @@ class FareFamilies extends React.Component {
                 <Container fluid={true}>
                     <Row>
                         <Col >
-                            <TripDetails itineraries={selectedCombination.itinerary}/>
+                            {/*<TripDetails itineraries={selectedCombination.itinerary}/>*/}
                         </Col>
                     </Row>
 

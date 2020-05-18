@@ -17,6 +17,8 @@
     "cookie": "^0.4.0",
     "csv-parser": "^2.3.2",
     "date-fns": "^2.10.0",
+    "esm": "^3.2.25",
+    "immutability-helper": "^3.0.2",
     "jquery": "^3.4.1",
     "lz-string": "^1.4.4",
     "mongodb": "^3.5.5",
@@ -45,6 +47,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "test:unit": "mocha --require @babel/register  'src/**/*.spec.js'",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
@@ -64,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/register": "^7.9.0",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
     "@storybook/addon-viewport": "^5.3.18",

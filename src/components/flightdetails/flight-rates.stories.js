@@ -10,12 +10,11 @@ import sample_response from "../../data/sample_response_unprocessed"
 // console.log(searchResults)
 export default {
     component: TripRates,
-    title: 'FlightRates',
+    title: 'Fare families selection',
 };
 
 let selectedCombination = searchResults.combinations[65];
 let selectedOffer = selectedCombination.offers[0];
-export const PricePlans = () => (<TripRates pricePlans={searchResults.pricePlans} selectedCombination={selectedCombination} selectedOffer={selectedOffer} onOfferChange={action("onOfferChange")}/>);
 let amenities = [
     {text:'2 checked bags free', type:'luggage'},
     {text:'Premium meal service', type:'meal'},
@@ -34,4 +33,4 @@ amenities.forEach(r=>amentiesTexts.push(r.text))
 
 export const FareFamilyBenefitsChecked = () => (<FareFamilyBenefits familyName='Economy Flex' price='123 US' amenities={amentiesTexts} isSelected={true}/>);
 export const FareFamilyBenefitsUnchecked = () => (<FareFamilyBenefits familyName='Economy Flex' price='123 US' amenities={amentiesTexts} isSelected={false}/>);
-
+export const TripFareFamilySelection = () => (<TripRates pricePlans={searchResults.pricePlans} selectedCombination={selectedCombination} selectedOffer={selectedOffer} onOfferChange={action("onOfferChange")}/>);

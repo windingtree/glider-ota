@@ -1,4 +1,5 @@
 const _ = require('lodash')
+import update from 'immutability-helper';
 
 
 const mergeRoundTripOffers = (searchResults) => {
@@ -180,10 +181,68 @@ function decoratePricePlanWithPricePlanId(pricePlans){
     })
 }
 
-/*
+
+export class SearchResultsWrapper {
+    constructor(searchResults) {
+        this.results = searchResults;
+        this.offers = searchResults.offers;
+        this.itineraries = searchResults.itineraries;
+        this.pricePlans = searchResults.pricePlans;
+    }
+
+    getOffer(offerId){
+        return this.offers[offerId];
+    }
+
+    getOfferItineraries(offerId){
+        let pricePlansReferences = offer.pricePlansReferences;
+        Object.keys(pricePlansReferences).map(pricePlanId=> {
+            let pricePlan = this.pricePlans[pricePlanId];
+            pricePlan.flights
+        })
+
+        return pricePlanIds;
+    }
+
+    _getOfferPricePlanIds(){
+
+    }
+
+    getOfferPricePlans(offerId){
+        let offer = this.getOffer(offerId);
+        let pricePlans=[];
+        let pricePlansReferences = offer.pricePlansReferences;
+        Object.keys(pricePlansReferences).map(pricePlanId=> {
+            let pricePlan = update(this.pricePlans[pricePlanId],{pricePlanId:{$set:pricePlanId}});
+            pricePlans.push(pricePlan);
+        })
+        return pricePlans;
+    }
 
 
-module.exports = {
-    extendResponse
+    getItinerary(itineraryId){
+        let segmentIds = this.itineraries.combinations[itineraryId];
+        let segments=[];
+        console.log("segmentIds:",segmentIds);
+        console.log("Keys:",Object.keys(segmentIds));
+        segmentIds.forEach(segmentId=>{
+            let segment = this.getSegment(segmentId)
+            segment.segmentId=segmentId;
+            segments.push(segment);
+        })
+        let itinerary = {
+            itineraryId:itineraryId,
+            segments:segments
+        }
+        return itinerary;
+    }
+
+    getSegment(segmentId){
+        return this.itineraries.segments[segmentId];
+    }
+
+    getItineraries(offerId){
+        return this.offers[offerId];
+    }
+
 }
-*/

@@ -87,6 +87,7 @@ function ItineraryRates({itinerary, plansManager, onPricePlanSelected,selectedPl
                     availablePricePlans.map((pricePlanId) => {
                         // console.log("itineraryId:", itineraryId,",render price plan ID:",pricePlanId,"selectedPlanId:",selectedPlanId, "selectedPricePlanId:",selectedPricePlanId)
                         let pricePlan = allPricePlans[pricePlanId];
+                        console.log("Price plan",pricePlan)
                         return (
                             <FareFamilyBenefits amenities={pricePlan.amenities} price={123} familyName={pricePlan.name} isSelected={pricePlanId === selectedPlanId} onClick={() => { selectPlan(itineraryId, pricePlanId)}}/>
                         )
