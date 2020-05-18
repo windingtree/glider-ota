@@ -19,9 +19,7 @@ export default function FlightSummaryPage({match}) {
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-
                     Summary: {offerId}
-
                     <Button className='primary' onClick={onProceedButtonClick}>Proceed to payment</Button>
                 </div>
             </div>
