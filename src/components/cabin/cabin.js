@@ -1,13 +1,12 @@
-import React, {useState} from 'react'
-import {Container, Row, Col, Table} from 'react-bootstrap'
-import Seat from './seat'
-import './seatmap.scss';
+import React  from 'react'
+import {Container, Row} from 'react-bootstrap'
+import Seat from '../seat/seat'
+import './cabin.scss';
 
 export default function Cabin(props) {
     // Destructure properties
     const {
         layout,
-        name,
         firstRow,
         lastRow,
         wingFirst,
@@ -108,7 +107,7 @@ export default function Cabin(props) {
     return (
         <Container>
             <Row>
-                <div className='plane'>
+                <div className='cabin'>
                     <table /*bordered*/ size="sm">
                         <thead>
                             <tr>

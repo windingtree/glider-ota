@@ -1,11 +1,10 @@
 import React from 'react'
-import {Container, Row, Col} from 'react-bootstrap'
-import {sample1} from './sample'
-import Cabin from './cabin'
+import {Container, Row} from 'react-bootstrap'
+import Cabin from '../cabin/cabin'
 
 export default function SeatMap(props) {
 
-    const cabins = sample1.SEG1.cabins;
+    const {cabins} = props;
     return (
         <Container>
         {

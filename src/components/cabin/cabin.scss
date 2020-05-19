@@ -1,0 +1,78 @@
+
+// Define elements of the cabin drawing
+.cabin {
+    // The table is the main body of the plane
+    table {
+        border-collapse: unset;
+        border-spacing: 0px;
+        text-align: center;
+        font-style: normal;
+        font-weight: normal;
+        color: #202020;
+        //background-clip: padding-box;
+    }
+
+    // Header row with the column letters
+    th {
+        font-size: 13px;
+        line-height: 115%;
+        padding-bottom: 18px;
+        font-weight: normal;
+    }
+
+    // Keep the border on the header
+    th:last-child {
+        border-left: 1.15px solid #BBBBBB;
+    }
+    th:first-child {
+        border-right: 1.15px solid #BBBBBB;
+    }
+
+
+    // Each cell is a space on the plane: seat, aisle, wing, air
+    td, tr {
+        padding: 0;
+        border-bottom: 0px;
+        border-top: 0px;
+        
+    }
+
+    // Wing template
+    %wing {
+        width: 41.4px;
+        background: #e9e9e9;
+        border-bottom: 1.15px solid #BBBBBB;
+        vertical-align: top;
+    }
+    
+    // Left Wing
+    .wing-left {
+        @extend %wing;
+        border-right: 1.15px solid #BBBBBB;
+        clip-path: polygon(0 41.4px, calc(100% - 1.15px) 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    // Right Wing
+    .wing-right {
+        @extend %wing;
+        border-left: 1.15px solid #BBBBBB;
+        clip-path: polygon(0% 0%, 1.15px 0%, 100% 41.4px, 100% 100%, 0% 100%);
+    }
+
+    // The air on the left side of the cabin
+    .air-left {
+        border-right: 1.15px solid #BBBBBB;
+    }
+
+    // The air on the right side of the cabin
+    .air-right {
+        border-left: 1.15px solid #BBBBBB;
+    }
+
+    // Aisle where the rows are displayed
+    .aisle {
+        font-size: 11.5px;
+        line-height: 150%;
+    }
+}
+

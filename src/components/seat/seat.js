@@ -1,5 +1,5 @@
-import React, {useState, useRef} from 'react';
-import './seatmap.scss';
+import React, {useState} from 'react';
+import './seat.scss';
 
 export default function Seat(props) {
     const {
@@ -8,10 +8,11 @@ export default function Seat(props) {
         characteristics,
         price,
         onSelectionChange,
+        initiallySelected = false,
     } = props;
 
     // Manage React states
-    const [selected, setSelected] = useState(false);
+    const [selected, setSelected] = useState(initiallySelected);
     
     const handleSelectionChange = () => {
         setSelected(!selected);

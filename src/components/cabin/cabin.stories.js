@@ -1,113 +1,11 @@
-import React, {useState} from 'react';
-import Seat from './seat'
+import React from 'react';
 import Cabin from './cabin'
 
 export default {
-  title: 'Seatmap',
+  title: 'Seatmap/Cabin',
 };
 
-export const availableFreeSeat = () => (
-    <Seat
-        number={'23F'}
-        available={true}
-        characteristics={[]}
-        onSelectionChange={console.log}
-        price={{
-            currency: 'CAD',
-            public: '0.00',
-            taxes: '0.00',
-        }}
-    ></Seat>
-);
-
-export const availableFreePremiumSeat = () => (
-    <Seat
-        number={'23F'}
-        available={true}
-        characteristics={['PS']}
-        onSelectionChange={console.log}
-        price={{
-            currency: 'CAD',
-            public: '0.00',
-            taxes: '0.00',
-        }}
-    ></Seat>
-);
-
-export const selectedFreeSeat = () => (
-    <Seat
-        number='23F'
-        available={true}
-        characteristics={[]}
-        onSelectionChange={console.log}
-        price={{
-            currency: 'CAD',
-            public: '0.00',
-            taxes: '0.00',
-        }}
-    ></Seat>
-);
-
-export const occupiedFreeSeat = () => (
-    <Seat
-        number='23F'
-        available={false}
-        characteristics={[]}
-        onSelectionChange={console.log}
-        price={{
-            currency: 'CAD',
-            public: '0.00',
-            taxes: '0.00',
-        }}
-    ></Seat>
-);
-
-export const availableChargeableSeat = () => {
-
-    return (
-        <Seat
-            number={'23F'}
-            available={true}
-            characteristics={[]}
-            onSelectionChange={console.log}
-            price={{
-                currency: 'CAD',
-                public: '20.00',
-                taxes: '5.00',
-            }}
-        ></Seat>
-    );
-};
-
-export const selectedChargeableSeat = () => (
-    <Seat
-        number='23F'
-        available={true}
-        characteristics={[]}
-        onSelectionChange={console.log}
-        price={{
-            currency: 'CAD',
-            public: '20.00',
-            taxes: '5.00',
-        }}
-    ></Seat>
-);
-
-export const occupiedChargeableSeat = () => (
-    <Seat
-        number='23F'
-        available={false}
-        characteristics={[]}
-        onSelectionChange={console.log}
-        price={{
-            currency: 'CAD',
-            public: '20.00',
-            taxes: '5.00',
-        }}
-    ></Seat>
-);
-
-export const smallCabin = () => (
+export const OneOneCabin = () => (
     <Cabin
         layout='A B'
         name='VIP'
@@ -159,7 +57,118 @@ export const smallCabin = () => (
     </Cabin>
 )
 
-export const largeCabin = () => (
+export const ThreeThreeCabin = () => (
+    <Cabin
+        layout='ABC DEF'
+        name='VIP'
+        firstRow={1}
+        lastRow={2}
+        wingFirst={1}
+        wingLast={2}
+        seats={[
+            {
+                "number": "1A",
+                "available": true,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ],
+                "optionCode": "A0"
+            },
+            {
+                "number": "1B",
+                "available": false,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ]
+            },
+            {
+                "number": "1C",
+                "available": false,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ]
+            },
+            {
+                "number": "1D",
+                "available": false,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ]
+            },
+            {
+                "number": "1E",
+                "available": false,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ]
+            },
+            {
+                "number": "1F",
+                "available": false,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ]
+            },
+            {
+                "number": "2B",
+                "available": true,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ],
+                "optionCode": "A1"
+            },
+            {
+                "number": "2C",
+                "available": true,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ],
+                "optionCode": "A1"
+            },
+            {
+                "number": "2D",
+                "available": true,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ],
+                "optionCode": "A1"
+            },
+            {
+                "number": "2E",
+                "available": true,
+                "characteristics": [
+                    "PS",
+                    "W"
+                ],
+                "optionCode": "A1"
+            },
+        ]}
+        prices={{
+            "A0": {
+                "currency": "CAD",
+                "public": "0.00",
+                "taxes": "0.00"
+            },
+            "A1": {
+                "currency": "CAD",
+                "public": "50.00",
+                "taxes": "0.00"
+            },
+        }}
+    >
+    </Cabin>
+)
+
+export const ThreeFourThreeCabin = () => (
     <Cabin
         layout='ABC DEFG HJK'
         name='Economy'
