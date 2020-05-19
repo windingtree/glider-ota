@@ -1,0 +1,74 @@
+// Define elements of a seat
+.seatcard {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    
+    position: static;
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    
+    background: #FFFFFF;
+    
+    /* Active element */
+    border: 2px solid #7161D6;
+    box-sizing: border-box;
+    border-radius: 5px;
+    
+    /* Inside Auto Layout */
+    flex: none;
+    order: 0;
+    margin: 0px 0px;
+
+    span {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: normal;
+        color: #202020;
+        font-size: 13px;
+        line-height: 115%;
+    }
+
+    // Seat Name
+    .name {
+        /* text */
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 120%;
+        //margin: 14px 0px;
+    }
+
+    // Price of the seat
+    .price {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 120%;
+        margin: 14px 0px 12px 0px;
+        color: #7161D6;
+    }
+
+    // Remove button
+    .remove {
+        position: absolute;
+        margin: 16px 20px;
+        right: 0%;
+        top: 0%;
+        width: 50px;
+        text-align: right;
+        color: #7161D6;
+    }
+
+    // Passenger Type
+    .type {
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 110%;
+        margin: 12px 0px 4px 0px;
+    }
+}
+
+
+

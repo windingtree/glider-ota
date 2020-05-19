@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './seatmap.scss';
+import './seat-card.scss';
 
 export default function SeatCard(props) {
     const {
@@ -12,13 +12,13 @@ export default function SeatCard(props) {
     // Manage React states    
 
     return (
-        <div>
-            <div>Seat 10H</div>
-            <div>Remove</div>
-            <div>180 $</div>
-            <div>In flight entertainment — Next to lavatory — Power port — Bulkhead row — Extra space</div>
-            <div>Adult</div>
-            <div>John Doe</div>
+        <div className='seatcard'>
+            <span className='name'>Seat 10H</span>
+            <span className='remove'>Remove</span>
+            <span className='price'>180 $</span>
+            <span>In flight entertainment — Next to lavatory — Power port — Bulkhead row — Extra space</span>
+            <span className='type'>Adult</span>
+            <span>John Doe</span>
         </div>
     )
 }
