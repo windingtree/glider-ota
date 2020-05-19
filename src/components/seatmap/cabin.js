@@ -107,11 +107,9 @@ export default function Cabin(props) {
     // Render Component
     return (
         <Container>
-            <Row>{name}</Row>
-            <Row>{layout}</Row>
             <Row>
                 <div className='plane'>
-                    <table /*bordered*/  cellspacing="0" size="sm">
+                    <table /*bordered*/ size="sm">
                         <thead>
                             <tr>
                             <th/>
