@@ -20,9 +20,9 @@ export default class HotelDetails extends React.Component {
         this.handleSelectedOfferChange= this.handleSelectedOfferChange.bind(this);
     }
 
-    handleContactDetailsChange(contactDetails){
+    handleContactDetailsChange(contactDetails, allPassengersDetailsAreValid){
         this.setState({ contact_details:contactDetails})
-        console.log("Contact details",contactDetails)
+        console.log("Contact details",contactDetails, "allPassengersDetailsAreValid:",allPassengersDetailsAreValid)
     }
 
     handleSelectedOfferChange(newOffer){

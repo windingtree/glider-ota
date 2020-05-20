@@ -5,19 +5,24 @@ import SinglePaxDetails from "./single-pax-details";
 
 
 export default function PaxDetails({passengers, onDataChange}) {
-    const [passengersList,setPassengersList] = useState(passengers);
+    // const [passengersList,setPassengersList] = useState(passengers);
 
-    function onPassengerDataChanged(paxId,passengerRecord) {
-        let paxListCopy = Object.assign([],passengersList)
+    function onPassengerDataChanged(paxId,passengerRecord, isValid) {
+        let paxListCopy = Object.assign([],passengers)
         let idx = findPaxIndex(paxListCopy,paxId);
+        passengerRecord.isValid=isValid;
         if(idx==-1){
             paxListCopy.push(passengerRecord)
         }else{
             paxListCopy[idx] = passengerRecord;
         }
+        let areAllValid = true;
+        paxListCopy.map(pax=>{
+            areAllValid = areAllValid && pax.isValid;
+        })
         console.log("new passenger details:",passengerRecord)
-        setPassengersList(paxListCopy)
-        onDataChange(passengersList)
+        // setPassengersList(paxListCopy)
+        onDataChange(paxListCopy, areAllValid)
     }
 
     function findPaxIndex(passengers,id) {

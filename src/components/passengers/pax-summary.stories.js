@@ -18,7 +18,7 @@ const adult_male = {
     birthDate: '1978-02-13',
     email: 'john@doe.com',
     phone: '+1 234 567 890',
-    gender: 'MALE'
+    civility: 'MR'
 };
 const adult_female = {
     id: "PAX2",
@@ -28,7 +28,7 @@ const adult_female = {
     birthDate: '1978-02-13',
     email: 'john@doe.com',
     phone: '+1 234 567 890',
-    gender: 'FEMALE'
+    civility: 'MRS'
 };
 const child=
     {
@@ -39,7 +39,7 @@ const child=
         birthDate: '2016-01-02',
         email: 'anna@smith.com',
         phone: '+1 234 567 890',
-        gender: 'FEMALE'
+        civility: 'MRS'
     }
 const inf=
     {
@@ -50,7 +50,7 @@ const inf=
         birthDate: '2016-01-02',
         email: 'anna@smith.com',
         phone: '+1 234 567 890',
-        gender: 'MALE'
+        civility: 'MR'
     }
 
 export const AdultMale = () => (<SinglePaxSummary passenger={adult_male} onEditClicked={action("onEditClicked")}/>);

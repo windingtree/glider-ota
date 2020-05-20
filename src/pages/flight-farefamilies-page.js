@@ -7,15 +7,21 @@ import {config} from "../config/default";
 import TripDetails from "../components/flightdetails/trip-details";
 import TripRates from "../components/flightdetails/flight-rates";
 import { withRouter } from 'react-router'
+import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";
 
 export default function FlightFareFamiliesPage({match}) {
     let history = useHistory();
     let offerId = match.params.offerId;
-    let combinationId = match.params.combinationId;
-    let itineraryId = match.params.itineraryId;
+    // let combinationId = match.params.combinationId;
+    // let itineraryId = match.params.itineraryId;
     let searchResults = retrieveSearchResultsFromLocalStorage();
-    let selectedCombination = findCombination(searchResults,combinationId)
-    let selectedOffer = findSelectedOffer(selectedCombination,offerId);
+    let searchResultsWrapper = new SearchResultsWrapper(searchResults);
+    let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+    let tripRates=searchResultsWrapper.generateTripRatesData(offerId)
+
+
+    // let selectedCombination = findCombination(searchResults,combinationId)
+    let selectedOffer = tripRates.offers[offerId]
 
     function onProceedButtonClick(){
         let url='/flights/passengers/'+offerId;
@@ -28,9 +34,8 @@ export default function FlightFareFamiliesPage({match}) {
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
                     <FareFamilies
-                        selectedCombination={selectedCombination}
-                        selectedOffer={selectedOffer}
-                        searchResults={searchResults}/>
+                        tripRates={tripRates}
+                        selectedOffer={selectedOffer}/>
                     <Button className='primary' onClick={onProceedButtonClick}>Proceed to passenger details</Button>
                 </div>
             </div>
@@ -42,10 +47,10 @@ export default function FlightFareFamiliesPage({match}) {
 class FareFamilies extends React.Component {
     constructor (props) {
         super(props);
-        const {selectedCombination,selectedOffer}=props;
+        const {tripRates,selectedOffer}=props;
         this.state={
-            selectedOfferId:selectedOffer.offerId,
-            selectedCombination:selectedCombination,
+            // selectedOfferId:selectedOffer.offerId,
+            // selectedCombination:selectedCombination,
             selectedOffer:selectedOffer,
             processingInProgress:false,
             processingError:undefined,
@@ -56,33 +61,32 @@ class FareFamilies extends React.Component {
 
     handleSelectedOfferChange(newOffer){
         console.log("Offer changed",newOffer)
+/*
         this.setState({
             selectedOfferId:newOffer.offerId,
             selectedOffer:newOffer,
             // contact_details:[]
         })
+*/
 
-        let cartItem = {
+        // console.log("Add to cart:",cartItem)
+        /*let cartItem = {
             offer:{
                 offerId:newOffer.offerId,
                 offerItems: newOffer.offer.offerItems
             }
-        }
-        console.log("Add to cart:",cartItem)
+        }*/
     }
 
     setOrderDetails(order){
-        this.setState({order:order})
+        // this.setState({order:order})
     }
 
 
     render () {
-
-        const {selectedOffer} = this.state;
+        const {tripRates,selectedOffer}=this.props;
         console.log("Flight detailed view - selected ofer", selectedOffer)
-        const {selectedCombination,searchResults} = this.props;
-        let pricePlans = searchResults.pricePlans;
-
+        let itineraries = tripRates.itineraries;
 
         return (
             <>
@@ -96,12 +100,12 @@ class FareFamilies extends React.Component {
 
                     <Row>
                         <Col>
-                            <TripRates selectedCombination={selectedCombination} pricePlans={pricePlans} selectedOffer={selectedOffer} onOfferChange={this.handleSelectedOfferChange}/>
+                            <TripRates itineraries={itineraries} tripRates={tripRates} selectedOffer={selectedOffer} onOfferChange={this.handleSelectedOfferChange}/>
                         </Col>
                     </Row>
                     <Row className='pb-5'>
                         <Col>
-                            <PriceSummary price={selectedOffer.offer.price} onPayButtonClick={this.handlePayButtonClick}/>
+                            <PriceSummary price={selectedOffer.price} onPayButtonClick={this.handlePayButtonClick}/>
                         </Col>
                     </Row>
 

@@ -210,16 +210,16 @@ function createPassengers(passengers) {
         let record = {
             type: pax.type,
             civility: pax.civility,
-            lastnames: [pax.lastname],
-            firstnames: [pax.firstname],
-            gender: pax.gender,
+            lastnames: [pax.lastName],
+            firstnames: [pax.firstName],
+            civility: pax.civility,
             birthdate: pax.birthdate,
             contactInformation: [
                 pax.phone,
                 pax.email
             ]
         }
-        passengersRequest[pax.passenger_id] = record;
+        passengersRequest[pax.id] = record;
     }
     return passengersRequest;
 }

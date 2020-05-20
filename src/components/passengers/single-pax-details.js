@@ -15,40 +15,34 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         firstName: initial?initial.firstName:undefined,
         lastName: initial?initial.lastName:undefined,
         birthdate: initial?initial.birthdate:undefined,
-        gender: initial?initial.gender:undefined
+        civility: initial?initial.civility:undefined
     })
 
     const [fieldIsInvalidFlags, setFieldIsInvalidFlags] = useState({
-        firstname:false,
-        lastname:false,
+        firstName:false,
+        lastName:false,
         birthdate:false,
         email:false,
         phone:false,
-        gender:false
+        civility:false
     })
     const [validated, setValidated] = useState(false);
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
 
-    function handleBlur(e) {
+    function onFieldBlur(e) {
         const {name,value} = e.target;
-        console.log(`onBlur field:${name} value:${value}`)
         let copy = {...fieldIsInvalidFlags};
         copy[name] = !e.target.checkValidity();
         setFieldIsInvalidFlags(copy);
-        console.log("Ref",formRef.current)
-        console.log("checkValidity",)
         setSaveButtonEnabled(formRef.current.checkValidity())
-        if(formRef.current.checkValidity())
-            onDataChange(passengerId,fieldValues);
+        onDataChange(passengerId,fieldValues,formRef.current.checkValidity());
     }
 
-    function onChange(e) {
+    function onFieldValueChanged(e) {
         const {name,value} = e.target;
-        console.log(`onChange field:${name} value:${value}`)
         let copy = {...fieldValues};
         copy[name] = value;
         setFieldValues(copy);
-        // onDataChange(passengerId,createPaxRecord());
     }
 
 
@@ -61,13 +55,11 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         }
         setValidated(true);
     }
-    function onInput(e){
+    function onFieldInput(e){
         const {name,value} = e.target;
-        console.log(`onInput field:${name} value:${value}`)
     }
 
-    function onSaveClicked(){
-        console.log("Save clicked")
+    function onSaveButtonClicked(){
         onSubmit(fieldValues)
     }
 
@@ -81,7 +73,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         paxTypeLabel=typeToLabel[DEFAULT_PAXTYPE];
 
 
-    console.log("Initial pax:", fieldValues)
+    console.debug("SinglePaxDetails, render passenger details form, paxID:",passengerId,", field values:", fieldValues,",\n Initial pax details:", initial)
 
 
     return (
@@ -93,27 +85,26 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                         <Form.Label className={style.label}>Surname</Form.Label>
                         <Form.Control type="text" placeholder="Lastname"
                                       name='lastName'
-                                      onBlur={handleBlur}
-                                      onChange={onChange}
+                                      onBlur={onFieldBlur}
+                                      onChange={onFieldValueChanged}
                                       value={fieldValues['lastName']}
                                       required
                                       isInvalid={fieldIsInvalidFlags['lastName']}
-                                        onInput={onInput}/>
+                                        onInput={onFieldInput}/>
                     </Col>
                     <Col>
                         <Form.Label className={style.label}>Name</Form.Label>
                         <Form.Control type="text"
                                       placeholder="Firstname"
                                       name='firstName'
-                                      onBlur={handleBlur}
+                                      onBlur={onFieldBlur}
                                       value={fieldValues['firstName']}
-                                      onChange={onChange}
-                                      onInput={onInput}
+                                      onChange={onFieldValueChanged}
+                                      onInput={onFieldInput}
                                       isInvalid={fieldIsInvalidFlags['firstName']}
                                       required
                         />
                     </Col>
-
                 </Form.Row>
                 <Form.Row>
                     <Col>
@@ -122,26 +113,25 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       className="input-birthdate"
                                       name='birthdate'
                                       value={fieldValues['birthdate']}
-                                      onBlur={handleBlur}
-                                      onChange={onChange}
+                                      onBlur={onFieldBlur}
+                                      onChange={onFieldValueChanged}
                                       isInvalid={fieldIsInvalidFlags['birthdate']}
-
-                                      onInput={onInput} required/>
+                                      onInput={onFieldInput} required/>
 
                     </Col>
                     <Col>
                         <Form.Label className={style.label}>Gender</Form.Label>
                             <Form.Control as="select"
-                                          name='gender'
-                                          value={fieldValues['gender']}
-                                          onBlur={handleBlur}
-                                          onChange={onChange}
-                                          onInput={onInput} r
-                                          isInvalid={fieldIsInvalidFlags['gender']}
+                                          name='civility'
+                                          value={fieldValues['civility']}
+                                          onBlur={onFieldBlur}
+                                          onChange={onFieldValueChanged}
+                                          onInput={onFieldInput}
+                                          isInvalid={fieldIsInvalidFlags['civility']}
                                           required>
                                 <option value=''></option>
-                                <option value='male'>Male</option>
-                                <option value='female'>Female</option>
+                                <option value='MR'>Male</option>
+                                <option value='MRS'>Female</option>
                             </Form.Control>
                     </Col>
                 </Form.Row>
@@ -154,10 +144,10 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                           placeholder="email"
                                           name="email"
                                           value={fieldValues['email']}
-                                          onChange={onChange}
-                                          onBlur={handleBlur}
+                                          onChange={onFieldValueChanged}
+                                          onBlur={onFieldBlur}
                                           isInvalid={fieldIsInvalidFlags['email']}
-                                          onInput={onInput} required/>
+                                          onInput={onFieldInput} required/>
                         </Col>
                         <Col>
                             <Form.Label className={style.label}>Telephone</Form.Label>
@@ -165,16 +155,16 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                           placeholder="+12 3456789"
                                           name="phone"
                                           value={fieldValues['phone']}
-                                          onChange={onChange}
-                                          onBlur={handleBlur}
+                                          onChange={onFieldValueChanged}
+                                          onBlur={onFieldBlur}
                                           isInvalid={fieldIsInvalidFlags['phone']}
-                                          onInput={onInput} required/>
+                                          onInput={onFieldInput} required/>
                         </Col>
                     </Form.Row>
                 </div>
                 {showSubmitButton &&
                 <div className='py-3'>
-                    <Button disabled={!saveButtonEnabled} onClick={onSaveClicked} variant='primary' size={"lg"}>Save</Button>
+                    <Button disabled={!saveButtonEnabled} onClick={onSaveButtonClicked} variant='primary' size={"lg"}>Save</Button>
                 </div>
                 }
             </Form>

@@ -5,13 +5,13 @@ import {format, parseISO} from "date-fns";
 import OfferUtils from '../../utils/offer-utils'
 import _ from 'lodash'
 import {FastCheapFilter} from "../filters/filters";
-
+import {SearchResultsWrapper} from "../../utils/flight-search-results-transformer"
 
 export default function FlightsSearchResults({searchResults: combinations, onOfferDisplay}) {
-
-    function handleOfferDisplay(combinationId, offerId) {
+    const searchResultsWrapper = new SearchResultsWrapper(combinations);
+    function handleOfferDisplay(offerId) {
         console.log("handleOfferDisplay", offerId);
-        onOfferDisplay(combinationId, offerId);
+        onOfferDisplay(offerId);
     }
 
     if (combinations === undefined) {
@@ -24,18 +24,23 @@ export default function FlightsSearchResults({searchResults: combinations, onOff
     }
     console.log("Display search results")
     console.log("combinations",combinations)
-
+    let offers = combinations.offers;
+    let offerIds = Object.keys(offers);
     return (
         <Container fluid={true} className={style.flightssearchresultscontainer}>
             <div className='pt-3'>
                 <FastCheapFilter onToggle={cheapFastFilterTogggle}/>
                 {/*    <FastCheapFilter/>*/}
                 {
-                    combinations.map(combination => {
-                        let cheapestOffer = OfferUtils.getCheapestOffer(combination);
-                        let itineraries = combination.itinerary;
-                        let price = cheapestOffer.offer.price;
-                        return (<Offer itineraries={itineraries} offerId={cheapestOffer.offerId} combinationId={combination.combinationId} price={price} key={combination.combinationId}
+                    offerIds.map(offerId => {
+                        // let cheapestOffer = OfferUtils.getCheapestOffer(offer);
+                        let offer = searchResultsWrapper.getOffer(offerId)
+                        let itineraries = searchResultsWrapper.getOfferItineraries(offerId)
+                        let price = offer.price;
+                        return (<Offer itineraries={itineraries}
+                                       offerId={offerId}
+                                       price={price}
+                                       key={offerId}
                                        onOfferDisplay={handleOfferDisplay}/>)
                     })
                 }
@@ -45,7 +50,7 @@ export default function FlightsSearchResults({searchResults: combinations, onOff
 
 }
 
-export function Offer({itineraries=[],price, offerId, combinationId, onOfferDisplay}){
+export function Offer({itineraries=[],price, offerId, onOfferDisplay}){
     return (
         <Container fluid={true} className={style.flightsearchoffercontainer}>
             <Row >
@@ -56,7 +61,7 @@ export function Offer({itineraries=[],price, offerId, combinationId, onOfferDisp
             <Row className='flex-row-reverse'>
                 <Col xs={12} md={4} >
                     <Button  variant="outline-primary pricebtn" size="lg" onClick={() => {
-                        onOfferDisplay(combinationId,offerId)
+                        onOfferDisplay(offerId)
                     }}>{price.public} {price.currency}</Button>
 
                 </Col>
@@ -74,6 +79,7 @@ export function Itinerary({itinerary}){
     const endOfTrip = parseISO(lastSegment.arrivalTime);
     const segments = OfferUtils.getItinerarySegments(itinerary);
     const pricePlan = OfferUtils.getItineraryPricePlan(itinerary);
+
     const stops = [];
     for (let i = 0; i < segments.length - 1; i++) {
         const segment = segments[i];

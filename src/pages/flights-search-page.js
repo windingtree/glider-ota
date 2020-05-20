@@ -38,8 +38,8 @@ export default function FlightsSearchPage({match,location}) {
     };
     const onSearchSuccess = (results) => {
         console.log("results:", results)
-        console.log("results.combinations:", results.combinations)
-        setSearchResults(results.combinations);
+        console.log("results.combinations:", results)
+        setSearchResults(results);
         setUnfilteredSearchResults(results);
         let filters=generateFiltersStates(results);
         setFiltersStates(filters);
@@ -70,8 +70,8 @@ export default function FlightsSearchPage({match,location}) {
 
 
 
-    const onOfferSelected = (combinationId,offerId) => {
-        let url = createOfferURL(offerId,combinationId);
+    const onOfferSelected = (offerId) => {
+        let url = createOfferURL(offerId);
         history.push(url);
     };
 
@@ -124,8 +124,8 @@ const SearchFailed = ()=>{
     )
 }
 
-function createOfferURL(offerId,combinationId){
-    const url = "/flights/tripoverview/"+combinationId+"/"+offerId;
+function createOfferURL(offerId){
+    const url = "/flights/tripoverview/"+offerId;
     return url;
 }
 

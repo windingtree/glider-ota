@@ -4,22 +4,26 @@ import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/search"
 import {Button, Col, Container, Row} from "react-bootstrap";
 import TripDetails from "../components/flightdetails/trip-details";
+import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";
 
 
 export default function FlightTripOverviewPage({match}) {
     let history = useHistory();
     let offerId = match.params.offerId;
-    let combinationId = match.params.combinationId;
 
     let searchResults = retrieveSearchResultsFromLocalStorage();
-    let selectedCombination = findCombination(searchResults,combinationId)
-    let selectedOffer = findSelectedOffer(selectedCombination,offerId);
-
+    let searchResultsWrapper = new SearchResultsWrapper(searchResults);
+    let selectedOffer = searchResultsWrapper.getOffer(offerId);
+    let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
 
     function proceedButtonClick(){
-        let url='/flights/farefamilies/'+combinationId+'/'+offerId;
+        let url='/flights/farefamilies/'+offerId;
         history.push(url);
     }
+
+    console.log("Selected offerID",offerId)
+    console.log("Selected offer",selectedOffer)
+    console.log("Selected offer itins",itineraries)
 
     return (
         <>
@@ -29,7 +33,7 @@ export default function FlightTripOverviewPage({match}) {
                     <Container fluid={true}>
                         <Row>
                             <Col >
-                                <TripDetails itineraries={selectedCombination.itinerary}/>
+                                <TripDetails itineraries={itineraries}/>
                             </Col>
                         </Row>
                     </Container>
@@ -40,17 +44,3 @@ export default function FlightTripOverviewPage({match}) {
     )
 }
 
-
-function findCombination(searchResults,combinationId){
-    let selectedCombination = searchResults.combinations.find(c => {
-        return c.combinationId === combinationId
-    })
-    return selectedCombination;
-}
-
-function findSelectedOffer(combination,offerId){
-    let selectedOffer = combination.offers.find(o => {
-        return o.offerId === offerId
-    })
-    return selectedOffer;
-}

@@ -66,7 +66,7 @@ export function SinglePaxSummary({passenger, onEditClicked}) {
             <div className={style.paxType}>{paxTypeLabel}</div>
             <div className={style.paxDetails}>{passenger.firstName} {passenger.lastName}</div>
             <div className={style.paxDetails}>{passenger.birthDate}</div>
-            <div className={style.paxDetails}>{passenger.gender}</div>
+            <div className={style.paxDetails}>{passenger.civility==='MR'?'Male':'Female'}</div>
             <div ><a href="#" className={style.editPaxLink} onClick={handleSubmit}>Edit</a></div>
         </div>
     )

@@ -30,8 +30,8 @@ function Dispatcher() {
             <Router>
                 <Switch>
                     {/*Flights flow*/}
-                    <Route path="/flights/tripoverview/:combinationId/:offerId" component={FlightTripOverviewPage}/>
-                    <Route path="/flights/farefamilies/:combinationId/:offerId/:itineraryId?" component={FlightFareFamiliesPage}/>
+                    <Route path="/flights/tripoverview/:offerId" component={FlightTripOverviewPage}/>
+                    <Route path="/flights/farefamilies/:offerId" component={FlightFareFamiliesPage}/>
                     <Route path="/flights/seatmap/:offerId/:segmentId?" component={FlightSeatmapPage}/>
                     <Route path="/flights/passengers/:offerId" component={FlightPassengersPage}/>
                     <Route path="/flights/summary/:offerId" component={FlightSummaryPage}/>

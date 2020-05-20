@@ -31,7 +31,7 @@ const initialData={
     birthdate:'1978-02-20',
     email:'john@doe.com',
     phone:'+1 234 567 890',
-    gender:'male'
+    civility:'MR'
 }
 
 const initialDataFemale={
@@ -40,7 +40,7 @@ const initialDataFemale={
     birthdate:'1978-02-20',
     email:'john@doe.com',
     phone:'+1 234 567 890',
-    gender:'female'
+    civility:'MRS'
 }
 
 export const SinglePaxDefault = () => (<SinglePaxDetails onDataChange={action("onDataChange")}/>);

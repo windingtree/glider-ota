@@ -9,24 +9,30 @@ import style from "./trip-details.module.scss";
 
 export default function TripDetails({itineraries=[]}){
     console.log("Itineraries",itineraries)
+    console.log("itineraries.length",itineraries.length)
+    let itinIdx=0;
     //iterate over trip itineraries and render each itinerary
-    for(let i=0;i<itineraries.length;i++)
-    {
-        let itinerary = itineraries[i];
-        let itineraryHeader='';
-        //only if there is 1 or 2 trips, display trip headers as 'departure' and 'return', otherwise don't display anything
-        if(itineraries.length<=2){
-            if(i==0) itineraryHeader='Departure flight';
-            if(i==1) itineraryHeader='Return flight';
-        }
-        return (<ItineraryDetails itinerary={itinerary} header={itineraryHeader}/>)
-    }
+    return (<>
+        {itineraries.map(itinerary=>
+        {
+            let itineraryHeader='';
+            //only if there is 1 or 2 trips, display trip headers as 'departure' and 'return', otherwise don't display anything
+            if(itineraries.length<=2){
+                if(itinIdx==0) itineraryHeader='Departure flight';
+                if(itinIdx==1) itineraryHeader='Return flight';
+            }
+            console.log("display itin:",itinerary)
+            itinIdx++;
+            return (<ItineraryDetails itinerary={itinerary} header={itineraryHeader}/>)
+        })}
+        </>)
 }
 
 
 
 
 export function ItineraryDetails({itinerary, header='Departure flight'}) {
+    console.log("ItineraryDetails",itinerary)
     let firstSegment=getFirstSegmentOfItinerary(itinerary);
     let tripOrigin = firstSegment.origin;
     let lastSegment = getLastSegmentOfItinerary(itinerary);
