@@ -5,31 +5,32 @@ export default {
   title: 'Seatmap/SeatCard',
 };
 
-export const inactive = () => (
+export const activeChargeableSelected = () => (
     <SeatCard
-        number={'23F'}
-        available={true}
-        characteristics={[]}
-        onSelectionChange={console.log}
-        price={{
-            currency: 'CAD',
-            public: '0.00',
-            taxes: '0.00',
-        }}
+        priceAmount='180'
+        priceCurrency='CAD'
+        passengerName='Doe John'
+        passengerType='ADT'
+        seatNumber='10H'
+        seatCharacteristics={['K','W','LA']}
     ></SeatCard>
 );
 
-export const active = () => (
+export const activeFreeSelected = () => (
     <SeatCard
-        number={'23F'}
-        available={true}
-        characteristics={[]}
-        onSelectionChange={console.log}
-        price={{
-            currency: 'CAD',
-            public: '0.00',
-            taxes: '0.00',
-        }}
+        priceAmount='0'
+        priceCurrency='CAD'
+        passengerName='Doe John'
+        passengerType='ADT'
+        seatNumber='10H'
+        seatCharacteristics={['K','W','LA']}
+    ></SeatCard>
+);
+
+export const activeNotSelected = () => (
+    <SeatCard
+        passengerName='Doe John'
+        passengerType='ADT'
     ></SeatCard>
 );
 

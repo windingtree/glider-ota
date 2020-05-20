@@ -22,7 +22,7 @@
     order: 0;
     margin: 0px 0px;
 
-    span {
+    span, Button {
         font-family: Poppins;
         font-style: normal;
         font-weight: normal;
@@ -55,9 +55,14 @@
         margin: 16px 20px;
         right: 0%;
         top: 0%;
-        width: 50px;
+        //width: 50px;
         text-align: right;
         color: #7161D6;
+    }
+
+    .remove:disabled {
+        color: #202020;
+        opacity: 1;
     }
 
     // Passenger Type
