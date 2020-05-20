@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './seat-card.scss';
 import { mapSeatCharacteristicsDescription } from '../../utils/seat-utils';
 import Button from 'react-bootstrap/Button';
@@ -50,17 +50,35 @@ export default function SeatCard(props) {
         }
     }
 
+    // Random seat description
+    const randomDesc = "A random seat will be assigned to you at check-in based on the remaining availability.";
+
     // Render the React component
     return (
         <Card className={active ? 'seatcard-active' : 'seatcard-inactive'}>
             <Card.Body className='body'>
-                <span className='name'>{seatAssigned ? `Seat ${seatNumber}` : 'Random Seat'}</span>
-                {/*<span className='remove'>Remove</span>*/}
-                <Button variant="link" className='remove' disabled={!seatAssigned}>Remove</Button>
-                <span className='price'>{priceDescription()}</span>
-                <span>{mapSeatCharacteristicsDescription(seatCharacteristics).join(' — ')}</span>
-                <span className='type'>{passengerTypeDescription()}</span>
-                    <span>{passengerName}</span>
+                <span
+                    className='name'>
+                        {seatAssigned ? `Seat ${seatNumber}` : 'Random Seat'}
+                </span>
+                <Button
+                    variant="link"
+                    className='remove'
+                    disabled={!seatAssigned}>
+                        Remove
+                </Button>
+                <span
+                    className='price'>
+                        {priceDescription()}
+                </span>
+                <span>
+                    { seatAssigned ? mapSeatCharacteristicsDescription(seatCharacteristics).join(' — ') : randomDesc}
+                </span>
+                <span
+                    className='type'>
+                        {passengerTypeDescription()}
+                </span>
+                <span>{passengerName}</span>
             </Card.Body>
         </Card>
     )
