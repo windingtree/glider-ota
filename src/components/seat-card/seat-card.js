@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './seat-card.scss';
 import { mapSeatCharacteristicsDescription } from '../../utils/seat-utils';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card'
 
 export default function SeatCard(props) {
     const {
@@ -11,6 +12,7 @@ export default function SeatCard(props) {
         seatCharacteristics = [],
         priceAmount,
         priceCurrency,
+        active = false,
     } = props;
 
     // Map passenger type with the type to display
@@ -50,14 +52,16 @@ export default function SeatCard(props) {
 
     // Render the React component
     return (
-        <div className='seatcard'>
-            <span className='name'>{seatAssigned ? `Seat ${seatNumber}` : 'Random Seat'}</span>
-            {/*<span className='remove'>Remove</span>*/}
-            <Button variant="link" className='remove' disabled={!seatAssigned}>Remove</Button>
-            <span className='price'>{priceDescription()}</span>
-            <span>{mapSeatCharacteristicsDescription(seatCharacteristics).join(' — ')}</span>
-            <span className='type'>{passengerTypeDescription()}</span>
-                <span>{passengerName}</span>
-        </div>
+        <Card className={active ? 'seatcard-active' : 'seatcard-inactive'}>
+            <Card.Body className='body'>
+                <span className='name'>{seatAssigned ? `Seat ${seatNumber}` : 'Random Seat'}</span>
+                {/*<span className='remove'>Remove</span>*/}
+                <Button variant="link" className='remove' disabled={!seatAssigned}>Remove</Button>
+                <span className='price'>{priceDescription()}</span>
+                <span>{mapSeatCharacteristicsDescription(seatCharacteristics).join(' — ')}</span>
+                <span className='type'>{passengerTypeDescription()}</span>
+                    <span>{passengerName}</span>
+            </Card.Body>
+        </Card>
     )
 }
