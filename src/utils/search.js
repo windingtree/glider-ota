@@ -4,7 +4,7 @@ import offline_flight_results from "../data/sample_response_flights";
 import offline_hotels_results from "../data/sample_response_hotels";
 import {uiEvent} from "./events";
 import LZString from "lz-string"
-
+import {storeSearchResultsInCache,checkSearchResultsInCache} from "./local-storage-cache"
 /**
  * Search for flights with a criteria provided as parameters.
  *
@@ -12,79 +12,71 @@ import LZString from "lz-string"
  * @returns {Promise<any|Response>}
  */
 export async function findFlights(criteria) {
-    clearSearchResultsInLocalStorage();
-    let results = offline_flight_results;   //TEMP - for devel only
-    if (!config.OFFLINE_MODE) {
-        const requestInfo = {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer',
-            body: JSON.stringify(criteria)
-        };
-        let start=Date.now();
-        results = await fetch(config.SEARCH_OFFERS_URL, requestInfo);
-        results = await results.json();
-        let end=Date.now();
-        uiEvent(`find flights execution time:${end-start}ms`)
+    console.log("findFlights, criteria:",criteria)
+    let results = checkSearchResultsInCache(criteria)
+    if(results) {
+        console.debug("Using search results from cache")
+    }else{
+        console.debug("Search results not found in cache")
+        if (config.OFFLINE_MODE) {
+            console.warn("OFFLINE_MODE = true. Using search results from static file!!!");
+            results = offline_flight_results;   //TEMP - for devel only
+        }else{
+
+            const requestInfo = {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(criteria)
+            };
+            let start=Date.now();
+            results = await fetch(config.SEARCH_OFFERS_URL, requestInfo);
+            results = await results.json();
+            let end=Date.now();
+            uiEvent(`find flights execution time:${end-start}ms`)
+        }
+        storeSearchResultsInCache(criteria,results);
     }
     results = extendResponse(results);
-    storeSearchResultsInLocalStorage(results)
-    console.debug('Search results arrived');
     return results;
 }
 
 
 export async function findHotels(criteria) {
-    clearSearchResultsInLocalStorage();
-    let results = offline_hotels_results;
-    if (!config.OFFLINE_MODE) {
-        const requestInfo = {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer',
-            body: JSON.stringify(criteria)
-        };
+    let results = checkSearchResultsInCache(criteria)
+    if(results) {
+        console.log("Using search results from cache")
+    }else{
+        console.log("Search results not found in cache")
+        if (config.OFFLINE_MODE) {
+            console.warn("OFFLINE_MODE = true. Using search results from static file!!!");
+            let results = offline_hotels_results;
+        }else{
+            const requestInfo = {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(criteria)
+            };
 
-        results = await fetch(config.SEARCH_OFFERS_URL, requestInfo);
-        results = await results.json();
+            results = await fetch(config.SEARCH_OFFERS_URL, requestInfo);
+            results = await results.json();
+        }
     }
+    storeSearchResultsInCache(criteria,results);
     results = extendResponse(results);
-    storeSearchResultsInLocalStorage(results)
-    console.debug('Search results arrived');
     return results;
 }
 
-
-export function retrieveOfferFromLocalStorage(offerId){
-    let searchResults = retrieveSearchResultsFromLocalStorage();
-    return searchResults.offers[offerId];
-}
-
-export function retrieveSearchResultsFromLocalStorage(){
-    let searchResults = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem('searchResults')));
-    // let searchResults = JSON.parse(localStorage.getItem('searchResults'));
-    console.log("retrieveSearchResultsFromLocalStorage",searchResults)
-    return searchResults;
-}
-export function clearSearchResultsInLocalStorage(){
-    localStorage.setItem('searchResults',LZString.compressToUTF16({}));
-    // localStorage.setItem('searchResults',{});
-
-}
-export function storeSearchResultsInLocalStorage(searchResults){
-    //console.log("storeSearchResultsInLocalStorage",searchResults)
-    // localStorage.setItem('searchResults', JSON.stringify(searchResults));
-    localStorage.setItem('searchResults', LZString.compressToUTF16(JSON.stringify(searchResults)));
-}

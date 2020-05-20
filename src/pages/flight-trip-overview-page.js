@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
-import {retrieveSearchResultsFromLocalStorage} from "../utils/search"
+import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import {Button, Col, Container, Row} from "react-bootstrap";
 import TripDetails from "../components/flightdetails/trip-details";
 import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";

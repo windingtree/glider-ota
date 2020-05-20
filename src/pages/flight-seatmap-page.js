@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
-import {retrieveOfferFromLocalStorage} from "../utils/search"
+import {retrieveOfferFromLocalStorage} from "../utils/local-storage-cache"
 import {Button} from "react-bootstrap";
 
 

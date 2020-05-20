@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
-import {retrieveSearchResultsFromLocalStorage} from "../utils/search"
+import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import HotelDetails from "../components/hotels/hotel-details"
 
 export default function Hotel({match}) {

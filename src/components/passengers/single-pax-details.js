@@ -7,6 +7,7 @@ const DEFAULT_PAXTYPE='ADT';
 
 export default function SinglePaxDetails({passengerId, passengerType, onDataChange, initial, showSubmitButton, onSubmit}) {
     const formRef = useRef(null);
+
     const [fieldValues, setFieldValues] = useState({
         id: passengerId,
         type: passengerType?passengerType:DEFAULT_PAXTYPE,
@@ -45,8 +46,6 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         setFieldValues(copy);
     }
 
-
-
     function handleSubmit(event) {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -72,13 +71,10 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     if(!paxTypeLabel)
         paxTypeLabel=typeToLabel[DEFAULT_PAXTYPE];
 
-
-    console.debug("SinglePaxDetails, render passenger details form, paxID:",passengerId,", field values:", fieldValues,",\n Initial pax details:", initial)
-
-
     return (
         <>
                 <div className={style.header}>{paxTypeLabel}</div>
+
             <Form validated={validated} onSubmit={handleSubmit} ref={formRef}>
                 <Form.Row className={style.paxDetailsFormRow}>
                     <Col>

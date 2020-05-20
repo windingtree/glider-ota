@@ -1,10 +1,9 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
-import {retrieveOfferFromLocalStorage, retrieveSearchResultsFromLocalStorage} from "../utils/search"
+import { retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import {Button, Col, Container, Row} from "react-bootstrap";
 import {config} from "../config/default";
-import TripDetails from "../components/flightdetails/trip-details";
 import TripRates from "../components/flightdetails/flight-rates";
 import { withRouter } from 'react-router'
 import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";

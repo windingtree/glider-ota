@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
-import {retrieveOfferFromLocalStorage,retrieveSearchResultsFromLocalStorage} from "../utils/search"
+import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import {Button} from "react-bootstrap";
 import PaxDetails from "../components/passengers/pax-details";
 import {storePassengerDetails,retrievePassengerDetails} from "../utils/api-utils"
@@ -12,43 +12,37 @@ export default function FlightPassengersPage({match}) {
     const [passengerDetailsValid,setPassengerDetailsValid] = useState(false)
     let offerId = match.params.offerId;
 
-    function proceedToSeatmap(){
-        let url='/flights/seatmap/'+offerId;
-        history.push(url);
-    }
     function onPaxDetailsChange(paxData, allPassengersDetailsAreValid){
         setPassengerDetails(paxData)
         setPassengerDetailsValid(allPassengersDetailsAreValid)
     }
 
+    //Populate form with either passengers from session (if e.g. user refreshed page or clicked back) or initialize with number of passengers (and types) specified in a search form
     useEffect(()=>{
-        console.log("Load pax details from session");
         let passengers = createInitialPassengersFromSearch();
-        console.log("Pax details loaded from session:",passengers);
-        let result=retrievePassengerDetails();
-
-        result.then(response=>{
-            console.log("Pax details from search results:",response);
-            passengers = Object.assign(passengers,response);
-            console.log("Pax details combined:",result);
+        let response=retrievePassengerDetails();
+        response.then(result=>{
+            passengers = Object.assign(passengers,result);
         }).catch(err=>{
             console.error("Failed to load passenger details", err);
+            //TODO - add proper error handling (show user a message)
         }).finally(()=>{
-            console.log("Finally:",passengers)
             setPassengerDetails(passengers);
         })
     },[])
 
-
-    function addToCart(){
-        console.log("addToCart", passengerDetails)
+    function redirectToSeatmap(){
+        let url='/flights/seatmap/'+offerId;
+        history.push(url);
+    }
+    function savePassengerDetailsAndProceed(){
         let results = storePassengerDetails(passengerDetails);
             results.then((response) => {
-                console.log("Successfully saved pax details", response);
-                proceedToSeatmap();
+                console.debug("Successfully saved pax details", response);
+                redirectToSeatmap();
          }).catch(err => {
              console.error("Failed to store passenger details", err);
-
+             //TODO - add proper error handling (show user a message)
          })
     }
 
@@ -70,17 +64,14 @@ export default function FlightPassengersPage({match}) {
         })
         return passengers;
     }
-
     console.debug("FlightPassengersPage, render")
     return (
         <>
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-
-                    Passenger details: {offerId}
                     <PaxDetails passengers={passengerDetails} onDataChange={onPaxDetailsChange}/>
-                    <Button className='primary' onClick={addToCart} disabled={!passengerDetailsValid}>Proceed to seatmap</Button>
+                    <Button className='primary' onClick={savePassengerDetailsAndProceed} disabled={!passengerDetailsValid}>Proceed to seatmap</Button>
                 </div>
             </div>
         </>
