@@ -1,3 +1,7 @@
+.seat-legend {
+    margin-bottom: 80px;
+}
+
 .seat-legend-card {
     // Baseline
     font-family: Poppins;
@@ -12,6 +16,7 @@
     width: 100%;
     height: 100%;
     background: transparent;
+
 
     .card-body {
         display: flex;

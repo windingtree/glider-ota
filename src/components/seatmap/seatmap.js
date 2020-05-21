@@ -3,19 +3,18 @@ import Button from "react-bootstrap/Button";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import CardDeck from 'react-bootstrap/CardDeck'
 import Cabin from '../cabin';
 import SegmentSelector from '../segment-selector';
 import SeatLegend from '../seat-legend';
 import SeatCard from '../seat-card'
-
+import './seatmap.scss';
 
 export default function SeatMap(props) {
 
     return (
         <Container fluid>
             <Row>
-                <Col>Departure Flight: Moscow - Phuket</Col>
+                <Col><h2 className='seatmap-h2'>Departure Flight: Moscow - Phuket</h2></Col>
             </Row>
             <Row>
                 <Col xs={12} md={6}>
@@ -136,8 +135,8 @@ export default function SeatMap(props) {
                     />
                 </Col>
                 <Col xs={12} md={6}>
-                    <Row>
-                        <Col xs={12} sm={6} md={12} lg={6} xl={4}>
+                    <Row className='seatcard-row'>
+                        <Col xs={12} sm={6} md={12} lg={6} xl={4} className='seatcard-col'>
                             <SeatCard
                                 priceAmount='180'
                                 priceCurrency='CAD'
@@ -148,7 +147,7 @@ export default function SeatMap(props) {
                                 active={true}
                             />
                         </Col>
-                        <Col xs={12} sm={6} md={12} lg={6} xl={4}>
+                        <Col xs={12} sm={6} md={12} lg={6} xl={4} className='seatcard-col'>
                             <SeatCard
                                 priceAmount='180'
                                 priceCurrency='CAD'
@@ -163,20 +162,28 @@ export default function SeatMap(props) {
                 </Col>
             </Row>
             <Row>
-                <Col xs={8}>Total Price: $1164</Col>
-                <Col>
-                    <Button 
-                        className='secondary'
-                        onClick={console.log}
-                    >
-                        Skip
-                    </Button>
-                    <Button
-                        className='primary'
-                        onClick={console.log}
-                    >
-                        Continue
-                    </Button>
+                <Col xs={12} md={6}>
+                    <h2 className='seatmap-h2-price'>Total Price: CAD 1164</h2>
+                </Col>
+                <Col xs={12} md={6}>
+                    <Row>
+                        <Col xs={6}>
+                            <Button 
+                                className='seatmap-btn-secondary'
+                                onClick={console.log}
+                            >
+                                Skip
+                            </Button>
+                        </Col>
+                        <Col xs={6}>
+                            <Button
+                                className='seatmap-btn-primary'
+                                onClick={console.log}
+                            >
+                                Continue
+                            </Button>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>

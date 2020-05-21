@@ -4,11 +4,18 @@
 .seat-card {
     position: relative;
     background: #FFFFFF;
-    width: 303px;
+    //width: 303px;
 
     /* Active element */
     box-sizing: border-box;
     border-radius: 5px;
+    display: flex;
+    min-width: 280px;
+    max-width: 413px;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 20px;
 
     // Active state
     &-active {

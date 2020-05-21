@@ -105,41 +105,39 @@ export default function Cabin(props) {
 
     // Render Component
     return (
-        <Container>
-            <Row>
-                <div className='cabin'>
-                    <table /*bordered*/ size="sm">
-                        <thead>
-                            <tr>
-                            <th/>
-                            { // Letters of the columns
-                            columns.map((column, c) => (
-                                <th key={c}>{column}</th>
+
+        <div className='cabin'>
+            <table /*bordered*/ size="sm">
+                <thead>
+                    <tr>
+                    <th/>
+                    { // Letters of the columns
+                    columns.map((column, c) => (
+                        <th key={c}>{column}</th>
+                    ))}
+                    <th/>
+                    </tr>
+                </thead>
+                <tbody>
+                    { // Draw the rows
+                    rows.map((row, r) => (
+                        <tr key={r}>
+                            {getWingCell(row, true)}
+                            { // Draw each element in the row
+                            columns.map((column,c) => (
+                                
+                                <td key={c}>
+                                    {getElement(row, column)}
+                                </td>
+                                
                             ))}
-                            <th/>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            { // Draw the rows
-                            rows.map((row, r) => (
-                                <tr key={r}>
-                                    {getWingCell(row, true)}
-                                    { // Draw each element in the row
-                                    columns.map((column,c) => (
-                                        
-                                        <td key={c}>
-                                            {getElement(row, column)}
-                                        </td>
-                                        
-                                    ))}
-                                    {getWingCell(row, false)}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </Row>
-        </Container>
+                            {getWingCell(row, false)}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+
     );
 };
 

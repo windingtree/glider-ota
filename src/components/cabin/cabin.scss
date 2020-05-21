@@ -1,6 +1,14 @@
 
 // Define elements of the cabin drawing
 .cabin {
+    margin-bottom: 80px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    height: 100%;
+
     // The table is the main body of the plane
     table {
         border-collapse: unset;

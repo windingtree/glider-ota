@@ -19,7 +19,7 @@ const legendItems = [
 export default function SeatLegend(props) {
 
     return (
-        <Container>
+        <Container className='seat-legend'>
             {legendItems.map(legendRow => (
                 <Row noGutters='true'>
                     {legendRow.map(({title, icon}, index) => (
