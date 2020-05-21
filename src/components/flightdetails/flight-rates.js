@@ -26,9 +26,7 @@ export default function TripRates({tripRates, selectedOffer, onOfferChange}) {
 
     return (
         <>
-            <div>
-                <h2 className={style.ratesHeader}>Airline rates</h2>
-            </div>
+
             <div>
                 {
                     itineraries.map(itinerary => {
@@ -58,7 +56,12 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
 
     function selectOffer(offerId){
         console.log("selectOffer",offerId)
-        onOfferSelected(offerId)
+        //TODO fixme
+        if(offerId!='UNKNOWN')
+            onOfferSelected(offerId)
+        else{
+            console.error("Unknown offer was selected!")
+        }
     }
 
     let pricePlans = tripRates.pricePlans;
@@ -66,12 +69,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
     let pricePlanIds = fareFamilyHelper.getItineraryPricePlansInAscendingOrder(itineraryId);
     let priceOffsets = fareFamilyHelper.getItineraryPricePlanOffsetPrices(selectedOffer.offerId,itineraryId);
     let selectedPricePlanId = selectedOffer.itinToPlanMap[itineraryId];
-/*
-    console.log("Selected offer:",selectedOffer)
-    console.log("Itinerary ID:",itineraryId," selected offer itin price plan ID",selectedPricePlanId)
-    console.log("Itinerary price plan IDs:",pricePlanIds)
-    console.log("Itinerary price offsets:",priceOffsets)
-*/
+
     return (<>
         <ItineraryDetails itinerary={itinerary}/>
         <div className='py-5'/>
@@ -89,7 +87,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                             offerId = priceOffset.offerId;
                         }
                         return (
-                            <FareFamilyBenefits amenities={pricePlan.amenities} price={price} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}}/>
+                            <FareFamilyBenefits key={offerId} amenities={pricePlan.amenities} price={price} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}}/>
                         )
 
                     })
@@ -128,19 +126,25 @@ export function FareFamilyBenefits({familyName, price, isSelected, amenities=[],
     if(isSelected)
         styleName = style.priceplanContainerSelected;
 
-    function formatPrice(price){
-        if(price == undefined){
-            return "?"
-        }
-        return price.public + " "+price.currency;
+    let fare='';
+    if(price && price.public){
+        fare = Math.round(price.public) + " "+ price.currency;
+        if(price.public>=0)
+            fare = "+"+fare;
+    }else{
+        fare = "+0 ";
     }
-
+    console.log("Fare family name:",familyName," Price",price)
+    function handleClick(){
+        onClick();
+    }
+    let key=0;
     return (
-        <div className={styleName} onClick={onClick}>
+        <div className={styleName} onClick={handleClick}>
             <div className={style.ratesPlanName}>{familyName}</div>
-            <div className={style.ratesPlanPrice}>{formatPrice(price)}</div>
+            <div className={style.ratesPlanPrice}>{fare}</div>
             {
-                amenities.map((record) =><Amenity text={record} type={record.type} isSelected={isSelected}/>)
+                amenities.map((record) =><Amenity key={key++} text={record} type={record.type} isSelected={isSelected}/>)
             }
         </div>
     )

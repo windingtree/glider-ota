@@ -1,15 +1,32 @@
-import {Col, Container, Image, Row} from "react-bootstrap";
+import {Button, Col, Container, Image, Row} from "react-bootstrap";
 import {differenceInHours, differenceInMinutes, format, parseISO} from "date-fns";
 import logo from "../../assets/airline_logo.png";
 import {iataToCityName} from "../../utils/offer-utils"
 import React from "react";
 import style from "./trip-details.module.scss";
+import {config} from "../../config/default";
+import {Itinerary} from "../flightresults/flights-offer";
+
+
+
+export  function RouteOverview({itineraries=[]}){
+    return (
+        <div  >
+            <Row>
+                <Col className={style.tripheader}>Route</Col>
+            </Row>
+            <Row className={style.tripcontainer}>
+                {itineraries.length > 0 && (<Itinerary itinerary={itineraries[0]}/>)}
+                {itineraries.length > 1 && (<Itinerary itinerary={itineraries[1]}/>)}
+                {itineraries.length > 3 && (<Itinerary itinerary={itineraries[2]}/>)}
+            </Row>
+        </div>
+    )
+}
 
 
 
 export default function TripDetails({itineraries=[]}){
-    console.log("Itineraries",itineraries)
-    console.log("itineraries.length",itineraries.length)
     let itinIdx=0;
     //iterate over trip itineraries and render each itinerary
     return (<>
@@ -21,7 +38,6 @@ export default function TripDetails({itineraries=[]}){
                 if(itinIdx==0) itineraryHeader='Departure flight';
                 if(itinIdx==1) itineraryHeader='Return flight';
             }
-            console.log("display itin:",itinerary)
             itinIdx++;
             return (<ItineraryDetails itinerary={itinerary} header={itineraryHeader}/>)
         })}
@@ -32,7 +48,6 @@ export default function TripDetails({itineraries=[]}){
 
 
 export function ItineraryDetails({itinerary, header='Departure flight'}) {
-    console.log("ItineraryDetails",itinerary)
     let firstSegment=getFirstSegmentOfItinerary(itinerary);
     let tripOrigin = firstSegment.origin;
     let lastSegment = getLastSegmentOfItinerary(itinerary);

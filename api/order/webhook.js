@@ -212,7 +212,7 @@ function createPassengers(passengers) {
             civility: pax.civility,
             lastnames: [pax.lastName],
             firstnames: [pax.firstName],
-            civility: pax.civility,
+            gender: pax.civility=='MR'?'Male':'Female',
             birthdate: pax.birthdate,
             contactInformation: [
                 pax.phone,

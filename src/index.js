@@ -16,12 +16,12 @@ import FlightsSearchPage from "./pages/flights-search-page"
 import HotelsPage from "./pages/hotels"
 import HomePage from "./pages/home-page"
 import { CookiesProvider } from 'react-cookie';
-import PaymentForm from "./components/payments/payment-form";
 import ConfirmationPage from "./pages/confirmation-page";
 import FlightSeatmapPage from "./pages/flight-seatmap-page";
 import FlightFareFamiliesPage from "./pages/flight-farefamilies-page";
 import FlightPassengersPage from "./pages/flight-passengers-page";
 import FlightSummaryPage from "./pages/flight-summary-page";
+import PaymentPage from "./pages/payment-page";
 
 
 function Dispatcher() {
@@ -36,6 +36,10 @@ function Dispatcher() {
                     <Route path="/flights/passengers/:offerId" component={FlightPassengersPage}/>
                     <Route path="/flights/summary/:offerId" component={FlightSummaryPage}/>
                     <Route path="/flights/" component={FlightsSearchPage}/>
+
+                    <Route path="/payment/:confirmedOfferId" component={PaymentPage}/>
+                    <Route path="/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
+
                     {/*<Route path="/summary/:offerId" component={FlightOffer}/>*/}
                     {/*<Route path="/confirmation/" component={FlightOffer}/>*/}
 
@@ -44,9 +48,7 @@ function Dispatcher() {
                     <Route path="/hotel/:accommodationId?" component={Hotel}/>
                     <Route path="/confirmation/:orderId" component={ConfirmationPage}/>
 
-                    <Route path="/payments" >
-                        <PaymentForm />
-                    </Route>
+
                     <Route path="/" component={HomePage} />
                 </Switch>
             </Router>

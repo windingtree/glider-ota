@@ -21,8 +21,6 @@ const SEARCH_STATE={
 export default function FlightsSearchPage({match,location}) {
     let history = useHistory();
     console.log("FlightsSearchPage, match:",match, "Location:",location)
-
-
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
     const [filtersStates, setFiltersStates] = useState();

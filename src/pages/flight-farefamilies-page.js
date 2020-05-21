@@ -3,7 +3,6 @@ import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import {Button, Col, Container, Row} from "react-bootstrap";
-import {config} from "../config/default";
 import TripRates from "../components/flightdetails/flight-rates";
 import {withRouter} from 'react-router'
 import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";
@@ -56,11 +55,9 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
     const [currentOffer, setCurrentOffer] = useState(selectedOffer)
     let history = useHistory();
 
-    function handlePayButtonClick() {
-        console.log("handlePayButtonClick")
-    }
+
     function handleSelectedOfferChange(offerId) {
-        console.log("Offer changed", offerId)
+        console.debug("Selected offer changed, new offerID", offerId)
         displayOffer(offerId);
         onSelectedOfferChange(offerId)
     }
@@ -69,19 +66,10 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
         let url='/flights/farefamilies/'+offerId;
         history.push(url);
     }
-    console.log("FareFamilies render, selected offer", selectedOffer)
     let itineraries = tripRates.itineraries;
-
     return (
         <>
-            {config.DEBUG_MODE && <span>{selectedOffer.offerId}</span>}
             <Container fluid={true}>
-                <Row>
-                    <Col>
-                        {/*<TripDetails itineraries={selectedCombination.itinerary}/>*/}
-                    </Col>
-                </Row>
-
                 <Row>
                     <Col>
                         <TripRates itineraries={itineraries} tripRates={tripRates} selectedOffer={currentOffer}

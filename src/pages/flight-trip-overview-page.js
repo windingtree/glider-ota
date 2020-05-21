@@ -12,17 +12,10 @@ export default function FlightTripOverviewPage({match}) {
     console.debug("FlightTripOverviewPage, match:",match)
     let history = useHistory();
     let offerId = match.params.offerId;
-    console.debug(`FlightTripOverviewPage, display offerID:[${offerId}]`)
 
     let searchResults = retrieveSearchResultsFromLocalStorage();
-    console.debug("FlightTripOverviewPage - number of offers in metadata:",searchResults.metadata.numberOfOffers)
-    console.debug("FlightTripOverviewPage - number of offers in data :",Object.keys(searchResults.offers).length)
-    console.debug("FlightTripOverviewPage, search results from local storage",searchResults)
-    console.debug("FlightTripOverviewPage, search results from local storage - UUIC",searchResults.metadata.uuid)
-    console.debug("Does offer exist?:",searchResults.offers[offerId])
     let searchResultsWrapper = new SearchResultsWrapper(searchResults);
     let selectedOffer = searchResultsWrapper.getOffer(offerId);
-    console.debug("FlightTripOverviewPage, offer details",selectedOffer)
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
 
     function proceedButtonClick(){
