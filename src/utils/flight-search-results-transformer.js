@@ -3,6 +3,7 @@ const _ = require('lodash')
 
 
 const mergeRoundTripOffers = (searchResults) => {
+
     // Apply only to flight searches
     if(searchResults.itineraries === undefined) {
         return searchResults;
@@ -57,10 +58,12 @@ const mergeRoundTripOffers = (searchResults) => {
           const outboundOffer = offers[outboundOfferId];
           //console.log('Merging offers: ', JSON.stringify(inboundOffer), JSON.stringify(outboundOffer)); 
           offers[offerKey] = {
+/*
             offerItems: {
               ...inboundOffer.offerItems,
               ...outboundOffer.offerItems,
             },
+*/
             expiration: Date(inboundOffer.expiration) < Date(outboundOffer.expiration) ? inboundOffer.expiration : outboundOffer.expiration,
             pricePlansReferences: {
               ...inboundOffer.pricePlansReferences,
@@ -93,12 +96,23 @@ const mergeRoundTripOffers = (searchResults) => {
  * Extend search results with additional collections to simplify UI
  */
 export default function extendResponse(response){
-    response = mergeRoundTripOffers(response);
+    if(response && ('metadata' in response) && ('postprocessed' in response.metadata)){
+        console.warn("Response was already extended -ignoring this")
+        return response;
+    }
+    let copy = Object.assign({},response)
+    let start=Date.now();
+    copy = mergeRoundTripOffers(copy);
     // let combinations = getAllCombinations(response);
     // decorateHotelWithAccommodationId(response.accommodations)
     // decoratePricePlanWithPricePlanId(response.pricePlans);
     // response.combinations=combinations;
-    return response;
+    let end=Date.now();
+    if(!copy.metadata)
+        copy.metadata={};
+    copy.metadata['postprocessed']=true;
+    console.log(`Search results extender, time:${end-start}ms`)
+    return copy;
 }
 
 
@@ -198,8 +212,10 @@ export class SearchResultsWrapper {
      */
     getOffer(offerId){
         let offer = this.offers[offerId];
-        if(!offer)
+        if(!offer) {
+            console.warn(`SearchResultsWrapper - requested offer was not found!`)
             return null;
+        }
         offer = update(offer,{offerId:{$set:offerId}});  //enrich returned object with "offerId" property
         return offer;
     }

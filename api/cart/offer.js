@@ -38,9 +38,11 @@ function validateOffer(res, offer){
     if(isNullOrEmpty(offer.offerId))
         return sendValidationErrorResponse(res,"offerId","empty or missing");
 
+/*
     let offerItems=offer.offerItems;
     if(offerItems === undefined)
         return sendValidationErrorResponse(res,"offerItems","empty or missing");
+*/
 
 /*
     let pricePlansReferences=offer.pricePlansReferences;

@@ -132,11 +132,11 @@ function findOrder(orderId){
  * @returns {Promise<*>}
  */
 
-async function storeConfirmedOffer(offer, offerItems, passengers){
+async function storeConfirmedOffer(offer, passengers){
     let object={
         offerId:offer.offerId,
         confirmedOffer:offer,
-        offerItems:offerItems,
+        // offerItems:offerItems,
         passengers:passengers,
         order_status:ORDER_STATUSES.NEW,
         payment_status:PAYMENT_STATUSES.NOT_PAID,

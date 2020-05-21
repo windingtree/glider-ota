@@ -168,7 +168,7 @@ async function fulfillment(confirmedOfferId) {
     let document = await findConfirmedOffer(confirmedOfferId);
     console.debug("#2 document retrieved", document);
     let passengers = document.passengers;
-    let offerItems = document.offerItems;
+    // let offerItems = document.offerItems;
     let offerId = document.confirmedOffer.offerId;
     let offer = document.confirmedOffer.offer;
     let price = offer.price;
@@ -179,7 +179,7 @@ async function fulfillment(confirmedOfferId) {
     let guarantee = await createGuarantee(price.public, price.currency);
     logger.debug("#4 guarantee created, guaranteeId:%s", guarantee.guaranteeId);
     logger.debug("#5 create, offerId:%s",offerId);
-    let orderRequest = prepareRequest(offerId, offerItems, guarantee.guaranteeId, passengers)
+    let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers)
     logger.info("#6 order request:", orderRequest);
     let confirmation = undefined;
     try {
@@ -194,10 +194,10 @@ async function fulfillment(confirmedOfferId) {
 }
 
 
-function prepareRequest(offerId, offerItems, guaranteeId, passengers) {
+function prepareRequest(offerId, guaranteeId, passengers) {
     return {
         offerId: offerId,
-        offerItems: offerItems,
+        // offerItems: offerItems,
         guaranteeId: guaranteeId,
         passengers: createPassengers(passengers)
     }

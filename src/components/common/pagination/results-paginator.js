@@ -1,8 +1,7 @@
 import React from 'react'
-import style from './results-pager.module.scss'
-import {Container, Row, Col, Image, Button} from 'react-bootstrap'
+import style from './results-paginator.module.scss'
+import {Container, Row, Col, Image} from 'react-bootstrap'
 import Pagination from "react-js-pagination";
-const DEFAULT_PAGE_SIZE=10;
 
 export default function ResultsPaginator({activePage, recordsPerPage, totalRecords, onActivePageChange}) {
     function onPageChange(page){
@@ -10,9 +9,9 @@ export default function ResultsPaginator({activePage, recordsPerPage, totalRecor
         onActivePageChange(page)
     }
     return (
-        <Container fluid={true} >
-            <Row>
-            <Col className={style.paginatorContainer}>
+        // <Container fluid={true} >
+        //     <Row>
+            <div className={style.paginatorContainer}>
                 <Pagination
                     activePage={activePage}
                     itemsCountPerPage={recordsPerPage}
@@ -20,9 +19,9 @@ export default function ResultsPaginator({activePage, recordsPerPage, totalRecor
                     pageRangeDisplayed={5}
                     onChange={onPageChange} itemClass="page-item"
                     linkClass="page-link"/>
-            </Col>
-            </Row>
-        </Container>
+            </div>
+            // </Row>
+        // </Container>
     )
 }
 

@@ -12,7 +12,7 @@ import {storeSearchResultsInCache,checkSearchResultsInCache} from "./local-stora
  * @returns {Promise<any|Response>}
  */
 export async function findFlights(criteria) {
-    console.log("findFlights, criteria:",criteria)
+    console.debug("Search for flights, search criteria:",criteria)
     let results = checkSearchResultsInCache(criteria)
     if(results) {
         console.debug("Using search results from cache")
@@ -22,7 +22,6 @@ export async function findFlights(criteria) {
             console.warn("OFFLINE_MODE = true. Using search results from static file!!!");
             results = offline_flight_results;   //TEMP - for devel only
         }else{
-
             const requestInfo = {
                 method: 'POST',
                 mode: 'cors',
@@ -39,11 +38,12 @@ export async function findFlights(criteria) {
             results = await fetch(config.SEARCH_OFFERS_URL, requestInfo);
             results = await results.json();
             let end=Date.now();
+            console.info("Search results retrieved from API, search time (in ms):",(end-start));
             uiEvent(`find flights execution time:${end-start}ms`)
         }
         storeSearchResultsInCache(criteria,results);
+        results = extendResponse(results);
     }
-    results = extendResponse(results);
     return results;
 }
 
@@ -56,7 +56,7 @@ export async function findHotels(criteria) {
         console.log("Search results not found in cache")
         if (config.OFFLINE_MODE) {
             console.warn("OFFLINE_MODE = true. Using search results from static file!!!");
-            let results = offline_hotels_results;
+            results = offline_hotels_results;
         }else{
             const requestInfo = {
                 method: 'POST',

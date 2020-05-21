@@ -7,6 +7,8 @@ import {config} from "../config/default";
 import TripRates from "../components/flightdetails/flight-rates";
 import {withRouter} from 'react-router'
 import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";
+import TotalPriceButton from "../components/common/totalprice/total-price";
+import {storePassengerDetails, storeSelectedOffer} from "../utils/api-utils";
 
 export default function FlightFareFamiliesPage({match}) {
     let history = useHistory();
@@ -23,6 +25,17 @@ export default function FlightFareFamiliesPage({match}) {
         history.push(url);
     }
 
+    function handleOfferChange(offerId){
+        let offer=searchResultsWrapper.getOffer(offerId);
+        let results = storeSelectedOffer(offer);
+        results.then((response) => {
+            console.debug("Selected offer successfully added to a shopping cart", response);
+        }).catch(err => {
+            console.error("Failed to add selecteed offer to a shopping cart", err);
+            //TODO - add proper error handling (show user a message)
+        })
+    }
+
 
     return (
         <>
@@ -31,15 +44,15 @@ export default function FlightFareFamiliesPage({match}) {
                 <div className='root-container-subpages'>
                     <FareFamilies
                         tripRates={tripRates}
-                        selectedOffer={selectedOffer}/>
-                    <Button className='primary' onClick={onProceedButtonClick}>Proceed to passenger details</Button>
+                        selectedOffer={selectedOffer}  onSelectedOfferChange={handleOfferChange}/>
+                    <TotalPriceButton price={selectedOffer.price} proceedButtonTitle="Proceed" onProceedClicked={onProceedButtonClick}/>
                 </div>
             </div>
         </>
     )
 }
 
-export function FareFamilies({tripRates, selectedOffer}) {
+export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) {
     const [currentOffer, setCurrentOffer] = useState(selectedOffer)
     let history = useHistory();
 
@@ -48,7 +61,8 @@ export function FareFamilies({tripRates, selectedOffer}) {
     }
     function handleSelectedOfferChange(offerId) {
         console.log("Offer changed", offerId)
-        displayOffer(offerId)
+        displayOffer(offerId);
+        onSelectedOfferChange(offerId)
     }
 
     function displayOffer(offerId){
@@ -76,7 +90,7 @@ export function FareFamilies({tripRates, selectedOffer}) {
                 </Row>
                 <Row className='pb-5'>
                     <Col>
-                        <PriceSummary price={currentOffer.price} onPayButtonClick={handlePayButtonClick}/>
+                        {/*<PriceSummary price={currentOffer.price} onPayButtonClick={handlePayButtonClick}/>*/}
                     </Col>
                 </Row>
 
@@ -85,20 +99,6 @@ export function FareFamilies({tripRates, selectedOffer}) {
                 </Row>
 
             </Container>
-        </>
-    )
-}
-
-
-const PriceSummary = ({price, onPayButtonClick}) => {
-    return (
-        <>
-            <Row className='pt-5'>
-                <Col>
-                    <div className='glider-font-h2-fg'>Total price {price.public} {price.currency} </div>
-                </Col>
-
-            </Row>
         </>
     )
 }

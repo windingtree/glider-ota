@@ -1,4 +1,5 @@
 import  {stringify}  from 'query-string';
+import {config} from "../config/default";
 
 
 function ApiFetchException(message,response) {
@@ -17,18 +18,16 @@ export async function fetchGet(url,params){
       'Content-type': 'application/json'
     }
   }
-  let urlWithQueryString = url+'?'+queryString;
+  let urlWithQueryString = url;
+  if(queryString.length>0)
+    urlWithQueryString+='?'+queryString;
   let results;
   try {
-    console.log("FETCH - before")
     results = await fetch(urlWithQueryString, options);
-    console.log("FETCH - after results, before JSON - OK=", results.ok)
     results = await results.json();
-    console.log("FETCH - after results, after JSON - OK=", results.ok)
   }catch(error){
     throw new ApiFetchException("Failed to retrieve data from server")
   }
-  console.log("FETCH - response processed OK=", results.ok)
   if(results.error){
     throw new ApiFetchException("Error while fetching data from server",results)
   }
@@ -45,22 +44,18 @@ export async function fetchPost(url,payload){
   }
   let results;
   try {
-    console.log("FETCH - before")
-
     results = await fetch(url, options);
-    console.log("FETCH - after results, before JSON - OK=", results.ok)
     results = await results.json();
-    console.log("FETCH - after results, after JSON - OK=", results.ok)
   }catch(error){
     throw new ApiFetchException("Failed to retrieve data from server")
   }
-  console.log("FETCH - response processed OK=", results.ok)
   if(results.error){
     throw new ApiFetchException("Error while fetching data from server",results)
   }
   return results;
 }
 
+///////////////// PASSENGERS //////////////////////
 
 export async function storePassengerDetails(passengers){
   return fetchPost('/api/cart/passengers',{passengers:passengers})
@@ -68,4 +63,40 @@ export async function storePassengerDetails(passengers){
 
 export async function retrievePassengerDetails(){
   return fetchGet('/api/cart/passengers',{})
+}
+
+///////////////// SHOPPING CART //////////////////////
+export async function storeSelectedOffer(selectedOffer){
+  return fetchPost('/api/cart/offer',{offer:selectedOffer})
+}
+
+export async function retrieveSelectedOffer(){
+  return fetchGet('/api/cart/offer',{})
+}
+
+///////////////// REPRICE //////////////////////
+
+export async function repriceShoppingCartContents(){
+  return fetchPost('/api/cart/reprice',{})
+}
+
+///////////////// CHECKOUT //////////////////////
+export async function createPaymentIntent(confirmedOfferId,type){
+  return fetchPost('/api/order/checkout',{type:type,confirmedOfferId:confirmedOfferId})
+}
+
+export async function getStripePublicKey() {
+  return fetchPost('/api/order/key', {});
+}
+
+
+
+export function executionTimeCheck(taskName, callback) {
+  let start = Date.now();
+  try {
+    callback()
+  } finally {
+    let end = Date.now();
+    console.log(`Task:${taskName}, Execution time:${end - start}ms`);
+  }
 }

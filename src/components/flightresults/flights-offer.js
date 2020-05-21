@@ -3,6 +3,7 @@ import style from './flights-offer.module.scss'
 import {Container, Row, Col, Image, Button} from 'react-bootstrap'
 import {format, parseISO} from "date-fns";
 import OfferUtils from '../../utils/offer-utils'
+import {config} from "../../config/default";
 import _ from 'lodash'
 
 
@@ -19,7 +20,7 @@ export function Offer({itineraries = [], price, offerId, onOfferDisplay}) {
                     <Button variant="outline-primary pricebtn" size="lg" onClick={() => {
                         onOfferDisplay(offerId)
                     }}>{price.public} {price.currency}</Button>
-
+                    {config.DEBUG_MODE && <>OfferID:{offerId}</>}
                 </Col>
             </Row>
         </Container>

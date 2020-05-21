@@ -4,18 +4,25 @@ import {useHistory} from "react-router-dom";
 import {retrieveOfferFromLocalStorage} from "../utils/local-storage-cache"
 import {Button} from "react-bootstrap";
 import PaxSummary from "../components/passengers/pax-summary";
-import {retrievePassengerDetails} from "../utils/api-utils";
+import {repriceShoppingCartContents, retrievePassengerDetails} from "../utils/api-utils";
+import TotalPriceButton from "../components/common/totalprice/total-price";
+import PaymentSummary from "../components/payment/payment-summary";
 
 
 export default function FlightSummaryPage({match}) {
     let history = useHistory();
-    const [passengerDetails,setPassengerDetails] = useState()
+    const [passengerDetails,setPassengerDetails] = useState();
+    const [confirmedOffer,setConfirmedOffer] = useState();
     let offerId = match.params.offerId;
+
     let offer = retrieveOfferFromLocalStorage(offerId);
+
 
     function onProceedButtonClick(){
 
     }
+
+    console.log("FlightSummaryPage, offerID:",offerId," offer from local storage:", offer)
 
     function onEditFinished(){
         loadPassengerDetailsFromServer();
@@ -31,8 +38,24 @@ export default function FlightSummaryPage({match}) {
         })
     }
 
+
+    function repriceItemsInCart(){
+        let response=repriceShoppingCartContents();
+        response.then(offer=>{
+            console.log("Repriced offer:", offer);
+            setConfirmedOffer(offer)
+        }).catch(err=>{
+            console.error("Failed to reprice cart", err);
+            //TODO - add proper error handling (show user a message)
+        })
+    }
+
+
+
+
     //Populate summary with passengers details from session
     useEffect(()=>{
+        repriceItemsInCart();
         loadPassengerDetailsFromServer();
     },[])
 
@@ -41,8 +64,9 @@ export default function FlightSummaryPage({match}) {
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-                    <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>
-                    <Button className='primary' onClick={onProceedButtonClick}>Proceed to payment</Button>
+                    {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}
+                    {confirmedOffer && <PaymentSummary totalPrice={confirmedOffer.offer.price} pricedItems={confirmedOffer.offer.pricedItems} />}
+                    {confirmedOffer && <TotalPriceButton price={confirmedOffer.offer.price} proceedButtonTitle="Proceed to payment" onProceedClicked={onProceedButtonClick}/>}
                 </div>
             </div>
         </>

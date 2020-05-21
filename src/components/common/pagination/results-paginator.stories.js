@@ -3,7 +3,7 @@ import {
   action
 } from '@storybook/addon-actions';
 
-import ResultsPaginator from "./results-pager";
+import ResultsPaginator from "./results-paginator";
 
 export default {
   title: 'Results paging',

@@ -20,6 +20,9 @@ const SEARCH_STATE={
 
 export default function FlightsSearchPage({match,location}) {
     let history = useHistory();
+    console.log("FlightsSearchPage, match:",match, "Location:",location)
+
+
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
     const [filtersStates, setFiltersStates] = useState();
@@ -37,8 +40,7 @@ export default function FlightsSearchPage({match,location}) {
                 onSearchFailure(err)})
     };
     const onSearchSuccess = (results) => {
-        console.log("results:", results)
-        console.log("results.combinations:", results)
+        console.log("Search completed, results to be displayed:", results)
         setSearchResults(results);
         setUnfilteredSearchResults(results);
         let filters=generateFiltersStates(results);
@@ -62,7 +64,6 @@ export default function FlightsSearchPage({match,location}) {
 
     useEffect(()=>{
         if(deeplinkAction === 'search'){
-            console.log("Deeplink search",initialParameters)
             onSearchButtonClick(initialParameters);
         }
         },[]);
@@ -76,7 +77,7 @@ export default function FlightsSearchPage({match,location}) {
     };
 
 
-    console.log("render flight results, searchResults:",searchResults)
+    console.log("Render flight results, searchResults:",searchResults)
     return (
         <div>
             <Header violet={true}/>

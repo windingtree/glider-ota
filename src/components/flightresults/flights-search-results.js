@@ -4,7 +4,7 @@ import style from './flights-search-results.module.scss'
 import {Container, Row, Col, Image, Button} from 'react-bootstrap'
 import {FastCheapFilter} from "../filters/filters";
 import {SearchResultsWrapper} from "../../utils/flight-search-results-transformer"
-import ResultsPaginator from "./results-pager";
+import ResultsPaginator from "../common/pagination/results-paginator";
 import {Offer} from "./flights-offer";
 
 const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;

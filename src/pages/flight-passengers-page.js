@@ -1,17 +1,18 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
-import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
+import {retrieveOfferFromLocalStorage, retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import {Button} from "react-bootstrap";
 import PaxDetails from "../components/passengers/pax-details";
 import {storePassengerDetails,retrievePassengerDetails} from "../utils/api-utils"
+import TotalPriceButton from "../components/common/totalprice/total-price";
 
 export default function FlightPassengersPage({match}) {
     let history = useHistory();
     const [passengerDetails,setPassengerDetails] = useState()
     const [passengerDetailsValid,setPassengerDetailsValid] = useState(false)
     let offerId = match.params.offerId;
-
+    let offer = retrieveOfferFromLocalStorage(offerId);
     function onPaxDetailsChange(paxData, allPassengersDetailsAreValid){
         setPassengerDetails(paxData)
         setPassengerDetailsValid(allPassengersDetailsAreValid)
@@ -71,7 +72,7 @@ export default function FlightPassengersPage({match}) {
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
                     <PaxDetails passengers={passengerDetails} onDataChange={onPaxDetailsChange}/>
-                    <Button className='primary' onClick={savePassengerDetailsAndProceed} disabled={!passengerDetailsValid}>Proceed to seatmap</Button>
+                    <TotalPriceButton price={offer.price} proceedButtonTitle="Proceed" disabled={!passengerDetailsValid} onProceedClicked={savePassengerDetailsAndProceed}/>
                 </div>
             </div>
         </>

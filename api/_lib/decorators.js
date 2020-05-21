@@ -50,11 +50,8 @@ function sessionDecorator(fn) {
 function exceptionInterceptorDecorator(fn) {
     return async function (req, res) {
         try {
-            console.log("@@@Before invoke")
             await fn(req, res);
-            console.log("@@@After invoke")
         } catch (err) {
-            console.log("@@@Error caught",err)
             restlogger.error("Exception occurred while processing request %s, error:%s", req.url, err.message, err)
             res.status(500).send(`Failure: ${err.message}`);
         }

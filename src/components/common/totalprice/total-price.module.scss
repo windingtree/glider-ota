@@ -1,0 +1,19 @@
+@import 'src/styles/mixins';
+
+.price {
+  @include _glider-font-h2;
+  color: $glider-color-text;
+
+}
+.priceContainer{
+  text-align: left;
+}
+
+.button{
+}
+
+.buttonContainer{
+  @include glider-media-medium_768 {
+    text-align: right;
+  }
+}

@@ -55,7 +55,7 @@ const checkoutUrlController = async (req, res) => {
             return;
         }
 
-        await storeConfirmedOffer(confirmedOffer,unconfirmedOffer.offerItems,passengers);
+        await storeConfirmedOffer(confirmedOffer,passengers);
         let price = confirmedOffer.offer.price;
         let priceInBaseUnits = convertPriceToMinorUnits(price.public, price.currency);
         logger.debug("Will create payment intent, sessionID:%s, confirmedOfferId:%s, amount %s %s", sessionID, confirmedOfferId, price.currency, price.public)
