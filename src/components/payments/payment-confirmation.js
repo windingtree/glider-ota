@@ -167,7 +167,7 @@ export default function PaymentConfirmation({orderID}) {
         <Container >
             <Row >
                 <Col className='pb-5'>
-                    <h1>Booking confirmation  {firstCheck.toISOString()}</h1>
+                    <h1>Booking confirmation </h1>
                 </Col>
             </Row>
             <Row>
