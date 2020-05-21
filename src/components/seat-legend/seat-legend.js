@@ -23,7 +23,7 @@ export default function SeatLegend(props) {
             {legendItems.map(legendRow => (
                 <Row noGutters='true'>
                     {legendRow.map(({title, icon}, index) => (
-                        <Col xs={12} md={6}>
+                        <Col xs={12} sm={6}>
                             <Card className='seat-legend-card' body>
                                 <div class={`icon-${icon}`}/>
                                 <span>{title}</span>

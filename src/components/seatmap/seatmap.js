@@ -18,7 +18,7 @@ export default function SeatMap(props) {
                 <Col>Departure Flight: Moscow - Phuket</Col>
             </Row>
             <Row>
-                <Col>
+                <Col xs={12} md={6}>
                     <SegmentSelector
                         stops={['Moscow','Doha','Puhket']}
                         flightTime='1h 15min'
@@ -26,7 +26,7 @@ export default function SeatMap(props) {
                     />
                     <SeatLegend/>
                 </Col>
-                <Col>
+                <Col xs={12} md={6}>
                     <Cabin
                         layout='ABC DEF'
                         name='VIP'
@@ -135,33 +135,35 @@ export default function SeatMap(props) {
                         }}
                     />
                 </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <CardDeck>
-                        <SeatCard
-                            priceAmount='180'
-                            priceCurrency='CAD'
-                            passengerName='Doe John'
-                            passengerType='ADT'
-                            seatNumber='10H'
-                            seatCharacteristics={['K','W','LA']}
-                            active={true}
-                        />
-                        <SeatCard
-                            priceAmount='180'
-                            priceCurrency='CAD'
-                            passengerName='Doe John'
-                            passengerType='CHD'
-                            seatNumber='10K'
-                            seatCharacteristics={['K','W','LA']}
-                            active={true}
-                        />
-                    </CardDeck>
+                <Col xs={12} md={6}>
+                    <Row>
+                        <Col xs={12} sm={6} md={12} lg={6} xl={4}>
+                            <SeatCard
+                                priceAmount='180'
+                                priceCurrency='CAD'
+                                passengerName='Doe John'
+                                passengerType='ADT'
+                                seatNumber='10H'
+                                seatCharacteristics={['K','W','LA']}
+                                active={true}
+                            />
+                        </Col>
+                        <Col xs={12} sm={6} md={12} lg={6} xl={4}>
+                            <SeatCard
+                                priceAmount='180'
+                                priceCurrency='CAD'
+                                passengerName='Doe John'
+                                passengerType='CHD'
+                                seatNumber='10K'
+                                seatCharacteristics={['K','W','LA']}
+                                active={true}
+                            />
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
             <Row>
-                <Col>Total Price: $1164</Col>
+                <Col xs={8}>Total Price: $1164</Col>
                 <Col>
                     <Button 
                         className='secondary'
