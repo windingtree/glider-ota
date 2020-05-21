@@ -1,5 +1,7 @@
 import React from 'react';
-import SeatCard from './seat-card'
+import CardDeck from 'react-bootstrap/CardDeck';
+import CardGroup from 'react-bootstrap/CardGroup';
+import SeatCard from './seat-card';
 
 export default {
   title: 'Seatmap/SeatCard',
@@ -67,4 +69,52 @@ export const inactiveNotSelected = () => (
         passengerType='ADT'
         active={false}
     ></SeatCard>
+);
+
+export const cardsInDeck = () => (
+    <CardDeck>
+        <SeatCard
+            passengerName='Doe John'
+            passengerType='ADT'
+            active={false}
+        ></SeatCard>
+        <SeatCard
+            passengerName='Doe John'
+            passengerType='ADT'
+            active={true}
+        ></SeatCard>
+        <SeatCard
+            priceAmount='0'
+            priceCurrency='CAD'
+            passengerName='Doe John'
+            passengerType='ADT'
+            seatNumber='10H'
+            seatCharacteristics={['K','W','LA']}
+            active={false}
+        ></SeatCard>
+    </CardDeck>
+);
+
+export const cardsInGroup = () => (
+    <CardGroup>
+        <SeatCard
+            passengerName='Doe John'
+            passengerType='ADT'
+            active={false}
+        ></SeatCard>
+        <SeatCard
+            passengerName='Doe John'
+            passengerType='ADT'
+            active={true}
+        ></SeatCard>
+        <SeatCard
+            priceAmount='0'
+            priceCurrency='CAD'
+            passengerName='Doe John'
+            passengerType='ADT'
+            seatNumber='10H'
+            seatCharacteristics={['K','W','LA']}
+            active={false}
+        ></SeatCard>
+    </CardGroup>
 );

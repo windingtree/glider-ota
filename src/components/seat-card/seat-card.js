@@ -1,8 +1,8 @@
 import React from 'react';
-import './seat-card.scss';
 import { mapSeatCharacteristicsDescription } from '../../utils/seat-utils';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card'
+import Card from 'react-bootstrap/Card';
+import './seat-card.scss';
 
 export default function SeatCard(props) {
     const {
@@ -55,8 +55,8 @@ export default function SeatCard(props) {
 
     // Render the React component
     return (
-        <Card className={active ? 'seatcard-active' : 'seatcard-inactive'}>
-            <Card.Body className='body'>
+        <Card className={active ? 'seat-card-active' : 'seat-card-inactive'}>
+            <Card.Body>
                 <span
                     className='name'>
                         {seatAssigned ? `Seat ${seatNumber}` : 'Random Seat'}

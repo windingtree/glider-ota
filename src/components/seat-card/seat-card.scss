@@ -1,11 +1,10 @@
+@import '../../styles/variables.scss';
+
 // Define elements of a seat
-.seatcard {
-    position: static;
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
+.seat-card {
+    position: relative;
     background: #FFFFFF;
+    width: 303px;
 
     /* Active element */
     box-sizing: border-box;
@@ -13,23 +12,24 @@
 
     // Active state
     &-active {
-        @extend .seatcard;
-        border: 2px solid #7161D6;
+        @extend .seat-card;
+        border: 2px solid $glider-color-primary;
     }
 
     // Inactive state
     &-inactive {
-        @extend .seatcard;
+        @extend .seat-card;
         border: 1px solid #BBBBBB;
     }
 
-    .body {
+    .card-body {
         display: flex;
         flex-direction: column;
         padding: 16px;
         flex: none;
         order: 0;
         margin: 0px 0px;
+        text-align: left;
     }
 
     span, Button {
@@ -39,6 +39,7 @@
         color: #202020;
         font-size: 13px;
         line-height: 115%;
+        text-align: left;
     }
 
     // Seat Name

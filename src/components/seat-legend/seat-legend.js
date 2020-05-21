@@ -5,37 +5,33 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './seat-legend.scss';
 
+const legendItems = [
+    [
+        {title: 'Selected Seat', icon: 'selected'},
+        {title: 'Occupied Seat', icon: 'occupied'},
+    ],
+    [
+        {title: 'Available Seat', icon: 'available'},
+        {title: 'Premium Seat', icon: 'premium'},
+    ],
+];
+
 export default function SeatLegend(props) {
+
     return (
         <Container>
-            <Row noGutters='true'>
-                <Col xs={12} md={6}>
-                    <Card body>
-                        <div class='icon-selected'/>
-                        <span>Selected Seat</span>
-                    </Card>
-                </Col>
-                <Col xs={12} md={6}>
-                    <Card body>
-                        <div class='icon-available'/>
-                        <span>Available Seat</span>
-                    </Card>
-                </Col>
-            </Row>
-            <Row noGutters='true'>
-                <Col xs={12} md={6}>
-                    <Card body>
-                        <div class='icon-premium'/>
-                        <span>Premium Seat</span>
-                    </Card>
-                </Col>
-                <Col xs={12} md={6}>
-                    <Card body>
-                        <div class='icon-occupied'/>
-                        <span>Occupied Seat</span>
-                    </Card>
-                </Col>
-            </Row>
+            {legendItems.map(legendRow => (
+                <Row noGutters='true'>
+                    {legendRow.map(({title, icon}, index) => (
+                        <Col xs={12} md={6}>
+                            <Card className='seat-legend-card' body>
+                                <div class={`icon-${icon}`}/>
+                                <span>{title}</span>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            ))}
         </Container>
     );
 };
