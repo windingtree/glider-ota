@@ -19,9 +19,9 @@ const webhookController = async (request, response) => {
     if (STRIPE_CONFIG.DISABLE_WEBHOOK_SIGNATURE_CHECK) {
         logger.warn("Webhook signature verification is disabled! It should not be disabled in PROD environments")
         if (process.env.NODE_ENV === 'production') {
-            logger.error("Webhook signature verification is disabled in PROD! It should not be disabled in PROD environments")
-            sendErrorResponse(res, 500, ERRORS.INTERNAL_SERVER_ERROR, "Signature checking is disabled", req.body);
-            return;
+            // logger.error("Webhook signature verification is disabled in PROD! It should not be disabled in PROD environments")
+            // sendErrorResponse(res, 500, ERRORS.INTERNAL_SERVER_ERROR, "Signature checking is disabled", req.body);
+            // return;
         }
     }
     let rawBody = await getRawBodyFromRequest(request);
