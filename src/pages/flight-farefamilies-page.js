@@ -1,31 +1,28 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
-import { retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
+import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import {Button, Col, Container, Row} from "react-bootstrap";
 import {config} from "../config/default";
 import TripRates from "../components/flightdetails/flight-rates";
-import { withRouter } from 'react-router'
+import {withRouter} from 'react-router'
 import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";
 
 export default function FlightFareFamiliesPage({match}) {
     let history = useHistory();
     let offerId = match.params.offerId;
-    // let combinationId = match.params.combinationId;
-    // let itineraryId = match.params.itineraryId;
     let searchResults = retrieveSearchResultsFromLocalStorage();
     let searchResultsWrapper = new SearchResultsWrapper(searchResults);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
-    let tripRates=searchResultsWrapper.generateTripRatesData(offerId)
+    let tripRates = searchResultsWrapper.generateTripRatesData(offerId)
 
-
-    // let selectedCombination = findCombination(searchResults,combinationId)
     let selectedOffer = tripRates.offers[offerId]
 
-    function onProceedButtonClick(){
-        let url='/flights/passengers/'+offerId;
+    function onProceedButtonClick() {
+        let url = '/flights/passengers/' + offerId;
         history.push(url);
     }
+
 
     return (
         <>
@@ -42,91 +39,62 @@ export default function FlightFareFamiliesPage({match}) {
     )
 }
 
+export function FareFamilies({tripRates, selectedOffer}) {
+    const [currentOffer, setCurrentOffer] = useState(selectedOffer)
+    let history = useHistory();
 
-class FareFamilies extends React.Component {
-    constructor (props) {
-        super(props);
-        const {tripRates,selectedOffer}=props;
-        this.state={
-            // selectedOfferId:selectedOffer.offerId,
-            // selectedCombination:selectedCombination,
-            selectedOffer:selectedOffer,
-            processingInProgress:false,
-            processingError:undefined,
-            order:undefined
-        }
-        this.handleSelectedOfferChange= this.handleSelectedOfferChange.bind(this);
+    function handlePayButtonClick() {
+        console.log("handlePayButtonClick")
+    }
+    function handleSelectedOfferChange(offerId) {
+        console.log("Offer changed", offerId)
+        displayOffer(offerId)
     }
 
-    handleSelectedOfferChange(newOffer){
-        console.log("Offer changed",newOffer)
-/*
-        this.setState({
-            selectedOfferId:newOffer.offerId,
-            selectedOffer:newOffer,
-            // contact_details:[]
-        })
-*/
-
-        // console.log("Add to cart:",cartItem)
-        /*let cartItem = {
-            offer:{
-                offerId:newOffer.offerId,
-                offerItems: newOffer.offer.offerItems
-            }
-        }*/
+    function displayOffer(offerId){
+        let url='/flights/farefamilies/'+offerId;
+        history.push(url);
     }
+    console.log("FareFamilies render, selected offer", selectedOffer)
+    let itineraries = tripRates.itineraries;
 
-    setOrderDetails(order){
-        // this.setState({order:order})
-    }
+    return (
+        <>
+            {config.DEBUG_MODE && <span>{selectedOffer.offerId}</span>}
+            <Container fluid={true}>
+                <Row>
+                    <Col>
+                        {/*<TripDetails itineraries={selectedCombination.itinerary}/>*/}
+                    </Col>
+                </Row>
 
+                <Row>
+                    <Col>
+                        <TripRates itineraries={itineraries} tripRates={tripRates} selectedOffer={currentOffer}
+                                   onOfferChange={handleSelectedOfferChange}/>
+                    </Col>
+                </Row>
+                <Row className='pb-5'>
+                    <Col>
+                        <PriceSummary price={currentOffer.price} onPayButtonClick={handlePayButtonClick}/>
+                    </Col>
+                </Row>
 
-    render () {
-        const {tripRates,selectedOffer}=this.props;
-        console.log("Flight detailed view - selected ofer", selectedOffer)
-        let itineraries = tripRates.itineraries;
+                <Row className='pb-5'>
 
-        return (
-            <>
-                {config.DEBUG_MODE && <span>{selectedOffer.offerId}</span>}
-                <Container fluid={true}>
-                    <Row>
-                        <Col >
-                            {/*<TripDetails itineraries={selectedCombination.itinerary}/>*/}
-                        </Col>
-                    </Row>
+                </Row>
 
-                    <Row>
-                        <Col>
-                            <TripRates itineraries={itineraries} tripRates={tripRates} selectedOffer={selectedOffer} onOfferChange={this.handleSelectedOfferChange}/>
-                        </Col>
-                    </Row>
-                    <Row className='pb-5'>
-                        <Col>
-                            <PriceSummary price={selectedOffer.price} onPayButtonClick={this.handlePayButtonClick}/>
-                        </Col>
-                    </Row>
-
-                    <Row className='pb-5'>
-
-                    </Row>
-
-                </Container>
-            </>
-        )
-    }
-
-
+            </Container>
+        </>
+    )
 }
 
 
-
-const PriceSummary = ({price, onPayButtonClick}) =>{
+const PriceSummary = ({price, onPayButtonClick}) => {
     return (
         <>
             <Row className='pt-5'>
-                <Col >
+                <Col>
                     <div className='glider-font-h2-fg'>Total price {price.public} {price.currency} </div>
                 </Col>
 
@@ -136,19 +104,4 @@ const PriceSummary = ({price, onPayButtonClick}) =>{
 }
 
 
-function findCombination(searchResults,combinationId){
-    let selectedCombination = searchResults.combinations.find(c => {
-        return c.combinationId === combinationId
-    })
-    return selectedCombination;
-}
-
-function findSelectedOffer(combination,offerId){
-    let selectedOffer = combination.offers.find(o => {
-        return o.offerId === offerId
-    })
-    return selectedOffer;
-}
-
 FareFamilies = withRouter(FareFamilies)
-// export default FlightDetail;

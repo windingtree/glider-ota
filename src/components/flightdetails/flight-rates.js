@@ -1,4 +1,3 @@
-import {Col, Container, Row} from "react-bootstrap";
 import React, {useState} from 'react';
 import OfferUtils from "../../utils/offer-utils";
 import style from "./flight-rates.module.scss"
@@ -7,7 +6,6 @@ import FareFamilyHelper from "../../utils/fare-family-helper";
 
 
 
-// export default function TripRates({itineraries, selectedCombination, selectedOffer, pricePlans, onOfferChange}) {
 export default function TripRates({tripRates, selectedOffer, onOfferChange}) {
     const [currentOffer, setCurrentOffer] = useState(selectedOffer)
     let fareFamilyHelper = new FareFamilyHelper(tripRates);
@@ -19,6 +17,9 @@ export default function TripRates({tripRates, selectedOffer, onOfferChange}) {
     function onOfferSelected(offerId) {
         let offer = tripRates.offers[offerId]
         setCurrentOffer(offer);
+
+        console.log("onOfferSelected, offerId:",offerId)
+        onOfferChange(offerId)
     }
 
     let itineraries = tripRates.itineraries;
@@ -50,7 +51,6 @@ export default function TripRates({tripRates, selectedOffer, onOfferChange}) {
  */
 
 export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlanSelected, onOfferSelected}) {
-    // const [selectedPricePlanId,setSelectedPricePlanId] = useState();
     let itineraryId = itinerary.itinId;
     function selectPlan(itineraryId,pricePlanId){
         onPricePlanSelected(itineraryId,pricePlanId)
@@ -66,10 +66,12 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
     let pricePlanIds = fareFamilyHelper.getItineraryPricePlansInAscendingOrder(itineraryId);
     let priceOffsets = fareFamilyHelper.getItineraryPricePlanOffsetPrices(selectedOffer.offerId,itineraryId);
     let selectedPricePlanId = selectedOffer.itinToPlanMap[itineraryId];
+/*
     console.log("Selected offer:",selectedOffer)
     console.log("Itinerary ID:",itineraryId," selected offer itin price plan ID",selectedPricePlanId)
     console.log("Itinerary price plan IDs:",pricePlanIds)
     console.log("Itinerary price offsets:",priceOffsets)
+*/
     return (<>
         <ItineraryDetails itinerary={itinerary}/>
         <div className='py-5'/>
@@ -86,7 +88,6 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                             price = priceOffset.priceOffset;
                             offerId = priceOffset.offerId;
                         }
-                        // console.log("Price plan ID:",pricePlanId," price plan:",pricePlan);
                         return (
                             <FareFamilyBenefits amenities={pricePlan.amenities} price={price} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}}/>
                         )
@@ -145,10 +146,3 @@ export function FareFamilyBenefits({familyName, price, isSelected, amenities=[],
     )
 }
 
-function getFirstSegment (segments) {
-    return segments[0];
-}
-
-function  getLastSegment (segments) {
-    return ;
-}

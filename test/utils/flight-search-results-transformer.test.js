@@ -16,14 +16,15 @@ const sampleOfferIdAF_0012="c74624e5-83a3-44f9-8624-e583a3b40012";
 
 describe('#extendResponse()', function () {
     it('should return merge out/ret offers and save a file', function () {
-        const unmergedJSON = require('../test_data/sample_response_unprocessed')
+        let filename="yul_yyz_rt_1pax";
+        const unmergedJSON = require("../test_data/"+filename)
         let sizeBefore=JSON.stringify(unmergedJSON).length;
         let start=Date.now();
         let mergedJSON = extendResponse(unmergedJSON);
         let end=Date.now();
         let sizeAfter=JSON.stringify(mergedJSON).length;
         console.log(`JSON size before:${sizeBefore}, JSON size after:${sizeAfter}, Merging time ${end-start}ms`);
-        // fs.createWriteStream('./air_canada_roundtrip.json').write(JSON.stringify(processed));
+        fs.createWriteStream('./'+filename+".extended").write(JSON.stringify(mergedJSON));
     });
 });
 

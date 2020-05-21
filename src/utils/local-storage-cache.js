@@ -1,11 +1,14 @@
 import LocalStorageCache from 'localstorage-cache';
-import LZString from "lz-string";
+const CACHE_SIZE_IN_KB=2*1024;          //in KB (2024KB = 2MB)
+const CACHE_EXPIRY_IN_SECONDS=60*60;    //600 sec = 10 min
+const CACHE_STRATEGY='LRU';             //LRU=Least Recently Used, LFU-Least Frequently Used
 
-const storageCache = new LocalStorageCache(2 * 1024, 'LRU'); //
+
+const storageCache = new LocalStorageCache(CACHE_SIZE_IN_KB, CACHE_STRATEGY); //
 
 export function storeSearchResultsInCache(criteria,searchResults){
     let key = JSON.stringify(criteria);
-    storageCache.setCache(key,searchResults);
+    storageCache.setCache(key,searchResults,CACHE_EXPIRY_IN_SECONDS);
     localStorage.setItem('lastSearchCriteria',key);
 }
 
@@ -29,13 +32,3 @@ export function retrieveSearchResultsFromLocalStorage(){
     console.log("retrieveSearchResultsFromLocalStorage",cachedResults)
     return cachedResults;
 }
-/*export function clearSearchResultsInLocalStorage(){
-    // localStorage.setItem('searchResults',LZString.compressToUTF16({}));
-    localStorage.setItem('searchResults',{});
-}*/
-/*
-export function storeSearchResultsInLocalStorage(searchResults){
-    console.log("storeSearchResultsInLocalStorage",searchResults)
-    localStorage.setItem('searchResults', JSON.stringify(searchResults));
-    // localStorage.setItem('searchResults', LZString.compressToUTF16(JSON.stringify(searchResults)));
-}*/
