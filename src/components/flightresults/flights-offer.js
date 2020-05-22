@@ -20,7 +20,6 @@ export function Offer({itineraries = [], price, offerId, onOfferDisplay}) {
                     <Button variant="outline-primary pricebtn" size="lg" onClick={() => {
                         onOfferDisplay(offerId)
                     }}>{price.public} {price.currency}</Button>
-                    {config.DEBUG_MODE && <>OfferID:{offerId}</>}
                 </Col>
             </Row>
         </Container>

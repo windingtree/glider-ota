@@ -6,6 +6,7 @@ import OfferUtils from '../../utils/offer-utils';
 import "react-input-range/lib/css/index.css";
 
 import _ from 'lodash'
+import {SearchResultsWrapper} from "../../utils/flight-search-results-transformer";
 
 const AIRLINES_FILTER_ID = 'airlines';
 const MAXSTOPS_FILTER_ID = 'maxStops';
@@ -64,8 +65,22 @@ export function generateFiltersStates(searchResults) {
 
 function filterSearchResults(searchResults, filtersState) {
     console.log("Will apply filter:", filtersState)
-    let combinationsAfter = [];
-    _.each(searchResults.combinations, (combination) => {
+   /* let searchResultsWrapper = new SearchResultsWrapper(searchResults);
+    let offers = searchResults.offers;
+    let combinations = searchResults.combinations;
+    let itinerariesToRemove={}
+    Object.keys(offers).forEach(offerId=>{
+        let offer = searchResultsWrapper.getOffer(offerId);
+        if (!priceMinMaxPredicate(offer, filtersState)) {
+            delete offers[offerId];
+        }
+
+        let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+        if (!airlinePredicate(itineraries, filtersState))
+            delete offers[offerId];
+    })*/
+
+    /*_.each(searchResults.offers, (offer) => {
         let offersUnfiltered = combination.offers;
         combination.offers = [];
         _.each(offersUnfiltered, (offer) => {
@@ -77,9 +92,9 @@ function filterSearchResults(searchResults, filtersState) {
             combinationsAfter.push(combination)
         }
 
-    });
+    });*/
     // searchResults.combinations = combinationsAfter;
-    return combinationsAfter;
+    return searchResults;
 }
 
 
@@ -87,8 +102,7 @@ function priceMinMaxPredicate(offer, filtersState) {
     let priceRange = filtersState[PRICERANGE_FILTER_ID];
     if (priceRange === undefined)
         return true;
-    let price = offer.offer.price;
-    // console.log("priceMinMaxPredicate, criteria:",priceRange," offer:", price)
+    let price = offer.price;
     if (price.public >= priceRange.min && price.public <= priceRange.max)
         return true;
     return false;

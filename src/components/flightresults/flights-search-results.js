@@ -43,10 +43,11 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay}) {
     }
 
     const searchResultsWrapper = new SearchResultsWrapper(searchResults);
+    let trips=searchResultsWrapper.generateSearchResults('PRICE')
     let offers = searchResults.offers;
     let offerIds = Object.keys(offers);
-    let totalResultsCount = offerIds.length;
-    offerIds = limitSearchResultsToCurrentPage(Object.keys(offers));
+    let totalResultsCount = trips.length;
+    trips = limitSearchResultsToCurrentPage(trips);
 
     return (
         <Container fluid={true} className={style.flightssearchresultscontainer}>
@@ -56,7 +57,8 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay}) {
                                   onActivePageChange={onActivePageChange} totalRecords={totalResultsCount}/>
                 {/*    <FastCheapFilter/>*/}
                 {
-                    offerIds.map(offerId => {
+                    trips.map(tripInfo => {
+                        let offerId = tripInfo.offerId;
                         // let cheapestOffer = OfferUtils.getCheapestOffer(offer);
                         let offer = searchResultsWrapper.getOffer(offerId)
                         let itineraries = searchResultsWrapper.getOfferItineraries(offerId)

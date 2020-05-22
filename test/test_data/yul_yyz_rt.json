@@ -1,0 +1,5818 @@
+{
+  "warnings": [
+    {
+      "provider": "AF",
+      "error": "NdcService exception : Error returned by provider : amadeus-ffpu.SYSTEM_UNABLE_TO_PROCESS[118]"
+    }
+  ],
+  "offers": {
+    "28e7e883-90e5-4f7a-82e4-dc22f6585e4c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "B38ZVU7IRL-OD1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "9ce80b78-c953-4457-8359-4ae67c05902d": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "O2JIW4AXIZ-OD2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "619e5f0e-58e7-4a96-839a-9a37e4de2d23": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "JMKEXTL0UY-OD3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "f0f5e83b-74c3-4ed9-9e16-c4a294d7397a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "N66AY749UK-OD4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "43be6a06-d97c-456b-adc9-d8c83934687e": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "PQCTZLAZMP-OD5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "fe1397d9-bf3b-42eb-bf19-b0e82f583ea5": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "NZNZEK1QYW-OD6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "09f9aff8-e037-4a9b-8437-e4f113a93788": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "HK7Q6G9B3G-OD7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "bf8dd33c-979a-40ea-89cb-014c1cc80cfe": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "AQJYFZPL45-OD8"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "5071ff95-da77-47e1-9f1b-9234534b6373": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "HL1TRML6AK-OD9"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "9f56da29-27fa-43b5-8885-4cd3bc5e5967": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "IXBXHQYRDD-OD10"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "faba1061-d841-432a-be73-1d93b9a8dbe2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "A0AZASQDGV-OD11"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "2a7f6927-e512-4ac8-93d0-781bbf94c2aa": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "H4A44HH3PL-OD12"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "d6890f78-1c78-42c4-9193-b7e273994833": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "H85IMB23FD-OD13"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "eec42ec7-8a96-4c8a-95f2-bcc83b8ab0a8": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "ZIFU7YJLPM-OD14"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "31ad478f-c568-4023-8500-ac31fc2da8be": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "H59DWG3G4M-OD15"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "c160aee7-72c9-49cc-99d6-7e61f5aca527": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "C5YP1RP1YB-OD16"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "278c73ab-0e29-4ce5-8e93-cb29356fa5bf": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "HNZ420F1FY-OD17"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "3ca042d7-3f02-4fee-84bc-12518653015a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "HMLVEJ39HH-OD18"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "219ae687-0d23-411a-b033-ca801f26754c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "H965AH2E09-OD19"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "4321c518-3b4b-4d3b-827f-ce9d93679763": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "YFNUZHCB51-OD20"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "147.17",
+        "commission": "0.00",
+        "taxes": "49.17"
+      }
+    },
+    "6f3934c7-4e68-4df3-a8aa-f61ab29e48a8": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "CBJK1JRXS4-OD21"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "270.19",
+        "commission": "0.00",
+        "taxes": "65.19"
+      }
+    },
+    "a4779649-bfda-4c42-a9e3-af3f5f24eb38": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "B38ZVU7IRL-OD1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "e904c1c1-6b73-44f8-8cc2-57d1f5996e81": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "O2JIW4AXIZ-OD2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "b82af2cb-8333-4a52-8ac0-0355e5485193": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "JMKEXTL0UY-OD3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "366bc768-65d7-4f55-9648-3b439084a201": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "N66AY749UK-OD4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "04a122b8-53e0-48f8-8059-3251992e3f52": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "PQCTZLAZMP-OD5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "2e97cabe-c473-40d7-a604-ef3d0660108e": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "NZNZEK1QYW-OD6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "17f4a155-5433-4c8d-a87a-148beef8323d": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "HK7Q6G9B3G-OD7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "726075dc-fffa-40eb-bba4-114e80bf7e33": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "AQJYFZPL45-OD8"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "56456a21-2b8a-4005-a3f3-75d4bdf0f123": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "HL1TRML6AK-OD9"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "c9e7ee85-1a43-406e-a7bc-f06aaac19795": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "IXBXHQYRDD-OD10"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "07bd6f92-b498-426d-84a7-60894ed4e358": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "A0AZASQDGV-OD11"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "3979c835-2f64-4e7d-875a-76710611f189": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "H4A44HH3PL-OD12"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "14da5564-dcb7-43fd-a33a-8e9064a417a5": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "H85IMB23FD-OD13"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "5c815513-78b9-4acd-81dd-f5cda62a12c1": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "ZIFU7YJLPM-OD14"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "31ef17c8-db76-41f7-8739-24f6923b8d12": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "H59DWG3G4M-OD15"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "d2c37922-ca88-450c-99dc-06ba704832b0": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "C5YP1RP1YB-OD16"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "9d958cbe-a95b-417b-8de7-b96a8d2e5a9b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "HNZ420F1FY-OD17"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "c304dd04-10bc-4569-b713-1ec996e62b17": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "HMLVEJ39HH-OD18"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "1e2cdd3a-50cd-4877-bfbb-2ad87365af5c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "H965AH2E09-OD19"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "712e787b-e300-49b8-88e8-a09e1b83c1c6": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "YFNUZHCB51-OD20"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "172.46",
+        "commission": "0.00",
+        "taxes": "52.46"
+      }
+    },
+    "55250f21-9e0e-4ee2-81db-6f3de335185f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "CBJK1JRXS4-OD21"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "295.48",
+        "commission": "0.00",
+        "taxes": "68.48"
+      }
+    },
+    "985a571b-fe62-4582-ad07-134b34025458": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "B38ZVU7IRL-OD1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "fca9e701-52fd-4761-b58d-32b9226af279": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "O2JIW4AXIZ-OD2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "d884be38-06eb-4e38-8032-d372e96bfc2c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "JMKEXTL0UY-OD3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "ed7519ea-a232-4ac9-90db-cfb7293d2a15": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "N66AY749UK-OD4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "cdeb9b93-b747-43fb-9e7e-b65e4c2c674f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "PQCTZLAZMP-OD5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "ba3fbbea-6e6d-4a4d-b52a-db1d1897bcb6": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "NZNZEK1QYW-OD6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "a264e512-d030-4f49-88fd-05d90a6f949f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "HK7Q6G9B3G-OD7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "dbd6d02f-a7ba-4fc3-a239-941476d18de5": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "AQJYFZPL45-OD8"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "d9f09ee9-8bac-4bcc-b2fa-fd94c62a99f3": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "HL1TRML6AK-OD9"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "d11b069e-ef49-4bf8-be36-519bf6926ba0": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "IXBXHQYRDD-OD10"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "db83eb7e-51c3-484d-8372-c6748fb32b67": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "A0AZASQDGV-OD11"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "57551dd9-375c-4d74-9413-f3d02e7b7b14": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "H4A44HH3PL-OD12"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "fde4bc50-b1fb-4140-b285-d3f1581ee414": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "H85IMB23FD-OD13"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "11e4a547-b1c0-46b2-bc8d-60642b4b98c1": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "ZIFU7YJLPM-OD14"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "93ec6121-5906-4c42-a75d-ccdbde681d58": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "H59DWG3G4M-OD15"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "b39e0218-f617-462f-8142-3ea9908fb134": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "C5YP1RP1YB-OD16"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "e255e9de-788b-4361-9e10-396d9b6fd308": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "HNZ420F1FY-OD17"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "a59c59d5-4091-4c51-9a9e-003469eea2dc": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "HMLVEJ39HH-OD18"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "b1d03252-d4a2-456c-b3aa-36bc313d942a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "H965AH2E09-OD19"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "1c9bdd08-6a2c-421e-993a-8720d38112a5": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "YFNUZHCB51-OD20"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "218.45",
+        "commission": "0.00",
+        "taxes": "58.45"
+      }
+    },
+    "37b4f040-2a2a-4170-9418-0db4d77e71ce": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "CBJK1JRXS4-OD21"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "341.47",
+        "commission": "0.00",
+        "taxes": "74.47"
+      }
+    },
+    "b6803822-e25d-476e-832a-efc29728dfb4": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "B38ZVU7IRL-OD1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "2f0b01ab-b5e8-4ff9-88e1-67b1854e3880": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "O2JIW4AXIZ-OD2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "dfa51217-7eb2-41d0-9c91-d1ed26446926": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "JMKEXTL0UY-OD3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "b06f6359-3446-491a-a86d-6c4dbcdb327a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "N66AY749UK-OD4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "6771dfff-3633-431a-9fef-e84267d9942b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "PQCTZLAZMP-OD5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "77ea34e4-7c31-41c6-8f22-8ed82e718f21": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "NZNZEK1QYW-OD6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "2d8109af-5586-49d2-96b7-678876136b58": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "HK7Q6G9B3G-OD7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "4d231669-1ec5-4594-b6b4-3944a3174cfe": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "AQJYFZPL45-OD8"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "ca6c5440-f42d-493a-a166-ebc8d133c776": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "HL1TRML6AK-OD9"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "69d864bb-7412-4a14-b9a1-9be44f23eb2f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "IXBXHQYRDD-OD10"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "c6e626de-ff89-4fcb-98b7-516e9209dc48": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "A0AZASQDGV-OD11"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "9bf489b5-8554-45bf-b192-65a24e3b0341": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "H4A44HH3PL-OD12"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "155816d6-a5d9-4c3c-a4f8-d62e98b0a580": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "H85IMB23FD-OD13"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "d52cb881-7444-4ea7-b97e-7684c8e91068": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "ZIFU7YJLPM-OD14"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "718eff7c-c62d-4060-970f-3d4ac09fd205": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "H59DWG3G4M-OD15"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "aafdbdd6-ef4a-445c-81fd-6de26f9f0864": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "C5YP1RP1YB-OD16"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "70c307db-13d1-487e-9451-da9a7c81749a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "HNZ420F1FY-OD17"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "57977639-cb1f-4759-a12a-d3053f7a635e": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "HMLVEJ39HH-OD18"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "edfac91a-f08b-48a2-82ee-ef5071e22a65": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "H965AH2E09-OD19"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "5493a354-fa6e-43c9-999f-5694e3faf5cf": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "YFNUZHCB51-OD20"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "235.70",
+        "commission": "0.00",
+        "taxes": "60.70"
+      }
+    },
+    "dfebd1d0-ae38-4d0d-894d-f62585828f03": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "CBJK1JRXS4-OD21"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "358.72",
+        "commission": "0.00",
+        "taxes": "76.72"
+      }
+    },
+    "7e49ee3a-ebfa-4d4f-b3c9-c5a13efb77c4": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "B38ZVU7IRL-OD1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "1610bc66-5b4a-4092-bd1f-32edea25e96e": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "CBJK1JRXS4-OD21"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "1564227e-153d-4ec7-b190-81a14c4f53ce": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "O2JIW4AXIZ-OD2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "bfff20e9-e1c5-4573-98bf-0e510a2383e8": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "JMKEXTL0UY-OD3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "f946590a-21ec-40c9-b51b-cb06bdbc7600": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "N66AY749UK-OD4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "41a23736-29b7-41b4-8df5-1d4684eb91ce": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "PQCTZLAZMP-OD5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "6359b7cf-da4a-4a71-90a8-6f3b1eda3d3c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "NZNZEK1QYW-OD6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "dd3f8760-f02d-440f-aa99-38a9a9087305": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "HK7Q6G9B3G-OD7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "ab225b39-0f32-47aa-a168-debf1441b058": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "AQJYFZPL45-OD8"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "ad25946b-7990-4426-ae4c-e5f348a878c0": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "HL1TRML6AK-OD9"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "f54877ff-383f-4444-a84c-24fe848feee2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "IXBXHQYRDD-OD10"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "1c81b099-d4d1-4abe-b2ef-9dd0dcf51291": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "A0AZASQDGV-OD11"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "9dbe5ce0-2ac1-4057-babd-92f6ee3fc9ab": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "H4A44HH3PL-OD12"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "690b30eb-42f1-493f-bc39-4ce1d8f6b11d": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "H85IMB23FD-OD13"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "473e2af9-8b83-4c59-b915-bf1e95a57065": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "ZIFU7YJLPM-OD14"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "914d05d6-19ad-4b26-ab35-1428fe4d1780": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "H59DWG3G4M-OD15"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "c9b86b65-0a19-4679-bdaf-de1bcedcc77f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "C5YP1RP1YB-OD16"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "cb9bf497-b7a4-4782-aba1-e10b53c881ac": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "HNZ420F1FY-OD17"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "30128932-e4d9-4afd-9d33-35d2938473d2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "HMLVEJ39HH-OD18"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "2db6ce94-424c-4c81-ad66-acbe2bfd2a34": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "H965AH2E09-OD19"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "c072e4a8-ca92-4385-9aae-a6baa5cc35ea": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "YFNUZHCB51-OD20"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "732.39",
+        "commission": "0.00",
+        "taxes": "125.39"
+      }
+    },
+    "4ace6dd1-48ee-4d7e-bc6c-fd192988fa09": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "YN6WNTAJKB-PremiumEconomylowest": {
+          "flights": [
+            "ZIFU7YJLPM-OD14"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "317.33",
+        "commission": "0.00",
+        "taxes": "71.33"
+      }
+    },
+    "4f446a1e-1b46-4c22-b9a1-99a485106f23": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "YUKXYL6L13-PremiumEconomyflexible": {
+          "flights": [
+            "ZIFU7YJLPM-OD14"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "551.88",
+        "commission": "0.00",
+        "taxes": "101.88"
+      }
+    },
+    "e8ff4f59-0a5a-43b8-8495-29aeea8bee29": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "B38ZVU7IRL-OD1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "28a49168-2145-4ffe-98b0-946534cf569a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "CBJK1JRXS4-OD21"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "aac789ba-9f6b-40bd-a37b-c246968f0914": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "O2JIW4AXIZ-OD2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "cfc258a9-59e2-439e-b4b3-daea5de07dde": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "JMKEXTL0UY-OD3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "3fbd3bc9-34a6-4ebf-816c-2865b83663cc": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "N66AY749UK-OD4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "88bd5714-331b-4568-a3a6-6d25d05fea49": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "PQCTZLAZMP-OD5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "0824fb1e-3493-4f3c-b150-cf9616c1bc19": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "NZNZEK1QYW-OD6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "00a3cc2f-89ce-4bea-a44f-304cb0774782": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "HK7Q6G9B3G-OD7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "33a7dc00-4872-45ed-bc5f-ca01384c521c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "AQJYFZPL45-OD8"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "3d9f2050-d212-4af9-ba67-956b0bd9f2d5": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "HL1TRML6AK-OD9"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "9764cb01-0b94-4f0c-988a-18e873ba75ed": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "IXBXHQYRDD-OD10"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "97a80ff8-2e19-4098-a0aa-8ce9beff3153": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "A0AZASQDGV-OD11"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "e236ccec-7d7a-473e-b8d5-0f83950f973b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "H4A44HH3PL-OD12"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "91bbc897-0f8b-4dc3-a96d-e6edad4744dc": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "H85IMB23FD-OD13"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "df7087e9-422d-48ea-bd32-91d4b2789a98": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "ZIFU7YJLPM-OD14"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "1fce7280-7333-465f-810f-6f3f130a812a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "H59DWG3G4M-OD15"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "3a50af7f-aac1-496b-a3a2-230e05f382a9": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "C5YP1RP1YB-OD16"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "677bad5f-948e-4601-b58b-1dcc560a558b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "HNZ420F1FY-OD17"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "2ee74675-d17c-4625-8e72-89130373b9fd": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "HMLVEJ39HH-OD18"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "3894a057-aaba-4b51-b6f5-d3a6d5f34c66": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "H965AH2E09-OD19"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "bb3c2781-ddc1-4817-8e8c-9667c0796235": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "YFNUZHCB51-OD20"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "463.35",
+        "commission": "0.00",
+        "taxes": "90.35"
+      }
+    },
+    "e68eeddc-e5bd-426e-88d2-34ee4166b599": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "B38ZVU7IRL-OD1"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "40bb8843-ee02-477c-963c-ce96c0b44f99": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "CBJK1JRXS4-OD21"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "a62b0039-e5a7-4b75-a602-6d4b04b34374": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "O2JIW4AXIZ-OD2"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "c1a0c4dc-a1ad-4343-823b-f8b287ea0bc7": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "JMKEXTL0UY-OD3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "dfe7f46f-01b4-4404-9e73-3ca501d74a01": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "N66AY749UK-OD4"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "dc4a5a96-bb16-4531-80f2-a6d75fc0e2e7": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "PQCTZLAZMP-OD5"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "acad5b38-0153-4e66-a3dc-b51a5d28fda2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "NZNZEK1QYW-OD6"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "08701daf-dece-4720-9e58-9ee513204aed": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "HK7Q6G9B3G-OD7"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "1fe2e79c-575e-45fc-bd4d-b09dbe57d286": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "AQJYFZPL45-OD8"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "bc1d97fc-d933-4bc3-8a1a-9222caaeb1bf": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "HL1TRML6AK-OD9"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "ca3de77a-f25e-4183-ac75-446bcc6f509f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "IXBXHQYRDD-OD10"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "3652808a-4c19-4485-8856-fc6b2b2326df": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "A0AZASQDGV-OD11"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "9f008cd9-002b-4f90-8036-d185d08df981": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "H4A44HH3PL-OD12"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "6c9eed98-679e-471f-a064-e9873034833b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "H85IMB23FD-OD13"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "619db33c-a2c2-4db3-a3cb-573b9b709d1c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "ZIFU7YJLPM-OD14"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "cafa89a4-3b41-4a93-ae34-4f097761d559": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "H59DWG3G4M-OD15"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "1353756d-e6e9-4228-9fc1-ba30cb8dd990": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "C5YP1RP1YB-OD16"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "30f64ad9-c979-4c59-b249-f259bea712d2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "HNZ420F1FY-OD17"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "53429188-3509-401c-9a38-82d73d64a273": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "HMLVEJ39HH-OD18"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "6cb94171-9cd8-4517-b52f-caedd108a9fe": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "H965AH2E09-OD19"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "c99ea98d-5290-4735-a1b6-370113726619": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "YFNUZHCB51-OD20"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "797.92",
+        "commission": "0.00",
+        "taxes": "133.92"
+      }
+    },
+    "68069592-ab00-4655-8189-67cd73eaa7c2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "GNCN811L3U-OD150"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "f56bb8e4-ffc6-49ed-ba9c-57a17c8cc253": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "QYKB9E7M8J-OD151"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "f6a5cee6-6491-4281-93c6-356778f24870": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "HFIH9CXP31-OD152"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "9c6be7ca-6767-432b-abbb-c637fa2dad66": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "UAR6LP68XN-OD153"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "f5b630b6-3bf0-427a-8926-d0f7844b096a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "AE0GZMTBNF-OD154"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "a3192323-0d1a-4c3b-958c-64fee342c612": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "ZAB5TLMYZS-OD155"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "eb24570b-6bff-4741-b517-2271359744b2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "IJN5OHIYE8-OD156"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "025f28f8-8b87-475e-b7c4-e7846f47528e": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "R9OZ1P4VUP-OD157"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "09343413-e643-4146-b107-c710cca72144": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "RA7HAF7OOR-OD158"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "890fc36b-e62f-4902-bd75-daa2bfaec0ba": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "GQ7R2L7WDO-OD159"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "91ff6397-6b93-4c5e-9ed1-d9bf0a635eae": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "WE4QQI3YIW-OD160"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "dc93af6c-2c1e-4318-9dca-3d7dbfae7537": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "C2LQH61YDF-OD161"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "aba20364-398e-4251-a9d1-652bf7d0ba7c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "E2HKQAQSYG-OD162"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "79c2c40c-54ed-45f9-ba3a-c5cacd803ca0": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "HY3YZGLY7Q-OD163"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "a89968b8-78de-4856-9c03-c2ec0f74e490": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "N01M3WB5WD-OD164"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "fbc04cea-c8ea-4224-b293-8bc710dfe14a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "X5H3CHPNKL-OD165"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "79bb6b8f-8925-42f6-b37b-09e1c88f19fd": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "T910YSJQJ5-OD166"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "698f64a1-3d05-41b8-97c4-f8b7d4beeffa": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "C3I0SMVG41-OD167"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "0cdd72d2-9437-47dc-8a50-fa723ca28e0f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "BKVM4Y7LJJ-OD168"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "149.13",
+        "commission": "0.00",
+        "taxes": "51.13"
+      }
+    },
+    "fc01bc79-b94c-431b-9d4f-a3f4f68e46a2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H2MU87JU94-Basic": {
+          "flights": [
+            "HK0Y8HN6E6-OD169"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "573.38",
+        "commission": "0.00",
+        "taxes": "106.38"
+      }
+    },
+    "407cab71-d973-49cc-bcca-0ac23bb21c5a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "GNCN811L3U-OD150"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "f7dd691a-ee6c-4622-b92d-63188b1f547b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "QYKB9E7M8J-OD151"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "e522afb2-5b0d-4bc2-a226-6c5643552119": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "HFIH9CXP31-OD152"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "290a3e03-aec0-40b8-baa5-56b514aa8644": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "UAR6LP68XN-OD153"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "7d12cdf7-01fd-4a22-a409-8e0d76b6464e": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "AE0GZMTBNF-OD154"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "00e51b1f-1620-458b-b698-bce665f6ca34": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "ZAB5TLMYZS-OD155"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "7c45c662-a350-4d7c-b2f7-7e2f10873d6c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "IJN5OHIYE8-OD156"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "ebfe12f9-af5c-47fb-860b-91facb33712f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "R9OZ1P4VUP-OD157"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "b7ea6c1c-8643-4cf7-9944-138e55d7b26e": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "RA7HAF7OOR-OD158"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "c08310a7-0632-4002-97fd-6a1506804075": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "GQ7R2L7WDO-OD159"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "7f7870b5-ffb7-46be-940d-8963e424ed8a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "WE4QQI3YIW-OD160"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "87cc84d6-34cb-4c89-98ef-38ee3bb4d294": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "C2LQH61YDF-OD161"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "592d8ad9-d021-40c8-b56c-b99e492e16dd": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "E2HKQAQSYG-OD162"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "f2f03378-d305-445a-89fd-d8838216df06": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "HY3YZGLY7Q-OD163"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "12210eb1-5825-415c-ab91-9e694c16d749": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "N01M3WB5WD-OD164"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "09c64a23-b28f-4388-b4fd-64694f7dcf83": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "X5H3CHPNKL-OD165"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "7bee2482-ea58-4d70-92fc-e07ad0379d7e": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "T910YSJQJ5-OD166"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "fb9e8b48-bf33-4180-933a-a85265bff97d": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "C3I0SMVG41-OD167"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "ddc68cab-a840-4d3d-b2fa-6013c5496026": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "BKVM4Y7LJJ-OD168"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "174.42",
+        "commission": "0.00",
+        "taxes": "54.42"
+      }
+    },
+    "ebceb297-85be-46b1-913a-46666ba838a9": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HVRXRUFH9R-Standard": {
+          "flights": [
+            "HK0Y8HN6E6-OD169"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "623.97",
+        "commission": "0.00",
+        "taxes": "112.97"
+      }
+    },
+    "66ea51f9-8760-449c-8e94-48a26aa56347": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "GNCN811L3U-OD150"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "5a92a498-8884-464c-837b-24cc2bb8a196": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "QYKB9E7M8J-OD151"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "92c34811-e2b4-431e-862e-b9c015b7e76f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "HFIH9CXP31-OD152"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "f8933ac9-405e-40ee-a61f-bb4a50888cc1": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "UAR6LP68XN-OD153"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "4042006c-ed34-4988-afcc-3ac1a92ba6cc": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "AE0GZMTBNF-OD154"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "af6b91a3-9cd3-409e-bbd7-fb41177efdf0": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "ZAB5TLMYZS-OD155"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "a6b32776-0bb3-4173-ae55-33d1c9395452": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "IJN5OHIYE8-OD156"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "12a6f316-7d22-42e3-bf8a-17d51251844c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "R9OZ1P4VUP-OD157"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "c2b9d03e-5c02-462e-94f5-adf6e0995e15": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "RA7HAF7OOR-OD158"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "fa50e6d3-5499-4a11-abd3-112151678b9a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "GQ7R2L7WDO-OD159"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "65f975f7-0180-4a46-999c-a651f824c649": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "WE4QQI3YIW-OD160"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "cf40725f-1a69-4689-9b2e-b73467e4fd22": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "C2LQH61YDF-OD161"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "cebb932b-b1fc-483e-913a-cbca23e4e8ad": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "E2HKQAQSYG-OD162"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "bec80577-00bb-459c-9098-87be03f24829": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "HY3YZGLY7Q-OD163"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "63be8746-d9f4-49cf-b94d-ddf5d30aac20": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "N01M3WB5WD-OD164"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "e66c4de3-8bb6-43d1-b408-8c326ce4cebf": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "X5H3CHPNKL-OD165"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "34f93a4c-4f5e-42a8-89bd-e3a9d9245164": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "T910YSJQJ5-OD166"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "ff011591-8bae-42bb-90fa-28ef7457be3f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "C3I0SMVG41-OD167"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "75a52ff7-c5f2-4a76-ab1f-d4d87e457245": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "BKVM4Y7LJJ-OD168"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "220.41",
+        "commission": "0.00",
+        "taxes": "60.41"
+      }
+    },
+    "7e2e19a2-755b-4697-836d-4fbc51430959": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HFMDR050HC-Flex": {
+          "flights": [
+            "HK0Y8HN6E6-OD169"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "704.46",
+        "commission": "0.00",
+        "taxes": "123.46"
+      }
+    },
+    "03e195dd-f893-42df-9d17-ae071ac2051c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "GNCN811L3U-OD150"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "3510c15f-66ea-4faa-b4fe-db6893cd4acd": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "QYKB9E7M8J-OD151"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "e0fb102f-af7f-4152-9de0-1cb71a7fea37": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "HFIH9CXP31-OD152"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "e32342a9-660f-4c90-b299-65c6150dfd33": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "UAR6LP68XN-OD153"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "e747d95c-6302-48c2-9ffa-61f1d76598f3": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "AE0GZMTBNF-OD154"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "6b49edc4-89cf-4f38-a953-1b97a0d271f2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "ZAB5TLMYZS-OD155"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "e42536b3-a6b8-432f-96a9-2015d9bfe50f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "IJN5OHIYE8-OD156"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "9dd2fd80-fec3-457b-8662-985bac57c642": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "R9OZ1P4VUP-OD157"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "ce667b94-2122-4f8e-9889-1ab9cd53fd0b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "RA7HAF7OOR-OD158"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "489d97ed-dcf2-47b5-b4d2-7861c3fb7adc": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "GQ7R2L7WDO-OD159"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "b6406908-eaea-4af4-9dc4-dc5a95b95cbf": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "WE4QQI3YIW-OD160"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "67eb09cd-f0b6-4361-8d28-88e4ca852d8f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "C2LQH61YDF-OD161"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "2e24a92b-3bc6-4819-935e-0df2749362e1": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "E2HKQAQSYG-OD162"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "b40290e8-9167-4737-9b9a-bf88827f3083": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "HY3YZGLY7Q-OD163"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "f80b0c49-4466-40a5-bfa2-a25db8a30f67": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "N01M3WB5WD-OD164"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "947a73d6-9919-4675-85ef-43e63248d5aa": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "X5H3CHPNKL-OD165"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "ae33a6e0-4d55-456a-9f5f-ba14cd93ddc7": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "T910YSJQJ5-OD166"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "dbf29f3c-061d-4e07-a803-f78a21fdb553": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "C3I0SMVG41-OD167"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "21ef2400-cfc2-4495-8a3a-f330ff2740a1": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "BKVM4Y7LJJ-OD168"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "237.66",
+        "commission": "0.00",
+        "taxes": "62.66"
+      }
+    },
+    "e8e811b1-9d05-4030-947e-4a549bbab814": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "H51S41N21D-Comfort": {
+          "flights": [
+            "HK0Y8HN6E6-OD169"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "744.70",
+        "commission": "0.00",
+        "taxes": "128.70"
+      }
+    },
+    "2d0c7c77-1a03-4960-bdc8-9a36c1cfe366": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "GNCN811L3U-OD150"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "9f6c8b27-69b3-417f-ad7c-542215145540": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "QYKB9E7M8J-OD151"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "08726cac-5017-46fd-8d3f-ae4d6411937b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "HFIH9CXP31-OD152"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "20344dc3-b0ba-40bd-b644-9f56b3ed7f39": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "UAR6LP68XN-OD153"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "00d371be-56fa-4aa5-bca9-24ccc0d6e22a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "AE0GZMTBNF-OD154"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "8e6443e7-d2aa-4112-a2fd-84765e2866b7": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "ZAB5TLMYZS-OD155"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "9babc401-0642-4036-8e62-7c8f49c3420f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "IJN5OHIYE8-OD156"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "84fad514-02de-4d94-9406-ca8ada7e7a26": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "R9OZ1P4VUP-OD157"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "c035e211-1e42-4f60-b7be-b9f7edd7aee7": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "RA7HAF7OOR-OD158"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "dcee00bf-12cd-4e47-b8e4-152fa99091d4": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "GQ7R2L7WDO-OD159"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "7117c892-be9b-4433-924c-e2e950662d8e": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "WE4QQI3YIW-OD160"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "8a5c16b9-e9e5-431f-90e3-c0b6bdea87b2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "C2LQH61YDF-OD161"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "cb6440f7-65cc-4c33-9db2-ee810b08b107": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "E2HKQAQSYG-OD162"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "f91e5794-6c25-4e91-ba1e-e4aad7a5c7b9": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "HY3YZGLY7Q-OD163"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "b96ec6ae-bf9a-4e9f-ab8d-c324e23f8c72": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "N01M3WB5WD-OD164"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "cd490afc-6008-4ac0-9e75-d03f61330c63": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "X5H3CHPNKL-OD165"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "d6e4fc1b-5b4d-470a-a519-abf05cc1cd6d": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "T910YSJQJ5-OD166"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "dbbda371-0e6a-424c-9c49-332f907f9beb": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "C3I0SMVG41-OD167"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "f4e6cb4f-eb65-4e6b-b3b2-b9f5c3f32ef8": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "BKVM4Y7LJJ-OD168"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "734.35",
+        "commission": "0.00",
+        "taxes": "127.35"
+      }
+    },
+    "a2f45be3-3721-4d1d-9d57-4623c5a1733b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "ZI44WMFMQ8-Latitude": {
+          "flights": [
+            "HK0Y8HN6E6-OD169"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "1617.36",
+        "commission": "0.00",
+        "taxes": "242.36"
+      }
+    },
+    "3177f126-d8e1-4794-831f-b2a5eba79cf6": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "YN6WNTAJKB-PremiumEconomylowest": {
+          "flights": [
+            "N01M3WB5WD-OD164"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "319.29",
+        "commission": "0.00",
+        "taxes": "73.29"
+      }
+    },
+    "641c1861-471f-4001-80d2-09e728cf1b8d": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "YUKXYL6L13-PremiumEconomyflexible": {
+          "flights": [
+            "N01M3WB5WD-OD164"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "553.84",
+        "commission": "0.00",
+        "taxes": "103.84"
+      }
+    },
+    "21e48a7d-3ca1-4a7b-a5f7-02f4894a7b59": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "GNCN811L3U-OD150"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "25d82e18-7cee-4a16-910c-d96e93b6b1a6": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "QYKB9E7M8J-OD151"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "44dae62b-0ecb-4ddd-8de1-c977e9961bfa": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "HFIH9CXP31-OD152"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "4c283697-7215-47e9-93c9-7a91a079da86": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "UAR6LP68XN-OD153"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "2d8d5bef-f6ae-4da0-87df-29a31ffb3be1": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "AE0GZMTBNF-OD154"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "b61bb2bb-8d85-4b17-8e88-be8893928bb2": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "ZAB5TLMYZS-OD155"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "7af4f85c-dd5a-4940-90c9-0182d7e38902": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "IJN5OHIYE8-OD156"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "6406bb6a-561e-4776-99a5-316f93eeb70c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "R9OZ1P4VUP-OD157"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "b0d48a4b-cae4-4d03-8674-5a30f4ae133b": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "RA7HAF7OOR-OD158"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "8c885ba9-8506-4aa7-8d4f-ef40f9698e9f": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "GQ7R2L7WDO-OD159"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "fee1cbc4-f3b1-4130-bc2b-10d549e5eab1": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "WE4QQI3YIW-OD160"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "acb65101-7211-4efe-a45e-2030e3fc985a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "C2LQH61YDF-OD161"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "2ed4fd22-2ba4-4587-9d7a-86524de4e3bf": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "E2HKQAQSYG-OD162"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "fc6d3a03-a2d9-4a3d-8afa-1ca51bd0ed84": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "HY3YZGLY7Q-OD163"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "ca6503f3-472f-4068-ae3b-13f0cc9293c7": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "N01M3WB5WD-OD164"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "56514387-aa48-4223-9c04-236d82fa362a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "X5H3CHPNKL-OD165"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "ac6f6938-6320-40c2-9d99-902e41397ad5": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "T910YSJQJ5-OD166"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "8c4f953e-f663-4fc3-b63c-ddcbc29f3bea": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "C3I0SMVG41-OD167"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "8c971836-f602-4404-95f7-bffc7a54feb5": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "HV5BY5HDWL-BusinessClasslowest": {
+          "flights": [
+            "BKVM4Y7LJJ-OD168"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "465.31",
+        "commission": "0.00",
+        "taxes": "92.31"
+      }
+    },
+    "7ee66ea2-e78a-473c-b4fc-445192b3bc8a": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "GNCN811L3U-OD150"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "e30b32e0-104c-4f74-9600-a6f2d1a93d25": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "QYKB9E7M8J-OD151"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "1ac70797-44be-4779-b3d9-4d26334336f7": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "HFIH9CXP31-OD152"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "f6acf8c9-10bb-43c5-9b24-843a219cf5d1": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "UAR6LP68XN-OD153"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "f7afa267-3a6f-4b14-81ef-5d2bb2f1ef43": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "AE0GZMTBNF-OD154"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "cd1f1edb-5cd0-43d2-9fd6-647f252de539": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "ZAB5TLMYZS-OD155"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "b9724dbe-3bad-4f67-949f-0410afe2f894": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "IJN5OHIYE8-OD156"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "76855aa8-d1ee-4094-ae3b-5ea6b331c4b7": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "R9OZ1P4VUP-OD157"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "2bddea57-9c70-44ce-ae4e-33dc51ec2c05": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "RA7HAF7OOR-OD158"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "02f8dad7-05b8-4577-b409-db082c61fda1": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "GQ7R2L7WDO-OD159"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "c042e06a-2d73-420c-87cd-f84991870be4": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "WE4QQI3YIW-OD160"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "bb5a3c4d-d453-4362-a4d3-97d6e2c37a25": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "C2LQH61YDF-OD161"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "b2e3b5f5-22a7-4c32-a89b-6ceb53528290": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "E2HKQAQSYG-OD162"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "4b1332fc-695a-4bc6-bc11-9f69e0552669": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "HY3YZGLY7Q-OD163"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "b89b81fa-32cb-4cda-be9a-4f2a82f33e94": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "N01M3WB5WD-OD164"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "9e3ea892-0ca7-47b8-acfc-f586bf24c1d8": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "X5H3CHPNKL-OD165"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "e94dba39-74df-4a1c-80d6-2978cff8b0da": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "T910YSJQJ5-OD166"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "4443e836-e3bf-43fb-a4a3-465c1625ee7c": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "C3I0SMVG41-OD167"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    },
+    "736bd7c6-5433-47f3-b9ac-37ea847ca641": {
+      "expiration": "2020-05-21T22:54:03.224Z",
+      "pricePlansReferences": {
+        "V9Y39WN6NC-BusinessClassflexible": {
+          "flights": [
+            "BKVM4Y7LJJ-OD168"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "799.89",
+        "commission": "0.00",
+        "taxes": "135.89"
+      }
+    }
+  },
+  "itineraries": {
+    "combinations": {
+      "B38ZVU7IRL-OD1": [
+        "I06BFF08PL-SEG1"
+      ],
+      "O2JIW4AXIZ-OD2": [
+        "Y44WN9B6WL-SEG2"
+      ],
+      "JMKEXTL0UY-OD3": [
+        "H1VVXIKQWL-SEG3"
+      ],
+      "N66AY749UK-OD4": [
+        "MMMAPB2SEW-SEG4"
+      ],
+      "PQCTZLAZMP-OD5": [
+        "Y8RT4C80VF-SEG5"
+      ],
+      "NZNZEK1QYW-OD6": [
+        "OSH86ZOE3P-SEG6"
+      ],
+      "HK7Q6G9B3G-OD7": [
+        "TZDQS44G8U-SEG7"
+      ],
+      "AQJYFZPL45-OD8": [
+        "G6B8GTF3VW-SEG8"
+      ],
+      "HL1TRML6AK-OD9": [
+        "QJJPUU084O-SEG9"
+      ],
+      "IXBXHQYRDD-OD10": [
+        "INK35PPJC1-SEG10"
+      ],
+      "A0AZASQDGV-OD11": [
+        "K7DHUF1URY-SEG11"
+      ],
+      "H4A44HH3PL-OD12": [
+        "WS7LY883YH-SEG12"
+      ],
+      "H85IMB23FD-OD13": [
+        "C73ZF44H64-SEG13"
+      ],
+      "ZIFU7YJLPM-OD14": [
+        "UA16SPHLIK-SEG14"
+      ],
+      "H59DWG3G4M-OD15": [
+        "HHP7QJ3NWO-SEG15"
+      ],
+      "C5YP1RP1YB-OD16": [
+        "VHAYE9JIW8-SEG16"
+      ],
+      "HNZ420F1FY-OD17": [
+        "BZHYB2ZIM3-SEG17"
+      ],
+      "HMLVEJ39HH-OD18": [
+        "H8D2BST7DD-SEG18"
+      ],
+      "H965AH2E09-OD19": [
+        "HAS445PO80-SEG19"
+      ],
+      "YFNUZHCB51-OD20": [
+        "B6WC3XMXJ4-SEG20"
+      ],
+      "CBJK1JRXS4-OD21": [
+        "ZJ7EB6C8EP-SEG21"
+      ],
+      "GNCN811L3U-OD150": [
+        "K9EWY7TCOD-SEG150"
+      ],
+      "QYKB9E7M8J-OD151": [
+        "CBLRIT34DQ-SEG151"
+      ],
+      "HFIH9CXP31-OD152": [
+        "AF9834XX6H-SEG152"
+      ],
+      "UAR6LP68XN-OD153": [
+        "H74OL2GU62-SEG153"
+      ],
+      "AE0GZMTBNF-OD154": [
+        "LNB9A7HR3Q-SEG154"
+      ],
+      "ZAB5TLMYZS-OD155": [
+        "SX889XHMSW-SEG155"
+      ],
+      "IJN5OHIYE8-OD156": [
+        "H3RR62R5G6-SEG156"
+      ],
+      "R9OZ1P4VUP-OD157": [
+        "SUEP84BCKJ-SEG157"
+      ],
+      "RA7HAF7OOR-OD158": [
+        "HZXNHFQ2SD-SEG158"
+      ],
+      "GQ7R2L7WDO-OD159": [
+        "Q412OSFGXS-SEG159"
+      ],
+      "WE4QQI3YIW-OD160": [
+        "HAVTLBAV8J-SEG160"
+      ],
+      "C2LQH61YDF-OD161": [
+        "HXMIVS4GIA-SEG161"
+      ],
+      "E2HKQAQSYG-OD162": [
+        "LMQ9JS4EA0-SEG162"
+      ],
+      "HY3YZGLY7Q-OD163": [
+        "L4UBBHMMPS-SEG163"
+      ],
+      "N01M3WB5WD-OD164": [
+        "H3JHRPXCZL-SEG164"
+      ],
+      "X5H3CHPNKL-OD165": [
+        "ESLUDZM58P-SEG165"
+      ],
+      "T910YSJQJ5-OD166": [
+        "R7BU240HD9-SEG166"
+      ],
+      "C3I0SMVG41-OD167": [
+        "D37VL7FGUK-SEG167"
+      ],
+      "BKVM4Y7LJJ-OD168": [
+        "U55CZX1A6H-SEG168"
+      ],
+      "HK0Y8HN6E6-OD169": [
+        "HCI3QFSDYE-SEG169",
+        "QO6F68ELRS-SEG170"
+      ]
+    },
+    "segments": {
+      "I06BFF08PL-SEG1": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "KV",
+          "flightNumber": "AC2442",
+          "airline_name": "Sky Regional Airlines"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T08:30:00.000Z",
+        "arrivalTime": "2020-07-06T10:54:00.000Z"
+      },
+      "Y44WN9B6WL-SEG2": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0481",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T10:00:00.000Z",
+        "arrivalTime": "2020-07-06T11:22:00.000Z"
+      },
+      "H1VVXIKQWL-SEG3": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "KV",
+          "flightNumber": "AC2444",
+          "airline_name": "Sky Regional Airlines"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T10:30:00.000Z",
+        "arrivalTime": "2020-07-06T11:54:00.000Z"
+      },
+      "MMMAPB2SEW-SEG4": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0485",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T10:30:00.000Z",
+        "arrivalTime": "2020-07-06T11:52:00.000Z"
+      },
+      "Y8RT4C80VF-SEG5": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0401",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T11:00:00.000Z",
+        "arrivalTime": "2020-07-06T12:22:00.000Z"
+      },
+      "OSH86ZOE3P-SEG6": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0403",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T12:00:00.000Z",
+        "arrivalTime": "2020-07-06T13:22:00.000Z"
+      },
+      "TZDQS44G8U-SEG7": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0405",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T13:00:00.000Z",
+        "arrivalTime": "2020-07-06T14:22:00.000Z"
+      },
+      "G6B8GTF3VW-SEG8": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0407",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T14:00:00.000Z",
+        "arrivalTime": "2020-07-06T15:22:00.000Z"
+      },
+      "QJJPUU084O-SEG9": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0409",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T15:00:00.000Z",
+        "arrivalTime": "2020-07-06T16:22:00.000Z"
+      },
+      "INK35PPJC1-SEG10": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0411",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T16:00:00.000Z",
+        "arrivalTime": "2020-07-06T17:22:00.000Z"
+      },
+      "K7DHUF1URY-SEG11": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0413",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T17:00:00.000Z",
+        "arrivalTime": "2020-07-06T18:22:00.000Z"
+      },
+      "WS7LY883YH-SEG12": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0415",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T18:00:00.000Z",
+        "arrivalTime": "2020-07-06T19:22:00.000Z"
+      },
+      "C73ZF44H64-SEG13": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0417",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T19:00:00.000Z",
+        "arrivalTime": "2020-07-06T20:22:00.000Z"
+      },
+      "UA16SPHLIK-SEG14": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0835",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T20:00:00.000Z",
+        "arrivalTime": "2020-07-06T21:22:00.000Z"
+      },
+      "HHP7QJ3NWO-SEG15": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0421",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T21:00:00.000Z",
+        "arrivalTime": "2020-07-06T22:22:00.000Z"
+      },
+      "VHAYE9JIW8-SEG16": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0423",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T22:00:00.000Z",
+        "arrivalTime": "2020-07-06T23:22:00.000Z"
+      },
+      "BZHYB2ZIM3-SEG17": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0425",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T23:00:00.000Z",
+        "arrivalTime": "2020-07-07T00:22:00.000Z"
+      },
+      "H8D2BST7DD-SEG18": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC9994",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T23:00:00.000Z",
+        "arrivalTime": "2020-07-07T00:34:00.000Z"
+      },
+      "HAS445PO80-SEG19": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0427",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-07T00:00:00.000Z",
+        "arrivalTime": "2020-07-07T01:22:00.000Z"
+      },
+      "B6WC3XMXJ4-SEG20": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0429",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-07T01:45:00.000Z",
+        "arrivalTime": "2020-07-07T03:07:00.000Z"
+      },
+      "ZJ7EB6C8EP-SEG21": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "KV",
+          "flightNumber": "AC7561",
+          "airline_name": "Sky Regional Airlines"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-07-06T09:30:00.000Z",
+        "arrivalTime": "2020-07-06T10:52:00.000Z"
+      },
+      "K9EWY7TCOD-SEG150": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "KV",
+          "flightNumber": "AC7562",
+          "airline_name": "Sky Regional Airlines"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T04:30:00.000Z",
+        "arrivalTime": "2020-07-11T05:46:00.000Z"
+      },
+      "CBLRIT34DQ-SEG151": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0480",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T10:30:00.000Z",
+        "arrivalTime": "2020-07-11T11:45:00.000Z"
+      },
+      "AF9834XX6H-SEG152": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "KV",
+          "flightNumber": "AC2443",
+          "airline_name": "Sky Regional Airlines"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T10:30:00.000Z",
+        "arrivalTime": "2020-07-11T11:45:00.000Z"
+      },
+      "H74OL2GU62-SEG153": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0400",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T11:00:00.000Z",
+        "arrivalTime": "2020-07-11T12:16:00.000Z"
+      },
+      "LNB9A7HR3Q-SEG154": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0402",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T12:00:00.000Z",
+        "arrivalTime": "2020-07-11T13:16:00.000Z"
+      },
+      "SX889XHMSW-SEG155": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0404",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T13:00:00.000Z",
+        "arrivalTime": "2020-07-11T14:16:00.000Z"
+      },
+      "H3RR62R5G6-SEG156": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0406",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T14:00:00.000Z",
+        "arrivalTime": "2020-07-11T15:16:00.000Z"
+      },
+      "SUEP84BCKJ-SEG157": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0408",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T15:00:00.000Z",
+        "arrivalTime": "2020-07-11T16:16:00.000Z"
+      },
+      "HZXNHFQ2SD-SEG158": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0410",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T16:00:00.000Z",
+        "arrivalTime": "2020-07-11T17:16:00.000Z"
+      },
+      "Q412OSFGXS-SEG159": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0412",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T17:00:00.000Z",
+        "arrivalTime": "2020-07-11T18:16:00.000Z"
+      },
+      "HAVTLBAV8J-SEG160": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0414",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T18:00:00.000Z",
+        "arrivalTime": "2020-07-11T19:16:00.000Z"
+      },
+      "HXMIVS4GIA-SEG161": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0416",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T19:00:00.000Z",
+        "arrivalTime": "2020-07-11T20:16:00.000Z"
+      },
+      "LMQ9JS4EA0-SEG162": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0418",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T20:00:00.000Z",
+        "arrivalTime": "2020-07-11T21:16:00.000Z"
+      },
+      "L4UBBHMMPS-SEG163": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0420",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T21:00:00.000Z",
+        "arrivalTime": "2020-07-11T22:16:00.000Z"
+      },
+      "H3JHRPXCZL-SEG164": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0834",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T22:00:00.000Z",
+        "arrivalTime": "2020-07-11T23:16:00.000Z"
+      },
+      "ESLUDZM58P-SEG165": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0424",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T23:00:00.000Z",
+        "arrivalTime": "2020-07-12T00:16:00.000Z"
+      },
+      "R7BU240HD9-SEG166": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0426",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-12T00:30:00.000Z",
+        "arrivalTime": "2020-07-12T01:46:00.000Z"
+      },
+      "D37VL7FGUK-SEG167": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0428",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-12T01:30:00.000Z",
+        "arrivalTime": "2020-07-12T02:46:00.000Z"
+      },
+      "U55CZX1A6H-SEG168": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0430",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-12T03:10:00.000Z",
+        "arrivalTime": "2020-07-12T04:26:00.000Z"
+      },
+      "HCI3QFSDYE-SEG169": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "AC",
+          "flightNumber": "AC0460",
+          "airline_name": "Air Canada"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YOW",
+          "city_name": "Ottawa",
+          "airport_name": "Metropolitan Area"
+        },
+        "departureTime": "2020-07-11T21:10:00.000Z",
+        "arrivalTime": "2020-07-11T22:12:00.000Z"
+      },
+      "QO6F68ELRS-SEG170": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "QK",
+          "flightNumber": "AC8988",
+          "airline_name": "Jazz Aviation"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YOW",
+          "city_name": "Ottawa",
+          "airport_name": "Metropolitan Area"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-07-11T22:40:00.000Z",
+        "arrivalTime": "2020-07-11T23:25:00.000Z"
+      }
+    }
+  },
+  "pricePlans": {
+    "H2MU87JU94-Basic": {
+      "name": "Basic",
+      "amenities": [
+        "2 checked bags for a fee",
+        "No flight changes"
+      ],
+      "checkedBaggages": {
+        "quantity": 2
+      }
+    },
+    "HVRXRUFH9R-Standard": {
+      "name": "Standard",
+      "amenities": [
+        "Checked bags for a fee",
+        "Changes for a fee",
+        "25% Aeroplan Miles"
+      ],
+      "checkedBaggages": {
+        "quantity": 0
+      }
+    },
+    "HFMDR050HC-Flex": {
+      "name": "Flex",
+      "amenities": [
+        "1st checked bag free",
+        "Changes for a discounted fee",
+        "100% Aeroplan Miles",
+        "Free standard seat selection"
+      ],
+      "checkedBaggages": {
+        "quantity": 1
+      }
+    },
+    "H51S41N21D-Comfort": {
+      "name": "Comfort",
+      "amenities": [
+        "1st checked bag free",
+        "Changes permitted (a fee may apply)",
+        "115% Aeroplan Miles",
+        "Free standard and Preferred seat selection",
+        "Free premium beverage",
+        "Free same-day standby"
+      ],
+      "checkedBaggages": {
+        "quantity": 1
+      }
+    },
+    "ZI44WMFMQ8-Latitude": {
+      "name": "Latitude",
+      "amenities": [
+        "2 checked bags free",
+        "Free changes and cancellations",
+        "125% Aeroplan Miles",
+        "Free extra legroom and standard seat selection",
+        "Free meal or premium beverage and snack",
+        "Free same-day standby",
+        "Priority check-in, baggage and boarding"
+      ],
+      "checkedBaggages": {
+        "quantity": 2
+      }
+    },
+    "YN6WNTAJKB-PremiumEconomylowest": {
+      "name": "Premium Economy (lowest)",
+      "amenities": [
+        "2 checked bags free",
+        "Dedicated cabin, larger seat, more legroom",
+        "Premium meal service",
+        "Priority check-in, baggage and boarding",
+        "125% Aeroplan Miles"
+      ],
+      "checkedBaggages": {
+        "quantity": 2
+      }
+    },
+    "YUKXYL6L13-PremiumEconomyflexible": {
+      "name": "Premium Economy (flexible)",
+      "amenities": [
+        "2 checked bags free",
+        "Dedicated cabin, larger seat, more legroom",
+        "Premium meal service",
+        "Priority check-in, baggage and boarding",
+        "125% Aeroplan Miles",
+        "Free changes, cancellations and standby"
+      ],
+      "checkedBaggages": {
+        "quantity": 2
+      }
+    },
+    "HV5BY5HDWL-BusinessClasslowest": {
+      "name": "Business Class (lowest)",
+      "amenities": [
+        "2 checked bags free",
+        "Maple Leaf Lounge access",
+        "Exclusive cabin, superior comfort and space",
+        "Inspired cuisine, selected wines and spirits",
+        "Priority check-in, security, baggage and boarding",
+        "150% Aeroplan Miles"
+      ],
+      "checkedBaggages": {
+        "quantity": 2
+      }
+    },
+    "V9Y39WN6NC-BusinessClassflexible": {
+      "name": "Business Class (flexible)",
+      "amenities": [
+        "2 checked bags free",
+        "Maple Leaf Lounge access",
+        "Exclusive cabin, superior comfort and space",
+        "Inspired cuisine, selected wines and spirits",
+        "Priority check-in, security, baggage and boarding",
+        "150% Aeroplan Miles",
+        "Free changes, cancellations and standby"
+      ],
+      "checkedBaggages": {
+        "quantity": 2
+      }
+    }
+  },
+  "passengers": {
+    "CE4CE8C5": {
+      "type": "ADT"
+    }
+  },
+  "metadata": {
+    "uuid": "80f0f25c-d43e-47a6-a0a0-cb7a6282eec1",
+    "timestamp": "2020-05-21T22:24:14.147Z",
+    "numberOfOffers": 289
+  }
+}
