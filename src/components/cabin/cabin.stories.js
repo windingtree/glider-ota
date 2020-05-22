@@ -53,6 +53,7 @@ export const OneOneCabin = () => (
                 "taxes": "0.00"
             },
         }}
+        handleSeatSelectionChange={console.log}
     >
     </Cabin>
 )
@@ -164,6 +165,7 @@ export const ThreeThreeCabin = () => (
                 "taxes": "0.00"
             },
         }}
+        handleSeatSelectionChange={console.log}
     >
     </Cabin>
 )
@@ -3089,6 +3091,7 @@ export const ThreeFourThreeCabin = () => (
                 "taxes": "0.00"
             },
         }}
+        handleSeatSelectionChange={console.log}
     >
     </Cabin>
 )

@@ -29,3 +29,43 @@ export function mapSeatCharacteristicsDescription(codes) {
         return acc;
     },[]);
 }
+
+// FUnction to map a passenger type to a description
+export const mapPassengerTypeDescription = (passengerType) => {
+    switch(passengerType) {
+        // Infants
+        case 'INF':
+            return 'Infant without Seat';
+        case 'INS':
+            return 'Infant'; // with seat
+        
+        // Childs
+        case 'CHD':
+            return 'Child';
+        case 'UNN':
+            return 'Unaccompanied Child';
+
+        // Adults
+        case 'ADT':
+        default:
+            return 'Adult' 
+    }
+}
+
+// Function to determine if a seat is retricted for a passenger type
+export function isSeatRestrictedForPassenger(codes, type) {
+    // Child Restrictions
+    if(['CHD', 'UNN'].includes(type)) {
+        return codes.includes('IE');
+    }
+    
+    // Infant restrictions
+    else if(['INF', 'INS'].includes(type)) {
+        return codes.includes('1A');
+    }
+    
+    // Other passengers are not restricted
+    else {
+        return false;
+    }
+}

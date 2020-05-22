@@ -1,6 +1,6 @@
-import React  from 'react'
-import {Container, Row} from 'react-bootstrap'
+import React, {useState}  from 'react'
 import Seat from '../seat/seat'
+import { isSeatRestrictedForPassenger } from '../../utils/seat-utils'
 import './cabin.scss';
 
 export default function Cabin(props) {
@@ -13,7 +13,13 @@ export default function Cabin(props) {
         wingLast,
         seats,
         prices,
+        maxSelection,
+        passengerType = 'ADT',
+        handleSeatSelectionChange,
     } = props;
+
+    // Count the number of selected seats
+    const [countSeatsSelected, setCountSeatsSelected] = useState(0);
 
     // Determine the columns and rows
     const columns = Array.from(layout);
@@ -22,7 +28,7 @@ export default function Cabin(props) {
         (v,k)=> k + Number(firstRow)
     );
 
-    // Index seats
+    // Index seats by seat number
     const indexedSeats = seats.reduce((acc, seat) => {
         acc[seat.number] = {
             ...seat,
@@ -31,13 +37,26 @@ export default function Cabin(props) {
         return acc;
     }, {});
 
-    // The seats selected for the users
-    // @TODO
-
     // Handle a change in seat selection
     const onSeatSelectionChange = (seatNumber, selected) => {
         console.log(`SEAT #${seatNumber} selected: ${selected}`);
-        indexedSeats[seatNumber].selected = selected;
+        handleSeatSelectionChange(seatNumber, selected);
+        setCountSeatsSelected(countSeatsSelected + (selected? 1 : -1));
+    }
+
+    // Determine if we can select a given seat
+    const seatSelectionAllowed = (seatNumber) => {
+        // Check if the maxium selection is reached
+        if(maxSelection && (countSeatsSelected >= maxSelection)) {
+            return false;
+        }
+
+        // Check seat characteristics restrictions
+        return !isSeatRestrictedForPassenger(
+            indexedSeats[seatNumber].characteristics,
+            passengerType
+        );
+
     }
 
     // Get the display of an element at a given position
@@ -56,7 +75,7 @@ export default function Cabin(props) {
                 return (
                     <Seat
                         number={seatNumber}
-                        available={seat.available}
+                        available={seat.available && seatSelectionAllowed(seatNumber)}
                         characteristics={seat.characteristics}
                         price={seat.price}
                         onSelectionChange={onSeatSelectionChange}

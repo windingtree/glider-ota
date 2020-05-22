@@ -111,7 +111,7 @@ const smallCabin = {
           "taxes": "0.00"
       },
   }
-}
+};
 
 const largeCabin = {
   layout: 'ABC DEFG HJK',
@@ -3033,18 +3033,127 @@ const largeCabin = {
         "taxes": "0.00"
     },
   }
-}
+};
 
-export const smallCabinSeatMap = () => (
+const segmentOneStop = {
+    stops: ['Moscow','Doha','Puhket'],
+    flightTime: '10h 15min',
+    index: 1,
+};
+
+const segmentNonStop = {
+    stops: ['Brussels','Montreal'],
+    flightTime: '8h 35min',
+    index: 0,
+};
+
+const adultAndChild = [
+    {
+        type: 'ADT',
+        name: 'Doe John'
+    },
+    {
+        type: 'CHD',
+        name: 'Doe Johnny'
+    },
+];
+
+const family = [
+    {
+        type: 'ADT',
+        name: 'Doe John'
+    },
+    {
+        type: 'ADT',
+        name: 'Doe Catherine'
+    },
+    {
+        type: 'CHD',
+        name: 'Doe Johnny'
+    },
+    {
+        type: 'CHD',
+        name: 'Doe Johnnette'
+    },
+];
+
+const largeGroup = [
+    {
+        type: 'ADT',
+        name: 'ONE John'
+    },
+    {
+        type: 'ADT',
+        name: 'TWO Catherine'
+    },
+    {
+        type: 'ADT',
+        name: 'THREE John'
+    },
+    {
+        type: 'ADT',
+        name: 'FOUR Catherine'
+    },
+    {
+        type: 'ADT',
+        name: 'FIVE John'
+    },
+    {
+        type: 'ADT',
+        name: 'SIX Catherine'
+    },
+    {
+        type: 'ADT',
+        name: 'SEVEN Bob'
+    },
+    {
+        type: 'CHD',
+        name: 'EIGHT Johnny'
+    },
+    {
+        type: 'CHD',
+        name: 'NINE Johnnette'
+    },
+];
+
+export const smallCabinSeatMapOneStop = () => (
     <SeatMap
       cabin={smallCabin}
+      segment={segmentOneStop}
+      passengers={adultAndChild}
+      initialPrice={1164.65}
+      currency='CAD'
     />
 );
 
 export const largeCabinSeatMap = () => (
   <SeatMap
     cabin={largeCabin}
+    segment={segmentNonStop}
+    passengers={adultAndChild}
+    initialPrice={1164.65}
+    currency='CAD'
   />
+);
+
+export const largeCabinSeatMapWithFamily = () => (
+    <SeatMap
+      cabin={largeCabin}
+      segment={segmentNonStop}
+      passengers={family}
+      initialPrice={1164.65}
+      currency='CAD'
+    />
+);
+
+export const largeCabinSeatMapWithLargeGroup = () => (
+    <SeatMap
+      cabin={largeCabin}
+      segment={segmentNonStop}
+      passengers={largeGroup}
+      initialPrice={1164.65}
+      currency='CAD'
+    />
 );
 
 

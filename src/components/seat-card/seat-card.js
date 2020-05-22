@@ -1,5 +1,8 @@
 import React from 'react';
-import { mapSeatCharacteristicsDescription } from '../../utils/seat-utils';
+import { 
+    mapSeatCharacteristicsDescription,
+    mapPassengerTypeDescription,
+} from '../../utils/seat-utils';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import './seat-card.scss';
@@ -13,30 +16,9 @@ export default function SeatCard(props) {
         priceAmount,
         priceCurrency,
         active = false,
+        handleSelect,
+        handleRemove,
     } = props;
-
-    // Map passenger type with the type to display
-    const passengerTypeDescription = () => {
-        switch(passengerType) {
-            // Infants
-            case 'INF':
-                console.warn('INF type has not seat and should be seated with adult');
-                return 'Infant without Seat';
-            case 'INS':
-                return 'Infant'; // with seat
-            
-            // Childs
-            case 'CHD':
-                return 'Child';
-            case 'UNN':
-                return 'Unaccompanied Child';
-
-            // Adults
-            case 'ADT':
-            default:
-                return 'Adult' 
-        }
-    }
 
     // Define a state for the seat assigned
     const seatAssigned = (seatNumber !== undefined);
@@ -56,7 +38,7 @@ export default function SeatCard(props) {
     // Render the React component
     return (
         <Card className={active ? 'seat-card-active' : 'seat-card-inactive'}>
-            <Card.Body>
+            <Card.Body onClick={handleSelect}>
                 <span
                     className='name'>
                         {seatAssigned ? `Seat ${seatNumber}` : 'Random Seat'}
@@ -64,7 +46,10 @@ export default function SeatCard(props) {
                 <Button
                     variant="link"
                     className='remove'
-                    disabled={!seatAssigned}>
+                    disabled={!seatAssigned}
+                    // Clicking on button also propagates to the Card.Body onClick
+                    onClick={handleRemove}
+                    >
                         Remove
                 </Button>
                 <span
@@ -76,7 +61,7 @@ export default function SeatCard(props) {
                 </span>
                 <span
                     className='type'>
-                        {passengerTypeDescription()}
+                        {mapPassengerTypeDescription(passengerType)}
                 </span>
                 <span>{passengerName}</span>
             </Card.Body>

@@ -7,19 +7,19 @@ export default function SegmentSelector(props) {
     const {
         stops,
         flightTime,
-        segmentIndex,
+        index,
     } = props;
 
     // Compute the progress bar value
     const getProgress = () => {
         // Force last segment to 100%
-        if(Number(segmentIndex) === (stops.length - 2)) {
+        if(index === (stops.length - 2)) {
             return 100;
         }
 
         // Previous segments are slightly shifted right
         // So we let 2% on the right and 2% on the left to align with first and last cities
-        return Number(2 + 96* (Number(segmentIndex) + 1) / (stops.length - 1)).toFixed(0);
+        return Number(2 + 96* (index + 1) / (stops.length - 1)).toFixed(0);
     }
 
     return (

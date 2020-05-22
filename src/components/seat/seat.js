@@ -40,7 +40,7 @@ export default function Seat(props) {
                 name='seat'
                 id={number}
                 value={number}
-                disabled={!available}
+                disabled={!selected && !available}
                 checked={selected}
                 onChange={handleSelectionChange}
             />
