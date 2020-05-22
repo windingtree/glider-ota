@@ -33,9 +33,12 @@ function getCookie(req, name) {
  * @param maxAge
  */
 function setCookie(res, name, value, maxAge) {
-    let options = {};
+    let options = {
+        path:'/'
+    };
     if (maxAge !== undefined)
         options['maxAge'] = maxAge;
+
     res.setHeader('Set-Cookie', cookie.serialize(name, value, options));
 }
 
