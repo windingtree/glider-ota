@@ -28,9 +28,6 @@ const checkoutUrlController = async (req, res) => {
     let payload = req.body;
     let payment_type=payload.type;
     let sessionID=req.sessionID;
-    console.debug("#1/checkout - call")
-    logger.debug("#1/checkout - call")
-
     let shoppingCart = new ShoppingCart(sessionID);
     let confirmedOfferId=payload.confirmedOfferId;
         if (payment_type !== 'card') {
@@ -43,8 +40,6 @@ const checkoutUrlController = async (req, res) => {
         let unconfirmedOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.OFFER);
         let confirmedOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.CONFIRMED_OFFER)
         logger.debug("passenger details in shopping cart", passengers)
-        logger.debug("confirmed offer in shopping cart", confirmedOffer)
-        logger.debug("unconfirmed offer in shopping cart", unconfirmedOffer)
         logger.debug("shopping cart ", await shoppingCart.getCart());
 
         if (confirmedOffer == null) {
