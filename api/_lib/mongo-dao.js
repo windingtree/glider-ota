@@ -32,7 +32,7 @@ function getConn(){
  * @returns {Promise<Db>}
  */
 function connect(){
-    return MongoClient.connect(MONGO_CONFIG.URL)
+    return MongoClient.connect(MONGO_CONFIG.URL,{useUnifiedTopology:true})
         .then(client=>{
             logger.debug("Connected to mongo - selecting db:%s",MONGO_CONFIG.DBNAME);
             db=client.db(MONGO_CONFIG.DBNAME);
