@@ -28,6 +28,9 @@ const checkoutUrlController = async (req, res) => {
     let payload = req.body;
     let payment_type=payload.type;
     let sessionID=req.sessionID;
+    console.debug("#1/checkout - call")
+    logger.debug("#1/checkout - call")
+
     let shoppingCart = new ShoppingCart(sessionID);
     let confirmedOfferId=payload.confirmedOfferId;
         if (payment_type !== 'card') {
