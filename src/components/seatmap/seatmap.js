@@ -10,6 +10,10 @@ import SeatCard from '../seat-card'
 import './seatmap.scss';
 
 export default function SeatMap(props) {
+    // Destructure the seatmap properties
+    const {
+        cabin,
+    } = props;
 
     return (
         <Container fluid>
@@ -18,123 +22,16 @@ export default function SeatMap(props) {
             </Row>
             <Row>
                 <Col xs={12} md={6}>
-                    <SegmentSelector
-                        stops={['Moscow','Doha','Puhket']}
-                        flightTime='1h 15min'
-                        segmentIndex='0'
-                    />
-                    <SeatLegend/>
-                </Col>
-                <Col xs={12} md={6}>
-                    <Cabin
-                        layout='ABC DEF'
-                        name='VIP'
-                        firstRow={1}
-                        lastRow={2}
-                        wingFirst={1}
-                        wingLast={2}
-                        seats={[
-                            {
-                                "number": "1A",
-                                "available": true,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ],
-                                "optionCode": "A0"
-                            },
-                            {
-                                "number": "1B",
-                                "available": false,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ]
-                            },
-                            {
-                                "number": "1C",
-                                "available": false,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ]
-                            },
-                            {
-                                "number": "1D",
-                                "available": false,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ]
-                            },
-                            {
-                                "number": "1E",
-                                "available": false,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ]
-                            },
-                            {
-                                "number": "1F",
-                                "available": false,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ]
-                            },
-                            {
-                                "number": "2B",
-                                "available": true,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ],
-                                "optionCode": "A1"
-                            },
-                            {
-                                "number": "2C",
-                                "available": true,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ],
-                                "optionCode": "A1"
-                            },
-                            {
-                                "number": "2D",
-                                "available": true,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ],
-                                "optionCode": "A1"
-                            },
-                            {
-                                "number": "2E",
-                                "available": true,
-                                "characteristics": [
-                                    "PS",
-                                    "W"
-                                ],
-                                "optionCode": "A1"
-                            },
-                        ]}
-                        prices={{
-                            "A0": {
-                                "currency": "CAD",
-                                "public": "0.00",
-                                "taxes": "0.00"
-                            },
-                            "A1": {
-                                "currency": "CAD",
-                                "public": "50.00",
-                                "taxes": "0.00"
-                            },
-                        }}
-                    />
-                </Col>
-                <Col xs={12} md={6}>
+                    <Row>
+                        <Col>
+                            <SegmentSelector
+                                stops={['Moscow','Doha','Puhket']}
+                                flightTime='1h 15min'
+                                segmentIndex='0'
+                            />
+                            <SeatLegend/>
+                        </Col>
+                    </Row>
                     <Row className='seatcard-row'>
                         <Col xs={12} sm={6} md={12} lg={6} xl={4} className='seatcard-col'>
                             <SeatCard
@@ -159,6 +56,9 @@ export default function SeatMap(props) {
                             />
                         </Col>
                     </Row>
+                </Col>
+                <Col xs={12} md={6}>
+                    <Cabin {...cabin} />
                 </Col>
             </Row>
             <Row>

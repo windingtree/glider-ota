@@ -19,13 +19,15 @@
     align-self: center;
     align-content: center;
     align-items: center;
+    justify-items: center;
 
     .seatcard-col {
         //margin: 20px;
-        display: flex;
+        display: grid;
         align-self: center;
         align-content: center;
         align-items: center;
+        justify-items: center;
     }
 }
 
