@@ -227,6 +227,27 @@ export function decorateItineraryWithMetadata(itinerary){
     return itinerary;
 }
 
+export function decorateOfferWithMetadata(offer){
+    //calculate trip duration in mins
+    let firstSeg = itinerary.segments[0];
+    let lastSeg = itinerary.segments[itinerary.segments.length-1];
+    let startOfTrip = parseISO(firstSeg.departureTime);
+    let endOfTrip = parseISO(lastSeg.arrivalTime);
+    let durationInMins = differenceInMinutes(endOfTrip, startOfTrip);
+    //get all operating carrier codes
+    let carriers={}
+    itinerary.segments.forEach(segment=>carriers[segment.operator.iataCode]=segment.operator.iataCode);
+
+    let metadata={
+        itinerary_duration:durationInMins,
+        stops:itinerary.segments.length-1,
+        operating_carriers:carriers
+    }
+    itinerary=Object.assign(itinerary,{metadata:metadata});
+    return itinerary;
+}
+
+
 export class SearchResultsWrapper {
     constructor(searchResults) {
         this.results = searchResults;
