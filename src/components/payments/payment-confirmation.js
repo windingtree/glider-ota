@@ -23,12 +23,9 @@ export default function PaymentConfirmation({orderID}) {
     const [firstCheck,setFirstCheck] = useState(new Date())
 
     function checkOrderStatus(orderIdentifier){
-        console.log("Checking oder status, orderId",orderIdentifier);
         setCheckStatus(CONFIRMATION_STATUS.PENDING)
         let now=Date.now();
         let diff=now-firstCheck;
-
-        console.log("firstCheck:",firstCheck," Now:", new Date()," diff:",diff)
 
         if(diff>MAX_CONFIRMATION_WAIT_TIME_MILLIS) {
             stopCheckingInFuture();
@@ -51,13 +48,11 @@ export default function PaymentConfirmation({orderID}) {
     }
 
     function checkStatusInFuture(){
-        console.log("checkStatusInFuture")
         let ref=setTimeout(()=>checkOrderStatus(orderID), RETRY_TIMEOUT_MILLIS);
         setTimeoutRef(ref);
     }
 
     function stopCheckingInFuture(){
-        console.log("stopCheckingInFuture")
         try{
             clearTimeout(timeoutRef);
         }catch(err){
@@ -68,7 +63,7 @@ export default function PaymentConfirmation({orderID}) {
 
     function processOrderStatus(data){
         let orderStatus = data.order_status;
-        console.log("processOrderStatus:", orderStatus);
+        console.debug("processOrderStatus:", orderStatus);
 
         switch (orderStatus){
             case 'NEW':
@@ -131,8 +126,8 @@ export default function PaymentConfirmation({orderID}) {
         let bookings = [];
         let etickets = [];
         try{
-            console.log("Confirmation data:",confirmation);
-            console.log("Confirmation data - travel docs:",confirmation.travelDocuments);
+            console.debug("Confirmation data:",confirmation);
+            console.debug("Confirmation data - travel docs:",confirmation.travelDocuments);
             bookings = confirmation.travelDocuments.bookings;
             etickets = confirmation.travelDocuments.etickets;
         }catch(err){

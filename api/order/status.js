@@ -31,6 +31,8 @@ const checkOrderStatusController = async (req, res) => {
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Offer not found",req.body);
         return;
     }
+
+    //TODO - remove unnecessary elements from response!!!
     res.json(document)
 }
 

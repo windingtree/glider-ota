@@ -75,7 +75,7 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
         });
 
         if (payload.error) {
-            setError(`Payment failed: ${payload.error.message}`);
+            setError(`${payload.error.message}`);
             setProcessing(false);
             if (onPaymentFailure)
                 onPaymentFailure(payload)
@@ -123,10 +123,6 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
         };
 
 
-        function test() {
-            console.log("TEST");
-            fetch('/api/order/key').then(data => data.json()).then(data => console.log("Response:", data))
-        }
 
         return (
             <>
@@ -158,10 +154,12 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                     </Form.Row>
                 </Form>
 
+{/*
                 Processing:{processing}<br/>
                 clientSecret:{clientSecret}<br/>
                 stripe:{processing}<br/>
                 amount:{amount}<br/>
+*/}
                 {/*<Spinner enabled={processing===true}/>*/}
             </>
         );

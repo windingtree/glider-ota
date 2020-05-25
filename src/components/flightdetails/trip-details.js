@@ -39,7 +39,7 @@ export default function TripDetails({itineraries=[]}){
                 if(itinIdx==1) itineraryHeader='Return flight';
             }
             itinIdx++;
-            return (<ItineraryDetails itinerary={itinerary} header={itineraryHeader}/>)
+            return (<ItineraryDetails key={itinerary.itinId} itinerary={itinerary} header={itineraryHeader}/>)
         })}
         </>)
 }

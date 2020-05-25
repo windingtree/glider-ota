@@ -65,6 +65,7 @@ body{
   width:100%;
   margin-right: auto;
   margin-left: auto;
+  //border: 1px solid red;
   @include glider-media-large_992{
     max-width: 80%;
     //min-width: 80%;
@@ -75,3 +76,4 @@ body{
   }
   //border: 1px solid black;
 }
+

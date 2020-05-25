@@ -3,16 +3,22 @@ import {config} from "../../config/default";
 import style from './flights-search-results.module.scss'
 import {Container, Row, Col, Image, Button} from 'react-bootstrap'
 import {FastCheapFilter} from "../filters/filters";
-import {SearchResultsWrapper} from "../../utils/flight-search-results-transformer"
+import {
+    createAirlinePredicate, createLayoverDurationPredicate,
+    createMaxStopsPredicate,
+    createPricePredicate,
+    SearchResultsFilterHelper
+} from "../../utils/search-results-filter-helper"
 import ResultsPaginator from "../common/pagination/results-paginator";
 import {Offer} from "./flights-offer";
+import {debug} from "winston";
 
 const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;
 
 
-export default function FlightsSearchResults({searchResults, onOfferDisplay}) {
+export default function FlightsSearchResults({searchResults, onOfferDisplay, filtersStates}) {
     const [currentPage, setCurrentPage] = useState(1);
-
+    const [sortType, setSortType] = useState('PRICE');
     function handleOfferDisplay(offerId) {
         console.log("handleOfferDisplay", offerId);
         onOfferDisplay(offerId);
@@ -20,10 +26,6 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay}) {
 
     if (searchResults === undefined) {
         return (<>Nothing was found</>)
-    }
-
-    function cheapFastFilterTogggle() {
-
     }
 
     function onActivePageChange(page) {
@@ -36,32 +38,31 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay}) {
             return [];
 
         let startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-        let endIdx = currentPage * ITEMS_PER_PAGE - 1;
+        let endIdx = currentPage * ITEMS_PER_PAGE;
         if (endIdx >= totalCount)
-            endIdx = totalCount - 1;
+            endIdx = totalCount;
+        console.debug(`Paging, total:${totalCount}, active page:${currentPage}, items per page:${ITEMS_PER_PAGE}, startIdx:${startIdx}, endIdx:${endIdx}`);
         return records.slice(startIdx, endIdx)
     }
 
-    const searchResultsWrapper = new SearchResultsWrapper(searchResults);
-    let trips=searchResultsWrapper.generateSearchResults('PRICE')
-    let offers = searchResults.offers;
-    let offerIds = Object.keys(offers);
+    const filterHelper = new SearchResultsFilterHelper(searchResults);
+    let predicates = createFilterPredicates(filtersStates);
+
+    let trips=filterHelper.generateSearchResults(sortType, predicates)
     let totalResultsCount = trips.length;
     trips = limitSearchResultsToCurrentPage(trips);
 
     return (
         <Container fluid={true} className={style.flightssearchresultscontainer}>
             <div className='pt-3'>
-                <FastCheapFilter onToggle={cheapFastFilterTogggle}/>
+                <FastCheapFilter defaultValue={sortType} onToggle={setSortType}/>
                 <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE}
                                   onActivePageChange={onActivePageChange} totalRecords={totalResultsCount}/>
-                {/*    <FastCheapFilter/>*/}
                 {
                     trips.map(tripInfo => {
-                        let offerId = tripInfo.offerId;
-                        // let cheapestOffer = OfferUtils.getCheapestOffer(offer);
-                        let offer = searchResultsWrapper.getOffer(offerId)
-                        let itineraries = searchResultsWrapper.getOfferItineraries(offerId)
+                        let offer = tripInfo.bestoffer;
+                        let offerId = offer.offerId;
+                        let itineraries = tripInfo.itineraries;
                         let price = offer.price;
                         return (<Offer itineraries={itineraries}
                                        offerId={offerId}
@@ -75,4 +76,65 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay}) {
         </Container>
     )
 
+}
+
+
+
+function createFilterPredicates(filterStates){
+    if(!filterStates) {
+        return [];
+    }
+    let predicates=[];
+
+    //create predicate to filter offers by price range
+    let priceRangeFilter = filterStates.priceRange;
+    console.debug("Price range criteria:", priceRangeFilter)
+    predicates.push({
+        predicate: createPricePredicate(priceRangeFilter),
+        type: 'offer'
+    });
+
+    //create predicate to filter offers by layover duration
+    let layoverDurationFilter = filterStates.layoverDuration;
+    console.debug("Layover duration criteria:", layoverDurationFilter)
+    predicates.push({
+        predicate: createLayoverDurationPredicate(layoverDurationFilter),
+        type: 'trip'
+    });
+
+
+    //create predicate to filter trips by number of stops
+    let maxStopsFilter = filterStates.maxStops;
+    console.debug("stops criteria:", maxStopsFilter);
+    let maxStopsCriteria={};
+    maxStopsFilter.map(rec=>{
+        if(rec.key === 'all'){
+            maxStopsCriteria['ALL'] = rec.selected;
+        }else{
+            maxStopsCriteria[rec.key] = rec.selected;
+        }
+    })
+    predicates.push({
+        predicate: createMaxStopsPredicate(maxStopsCriteria),
+        type: 'trip'
+    });
+
+
+    //create predicate to filter trips by operating carriers
+    let carriersFilter=filterStates.airlines;
+    console.debug("carriers criteria:", carriersFilter);
+    let carriersCriteria={};
+    carriersFilter.map(rec=>{
+        if(rec.key === 'all'){
+            carriersCriteria['ALL'] = rec.selected;
+        }else{
+            carriersCriteria[rec.key] = rec.selected;
+        }
+    })
+
+    predicates.push({
+        predicate: createAirlinePredicate(carriersCriteria),
+        type: 'trip'
+    });
+    return predicates;
 }

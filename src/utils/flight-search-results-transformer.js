@@ -1,5 +1,4 @@
 import update from 'immutability-helper';
-import {differenceInMinutes, parseISO} from "date-fns";
 const _ = require('lodash')
 
 
@@ -98,7 +97,7 @@ const mergeRoundTripOffers = (searchResults) => {
  */
 export default function extendResponse(response){
     if(response && ('metadata' in response) && ('postprocessed' in response.metadata)){
-        console.warn("Response was already extended -ignoring this")
+        console.debug("Response was already extended -ignoring this")
         return response;
     }
     let copy = Object.assign({},response)
@@ -112,7 +111,7 @@ export default function extendResponse(response){
     if(!copy.metadata)
         copy.metadata={};
     copy.metadata['postprocessed']=true;
-    console.log(`Search results extender, time:${end-start}ms`)
+    console.info(`Search results extender, time:${end-start}ms`)
     return copy;
 }
 
@@ -207,38 +206,40 @@ const firstSegDptrDateComparator = (itin1, itin2) => {
 }
 
 
-export function decorateItineraryWithMetadata(itinerary){
-        //calculate trip duration in mins
-        let firstSeg = itinerary.segments[0];
-        let lastSeg = itinerary.segments[itinerary.segments.length-1];
-        let startOfTrip = parseISO(firstSeg.departureTime);
-        let endOfTrip = parseISO(lastSeg.arrivalTime);
-        let durationInMins = differenceInMinutes(endOfTrip, startOfTrip);
-        //get all operating carrier codes
-        let carriers={}
-        itinerary.segments.forEach(segment=>carriers[segment.operator.iataCode]=segment.operator.iataCode);
-
-        let metadata={
-            itinerary_duration:durationInMins,
-            stops:itinerary.segments.length-1,
-            operating_carriers:carriers
-        }
-        itinerary=Object.assign(itinerary,{metadata:metadata});
-    return itinerary;
-}
-
-export function decorateOfferWithMetadata(offer){
-    //calculate trip duration in mins
-
-}
-
-
 export class SearchResultsWrapper {
     constructor(searchResults) {
         this.results = searchResults;
         this.offers = searchResults.offers;
         this.itineraries = searchResults.itineraries;
         this.pricePlans = searchResults.pricePlans;
+    }
+
+    /**
+     * Get a list with all unique itineraries from search results .
+     * Each itinerary is enriched with itinId and list of segments that build a given itinerary.
+     *
+     * @returns [itinId=>{
+     *     segments:[]
+     * }]
+     */
+    getAllItineraries(){
+        let itins={};
+        Object.keys(this.itineraries.combinations).map(itinId=>{
+            itins[itinId] = this.getItinerary(itinId);
+        });
+        return itins;
+    }
+
+
+    /**
+     * Get a list with all unique offers from search results.
+     */
+    getAllOffers(){
+        let offers={};
+        Object.keys(this.offers).forEach(offerId=>{
+            offers[offerId] = this.getOffer(offerId);
+        });
+        return offers;
     }
 
     /**
@@ -250,7 +251,7 @@ export class SearchResultsWrapper {
     getOffer(offerId){
         let offer = this.offers[offerId];
         if(!offer) {
-            console.warn(`SearchResultsWrapper - requested offer was not found!`)
+            console.warn(`SearchResultsWrapper - requested offer was not found!`,offerId)
             return null;
         }
         offer = update(offer,{offerId:{$set:offerId}});  //enrich returned object with "offerId" property
@@ -284,7 +285,6 @@ export class SearchResultsWrapper {
         let pricePlans=[];
         let pricePlansReferences = offer.pricePlansReferences;
         Object.keys(pricePlansReferences).map(pricePlanId=> {
-            let pricePlan = update(this.pricePlans[pricePlanId],{pricePlanId:{$set:pricePlanId}});  //enrich returned object with "pricePlanId" property
             pricePlans.push(this.getPricePlan(pricePlanId));
         })
         return pricePlans;
@@ -305,14 +305,21 @@ export class SearchResultsWrapper {
     getItinerary(itinId){
         let segmentIds = this.itineraries.combinations[itinId];
         let segments=[];
-        segmentIds.forEach(segmentId=>{
-            segments.push(this.getSegment(segmentId));
-        })
+        try {
+
+
+            segmentIds.forEach(segmentId => {
+                segments.push(this.getSegment(segmentId));
+            })
+        }catch(err){
+            console.error("Error:, itinID", itinId, "segmentIds:",segmentIds)
+
+        }
         let itinerary = {
             itinId:itinId,    //enrich returned object with "itinId" property
             segments:segments
         }
-        decorateItineraryWithMetadata(itinerary);
+        // decorateItineraryWithMetadata(itinerary);
         return itinerary;
     }
 
@@ -412,64 +419,6 @@ export class SearchResultsWrapper {
         return results;
     }
 
-    generateSearchResults(sortBy = 'PRICE'){
-        let trips={};
-        Object.keys(this.offers).forEach(offerId=>{
-            let offer = this.getOffer(offerId);
-            let itineraries = this.getOfferItineraries(offerId);
-            let totalItinDuration=0;
-            itineraries.map(itinerary=>totalItinDuration+=itinerary.metadata.itinerary_duration)
-            let price=offer.price.public;
-            let tripID = this.generateTripID(itineraries)
-            let tripInfo = trips[tripID] || {
-                minPrice:Number.MAX_SAFE_INTEGER,
-                trip_duration:totalItinDuration,
-                tripId:tripID,
 
-            }
-            if(price<tripInfo.minPrice){
-                tripInfo.minPrice=price;
-                tripInfo.offerId=offerId;
-            }
-            if(!trips[tripID])
-                trips[tripID]=tripInfo;
-        })
-
-        const priceComparator = (trip1,trip2) =>{
-            if(trip1.minPrice < trip2.minPrice)
-                return -1;
-            else if(trip1.minPrice > trip2.minPrice)
-                return 1;
-            else return 0;
-        }
-
-        const durationComparator = (trip1,trip2) =>{
-            if(trip1.trip_duration < trip2.trip_duration)
-                return -1;
-            else if(trip1.trip_duration > trip2.trip_duration)
-                return 1;
-            else return 0;
-        }
-
-        let tripArray=[]
-        Object.keys(trips).forEach(tripId=>tripArray.push(trips[tripId]));
-
-        console.log("before",JSON.stringify(tripArray))
-        if(sortBy === 'PRICE') {
-            console.log("Sort by price")
-            tripArray.sort(priceComparator)
-        }
-        else {
-            console.log("Sort by duration")
-            tripArray.sort(durationComparator);
-        }
-        return tripArray;
-    }
-
-    generateTripID(itineraries){
-        let itinIDs=itineraries.map(itinerary=>itinerary.itinId);
-        let tripID = itinIDs.join(',');
-        return tripID;
-    }
 }
 

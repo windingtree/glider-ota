@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Row, Col} from "react-bootstrap";
 import PaymentConfirmation from "../components/payments/payment-confirmation";
+import Header from "../components/common/header/header";
 
 
 export default function ConfirmationPage({match}) {
     let confirmedOfferId = match.params.confirmedOfferId;
     return (
-        <Container fluid={true}>
-            <Row>
-                <PaymentConfirmation orderID={confirmedOfferId}/>
-            </Row>
-        </Container>
+            <div>
+                <Header violet={true}/>
+                <div className='root-container-subpages'>
+                    <PaymentConfirmation orderID={confirmedOfferId}/>
+                </div>
+            </div>
     )
 }
 

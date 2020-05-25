@@ -36,6 +36,10 @@ export default function FlightFareFamiliesPage({match}) {
     }
 
 
+    //store initially selected offerID in cart
+    useEffect(()=>{
+        handleOfferChange(offerId)
+    },[])
     return (
         <>
             <div>

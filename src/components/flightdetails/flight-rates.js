@@ -18,7 +18,7 @@ export default function TripRates({tripRates, selectedOffer, onOfferChange}) {
         let offer = tripRates.offers[offerId]
         setCurrentOffer(offer);
 
-        console.log("onOfferSelected, offerId:",offerId)
+        console.debug("onOfferSelected, offerId:",offerId)
         onOfferChange(offerId)
     }
 
@@ -134,7 +134,6 @@ export function FareFamilyBenefits({familyName, price, isSelected, amenities=[],
     }else{
         fare = "+0 ";
     }
-    console.log("Fare family name:",familyName," Price",price)
     function handleClick(){
         onClick();
     }

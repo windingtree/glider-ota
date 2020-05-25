@@ -58,7 +58,7 @@ function connect(){
  */
 async function insert(collection, doc){
     return getConn().then(db=>{
-        logger.debug("InsertOne to collection:%s, Document:",collection, doc)
+        // logger.debug("InsertOne to collection:%s, Document:",collection, doc)
         return db.collection(collection).insertOne(doc);
     })
 }
@@ -84,45 +84,10 @@ function findOne(collection, criteria){
  */
 function updateOne(collection, criteria, doc){
     return getConn().then(db=>{
-        logger.debug("updateOne to collection:%s, Document:",collection, doc)
+        // logger.debug("updateOne to collection:%s, Document:",collection, doc)
         return db.collection(collection).updateOne(criteria,doc);
     })
 }
-
-/**
- * Saves an order in a database (<orders> collection)
- * @param orderId
- * @param order
- * @returns {Promise<*>}
- */
-
-/*
-async function storeOrder(orderId,order){
-    let object={
-        orderId:orderId,
-        order:order,
-        order_status:ORDER_STATUSES.NEW,
-        payment_status:PAYMENT_STATUSES.NOT_PAID,
-        $currentDate: {
-            createDate: { $type: "timestamp" }
-        },
-        transaction_history:[]
-    };
-    return insert('orders2',order);
-}
-*/
-
-
-/**
- * Retrieves an order from a database
- * @param orderId
- * @returns {Promise<*>}
- */
-/*
-function findOrder(orderId){
-    return findOne('orders2',{orderId:orderId});
-}
-*/
 
 
 /**
@@ -143,10 +108,8 @@ async function storeConfirmedOffer(offer, passengers){
         createDate: new Date(),
         transaction_history:[]
     };
-
-    logger.debug("CONFIRMED ORDER before save",object)
-
-    return insert('orders2',object);
+    logger.info("Storing confirmed offer, offerId:%s, order_status:%s, payment_status:%s",object.offerId,object.order_status,object.payment_status)
+    return insert('orders',object);
 }
 
 
@@ -156,8 +119,7 @@ async function storeConfirmedOffer(offer, passengers){
  * @returns {Promise<*>}
  */
 async function findConfirmedOffer(offerId){
-    let rec = await findOne('orders2',{"offerId":offerId});
-    logger.debug("CONFIRMED ORDER from DB",rec)
+    let rec = await findOne('orders',{"offerId":offerId});
     return rec;
 }
 
@@ -196,8 +158,8 @@ function updateOrderStatus(offerId, order_status, comment, transactionDetails){
     if(order_status == ORDER_STATUSES.FULFILLED){
         updates['$set']['confirmation']=transactionDetails;
     }
-
-    return updateOne('orders2',{offerId:offerId},updates);
+    logger.info("Updating order status, offerId:%s, payment_status:%s",offerId,order_status)
+    return updateOne('orders',{offerId:offerId},updates);
 }
 
 /**
@@ -219,7 +181,8 @@ function updatePaymentStatus(offerId, payment_status, comment, transactionDetail
         },
         $push: { transactions: createTransactionEntry(comment,transactionDetails) }
     }
-    return updateOne('orders2',{offerId:offerId},updates);
+    logger.info("Updating payment status, offerId:%s, payment_status:%s",offerId,payment_status)
+    return updateOne('orders',{offerId:offerId},updates);
 }
 
 
@@ -245,11 +208,11 @@ function upsertOfferPassengers(offerId, passengers){
     }
     //if it's a fulfillment, we need to store also travel documents (PNR, etc...)
 
-    return updateOne('orders2',{offerId:offerId},updates);
+    return updateOne('orders',{offerId:offerId},updates);
 }
 
 module.exports = {
-    /*storeOrder,findOrder,*/updateOrderStatus,updatePaymentStatus,ORDER_STATUSES,PAYMENT_STATUSES,
+    updateOrderStatus,updatePaymentStatus,ORDER_STATUSES,PAYMENT_STATUSES,
     insert,findOne,storeConfirmedOffer,findConfirmedOffer,upsertOfferPassengers
 }
 

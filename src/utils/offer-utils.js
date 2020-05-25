@@ -26,6 +26,12 @@ export default class OfferUtils {
     return mins;
   }
 
+  static calculateLayoverDurationInMinutes (prevSegment, nextSegment) {
+    const arrival = parseISO(prevSegment.arrivalTime);
+    const departure = parseISO(nextSegment.departureTime);
+    return  differenceInMinutes(departure, arrival);
+  }
+
   static getOutboundItinerary (combination) {
     return combination.itinerary[0];
   }
