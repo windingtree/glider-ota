@@ -17,6 +17,8 @@ export default function SeatMap(props) {
         passengers,
         initialPrice,
         currency,
+        handleSeatMapContinue,
+        handleSeatMapSkip,
     } = props;
 
     // Get the states
@@ -61,21 +63,17 @@ export default function SeatMap(props) {
 
     // Handle events on the Seat Card
     const handleSeatCardSelect = (index) => {
-        console.log(`[SEATMAP] SeatCard selected: ${index}`);
         setActivePassengerIndex(index);
     };
 
     // Handle a click on the Remove button for de-association
     const handleSeatCardRemove = (index) => {
-        console.log(`[SEATMAP] SeatCard removed: ${index}`);
         setActivePassengerIndex(index);
         setSelectedSeats(selectedSeats.filter(seat => seat.passengerIndex !== index));
     };
 
     // Handle events on the Seat Map
     const handleCabinSeatSelectionChange = (seatNumber, selected) => {
-        console.log(`[SEATMAP] Cabin seat selected: ${seatNumber}|${selected}`);
-        
         // Add the seat to the selected seats when selected
         if(selected) {
             // Update the selected seats
@@ -83,13 +81,12 @@ export default function SeatMap(props) {
             updatedSeats.push({
                 number: seatNumber,
                 passengerIndex: activePassengerIndex,
+                optionCode: getSeatProperties(seatNumber).optionCode,
             });
-            
 
             // Update the selected seats
             setSelectedSeats(updatedSeats);
             activateNextPassengerSeatCard(updatedSeats);
-            console.log('[SEATMAP] Seats selected >> ', updatedSeats);
         }
 
         // Otherwise, remove the seat number from the selection
@@ -99,6 +96,16 @@ export default function SeatMap(props) {
         }
         
     }
+
+    // Handle the Skip button
+    const handleSkip = () => {
+        handleSeatMapSkip();
+    };
+
+    // Handle the Continue button
+    const handleContinue = () => {
+        handleSeatMapContinue(selectedSeats);
+    };
 
     // Get the details of a given seat number
     const getSeatProperties = (seatNumber) => {
@@ -196,7 +203,7 @@ export default function SeatMap(props) {
                         <Col xs={6}>
                             <Button 
                                 className='seatmap-btn-secondary'
-                                onClick={console.log}
+                                onClick={handleSkip}
                             >
                                 Skip
                             </Button>
@@ -204,7 +211,7 @@ export default function SeatMap(props) {
                         <Col xs={6}>
                             <Button
                                 className='seatmap-btn-primary'
-                                onClick={console.log}
+                                onClick={handleContinue}
                             >
                                 Continue
                             </Button>

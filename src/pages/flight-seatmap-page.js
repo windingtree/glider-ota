@@ -12,10 +12,31 @@ export default function FlightSeatmapPage({match}) {
     let segmentId = match.params.segmentId;
     let offer = retrieveOfferFromLocalStorage(offerId);
 
-    function onProceedButtonClick(){
+    // Get the Details from API and storage
+    // @fixme: To be implemented with Glider API
+    let cabin, segment, passengers, initialPrice, currency;
+
+    // Proceed to summary
+    const proceedToSummary = () => {
         let url='/flights/summary/'+offerId
         history.push(url);
     }
+
+    // Handle a click on continue in the seatmap
+    const handleContinue = (selectedSeats) => {
+        //@TODO: Add seats to basket and load next segment
+        console.log('[SEATMAP PAGE] continue');
+        proceedToSummary();
+    };
+
+    // Handle a click on skip on the seatmap
+    const handleSkip = () => {
+        //@TODO: Load next segment without adding items in basket
+        console.log('[SEATMAP PAGE] Skip');
+        proceedToSummary();
+    };
+
+
 
     return (
         <>
@@ -23,13 +44,15 @@ export default function FlightSeatmapPage({match}) {
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
                     <div>Seatmap for offer: {offerId}, segmentId:{segmentId}</div>
-                    <SeatMap/>
-                    <Button
-                        className='primary'
-                        onClick={onProceedButtonClick}
-                    >
-                        Continue
-                    </Button>
+                    <SeatMap
+                        cabin={cabin}
+                        segment={segment}
+                        passengers={passengers}
+                        initialPrice={initialPrice}
+                        currency={currency}
+                        handleSeatMapContinue={handleContinue}
+                        handleSeatMapSkip={handleSkip}
+                    />
                 </div>
             </div>
         </>

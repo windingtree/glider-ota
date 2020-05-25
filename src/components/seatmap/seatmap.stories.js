@@ -3123,6 +3123,8 @@ export const smallCabinSeatMapOneStop = () => (
       passengers={adultAndChild}
       initialPrice={1164.65}
       currency='CAD'
+      handleSeatMapContinue={console.log}
+      handleSeatMapSkip={console.log}
     />
 );
 
@@ -3133,6 +3135,8 @@ export const largeCabinSeatMap = () => (
     passengers={adultAndChild}
     initialPrice={1164.65}
     currency='CAD'
+    handleSeatMapContinue={console.log}
+    handleSeatMapSkip={console.log}
   />
 );
 
@@ -3143,6 +3147,8 @@ export const largeCabinSeatMapWithFamily = () => (
       passengers={family}
       initialPrice={1164.65}
       currency='CAD'
+      handleSeatMapContinue={console.log}
+      handleSeatMapSkip={console.log}
     />
 );
 
@@ -3153,6 +3159,8 @@ export const largeCabinSeatMapWithLargeGroup = () => (
       passengers={largeGroup}
       initialPrice={1164.65}
       currency='CAD'
+      handleSeatMapContinue={console.log}
+      handleSeatMapSkip={console.log}
     />
 );
 

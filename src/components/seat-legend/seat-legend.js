@@ -8,7 +8,7 @@ import './seat-legend.scss';
 const legendItems = [
     [
         {title: 'Selected Seat', icon: 'selected'},
-        {title: 'Occupied Seat', icon: 'occupied'},
+        {title: 'Unavailable Seat', icon: 'occupied'},
     ],
     [
         {title: 'Available Seat', icon: 'available'},
