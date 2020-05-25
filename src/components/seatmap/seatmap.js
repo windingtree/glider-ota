@@ -43,50 +43,77 @@ export default function SeatMap(props) {
     const handleSeatCardRemove = (index) => {
         console.log(`[SEATMAP] SeatCard removed: ${index}`);
         setActivePassengerIndex(index);
+        setSelectedSeats(selectedSeats.filter(seat => seat.passengerIndex !== index));
     };
 
     // Handle events on the Seat Map
     const handleCabinSeatSelectionChange = (seatNumber, selected) => {
         console.log(`[SEATMAP] Cabin seat selected: ${seatNumber}|${selected}`);
         
-
         // Add the seat to the selected seats when selected
         if(selected) {
             // Update the selected seats
-            let seats = selectedSeats;
-            seats.push({
+            let updatedSeats = selectedSeats;
+            updatedSeats.push({
                 number: seatNumber,
-                code: 'mySeatCode',
                 passengerIndex: activePassengerIndex,
             });
-            setSelectedSeats(seats);
+            
 
             // Update the current passenger index, modulo the number of passengers
-            setActivePassengerIndex((activePassengerIndex + 1) % passengers.length);
+            // Only if there are still passengers to select
+            if(updatedSeats.length < passengers.length) {
+                // Get the index of seated passengers
+                const passengerIndexesWithSeats = updatedSeats.map(seat => seat.passengerIndex);
+
+                // Search for the next unseated passenger after the active passenger
+                for(let i=0; i<passengers.length; i++) {
+                    const index = (activePassengerIndex + i + 1) % passengers.length;
+                    if(!passengerIndexesWithSeats.includes(index)) {
+                        setActivePassengerIndex(index);
+                        break;
+                    }
+                }
+            }
+
+            // Update the selected seates
+            setSelectedSeats(updatedSeats);
         }
 
-        // Remove the seats fro the selected otherwise
+        // Otherwise, remove the seat number from the selection
         else {
-            setSelectedSeats(selectedSeats.filter(seat => {
-                return seat.number !== seatNumber;
-            }));
+            setSelectedSeats(selectedSeats.filter(seat => seat.number !== seatNumber));
         }
         
     }
 
+    // Get the details of a given seat number
+    const getSeatProperties = (seatNumber) => {
+        // Destructure properties of the cabin
+        const { seats, prices } = cabin;
+
+        // Get the proper seat and price
+        const seat = seats.find(seat => seat.number === seatNumber);
+        const price = seat && seat.optionCode && prices[seat.optionCode];
+
+        return {...seat, price: price};
+    };
+
     // Get the details of a seat at a given index
     const getSeatPropertiesForSeatCard = (passengerIndex) => {
-        for(let i=0; i<selectedSeats.length; i++) {
-            const seat = selectedSeats[i];
-            if(passengerIndex === seat.passengerIndex) {
-                return {
-                    seatNumber: seat.number,
-                    seatCharacteristics: ['K','W','LA'],
-                    priceAmount: 180,
-                }
-            }
+        // Get the seat
+        const seat = selectedSeats.find(seat => seat.passengerIndex === passengerIndex);
+        if(!seat) {
+            return {}
         }
-        return {};
+
+        // Get the seat properties
+        const seatProperties = getSeatProperties(seat.number);
+        return {
+            seatNumber: seat.number,
+            seatCharacteristics: seatProperties.characteristics,
+            priceAmount: seatProperties.price.public ? Number(seatProperties.price.public) : 'Free',
+        }
     };
 
     // Get the current passenger type
@@ -95,7 +122,9 @@ export default function SeatMap(props) {
     };
 
     // Variable to check if all seats are selected
-    const allSeatsSelected = (selectedSeats.length === passengers.length);
+    const allSeatsSelected = () => {
+        return (selectedSeats.length === passengers.length);
+    };
 
     // Render the component
     return (
@@ -118,7 +147,7 @@ export default function SeatMap(props) {
                             <Col xs={12} sm={6} md={12} lg={6} xl={4} className='seatcard-col' key={index}>
                                 <SeatCard
                                     // Passenger related properties
-                                    active={(index===activePassengerIndex) && !allSeatsSelected}
+                                    active={!allSeatsSelected() && (index===activePassengerIndex)}
                                     passengerName={name}
                                     passengerType={type}
 
