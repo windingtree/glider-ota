@@ -27,7 +27,7 @@ export default function SegmentSelector(props) {
             <div className='flight-time'>{flightTime}</div>
             <ProgressBar now={getProgress()}/>
             <div className='route'>
-                {stops.map(stop => (<div>{stop}</div>))}
+                {stops.map((stop, key) => (<div key={key}>{stop}</div>))}
             </div>
         </div>
     )

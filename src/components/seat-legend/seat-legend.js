@@ -20,12 +20,12 @@ export default function SeatLegend(props) {
 
     return (
         <Container className='seat-legend'>
-            {legendItems.map(legendRow => (
-                <Row noGutters='true'>
+            {legendItems.map((legendRow, key) => (
+                <Row noGutters='true' key={key}>
                     {legendRow.map(({title, icon}, index) => (
                         <Col xs={12} sm={6}>
                             <Card className='seat-legend-card' body>
-                                <div class={`icon-${icon}`}/>
+                                <div className={`icon-${icon}`}/>
                                 <span>{title}</span>
                             </Card>
                         </Col>
