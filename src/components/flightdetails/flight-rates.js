@@ -1,102 +1,93 @@
-import {Col, Container, Row} from "react-bootstrap";
-import React from "react";
+import React, {useState} from 'react';
 import OfferUtils from "../../utils/offer-utils";
 import style from "./flight-rates.module.scss"
+import {ItineraryDetails} from "./trip-details";
+import FareFamilyHelper from "../../utils/fare-family-helper";
 
-export default class FlightRates extends React.Component {
-    constructor(props) {
-        super(props);
-        const {selectedCombination, selectedOffer, pricePlans} = this.props
-        this.plansManager = new PricePlansManager(selectedCombination.offers, pricePlans);
-        this.state={
-            selection:this.initializeState(selectedOffer.flightCombination)
-        }
-        this.handlePricePlanSelection = this.handlePricePlanSelection.bind(this);
+
+
+export default function TripRates({tripRates, selectedOffer, onOfferChange}) {
+    const [currentOffer, setCurrentOffer] = useState(selectedOffer)
+    let fareFamilyHelper = new FareFamilyHelper(tripRates);
+
+    function handlePricePlanSelection(itinId, pricePlanId) {
+
     }
 
-    initializeState(flightCombination){
-        let state={}
-        flightCombination.map(rec=>{
-            return state[rec.flight]=rec.pricePlan;
-        })
-        return state;
+    function onOfferSelected(offerId) {
+        let offer = tripRates.offers[offerId]
+        setCurrentOffer(offer);
+
+        console.debug("onOfferSelected, offerId:",offerId)
+        onOfferChange(offerId)
     }
 
-    handlePricePlanSelection(itinId, pricePlanId) {
-        console.log("Price plan selected, itinID:", itinId, ", price plan:", pricePlanId)
-        let state=this.state;
-        state.selection[itinId]=pricePlanId;
-        let newOffer = this.plansManager.findOffer(state.selection)
-        if(newOffer!==undefined){
-            console.log("Found new offer")
-            this.props.onOfferChange(newOffer);
-        }
-        else {
-            console.log("Offer not found")
-        }
-        this.setState(state);
-    }
+    let itineraries = tripRates.itineraries;
 
+    return (
+        <>
 
-    render() {
-        const {selectedCombination} = this.props;
-        const itineraries = selectedCombination.itinerary;
-        return (
-            <>
-            <div>
-                <h2 className={style.ratesHeader}>Airline rates</h2>
-            </div>
             <div>
                 {
-                    itineraries.map(itinerary=>{
-                        let itinId=itinerary.itinId;
+                    itineraries.map(itinerary => {
+                        let itinId = itinerary.itinId;
+                        let pricePlanIds=fareFamilyHelper.getItineraryPricePlansInAscendingOrder(itinId);
                         return (
-                            <DisplayItineraryRates key={itinId} itinerary={itinerary} plansManager={this.plansManager}
-                                                   onPricePlanSelected={this.handlePricePlanSelection}
-                                                   selectedPlan={this.state.selection[itinId]}/>)
+                            <ItineraryRates key={itinId} itinerary={itinerary} tripRates={tripRates} selectedOffer={currentOffer}
+                                            onPricePlanSelected={handlePricePlanSelection} onOfferSelected={onOfferSelected}/>)
 
                     })
                 }
 
             </div>
-            </>
-        )
-    }
+        </>
+    )
 }
 
+/**
+ * Render price plans of an itinerary
+ */
 
-function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,selectedPlan}) {
-    let firstSegment=itinerary.segments[0];
-    let tripOrigin = firstSegment.origin;
-    let lastSegment = itinerary.segments[itinerary.segments.length - 1];
-    let tripDestination = lastSegment.destination;
-
+export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlanSelected, onOfferSelected}) {
     let itineraryId = itinerary.itinId;
-    let availablePricePlans = plansManager.getItineraryUniquePricePlans(itinerary.itinId);
+    function selectPlan(itineraryId,pricePlanId){
+        onPricePlanSelected(itineraryId,pricePlanId)
+    }
 
-    let allPricePlans = plansManager.getAllPricePlans();
-    console.log("itinerary.itinId",itinerary.itinId)
-    console.log("Available price plans for itinerary:",availablePricePlans)
-    console.log("All price plans for itinerary:",allPricePlans)
+    function selectOffer(offerId){
+        console.log("selectOffer",offerId)
+        //TODO fixme
+        if(offerId!='UNKNOWN')
+            onOfferSelected(offerId)
+        else{
+            console.error("Unknown offer was selected!")
+        }
+    }
+
+    let pricePlans = tripRates.pricePlans;
+    let fareFamilyHelper = new FareFamilyHelper(tripRates);
+    let pricePlanIds = fareFamilyHelper.getItineraryPricePlansInAscendingOrder(itineraryId);
+    let priceOffsets = fareFamilyHelper.getItineraryPricePlanOffsetPrices(selectedOffer.offerId,itineraryId);
+    let selectedPricePlanId = selectedOffer.itinToPlanMap[itineraryId];
+
     return (<>
-        <div className={style.ratesItinRoute}>Flight {tripOrigin.city_name?tripOrigin.city_name:tripOrigin.iataCode} —> {tripDestination.city_name?tripDestination.city_name:tripDestination.iataCode}</div>
+        <ItineraryDetails itinerary={itinerary}/>
+        <div className='py-5'/>
+        <div className={style.ratesHeader}>Select a fare below</div>
         <div className='d-flex flex-row flex-wrap'>
                 {
-                    availablePricePlans.map((pricePlanId) => {
-                        console.log("price plan ID:",pricePlanId)
-                        let pricePlan = allPricePlans[pricePlanId];
-                        // console.log("Price plan:",pricePlan);
-                        let bagsAllowance=pricePlan.checkedBaggages.quantity;
-                        let allowedKilos = bagsAllowance*23;
-                        let styleName = style.priceplanContainer;
-                        if(selectedPlan === pricePlanId)
-                            styleName = style.priceplanContainerSelected;
+                    pricePlanIds.map(pricePlanId => {
+                        let pricePlan = pricePlans[pricePlanId];
+                        let priceOffset = priceOffsets[pricePlanId];
+                        let price = {};
+                        let offerId = 'UNKNOWN';
+
+                        if(priceOffset) {
+                            price = priceOffset.priceOffset;
+                            offerId = priceOffset.offerId;
+                        }
                         return (
-                            <div className={styleName} key={pricePlanId}
-                                 onClick={() => { onPricePlanSelected(itineraryId, pricePlanId)}}>
-                                <div className={style.ratesPlanName}>{pricePlan.name}</div>
-                                <div className={style.ratesPlanDetails}>{bagsAllowance==='0'?'No luggage':('Baggage '+allowedKilos+' kg')}</div>
-                            </div>
+                            <FareFamilyBenefits key={offerId} amenities={pricePlan.amenities} price={price} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}}/>
                         )
 
                     })
@@ -107,96 +98,54 @@ function DisplayItineraryRates({itinerary, plansManager, onPricePlanSelected,sel
 
 
 
+const Amenity = ({text,type, isSelected})=>{
+    let className = 'amenityicon';
+    if(isSelected)
+        className+= ' amenityActive';
+    else
+        className+= ' amenityInactive';
+    if(type)
+        className+=' gicon-'+type;
+    return (<>
+        <div className='ratesPlanDetails'><i className={className}/>{text}</div>
+    </>)
+}
 
-class PricePlansManager {
-    constructor(offers, allPricePlans) {
-        console.log("PricePlansManager constructor")
-        console.log("PricePlansManager allPricePlans:",allPricePlans)
-        this.pricePlanCombinations = undefined;
-        this.cheapestOffer = undefined;
-        this.selectedOfferId = undefined;
-        this.allPricePlans = allPricePlans;
-        this.selectedItinPlan = [];
-        this.offers = offers;
-        this.initialize(offers);
+/**
+ * Render single fare family with it's benefits list and price
+ * @param familyName
+ * @param price
+ * @param isSelected
+ * @param amenities
+ * @param onClick
+ * @returns {*}
+ * @constructor
+ */
+export function FareFamilyBenefits({familyName, price, isSelected, amenities=[], onClick}) {
+    let styleName = style.priceplanContainer;
+    if(isSelected)
+        styleName = style.priceplanContainerSelected;
+
+    let fare='';
+    if(price && price.public){
+        fare = Math.round(price.public) + " "+ price.currency;
+        if(price.public>=0)
+            fare = "+"+fare;
+    }else{
+        fare = "+0 ";
     }
-
-
-    /**
-     * find all possible price plans combinations for selected flights
-     */
-    initialize() {
-        let itinPricePlans = this.offers.map(offer => {
-            //for each offer, index: offerID, price and flights with associated price plans
-            return {
-                offerId: offer.offerId,
-                flightCombination: offer.flightCombination,
-                price: offer.offer.price
+    function handleClick(){
+        onClick();
+    }
+    let key=0;
+    return (
+        <div className={styleName} onClick={handleClick}>
+            <div className={style.ratesPlanName}>{familyName}</div>
+            <div className={style.ratesPlanPrice}>{fare}</div>
+            {
+                amenities.map((record) =><Amenity key={key++} text={record} type={record.type} isSelected={isSelected}/>)
             }
-        })
-        itinPricePlans.sort((a, b) => {
-            return a.price.public > b.price.public ? 1 : -1
-        })
-        this.cheapestOffer = itinPricePlans[0];
-        const cheapestPrice = this.cheapestOffer.price.public;
-        itinPricePlans.map(r => {
-            r.upsellPrice = r.price.public - cheapestPrice;
-            return true;
-        })
-
-        this.pricePlanCombinations = itinPricePlans;
-    }
-
-
-    getItineraryUniquePricePlans(itineraryId) {
-        let results = []
-        this.pricePlanCombinations.map(rec => {
-            rec.flightCombination.map(f => {
-                if (f.flight === itineraryId) {
-                    if (results.indexOf(f.pricePlan) < 0)
-                        results.push(f.pricePlan)
-                }
-            })
-            return true;
-        })
-        return results;
-    }
-
-
-
-    getAllPricePlans() {
-        return this.allPricePlans;
-    }
-
-    findOffer(itinPlans) {
-        // console.log("Available offers:",this.pricePlanCombinations);
-        // console.log("Selection state:",itinPlans);
-
-        let found = this.pricePlanCombinations.find(rec=>{
-            let flightCombination=rec.flightCombination;
-            let allKeysMatch=true;
-            flightCombination.map(combination=>{
-                allKeysMatch = (allKeysMatch && (itinPlans[combination.flight]===combination.pricePlan))
-            })
-            return allKeysMatch;
-        })
-        console.log("Found:",found)
-        if(found!==undefined)
-            found = this.findOfferById(found.offerId);
-        return found;
-    }
-    findOfferById(offerId){
-        return this.offers.find(offer=>offer.offerId === offerId);
-    }
-
+        </div>
+    )
 }
 
-
-
-function getFirstSegment (segments) {
-    return segments[0];
-}
-
-function  getLastSegment (segments) {
-    return ;
-}

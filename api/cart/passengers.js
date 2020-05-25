@@ -18,6 +18,8 @@ const shoppingCartController = async (req, res) => {
     }
     else if(method === 'GET') {
         let passengers = await shoppingCart.getItemFromCart(cartItemKey);
+        // if(passengers === null)
+        //     passengers={};//don't return "null" - return empty response
         res.json(passengers);
     }
     else if(method === 'DELETE') {
@@ -36,19 +38,19 @@ function validatePassengers(res, passengers){
         return sendValidationErrorResponse(res,"passengers","empty or missing");
     for(let i=0;i<passengers.length;i++){
         let pax=passengers[i];
-        let paxId=pax.passenger_id;
+        let paxId=pax.id;
         if(isNullOrEmpty(paxId))
-            return sendValidationErrorResponse(res,"passenger_id","empty or missing",undefined);
+            return sendValidationErrorResponse(res,"id","empty or missing",undefined);
         if(isNullOrEmpty(pax.type))
             return sendValidationErrorResponse(res,"type","empty or missing",paxId);
         if(isNullOrEmpty(pax.civility))
             return sendValidationErrorResponse(res,"civility","empty or missing",paxId);
-        if(isNullOrEmpty(pax.lastname))
-            return sendValidationErrorResponse(res,"lastname","empty or missing",paxId);
-        if(isNullOrEmpty(pax.firstname))
-            return sendValidationErrorResponse(res,"firstname","empty or missing",paxId);
-        if(isNullOrEmpty(pax.gender))
-            return sendValidationErrorResponse(res,"gender","empty or missing",paxId);
+        if(isNullOrEmpty(pax.lastName))
+            return sendValidationErrorResponse(res,"lastName","empty or missing",paxId);
+        if(isNullOrEmpty(pax.firstName))
+            return sendValidationErrorResponse(res,"firstName","empty or missing",paxId);
+        // if(isNullOrEmpty(pax.gender))
+        //     return sendValidationErrorResponse(res,"gender","empty or missing",paxId);
         if(isNullOrEmpty(pax.birthdate))//TODO add date validation
             return sendValidationErrorResponse(res,"birthdate","empty or missing",paxId);
         if(isNullOrEmpty(pax.phone))//TODO add phone number validation
@@ -64,7 +66,7 @@ function isNullOrEmpty(str){
 }
 
 function sendValidationErrorResponse(res, fieldName, validationMessage, paxId){
-    sendErrorResponse(res,400,ERRORS.VALIDATION_ERROR,validationMessage,{fieldName:fieldName, passenger_id:paxId});
+    sendErrorResponse(res,400,ERRORS.VALIDATION_ERROR,validationMessage,{fieldName:fieldName, id:paxId});
     return false;
 };
 

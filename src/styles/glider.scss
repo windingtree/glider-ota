@@ -3,9 +3,11 @@ glider.scss
 global stylesheets
  */
 //@import './variables';
-@import 'src/styles/mixins';
-@import 'src/styles/typography';
+@import './mixins';
+@import './typography';
 @import "../../node_modules/bootstrap/scss/bootstrap";
+@import './icons-amenities.css';
+@import './icons-symbols.css';
 /*
 .border{
 
@@ -63,6 +65,7 @@ body{
   width:100%;
   margin-right: auto;
   margin-left: auto;
+  //border: 1px solid red;
   @include glider-media-large_992{
     max-width: 80%;
     //min-width: 80%;
@@ -73,3 +76,4 @@ body{
   }
   //border: 1px solid black;
 }
+

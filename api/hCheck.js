@@ -12,6 +12,18 @@ var session = getNamespace('ota');
 const healthCheckController = async (req, res) => {
     let log = new StringBuffer();
     log.log("correlationID:"+session.get('correlationID'));
+
+    logger.debug("Logger.debug()")
+    logger.info("Logger.info()")
+    logger.warn("Logger.warn()")
+    logger.error("Logger.error()")
+    console.debug("console.log()")
+    console.info("console.info()")
+    console.log("console.log()")
+    console.warn("console.warn()")
+    console.error("console.error()")
+
+
     await checkMongo(log);
     await checkRedis(log);
     await checkEnv(log);

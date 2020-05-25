@@ -13,7 +13,6 @@ export default function Header({violet = false}) {
                     </Col>
                 </Row>
             </Container>
-
         </header>
     )
 }

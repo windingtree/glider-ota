@@ -2,7 +2,7 @@ import React from 'react'
 import './hotel-details.scss'
 import {Container, Row, Col, Button, Image} from 'react-bootstrap'
 import _ from 'lodash'
-import PaxDetails from "../flightdetails/pax-details";
+import PaxDetails from "../passengers/pax-details";
 // import Room from "./room-offer"
 import YourChoice from "./your-choice";
 import default_hotel_image from "../../assets/default_hotel_image.png";
@@ -20,9 +20,9 @@ export default class HotelDetails extends React.Component {
         this.handleSelectedOfferChange= this.handleSelectedOfferChange.bind(this);
     }
 
-    handleContactDetailsChange(contactDetails){
+    handleContactDetailsChange(contactDetails, allPassengersDetailsAreValid){
         this.setState({ contact_details:contactDetails})
-        console.log("Contact details",contactDetails)
+        console.log("Contact details",contactDetails, "allPassengersDetailsAreValid:",allPassengersDetailsAreValid)
     }
 
     handleSelectedOfferChange(newOffer){

@@ -1,39 +1,75 @@
-import React from 'react'
+import React, {useState} from 'react'
+import {config} from "../../config/default";
 import style from './flights-search-results.module.scss'
 import {Container, Row, Col, Image, Button} from 'react-bootstrap'
-import {format, parseISO} from "date-fns";
-import OfferUtils from '../../utils/offer-utils'
-import _ from 'lodash'
 import {FastCheapFilter} from "../filters/filters";
+import {
+    createAirlinePredicate, createLayoverDurationPredicate,
+    createMaxStopsPredicate,
+    createPricePredicate,
+    SearchResultsFilterHelper
+} from "../../utils/search-results-filter-helper"
+import ResultsPaginator from "../common/pagination/results-paginator";
+import {Offer} from "./flights-offer";
+import {debug} from "winston";
+
+const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;
 
 
-export default function FlightsSearchResults({searchResults: combinations, onOfferDisplay}) {
-
-    function handleOfferDisplay(combinationId, offerId) {
+export default function FlightsSearchResults({searchResults, onOfferDisplay, filtersStates}) {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [sortType, setSortType] = useState('PRICE');
+    function handleOfferDisplay(offerId) {
         console.log("handleOfferDisplay", offerId);
-        onOfferDisplay(combinationId, offerId);
+        onOfferDisplay(offerId);
     }
 
-    if (combinations === undefined) {
-        console.log('No data!!');
-        return (<>Search for something</>)
+    if (searchResults === undefined) {
+        return (<>Nothing was found</>)
     }
 
-    function cheapFastFilterTogggle(){
-
+    function onActivePageChange(page) {
+        setCurrentPage(page);
     }
+
+    function limitSearchResultsToCurrentPage(records) {
+        let totalCount = records.length;
+        if (totalCount == 0)
+            return [];
+
+        let startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+        let endIdx = currentPage * ITEMS_PER_PAGE;
+        if (endIdx >= totalCount)
+            endIdx = totalCount;
+        console.debug(`Paging, total:${totalCount}, active page:${currentPage}, items per page:${ITEMS_PER_PAGE}, startIdx:${startIdx}, endIdx:${endIdx}`);
+        return records.slice(startIdx, endIdx)
+    }
+
+    const filterHelper = new SearchResultsFilterHelper(searchResults);
+    let predicates = createFilterPredicates(filtersStates);
+
+    let trips=filterHelper.generateSearchResults(sortType, predicates)
+    let totalResultsCount = trips.length;
+    trips = limitSearchResultsToCurrentPage(trips);
+
     return (
         <Container fluid={true} className={style.flightssearchresultscontainer}>
             <div className='pt-3'>
-                <FastCheapFilter onToggle={cheapFastFilterTogggle}/>
-                {/*    <FastCheapFilter/>*/}
+                <FastCheapFilter defaultValue={sortType} onToggle={setSortType}/>
+                <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE}
+                                  onActivePageChange={onActivePageChange} totalRecords={totalResultsCount}/>
                 {
-                    combinations.map(combination => {
-                        let cheapestOffer = OfferUtils.getCheapestOffer(combination);
-                        let itineraries = combination.itinerary;
-                        let price = cheapestOffer.offer.price;
-                        return (<Offer itineraries={itineraries} offerId={cheapestOffer.offerId} combinationId={combination.combinationId} price={price} key={combination.combinationId}
+                    trips.map(tripInfo => {
+                        let offer = tripInfo.bestoffer;
+                        let offerId = offer.offerId;
+                        let itineraries = tripInfo.itineraries;
+                        let price = offer.price;
+                        return (<Offer itineraries={itineraries}
+                                       offerId={offerId}
+                                       price={price}
+                                       key={offerId}
                                        onOfferDisplay={handleOfferDisplay}/>)
+
                     })
                 }
             </div>
@@ -42,108 +78,63 @@ export default function FlightsSearchResults({searchResults: combinations, onOff
 
 }
 
-export function Offer({itineraries=[],price, offerId, combinationId, onOfferDisplay}){
-    return (
-        <Container fluid={true} className={style.flightsearchoffercontainer}>
-            <Row >
-                {itineraries.length>0 && (<Itinerary itinerary={itineraries[0]}/>)}
-                {itineraries.length>1 && (<Itinerary itinerary={itineraries[1]}/>)}
-                {itineraries.length>3 && (<Itinerary itinerary={itineraries[2]}/>)}
-            </Row>
-            <Row className='flex-row-reverse'>
-                <Col xs={12} md={4} >
-                    <Button  variant="outline-primary pricebtn" size="lg" onClick={() => {
-                        onOfferDisplay(combinationId,offerId)
-                    }}>{price.public} {price.currency}</Button>
-
-                </Col>
-            </Row>
-        </Container>
-    )
-}
 
 
-
-export function Itinerary({itinerary}){
-    const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
-    const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
-    const startOfTrip = parseISO(firstSegment.departureTime);
-    const endOfTrip = parseISO(lastSegment.arrivalTime);
-    const segments = OfferUtils.getItinerarySegments(itinerary);
-    const pricePlan = OfferUtils.getItineraryPricePlan(itinerary);
-    const stops = [];
-    for (let i = 0; i < segments.length - 1; i++) {
-        const segment = segments[i];
-        if (i > 0)
-            stops.push(',');
-        stops.push(segment.destination.iataCode)
+function createFilterPredicates(filterStates){
+    if(!filterStates) {
+        return [];
     }
-    const operators = OfferUtils.getItineraryOperatingCarriers(itinerary);
-    return (
-        <Container fluid={true}>
-            <Row>
-                <Col xs={12} md={4} className={style.itinRow}>
-                    <div className={style.itinTimes}>{format(startOfTrip, 'HH:mm')} - {format(endOfTrip, 'HH:mm')}</div>
-                    <div className={style.itinDptrdate}>{format(startOfTrip, 'dd MMM, EE')}</div>
-                </Col>
-                <Col xs={12} md={4} className={style.itinRow}>
-                    <Row noGutters={true}>
-                        <Col>
-                            <div className={style.itinDuration}>{OfferUtils.calculateDuration(itinerary)}</div>
-                            <div className={style.itinAirports}>{firstSegment.origin.iataCode}-{lastSegment.destination.iataCode}</div>
-                        </Col>
-                        <Col>
-                            <div className={style.itinStopCount}>{stops.length} STOP</div>
-                            <div className={style.itinStopDetails}>{stops}</div>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col xs={12} md={4} className={style.itinRow}>
-                    <Row noGutters={true}>
-                        <Col>
-                            <ItineraryOperatingAirlines operators={operators}/>
-                        </Col>
-                        <Col>
-                            <ItineraryAncillaries pricePlan={pricePlan}/>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-        </Container>
-            )
-}
+    let predicates=[];
 
-function ItineraryOperatingAirlines({operators}) {
-    return (
-        <span className={style.offerhighlightlogosandancillaries}>
-        {
-            _.map(operators, (operator, id) => {
-                let imgPath = "/airlines/" + id + ".png";
-                return (<img key={id} src={imgPath} alt={id} className={style.itinCarrierLogo}/>)
-            })
+    //create predicate to filter offers by price range
+    let priceRangeFilter = filterStates.priceRange;
+    console.debug("Price range criteria:", priceRangeFilter)
+    predicates.push({
+        predicate: createPricePredicate(priceRangeFilter),
+        type: 'offer'
+    });
+
+    //create predicate to filter offers by layover duration
+    let layoverDurationFilter = filterStates.layoverDuration;
+    console.debug("Layover duration criteria:", layoverDurationFilter)
+    predicates.push({
+        predicate: createLayoverDurationPredicate(layoverDurationFilter),
+        type: 'trip'
+    });
+
+
+    //create predicate to filter trips by number of stops
+    let maxStopsFilter = filterStates.maxStops;
+    console.debug("stops criteria:", maxStopsFilter);
+    let maxStopsCriteria={};
+    maxStopsFilter.map(rec=>{
+        if(rec.key === 'all'){
+            maxStopsCriteria['ALL'] = rec.selected;
+        }else{
+            maxStopsCriteria[rec.key] = rec.selected;
         }
-        </span>
-    )
+    })
+    predicates.push({
+        predicate: createMaxStopsPredicate(maxStopsCriteria),
+        type: 'trip'
+    });
+
+
+    //create predicate to filter trips by operating carriers
+    let carriersFilter=filterStates.airlines;
+    console.debug("carriers criteria:", carriersFilter);
+    let carriersCriteria={};
+    carriersFilter.map(rec=>{
+        if(rec.key === 'all'){
+            carriersCriteria['ALL'] = rec.selected;
+        }else{
+            carriersCriteria[rec.key] = rec.selected;
+        }
+    })
+
+    predicates.push({
+        predicate: createAirlinePredicate(carriersCriteria),
+        type: 'trip'
+    });
+    return predicates;
 }
-function ItineraryAncillaries({pricePlan}) {
-    return (
-        <span >
-                    {pricePlan.checkedBaggages.quantity === 0 && <img src="/ancillaries/luggage_notallowed.png" />}
-            {pricePlan.checkedBaggages.quantity>0 && <img src="/ancillaries/luggage_allowed.png" />}
-        </span>
-    )
-}
-
-
-
-const Price = ({combination, offerWrapper, onOfferDisplay}) =>{
-    let offer = offerWrapper.offer
-    return (
-            <>
-                <Button className={style.offerhighlightprice} variant={"outline-primary"} size="lg" onClick={() => {
-                    onOfferDisplay(combination.combinationId,offerWrapper.offerId)
-                }}>{offer.price.public} {offer.price.currency}</Button>
-            </>
-    )
-}
-

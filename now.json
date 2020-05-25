@@ -3,13 +3,13 @@
     "functions": {
         "api/**/*.js": {
           "memory": 3008,
-          "maxDuration": 20,
+          "maxDuration": 60,
           "includeFiles":"api/_data/*.json"
         }
     },
   "env": {
-    "MONGO_URL": "@staging.glider-ota.mongo.uri",
-    "MONGO_DNNAME": "@staging.glider-ota.mongo.dbname",
+    "MONGO_URL": "@staging.glider-ota.mongo.uri2",
+    "MONGO_DBNAME": "@staging.glider-ota.mongo.dbname",
     "REDIS_HOST": "@staging.glider-ota.redis.host",
     "REDIS_PASSWORD": "@staging.glider-ota.redis.password",
     "STRIPE_PUBLISHABLE_KEY":"@staging.glider-ota.stripe.publishable_key",

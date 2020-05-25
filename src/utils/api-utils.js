@@ -1,4 +1,5 @@
 import  {stringify}  from 'query-string';
+import {config} from "../config/default";
 
 
 function ApiFetchException(message,response) {
@@ -17,23 +18,92 @@ export async function fetchGet(url,params){
       'Content-type': 'application/json'
     }
   }
-  let urlWithQueryString = url+'?'+queryString;
-  console.debug('fetchGet#1 - request, URL:',url,' queryString:',queryString,' complete URL:',urlWithQueryString);
+  let urlWithQueryString = url;
+  if(queryString.length>0)
+    urlWithQueryString+='?'+queryString;
   let results;
   try {
     results = await fetch(urlWithQueryString, options);
-    console.debug('fetchGet#2 - received response');
     results = await results.json();
-    console.debug('fetchGet#3 - converted to JSON');
   }catch(error){
-    console.error('fetchGet#3 - failure, error message:',error.message, "error code:", error.code)
     throw new ApiFetchException("Failed to retrieve data from server")
   }
   if(results.error){
-    //results = {"http_status":400,"error":"INVALID_INPUT","description":"Invalid request parameter, searchquery=undefined","payload":{}}
-    console.error('fetchGet#4 - error from API call', results);
     throw new ApiFetchException("Error while fetching data from server",results)
   }
   return results;
 }
 
+export async function fetchPost(url,payload){
+  let options = {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  }
+  let results;
+  try {
+    results = await fetch(url, options);
+    results = await results.json();
+  }catch(error){
+    throw new ApiFetchException("Failed to retrieve data from server")
+  }
+  if(results.error){
+    throw new ApiFetchException("Error while fetching data from server",results)
+  }
+  return results;
+}
+
+///////////////// PASSENGERS //////////////////////
+
+export async function storePassengerDetails(passengers){
+  return fetchPost('/api/cart/passengers',{passengers:passengers})
+}
+
+export async function retrievePassengerDetails(){
+  return fetchGet('/api/cart/passengers',{})
+}
+
+///////////////// SHOPPING CART //////////////////////
+export async function storeSelectedOffer(selectedOffer){
+  return fetchPost('/api/cart/offer',{offer:selectedOffer})
+}
+
+export async function retrieveSelectedOffer(){
+  return fetchGet('/api/cart/offer',{})
+}
+
+///////////////// REPRICE //////////////////////
+
+export async function repriceShoppingCartContents(){
+  return fetchPost('/api/cart/reprice',{})
+}
+
+///////////////// CHECKOUT //////////////////////
+export async function createPaymentIntent(confirmedOfferId,type){
+  return fetchPost('/api/order/checkout',{type:type,confirmedOfferId:confirmedOfferId})
+}
+
+
+export async function getStripePublicKey() {
+  return fetchPost('/api/order/key', {});
+}
+
+
+///////////////// ORDER CONFIRMATION //////////////////////
+export async function getOrderStatus(confirmedOfferId){
+  return fetchPost('/api/order/status',{offerId:confirmedOfferId})
+}
+
+
+
+export function executionTimeCheck(taskName, callback) {
+  let start = Date.now();
+  try {
+    callback()
+  } finally {
+    let end = Date.now();
+    console.log(`Task:${taskName}, Execution time:${end - start}ms`);
+  }
+}

@@ -1,0 +1,153 @@
+@font-face {
+  font-family: '/glider-symbols';
+  src:  url('/fonts/glider-symbols.eot?tus1bu');
+  src:  url('/fonts/glider-symbols.eot?tus1bu#iefix') format('embedded-opentype'),
+    url('/fonts/glider-symbols.ttf?tus1bu') format('truetype'),
+    url('/fonts/glider-symbols.woff?tus1bu') format('woff'),
+    url('/fonts/glider-symbols.svg?tus1bu#glider-symbols') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.gicon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'glider-symbols' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.symbol-add .path1:before {
+  content: "\e900";
+  color: rgb(113, 97, 214);
+}
+.symbol-add .path2:before {
+  content: "\e901";
+  margin-left: -1.0419921875em;
+  color: rgb(255, 255, 255);
+}
+.symbol-attention-2 .path1:before {
+  content: "\e902";
+  color: rgb(113, 97, 214);
+}
+.symbol-attention-2 .path2:before {
+  content: "\e903";
+  margin-left: -1.0419921875em;
+  color: rgb(255, 255, 255);
+}
+.symbol-attention-2 .path3:before {
+  content: "\e904";
+  margin-left: -1.0419921875em;
+  color: rgb(255, 255, 255);
+}
+.symbol-attention .path1:before {
+  content: "\e905";
+  color: rgb(113, 97, 214);
+}
+.symbol-attention .path2:before {
+  content: "\e906";
+  margin-left: -1.0419921875em;
+  color: rgb(255, 255, 255);
+}
+.symbol-attention .path3:before {
+  content: "\e907";
+  margin-left: -1.0419921875em;
+  color: rgb(255, 255, 255);
+}
+.symbol-breakfast .path1:before {
+  content: "\e908";
+  color: rgb(32, 32, 32);
+}
+.symbol-breakfast .path2:before {
+  content: "\e909";
+  margin-left: -1.0419921875em;
+  color: rgb(32, 32, 32);
+}
+.symbol-breakfast .path3:before {
+  content: "\e90a";
+  margin-left: -1.0419921875em;
+  color: rgb(255, 255, 255);
+}
+.symbol-close:before {
+  content: "\e90b";
+  color: #bbb;
+}
+.symbol-exchange-1 .path1:before {
+  content: "\e90c";
+  color: rgb(187, 187, 187);
+}
+.symbol-exchange-1 .path2:before {
+  content: "\e90d";
+  margin-left: -1.0419921875em;
+  color: rgb(187, 187, 187);
+}
+.symbol-exchange-1 .path3:before {
+  content: "\e90e";
+  margin-left: -1.0419921875em;
+  color: rgb(187, 187, 187);
+}
+.symbol-exchange-1 .path4:before {
+  content: "\e90f";
+  margin-left: -1.0419921875em;
+  color: rgb(113, 97, 214);
+}
+.symbol-exchange-2 .path1:before {
+  content: "\e910";
+  color: rgb(187, 187, 187);
+}
+.symbol-exchange-2 .path2:before {
+  content: "\e911";
+  margin-left: -1.0419921875em;
+  color: rgb(187, 187, 187);
+}
+.symbol-exchange-2 .path3:before {
+  content: "\e912";
+  margin-left: -1.0419921875em;
+  color: rgb(113, 97, 214);
+}
+.symbol-man:before {
+  content: "\e913";
+}
+.symbol-minus:before {
+  content: "\e914";
+  color: #7161d6;
+}
+.symbol-Money:before {
+  content: "\e915";
+  color: #7161d6;
+}
+.symbol-non:before {
+  content: "\e916";
+}
+.symbol-plane:before {
+  content: "\e917";
+}
+.symbol-plus:before {
+  content: "\e918";
+  color: #7161d6;
+}
+.symbol-substract .path1:before {
+  content: "\e919";
+  color: rgb(187, 187, 187);
+}
+.symbol-substract .path2:before {
+  content: "\e91a";
+  margin-left: -1.0419921875em;
+  color: rgb(255, 255, 255);
+}
+.symbol-swap:before {
+  content: "\e91b";
+  color: #7161d6;
+}
+.symbol-tick:before {
+  content: "\e91c";
+  color: #7161d6;
+}

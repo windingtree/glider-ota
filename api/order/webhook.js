@@ -19,9 +19,9 @@ const webhookController = async (request, response) => {
     if (STRIPE_CONFIG.DISABLE_WEBHOOK_SIGNATURE_CHECK) {
         logger.warn("Webhook signature verification is disabled! It should not be disabled in PROD environments")
         if (process.env.NODE_ENV === 'production') {
-            logger.error("Webhook signature verification is disabled in PROD! It should not be disabled in PROD environments")
-            sendErrorResponse(res, 500, ERRORS.INTERNAL_SERVER_ERROR, "Signature checking is disabled", req.body);
-            return;
+            // logger.error("Webhook signature verification is disabled in PROD! It should not be disabled in PROD environments")
+            // sendErrorResponse(res, 500, ERRORS.INTERNAL_SERVER_ERROR, "Signature checking is disabled", req.body);
+            // return;
         }
     }
     let rawBody = await getRawBodyFromRequest(request);
@@ -168,7 +168,7 @@ async function fulfillment(confirmedOfferId) {
     let document = await findConfirmedOffer(confirmedOfferId);
     console.debug("#2 document retrieved", document);
     let passengers = document.passengers;
-    let offerItems = document.offerItems;
+    // let offerItems = document.offerItems;
     let offerId = document.confirmedOffer.offerId;
     let offer = document.confirmedOffer.offer;
     let price = offer.price;
@@ -179,7 +179,7 @@ async function fulfillment(confirmedOfferId) {
     let guarantee = await createGuarantee(price.public, price.currency);
     logger.debug("#4 guarantee created, guaranteeId:%s", guarantee.guaranteeId);
     logger.debug("#5 create, offerId:%s",offerId);
-    let orderRequest = prepareRequest(offerId, offerItems, guarantee.guaranteeId, passengers)
+    let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers)
     logger.info("#6 order request:", orderRequest);
     let confirmation = undefined;
     try {
@@ -194,10 +194,10 @@ async function fulfillment(confirmedOfferId) {
 }
 
 
-function prepareRequest(offerId, offerItems, guaranteeId, passengers) {
+function prepareRequest(offerId, guaranteeId, passengers) {
     return {
         offerId: offerId,
-        offerItems: offerItems,
+        // offerItems: offerItems,
         guaranteeId: guaranteeId,
         passengers: createPassengers(passengers)
     }
@@ -210,16 +210,16 @@ function createPassengers(passengers) {
         let record = {
             type: pax.type,
             civility: pax.civility,
-            lastnames: [pax.lastname],
-            firstnames: [pax.firstname],
-            gender: pax.gender,
+            lastnames: [pax.lastName],
+            firstnames: [pax.firstName],
+            gender: pax.civility=='MR'?'Male':'Female',
             birthdate: pax.birthdate,
             contactInformation: [
                 pax.phone,
                 pax.email
             ]
         }
-        passengersRequest[pax.passenger_id] = record;
+        passengersRequest[pax.id] = record;
     }
     return passengersRequest;
 }

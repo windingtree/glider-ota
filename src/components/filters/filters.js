@@ -6,6 +6,7 @@ import OfferUtils from '../../utils/offer-utils';
 import "react-input-range/lib/css/index.css";
 
 import _ from 'lodash'
+import {SearchResultsWrapper} from "../../utils/flight-search-results-transformer";
 
 const AIRLINES_FILTER_ID = 'airlines';
 const MAXSTOPS_FILTER_ID = 'maxStops';
@@ -14,16 +15,12 @@ const LAYOVERDURATION_FILTER_ID = 'layoverDuration';
 const BAGS_FILTER_ID = 'bags';
 
 
-export default function Filters({searchResults, onFilterApply, filtersStates, onFiltersStateChanged}) {
-
-    console.log("Filter states:",filtersStates)
-
+export default function Filters({searchResults, onFilterApply, filtersStates}) {
 
     function filterStateChanged(id, filterState) {
         let newfiltersState = Object.assign({}, filtersStates);
         newfiltersState[id] = filterState;
-        let afterFilter = filterSearchResults(searchResults, newfiltersState);
-        onFilterApply(afterFilter);
+        onFilterApply(newfiltersState);
     }
 
 
@@ -31,15 +28,26 @@ export default function Filters({searchResults, onFilterApply, filtersStates, on
         <>
             <div className="filters-container d-flex flex-column flex-fill">
                 {/*{searchResults != undefined && <div className="glider-font-regular18-fg pb-4">Search results: {searchResults.length}</div>}*/}
-                {filtersStates !== undefined && (<SelectionFilter id={MAXSTOPS_FILTER_ID} title='Stops' filterState={filtersStates[MAXSTOPS_FILTER_ID]} onFilterStateChange={filterStateChanged} />)}
-                {filtersStates !== undefined && (<RangeFilter id={PRICERANGE_FILTER_ID} title='Price'  unit='EUR'  filterState={filtersStates[PRICERANGE_FILTER_ID]} onFilterStateChange={filterStateChanged} />)}
-                {filtersStates !== undefined && (<RangeFilter id={LAYOVERDURATION_FILTER_ID} title='Layover duration'  unit='hr'  filterState={filtersStates[LAYOVERDURATION_FILTER_ID]} onFilterStateChange={filterStateChanged} />)}
-                {filtersStates !== undefined && (<SelectionFilter id={BAGS_FILTER_ID} title='Baggage' filterState={filtersStates[BAGS_FILTER_ID]} onFilterStateChange={filterStateChanged} />)}
-                {filtersStates !== undefined && (<SelectionFilter id={AIRLINES_FILTER_ID} title='Airlines' filterState={filtersStates[AIRLINES_FILTER_ID]} onFilterStateChange={filterStateChanged}/>)}
+                {filtersStates !== undefined && (<SelectionFilter id={MAXSTOPS_FILTER_ID} title='Stops'
+                                                                  filterState={filtersStates[MAXSTOPS_FILTER_ID]}
+                                                                  onFilterStateChange={filterStateChanged}/>)}
+                {filtersStates !== undefined && (<RangeFilter id={PRICERANGE_FILTER_ID} title='Price' unit='EUR'
+                                                              filterState={filtersStates[PRICERANGE_FILTER_ID]}
+                                                              onFilterStateChange={filterStateChanged}/>)}
+                {filtersStates !== undefined && (
+                    <RangeFilter id={LAYOVERDURATION_FILTER_ID} title='Layover duration' unit='hr'
+                                 filterState={filtersStates[LAYOVERDURATION_FILTER_ID]}
+                                 onFilterStateChange={filterStateChanged}/>)}
+                {filtersStates !== undefined && (
+                    <SelectionFilter id={BAGS_FILTER_ID} title='Baggage' filterState={filtersStates[BAGS_FILTER_ID]}
+                                     onFilterStateChange={filterStateChanged}/>)}
+                {filtersStates !== undefined && (<SelectionFilter id={AIRLINES_FILTER_ID} title='Airlines'
+                                                                  filterState={filtersStates[AIRLINES_FILTER_ID]}
+                                                                  onFilterStateChange={filterStateChanged}/>)}
                 {/*<RangeFilter min={1} max={maxPrice} unit='HR' title='MOW-HKT Flight duration'/>*/}
                 {/*<RangeFilter min={1} max={24} unit='HR' title='HKT-MOW Flight duration'/>*/}
                 {/*<RangeFilter id={PREDICATES.LAYOVERDURATION} min={1} max={24} unit='HR' title='Layover duration' predicate={filterStateChanged}/>*/}
-{/*
+                {/*
                 <div className='flex-fill'>
                     <Button variant='outline-primary' size='lg' onClick={onApplyButton}>Apply</Button>
                 </div>
@@ -61,94 +69,16 @@ export function generateFiltersStates(searchResults) {
     return filtersState;
 }
 
-
-function filterSearchResults(searchResults, filtersState) {
-    console.log("Will apply filter:", filtersState)
-    let combinationsAfter = [];
-    _.each(searchResults.combinations, (combination) => {
-        let offersUnfiltered = combination.offers;
-        combination.offers = [];
-        _.each(offersUnfiltered, (offer) => {
-            if (priceMinMaxPredicate(offer, filtersState) && maxStopsPredicate(offer, filtersState)) {
-                combination.offers.push(offer);
-            }
-        });
-        if (airlinePredicate(combination.itinerary, filtersState) && combination.offers.length > 0) {
-            combinationsAfter.push(combination)
-        }
-
-    });
-    // searchResults.combinations = combinationsAfter;
-    return combinationsAfter;
-}
-
-
-function priceMinMaxPredicate(offer, filtersState) {
-    let priceRange = filtersState[PRICERANGE_FILTER_ID];
-    if (priceRange === undefined)
-        return true;
-    let price = offer.offer.price;
-    // console.log("priceMinMaxPredicate, criteria:",priceRange," offer:", price)
-    if (price.public >= priceRange.min && price.public <= priceRange.max)
-        return true;
-    return false;
-}
-
-function airlinePredicate(itineraries, filtersState) {
-    let airlines = filtersState[AIRLINES_FILTER_ID];
-    if (airlines === undefined) {
-        return true;
-    }
-    let result = true;
-    _.each(itineraries, (itinerary) => {
-        _.each(itinerary.segments, (segment) => {
-            let segmentOperatingAirline = segment.operator.iataCode;
-            if(!isAirlineSelected(segmentOperatingAirline,airlines))
-                result=false;
-        })
-    })
-    return result;
-}
-
-function isAirlineSelected(iataCode,airlinesFilterState){
-    let airline = airlinesFilterState.find(item=>item.key === iataCode);
-    if(airline===undefined)
-        return true;
-    return airline.selected;
-}
-
-function maxStopsPredicate(itineraries, filtersState) {
-    let maxStops = filtersState[MAXSTOPS_FILTER_ID];
-    if (maxStops === undefined)
-        return true;
-
-    let allAllowed = maxStops['all'];
-    if (allAllowed)
-        return true;
-
-    let result = true;
-    _.each(itineraries, (itinerary) => {
-        _.each(itinerary.segments, (segment) => {
-            let numOfStops = OfferUtils.calculateNumberOfStops(itinerary);
-            if (numOfStops in maxStops) {
-                if (!maxStops[numOfStops])
-                    result = false;
-            }
-        })
-    })
-    return result;
-}
-
-
 export function RangeFilter({id, unit = '[eur]', title = '[missing]', onFilterStateChange, filterState}) {
     const [currentValue, setCurrentValue] = useState(filterState);
 
-    function onChangeComplete(){
+    function onChangeComplete() {
         let newFilterState = Object.assign({}, filterState);
-        newFilterState.min=currentValue.min;
-        newFilterState.max=currentValue.max;
+        newFilterState.min = currentValue.min;
+        newFilterState.max = currentValue.max;
         onFilterStateChange(id, newFilterState)
     }
+
     return (
         <div className={style.filter}>
             <div className={style.filterTitle}>{title}</div>
@@ -273,12 +203,11 @@ function getMaxStops(results) {
 }
 
 
-
 function createBagsFilter(searchResults) {
     let items = [{key: 'all', display: 'All', selected: true},
-        {key: '0',display: 'Carry on bag',selected: true},
-        {key: '1',display: 'Checked baggage',selected: true}
-        ];
+        {key: '0', display: 'Carry on bag', selected: true},
+        {key: '1', display: 'Checked baggage', selected: true}
+    ];
     return items;
 }
 
@@ -286,28 +215,36 @@ function createBagsFilter(searchResults) {
 function createLayoverDurationFilter(results) {
     if (results == undefined || results.combinations == undefined)
         return {lowest: 0, min: 0, max: 0, highest: 0};
-
-
     return {lowest: 0, min: 0, max: 12, highest: 12};
-
 }
 
 
-const VALUE_PRICE='price';
-const VALUE_DURATION='duration';
-export function FastCheapFilter({defaultValue = VALUE_PRICE, onToggle}){
+const VALUE_PRICE = 'PRICE';
+const VALUE_DURATION = 'DURATION';
+
+export function FastCheapFilter({defaultValue = VALUE_PRICE, onToggle}) {
 
     const [value, setValue] = useState(defaultValue);
-    const onPriceClick = () => {setValue(VALUE_PRICE);onToggle(VALUE_PRICE);}
-    const onDurationClick = ()  => {setValue(VALUE_DURATION);onToggle(VALUE_DURATION);}
+    const onPriceClick = () => {
+        setValue(VALUE_PRICE);
+        onToggle(VALUE_PRICE);
+    }
+    const onDurationClick = () => {
+        setValue(VALUE_DURATION);
+        onToggle(VALUE_DURATION);
+    }
     return (
         <Container className={style.fastCheapFilterToggle}>
             <Row className={style.fastCheapFilterContainer}>
                 <Col xs={6} className="d-flex ">
-                    <Button className={style.fastCheapFilterToggleBtn} variant={value==VALUE_PRICE?"primary":"outline-primary"} size="lg" onClick={onPriceClick}>Cheapest</Button>
+                    <Button className={style.fastCheapFilterToggleBtn}
+                            variant={value == VALUE_PRICE ? "primary" : "outline-primary"} size="lg"
+                            onClick={onPriceClick}>Cheapest</Button>
                 </Col>
                 <Col xs={6} className="d-flex ">
-                    <Button className={style.fastCheapFilterToggleBtn} variant={value==VALUE_DURATION?"primary":"outline-primary"} size="lg" onClick={onDurationClick}>Fastest</Button>
+                    <Button className={style.fastCheapFilterToggleBtn}
+                            variant={value == VALUE_DURATION ? "primary" : "outline-primary"} size="lg"
+                            onClick={onDurationClick}>Fastest</Button>
                 </Col>
             </Row>
         </Container>)

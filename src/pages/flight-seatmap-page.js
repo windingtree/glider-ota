@@ -1,9 +1,8 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
-import {retrieveOfferFromLocalStorage} from "../utils/search"
 import SeatMap from '../components/seatmap'
-import Button from "react-bootstrap/Button";
+import {retrieveOfferFromLocalStorage} from "../utils/local-storage-cache"
 
 
 export default function FlightSeatmapPage({match}) {

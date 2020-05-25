@@ -40,8 +40,6 @@ const checkoutUrlController = async (req, res) => {
         let unconfirmedOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.OFFER);
         let confirmedOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.CONFIRMED_OFFER)
         logger.debug("passenger details in shopping cart", passengers)
-        logger.debug("confirmed offer in shopping cart", confirmedOffer)
-        logger.debug("unconfirmed offer in shopping cart", unconfirmedOffer)
         logger.debug("shopping cart ", await shoppingCart.getCart());
 
         if (confirmedOffer == null) {
@@ -55,7 +53,7 @@ const checkoutUrlController = async (req, res) => {
             return;
         }
 
-        await storeConfirmedOffer(confirmedOffer,unconfirmedOffer.offerItems,passengers);
+        await storeConfirmedOffer(confirmedOffer,passengers);
         let price = confirmedOffer.offer.price;
         let priceInBaseUnits = convertPriceToMinorUnits(price.public, price.currency);
         logger.debug("Will create payment intent, sessionID:%s, confirmedOfferId:%s, amount %s %s", sessionID, confirmedOfferId, price.currency, price.public)

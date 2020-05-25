@@ -16,7 +16,7 @@ const offerRepriceController = async (req, res) => {
     let sessionID=req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let offer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.OFFER);
-    console.log("Offer:",offer)
+
     if (offer == null || offer.offerId === undefined) {
         logger.warn("Cannot find offer or offerID in shopping cart, cannot re-price it");
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Cannot find offer in the shopping cart");

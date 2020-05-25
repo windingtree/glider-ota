@@ -18,29 +18,24 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
 
 
     function handleLocationSelected(location) {
-        console.log("select")
         setSelectedLocation(location);
         setValue(location.primary);
         onSelectedLocationChange(location)
     }
 
     function clearSelectedLocation() {
-        console.log("clearSelectedLocation")
         setSelectedLocation(undefined);
         onSelectedLocationChange(undefined);
     }
 
     function searchQueryWasEntered(text){
-        console.log("searchQueryWasEntered")
         onQueryEntered(text);
     }
 
     function handleOnBlur(event) {
-        console.log("handleOnBlur")
         // clearSelectedLocation();
     }
     function handleOnChange(event) {
-        console.log("handleInputValueChangeNew")
         const enteredText = event.target.value;
         clearSelectedLocation();
         if(searchQueryTimeout!=undefined){
@@ -61,7 +56,6 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
         event.target.select();
     };
 
-    console.log("Locations:",locations);
         return (
             <div className={style.lookup}>
                 <Form.Control

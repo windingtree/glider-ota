@@ -1,7 +1,7 @@
 const {createLogger} = require('./logger');
 const {getAirportByIataCode,getCountryByCountryCode, getAirlineByIataCode} = require ('./dictionary-data-cache')
 const _ = require('lodash');
-
+const {v4} = require('uuid');
 // log REST calls to a separate logger
 const restlogger = createLogger('response-decorator-logger');
 
@@ -10,6 +10,11 @@ const restlogger = createLogger('response-decorator-logger');
 function enrichResponseWithDictionaryData(results){
     enrichAirportCodesWithAirportDetails(results);
     enrichOperatingCarrierWithAirlineNames(results);
+    results['metadata']={
+        uuid:v4(),
+        timestamp:new Date(),
+        numberOfOffers:Object.keys(results.offers).length
+    }
 }
 
 function enrichAirportCodesWithAirportDetails(results){

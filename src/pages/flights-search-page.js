@@ -20,10 +20,10 @@ const SEARCH_STATE={
 
 export default function FlightsSearchPage({match,location}) {
     let history = useHistory();
+    console.debug("FlightsSearchPage, match:",match, "Location:",location);
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
     const [filtersStates, setFiltersStates] = useState();
-    const [unfilteredSearchResults, setUnfilteredSearchResults] = useState();
 
     const onSearchButtonClick = (criteria) => {
         onSearchStart();
@@ -37,56 +37,51 @@ export default function FlightsSearchPage({match,location}) {
                 onSearchFailure(err)})
     };
     const onSearchSuccess = (results) => {
-        setSearchResults(results.combinations);
-        setUnfilteredSearchResults(results);
+        console.debug("Search completed, results to be displayed:", results)
+        setSearchResults(results);
         let filters=generateFiltersStates(results);
         setFiltersStates(filters);
         setSearchState(SEARCH_STATE.FINISHED);
     }
     const onSearchFailure = (err) => {
+        console.error("Search failed", err)
         setSearchResults(undefined);
         setSearchState(SEARCH_STATE.FAILED);
     }
     const onSearchStart = () => {
         setSearchState(SEARCH_STATE.IN_PROGRESS);
     }
-    const onResultsFiltered = (combinations) => {
-        setSearchResults(combinations);
+
+    const onFiltersChanged = (filters) => {
+        setFiltersStates(filters)
+
     }
 
     const initialParameters = parseDeeplinkParams(location);
     const deeplinkAction = initialParameters.action;
 
-
     useEffect(()=>{
         if(deeplinkAction === 'search'){
-            console.log("Deeplink search",initialParameters)
             onSearchButtonClick(initialParameters);
         }
         },[]);
 
-
-
-
-    const onOfferSelected = (combinationId,offerId) => {
-        let url = createOfferURL(offerId,combinationId);
+    const onOfferSelected = (offerId) => {
+        let url = createOfferURL(offerId);
         history.push(url);
     };
 
 
+    console.debug("Render flight results")
     return (
         <div>
             <Header violet={true}/>
             <div className='root-container-subpages'>
 
-
-                {/*<Container fluid={true} className='flight-results-outer-boundary root-container-subpages'>*/}
                 <div className='d-flex flex-row '>
                     <div className="filters-wrapper">
-                        {/*<Col xs={3}  className="filters-wrapper">*/}
-                            <Filters searchResults={unfilteredSearchResults} filtersStates={filtersStates} onFiltersStateChanged={setFiltersStates} onFilterApply={onResultsFiltered}/>
+                            <Filters searchResults={searchResults} filtersStates={filtersStates} onFilterApply={onFiltersChanged}/>
                     </div>
-                        {/*</Col>*/}
                         <div >
                             <SearchForm
                                 onSearchButtonClick={onSearchButtonClick}
@@ -104,7 +99,7 @@ export default function FlightsSearchPage({match,location}) {
                             {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
                             {searchResults != undefined &&
                             <FlightsSearchResults onOfferDisplay={onOfferSelected}
-                                                  searchResults={searchResults}/>
+                                                  searchResults={searchResults} filtersStates={filtersStates}/>
                             }
                         </div>
                     </div>
@@ -117,17 +112,14 @@ export default function FlightsSearchPage({match,location}) {
 
 const SearchFailed = ()=>{
     return (
-        <div className='glider-font-h1-fg pt-3'>ooops..... something went wrong with the search</div>
+        <div className='glider-font-h1-fg pt-3'>No flights found</div>
     )
 }
 
-function createOfferURL(offerId,combinationId){
-    const url = "/flights/tripoverview/"+combinationId+"/"+offerId;
+function createOfferURL(offerId){
+    const url = "/flights/tripoverview/"+offerId;
     return url;
 }
-
-
-
 
 const parseDeeplinkParams = (location) =>{
     let parsedUrl=parseUrl(location.search);

@@ -1,0 +1,47 @@
+@font-face {
+  font-family: 'glider-amenities';
+  src:  url('/fonts/glider-amenities.eot?t4st9e');
+  src:  url('/fonts/glider-amenities.eot?t4st9e#iefix') format('embedded-opentype'),
+    url('/fonts/glider-amenities.ttf?t4st9e') format('truetype'),
+    url('/fonts/glider-amenities.woff?t4st9e') format('woff'),
+    url('/fonts/glider-amenities.svg?t4st9e#glider-amenities') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="gicon-"], [class*=" gicon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'glider-amenities' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gicon-changes:before {
+  content: "\e900";
+}
+.gicon-heart:before {
+  content: "\e901";
+}
+.gicon-luggage:before {
+  content: "\e902";
+}
+.gicon-meal:before {
+  content: "\e903";
+}
+.gicon-seat:before {
+  content: "\e904";
+}
+.gicon-star:before {
+  content: "\e905";
+}
+
+

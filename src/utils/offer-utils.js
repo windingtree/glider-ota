@@ -1,5 +1,7 @@
+
 import {parseISO,differenceInHours,differenceInMinutes} from "date-fns";
 import airportToCityMap from "../data/airport-city-map";
+
 
 export default class OfferUtils {
   static calculateDuration (itinerary) {
@@ -22,6 +24,12 @@ export default class OfferUtils {
     const endOfTrip = parseISO(lastSegment.arrivalTime);
     const mins = differenceInMinutes(endOfTrip, startOfTrip);
     return mins;
+  }
+
+  static calculateLayoverDurationInMinutes (prevSegment, nextSegment) {
+    const arrival = parseISO(prevSegment.arrivalTime);
+    const departure = parseISO(nextSegment.departureTime);
+    return  differenceInMinutes(departure, arrival);
   }
 
   static getOutboundItinerary (combination) {
