@@ -74,6 +74,11 @@ export async function retrieveSelectedOffer(){
   return fetchGet('/api/cart/offer',{})
 }
 
+///////////////// SEATMAP //////////////////////
+export async function retrieveSeatmap() {
+  return fetchGet('/api/seatmap', {});
+};
+
 ///////////////// REPRICE //////////////////////
 
 export async function repriceShoppingCartContents(){
