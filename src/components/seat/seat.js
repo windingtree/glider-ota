@@ -8,15 +8,17 @@ export default function Seat(props) {
         characteristics,
         price,
         onSelectionChange,
-        initiallySelected = false,
+        selected = false,
+        selectionAllowed = true,
     } = props;
 
-    // Manage React states
-    const [selected, setSelected] = useState(initiallySelected);
-    
+    // Manage React states    
     const handleSelectionChange = () => {
-        setSelected(!selected);
-        onSelectionChange(number, !selected);
+        if(selected || selectionAllowed) {
+            onSelectionChange(number, !selected);
+        } else {
+            console.info('[SEAT] Selection not allowed');
+        }
     };
 
 
@@ -30,8 +32,9 @@ export default function Seat(props) {
     }
 
     // Define when to show/hide components
-    const showPrice = (available && !selected);
-    const showPremium = (available && (characteristics.includes('PS')));
+    const showPrice = (selectionAllowed && available && !selected);
+    const showPremium = (selectionAllowed && available && (characteristics.includes('PS')));
+    const disabled = (!selected && (!selectionAllowed || !available))
 
     return (
         <div className='seat'>
@@ -40,7 +43,7 @@ export default function Seat(props) {
                 name='seat'
                 id={number}
                 value={number}
-                disabled={!selected && !available}
+                disabled={disabled}
                 checked={selected}
                 onChange={handleSelectionChange}
             />

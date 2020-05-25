@@ -15,6 +15,7 @@ export default function Cabin(props) {
         prices,
         maxSelection,
         passengerType = 'ADT',
+        selectedSeats = [],
         handleSeatSelectionChange,
     } = props;
 
@@ -28,11 +29,32 @@ export default function Cabin(props) {
         (v,k)=> k + Number(firstRow)
     );
 
+    // Determine if a seat is selected
+    const isSeatSelected = (seatNumber) => {
+        return (selectedSeats.find(s => s === seatNumber) !== undefined);
+    };
+
+    // Determine if we can select a given seat
+    const isSeatSelectionAllowed = (seatCharacteristics) => {
+        // Check if the maxium selection is reached
+        if(maxSelection && (countSeatsSelected >= maxSelection)) {
+            return false;
+        }
+
+        // Check seat characteristics restrictions
+        return !isSeatRestrictedForPassenger(
+            seatCharacteristics,
+            passengerType
+        );
+    };
+
     // Index seats by seat number
     const indexedSeats = seats.reduce((acc, seat) => {
         acc[seat.number] = {
             ...seat,
-            price: prices[seat.optionCode]
+            price: prices[seat.optionCode],
+            selected: isSeatSelected(seat.number),
+            selectionAllowed: isSeatSelectionAllowed(seat.characteristics),
         };
         return acc;
     }, {});
@@ -42,21 +64,6 @@ export default function Cabin(props) {
         console.log(`SEAT #${seatNumber} selected: ${selected}`);
         handleSeatSelectionChange(seatNumber, selected);
         setCountSeatsSelected(countSeatsSelected + (selected? 1 : -1));
-    }
-
-    // Determine if we can select a given seat
-    const seatSelectionAllowed = (seatNumber) => {
-        // Check if the maxium selection is reached
-        if(maxSelection && (countSeatsSelected >= maxSelection)) {
-            return false;
-        }
-
-        // Check seat characteristics restrictions
-        return !isSeatRestrictedForPassenger(
-            indexedSeats[seatNumber].characteristics,
-            passengerType
-        );
-
     }
 
     // Get the display of an element at a given position
@@ -75,10 +82,12 @@ export default function Cabin(props) {
                 return (
                     <Seat
                         number={seatNumber}
-                        available={seat.available && seatSelectionAllowed(seatNumber)}
+                        available={seat.available}
                         characteristics={seat.characteristics}
                         price={seat.price}
                         onSelectionChange={onSeatSelectionChange}
+                        selected={seat.selected}
+                        selectionAllowed={seat.selectionAllowed}
                     />
                 );
             }

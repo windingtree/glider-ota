@@ -44,7 +44,7 @@ export const selectedFreeSeat = () => (
             public: '0.00',
             taxes: '0.00',
         }}
-        initiallySelected={true}
+        selected={true}
     ></Seat>
 );
 
@@ -90,7 +90,7 @@ export const selectedChargeableSeat = () => (
             public: '20.00',
             taxes: '5.00',
         }}
-        initiallySelected={true}
+        selected={true}
     ></Seat>
 );
 

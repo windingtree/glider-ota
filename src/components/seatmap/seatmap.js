@@ -76,12 +76,19 @@ export default function SeatMap(props) {
                 }
             }
 
+            else {
+                // Force React to re-render
+                setActivePassengerIndex(undefined);
+            }
+
             // Update the selected seates
             setSelectedSeats(updatedSeats);
+            console.log('[SEATMAP] Seats selected >> ', updatedSeats);
         }
 
         // Otherwise, remove the seat number from the selection
         else {
+            setActivePassengerIndex(selectedSeats.find(seat => seat.number === seatNumber).passengerIndex);
             setSelectedSeats(selectedSeats.filter(seat => seat.number !== seatNumber));
         }
         
@@ -118,7 +125,7 @@ export default function SeatMap(props) {
 
     // Get the current passenger type
     const getCurrentPassenger = () => {
-        return passengers[activePassengerIndex];
+        return activePassengerIndex ? passengers[activePassengerIndex] : {};        
     };
 
     // Variable to check if all seats are selected
@@ -147,7 +154,7 @@ export default function SeatMap(props) {
                             <Col xs={12} sm={6} md={12} lg={6} xl={4} className='seatcard-col' key={index}>
                                 <SeatCard
                                     // Passenger related properties
-                                    active={!allSeatsSelected() && (index===activePassengerIndex)}
+                                    active={!allSeatsSelected() && (index === activePassengerIndex)}
                                     passengerName={name}
                                     passengerType={type}
 
@@ -169,6 +176,7 @@ export default function SeatMap(props) {
                         handleSeatSelectionChange={handleCabinSeatSelectionChange}
                         passengerType={getCurrentPassenger().type}
                         maxSelection={passengers.length}
+                        selectedSeats={selectedSeats.map(seat => seat.number)}
                     />
                 </Col>
             </Row>
