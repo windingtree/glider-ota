@@ -16,6 +16,7 @@ export default function SeatCard(props) {
         priceAmount,
         priceCurrency,
         active = false,
+        cabinName,
         handleSelect,
         handleRemove,
     } = props;
@@ -41,7 +42,7 @@ export default function SeatCard(props) {
             <Card.Body onClick={handleSelect}>
                 <span
                     className='name'>
-                        {seatAssigned ? `Seat ${seatNumber}` : 'Random Seat'}
+                        {seatAssigned ? `Seat ${seatNumber}` : `${cabinName ? cabinName : 'Random'} Seat`}
                 </span>
                 <Button
                     variant="link"

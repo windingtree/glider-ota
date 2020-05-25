@@ -18,16 +18,20 @@
     justify-content: center;
     align-self: center;
     align-content: center;
-    align-items: center;
+    align-items: stretch;
     justify-items: center;
 
     .seatcard-col {
         //margin: 20px;
-        display: grid;
-        align-self: center;
+        //display: grid;
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
         align-content: center;
-        align-items: center;
+        align-items: stretch;
         justify-items: center;
+        margin-bottom: 20px;
+        //height: 100%;
     }
 }
 

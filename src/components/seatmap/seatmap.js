@@ -163,6 +163,7 @@ export default function SeatMap(props) {
                                     active={!allSeatsSelected() && (index === activePassengerIndex)}
                                     passengerName={name}
                                     passengerType={type}
+                                    cabinName={cabin.name}
 
                                     // Seat related properties
                                     priceCurrency={currency}
