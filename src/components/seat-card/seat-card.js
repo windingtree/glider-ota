@@ -33,7 +33,7 @@ export default function SeatCard(props) {
     }
 
     // Random seat description
-    const randomDesc = "A random seat will be assigned to you at check-in based on the remaining availability.";
+    const randomDesc = "A random seat assigned at check-in based on the remaining availability";
 
     // Render the React component
     return (

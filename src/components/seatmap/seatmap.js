@@ -31,7 +31,32 @@ export default function SeatMap(props) {
 
     // Get the total price
     const getTotal = () => {
-        return initialPrice;
+        return initialPrice + selectedSeats.reduce((totalSeatPrice, seat) => {
+            return totalSeatPrice + Number(getSeatProperties(seat.number).price.public)
+        }, 0);
+    };
+
+    // Set active the next passenger seat card
+    const activateNextPassengerSeatCard = (updatedSeats) => {
+        // Only if there are still passengers to select
+        if(updatedSeats.length < passengers.length) {
+            // Get the index of seated passengers
+            const passengerIndexesWithSeats = updatedSeats.map(seat => seat.passengerIndex);
+
+            // Search for the next unseated passenger after the active passenger
+            for(let i=0; i<passengers.length; i++) {
+                const index = (activePassengerIndex + i + 1) % passengers.length;
+                if(!passengerIndexesWithSeats.includes(index)) {
+                    setActivePassengerIndex(index);
+                    break;
+                }
+            }
+        }
+
+        else {
+            // Force React to re-render
+            setActivePassengerIndex(undefined);
+        }
     };
 
     // Handle events on the Seat Card
@@ -40,6 +65,7 @@ export default function SeatMap(props) {
         setActivePassengerIndex(index);
     };
 
+    // Handle a click on the Remove button for de-association
     const handleSeatCardRemove = (index) => {
         console.log(`[SEATMAP] SeatCard removed: ${index}`);
         setActivePassengerIndex(index);
@@ -60,29 +86,9 @@ export default function SeatMap(props) {
             });
             
 
-            // Update the current passenger index, modulo the number of passengers
-            // Only if there are still passengers to select
-            if(updatedSeats.length < passengers.length) {
-                // Get the index of seated passengers
-                const passengerIndexesWithSeats = updatedSeats.map(seat => seat.passengerIndex);
-
-                // Search for the next unseated passenger after the active passenger
-                for(let i=0; i<passengers.length; i++) {
-                    const index = (activePassengerIndex + i + 1) % passengers.length;
-                    if(!passengerIndexesWithSeats.includes(index)) {
-                        setActivePassengerIndex(index);
-                        break;
-                    }
-                }
-            }
-
-            else {
-                // Force React to re-render
-                setActivePassengerIndex(undefined);
-            }
-
-            // Update the selected seates
+            // Update the selected seats
             setSelectedSeats(updatedSeats);
+            activateNextPassengerSeatCard(updatedSeats);
             console.log('[SEATMAP] Seats selected >> ', updatedSeats);
         }
 

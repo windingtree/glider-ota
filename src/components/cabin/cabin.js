@@ -19,9 +19,6 @@ export default function Cabin(props) {
         handleSeatSelectionChange,
     } = props;
 
-    // Count the number of selected seats
-    const [countSeatsSelected, setCountSeatsSelected] = useState(0);
-
     // Determine the columns and rows
     const columns = Array.from(layout);
     const rows = Array.from(
@@ -37,7 +34,7 @@ export default function Cabin(props) {
     // Determine if we can select a given seat
     const isSeatSelectionAllowed = (seatCharacteristics) => {
         // Check if the maxium selection is reached
-        if(maxSelection && (countSeatsSelected >= maxSelection)) {
+        if(maxSelection && (selectedSeats.length >= maxSelection)) {
             return false;
         }
 
@@ -63,7 +60,6 @@ export default function Cabin(props) {
     const onSeatSelectionChange = (seatNumber, selected) => {
         console.log(`SEAT #${seatNumber} selected: ${selected}`);
         handleSeatSelectionChange(seatNumber, selected);
-        setCountSeatsSelected(countSeatsSelected + (selected? 1 : -1));
     }
 
     // Get the display of an element at a given position
