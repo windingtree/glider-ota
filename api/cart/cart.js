@@ -1,8 +1,8 @@
-const {ShoppingCart,CART_ITEMKEYS} = require('../_lib/shopping-cart');
-const {SessionStorage} = require('../_lib/session-storage');
-const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
-const logger = require('../_lib/logger').createLogger('/cart1')
-const {decorate} = require('../_lib/decorators');
+const { ShoppingCart, CART_ITEMKEYS } = require('../_lib/shopping-cart');
+const { SessionStorage } = require('../_lib/session-storage');
+const { sendErrorResponse, ERRORS } = require("../_lib/rest-utils");
+const logger = require('../_lib/logger').createLogger('/cart1');
+const { decorate } = require('../_lib/decorators');
 
 const shoppingCartController = async (req, res) => {
     let sessionID = req.sessionID;
@@ -30,7 +30,7 @@ const shoppingCartController = async (req, res) => {
         res.json({result:"OK"})
     }else{
         logger.warn("Unsupported method:%s",req.method);
-        sendErrorResponse(res,400,ERRORS.INVALID_METHOD,"Unsupported request method");
+        sendErrorResponse(res,405,ERRORS.INVALID_METHOD,"Unsupported request method");
         return;
     }
 

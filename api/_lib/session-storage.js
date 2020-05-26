@@ -9,56 +9,80 @@ const KEYS = {
     CONFIRMED_OFFER: 'CONFIRMED_OFFER',
 }
 
+// Hold the Redis Client with lazy loading
+var _client;
 
-const client = redis.createClient({
-    port: REDIS_CONFIG.REDIS_PORT,
-    host: REDIS_CONFIG.REDIS_HOST,
-    password: REDIS_CONFIG.REDIS_PASSWORD,
-    // enable_offline_queue:false,
-    retry_strategy: function (options) {
-        if (options.error && options.error.code === "ECONNREFUSED") {
-            // End reconnecting on a specific error and flush all commands with
-            // a individual error
-            let e = new Error("Redis server refused the connection")
-            logger.error("Redis connection error", e)
-            return e;
-        }
-        if (options.total_retry_time > 1000 * 60 * 60) {
-            // End reconnecting after a specific timeout and flush all commands
-            // with a individual error
-            let e = new Error("Retry time exhausted");
-            logger.error("Redis connection error", e)
-            return e;
-        }
-        if (options.attempt > 10) {
-            // End reconnecting with built in error
-            logger.error("Redis connection error - max attempts exhausted")
-            return undefined;
-        }
-        // reconnect after
-        logger.warn("Redis connection error - reconnecting soon ...")
-        return Math.min(options.attempt * 100, 3000);
+// Access the client
+const getClient = () => {
+
+    // Lazy load the client
+    if(!_client) {
+        _client = redis.createClient({
+            port: REDIS_CONFIG.REDIS_PORT,
+            host: REDIS_CONFIG.REDIS_HOST,
+            password: REDIS_CONFIG.REDIS_PASSWORD,
+            // enable_offline_queue:false,
+            retry_strategy: function (options) {
+                if (options.error && options.error.code === "ECONNREFUSED") {
+                    // End reconnecting on a specific error and flush all commands with
+                    // a individual error
+                    let e = new Error("Redis server refused the connection")
+                    logger.error("Redis connection error", e)
+                    return e;
+                }
+                if (options.total_retry_time > 1000 * 60 * 60) {
+                    // End reconnecting after a specific timeout and flush all commands
+                    // with a individual error
+                    let e = new Error("Retry time exhausted");
+                    logger.error("Redis connection error", e)
+                    return e;
+                }
+                if (options.attempt > 10) {
+                    // End reconnecting with built in error
+                    logger.error("Redis connection error - max attempts exhausted")
+                    return undefined;
+                }
+                // reconnect after
+                logger.warn("Redis connection error - reconnecting soon ...")
+                return Math.min(options.attempt * 100, 3000);
+            }
+        });
+        
+        // Close connection to the Redis on exit
+        process.on('exit', function () {
+            logger.info("Shutting down redis connections gracefully");
+            if(_client) {
+                _client.end(true);
+                _client = undefined;
+            }
+        });
+
+        _client.on('end', function () {
+            logger.info("Redis client event=end");
+            if(_client) {
+                _client.end(true);
+                _client = undefined;
+            }
+        });
+        
+        _client.on('error', function (err) {
+            logger.error("Redis client event=error, message=%s", err);
+        });
+        
+        _client.on('ready', function (param) {
+            logger.info("Redis client event=ready");
+        });
+        
+        _client.on('connect', function (param) {
+            logger.info("Redis client event=connect");
+        });
     }
-});
 
-// Close connection to the Redis on exit
-process.on('exit', function () {
-    logger.info("Shutting down redis connections gracefully")
-    client.quit();
-});
+    return _client;
+
+};
 
 
-client.on('error', function (err) {
-    logger.error("Redis client event=error, message=%s", err)
-});
-
-client.on('ready', function (param) {
-    logger.info("Redis client event=ready")
-});
-
-client.on('connect', function (param) {
-    logger.info("Redis client event=connect")
-});
 
 /**
  * Helper class to deal with storing session data on a server side.
@@ -72,7 +96,7 @@ class SessionStorage {
     }
 
     assertNotEmpty(str, paramName){
-        if(str == undefined || str.length == 0)
+        if(str === undefined || str.length === 0)
             throw new Error(paramName+" cannot be empty");
     }
 
@@ -99,7 +123,7 @@ class SessionStorage {
         let ttl=REDIS_CONFIG.SESSION_TTL_IN_SECS;
         value=JSON.stringify(value);
         logger.debug("storeInSession(%s) start",key)
-        await client.multi().set(key, value).expire(key, ttl).exec(function (err, replies) {
+        await getClient().multi().set(key, value).expire(key, ttl).exec(function (err, replies) {
             logger.debug("storeInSession(%s) completed",key)
             if(err){
                 logger.error("Redis error %s",err);
@@ -116,7 +140,7 @@ class SessionStorage {
     async retrieveFromSession(key) {
         this.assertNotEmpty("key",key);
         key = this._createKey(key);
-        let value = await client.get(key);
+        let value = await getClient().get(key);
         if(value!==null){
             value = JSON.parse(value)
         }
@@ -173,7 +197,7 @@ class SessionStorage {
 
     _printKeys(match) {
         let results = [];
-        client.keys(match).then(key => {
+        getClient().keys(match).then(key => {
             console.log("All keys:", key," length:");
         })
         return results;
@@ -182,7 +206,7 @@ class SessionStorage {
 }
 
 module.exports = {
-    SessionStorage, client
+    SessionStorage
 }
 
 
