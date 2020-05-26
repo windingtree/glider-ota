@@ -92,6 +92,7 @@ export default function FlightSeatmapPage({match}) {
         });
 
         setSeatOptions(seatOptions.concat(seats));
+        handleNext();
     };
 
     // Get the details of a segment
