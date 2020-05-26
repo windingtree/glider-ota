@@ -40,17 +40,17 @@ export async function fetchPost(url,payload){
     headers: {
       'Content-type': 'application/json'
     },
-    body: JSON.stringify(payload)
-  }
+    body: JSON.stringify(payload),
+  };
   let results;
   try {
     results = await fetch(url, options);
     results = await results.json();
   }catch(error){
-    throw new ApiFetchException("Failed to retrieve data from server")
+    throw new ApiFetchException("Failed to retrieve data from server");
   }
   if(results.error){
-    throw new ApiFetchException("Error while fetching data from server",results)
+    throw new ApiFetchException("Error while fetching data from server",results);
   }
   return results;
 }
@@ -58,20 +58,20 @@ export async function fetchPost(url,payload){
 ///////////////// PASSENGERS //////////////////////
 
 export async function storePassengerDetails(passengers){
-  return fetchPost('/api/cart/passengers',{passengers:passengers})
+  return fetchPost('/api/cart/passengers',{passengers:passengers});
 }
 
 export async function retrievePassengerDetails(){
-  return fetchGet('/api/cart/passengers',{})
+  return fetchGet('/api/cart/passengers',{});
 }
 
 ///////////////// SHOPPING CART //////////////////////
 export async function storeSelectedOffer(selectedOffer){
-  return fetchPost('/api/cart/offer',{offer:selectedOffer})
+  return fetchPost('/api/cart/offer',{offer:selectedOffer});
 }
 
 export async function retrieveSelectedOffer(){
-  return fetchGet('/api/cart/offer',{})
+  return fetchGet('/api/cart/offer',{});
 }
 
 ///////////////// SEATMAP //////////////////////
@@ -79,15 +79,19 @@ export async function retrieveSeatmap() {
   return fetchGet('/api/seatmap', {});
 };
 
+export async function addSeats(selectedSeats){
+  return fetchPost('/api/cart/seats', selectedSeats);
+}
+
 ///////////////// REPRICE //////////////////////
 
 export async function repriceShoppingCartContents(){
-  return fetchPost('/api/cart/reprice',{})
+  return fetchPost('/api/cart/reprice',{});
 }
 
 ///////////////// CHECKOUT //////////////////////
 export async function createPaymentIntent(confirmedOfferId,type){
-  return fetchPost('/api/order/checkout',{type:type,confirmedOfferId:confirmedOfferId})
+  return fetchPost('/api/order/checkout',{type:type,confirmedOfferId:confirmedOfferId});
 }
 
 
@@ -98,7 +102,7 @@ export async function getStripePublicKey() {
 
 ///////////////// ORDER CONFIRMATION //////////////////////
 export async function getOrderStatus(confirmedOfferId){
-  return fetchPost('/api/order/status',{offerId:confirmedOfferId})
+  return fetchPost('/api/order/status',{offerId:confirmedOfferId});
 }
 
 

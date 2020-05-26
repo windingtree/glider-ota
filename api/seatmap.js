@@ -23,8 +23,15 @@ const seatmapController = async (req, res) => {
     }
 
     // Get the seatmap using the offer ID
-    const seatmapResult = await seatmap(offer.offerId);
-    return res.status(200).json(seatmapResult);
+    try {
+        const seatmapResult = await seatmap(offer.offerId);
+        return res.status(200).json(seatmapResult);
+    } catch (error) {
+        console.log(error);
+        return res.status(502).json({message: `Error from upstream server`});
+    }
+  
+    
 }
 
 module.exports = decorate(seatmapController);

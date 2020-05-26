@@ -16,6 +16,7 @@ const seatCharacteristicMapping = {
     'N' : 'Middle seat', 
     'LA': 'Seat close to Lavatory',
     'GN': 'Seat close to Galley',
+    'CL': 'Seat close to Closet',
 }
 
 // Convert a list of seat characteristics

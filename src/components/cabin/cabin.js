@@ -98,8 +98,13 @@ export default function Cabin(props) {
         const wingClass = isLeft ? 'wing-left' : 'wing-right';
         const airClass = isLeft ? 'air-left' : 'air-right';
 
+        // If wing is unset, everything is air
+        if((wingFirst === 0) && (wingLast === 0) && (row === firstRow )) {
+            return (<td rowSpan={lastRow - firstRow + 1} className={airClass}></td>);
+        }
+
         // If the row is the first on the wing, it takes all the wing
-        if(row === wingFirst) {
+        else if(row === wingFirst) {
             // Wing starts from first row
             return (<td rowSpan={wingLast - wingFirst + 1} className={wingClass}></td>);
         }

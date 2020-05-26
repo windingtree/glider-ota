@@ -34,7 +34,9 @@ export default function SeatMap(props) {
     // Get the total price
     const getTotal = () => {
         return initialPrice + selectedSeats.reduce((totalSeatPrice, seat) => {
-            return totalSeatPrice + Number(getSeatProperties(seat.number).price.public)
+            const seatProperties = getSeatProperties(seat.number);
+            const seatPrice = (seatProperties && seatProperties.price) ?  Number(seatProperties.price.public) : 0;
+            return totalSeatPrice + seatPrice;
         }, 0);
     };
 
@@ -97,14 +99,22 @@ export default function SeatMap(props) {
         
     }
 
+    // Reset the seatmap component
+    const resetSeatmap = () => {
+        setSelectedSeats([]);
+        setActivePassengerIndex(0);
+    };
+
     // Handle the Skip button
     const handleSkip = () => {
         handleSeatMapSkip();
+        resetSeatmap();
     };
 
     // Handle the Continue button
     const handleContinue = () => {
         handleSeatMapContinue(selectedSeats);
+        resetSeatmap();
     };
 
     // Get the details of a given seat number
@@ -132,7 +142,7 @@ export default function SeatMap(props) {
         return {
             seatNumber: seat.number,
             seatCharacteristics: seatProperties.characteristics,
-            priceAmount: seatProperties.price.public ? Number(seatProperties.price.public) : 'Free',
+            priceAmount: (seatProperties.price && seatProperties.price.public) ? Number(seatProperties.price.public) : 'Free',
         }
     };
 

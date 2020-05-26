@@ -21,6 +21,7 @@ const getClient = () => {
             port: REDIS_CONFIG.REDIS_PORT,
             host: REDIS_CONFIG.REDIS_HOST,
             password: REDIS_CONFIG.REDIS_PASSWORD,
+            retry_unfulfilled_commands: true,
             // enable_offline_queue:false,
             retry_strategy: function (options) {
                 if (options.error && options.error.code === "ECONNREFUSED") {
@@ -59,10 +60,6 @@ const getClient = () => {
 
         _client.on('end', function () {
             logger.info("Redis client event=end");
-            if(_client) {
-                _client.end(true);
-                _client = undefined;
-            }
         });
         
         _client.on('error', function (err) {

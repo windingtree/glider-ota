@@ -16,6 +16,7 @@ const offerRepriceController = async (req, res) => {
     let sessionID=req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let offer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.OFFER);
+    let seats = await shoppingCart.getItemFromCart(CART_ITEMKEYS.SEATS);
 
     if (offer == null || offer.offerId === undefined) {
         logger.warn("Cannot find offer or offerID in shopping cart, cannot re-price it");
@@ -23,7 +24,7 @@ const offerRepriceController = async (req, res) => {
         return;
     }
     try{
-        let confirmedOffer = await reprice(offer.offerId);
+        let confirmedOffer = await reprice(offer.offerId, seats);
         await shoppingCart.addItemToCart(CART_ITEMKEYS.CONFIRMED_OFFER,confirmedOffer);
         res.json(confirmedOffer);
     }catch(error){

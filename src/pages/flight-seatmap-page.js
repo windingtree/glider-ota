@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
+import Spinner from "../components/common/spinner";
+import Header from '../components/common/header/header';
 import SeatMap from '../components/seatmap';
 import {
     retrieveOfferFromLocalStorage,
     retrieveSegmentFromLocalStorage,
     retrieveFlightFromLocalStorage,
 } from "../utils/local-storage-cache";
-import { retrieveSeatmap } from '../utils/api-utils';
-import Spinner from "../components/common/spinner";
+import { 
+    retrieveSeatmap,
+    addSeats,
+} from '../utils/api-utils';
 
 
+// SeatMap page rendering
 export default function FlightSeatmapPage({match}) {
     let history = useHistory();
     let offerId = match.params.offerId;
@@ -18,11 +22,11 @@ export default function FlightSeatmapPage({match}) {
     let offer = retrieveOfferFromLocalStorage(offerId);
     console.log('[SEATMAP PAGE] Offer: ', offer);
 
-    // Get the Details from API and storage
-    // @fixme: To be implemented with Glider API
+    // States of the component
     const [isLoading, setIsLoading] = useState(false);
     const [indexedSeatmap, setIndexedSeatmap] = useState();
     const [activeSegmentIndex, setActiveSegmentIndex] = useState(0);
+    const [seatOptions, setSeatOptions] = useState([]);
 
     // Load the seatmap on first component mounting
     useEffect(() => {
@@ -49,20 +53,45 @@ export default function FlightSeatmapPage({match}) {
     const proceedToSummary = () => {
         let url='/flights/summary/'+ offerId
         history.push(url);
-    }
+    };
+
+    // Handle the next step
+    const handleNext = () => {
+        // If there are more segments with seatmaps, show the next one
+        if(activeSegmentIndex < Object.keys(indexedSeatmap).length - 1) {
+            setActiveSegmentIndex(activeSegmentIndex + 1);
+        } 
+        
+        // Otherwise proceed to summary
+        else {
+            // Call the API to add the seats
+            setIsLoading(true);
+            addSeats(seatOptions)
+                .then(() => { 
+                    proceedToSummary();
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+    };
 
     // Handle a click on continue in the seatmap
     const handleContinue = (selectedSeats) => {
-        //@TODO: Add seats to basket and load next segment
-        console.log('[SEATMAP PAGE] continue');
-        proceedToSummary();
-    };
+        // Get seats in a suitable format for the API
+        const seats = selectedSeats.map(({number, optionCode, passengerIndex}) => {
+            return {
+                seatNumber: number,
+                code: optionCode,
+                passenger: `PAX${passengerIndex + 1}`, // @FIXME
+                segment: Object.keys(indexedSeatmap)[activeSegmentIndex],
+            };
+        });
 
-    // Handle a click on skip on the seatmap
-    const handleSkip = () => {
-        //@TODO: Load next segment without adding items in basket
-        console.log('[SEATMAP PAGE] Skip');
-        proceedToSummary();
+        setSeatOptions(seatOptions.concat(seats));
     };
 
     // Get the details of a segment
@@ -71,12 +100,25 @@ export default function FlightSeatmapPage({match}) {
         const flightKeys = Object.keys(offer.pricePlansReferences).reduce((f, pricePlan) => {
             return f.concat(offer.pricePlansReferences[pricePlan].flights);
         }, []);
-        console.log('flightKeys>>>', flightKeys);
         const flights = flightKeys.map(flightKey => retrieveFlightFromLocalStorage(flightKey));
-        console.log('flights>>>', flights);
         
-        // Retrieve current flight and segments
-        const currentFlight = flights.find(flight => flight.includes(segmentKey));
+        // Retrieve current flight
+        let currentFlight = flights.find(flight => flight.includes(segmentKey));
+        if(!currentFlight) {
+            // Workaround for segment reference bug
+            console.error(`[SEATMAP PAGE] FIXME Segment ${segmentKey} from seatmap API response does not match any flight!`);
+            const segmentIndex = Object.keys(indexedSeatmap).indexOf(segmentKey);
+            if(segmentIndex < flights[0].length) {
+                segmentKey = flights[0][segmentIndex];
+                currentFlight = flights[0];
+            } else {
+                segmentKey = flights[1][segmentIndex - flights[0].length];
+                currentFlight = flights[1];
+            }
+            console.info(`[SEATMAP PAGE] Guess segment is ${segmentKey}`);
+        }
+
+        // Retrieve segments associated with current flight
         const currentFlightSegments = currentFlight.map(segmentId => retrieveSegmentFromLocalStorage(segmentId));
 
         // Retrieve stops
@@ -120,7 +162,7 @@ export default function FlightSeatmapPage({match}) {
 
     // Display the current seatmap
     const currentSeatmap = () => {
-        if(indexedSeatmap) {
+        if(!isLoading && indexedSeatmap) {
             // Retrieve segment details
             const activeSegmentKey = Object.keys(indexedSeatmap)[activeSegmentIndex];
             
@@ -141,10 +183,10 @@ export default function FlightSeatmapPage({match}) {
                     cabin={getSeatMapCabin(activeSegmentKey)}
                     segment={getSeatMapSegment(activeSegmentKey)}
                     passengers={passengers}
-                    initialPrice={offer.price}
-                    currency={offer.currency}
+                    initialPrice={Number(offer.price.public)}
+                    currency={offer.price.currency}
                     handleSeatMapContinue={handleContinue}
-                    handleSeatMapSkip={handleSkip}
+                    handleSeatMapSkip={handleNext}
                 />
             );
         }
@@ -157,7 +199,6 @@ export default function FlightSeatmapPage({match}) {
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-                    <div>Seatmap for offer: {offerId}, segmentId:{segmentId}</div>
                     <Spinner enabled={isLoading}/>
                     {currentSeatmap()}
                 </div>
