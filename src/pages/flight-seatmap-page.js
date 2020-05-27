@@ -70,18 +70,19 @@ export default function FlightSeatmapPage({match}) {
     };
 
     // Handle the next step
-    const handleNext = () => {
+    const handleNext = (currentSeatOptions=[]) => {
         // If there are more segments with seatmaps, show the next one
         if(activeSegmentIndex < Object.keys(indexedSeatmap).length - 1) {
             setActiveSegmentIndex(activeSegmentIndex + 1);
+            setSeatOptions(currentSeatOptions);
         } 
         
         // Otherwise proceed to summary
         else {
             // Call the API to add the seats if any
-            if(seatOptions.length > 0) {
+            if(currentSeatOptions.length > 0) {
                 setIsLoading(true);
-                addSeats(seatOptions)
+                addSeats(currentSeatOptions)
                     .then(() => { 
                         proceedToSummary();
                     })
@@ -110,8 +111,7 @@ export default function FlightSeatmapPage({match}) {
             };
         });
 
-        setSeatOptions(seatOptions.concat(seats));
-        handleNext();
+        handleNext(seatOptions.concat(seats));
     };
 
     // Get the details of a segment

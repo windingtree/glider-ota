@@ -90,7 +90,7 @@ export default function FlightSummaryPage({match}) {
                     <RouteOverview itineraries={itineraries}/>
                     {loadInProgress && <RenderPleaseWait/>}
                     {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}
-                    {confirmedOffer && <PaymentSummary totalPrice={confirmedOffer.offer.price} pricedItems={confirmedOffer.offer.pricedItems} />}
+                    {confirmedOffer && <PaymentSummary totalPrice={confirmedOffer.offer.price} pricedItems={confirmedOffer.offer.pricedItems} options={confirmedOffer.offer.options}/>}
                     {confirmedOffer && <TotalPriceButton price={confirmedOffer.offer.price} proceedButtonTitle="Proceed to payment" onProceedClicked={onProceedButtonClick}/>}
                 </div>
             </div>
