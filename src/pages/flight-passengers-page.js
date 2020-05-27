@@ -11,13 +11,12 @@ import TripDetails from "../components/flightdetails/trip-details";
 
 export default function FlightPassengersPage({match}) {
     let history = useHistory();
-    const [passengerDetails,setPassengerDetails] = useState()
-    const [passengerDetailsValid,setPassengerDetailsValid] = useState(false)
+    const [passengerDetails, setPassengerDetails] = useState(history.location.state.passengers);
+    const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
     let offerId = match.params.offerId;
     let searchResults = retrieveSearchResultsFromLocalStorage();
     let searchResultsWrapper = new SearchResultsWrapper(searchResults);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
-
 
     let offer = retrieveOfferFromLocalStorage(offerId);
     function onPaxDetailsChange(paxData, allPassengersDetailsAreValid){
@@ -27,21 +26,38 @@ export default function FlightPassengersPage({match}) {
 
     //Populate form with either passengers from session (if e.g. user refreshed page or clicked back) or initialize with number of passengers (and types) specified in a search form
     useEffect(()=>{
-        let passengers = createInitialPassengersFromSearch();
+        let passengers = passengerDetails || createInitialPassengersFromSearch();
         let response=retrievePassengerDetails();
-        response.then(result=>{
-            passengers = Object.assign(passengers,result);
+        response.then(result=> {
+            if(Array.isArray(result)) {
+                // Index passengers to ease the update
+                let indexedPassengers = passengerDetails.reduce((acc, passenger) => {
+                    acc[passenger.id] = passenger;
+                    return acc;
+                }, {});
+
+                // Assign each received passenger to the passengers, if id matches.
+                result.forEach(pax => {
+                    if(indexedPassengers.hasOwnProperty(pax.id)) {
+                        indexedPassengers[pax.id] = pax;
+                    }
+                })
+
+                // Update the value
+                passengers = Object.values(indexedPassengers);
+
+            }
         }).catch(err=>{
             console.error("Failed to load passenger details", err);
             //TODO - add proper error handling (show user a message)
         }).finally(()=>{
             setPassengerDetails(passengers);
         })
-    },[])
+    },[]);
 
     function redirectToSeatmap(){
         let url='/flights/seatmap/'+offerId;
-        history.push(url);
+        history.push(url, {passengers: passengerDetails});
     }
     function savePassengerDetailsAndProceed(){
         let results = storePassengerDetails(passengerDetails);

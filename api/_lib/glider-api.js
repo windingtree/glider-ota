@@ -51,25 +51,43 @@ async function createWithOffer(criteria) {
     return response.data;
 }
 
+/**
+ * Retrieve seatmap for an offer using Glider API
+ * @param offerId - offerId(s) for which the seatmaps are requested
+ * @returns {Promise<any>} response from Glider
+ */
+async function seatmap(offerId) {
+    let urlTemplate=GLIDER_CONFIG.SEATMAP_URL;
+    let urlWithOfferId = urlTemplate.replace("{offerId}",offerId);
+    logger.debug("Seatmap URL:[%s]",urlWithOfferId);
+    let response = await axios({
+        method: 'get',
+        url: urlWithOfferId,
+        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
+    });
+    logger.debug("Seatmap response",response.data);
+    return response.data;
+}
+
 
 /**
  * Create offer in Glider API
  * @param offerId - offerID to be repriced
  * @returns {Promise<any>} response from Glider
  */
-async function reprice(offerId) {
+async function reprice(offerId, options = []) {
     let urlTemplate=GLIDER_CONFIG.REPRICE_OFFER_URL;
     let urlWithOfferId = urlTemplate.replace("{offerId}",offerId);
-    logger.debug("Reprice URL:[%s]",urlWithOfferId);
+    logger.debug("Reprice URL:[%s], options=%s",urlWithOfferId, JSON.stringify(options));
     let response = await axios({
         method: 'post',
         url: urlWithOfferId,
-        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
+        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN),
+        data : options,
     });
     logger.debug("Reprice response",response.data);
     return response.data;
 }
-
 
 
 /**
@@ -113,6 +131,10 @@ function createFulfilmentRequest(orderItems,passengers,guaranteeId){
 function addAirports(){}
 
 module.exports = {
-    createWithOffer, searchOffers, fulfill, reprice
+    createWithOffer,
+    searchOffers,
+    fulfill,
+    reprice,
+    seatmap,
 }
 

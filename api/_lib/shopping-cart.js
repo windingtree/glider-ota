@@ -4,7 +4,13 @@ const {SessionStorage} = require('./session-storage');
 const {assertParameterNotEmpty} = require('./utils')
 const _ = require('lodash');
 
-const CART_ITEMKEYS={OFFER:'offer',PASSENGERS:'passengers',SEATS:'seats',ANCILLARIES:'ancillaries', CONFIRMED_OFFER: 'confirmed-offer'};
+const CART_ITEMKEYS = {
+    OFFER : 'offer',
+    PASSENGERS : 'passengers',
+    SEATS : 'seats',
+    ANCILLARIES : 'ancillaries', 
+    CONFIRMED_OFFER : 'confirmed-offer',
+};
 
 
 /**

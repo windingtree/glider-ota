@@ -17,13 +17,12 @@ export default function FlightTripOverviewPage({match}) {
     let searchResultsWrapper = new SearchResultsWrapper(searchResults);
     let selectedOffer = searchResultsWrapper.getOffer(offerId);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+    const passengers = history.location.state.passengers;
 
     function proceedButtonClick(){
         let url='/flights/farefamilies/'+offerId;
-        history.push(url);
+        history.push(url, { passengers: passengers });
     }
-
-
 
     return (
         <>

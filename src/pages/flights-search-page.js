@@ -68,7 +68,10 @@ export default function FlightsSearchPage({match,location}) {
 
     const onOfferSelected = (offerId) => {
         let url = createOfferURL(offerId);
-        history.push(url);
+        const passengers = Object.keys(searchResults.passengers).map(passengerId => {
+            return {id:passengerId, ...searchResults.passengers[passengerId]};
+        });
+        history.push(url, { passengers: passengers });
     };
 
 
@@ -97,9 +100,12 @@ export default function FlightsSearchPage({match,location}) {
                             />
                             <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
                             {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
-                            {searchResults != undefined &&
-                            <FlightsSearchResults onOfferDisplay={onOfferSelected}
-                                                  searchResults={searchResults} filtersStates={filtersStates}/>
+                            {searchResults !== undefined &&
+                            <FlightsSearchResults
+                                onOfferDisplay={onOfferSelected}
+                                searchResults={searchResults}
+                                filtersStates={filtersStates}
+                            />
                             }
                         </div>
                     </div>

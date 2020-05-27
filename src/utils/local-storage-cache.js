@@ -33,6 +33,32 @@ export function retrieveOfferFromLocalStorage(offerId){
     return searchResults.offers[offerId];
 }
 
+// Retrieve segment details from local storage
+export function retrieveSegmentFromLocalStorage(segmentId){
+    let searchResults = retrieveSearchResultsFromLocalStorage();
+    if(
+        searchResults && 
+        searchResults.itineraries && 
+        searchResults.itineraries.segments
+    ) {
+        return searchResults.itineraries.segments[segmentId] 
+    }
+    console.warn("Cannot retrieve segment from local storage!!! segmentId:", segmentId);
+}
+
+// Retrieve itinerary details from local storage
+export function retrieveFlightFromLocalStorage(flightId){
+    let searchResults = retrieveSearchResultsFromLocalStorage();
+    if(
+        searchResults && 
+        searchResults.itineraries && 
+        searchResults.itineraries.combinations
+    ) {
+        return searchResults.itineraries.combinations[flightId] 
+    }
+    console.warn("Cannot retrieve flight from local storage!!! flightId:", flightId);
+}
+
 export function retrieveSearchResultsFromLocalStorage(){
     let lastSearchCriteriaKey = JSON.parse(localStorage.getItem('lastSearchCriteria'));
     let cachedResults = checkSearchResultsInCache(lastSearchCriteriaKey);
