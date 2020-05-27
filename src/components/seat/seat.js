@@ -25,7 +25,7 @@ export default function Seat(props) {
     // Helper functions
     const getPriceDisplay = () => {
         if(price && Number(price.public) > 0) {
-            return Number(price.public).toFixed(0);
+            return Number(price.public);
         } else {
             return '';
         }

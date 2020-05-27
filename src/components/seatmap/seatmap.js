@@ -33,11 +33,12 @@ export default function SeatMap(props) {
 
     // Get the total price
     const getTotal = () => {
-        return initialPrice + selectedSeats.reduce((totalSeatPrice, seat) => {
+        const total = Number(initialPrice) + selectedSeats.reduce((subtotal, seat) => {
             const seatProperties = getSeatProperties(seat.number);
             const seatPrice = (seatProperties && seatProperties.price) ?  Number(seatProperties.price.public) : 0;
-            return totalSeatPrice + seatPrice;
+            return Number(subtotal + seatPrice);
         }, 0);
+        return Number(total).toFixed(2);
     };
 
     // Set active the next passenger seat card

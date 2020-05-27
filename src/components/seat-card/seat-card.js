@@ -27,7 +27,7 @@ export default function SeatCard(props) {
     // Build the price description
     const priceDescription = () => {
         if(seatAssigned && priceAmount && priceCurrency && Number(priceAmount)>0) {
-            return `${priceCurrency} ${priceAmount}`;
+            return `${priceCurrency} ${Number(priceAmount).toFixed(2)}`;
         } else {
             return `Free`;
         }

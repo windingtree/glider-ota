@@ -25,6 +25,7 @@ export default function FlightSeatmapPage({match}) {
     const [indexedSeatmap, setIndexedSeatmap] = useState();
     const [activeSegmentIndex, setActiveSegmentIndex] = useState(0);
     const [seatOptions, setSeatOptions] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(Number(offer.price.public));
 
     // Create required variables from history
     const passengersFromHistory = history.location.state.passengers;
@@ -69,12 +70,15 @@ export default function FlightSeatmapPage({match}) {
         history.push(url);
     };
 
-    // Handle the next step
+    // Handle the next step.
     const handleNext = (currentSeatOptions=[]) => {
+        // Update the seat options
+        setSeatOptions(currentSeatOptions);
+
         // If there are more segments with seatmaps, show the next one
         if(activeSegmentIndex < Object.keys(indexedSeatmap).length - 1) {
             setActiveSegmentIndex(activeSegmentIndex + 1);
-            setSeatOptions(currentSeatOptions);
+            
         } 
         
         // Otherwise proceed to summary
@@ -101,15 +105,23 @@ export default function FlightSeatmapPage({match}) {
 
     // Handle a click on continue in the seatmap
     const handleContinue = (selectedSeats) => {
+        const activeSegmentKey = Object.keys(indexedSeatmap)[activeSegmentIndex];
+
         // Get seats in a suitable format for the API
         const seats = selectedSeats.map(({number, optionCode, passengerIndex}) => {
             return {
                 seatNumber: number,
                 code: optionCode,
                 passenger: passengers[passengerIndex].id,
-                segment: Object.keys(indexedSeatmap)[activeSegmentIndex],
+                segment: activeSegmentKey,
             };
         });
+
+        // Update the current total price
+        setTotalPrice(seats.reduce((subtotal, seat) => {
+            const seatprice = indexedSeatmap[activeSegmentKey].prices[seat.code];
+            return (subtotal + (seatprice ? Number(seatprice.public) : 0));
+        }, totalPrice));
 
         handleNext(seatOptions.concat(seats));
     };
@@ -143,8 +155,8 @@ export default function FlightSeatmapPage({match}) {
 
         // Retrieve stops
         const iataStops = currentFlightSegments.reduce((acc, segment) => {
-            return acc.concat(segment.destination.iataCode);
-        },[currentFlightSegments[0].origin.iataCode]);
+            return acc.concat(segment.destination.city_name);
+        },[currentFlightSegments[0].origin.city_name]);
 
         // Compute flight time
         const segmentFlightIndex = currentFlight.indexOf(segmentKey);
@@ -191,7 +203,7 @@ export default function FlightSeatmapPage({match}) {
                     cabin={getSeatMapCabin(activeSegmentKey)}
                     segment={getSeatMapSegment(activeSegmentKey)}
                     passengers={passengers}
-                    initialPrice={Number(offer.price.public)}
+                    initialPrice={totalPrice}
                     currency={offer.price.currency}
                     handleSeatMapContinue={handleContinue}
                     handleSeatMapSkip={handleNext}
