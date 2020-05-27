@@ -18,15 +18,28 @@ import {
 export default function FlightSeatmapPage({match}) {
     let history = useHistory();
     let offerId = match.params.offerId;
-    let segmentId = match.params.segmentId;
     let offer = retrieveOfferFromLocalStorage(offerId);
-    console.log('[SEATMAP PAGE] Offer: ', offer);
 
     // States of the component
     const [isLoading, setIsLoading] = useState(false);
     const [indexedSeatmap, setIndexedSeatmap] = useState();
     const [activeSegmentIndex, setActiveSegmentIndex] = useState(0);
     const [seatOptions, setSeatOptions] = useState([]);
+
+    // Create required variables from history
+    const passengersFromHistory = history.location.state.passengers;
+    const passengers = passengersFromHistory && passengersFromHistory.map(passenger => {
+        return {
+            id: passenger.id,
+            type: passenger.type,
+            name: [
+                passenger.civility,
+                passenger.lastName,
+                passenger.middleName,
+                passenger.firstName,
+            ].join(' '),
+        }
+    });
 
     // Load the seatmap on first component mounting
     useEffect(() => {
@@ -38,6 +51,7 @@ export default function FlightSeatmapPage({match}) {
             // Load results in state
             .then(res => {
                 setIndexedSeatmap(res);
+                //TODO: Push the segment in path history
             })
 
             // Handle error
@@ -64,18 +78,23 @@ export default function FlightSeatmapPage({match}) {
         
         // Otherwise proceed to summary
         else {
-            // Call the API to add the seats
-            setIsLoading(true);
-            addSeats(seatOptions)
-                .then(() => { 
-                    proceedToSummary();
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                });
+            // Call the API to add the seats if any
+            if(seatOptions.length > 0) {
+                setIsLoading(true);
+                addSeats(seatOptions)
+                    .then(() => { 
+                        proceedToSummary();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
+                    });
+            } else {
+                proceedToSummary();
+            }
+
         }
     };
 
@@ -86,7 +105,7 @@ export default function FlightSeatmapPage({match}) {
             return {
                 seatNumber: number,
                 code: optionCode,
-                passenger: `PAX${passengerIndex + 1}`, // @FIXME
+                passenger: passengers[passengerIndex].id,
                 segment: Object.keys(indexedSeatmap)[activeSegmentIndex],
             };
         });
@@ -167,18 +186,6 @@ export default function FlightSeatmapPage({match}) {
             // Retrieve segment details
             const activeSegmentKey = Object.keys(indexedSeatmap)[activeSegmentIndex];
             
-            // Retrieve passenger details
-            const passengers = [
-                {
-                    type: 'ADT',
-                    name: 'Doe John'
-                },
-                {
-                    type: 'CHD',
-                    name: 'Doe Johnny'
-                },
-            ];
-
             return (
                 <SeatMap
                     cabin={getSeatMapCabin(activeSegmentKey)}
@@ -193,14 +200,30 @@ export default function FlightSeatmapPage({match}) {
         }
     };
 
-
+    // Display a loading spinner
+    const loadingSpinner = () => {
+        if(isLoading) {
+            let message;
+            if(!indexedSeatmap) {
+                message = "We are retrieving the aircraft and seat availability for your journey, this can take up to 60 seconds.";
+            } else if(seatOptions) {
+                message = "We are adding your seat selection to your booking.";
+            }
+            return (
+                <div>
+                    <Spinner enabled={isLoading}/>
+                    <span>{message}</span>
+                </div>
+            );
+        }
+    }
 
     return (
         <>
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-                    <Spinner enabled={isLoading}/>
+                    {loadingSpinner()}
                     {currentSeatmap()}
                 </div>
             </div>

@@ -15,13 +15,14 @@ export default function FlightFareFamiliesPage({match}) {
     let searchResults = retrieveSearchResultsFromLocalStorage();
     let searchResultsWrapper = new SearchResultsWrapper(searchResults);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
-    let tripRates = searchResultsWrapper.generateTripRatesData(offerId)
+    let tripRates = searchResultsWrapper.generateTripRatesData(offerId);
+    const passengers = history.location.state && history.location.state.passengers;
 
     let selectedOffer = tripRates.offers[offerId]
 
     function onProceedButtonClick() {
         let url = '/flights/passengers/' + offerId;
-        history.push(url);
+        history.push(url, { passengers: passengers });
     }
 
     function handleOfferChange(offerId){
@@ -58,6 +59,7 @@ export default function FlightFareFamiliesPage({match}) {
 export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) {
     const [currentOffer, setCurrentOffer] = useState(selectedOffer)
     let history = useHistory();
+    const passengers = history.location.state && history.location.state.passengers;
 
 
     function handleSelectedOfferChange(offerId) {
@@ -68,7 +70,7 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
 
     function displayOffer(offerId){
         let url='/flights/farefamilies/'+offerId;
-        history.push(url);
+        history.push(url, { passengers: passengers});
     }
     let itineraries = tripRates.itineraries;
     return (

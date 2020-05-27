@@ -78,7 +78,7 @@ async function seatmap(offerId) {
 async function reprice(offerId, options = []) {
     let urlTemplate=GLIDER_CONFIG.REPRICE_OFFER_URL;
     let urlWithOfferId = urlTemplate.replace("{offerId}",offerId);
-    logger.debug("Reprice URL:[%s]",urlWithOfferId);
+    logger.debug("Reprice URL:[%s], options=%s",urlWithOfferId, JSON.stringify(options));
     let response = await axios({
         method: 'post',
         url: urlWithOfferId,
@@ -88,7 +88,6 @@ async function reprice(offerId, options = []) {
     logger.debug("Reprice response",response.data);
     return response.data;
 }
-
 
 
 /**
