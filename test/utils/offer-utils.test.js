@@ -6,11 +6,8 @@ const sampleOfferIdAF_0012="c74624e5-83a3-44f9-8624-e583a3b40012";
 var assert = require('assert');
 describe('offer-utils', function () {
     describe('#getOffer()', function () {
-        it('should return an offer if it exists or null if it does not exist', function () {
-            console.log("OfferUtils",OfferUtils.getCheapestOffer({}))
-            // console.log("getCheapestOffer",getCheapestOffer)
-            // getCheapestOffer('ss')
-
+        it('TODO - add missing tests here!!!', function () {
+            assert.fail("TODO - add missing OfferUtils tests here")
         })
     })
 });

@@ -6,7 +6,7 @@ import {
 
 export default {
     component: LookupField,
-    title: 'LookupField',
+    title: 'Search form/Lookup/Generic Lookup Field',
     excludeStories: /.*Data$/,
 };
 
@@ -21,9 +21,9 @@ export const airportsData = [
 
 const initialLocation={primary:"Pulkovo airport",secondary:"Russia",code:"LED"};
 
-export const Default = () => (<LookupField onLocationSelected={action('onLocationSelected')} onQueryEntered={action('onQueryEntered')}/>);
-export const InitialLocationObjectProvided = () => (<LookupField initialLocation={initialLocation} onLocationSelected={action('onLocationSelected')} onQueryEntered={action('onQueryEntered')}/>);
-export const InitialLocationStringProvided = () => (<LookupField initialLocation='London heathrow' onLocationSelected={action('onLocationSelected')} onQueryEntered={action('onQueryEntered')}/>);
-export const PlaceholderProvided = () => (<LookupField onLocationSelected={action('onLocationSelected')} placeHolder='Destination' onQueryEntered={action('onQueryEntered')}/>);
-export const InitialLocationAndPlaceholderProvided = () => (<LookupField initialLocation={initialLocation} onLocationSelected={action('onLocationSelected')} placeHolder='Destination' onQueryEntered={action('onQueryEntered')}/>);
+export const DefaultEmptyInputField = () => (<LookupField onLocationSelected={action('onLocationSelected')} onQueryEntered={action('onQueryEntered')}/>);
+export const WithInitialLocationAsObject = () => (<LookupField initialLocation={initialLocation} onLocationSelected={action('onLocationSelected')} onQueryEntered={action('onQueryEntered')}/>);
+export const WithInitialLocationAsString = () => (<LookupField initialLocation='London heathrow' onLocationSelected={action('onLocationSelected')} onQueryEntered={action('onQueryEntered')}/>);
+export const InputFieldWithPlaceholder = () => (<LookupField onLocationSelected={action('onLocationSelected')} placeHolder='Destination' onQueryEntered={action('onQueryEntered')}/>);
+export const WithInitialLocationAndPlaceholder = () => (<LookupField initialLocation={initialLocation} onLocationSelected={action('onLocationSelected')} placeHolder='Destination' onQueryEntered={action('onQueryEntered')}/>);
 export const withExpandedList = () => (<LookupField initialLocation={initialLocation} onLocationSelected={action('onLocationSelected')} placeHolder='Destination' onQueryEntered={action('onQueryEntered')} locations={airportsData}/>);

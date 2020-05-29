@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import {Overlay, Popover,  Form} from 'react-bootstrap'
 import LookupList from "./lookup-list";
 import style from './lookup-field.module.scss'
@@ -14,9 +14,9 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     const [target, setTarget] = useState();
     const [selectedLocation, setSelectedLocation] = useState(initialLocation);
     const [searchQueryTimeout, setSearchQueryTimeout] = useState();
+    const [focus,setFocus] = useState(false);
 
-
-
+    useEscape(() => {console.log("ESCAPE clicked");setFocus(false)})
     function handleLocationSelected(location) {
         setSelectedLocation(location);
         setValue(location.primary);
@@ -33,7 +33,8 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     }
 
     function handleOnBlur(event) {
-        // clearSelectedLocation();
+        setFocus(false)
+        clearSelectedLocation();
     }
     function handleOnChange(event) {
         const enteredText = event.target.value;
@@ -53,6 +54,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     }
 
     function handleOnFocus(event) {
+        setFocus(true)
         event.target.select();
     };
 
@@ -68,7 +70,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
                 </Form.Control>
                 <span className={style.code}>{selectedLocation && selectedLocation.code}</span>
                 <Overlay
-                    show={selectedLocation===undefined && locations.length > 0}
+                    show={focus && selectedLocation===undefined && locations.length > 0}
                     target={target}
                     placement="bottom-start">
                     <Popover id="popover-contained" className={style.locationLookupPopover}>
@@ -79,3 +81,17 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
         )
 }
 
+
+const useEscape = (onEscape) => {
+    useEffect(() => {
+        const handleEsc = (event) => {
+            if (event.keyCode === 27)
+                onEscape();
+        };
+        window.addEventListener('keydown', handleEsc);
+
+        return () => {
+            window.removeEventListener('keydown', handleEsc);
+        };
+    }, []);
+}
