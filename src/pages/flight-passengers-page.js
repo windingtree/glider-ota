@@ -2,11 +2,10 @@ import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
 import {retrieveOfferFromLocalStorage, retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
-import {Button} from "react-bootstrap";
 import PaxDetails from "../components/passengers/pax-details";
 import {storePassengerDetails,retrievePassengerDetails} from "../utils/api-utils"
 import TotalPriceButton from "../components/common/totalprice/total-price";
-import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";
+import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import TripDetails from "../components/flightdetails/trip-details";
 
 export default function FlightPassengersPage({match}) {
@@ -15,7 +14,7 @@ export default function FlightPassengersPage({match}) {
     const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
     let offerId = match.params.offerId;
     let searchResults = retrieveSearchResultsFromLocalStorage();
-    let searchResultsWrapper = new SearchResultsWrapper(searchResults);
+    let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
 
     let offer = retrieveOfferFromLocalStorage(offerId);

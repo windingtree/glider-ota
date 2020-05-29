@@ -1,17 +1,16 @@
 import React, {useState} from 'react'
 import {config} from "../../config/default";
 import style from './flights-search-results.module.scss'
-import {Container, Row, Col, Image, Button} from 'react-bootstrap'
+import {Container} from 'react-bootstrap'
 import {FastCheapFilter} from "../filters/filters";
 import {
     createAirlinePredicate, createLayoverDurationPredicate,
     createMaxStopsPredicate,
     createPricePredicate,
-    SearchResultsFilterHelper
-} from "../../utils/search-results-filter-helper"
+    FlightSearchResultsFilterHelper
+} from "../../utils/flight-search-results-filter-helper"
 import ResultsPaginator from "../common/pagination/results-paginator";
 import {Offer} from "./flights-offer";
-import {debug} from "winston";
 
 const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;
 
@@ -34,7 +33,7 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
 
     function limitSearchResultsToCurrentPage(records) {
         let totalCount = records.length;
-        if (totalCount == 0)
+        if (totalCount === 0)
             return [];
 
         let startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -45,7 +44,7 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
         return records.slice(startIdx, endIdx)
     }
 
-    const filterHelper = new SearchResultsFilterHelper(searchResults);
+    const filterHelper = new FlightSearchResultsFilterHelper(searchResults);
     let predicates = createFilterPredicates(filtersStates);
 
     let trips=filterHelper.generateSearchResults(sortType, predicates)

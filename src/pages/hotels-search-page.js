@@ -10,7 +10,7 @@ import cssdefs from './flights-search-page.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
-import HotelsSearchResults from "../components/hotels/hotels-search-results";
+import HotelsSearchResults from "../components/hotelresults/hotels-search-results";
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -19,7 +19,7 @@ const SEARCH_STATE={
     FINISHED:'FINISHED'
 }
 
-export default function HotelsPage({match,location}) {
+export default function HotelsSearchPage({match,location}) {
     let history = useHistory();
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
@@ -30,10 +30,10 @@ export default function HotelsPage({match,location}) {
         onSearchStart();
         searchForHotels(criteria)
             .then(results=>{
-                uiEvent("/hotels, search completed");
+                uiEvent("/hotelresults, search completed");
                 onSearchSuccess(results)})
             .catch(err=>{
-                uiEvent("/hotels, search failed", err);
+                uiEvent("/hotelresults, search failed", err);
                 onSearchFailure(err)})
     };
     const onSearchSuccess = (results) => {
@@ -114,7 +114,7 @@ export default function HotelsPage({match,location}) {
 
 const SearchFailed = ()=>{
     return (
-        <div className='glider-font-h1-fg pt-3'>ooops..... something went wrong with the search</div>
+        <div className='glider-font-h1-fg pt-3'>No hotels found</div>
     )
 }
 

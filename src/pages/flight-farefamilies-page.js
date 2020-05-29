@@ -2,19 +2,18 @@ import React, {useState, useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import TripRates from "../components/flightdetails/flight-rates";
 import {withRouter} from 'react-router'
-import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";
+import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import TotalPriceButton from "../components/common/totalprice/total-price";
-import {storePassengerDetails, storeSelectedOffer} from "../utils/api-utils";
+import {storeSelectedOffer} from "../utils/api-utils";
 
 export default function FlightFareFamiliesPage({match}) {
     let history = useHistory();
     let offerId = match.params.offerId;
     let searchResults = retrieveSearchResultsFromLocalStorage();
-    let searchResultsWrapper = new SearchResultsWrapper(searchResults);
-    let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+    let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
     let tripRates = searchResultsWrapper.generateTripRatesData(offerId);
     const passengers = history.location.state && history.location.state.passengers;
 

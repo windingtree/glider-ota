@@ -1,6 +1,6 @@
 import LocalStorageCache from 'localstorage-cache';
 import {config} from "../config/default"
-import extendResponse from "./flight-search-results-transformer";
+import extendResponse from "./flight-search-results-extender";
 const CACHE_STRATEGY='LRU';             //LRU=Least Recently Used, LFU-Least Frequently Used
 
 

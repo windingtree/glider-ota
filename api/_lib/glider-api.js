@@ -20,20 +20,28 @@ function createHeaders(token) {
  * @returns {Promise<any>} response from Glider
  */
 async function searchOffers(criteria) {
-    let response = await axios({
-        method: 'post',
-        url: GLIDER_CONFIG.SEARCH_OFFERS_URL,
-        data: criteria,
-        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
-    });
-    let searchResults = response.data;
+    let response;
     try {
-        enrichResponseWithDictionaryData(searchResults)
-    }catch(error){
-        logger.error("Failed to enrich search results with dictionary data:%s",error.message,error);
-        throw new Error("Failed to enrich search results with dictionary data");
+        response = await axios({
+            method: 'post',
+            url: GLIDER_CONFIG.SEARCH_OFFERS_URL,
+            data: criteria,
+            headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
+        });
+    }catch(err){
+        logger.error("Response from ",err.error)
+        console.log("Error while call: ERR",err.err)
+        console.log("Error while call: CODE",err.code)
+        console.log("Error while call: MESSAGE",err.message)
     }
-    return response.data;
+    let searchResults = [];
+    if(response && response.data) {
+        searchResults = response.data;
+        enrichResponseWithDictionaryData(searchResults)
+    }else{
+        logger.info("Response from /searchOffers API was empty, search criteria:", criteria)
+    }
+    return searchResults;
 }
 
 /**

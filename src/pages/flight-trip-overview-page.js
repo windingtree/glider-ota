@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import {Button, Col, Container, Row} from "react-bootstrap";
 import TripDetails from "../components/flightdetails/trip-details";
-import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";
+import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import TotalPriceButton from "../components/common/totalprice/total-price";
 
 
@@ -14,7 +14,7 @@ export default function FlightTripOverviewPage({match}) {
     let offerId = match.params.offerId;
 
     let searchResults = retrieveSearchResultsFromLocalStorage();
-    let searchResultsWrapper = new SearchResultsWrapper(searchResults);
+    let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
     let selectedOffer = searchResultsWrapper.getOffer(offerId);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
     const passengers = history.location.state.passengers;

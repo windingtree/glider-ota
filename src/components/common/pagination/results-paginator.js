@@ -1,6 +1,5 @@
 import React from 'react'
 import style from './results-paginator.module.scss'
-import {Container, Row, Col, Image} from 'react-bootstrap'
 import Pagination from "react-js-pagination";
 
 export default function ResultsPaginator({activePage, recordsPerPage, totalRecords, onActivePageChange}) {

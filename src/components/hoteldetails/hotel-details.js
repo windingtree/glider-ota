@@ -1,9 +1,9 @@
 import React from 'react'
-import './hotel-details.scss'
+import style from './hotel-details.module.scss'
 import {Container, Row, Col, Button, Image} from 'react-bootstrap'
 import _ from 'lodash'
 import PaxDetails from "../passengers/pax-details";
-// import Room from "./room-offer"
+import Room from "./room-details"
 import YourChoice from "./your-choice";
 import default_hotel_image from "../../assets/default_hotel_image.png";
 
@@ -52,11 +52,10 @@ export default class HotelDetails extends React.Component {
         const payButtonClick= () =>{
 
         }
-
         return (
             <Container >
                 <Row>
-                    <Col className='hotel-offer-details__wrapper'>
+                    <Col className={style.offerWrapper}>
                         <div className='glider-font-h1-fg mb-4'>
                             Book your room
                         </div>
@@ -66,9 +65,7 @@ export default class HotelDetails extends React.Component {
                         <div className='glider-font-text16-fg mb-5'>
                             on Olympuc st 14, Moscow | 1 adult for 2 nights
                         </div>
-                        <div className='hotel-offer-details_main-image-container pb-4'>
                             <HotelLeadingImage images={hotel.media}/>
-                        </div>
                         <div>
                             {
                                 _.map(rooms, (room, roomId) => {
@@ -154,130 +151,29 @@ export default class HotelDetails extends React.Component {
 
 
 
-
-
-function Room({room, roomPricePlansWithOffers, onOfferSelected}) {
+export function HotelLeadingImage({images}){
+    const image = (images !== undefined && images.length > 0) ? images[0].url : default_hotel_image;
     return (
-        <div className='room-details__container'>
-            <div className='glider-font-h2-fg mb-3' >{room.name}</div>
-            <div className='d-flex flex-row flex-wrap flex-fill'>
-                <div className='room-details__col1 d-flex flex-column ' >
-                    {/*<div className='glider-font-h2-fg'>{room.name}</div>*/}
-                    {/*{room.roomTypeId}*/}
-                    {/*<div>{room.description}</div>*/}
-                    <div ><RoomImage images={room.media}/></div>
-                    <div className='glider-font-text16-fg'>{room.size.value} {room.size._unit_}</div>
-                    <div>
-                        <RoomAmenities amenities={room.amenities}/>
-                    </div>
-                    {/*<Col className='border'>TOTAL PRICE</Col>*/}
-                </div>
-                <div className='room-details__col2 flex-fill'>
-                    {
-                        roomPricePlansWithOffers.map(plan => {
-                            let key = plan.offerId + room.roomTypeId + plan.pricePlanReference;
-                            return (
-                                <RoomOffer key={key}
-                                           offer={plan}
-                                           onOfferSelected={onOfferSelected}/>
-                            )
-                        })
-                    }
-                </div>
-            </div>
-            {/*       <Row>
-            <Col>Policies</Col>
-            <Col><RoomPolicies policies={room.policies}/> </Col>
-        </Row>*/}
+        <div className={style.mainImageContainer}>
+            <Image className={style.mainImage} src={image}/>
         </div>
     )
 }
 
 
-function RoomOffer({offer, onOfferSelected}) {
-    let room = offer.room;
-    let pricePlan = offer.pricePlan;
-    let price = offer.price;
 
-
-    return (<div className='d-flex flex-row flex-wrap border-bottom border-dark pb-3 mb-3'>
-        <div className='glider-font-text18medium-fg d-flex flex-column flex-fill'>
-            <div>{pricePlan.name}</div>
-            <div className='glider-font-text16-fg'>
-                <MaxOccupation maximumOccupancy={room.maximumOccupancy}/>
-                <PlanPenalties penalties={pricePlan.penalties}/>
-            </div>
-        </div>
-        <div>
-            <div className='glider-font-text18medium-fg'>Total Price</div>
-            <div className='glider-font-h2-fg mb-3'>{price.public}</div>
-            <div><Button onClick={() => onOfferSelected(offer)} variant="outline-primary" size="lg">Select room</Button></div>
-        </div>
-    </div>)
-}
-
-
-const RoomAmenities = ({amenities}) => {
-    return (<><div className='glider-font-text16-primary'>amenities</div>
-        {
-            amenities.map(rec => {
-                return (<div className='glider-font-text16-fg' key={rec}><small>{rec}</small></div>)
-            })
-        }
-    </>)
-}
-
-const PlanPenalties = ({penalties}) => {
-    let refund = penalties.refund;
-    if (refund.refundable === true) {
-        return (<div className='room-penalty refundable'>Refundable</div>)
-    } else {
-        return (<div className='room-penalty non-refundable'>Non-refundable</div>)
-    }
-}
-
-const MaxOccupation = ({maximumOccupancy}) => {
-    let adults = maximumOccupancy.adults;
-    let children = maximumOccupancy.childs;
-    return (<div className='room-occupancy'>Up to {adults} guests</div>)
-}
-
-
-function RoomPolicies({policies}) {
+export function HotelPriceSummary({price, onPayButtonClick}){
     return (<>
-        {
-            _.map(policies, (value, key) => {
-                return (<div>{key} {value}</div>)
-            })
-        }
-    </>)
-}
-
-const HotelLeadingImage = ({images}) => {
-    const image = (images !== undefined && images.length > 0) ? images[0].url : default_hotel_image;
-    return (
-        <Image className='hotel-offer-details_main-image' src={image}/>
-    )
-}
-
-const RoomImage = ({images}) => {
-    const image = (images !== undefined && images.length > 0) ? images[0].url : default_hotel_image;
-    return (<Image width={180} className='hotel-offer-details_room-image' src={image}/>)
-}
-
-
-
-const HotelPriceSummary = ({price, onPayButtonClick}) =>{
-    return (
-        <>
-            <Row className='pt-5'>
-                <Col >
-                    <div className='glider-font-h2-fg'>Pay {price.public} {price.currency} to complete the booking</div>
-                </Col>
-                <Col xl={2}>
-                    <Button variant="primary" onClick={onPayButtonClick} size="lg" >Pay now</Button>
+            <Row>
+                <Col xs={12} lg={6} className={style.hotelPrice}>
+                   Pay {price.public} {price.currency} to complete the booking
                 </Col>
             </Row>
-        </>
+            <Row className='flex-row-reverse'>
+                <Col xs={12} sm={3} lg={3} className={style.hotelPriceButton}>
+                    <Button variant="primary" onClick={onPayButtonClick} size="lg" block>Pay now</Button>
+                </Col>
+            </Row>
+            </>
     )
 }

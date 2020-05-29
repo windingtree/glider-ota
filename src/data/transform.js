@@ -1,4 +1,4 @@
-const {extendResponse} = require("../utils/flight-search-results-transformer");
+const {extendResponse} = require("../utils/flight-search-results-extender");
 const offline_flight_results = require("../data/sample_response_flights");
 const fs = require('fs');
 

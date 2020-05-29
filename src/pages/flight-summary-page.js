@@ -8,7 +8,7 @@ import {repriceShoppingCartContents, retrievePassengerDetails} from "../utils/ap
 import TotalPriceButton from "../components/common/totalprice/total-price";
 import PaymentSummary from "../components/payment/payment-summary";
 import {RouteOverview} from "../components/flightdetails/trip-details";
-import {SearchResultsWrapper} from "../utils/flight-search-results-transformer";
+import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import Spinner from "../components/common/spinner"
 
 
@@ -31,7 +31,7 @@ export default function FlightSummaryPage({match}) {
     const [loadInProgress,setLoadInProgress] = useState(false);
     let offerId = match.params.offerId;
     let searchResults = retrieveSearchResultsFromLocalStorage();
-    let searchResultsWrapper = new SearchResultsWrapper(searchResults);
+    let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
 
     let offer = retrieveOfferFromLocalStorage(offerId);

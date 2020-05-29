@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {
   action
@@ -5,10 +6,10 @@ import {
 
 import FlightSearchResults from "./flights-search-results"
 import extendResponse from "../../utils/flight-search-results-transformer";
-import searchResults from "../../data/sample_response_unprocessed2"
+// import searchResults from "../../data/sample_response_unprocessed2"
 
 
-let results  = extendResponse(searchResults);
+// let results  = extendResponse(searchResults);
 
 export default {
   title: 'Flight search results',
@@ -16,4 +17,5 @@ export default {
 };
 
 
-export const FullFlightSearchResults = () => (<FlightSearchResults searchResults={results} onOfferDisplay={action("onOfferDisplay")}/> );
+// export const FullFlightSearchResults = () => (<FlightSearchResults searchResults={results} onOfferDisplay={action("onOfferDisplay")}/> );
+*/

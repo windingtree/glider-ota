@@ -1,19 +1,15 @@
 import {
-    SearchResultsWrapper,
-    sortItinerariesInDepartureTimeAscendingOrder
-} from '../../src/utils/flight-search-results-transformer';
-import extendResponse from "../../src/utils/flight-search-results-transformer";
-import {config} from "../../src/config/default";
-import {uiEvent} from "../../src/utils/events";
+    FlightSearchResultsWrapper
+} from '../../src/utils/flight-search-results-wrapper';
+import extendResponse from "../../src/utils/flight-search-results-extender";
 
 const fs = require('fs');
 
-var _ = require('lodash')
 var assert = require('assert');
 
 
 const sample = require('../test_data/sample_response_unprocessed');
-const resultsWrapper = new SearchResultsWrapper(sample);
+const resultsWrapper = new FlightSearchResultsWrapper(sample);
 const sampleOfferIdAF_0012 = "c74624e5-83a3-44f9-8624-e583a3b40012";
 
 
@@ -32,57 +28,7 @@ describe('#extendResponse()', function () {
 });
 
 
-describe('#sortItinerariesInDepartureTimeAscendingOrder()', function () {
-    it('should sort itineraries in departure time order', function () {
-
-        let itineraries = resultsWrapper.getOfferItineraries(sampleOfferIdAF_0012);
-        //initially in this case itins are in correct order (correct order is FL5, FL2, reversed is FL2, FL5)
-        let itinJune17 = itineraries[0];
-        let itinJune24 = itineraries[1];
-        assert.equal("FL5", itinJune17.itinId)
-        assert.equal("FL2", itinJune24.itinId)
-
-        //check if sort does not change anything in this case
-        sortItinerariesInDepartureTimeAscendingOrder(itineraries);
-        assert.equal("FL5", itineraries[0].itinId)
-        assert.equal("FL2", itineraries[1].itinId)
-
-        //now let's put them in wrong order
-        itineraries = [itinJune24, itinJune17]
-        assert.equal("FL2", itineraries[0].itinId)
-        assert.equal("FL5", itineraries[1].itinId)
-
-        //check if sort fixes the order now
-        sortItinerariesInDepartureTimeAscendingOrder(itineraries);
-        assert.equal("FL5", itineraries[0].itinId)
-        assert.equal("FL2", itineraries[1].itinId)
-
-
-    });
-});
-describe('#decorateItineraryWithMetadata()', function () {
-    it('should calculate trip duration (minutes) and add it to metadata so that search filters can use this for filtering', function () {
-
-        let itineraries = resultsWrapper.getOfferItineraries(sampleOfferIdAF_0012);
-        decorateItineraryWithMetadata(itineraries[0]);
-        decorateItineraryWithMetadata(itineraries[1]);
-        //initially in this case itins are in correct order (correct order is FL5, FL2, reversed is FL2, FL5)
-        let itin1 = itineraries[0];   //departure = 2020-06-17T16:00:00.000Z, arrival = 2020-06-18T05:55:00.000Z
-        let itin2 = itineraries[1];   //departure = 2020-06-24T08:15:00.000Z, arrival = 2020-06-24T18:25:00.000Z
-
-        assert.equal(itin1.metadata.itinerary_duration, 835)
-        assert.equal(itin2.metadata.itinerary_duration, 610)
-
-        assert.equal(itin1.metadata.stops, 1);
-        assert.equal(itin2.metadata.stops, 0);
-
-        assert.deepEqual(itin1.metadata.operating_carriers, {"WS": "WS", "AF": "AF"});
-        assert.deepEqual(itin2.metadata.operating_carriers, {"AF": "AF"});
-    });
-});
-
-
-describe('SearchResultsWrapper', function () {
+describe('FlightSearchResultsWrapper', function () {
 
     describe('#getAllItineraries()', function () {
         it('should return a list of all itineraries, each itinerary should be enriched with itinID and list of segments that build itinerary', function () {
@@ -310,15 +256,43 @@ describe('SearchResultsWrapper', function () {
         describe('#generateTripFareFamilyMapAC()', function () {
             it('should return a list with mapping between itinID, offerID, pricePlanID and its price for all available price plans for a given itinerary', function () {
                 const sampleFile = require('../test_data/air_canada_roundtrip');
-                const rw = new SearchResultsWrapper(sample);
+                const rw = new FlightSearchResultsWrapper(sample);
                 let mapping = rw.generateTripRatesData("a6c7c1a6-56ba-41d1-92fe-18c325abad8a,7f4d2a46-32a1-4865-ba47-516c56e31e11");
                 console.log(JSON.stringify(mapping))
             });
         });
 
+    });
 
 
 
+    describe('#sortItinerariesInDepartureTimeAscendingOrder()', function () {
+        it('should sort itineraries in departure time order', function () {
+
+            let itineraries = resultsWrapper.getOfferItineraries(sampleOfferIdAF_0012);
+            //initially in this case itins are in correct order (correct order is FL5, FL2, reversed is FL2, FL5)
+            let itinJune17 = itineraries[0];
+            let itinJune24 = itineraries[1];
+            assert.equal("FL5", itinJune17.itinId)
+            assert.equal("FL2", itinJune24.itinId)
+
+            //check if sort does not change anything in this case
+            resultsWrapper.sortItinerariesInDepartureTimeAscendingOrder(itineraries);
+            assert.equal("FL5", itineraries[0].itinId)
+            assert.equal("FL2", itineraries[1].itinId)
+
+            //now let's put them in wrong order
+            itineraries = [itinJune24, itinJune17]
+            assert.equal("FL2", itineraries[0].itinId)
+            assert.equal("FL5", itineraries[1].itinId)
+
+            //check if sort fixes the order now
+            resultsWrapper.sortItinerariesInDepartureTimeAscendingOrder(itineraries);
+            assert.equal("FL5", itineraries[0].itinId)
+            assert.equal("FL2", itineraries[1].itinId)
+
+
+        });
     });
 
 });

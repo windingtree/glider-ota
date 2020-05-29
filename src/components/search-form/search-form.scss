@@ -1,6 +1,6 @@
 @import 'src/styles/mixins';
 
-/*toggle buttons on top of the main page to select search type (flights or hotels)*/
+/*toggle buttons on top of the main page to select search type (flights or hotelresults)*/
 .main-search-form{
     width: 280px;
     @include glider-media-small_576 {

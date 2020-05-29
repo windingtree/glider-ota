@@ -11,9 +11,9 @@ import ReactDOM from 'react-dom'
 import './styles/glider.scss'
 // import './styles/icons.css'
 import FlightTripOverviewPage from "./pages/flight-trip-overview-page"
-import Hotel from "./pages/hotel"
+import HotelDetailsPage from "./pages/hotel-details-page"
 import FlightsSearchPage from "./pages/flights-search-page"
-import HotelsPage from "./pages/hotels"
+import HotelsSearchPage from "./pages/hotels-search-page"
 import HomePage from "./pages/home-page"
 import { CookiesProvider } from 'react-cookie';
 import ConfirmationPage from "./pages/confirmation-page";
@@ -44,9 +44,8 @@ function Dispatcher() {
                     {/*<Route path="/confirmation/" component={FlightOffer}/>*/}
 
                     {/*Hotels flow*/}
-                    <Route path="/hotels/" component={HotelsPage}/>
-                    <Route path="/hotel/:accommodationId?" component={Hotel}/>
-                    <Route path="/confirmation/:orderId" component={ConfirmationPage}/>
+                    <Route path="/hotels/" component={HotelsSearchPage}/>
+                    <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
 
 
                     <Route path="/" component={HomePage} />

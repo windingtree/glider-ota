@@ -1,9 +1,9 @@
 import OfferUtils from "./offer-utils";
-import {SearchResultsWrapper} from "./flight-search-results-transformer";
+import {FlightSearchResultsWrapper} from "./flight-search-results-wrapper";
 
-export class SearchResultsFilterHelper {
+export class FlightSearchResultsFilterHelper {
     constructor(searchResults){
-        this.searchResultsWrapper = new SearchResultsWrapper(searchResults);
+        this.searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
     }
 
     /**
@@ -14,10 +14,16 @@ export class SearchResultsFilterHelper {
      */
     generateSearchResults(sortBy = 'PRICE', predicates=[]){
         let trips={};
+        //extract all available offers
         let allOffers=this.searchResultsWrapper.getAllOffers();
         let beforeOfferPredicates=Object.keys(allOffers).length;
+
+        //filter out offers based on "offer level" criteria  (and not a flight), for example price conditions (min & max price) is an "offer level" criteria, whereas e.g. "flight duration" is a trip level criteria
         allOffers = this.applyOfferPredicates(allOffers,predicates);
+
         let afterOfferPredicates=Object.keys(allOffers).length;
+
+        //now iterate over each offer, calculate basic metadata (e.g. trip duration, number of stops, operating carriers) and later on apply "flight level" criteria (e.g. min & max flight duration or allowed operating carriers)
         Object.keys(allOffers).forEach(offerId=>{
             let offer = this.searchResultsWrapper.getOffer(offerId);
             let offerItineraries = this.searchResultsWrapper.getOfferItineraries(offerId);
@@ -234,28 +240,3 @@ export function createLayoverDurationPredicate(layoverDurationRange){
     }
     return predicate;
 }
-
-
-
-
-
-
-let a = {
-    "airlines": [{"key": "KV", "display": "KV", "selected": true}, {
-        "key": "AC",
-        "display": "AC",
-        "selected": true
-    }, {"key": "QK", "display": "QK", "selected": true}],
-    "maxStops": [{"key": "all", "display": "All", "selected": true}, {
-        "key": "0",
-        "display": "Direct Flights Only",
-        "selected": false
-    }],
-    "priceRange": {"lowest": 0, "min": 850, "max": 2415, "highest": 2415},
-    "bags": [{"key": "all", "display": "All", "selected": true}, {
-        "key": "0",
-        "display": "Carry on bag",
-        "selected": true
-    }, {"key": "1", "display": "Checked baggage", "selected": true}],
-    "layoverDuration": {"lowest": 0, "min": 0, "max": 0, "highest": 0}
-};

@@ -32,7 +32,7 @@ class ShoppingCart {
 
     /**
      * Upsert (add or replace) offer in the shopping cart.
-     * Multiple items can be added to the shopping cart (e.g.  flights, hotels, passenger details, ancillaries).
+     * Multiple items can be added to the shopping cart (e.g.  flights, hotelresults, passenger details, ancillaries).
      * cartKey parameter is supposed to identify what type of element is added to the cart.
      * If item with a given key is added for the first time, it will be normally added and can be later retrieved.
      * If item with a same key is added again, previously stored item is replaced with a new one.

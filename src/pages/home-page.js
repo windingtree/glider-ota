@@ -74,7 +74,7 @@ export default function HomePage() {
         </>)
 }
 
-// Toggle buttons on the top of the main page to select if you search hotels or flights
+// Toggle buttons on the top of the main page to select if you search hotelresults or flights
 const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
     const [value, setValue] = useState(defaultValue);
     const onFlightClick = () => {setValue(SEARCH_TYPE.FLIGHTS);onToggle(SEARCH_TYPE.FLIGHTS);}

@@ -4,8 +4,8 @@ import {
 } from '@storybook/addon-actions';
 import TripRates,{FareFamilyBenefits,ItineraryRates} from "./flight-rates"
 import sample_response from "../../data/sample_response_unprocessed"
-import {SearchResultsWrapper} from "../../utils/flight-search-results-transformer";
-let searchResultsWrapper = new SearchResultsWrapper(sample_response)
+import {FlightSearchResultsWrapper} from "../../utils/flight-search-results-wrapper";
+let searchResultsWrapper = new FlightSearchResultsWrapper(sample_response)
 
 export default {
     component: TripRates,

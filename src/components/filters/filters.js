@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
 import style from "./filters.module.scss"
-import {Container, Row, Col, Button, Form, ButtonGroup, ToggleButton} from "react-bootstrap";
+import {Container, Row, Col, Button, Form} from "react-bootstrap";
 import InputRange from 'react-input-range';
-import OfferUtils from '../../utils/offer-utils';
 import "react-input-range/lib/css/index.css";
 
 import _ from 'lodash'
-import {SearchResultsWrapper} from "../../utils/flight-search-results-transformer";
 
 const AIRLINES_FILTER_ID = 'airlines';
 const MAXSTOPS_FILTER_ID = 'maxStops';
@@ -134,7 +132,7 @@ export function SelectionFilter({id, title = '[missing]', filterState, onFilterS
 
 
 function createAirlinesFilter(results) {
-    if (results == undefined || results.itineraries == undefined)
+    if (results === undefined || results.itineraries === undefined)
         return [];
     let segments = results.itineraries.segments;
     let carriers = {};
@@ -155,7 +153,7 @@ function createAirlinesFilter(results) {
 }
 
 function createMinMaxPriceRangeFilter(results) {
-    if (results == undefined || results.offers == undefined)
+    if (results === undefined || results.offers === undefined)
         return {lowest: 0, min: 0, max: 0, highest: 0};
 
     let offers = results.offers;
@@ -189,7 +187,7 @@ function createMaxStopsFilter(searchResults) {
 
 
 function getMaxStops(results) {
-    if (results == undefined || results.itineraries == undefined)
+    if (results === undefined || results.itineraries === undefined)
         return [];
     let combinations = results.itineraries.combinations;
     let maxStops = 0;
@@ -213,7 +211,7 @@ function createBagsFilter(searchResults) {
 
 
 function createLayoverDurationFilter(results) {
-    if (results == undefined || results.combinations == undefined)
+    if (results === undefined || results.combinations === undefined)
         return {lowest: 0, min: 0, max: 0, highest: 0};
     return {lowest: 0, min: 0, max: 12, highest: 12};
 }

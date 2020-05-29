@@ -1,9 +1,8 @@
 import {config} from "../config/default";
-import extendResponse from "./flight-search-results-transformer";
+import extendResponse from "./flight-search-results-extender";
 import offline_flight_results from "../data/sample_response_flights";
 import offline_hotels_results from "../data/sample_response_hotels";
 import {uiEvent} from "./events";
-import LZString from "lz-string"
 import {storeSearchResultsInCache,checkSearchResultsInCache} from "./local-storage-cache"
 /**
  * Search for flights with a criteria provided as parameters.
