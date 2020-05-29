@@ -50,13 +50,20 @@ export default function FlightSeatmapPage({match}) {
         // Load the seat map
         retrieveSeatmap()
             // Load results in state
-            .then(res => {
-                setIndexedSeatmap(res);
-                //TODO: Push the segment in path history
+            .then(result => {
+                if(result.error) {
+                    console.log(`[SEATMAP Page] Error ${result.error.code}: ${result.error.message}`);
+                    proceedToSummary();
+                } else {
+                    setIndexedSeatmap(result);
+                }
             })
 
             // Handle error
-            .catch(console.log)
+            .catch(error => {
+                console.log('[SEATMAP Page] Error while retrieving seatmap', error);
+                proceedToSummary();
+            })
 
             // Stop spinner
             .finally(() => {
@@ -78,7 +85,6 @@ export default function FlightSeatmapPage({match}) {
         // If there are more segments with seatmaps, show the next one
         if(activeSegmentIndex < Object.keys(indexedSeatmap).length - 1) {
             setActiveSegmentIndex(activeSegmentIndex + 1);
-            
         } 
         
         // Otherwise proceed to summary
@@ -99,7 +105,6 @@ export default function FlightSeatmapPage({match}) {
             } else {
                 proceedToSummary();
             }
-
         }
     };
 
@@ -217,8 +222,8 @@ export default function FlightSeatmapPage({match}) {
         if(isLoading) {
             let message;
             if(!indexedSeatmap) {
-                message = "We are retrieving the aircraft and seat availability for your journey, this can take up to 60 seconds.";
-            } else if(seatOptions) {
+                message = "We are retrieving available seats for your journey, this can take up to 60 seconds.";
+            } else if(seatOptions.length > 0) {
                 message = "We are adding your seat selection to your booking.";
             }
             return (
