@@ -58,6 +58,8 @@ function findTableRecords(tableName, searchQuery, searchFieldNames, maxResults =
         fieldNames=searchFieldNames;
     else
         fieldNames.push(searchFieldNames);
+
+    let concatenatedFields="";
      _.each(table,rec=>{
         let valuesToSearch = _getFieldValues(rec,fieldNames);
         if (result.length<maxResults && _match(searchQuery,valuesToSearch)){
@@ -69,13 +71,18 @@ function findTableRecords(tableName, searchQuery, searchFieldNames, maxResults =
 
 function _match(searchQuery, values){
     let query = searchQuery!==undefined?searchQuery:'';
+    let valuesConcat = [];
     query=query.toUpperCase();
     for(let i=0;i<values.length;i++){
         let fieldValue = values[i]!==undefined?values[i]:'';
         fieldValue=fieldValue.toUpperCase();
-        if(fieldValue.search(query)>-1)
-            return true;
+        valuesConcat.push(fieldValue);
     }
+    let concatendatedValues = valuesConcat.join(' ');
+    if(concatendatedValues.search(query)>-1)
+        console.log(`Query:[${query}] vs Field:[${concatendatedValues}] \t==> ${concatendatedValues.search(query)>-1}`)
+    if(concatendatedValues.search(query)>-1)
+        return true;
     return false;
 }
 function _getFieldValues(obj,keys){
