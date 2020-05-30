@@ -80,8 +80,6 @@ function _match(searchQuery, values){
     }
     let concatendatedValues = valuesConcat.join(' ');
     if(concatendatedValues.search(query)>-1)
-        console.log(`Query:[${query}] vs Field:[${concatendatedValues}] \t==> ${concatendatedValues.search(query)>-1}`)
-    if(concatendatedValues.search(query)>-1)
         return true;
     return false;
 }
