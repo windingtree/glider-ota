@@ -83,11 +83,19 @@ function ItineraryOperatingAirlines({operators}) {
         <span className={style.offerhighlightlogosandancillaries}>
         {
             _.map(operators, (operator, id) => {
-                let imgPath = "/airlines/" + id + ".png";
-                return (<img key={id} src={imgPath} alt={id} className={style.itinCarrierLogo}/>)
+                return (<AirlineLogo airlineName={operator.airline_name} iatacode={operator.iataCode} tooltip={operator.airline_name}/>)
             })
         }
         </span>
+    )
+}
+
+export function AirlineLogo({iatacode,tooltip, airlineName}){
+    const [img,setImg] = useState(iatacode);
+    const MISSING_LOGO='missing';
+    let imgPath = "/airlines/" + img + ".png";
+    return (
+        (<img key={iatacode} src={imgPath} title={tooltip} className={style.itinCarrierLogo} onError={() => setImg(MISSING_LOGO)}/>)
     )
 }
 

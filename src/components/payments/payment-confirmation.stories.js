@@ -7,7 +7,7 @@ import fetchMock from 'fetch-mock';
 
 export default {
     component: PaymentConfirmation,
-    title: 'Payment confirmation',
+    title: 'Payments/Payment confirmation',
 };
 
 const pendingStatusMockResponse={

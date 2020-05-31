@@ -7,7 +7,7 @@ import PaymentSummary from "./payment-summary";
 
 export default {
     component: PaymentSummary,
-    title: 'Payment summary',
+    title: 'Payments/Payment summary',
 };
 
 const confirmedOffer = {
