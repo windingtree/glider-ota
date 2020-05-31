@@ -83,7 +83,8 @@ export default function FlightsSearchPage({match,location}) {
 
                 <div className='d-flex flex-row '>
                     <div className="filters-wrapper">
-                            <Filters searchResults={searchResults} filtersStates={filtersStates} onFilterApply={onFiltersChanged}/>
+                            {/*<Filters searchResults={searchResults} filtersStates={filtersStates} onFilterApply={onFiltersChanged}/>*/}
+                            <Filters searchResults={searchResults} onFilterApply={onFiltersChanged}/>
                     </div>
                         <div >
                             <SearchForm

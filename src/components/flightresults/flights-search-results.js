@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import {config} from "../../config/default";
 import style from './flights-search-results.module.scss'
 import {Container} from 'react-bootstrap'
-import {FastCheapFilter} from "../filters/filters";
+// import {FastCheapFilter} from "../filters/filters";
+import {FastCheapFilter} from "../filters/fast-cheap-filter";
 import {
     createAirlinePredicate, createLayoverDurationPredicate,
     createMaxStopsPredicate,
@@ -90,7 +91,8 @@ function createFilterPredicates(filterStates){
     console.debug("Price range criteria:", priceRangeFilter)
     predicates.push({
         predicate: createPricePredicate(priceRangeFilter),
-        type: 'offer'
+        type: 'offer',
+        name:'PricePredicate'
     });
 
     //create predicate to filter offers by layover duration
@@ -98,7 +100,8 @@ function createFilterPredicates(filterStates){
     console.debug("Layover duration criteria:", layoverDurationFilter)
     predicates.push({
         predicate: createLayoverDurationPredicate(layoverDurationFilter),
-        type: 'trip'
+        type: 'trip',
+        name:'LayoverDurationPredicate'
     });
 
 
@@ -115,7 +118,8 @@ function createFilterPredicates(filterStates){
     })
     predicates.push({
         predicate: createMaxStopsPredicate(maxStopsCriteria),
-        type: 'trip'
+        type: 'trip',
+        name:'MaxStopsPredicate'
     });
 
 
@@ -133,7 +137,8 @@ function createFilterPredicates(filterStates){
 
     predicates.push({
         predicate: createAirlinePredicate(carriersCriteria),
-        type: 'trip'
+        type: 'trip',
+        name:'AirlinePredicate'
     });
     return predicates;
 }

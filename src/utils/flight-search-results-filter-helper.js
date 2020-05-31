@@ -57,7 +57,7 @@ export class FlightSearchResultsFilterHelper {
         let beforeTripPredicates=tripArray.length;
         tripArray = this.applyTripPredicates(tripArray,predicates);
         tripArray = this.sortTrips(tripArray, sortBy);
-        console.debug(`Filter stats: total results:${beforeOfferPredicates}, after offer level filters:${afterOfferPredicates}, before trip level filters:${beforeTripPredicates}, results after all filters:${tripArray.length}`);
+        console.debug(`Filter stats: total offers#:${beforeOfferPredicates}, offers# after offer level filters:${afterOfferPredicates}, #trips before trip level filters:${beforeTripPredicates}, #trips after trip level predicates:${tripArray.length}`);
 
         return tripArray;
     }
@@ -132,8 +132,11 @@ export class FlightSearchResultsFilterHelper {
 
             let checkResult = true;
             predicates.map(predicate=>{
-                if(predicate.type==='trip')
-                    checkResult=result && predicate.predicate(itineraries);
+                if(predicate.type==='trip') {
+                    if(predicate.name === 'MaxStopsPredicate'){
+                        checkResult = checkResult && predicate.predicate(itineraries);
+                    }
+                }
             })
             if(checkResult)
                 result.push(tripInfo);
@@ -147,7 +150,7 @@ export class FlightSearchResultsFilterHelper {
 
 
 export function createAirlinePredicate(airlines){
-
+    console.log("createAirlinePredicate, criteria:",airlines);
     const predicate = (itineraries) => {
         let result = true;
         if(airlines['ALL'] && airlines['ALL']===true)
@@ -167,7 +170,7 @@ export function createAirlinePredicate(airlines){
 
 export function createPricePredicate(priceRange){
     const {min, max} = priceRange;
-
+    console.log("createPricePredicate, criteria:",priceRange);
     const predicate = (offer) => {
         let result = true;
         if(min)
@@ -181,7 +184,7 @@ export function createPricePredicate(priceRange){
 
 
 export function createMaxStopsPredicate(stopsCriteria){
-
+    console.log("createMaxStopsPredicate, criteria:",stopsCriteria);
     const predicate = (itineraries) => {
         let result = true;
         if(stopsCriteria['ALL'] && stopsCriteria['ALL']===true)
@@ -197,7 +200,7 @@ export function createMaxStopsPredicate(stopsCriteria){
 }
 
 export function createBagsPredicate(bagsCriteria){
-
+    console.log("createBagsPredicate, criteria:",bagsCriteria);
     const predicate = (offer) => {
         let result = true;
         if(bagsCriteria['ALL'] && bagsCriteria['ALL']===true)
@@ -211,7 +214,7 @@ export function createBagsPredicate(bagsCriteria){
 
 export function createLayoverDurationPredicate(layoverDurationRange){
     const {min, max} = layoverDurationRange;
-
+    console.log("createLayoverDurationPredicate, criteria:",layoverDurationRange);
     const predicate = (itineraries) => {
         let result = true;
         let layovers=[];

@@ -1,0 +1,165 @@
+{
+  "warnings": [
+    {
+      "provider": "AF",
+      "error": "NdcService exception : Error returned by provider : amadeus-ffpu.SYSTEM_UNABLE_TO_PROCESS[118]"
+    }
+  ],
+  "offers": {
+    "4f0f1f17-19aa-4beb-a8ed-ce9f2af1b744": {
+      "expiration": "2020-05-30T05:06:43.264Z",
+      "pricePlansReferences": {
+        "H03SCXPG6D-Standard": {
+          "flights": [
+            "GS4FITLRUJ-OD3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "409.45",
+        "commission": "0.00",
+        "taxes": "90.45"
+      }
+    },
+    "7652a643-aef6-4f00-b174-1dd61cef9152": {
+      "expiration": "2020-05-30T05:06:43.264Z",
+      "pricePlansReferences": {
+        "NSBP0KOE58-Flex": {
+          "flights": [
+            "GS4FITLRUJ-OD3"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "455.44",
+        "commission": "0.00",
+        "taxes": "96.44"
+      }
+    },
+    "b4b99716-851c-46e2-a5bc-a492cfd96e39": {
+      "expiration": "2020-05-30T05:06:43.264Z",
+      "pricePlansReferences": {
+        "H03SCXPG6D-Standard": {
+          "flights": [
+            "XKQ0GGPGO4-OD133"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "403.22",
+        "commission": "0.00",
+        "taxes": "84.22"
+      }
+    },
+    "06e5cf16-2368-4cd0-975a-6c6f6e429787": {
+      "expiration": "2020-05-30T05:06:43.264Z",
+      "pricePlansReferences": {
+        "NSBP0KOE58-Flex": {
+          "flights": [
+            "XKQ0GGPGO4-OD133"
+          ]
+        }
+      },
+      "price": {
+        "currency": "CAD",
+        "public": "449.21",
+        "commission": "0.00",
+        "taxes": "90.21"
+      }
+    }
+  },
+  "itineraries": {
+    "combinations": {
+      "GS4FITLRUJ-OD3": [
+        "F1KD7KSJYN-SEG3"
+      ],
+      "XKQ0GGPGO4-OD133": [
+        "HFXO3DA0M9-SEG133"
+      ]
+    },
+    "segments": {
+      "F1KD7KSJYN-SEG3": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "KV",
+          "flightNumber": "AC7561",
+          "airline_name": "Sky Regional Airlines"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "departureTime": "2020-06-04T10:30:00.000Z",
+        "arrivalTime": "2020-06-04T11:50:00.000Z"
+      },
+      "HFXO3DA0M9-SEG133": {
+        "operator": {
+          "operatorType": "airline",
+          "iataCode": "KV",
+          "flightNumber": "AC7562",
+          "airline_name": "Sky Regional Airlines"
+        },
+        "origin": {
+          "locationType": "airport",
+          "iataCode": "YYZ",
+          "city_name": "Toronto",
+          "airport_name": "Lester B. Pearson Intl"
+        },
+        "destination": {
+          "locationType": "airport",
+          "iataCode": "YUL",
+          "city_name": "Montreal",
+          "airport_name": "Pierre E.Trudeau Intl"
+        },
+        "departureTime": "2020-06-05T04:30:00.000Z",
+        "arrivalTime": "2020-06-05T05:45:00.000Z"
+      }
+    }
+  },
+  "pricePlans": {
+    "H03SCXPG6D-Standard": {
+      "name": "Standard",
+      "amenities": [
+        "Checked bags for a fee",
+        "Changes for a fee",
+        "25% Aeroplan Miles"
+      ],
+      "checkedBaggages": {
+        "quantity": 0
+      }
+    },
+    "NSBP0KOE58-Flex": {
+      "name": "Flex",
+      "amenities": [
+        "1st checked bag free",
+        "Changes for a discounted fee",
+        "100% Aeroplan Miles",
+        "Free standard seat selection"
+      ],
+      "checkedBaggages": {
+        "quantity": 1
+      }
+    }
+  },
+  "passengers": {
+    "66FA726C": {
+      "type": "ADT"
+    }
+  },
+  "metadata": {
+    "uuid": "85d26dae-e6fb-402a-bc62-93316d088374",
+    "timestamp": "2020-05-30T04:36:55.864Z",
+    "numberOfOffers": 250
+  }
+}
