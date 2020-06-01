@@ -18,8 +18,8 @@ const mergeRoundTripOffers = (searchResults) => {
     const segments = searchResults.itineraries.segments;
     const orgIata = segments[Object.keys(segments)[0]].origin.iataCode;
     for(let combinationIndex=0; combinationIndex<Object.keys(combinations).length; combinationIndex++) {
-        const combinationId = Object.keys(combinations)[combinationIndex];
-        const firstSegment = segments[combinations[combinationId][0]];
+        let combinationId = Object.keys(combinations)[combinationIndex];
+        let firstSegment = segments[combinations[combinationId][0]];
         if(firstSegment.origin.iataCode !== orgIata) {
             isReturn = true;
             break;
@@ -34,13 +34,13 @@ const mergeRoundTripOffers = (searchResults) => {
       // Go through each offer
       Object.keys(searchResults.offers).forEach(offerId => {
         // Extract the price plans
-        const pricePlans = Object.keys(searchResults.offers[offerId].pricePlansReferences);
+        let pricePlans = Object.keys(searchResults.offers[offerId].pricePlansReferences);
   
         // If there is only one price plan with one flight, it is a one-way offer
         if(pricePlans.length === 1 && 
           searchResults.offers[offerId].pricePlansReferences[pricePlans[0]].flights.length === 1) {
-            const flightKey = searchResults.offers[offerId].pricePlansReferences[pricePlans[0]].flights[0];
-            const segmentKeys = searchResults.itineraries.combinations[flightKey];
+            let flightKey = searchResults.offers[offerId].pricePlansReferences[pricePlans[0]].flights[0];
+            let segmentKeys = searchResults.itineraries.combinations[flightKey];
   
             // Add offer to outbound or inbound arrays
             if(searchResults.itineraries.segments[segmentKeys[0]].origin.iataCode === orgIata) {
@@ -54,37 +54,34 @@ const mergeRoundTripOffers = (searchResults) => {
   
       // Create new combinations using the outbound and inboud
       for(let i=0; i<inboundOffers.length; i++) {
-        const inboundOfferId = inboundOffers[i];
+        let inboundOfferId = inboundOffers[i];
         for(let j=0; j<outboundOffers.length; j++) {
-          const outboundOfferId = outboundOffers[j];
-          const mergedofferKey = `${outboundOfferId},${inboundOfferId}`;
+          let outboundOfferId = outboundOffers[j];
+          let mergedofferKey = `${outboundOfferId},${inboundOfferId}`;
 
           // Retrieve details of both offers
-          const inboundOffer = searchResults.offers[inboundOfferId];
-          const outboundOffer = searchResults.offers[outboundOfferId];
+          let outboundOffer = searchResults.offers[outboundOfferId];
+          let inboundOffer = searchResults.offers[inboundOfferId];
 
-          // Merge the pricePlansReferences
-          let newPricePlansReferences = outboundOffer.pricePlansReferences;
-          const inboundPlanKeys = Object.keys(inboundOffer.pricePlansReferences);
-          const outboundPlanKeys = Object.keys(outboundOffer.pricePlansReferences);
+          // Get the plan key, there is exactly one since it was filtered above
+          let outboundPlanKey = Object.keys(outboundOffer.pricePlansReferences)[0];
+          let inboundPlanKey = Object.keys(inboundOffer.pricePlansReferences)[0];
 
-          // Merge the pricePlansReferences
-          for(let p=0; p<inboundPlanKeys.length; p++) {
-            const planKey = inboundPlanKeys[p];
+          let newPricePlansReferences = {};
 
-            // If plan already exist, merge the flight list
-            if(outboundPlanKeys.includes(planKey)) {
-              newPricePlansReferences[planKey].flights = [
-                ...newPricePlansReferences[planKey].flights,
-                ...inboundOffer.pricePlansReferences[planKey].flights,
-              ];
-            }
-            
-            // Otherwise add the key in price plan
-            else {
-              newPricePlansReferences[planKey] = inboundOffer.pricePlansReferences[planKey];
-            }
-          };
+          // If keys are the same, the flight list contains the two flights
+          if(inboundPlanKey === outboundPlanKey) {
+            newPricePlansReferences[outboundPlanKey] = { flights: [
+              outboundOffer.pricePlansReferences[outboundPlanKey].flights[0],
+              inboundOffer.pricePlansReferences[inboundPlanKey].flights[0],
+            ]};
+          }
+
+          // Otherwise there is one key per pricePlan / flight
+          else {
+            newPricePlansReferences[outboundPlanKey] = outboundOffer.pricePlansReferences[outboundPlanKey];
+            newPricePlansReferences[inboundPlanKey] = inboundOffer.pricePlansReferences[inboundPlanKey];
+          }
 
           // Return the merged offer
           searchResults.offers[mergedofferKey] = {
@@ -131,7 +128,13 @@ export default function extendResponse(response){
     if(!copy.metadata)
         copy.metadata={};
     copy.metadata['postprocessed']=true;
-    console.info(`Search results extender, time:${end-start}ms`)
+    console.info(`Search results extender, time:${end-start}ms`);
+    /*
+    Object.keys(copy.offers).forEach(offerId => {
+      const offer = copy.offers[offerId];
+      console.log(`${offerId}: ${offer.price.currency} ${offer.price.public}|${JSON.stringify(offer.pricePlansReferences)}`);
+    });
+    */
     return copy;
 }
 
