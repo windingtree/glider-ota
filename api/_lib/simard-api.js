@@ -11,39 +11,62 @@ const logger = createLogger('simard-api');
  * @param currency
  * @returns {Promise<any>} response from /balances/guarantees Simard API
  */
-async function createGuarantee(amount, currency) {
-    logger.debug("Creating guarantee for %s %s",amount,currency);
-    let depositExpiration=addDays(new Date(),SIMARD_CONFIG.DEPOSIT_EXPIRY_DAYS)
-    let request = {
-        "currency": currency,
-        "amount": amount,
-        "creditorOrgId": GLIDER_CONFIG.ORGID,
-        "expiration": depositExpiration.toISOString()
-    };
-    let response = await axios({
-        method: 'post',
-        url: SIMARD_CONFIG.GUARANTEES_URL,
-        data: request,
-        headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+function createGuarantee(amount, currency) {
+    return new Promise(function(resolve, reject) {
+        logger.debug("Creating guarantee for %s %s",amount,currency);
+        let depositExpiration=addDays(new Date(),SIMARD_CONFIG.DEPOSIT_EXPIRY_DAYS)
+        let request = {
+            "currency": currency,
+            "amount": amount,
+            "creditorOrgId": GLIDER_CONFIG.ORGID,
+            "expiration": depositExpiration.toISOString()
+        };
+        axios({
+            method: 'post',
+            url: SIMARD_CONFIG.GUARANTEES_URL,
+            data: request,
+            headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+        })
+
+        .then(response => {
+            logger.debug("Guarantee created",response.data);
+            resolve(response.data);
+        })
+
+        .catch(error => {
+            logger.error("Guarantee creation failed", error);
+            reject(error);
+        });
+
     });
-    logger.debug("Guarantee created",response.data);
-    return response.data;
 }
 
-async function simulateDeposit(amount, currency) {
-    logger.debug("Simulate deposit for %s %s",amount,currency);
-    let request = {
-        "currency": currency,
-        "amount": amount
-    };
-    let response = await axios({
-        method: 'post',
-        url: SIMARD_CONFIG.SIMULATE_DEPOSIT_URL,
-        data: request,
-        headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+// Simulate a deposit - TEST ONLY
+function simulateDeposit(amount, currency) {
+    return new Promise(function(resolve, reject) {
+        logger.debug("Simulate deposit for %s %s",amount,currency);
+        let request = {
+            "currency": currency,
+            "amount": amount
+        };
+        axios({
+            method: 'post',
+            url: SIMARD_CONFIG.SIMULATE_DEPOSIT_URL,
+            data: request,
+            headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+        })
+
+        .then(response => {
+            logger.debug("Deposit created",response.data);
+            resolve(response.data);
+        })
+
+        .catch(error => {
+            logger.error("Guarantee creation failed", error);
+            reject(error);
+        });
+        
     });
-    logger.debug("Deposit created",response.data);
-    return response.data;
 }
 
 

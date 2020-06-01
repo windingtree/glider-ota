@@ -39,8 +39,8 @@ const REDIS_CONFIG =
 
 const MONGO_CONFIG =
     {
-        DBNAME: process.env.MONGO_DNNAME,
-        URL: process.env.MONGO_URL
+        URL: process.env.MONGO_URL,
+        DBNAME: process.env.MONGO_DBNAME,
     };
 
 const STRIPE_CONFIG =
