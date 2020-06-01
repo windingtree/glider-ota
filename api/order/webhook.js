@@ -40,8 +40,8 @@ const webhookController = (request, response ) => {
             // Log an error
             logger.error("Webhook signature verification failed", error);
 
-            // If not in production and process bypassed, fallback
-            if(process.env.NODE_ENV !== 'production' && STRIPE_CONFIG.BYPASS_WEBHOOK_SIGNATURE_CHECK) {
+            // If signature bypassed, fallback
+            if(STRIPE_CONFIG.BYPASS_WEBHOOK_SIGNATURE_CHECK) {
                 logger.info("Signature check bypassed");
                 event = request.body;
             }
