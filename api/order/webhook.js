@@ -22,31 +22,34 @@ const logger = createLogger("/webhook");
  * This is invoked by Stripe after a given event related to a payment occurs.
  */
 const webhookController = (request, response ) => {
-    // Check if Webhook signature is enabled
-    if (STRIPE_CONFIG.DISABLE_WEBHOOK_SIGNATURE_CHECK) {
-        logger.warn("Webhook signature verification is disabled! It should not be disabled in PROD environments")
-        if (process.env.NODE_ENV === 'production') {
-            // logger.error("Webhook signature verification is disabled in PROD! It should not be disabled in PROD environments")
-            // sendErrorResponse(res, 500, ERRORS.INTERNAL_SERVER_ERROR, "Signature checking is disabled", req.body);
-            // return;
-        }
-    }
 
     // Get the raw request
     getRawBodyFromRequest(request)
     .then(rawBody => {
-        // Extract the event
+        // Extract the event and signature
         let event;
-        if (!STRIPE_CONFIG.DISABLE_WEBHOOK_SIGNATURE_CHECK) {
-            let stripeSignature = request.headers['stripe-signature'];
-            try {
-                event = validateWebhook(rawBody, stripeSignature);
+        let stripeSignature = request.headers['stripe-signature'];
+
+        // Validate the signature
+        try {
+            event = validateWebhook(rawBody, stripeSignature);
+        }
+
+        // Signature verification fails
+        catch(error) {
+            // Log an error
+            logger.error("Webhook signature verification failed", error);
+
+            // If not in production and process bypassed, fallback
+            if(process.env.NODE_ENV !== 'production' && STRIPE_CONFIG.BYPASS_WEBHOOK_SIGNATURE_CHECK) {
+                logger.info("Signature check bypassed");
+                event = request.body;
             }
-            catch(error) {
+            
+            // If process not bypassed, stop processing immediatly
+            else {
                 response.status(400).send(`Webhook signature verification failed: ${error.message}`);
-            }
-        } else {
-            event = request.body;
+            }   
         }
 
         // Process the event
@@ -235,58 +238,68 @@ function fulfillOrder(confirmedOfferId) {
         // Process the retrieved offer
         .then(document => {
             console.debug("#2 document retrieved", document);
-            let passengers = document.passengers;
-            // let offerItems = document.offerItems;
-            let offerId = document.confirmedOffer.offerId;
-            let offer = document.confirmedOffer.offer;
-            let price = offer.price;
 
-            /*
-            TEST ONLY - Create deposit
-            logger.debug("#3 create deposit");
-            let settlement = await simulateDeposit(price.public, price.currency);
-            */
+            // Check if fulfillment was already processed
+            if(document.confirmation && (document.order_status === ORDER_STATUSES.FULFILLED)) {
+                resolve(document.confirmation);
+            }
 
-            // Request a guarantee to Simard
-            createGuarantee(price.public, price.currency)
-
-            // Proceed to next steps with guarantee
-            .then(guarantee => {
-                logger.debug("#4 guarantee created, guaranteeId:%s", guarantee.guaranteeId);
-
-                // Create the order
-                let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers);
-                createOrder(orderRequest)
-
-                // Handle the order creation success
-                .then(confirmation => {
-                    resolve(confirmation);
-                })
-
-                // Handle the error creation error
-                .catch(error => {
-                    logger.error("Failure in response from /createWithOffer", error.response ? error.response : error);
-                    updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Order creation failed[${error}]`, {request:orderRequest})
-                    
-                    // Once order is updated, reject the error
-                    .then(() => {
-                        reject(error);
+            // Proceed to next steps of fulfillment
+            else {
+                let passengers = document.passengers;
+                // let offerItems = document.offerItems;
+                let offerId = document.confirmedOffer.offerId;
+                let offer = document.confirmedOffer.offer;
+                let price = offer.price;
+    
+                /*
+                TEST ONLY - Create deposit
+                logger.debug("#3 create deposit");
+                let settlement = await simulateDeposit(price.public, price.currency);
+                */
+    
+                // Request a guarantee to Simard
+                createGuarantee(price.public, price.currency)
+    
+                // Proceed to next steps with guarantee
+                .then(guarantee => {
+                    logger.debug("#4 guarantee created, guaranteeId:%s", guarantee.guaranteeId);
+    
+                    // Create the order
+                    let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers);
+                    createOrder(orderRequest)
+    
+                    // Handle the order creation success
+                    .then(confirmation => {
+                        resolve(confirmation);
                     })
-
-                    // When order DB update to indicate error even failed..
-                    .catch(updateError => {
-                        logger.error("Failed to update DB when processing error:%s", updateError.message);
-                        reject(error);
+    
+                    // Handle the error creation error
+                    .catch(error => {
+                        logger.error("Failure in response from /createWithOffer", error.response ? error.response.data : error);
+                        updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Order creation failed[${error}]`, {request:orderRequest})
+                        
+                        // Once order is updated, reject the error
+                        .then(() => {
+                            reject(error);
+                        })
+    
+                        // If even the DB update fails, return the error
+                        .catch(updateError => {
+                            logger.error("Failed to update DB when processing error:%s", updateError.message);
+                            reject(error);
+                        });
                     });
+                    
+                })
+    
+                // Handle the guarantee creation error
+                .catch(error => {
+                    logger.error("Could not create guarantee", error);
+                    reject(error);
                 });
-                
-            })
+            }
 
-            // Handle the guarantee creation error
-            .catch(error => {
-                logger.error("Could not create guarantee", error);
-                reject(error);
-            });
         })
 
         // Handle the error when offer can not be retrieved

@@ -178,9 +178,9 @@ function updateOrderStatus(offerId, order_status, comment, transactionDetails){
     if(order_status === ORDER_STATUSES.FULFILLED){
         updates['$set']['confirmation'] = transactionDetails;
     }
-    logger.info("Updating order status, offerId:%s, payment_status:%s",offerId,order_status);
+    logger.info("Updating order status, offerId:%s, order_status:%s",offerId,order_status);
 
-    return updateOne('orders',{offerId:offerId}, updates)
+    return updateOne('orders',{offerId:offerId}, updates);
 
 }
 
