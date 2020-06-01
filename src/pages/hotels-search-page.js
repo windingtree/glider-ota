@@ -113,7 +113,7 @@ const WarningNoResults = () => {
        <Alert variant="warning">
        <Alert.Heading>
            Sorry, we could not find any available hotels
-           <span role='img' aria-label='sorry'> 🥺</span>
+           <span role='img' aria-label='sorry'> 😢</span>
        </Alert.Heading>
        <p>
            Glider has been launched with our amazing partner <b><a href='https://www.nordicchoicehotels.com/'>Nordic Choice Hotels</a></b>, 

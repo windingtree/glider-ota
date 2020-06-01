@@ -127,7 +127,7 @@ const WarningNoResults = () => {
         <Alert variant="warning">
         <Alert.Heading>
             Sorry, we could not find any flights
-            <span role='img' aria-label='sorry'> 🥺</span>
+            <span role='img' aria-label='sorry'> 😢</span>
         </Alert.Heading>
         <p>
             Glider has been launched with our amazing partner <b><a href='https://aircanada.com'>Air Canada</a></b>, 
