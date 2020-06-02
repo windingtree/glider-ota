@@ -90,14 +90,6 @@ export default class OfferUtils {
     return operators;
   }
 
-  static getCheapestOffer(combination){
-    let offers=combination.offers;
-    offers.sort((a,b)=>{
-      return (a.offer.price.public>b.offer.price.public)?1:-1;
-    })
-    return offers[0]
-  }
-
   static getCityNameByAirportCode(airportCode){
     //TODO-retrieve city name
     return airportCode;

@@ -5,7 +5,7 @@ import {iataToCityName} from "../../utils/offer-utils"
 import React from "react";
 import style from "./trip-details.module.scss";
 import {config} from "../../config/default";
-import {Itinerary} from "../flightresults/flights-offer";
+import {AirlineLogo, Itinerary} from "../flightresults/flights-offer";
 
 
 
@@ -76,6 +76,7 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
 }
 
 export function SegmentDetails({segment}){
+
     return (
     <>
         <Container fluid={true} className={style.segmentContainer}>
@@ -98,7 +99,7 @@ export function SegmentDetails({segment}){
                     <Row className={style.segmentRow}>
                         <Col><FlightInfo operator={segment.operator}/></Col>
                     </Row>
-                    <Row className={style.segmentRow}><Col className={style.segmentNormalText}>No luggage</Col></Row>
+                    <Row className={style.segmentRow}><Col className={style.segmentNormalText}>{/*No luggage*/}</Col></Row>
                 </Col>
             </Row>
         </Container>
@@ -110,7 +111,7 @@ function FlightInfo({operator}){
 return (
         <Container className={style.segmentNormalText}>
             <Row>
-                <div className={style.segmentCarrierLogoContainer}><img src={"/airlines/"+operator.iataCode+".png"} className={style.segmentCarrierLogoImg}/></div>
+                <div className={style.segmentCarrierLogoContainer}><AirlineLogo iatacode={operator.iataCode} airlineName={operator.airline_name} tooltip={operator.airline_name}/></div>
                 <div className={style.segmentFlightInfoContainer}><div>{operator.airline_name}</div> <div>{operator.flightNumber} {operator.flight_info}</div></div>
             </Row>
         </Container>

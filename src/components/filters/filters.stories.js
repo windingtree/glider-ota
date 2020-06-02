@@ -3,26 +3,39 @@ import {
     action
 } from '@storybook/addon-actions';
 
-import {FastCheapFilter, RangeFilter, SelectionFilter} from "./filters"
+import searchResults from "../../data/sample_response_unprocessed2.json"
+import searchResults2 from "../../data/sample_flights.json"
+
+import Filters from "./filters"
+import {ItineraryDurationFilter} from "./itinerary-duration-filter";
+import {AirlinesFilter} from "./airlines-filter";
+import {Button} from "react-bootstrap";
+import {useState} from "@storybook/addons";
 
 export default {
-    title: 'Filters',
+    title: 'Filters/Flights filters',
+    component:Filters
 };
 
-const sample_price_range={
-    highest: 1000,
-    lowest: 0,
-    max: 800,
-    min: 40,
-}
+const results = [searchResults,searchResults2]
 
-const sample_airline_selection=[
-    {key: "KL", display: "KLM", selected: true},
-    {key: "AF", display: "Air France", selected: true},
-    {key: "DL", display: "Delta", selected: true},
-    {key: "VS", display: "Virgin", selected: true},
-]
-export const RangeFilterPrice = () => (<RangeFilter id='price' filterState={sample_price_range} title='Price' unit='EUR' onFilterStateChange={action("onFilterStateChange")}/>);
-export const SelectionFilterAirline = () => (<SelectionFilter id='airline' filterState={sample_airline_selection} title='Airlines' onFilterStateChange={action("onFilterStateChange")}/>);
-export const FastCheapDefault = () => (<FastCheapFilter onToggle={action("onToggle")}/>);
-export const FastCheapFastest = () => (<FastCheapFilter defaultValue='duration' onToggle={action("onToggle")}/>);
+
+export const Default = () => (<Filters searchResults={searchResults} onFiltersChanged={action("onFiltersChanged")} />);
+
+export const UpdateOfSearchResults = () => {
+    const [flights, setFlights] = useState(searchResults);
+    const onNewSearch=(idx)=>{
+        setFlights(results[idx]);
+    }
+
+    return(
+        <div>
+            <Button onClick={()=>onNewSearch(0)}>results#0</Button>
+            <Button onClick={()=>onNewSearch(1)}>results#1</Button>
+            <Filters searchResults={flights}
+                     key={flights.metadata.uuid}
+                     onFiltersChanged={action("onFiltersChanged")}
+                     />
+        </div>
+    );
+}

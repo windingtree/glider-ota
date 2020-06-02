@@ -6,7 +6,7 @@ import {
 import TripDetails, {ItineraryDetails,SegmentDetails,RouteOverview} from "./trip-details"
 
 export default {
-  title: 'Segment, Itinerary and Trip details',
+  title: 'Flights/Segment, Itinerary and Trip details',
 };
 const segment1={
   "operator": {
