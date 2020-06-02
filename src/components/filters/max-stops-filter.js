@@ -7,7 +7,7 @@ export function MaxNumberOfStopsFilter({title = 'Stops',  onFilterSelectionChang
     }
     let initialFilterState=initializeMaxNumberOfStopsFilterState(searchResults);
     return (
-        <SelectionFilter itle={title} filterItems={initialFilterState}  firstItemMutuallyExclusive={true} onFilterStateChanged={onFilterStateChanged}/>
+        <SelectionFilter title={title} filterItems={initialFilterState}  firstItemMutuallyExclusive={true} onFilterStateChanged={onFilterStateChanged}/>
     )
 }
 
