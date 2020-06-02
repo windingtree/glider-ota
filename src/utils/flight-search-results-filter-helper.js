@@ -162,7 +162,6 @@ export class FlightSearchResultsFilterHelper {
             return trips;
         let checkResult = true;
         trips.forEach(tripInfo=>{
-        trips.map(tripInfo=>{
             let itineraries = tripInfo.itineraries;
             if(filterStates[FILTERS.AIRLINES])
                 checkResult = checkResult && (this.checkAirlineFilter(filterStates[FILTERS.AIRLINES], itineraries)===true);
