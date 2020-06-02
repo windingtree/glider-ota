@@ -5,7 +5,7 @@ import {Button, Dropdown, Container, Row, Col, Form, FormCheck} from 'react-boot
 import {InputGroupRadio} from "react-bootstrap/InputGroup";
 import Alert from 'react-bootstrap/Alert';
 
-export default function PassengerSelector({adults, childrn, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false}) {
+export default function PassengerSelector({adults, children, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false, maxPassengers}) {
 
     function handleChange(evt){
         console.log("handleChange",evt.target)
@@ -17,19 +17,22 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
 
     }
     function increase(type) {
-        switch (type) {
-            case 'adults':
-                if (adults < 9) onAdultsChange(adults + 1);
-                break;
-            case 'children':
-                if (childrn < 9) onChildrenChange(childrn + 1);
-                break;
-            case 'infants':
-                if (infants < 9) onInfantsChange(infants + 1);
-                break;
-            default:
-                console.log("Passenger type not implemented");
+        if (!maxPassengers || (getTotal() < maxPassengers)) {
+            switch (type) {
+                case 'adults':
+                    onAdultsChange(adults + 1);
+                    break;
+                case 'children':
+                    onChildrenChange(children + 1);
+                    break;
+                case 'infants':
+                    onInfantsChange(infants + 1);
+                    break;
+                default:
+                    console.log("Passenger type not implemented");
+                }
         }
+        
     }
 
     function decrease(type) {
@@ -38,7 +41,7 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
                 if (adults > 0) onAdultsChange(adults - 1);
                 break;
             case 'children':
-                if (childrn > 0) onChildrenChange(childrn - 1);
+                if (children > 0) onChildrenChange(children - 1);
                 break;
             case 'infants':
                 if (infants > 0) onInfantsChange(infants - 1);
@@ -49,7 +52,7 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
     }
 
     function getTotal() {
-        return adults + childrn + infants;
+        return adults + children + infants;
     }
 
     // Display a warning when attempting to book infant
@@ -66,7 +69,35 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
         );
     };
 
+    // Display a warning when attempting to book children alone
+    const unaccompaniedMinorWarning = () => {
+        return (
+            <Row>
+                <Alert variant='warning' className={style.passengerWarning}>
+                    We are sorry, we do not support unaccompanied minors
+                    bookings! We invite you to make a booking with an adult
+                    or call the airline's service center for this specific service.
+                </Alert>
+            </Row>
+        );
+    };
+
+    // Display a warning if two many passengers are selected
+    const maxPassengersWarning = () => {
+        return (
+            <Row>
+                <Alert variant='warning' className={style.passengerWarning}>
+                    You have reached the maximum number of {maxPassengers} passengers for this booking!
+                    If you want to book for more passengers, please create separate bookings.
+                </Alert>
+            </Row>
+        );
+    }
+
     const total = getTotal();
+    const maxPassengerReached = maxPassengers && (total >= maxPassengers);
+    const hasOnlyMinors = (children > 0) && (adults === 0);
+
     return (
         <>
             <Dropdown bsPrefix={style.paxSelector}>
@@ -101,7 +132,7 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
                             </Col>
                             <Col xs={6} className={style.paxSelectorButtons}>
                                 <Button onClick={() => decrease('children')} variant=' pax-btn-circle pax-btn-decrease' size='sm'>—</Button>
-                                <span className={style.paxSelectorPaxCount}>{childrn}</span>
+                                <span className={style.paxSelectorPaxCount}>{children}</span>
                                 <Button onClick={() => increase('children')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
                             </Col>
                         </Row>
@@ -122,7 +153,9 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
                             </Col>
                         </Row>
                         { infants > 0 && infantWarning()}
-                        {showCabin && (
+                        { maxPassengerReached && maxPassengersWarning() }
+                        { hasOnlyMinors && unaccompaniedMinorWarning() }
+                        { showCabin && (
                         <Row >
                             <Col className={style.divider}>
                                 <div className={style.radioLabel}>

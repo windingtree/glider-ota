@@ -77,7 +77,6 @@ export default function FlightsSearchPage({match,location}) {
         key=searchResults.metadata.uuid;
     console.debug("Render flight results")
 
-
     return (
 
         <div>
@@ -101,6 +100,7 @@ export default function FlightsSearchPage({match,location}) {
                                 initOrigin={initialParameters.origin}
                                 initDepartureDate={initialParameters.departureDate}
                                 initReturnDate={initialParameters.returnDate}
+                                maxPassengers={9}
                             />
                             <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
                             {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
