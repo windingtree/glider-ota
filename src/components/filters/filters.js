@@ -37,13 +37,4 @@ export default function Filters({searchResults, onFiltersChanged}) {
 }
 
 
-function convertFilterItemsToMap(filterState){
-    if(!filterState)
-        return {};
-    let result = {};
-    filterState.map(item=>{
-        result[item.key] = item.selected;
-    });
-}
-
 

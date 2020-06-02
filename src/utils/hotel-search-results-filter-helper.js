@@ -8,10 +8,10 @@ export class HotelSearchResultsFilterHelper {
     /**
      * Generate a list of offers (search results).
      * Each item in the list contains metadata (e.g. price per night, amenities, rating) so that it can be used later to narrow down/filter search results.
-     * @param sortBy
+     * @param filters Object containing filters selection
      * @returns {[]}
      */
-    generateSearchResults(sortBy = 'PRICE', predicates = []) {
+    generateSearchResults(filters={}) {
         console.log("generateSearchResults")
         let result = [];
         let hotels = this.searchResultsWrapper.getAllAccommodations();
@@ -28,7 +28,6 @@ export class HotelSearchResultsFilterHelper {
                 hotel: hotel
             });
         })
-
         return result;
     }
 

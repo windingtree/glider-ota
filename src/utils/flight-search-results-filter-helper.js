@@ -20,10 +20,10 @@ export class FlightSearchResultsFilterHelper {
     /**
      * Generate a list of offers (search results).
      * Each item in the list contains metadata (e.g. trip duration, operating carriers, baggage allowance) so that it can be used later to narrow down/filter search results.
-     * @param sortBy
+     * @param sortBy (PRICE or DURATION)
+     * @param filters Object containing filters selection
      * @returns {[]}
      */
-    // generateSearchResults(sortBy = 'PRICE', predicates={}){
     generateSearchResults(sortBy = 'PRICE', filters={}){
         let trips={};
         //extract all available offers from search results

@@ -11,6 +11,7 @@ import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
 import HotelsSearchResults from "../components/hotelresults/hotels-search-results";
+import HotelFilters from "../components/filters/hotel-filters";
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -23,7 +24,7 @@ export default function HotelsSearchPage({match,location}) {
     let history = useHistory();
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
-    const [filtersStates, setFiltersStates] = useState();
+    const [filters, setFilters] = useState({});
 
     const onSearchButtonClick = (criteria) => {
         onSearchStart();
@@ -36,10 +37,12 @@ export default function HotelsSearchPage({match,location}) {
                 onSearchFailure(err)})
     };
     const onSearchSuccess = (results) => {
+        setFilters({});
         setSearchResults(results);
         setSearchState(SEARCH_STATE.FINISHED);
     }
     const onSearchFailure = (err) => {
+        setFilters({});
         setSearchResults(undefined);
         setSearchState(SEARCH_STATE.FAILED);
     }
@@ -69,35 +72,32 @@ export default function HotelsSearchPage({match,location}) {
 
     return (
         <div>
-            <div>
-                <Header type='violet'/>
-                {/*<div className='d-flex flex-column container-fluid justify-content-center'>*/}
-                <Container fluid={true} className='flight-results-outer-boundary'>
-                    <Row>
-                        <Col xs={0} lg={2} className="filters-wrapper">
-                            <Filters searchResults={searchResults}  onFilterApply={setFiltersStates}/>
-                        </Col>
-                        <Col >
-                            <SearchForm
-                                onSearchButtonClick={onSearchButtonClick}
-                                enableOrigin={false}
-                                locationsSource={LOCATION_SOURCE.CITIES}
-                                oneWayAllowed={false}
-                                initAdults={initialParameters.adults}
-                                initChildren={initialParameters.children}
-                                initInfants={initialParameters.infants}
-                                initiDest={initialParameters.destination}
-                                initOrigin={initialParameters.origin}
-                                initDepartureDate={initialParameters.departureDate}
-                                initReturnDate={initialParameters.returnDate}
-                            />
-                            <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
-                            {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
-                            {searchResults != undefined &&
-                            <HotelsSearchResults onHotelSelected={onHotelSelected} searchResults={searchResults}/>}
-                        </Col>
-                    </Row>
-                </Container>
+            <Header violet={true}/>
+            <div className='root-container-subpages'>
+                <div className='d-flex flex-row '>
+                    <div className="filters-wrapper">
+                            <HotelFilters searchResults={searchResults} onFiltersChanged={setFilters}/>
+                    </div>
+                    <div >
+                        <SearchForm
+                            onSearchButtonClick={onSearchButtonClick}
+                            enableOrigin={false}
+                            locationsSource={LOCATION_SOURCE.CITIES}
+                            oneWayAllowed={false}
+                            initAdults={initialParameters.adults}
+                            initChildren={initialParameters.children}
+                            initInfants={initialParameters.infants}
+                            initiDest={initialParameters.destination}
+                            initOrigin={initialParameters.origin}
+                            initDepartureDate={initialParameters.departureDate}
+                            initReturnDate={initialParameters.returnDate}
+                        />
+                        <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
+                        {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
+                        {searchResults != undefined &&
+                        <HotelsSearchResults onHotelSelected={onHotelSelected} searchResults={searchResults}/>}
+                    </div>
+                </div>
             </div>
         </div>
     )
