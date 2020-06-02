@@ -2,11 +2,12 @@ import React from 'react';
 import {
     action
 } from '@storybook/addon-actions';
-import sample from "../../data/sample_response_hotels.json"
+import sample from "../../data/sample_response_hotels_simulator.json"
 import HotelDetails,{HotelPriceSummary,HotelLeadingImage} from './hotel-details'
+import {HotelSearchResultsFilterHelper} from "../../utils/hotel-search-results-filter-helper";
 
-let hotel = sample.accommodations["erevmax.07119"]
-
+const searchHelper = new HotelSearchResultsFilterHelper(sample);
+let hotel = searchHelper.generateSearchResults()[0].hotel;
 
 export default {
     title: 'Hotels/HotelDetailsPage details',

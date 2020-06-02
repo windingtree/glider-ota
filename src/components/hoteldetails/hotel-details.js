@@ -22,7 +22,6 @@ export default class HotelDetails extends React.Component {
 
     handleContactDetailsChange(contactDetails, allPassengersDetailsAreValid){
         this.setState({ contact_details:contactDetails})
-        console.log("Contact details",contactDetails, "allPassengersDetailsAreValid:",allPassengersDetailsAreValid)
     }
 
     handleSelectedOfferChange(newOffer){
@@ -48,7 +47,6 @@ export default class HotelDetails extends React.Component {
         const rooms = hotel.roomTypes;
         const hotelPricePlansWithOffers = this.getHotelPricePlansWithOffers(hotel,offers,pricePlans);
         const passengers = searchResults.passengers;
-
         const payButtonClick= () =>{
 
         }
@@ -117,8 +115,9 @@ export default class HotelDetails extends React.Component {
         let hotelOffers = [];
         let roomTypes = hotel.roomTypes;
         let accommodationId = hotel.accommodationId;
-
+        console.log("hotel",hotel)
         _.map(offers,(offer,offerId)=>{
+            console.log("OfferID",offerId," = ",offer)
             _.map(offer.pricePlansReferences,(ppRef,ppRefId)=>{
                 if(ppRef.accommodation === accommodationId){
                     hotelOffers.push({

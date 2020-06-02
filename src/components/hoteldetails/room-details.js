@@ -28,7 +28,7 @@ export default function Room({room, roomPricePlansWithOffers, onOfferSelected}) 
                             let key = plan.offerId + room.roomTypeId + plan.pricePlanReference;
                             return (
                                 <RoomPricePlan key={key}
-                                           offer={plan} room={room}
+                                           offer={plan} room={room} pricePlan={plan.pricePlan}
                                            onOfferSelected={onOfferSelected} />
                             )
                         })
@@ -48,7 +48,6 @@ export function RoomPricePlan({offer, onOfferSelected, pricePlan, room}) {
     // let room = offer.room;
     // let pricePlan = offer.pricePlan;
     let price = offer.price;
-
 
     return (<div className='d-flex flex-row flex-wrap border-bottom border-dark pb-3 mb-3'>
         <div className='glider-font-text18medium-fg d-flex flex-column flex-fill'>
@@ -73,7 +72,6 @@ export function RoomAmenities({title = "More amenities", amenities, expanded = f
     function onClick(e){
         e.preventDefault();
         setExpandedState(!expandedState);
-        console.log("Set ",expandedState)
     }
 
     return (<>
