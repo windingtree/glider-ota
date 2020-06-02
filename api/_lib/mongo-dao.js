@@ -2,6 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const {MONGO_CONFIG} = require('../../config');
 const {createLogger} = require('./logger');
 const logger = createLogger('dao');
+const url = require('url');
 
 const ORDER_STATUSES={
     NEW:'NEW',
@@ -14,41 +15,47 @@ const PAYMENT_STATUSES={
     FAILED:'FAILED'
 }
 
+// Create cached connection variable
+let _db;
 
-let db=undefined;
+// Get the connection
+function getConnection() {
+    return new Promise(function(resolve, reject) {
+        // Get the cached connection if exists
+        if (_db) {
+            resolve(_db);
+        }
 
-function getConn(){
-    if (!db){
-        logger.debug("DB Conn not initialized yet - initialize now");
-        db=connect();
-        return db;
-    }else{
-        return Promise.resolve(db);
-    }
+        // Create a new connection
+        else {
+            MongoClient.connect(MONGO_CONFIG.URL, {useUnifiedTopology:true})
+            .then(client => {
+                // Register callback to close MongoDB
+                process.on('exit', function () {
+                    logger.info("Shutting down mongoDb connections gracefully");
+                    client && client.close();
+                });
+
+                // Update cached connection and resolve
+                // Get the database name from setting, or URI otherwise 
+                _db=client.db(MONGO_CONFIG.DBNAME || url.parse(MONGO_CONFIG.URL).pathname.substr(1));
+
+                _db.on('close', ()=>{
+                    logger.info("onclose event received");
+                    _db = undefined;
+                });
+
+                resolve(_db);
+            })
+            .catch(error => {
+                logger.error(`Error while connecting to mongoDb: ${JSON.stringify(error)}`);
+                reject(error);
+            });
+        }
+
+    });
 }
 
-/**
- * Boilerplate code to help to connect to mongoDb instance and database configured in MONGO_CONFIG
- * @returns {Promise<Db>}
- */
-function connect(){
-    return MongoClient.connect(MONGO_CONFIG.URL,{useUnifiedTopology:true})
-        .then(client=>{
-            logger.debug("Connected to mongo - selecting db:%s",MONGO_CONFIG.DBNAME);
-            db=client.db(MONGO_CONFIG.DBNAME);
-            db.on('close', ()=>{
-                logger.info("onclose event received")
-            });
-
-            process.on('exit', function () {
-                logger.info("Shutting down mongoDb connections gracefully");
-                client.close();
-            });
-            return db;
-        }).catch(err=>{
-            logger.error("Error while connecting to mongoDb")
-        })
-}
 
 /**
  * Helper function to insert one document to mongoDb collection
@@ -56,11 +63,17 @@ function connect(){
  * @param doc - document to be inserted
  * @returns {Promise<Promise>}
  */
-async function insert(collection, doc){
-    return getConn().then(db=>{
-        // logger.debug("InsertOne to collection:%s, Document:",collection, doc)
-        return db.collection(collection).insertOne(doc);
-    })
+function insert(collection, doc) {
+    return new Promise(function(resolve, reject) {
+        getConnection()
+        .then(db => {
+            // logger.debug("InsertOne to collection:%s, Document:",collection, doc)
+            db.collection(collection).insertOne(doc)
+            .then(resolve)
+            .catch(reject);
+        })
+        .catch(reject);
+    });
 }
 
 /**
@@ -70,9 +83,15 @@ async function insert(collection, doc){
  * @returns {Promise<Db>}
  */
 function findOne(collection, criteria){
-    return getConn().then(db=>{
-        return db.collection(collection).findOne(criteria);
-    })
+    return new Promise(function(resolve, reject) {
+        getConnection()
+        .then(db => {
+            db.collection(collection).findOne(criteria)
+            .then(resolve)
+            .catch(reject);
+        })
+        .catch(reject);
+    });
 }
 
 /**
@@ -82,11 +101,16 @@ function findOne(collection, criteria){
  * @param doc - updates
  * @returns {Promise<Promise>}
  */
-function updateOne(collection, criteria, doc){
-    return getConn().then(db=>{
-        // logger.debug("updateOne to collection:%s, Document:",collection, doc)
-        return db.collection(collection).updateOne(criteria,doc);
-    })
+function updateOne(collection, criteria, doc) {
+    return new Promise(function(resolve, reject) {
+        getConnection()
+        .then(db => {
+            db.collection(collection).updateOne(criteria,doc)
+            .then(resolve)
+            .catch(reject);
+        })
+        .catch(reject);
+    });
 }
 
 
@@ -97,11 +121,10 @@ function updateOne(collection, criteria, doc){
  * @returns {Promise<*>}
  */
 
-async function storeConfirmedOffer(offer, passengers){
+function storeConfirmedOffer(offer, passengers){
     let object={
         offerId:offer.offerId,
         confirmedOffer:offer,
-        // offerItems:offerItems,
         passengers:passengers,
         order_status:ORDER_STATUSES.NEW,
         payment_status:PAYMENT_STATUSES.NOT_PAID,
@@ -118,11 +141,9 @@ async function storeConfirmedOffer(offer, passengers){
  * @param offerId
  * @returns {Promise<*>}
  */
-async function findConfirmedOffer(offerId){
-    let rec = await findOne('orders',{"offerId":offerId});
-    return rec;
+function findConfirmedOffer(offerId){
+    return findOne('orders',{offerId: offerId});
 }
-
 
 function createTransactionEntry(comment, details){
     return {
@@ -144,7 +165,6 @@ function createTransactionEntry(comment, details){
  * @returns {Promise<*>}
  */
 function updateOrderStatus(offerId, order_status, comment, transactionDetails){
-
     let updates = {
         $set: {
             order_status:order_status
@@ -152,14 +172,16 @@ function updateOrderStatus(offerId, order_status, comment, transactionDetails){
         $currentDate: {
             lastModifyDateTime: { $type: "timestamp" }
         },
-        $push: { transactions: createTransactionEntry(comment,transactionDetails) }
+        $push: { transactions: createTransactionEntry(comment, transactionDetails) }
     }
     //if it's a fulfillment, we need to store also travel documents (PNR, etc...)
-    if(order_status == ORDER_STATUSES.FULFILLED){
-        updates['$set']['confirmation']=transactionDetails;
+    if(order_status === ORDER_STATUSES.FULFILLED){
+        updates['$set']['confirmation'] = transactionDetails;
     }
-    logger.info("Updating order status, offerId:%s, payment_status:%s",offerId,order_status)
-    return updateOne('orders',{offerId:offerId},updates);
+    logger.info("Updating order status, offerId:%s, order_status:%s",offerId,order_status);
+
+    return updateOne('orders',{offerId:offerId}, updates);
+
 }
 
 /**
@@ -181,10 +203,9 @@ function updatePaymentStatus(offerId, payment_status, comment, transactionDetail
         },
         $push: { transactions: createTransactionEntry(comment,transactionDetails) }
     }
-    logger.info("Updating payment status, offerId:%s, payment_status:%s",offerId,payment_status)
-    return updateOne('orders',{offerId:offerId},updates);
+    logger.info("Updating payment status, offerId:%s, payment_status:%s", offerId, payment_status)
+    return updateOne('orders',{offerId:offerId}, updates);
 }
-
 
 
 /**
@@ -208,12 +229,19 @@ function upsertOfferPassengers(offerId, passengers){
     }
     //if it's a fulfillment, we need to store also travel documents (PNR, etc...)
 
-    return updateOne('orders',{offerId:offerId},updates);
+    return updateOne('orders',{offerId:offerId}, updates);
 }
 
 module.exports = {
-    updateOrderStatus,updatePaymentStatus,ORDER_STATUSES,PAYMENT_STATUSES,
-    insert,findOne,storeConfirmedOffer,findConfirmedOffer,upsertOfferPassengers
+    updateOrderStatus,
+    updatePaymentStatus,
+    ORDER_STATUSES,
+    PAYMENT_STATUSES,
+    insert,
+    findOne,
+    storeConfirmedOffer,
+    findConfirmedOffer,
+    upsertOfferPassengers,
 }
 
 

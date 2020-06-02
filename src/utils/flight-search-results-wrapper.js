@@ -21,7 +21,7 @@ export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
      */
     getAllItineraries(){
         let itins={};
-        Object.keys(this.itineraries.combinations).map(itinId=>{
+        Object.keys(this.itineraries.combinations).forEach(itinId=>{
             itins[itinId] = this.getItinerary(itinId);
         });
         return itins;
@@ -66,12 +66,10 @@ export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
         let segmentIds = this.itineraries.combinations[itinId];
         let segments=[];
         try {
-
-
             segmentIds.forEach(segmentId => {
                 segments.push(this.getSegment(segmentId));
             })
-        }catch(err){
+        } catch(err){
             console.error("Error:, itinID", itinId, "segmentIds:",segmentIds)
 
         }
@@ -105,11 +103,11 @@ export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
         let offer = this.getOffer(offerId);
         let pricePlansReferences = offer.pricePlansReferences;
         let offerItinIds = [];
-        Object.keys(pricePlansReferences).map(pricePlanId=> {
+        Object.keys(pricePlansReferences).forEach(pricePlanId=> {
             let pricePlan = pricePlansReferences[pricePlanId];
             let flights = pricePlan.flights;
             offerItinIds=[...offerItinIds,...flights];
-        })
+        });
         return offerItinIds;
     }
 
@@ -124,7 +122,7 @@ export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
 
         let offers = this.offers;
         let matchingOffers = [];
-        Object.keys(offers).map(candidateOfferId=>{
+        Object.keys(offers).forEach(candidateOfferId=>{
             let offerItineraryIDs = this._getOfferItinerariesIds(candidateOfferId);
             offerItineraryIDs.sort();
             if(JSON.stringify(itinerariesIds) === JSON.stringify(offerItineraryIDs))
@@ -163,18 +161,18 @@ export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
                 offerId:offer.offerId,
                 itinToPlanMap:{},
                 planToItinMap:{}
-            }
-            Object.keys(offer.pricePlansReferences).map(pricePlanId=>{
+            };
+            Object.keys(offer.pricePlansReferences).forEach(pricePlanId=>{
                 results.pricePlans[pricePlanId] = this.getPricePlan(pricePlanId);
 
                 let pricePlan=offer.pricePlansReferences[pricePlanId];
                 pricePlan.flights.forEach(itinId=>{
                     offerDetails.itinToPlanMap[itinId]=pricePlanId;
                     offerDetails.planToItinMap[pricePlanId]=itinId;
-                })
+                });
             });
             results.offers[offer.offerId]=offerDetails;
-        })
+        });
         return results;
     }
 

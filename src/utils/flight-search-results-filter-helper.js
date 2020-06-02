@@ -41,7 +41,7 @@ export class FlightSearchResultsFilterHelper {
             let offer = this.searchResultsWrapper.getOffer(offerId);
             let offerItineraries = this.searchResultsWrapper.getOfferItineraries(offerId);
             //ensure filter metadata (e.g. itinerary duration, operating carriers, etc...) is calculated for each itin
-            offerItineraries.map(itinerary=>{
+            offerItineraries.forEach(itinerary=>{
                 if(!itinerary.filter_metadata)
                     this.decorateItineraryWithFilterMetadata(itinerary)
             });
@@ -136,10 +136,11 @@ export class FlightSearchResultsFilterHelper {
 
     applyOfferFilters(offers, filters) {
         let result={};
+
         if(!filters)
             return offers;
 
-        Object.keys(offers).map(offerId=>{
+        Object.keys(offers).forEach(offerId=>{
             let offer=offers[offerId];
             let checkResult = true;
             if(filters[FILTERS.BAGGAGE])
@@ -148,7 +149,7 @@ export class FlightSearchResultsFilterHelper {
                 checkResult = checkResult && (this.checkPriceFilter(filters[FILTERS.PRICE],offer) === true);
             if(checkResult===true)
                 result[offerId]=(offer);
-        })
+        });
         return result;
     }
 
@@ -160,6 +161,7 @@ export class FlightSearchResultsFilterHelper {
         if(!filterStates)
             return trips;
         let checkResult = true;
+        trips.forEach(tripInfo=>{
         trips.map(tripInfo=>{
             let itineraries = tripInfo.itineraries;
             if(filterStates[FILTERS.AIRLINES])
@@ -171,7 +173,7 @@ export class FlightSearchResultsFilterHelper {
 
             if(checkResult)
                 result.push(tripInfo);
-        })
+        });
         return result;
     }
 
@@ -180,13 +182,13 @@ export class FlightSearchResultsFilterHelper {
         let result = true;
         if (filter['ALL'] && filter['ALL'] === true)
             return true;
-        itineraries.map(itinerary => {
-            itinerary.segments.map(segment => {
+        itineraries.forEach(itinerary=>{
+            itinerary.segments.forEach(segment=>{
                 let carrierCode = segment.operator.iataCode;
                 if (!filter[carrierCode] || filter[carrierCode] === false)
                     result = false;
-            })
-        })
+            });
+        });
         return result;
     }
 
@@ -222,11 +224,11 @@ export class FlightSearchResultsFilterHelper {
         let result = true;
         if (filterState['ALL'] && filterState['ALL'] === true)
             return true;
-        itineraries.map(itinerary => {
+        itineraries.forEach(itinerary=>{
             let stops = itinerary.segments.length - 1;
             if (!filterState[stops] || filterState[stops] === false)
                 result = false;
-        })
+        });
         return result;
     }
 
