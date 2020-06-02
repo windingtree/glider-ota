@@ -3,6 +3,7 @@ import style from './passenger-selector.module.scss'
 
 import {Button, Dropdown, Container, Row, Col, Form, FormCheck} from 'react-bootstrap'
 import {InputGroupRadio} from "react-bootstrap/InputGroup";
+import Alert from 'react-bootstrap/Alert';
 
 export default function PassengerSelector({adults, childrn, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false}) {
 
@@ -26,6 +27,8 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
             case 'infants':
                 if (infants < 9) onInfantsChange(infants + 1);
                 break;
+            default:
+                console.log("Passenger type not implemented");
         }
     }
 
@@ -40,12 +43,28 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
             case 'infants':
                 if (infants > 0) onInfantsChange(infants - 1);
                 break;
+            default:
+                console.log("Passenger type not implemented");
         }
     }
 
     function getTotal() {
-        return adults + childrn;
+        return adults + childrn + infants;
     }
+
+    // Display a warning when attempting to book infant
+    // As Air Canada does not support it yet
+    const infantWarning = () => {
+        return (
+            <Row>
+                <Alert variant='warning' className={style.passengerWarning}>
+                    We are sorry, we do not support bookings with infants right now!
+                    We invite you to make a booking without infants and then
+                    call the Air Canada service center to add the infant ticket.
+                </Alert>
+            </Row>
+        );
+    };
 
     const total = getTotal();
     return (
@@ -94,6 +113,7 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
                                 <div className={style.paxSelectorSubtitle}>
                                     Under 2, lap infant
                                 </div>
+                                
                             </Col>
                             <Col xs={6} className={style.paxSelectorButtons}>
                                 <Button onClick={() => decrease('infants')} variant=' pax-btn-circle pax-btn-decrease' size='sm'>—</Button>
@@ -101,7 +121,8 @@ export default function PassengerSelector({adults, childrn, infants, onAdultsCha
                                 <Button onClick={() => increase('infants')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
                             </Col>
                         </Row>
-                        {showCabin == true && (
+                        { infants > 0 && infantWarning()}
+                        {showCabin && (
                         <Row >
                             <Col className={style.divider}>
                                 <div className={style.radioLabel}>
