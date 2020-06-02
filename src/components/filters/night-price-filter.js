@@ -20,6 +20,7 @@ function initializePriceFilterState(searchResults, numberOfNights) {
     let minPrice = Number.MAX_SAFE_INTEGER;
     let maxPrice = 0;
     let currencyCode; //FIXME: naive detection of currency code based on first offer currency
+
     if (!searchResults || !searchResults.offers)
         return filterState;
     let offers = searchResults.offers;
@@ -39,6 +40,7 @@ function initializePriceFilterState(searchResults, numberOfNights) {
     })
     filterState.min = filterState.lowest = Math.round(minPrice/numberOfNights);
     filterState.max = filterState.highest = Math.round(maxPrice/numberOfNights);
+
     return filterState;
 
 }

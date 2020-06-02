@@ -1,16 +1,8 @@
 import OfferUtils from "./offer-utils";
 import {FlightSearchResultsWrapper} from "./flight-search-results-wrapper";
-// import {FILTERS} from "../components/filters/filters";
+import {FILTERS} from "../components/filters/filters-utils";
 
 
-export const FILTERS={
-    MAXSTOPS:'maxstops',
-    PRICE:'price',
-    ITINERARYDURATION:'itinduration',
-    LAYOVERDURATION:'layoverduration',
-    BAGGAGE:'baggage',
-    AIRLINES:'airlines'
-}
 
 export class FlightSearchResultsFilterHelper {
     constructor(searchResults){

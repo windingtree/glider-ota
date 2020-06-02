@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
-import style from "./filters.module.scss"
+import style from "./hotel-filters.module.scss"
 import "react-input-range/lib/css/index.css";
 
-import {MaxNumberOfStopsFilter} from "./max-stops-filter";
-import {PriceFilter} from "./price-filter";
-import {BaggageFilter} from "./baggage-filter";
-import {AirlinesFilter} from "./airlines-filter";
 import {FILTERS} from "./filters-utils";
 import {HotelRatingFilter} from "./hotel-rating-filter";
 import {NightPriceFilter} from "./night-price-filter";

@@ -68,6 +68,10 @@ export default function HotelsSearchPage({match,location}) {
         let url = createOfferURL(hotel.accommodationId);
         history.push(url);
     };
+    let key = '';
+    if(searchResults && searchResults.metadata && searchResults.metadata.uuid)
+        key=searchResults.metadata.uuid;
+    console.debug("Render hotel results")
 
 
     return (
@@ -76,7 +80,7 @@ export default function HotelsSearchPage({match,location}) {
             <div className='root-container-subpages'>
                 <div className='d-flex flex-row '>
                     <div className="filters-wrapper">
-                            <HotelFilters searchResults={searchResults} onFiltersChanged={setFilters}/>
+                            <HotelFilters key={key} searchResults={searchResults} onFiltersChanged={setFilters}/>
                     </div>
                     <div >
                         <SearchForm
@@ -95,7 +99,7 @@ export default function HotelsSearchPage({match,location}) {
                         <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
                         {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
                         {searchResults != undefined &&
-                        <HotelsSearchResults onHotelSelected={onHotelSelected} searchResults={searchResults}/>}
+                        <HotelsSearchResults onHotelSelected={onHotelSelected} searchResults={searchResults} filters={filters}/>}
                     </div>
                 </div>
             </div>
