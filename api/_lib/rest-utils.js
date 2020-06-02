@@ -49,23 +49,25 @@ function sendErrorResponse(response, http_status, error_code , error_description
  * @param request
  * @returns {Promise<unknown>}
  */
-async function getRawBodyFromRequest(request) {
-    let bodyChunks = [];
-    let p = new Promise(function (resolve, reject) {
+function getRawBodyFromRequest(request) {
+    return new Promise(function (resolve, reject) {
+        let bodyChunks = [];
+
         request.on('data', (chunk) => {
             bodyChunks.push(chunk);
         });
+
         request.on('end', () => {
             const rawBody = Buffer.concat(bodyChunks).toString('utf8');
             resolve(rawBody)
             // console.log("Raw body:",rawBody)
         })
+
         request.on('error', (error) => {
-            logger.error("Problem extracting raw body from request, error:%d", error.message)
+            //logger.error("Problem extracting raw body from request, error:%d", error.message)
             reject(error)
         })
-    })
-    return p
+    });
 }
 
 
