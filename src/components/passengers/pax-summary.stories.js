@@ -7,7 +7,7 @@ import PaxSummary,{SinglePaxSummary} from "./pax-summary";
 
 export default {
     component: SinglePaxSummary,
-    title: 'Passenger summary',
+    title: 'Passenger/Passenger summary',
 };
 
 const adult_male = {

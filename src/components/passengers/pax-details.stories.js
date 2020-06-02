@@ -7,7 +7,7 @@ import PaxDetails from "./pax-details";
 
 export default {
     component: PaxDetails,
-    title: 'PaxDetails',
+    title: 'Passenger/Passenger Details',
 };
 
 const no_initial_details = [{

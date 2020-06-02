@@ -103,6 +103,11 @@ export default function FlightSeatmapPage({match}) {
         }
     };
 
+    // Handle click on the Skip button
+    const handleSkip = () => {
+        handleNext(seatOptions);
+    }
+
     // Handle a click on continue in the seatmap
     const handleContinue = (selectedSeats) => {
         const activeSegmentKey = Object.keys(indexedSeatmap)[activeSegmentIndex];
@@ -129,8 +134,8 @@ export default function FlightSeatmapPage({match}) {
     // Get the details of a segment
     const getSeatMapSegment = (segmentKey) => {
         // Get the list of flights from the offer
-        const flightKeys = Object.keys(offer.pricePlansReferences).reduce((f, pricePlan) => {
-            return f.concat(offer.pricePlansReferences[pricePlan].flights);
+        const flightKeys = Object.keys(offer.pricePlansReferences).reduce((f, pricePlanKey) => {
+            return f.concat(offer.pricePlansReferences[pricePlanKey].flights);
         }, []);
         const flights = flightKeys.map(flightKey => retrieveFlightFromLocalStorage(flightKey));
         
@@ -206,7 +211,7 @@ export default function FlightSeatmapPage({match}) {
                     initialPrice={totalPrice}
                     currency={offer.price.currency}
                     handleSeatMapContinue={handleContinue}
-                    handleSeatMapSkip={handleNext}
+                    handleSeatMapSkip={handleSkip}
                 />
             );
         }

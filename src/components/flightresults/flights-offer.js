@@ -83,19 +83,30 @@ function ItineraryOperatingAirlines({operators}) {
         <span className={style.offerhighlightlogosandancillaries}>
         {
             _.map(operators, (operator, id) => {
-                let imgPath = "/airlines/" + id + ".png";
-                return (<img key={id} src={imgPath} alt={id} className={style.itinCarrierLogo}/>)
+                return (<AirlineLogo key={id} airlineName={operator.airline_name} iatacode={operator.iataCode} tooltip={operator.airline_name}/>)
             })
         }
         </span>
     )
 }
 
+export function AirlineLogo({iatacode,tooltip, airlineName}){
+    const [img,setImg] = useState(iatacode);
+    const MISSING_LOGO='missing';
+    let imgPath = "/airlines/" + img + ".png";
+    return (
+        (<img key={iatacode} src={imgPath} title={tooltip} className={style.itinCarrierLogo} onError={() => setImg(MISSING_LOGO)}/>)
+    )
+}
+
 function ItineraryAncillaries({pricePlan}) {
+    let fba=0;
+    if(pricePlan && pricePlan.checkedBaggages && pricePlan.checkedBaggages.quantity)
+        fba=parseInt(pricePlan.checkedBaggages.quantity)
     return (
         <span>
-                    {pricePlan.checkedBaggages.quantity === 0 && <img src="/ancillaries/luggage_notallowed.png"/>}
-            {pricePlan.checkedBaggages.quantity > 0 && <img src="/ancillaries/luggage_allowed.png"/>}
+            {fba === 0 && <img src="/ancillaries/luggage_notallowed.png"/>}
+            {fba > 0 && <img src="/ancillaries/luggage_allowed.png"/>}
         </span>
     )
 }

@@ -7,7 +7,7 @@ import {Offer,Itinerary} from "./flights-offer"
 
 
 export default {
-  title: 'Flight search results - single offer',
+  title: 'Flights/search results/single offer',
   component: Offer,
 };
 
@@ -17,7 +17,8 @@ const itinerary1 = {
     {
       "operator": {
         "operatorType": "airline",
-        "iataCode": "AF"
+        "iataCode": "AF",
+        "airline_name": "Air France"
       },
       "origin": {
         "locationType": "airport",
@@ -33,7 +34,8 @@ const itinerary1 = {
     {
       "operator": {
         "operatorType": "airline",
-        "iataCode": "AF"
+        "iataCode": "AF",
+        "airline_name": "Air France"
       },
       "origin": {
         "locationType": "airport",
@@ -55,7 +57,8 @@ const itinerary2 = {
     {
       "operator": {
         "operatorType": "airline",
-        "iataCode": "AF"
+        "iataCode": "AF",
+        "airline_name": "Air France"
       },
       "origin": {
         "locationType": "airport",
@@ -71,11 +74,12 @@ const itinerary2 = {
     {
       "operator": {
         "operatorType": "airline",
-        "iataCode": "KL"
+        "iataCode": "KL",
+        "airline_name": "Air France KLM"
       },
       "origin": {
         "locationType": "airport",
-        "iataCode": "CDG"
+        "iataCode": "CDG",
       },
       "departureTime": "2020-07-22T06:40:00.000Z",
       "destination": {
@@ -87,7 +91,8 @@ const itinerary2 = {
     {
       "operator": {
         "operatorType": "airline",
-        "iataCode": "DL"
+        "iataCode": "XX",
+        "airline_name": "Some missing airline"
       },
       "origin": {
         "locationType": "airport",

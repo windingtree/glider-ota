@@ -946,7 +946,14 @@ describe('FareFamilyHelper', function () {
                 'QM2CAQP4ZM-BusinessClassflexible':
                     { offerId:
                             '26192dd9-1357-4363-aea1-281646f2507c,1d7f36b5-f9cd-4d13-bf61-d9fe6cb23d00',
-                        priceOffset: { public: 3444.0000000000005, currency: 'CAD' } } }
+                        priceOffset: { public: 3444.0000000000005, currency: 'CAD' } },
+                "YTIRCE3JL9-BusinessClasslowest": {
+                    "offerId": "26192dd9-1357-4363-aea1-281646f2507c,4e52ba1d-d4d2-4dde-b3cb-56a9952f0489",
+                    "priceOffset": {
+                        "currency": "CAD",
+                        "public": 0
+                    }
+                }}
             assert.deepEqual(itinPricePlanOffsetPrices,expected)
         })
 

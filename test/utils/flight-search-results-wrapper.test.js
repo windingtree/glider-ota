@@ -15,7 +15,7 @@ const sampleOfferIdAF_0012 = "c74624e5-83a3-44f9-8624-e583a3b40012";
 
 describe('#extendResponse()', function () {
     it('should return merge out/ret offers and save a file', function () {
-        let filename = "yul_yyz_rt";
+        let filename = "dupa.json";
         const unmergedJSON = require("../test_data/" + filename)
         let sizeBefore = JSON.stringify(unmergedJSON).length;
         let start = Date.now();

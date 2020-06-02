@@ -7,7 +7,7 @@ import SinglePaxDetails from "./single-pax-details"
 
 export default {
     component: SinglePaxDetails,
-    title: 'SinglePaxDetails',
+    title: 'Passenger/SinglePaxDetails',
 };
 
 const bareMinimum={
