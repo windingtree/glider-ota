@@ -38,6 +38,7 @@ export class FlightSearchResultsFilterHelper {
         // calculate basic metadata (e.g. trip duration, number of stops, operating carriers)
         // and later on apply "flight level" criteria (e.g. min & max flight duration or allowed operating carriers)
         Object.keys(offers).forEach(offerId=>{
+
             let offer = this.searchResultsWrapper.getOffer(offerId);
             let offerItineraries = this.searchResultsWrapper.getOfferItineraries(offerId);
             //ensure filter metadata (e.g. itinerary duration, operating carriers, etc...) is calculated for each itin
@@ -59,12 +60,13 @@ export class FlightSearchResultsFilterHelper {
                 trips[tripID]=tripInfo;
             }
             let prevOffer = tripInfo.bestoffer;
-            if (prevOffer === undefined || price.public < prevOffer.price.public) {
+            if (prevOffer === undefined || parseInt(price.public) < parseInt(prevOffer.price.public)) {
                 //in case it's cheaper - store it (entire offer)
                 tripInfo.bestoffer = offer;
                 tripInfo.itineraries = offerItineraries;
                 tripInfo.trip_duration=this.calculateTripDuration(offerItineraries);
             }
+
         })
         let tripArray=[];
         Object.keys(trips).forEach(tripId=>tripArray.push(trips[tripId]));
