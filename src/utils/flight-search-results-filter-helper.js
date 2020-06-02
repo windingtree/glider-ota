@@ -28,7 +28,7 @@ export class FlightSearchResultsFilterHelper {
             let offer = this.searchResultsWrapper.getOffer(offerId);
             let offerItineraries = this.searchResultsWrapper.getOfferItineraries(offerId);
             //ensure filter metadata (e.g. itinerary duration, operating carriers, etc...) is calculated for each itin
-            offerItineraries.map(itinerary=>{
+            offerItineraries.forEach(itinerary=>{
                 if(!itinerary.filter_metadata)
                     this.decorateItineraryWithFilterMetadata(itinerary)
             });
@@ -113,31 +113,31 @@ export class FlightSearchResultsFilterHelper {
 
     applyOfferPredicates(offers, predicates) {
         let result={};
-        Object.keys(offers).map(offerId=>{
+        Object.keys(offers).forEach(offerId=>{
             let offer=offers[offerId];
             let checkResult = true;
-            predicates.map(predicate=>{
+            predicates.forEach(predicate=>{
                 if(predicate.type==='offer')
                     checkResult=result && predicate.predicate(offer);
-            })
+            });
             if(checkResult)
                 result[offerId]=(offer);
-        })
+        });
         return result;
     }
     applyTripPredicates(trips, predicates) {
         let result=[];
-        trips.map(tripInfo=>{
+        trips.forEach(tripInfo=>{
             let itineraries = tripInfo.itineraries;
 
             let checkResult = true;
-            predicates.map(predicate=>{
+            predicates.forEach(predicate=>{
                 if(predicate.type==='trip')
                     checkResult=result && predicate.predicate(itineraries);
-            })
+            });
             if(checkResult)
                 result.push(tripInfo);
-        })
+        });
         return result;
     }
 
@@ -152,13 +152,13 @@ export function createAirlinePredicate(airlines){
         let result = true;
         if(airlines['ALL'] && airlines['ALL']===true)
             return true;
-        itineraries.map(itinerary=>{
-            itinerary.segments.map(segment=>{
+        itineraries.forEach(itinerary=>{
+            itinerary.segments.forEach(segment=>{
                 let carrierCode = segment.operator.iataCode;
                 if(!airlines[carrierCode] || airlines[carrierCode] === false)
                     result = false;
-            })
-        })
+            });
+        });
         return result;
     }
     return predicate;
@@ -186,11 +186,11 @@ export function createMaxStopsPredicate(stopsCriteria){
         let result = true;
         if(stopsCriteria['ALL'] && stopsCriteria['ALL']===true)
             return true;
-        itineraries.map(itinerary=>{
+        itineraries.forEach(itinerary=>{
             let stops = itinerary.segments.length-1;
             if(!stopsCriteria[stops] || stopsCriteria[stops]===false)
                 result = false;
-        })
+        });
         return result;
     }
     return predicate;
@@ -215,14 +215,15 @@ export function createLayoverDurationPredicate(layoverDurationRange){
     const predicate = (itineraries) => {
         let result = true;
         let layovers=[];
-        itineraries.map(itinerary=>{
+        itineraries.forEach(itinerary=>{
             let segments = itinerary.segments;
             let prevSegment = null;
             //if it's a direct flight - add 0 so that we can also filter out direct flights if min range is specified
-            if(segments.length==1)
+            if(segments.length===1) {
                 layovers.push(0);
-            segments.map(segment=>{
-                if(prevSegment!=null){
+            }
+            segments.forEach(segment => {
+                if(prevSegment !== null){
                     layovers.push(OfferUtils.calculateLayoverDurationInMinutes(prevSegment,segment));
                 }
                 prevSegment=segment;
