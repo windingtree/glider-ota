@@ -11,7 +11,7 @@ export default function Room({room, roomPricePlansWithOffers, onOfferSelected}) 
         <div className={style.roomContainer}>
             <div className={style.roomName} >{room.name}</div>
             <div className='d-flex flex-row flex-wrap flex-fill'>
-                <div className='room-details__col1 d-flex flex-column ' >
+                <div className='room-details__col1 d-flex flex-column pr-2' >
                     {/*<div className='glider-font-h2-fg'>{room.name}</div>*/}
                     {/*{room.roomTypeId}*/}
                     {/*<div>{room.description}</div>*/}
@@ -22,7 +22,7 @@ export default function Room({room, roomPricePlansWithOffers, onOfferSelected}) 
                     </div>
                     {/*<Col className='border'>TOTAL PRICE</Col>*/}
                 </div>
-                <div className='room-details__col2 flex-fill'>
+                <div className='room-details__col2 '>
                     {
                         roomPricePlansWithOffers.map(plan => {
                             let key = plan.offerId + room.roomTypeId + plan.pricePlanReference;

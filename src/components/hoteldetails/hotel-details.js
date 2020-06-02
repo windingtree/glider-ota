@@ -82,11 +82,6 @@ export default function HotelDetails({hotel, searchResults}) {
         const hotelPricePlansWithOffers = getHotelPricePlansWithOffers(hotel,offers,pricePlans);
         const passengers = searchResults.passengers;
 
-        console.log("offers",offers)
-        console.log("pricePlans",pricePlans)
-        console.log("rooms",rooms)
-        console.log("hotelPricePlansWithOffers",hotelPricePlansWithOffers)
-
         const payButtonClick= () =>{
 
         }
@@ -109,7 +104,6 @@ export default function HotelDetails({hotel, searchResults}) {
                             {
                                 _.map(rooms, (room, roomId) => {
                                     const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
-                                    console.log("roomPricePlansWithOffers",roomPricePlansWithOffers)
                                     return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers} onOfferSelected={handleSelectedOfferChange}/>)
                                 })
                             }
