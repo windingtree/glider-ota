@@ -13,5 +13,5 @@ export default {
 
 
 
-export const Default = () => (<MaxNumberOfStopsFilter key={123} onFilterStateChange={action("onFilterStateChange")} searchResults={searchResults}/>);
-export const Max5Stops = () => (<MaxNumberOfStopsFilter key={124} maxStops={5} onFilterStateChange={action("onFilterStateChange")} searchResults={searchResults}/>);
+export const Default = () => (<MaxNumberOfStopsFilter  onPredicateChanged={action("onPredicateChanged")} searchResults={searchResults}/>);
+export const Max5Stops = () => (<MaxNumberOfStopsFilter  maxStops={5} onPredicateChanged={action("onPredicateChanged")} searchResults={searchResults}/>);

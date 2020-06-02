@@ -4,32 +4,46 @@ import "react-input-range/lib/css/index.css";
 
 import {MaxNumberOfStopsFilter} from "./max-stops-filter";
 import {PriceFilter} from "./price-filter";
-import {ItineraryDurationFilter} from "./itinerary-duration-filter";
 import {BaggageFilter} from "./baggage-filter";
 import {AirlinesFilter} from "./airlines-filter";
+import {FILTERS} from "./filters-utils";
+
+export default function Filters({searchResults, onFiltersChanged}) {
+    const [predicates, setPredicates] = useState({})
+    const [filterStates, setFilterStates] = useState({})
 
 
-export default function Filters({searchResults, onFilterApply, filtersStates}) {
+    function filterChanged(filterId, filterState) {
+        let newFilterStates = Object.assign({}, filterStates);
+        newFilterStates[filterId] = filterState;
+        setFilterStates(newFilterStates)
+        console.log(`Filters - filter ${filterId} was changed, list of filters:${JSON.stringify(newFilterStates)}`);
 
-    function filterStateChanged(id, filterState) {
-        console.log("filterStateChanged, ID:",id," State:",filterState)
-        let newfiltersState = Object.assign({}, filtersStates);
-        newfiltersState[id] = filterState;
-        onFilterApply(newfiltersState);
-
+        onFiltersChanged(newFilterStates);
     }
 
 
     return (
         <>
-            <div className="filters-container d-flex flex-column flex-fill">
-                <MaxNumberOfStopsFilter searchResults={searchResults} onFilterStateChanged={filterStateChanged} title='Stops'/>
-                <PriceFilter searchResults={searchResults} onFilterStateChanged={filterStateChanged} title='Price'/>
-                {/*<ItineraryDurationFilter searchResults={searchResults} onFilterStateChanged={filterStateChanged} title='Flight duration' orig= dest=/>*/}
-                <BaggageFilter searchResults={searchResults} onFilterStateChanged={filterStateChanged} title='Baggage'/>
-                <AirlinesFilter searchResults={searchResults} onFilterStateChanged={filterStateChanged} title='Airlines'/>
+            <div className="filters-container d-flex flex-column flex-fill" >
+                <MaxNumberOfStopsFilter searchResults={searchResults} onFilterSelectionChanged={(filterState)=>filterChanged(FILTERS.MAXSTOPS,filterState)}  title='Stops'/>
+                <PriceFilter searchResults={searchResults} onFilterSelectionChanged={(filterState)=>filterChanged(FILTERS.PRICE,filterState)}   title='Price'/>
+                {/*<ItineraryDurationFilter searchResults={searchResults} onFilterSelectionChanged={(filterState)=>filterChanged(FILTERS.,filterState)}  title='Flight duration' orig= dest=/>*/}
+                <AirlinesFilter searchResults={searchResults} onFilterSelectionChanged={(filterState)=>filterChanged(FILTERS.AIRLINES,filterState)}   title='Airlines'/>
+                <BaggageFilter searchResults={searchResults} onFilterSelectionChanged={(filterState)=>filterChanged(FILTERS.BAGGAGE,filterState)} title='Baggage'/>
             </div>
         </>
     )
 }
+
+
+function convertFilterItemsToMap(filterState){
+    if(!filterState)
+        return {};
+    let result = {};
+    filterState.map(item=>{
+        result[item.key] = item.selected;
+    });
+}
+
 

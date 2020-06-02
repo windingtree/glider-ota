@@ -12,4 +12,4 @@ export default {
 };
 
 
-export const Default = () => (<BaggageFilter key={123}  onFilterStateChange={action("onFilterStateChange")} title='Baggage' searchResults={searchResults}/>);
+export const Default = () => (<BaggageFilter   onPredicateChanged={action("onPredicateChanged")} title='Baggage' searchResults={searchResults}/>);

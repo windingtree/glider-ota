@@ -13,4 +13,4 @@ export default {
 
 
 
-export const Default = () => (<ItineraryDurationFilter title="Layover duration" onFilterStateChanged={action("onFilterStateChanged")} searchResults={searchResults} orig='YUL' dest='YVR'/>);
+export const Default = () => (<ItineraryDurationFilter title="Layover duration" onPredicateChanged={action("onPredicateChanged")} searchResults={searchResults} orig='YUL' dest='YVR'/>);

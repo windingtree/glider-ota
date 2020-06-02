@@ -12,4 +12,4 @@ export default {
 };
 
 
-export const Default = () => (<PriceFilter key={123} title='Price' onFilterStateChanged={action("onFilterStateChanged")} searchResults={searchResults}/>);
+export const Default = () => (<PriceFilter  title='Price' onPredicateChanged={action("onPredicateChanged")} searchResults={searchResults}/>);

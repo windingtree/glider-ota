@@ -5,9 +5,6 @@ import {Container} from 'react-bootstrap'
 // import {FastCheapFilter} from "../filters/filters";
 import {FastCheapFilter} from "../filters/fast-cheap-filter";
 import {
-    createAirlinePredicate, createLayoverDurationPredicate,
-    createMaxStopsPredicate,
-    createPricePredicate,
     FlightSearchResultsFilterHelper
 } from "../../utils/flight-search-results-filter-helper"
 import ResultsPaginator from "../common/pagination/results-paginator";
@@ -16,9 +13,10 @@ import {Offer} from "./flights-offer";
 const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;
 
 
-export default function FlightsSearchResults({searchResults, onOfferDisplay, filtersStates}) {
+export default function FlightsSearchResults({searchResults, onOfferDisplay, filters}) {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortType, setSortType] = useState('PRICE');
+
     function handleOfferDisplay(offerId) {
         console.log("handleOfferDisplay", offerId);
         onOfferDisplay(offerId);
@@ -37,6 +35,8 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
         if (totalCount === 0)
             return [];
 
+
+
         let startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
         let endIdx = currentPage * ITEMS_PER_PAGE;
         if (endIdx >= totalCount)
@@ -46,9 +46,8 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
     }
 
     const filterHelper = new FlightSearchResultsFilterHelper(searchResults);
-    let predicates = createFilterPredicates(filtersStates);
 
-    let trips=filterHelper.generateSearchResults(sortType, predicates)
+    let trips = filterHelper.generateSearchResults(sortType, filters)
     let totalResultsCount = trips.length;
     trips = limitSearchResultsToCurrentPage(trips);
 
@@ -78,67 +77,3 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
 
 }
 
-
-
-function createFilterPredicates(filterStates){
-    if(!filterStates) {
-        return [];
-    }
-    let predicates=[];
-
-    //create predicate to filter offers by price range
-    let priceRangeFilter = filterStates.priceRange;
-    console.debug("Price range criteria:", priceRangeFilter)
-    predicates.push({
-        predicate: createPricePredicate(priceRangeFilter),
-        type: 'offer',
-        name:'PricePredicate'
-    });
-
-    //create predicate to filter offers by layover duration
-    let layoverDurationFilter = filterStates.layoverDuration;
-    console.debug("Layover duration criteria:", layoverDurationFilter)
-    predicates.push({
-        predicate: createLayoverDurationPredicate(layoverDurationFilter),
-        type: 'trip',
-        name:'LayoverDurationPredicate'
-    });
-
-
-    //create predicate to filter trips by number of stops
-    let maxStopsFilter = filterStates.maxStops;
-    console.debug("stops criteria:", maxStopsFilter);
-    let maxStopsCriteria={};
-    maxStopsFilter.map(rec=>{
-        if(rec.key === 'all'){
-            maxStopsCriteria['ALL'] = rec.selected;
-        }else{
-            maxStopsCriteria[rec.key] = rec.selected;
-        }
-    })
-    predicates.push({
-        predicate: createMaxStopsPredicate(maxStopsCriteria),
-        type: 'trip',
-        name:'MaxStopsPredicate'
-    });
-
-
-    //create predicate to filter trips by operating carriers
-    let carriersFilter=filterStates.airlines;
-    console.debug("carriers criteria:", carriersFilter);
-    let carriersCriteria={};
-    carriersFilter.map(rec=>{
-        if(rec.key === 'all'){
-            carriersCriteria['ALL'] = rec.selected;
-        }else{
-            carriersCriteria[rec.key] = rec.selected;
-        }
-    })
-
-    predicates.push({
-        predicate: createAirlinePredicate(carriersCriteria),
-        type: 'trip',
-        name:'AirlinePredicate'
-    });
-    return predicates;
-}

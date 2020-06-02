@@ -83,7 +83,7 @@ function ItineraryOperatingAirlines({operators}) {
         <span className={style.offerhighlightlogosandancillaries}>
         {
             _.map(operators, (operator, id) => {
-                return (<AirlineLogo airlineName={operator.airline_name} iatacode={operator.iataCode} tooltip={operator.airline_name}/>)
+                return (<AirlineLogo key={id} airlineName={operator.airline_name} iatacode={operator.iataCode} tooltip={operator.airline_name}/>)
             })
         }
         </span>
@@ -100,10 +100,13 @@ export function AirlineLogo({iatacode,tooltip, airlineName}){
 }
 
 function ItineraryAncillaries({pricePlan}) {
+    let fba=0;
+    if(pricePlan && pricePlan.checkedBaggages && pricePlan.checkedBaggages.quantity)
+        fba=parseInt(pricePlan.checkedBaggages.quantity)
     return (
         <span>
-                    {pricePlan.checkedBaggages.quantity === 0 && <img src="/ancillaries/luggage_notallowed.png"/>}
-            {pricePlan.checkedBaggages.quantity > 0 && <img src="/ancillaries/luggage_allowed.png"/>}
+            {fba === 0 && <img src="/ancillaries/luggage_notallowed.png"/>}
+            {fba > 0 && <img src="/ancillaries/luggage_allowed.png"/>}
         </span>
     )
 }

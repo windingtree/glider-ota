@@ -4,7 +4,7 @@ import {SearchForm,buildFlightsSearchCriteria,searchForHotels} from '../componen
 import {LOCATION_SOURCE} from '../components/lookup/lookup-field';
 import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
-import Filters,{generateFiltersStates} from "../components/filters/filters";
+import Filters from "../components/filters/filters";
 import {useHistory} from "react-router-dom";
 import cssdefs from './flights-search-page.scss'
 import Spinner from "../components/common/spinner"
@@ -24,7 +24,6 @@ export default function HotelsSearchPage({match,location}) {
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
     const [filtersStates, setFiltersStates] = useState();
-    const [unfilteredSearchResults, setUnfilteredSearchResults] = useState();
 
     const onSearchButtonClick = (criteria) => {
         onSearchStart();
@@ -38,9 +37,6 @@ export default function HotelsSearchPage({match,location}) {
     };
     const onSearchSuccess = (results) => {
         setSearchResults(results);
-        setUnfilteredSearchResults(results);
-        let filters=generateFiltersStates(results);
-        setFiltersStates(filters);
         setSearchState(SEARCH_STATE.FINISHED);
     }
     const onSearchFailure = (err) => {
@@ -49,9 +45,6 @@ export default function HotelsSearchPage({match,location}) {
     }
     const onSearchStart = () => {
         setSearchState(SEARCH_STATE.IN_PROGRESS);
-    }
-    const onResultsFiltered = (combinations) => {
-        setSearchResults(combinations);
     }
 
     const initialParameters = parseDeeplinkParams(location);
@@ -82,7 +75,7 @@ export default function HotelsSearchPage({match,location}) {
                 <Container fluid={true} className='flight-results-outer-boundary'>
                     <Row>
                         <Col xs={0} lg={2} className="filters-wrapper">
-                            <Filters searchResults={unfilteredSearchResults} filtersStates={filtersStates} onFiltersStateChanged={setFiltersStates} onFilterApply={onResultsFiltered}/>
+                            <Filters searchResults={searchResults}  onFilterApply={setFiltersStates}/>
                         </Col>
                         <Col >
                             <SearchForm

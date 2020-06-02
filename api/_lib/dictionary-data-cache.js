@@ -71,6 +71,7 @@ function findTableRecords(tableName, searchQuery, searchFieldNames, maxResults =
 
 function _match(searchQuery, values){
     let query = searchQuery!==undefined?searchQuery:'';
+    query = query.trim();
     let valuesConcat = [];
     query=query.toUpperCase();
     for(let i=0;i<values.length;i++){

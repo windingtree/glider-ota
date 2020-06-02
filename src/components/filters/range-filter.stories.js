@@ -10,4 +10,4 @@ export default {
 };
 const filterState={min: 15, lowest: 10, highest: 120, max: 110};
 
-export const Default = () => (<RangeFilter id='rangeFilter'  unit='EUR' filterState={filterState} title='Title' onFilterStateChange={action("onFilterStateChange")}/>);
+export const Default = () => (<RangeFilter   unit='EUR' filterState={filterState} title='Title' onFilterStateChanged={action("onFilterStateChanged")}/>);

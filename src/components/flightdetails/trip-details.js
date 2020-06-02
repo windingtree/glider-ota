@@ -76,6 +76,7 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
 }
 
 export function SegmentDetails({segment}){
+
     return (
     <>
         <Container fluid={true} className={style.segmentContainer}>
@@ -98,7 +99,7 @@ export function SegmentDetails({segment}){
                     <Row className={style.segmentRow}>
                         <Col><FlightInfo operator={segment.operator}/></Col>
                     </Row>
-                    <Row className={style.segmentRow}><Col className={style.segmentNormalText}>No luggage</Col></Row>
+                    <Row className={style.segmentRow}><Col className={style.segmentNormalText}>{/*No luggage*/}</Col></Row>
                 </Col>
             </Row>
         </Container>

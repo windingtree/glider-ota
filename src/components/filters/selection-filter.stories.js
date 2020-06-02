@@ -17,5 +17,5 @@ const filterElements=[
 ]
 
 
-export const FirstItemNotMutuallyExclusiveWithOthers = () => (<SelectionFilter id='filterID' filterItems={filterElements} title='Items'  firstItemMutuallyExclusive={false} onItemCheckStateChange={action("onItemCheckStateChange")} onFilterStateChanged={action("onFilterStateChanged")}/>);
-export const FirstItemMutuallyExclusiveWithOthers = () => (<SelectionFilter id='filterID' filterItems={filterElements} title='Items'  firstItemMutuallyExclusive={true}  onItemCheckStateChange={action("onItemCheckStateChange")} onFilterStateChanged={action("onFilterStateChanged")}/>);
+export const FirstItemNotMutuallyExclusiveWithOthers = () => (<SelectionFilter  filterItems={filterElements} title='Items'  firstItemMutuallyExclusive={false} onFilterStateChanged={action("onFilterStateChanged")} />);
+export const FirstItemMutuallyExclusiveWithOthers = () => (<SelectionFilter  filterItems={filterElements} title='Items'  firstItemMutuallyExclusive={true}  onFilterStateChanged={action("onFilterStateChanged")} />);
