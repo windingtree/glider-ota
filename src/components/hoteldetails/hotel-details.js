@@ -6,21 +6,24 @@ import PaxDetails from "../passengers/pax-details";
 import Room from "./room-details"
 import YourChoice from "./your-choice";
 import default_hotel_image from "../../assets/default_hotel_image.png";
-import {storeSelectedOffer} from "../../utils/api-utils";
+import {storePassengerDetails, storeSelectedOffer} from "../../utils/api-utils";
 import {HotelSearchResultsWrapper} from "../../utils/hotel-search-results-wrapper";
+import {useHistory} from "react-router-dom";
 
 export default function HotelDetails({hotel, searchResults}) {
+    let history = useHistory();
     const [selectedOffer,setSelectedOffer] = useState()
-    const [contact_details,setContactDetails] = useState()
+    const [passengerDetails, setPassengerDetails] = useState();
+    const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
+
     let searchResultsWrapper=new HotelSearchResultsWrapper(searchResults);
 
-    function handleContactDetailsChange(contactDetails, allPassengersDetailsAreValid){
-        setContactDetails(contactDetails);
+    function handleContactDetailsChange(paxData, allPassengersDetailsAreValid){
+        setPassengerDetails(paxData)
+        setPassengerDetailsValid(allPassengersDetailsAreValid)
     }
 
     function handleSelectedOfferChange(newOffer){
-        console.log("Offer changed",newOffer)
-        console.log("offerID",newOffer.offerId)
         let offer  = searchResultsWrapper.getOffer(newOffer.offerId)
         let results = storeSelectedOffer(offer);
         results.then((response) => {
@@ -33,12 +36,6 @@ export default function HotelDetails({hotel, searchResults}) {
     }
 
 
-    function handlePayButtonClick(){
-        const contactDetails = contact_details;
-        // const selectedOffer = this.state.selectedOffer;
-        // console.log("Pay button clicked, offer:",selectedOffer, "pax details:", contactDetails);
-
-    }
 
     function getHotelPricePlansWithOffers(hotel, offers, pricePlans){
         let hotelOffers = [];
@@ -69,24 +66,49 @@ export default function HotelDetails({hotel, searchResults}) {
         return hotelOffers
     }
 
-    function getRoomPricePlansWithOffers(roomType, hotelPlansWithOffers){
-        console.log("getRoomPricePlansWithOffers, roomType:", roomType)
-        return hotelPlansWithOffers.filter(rec=>{
+    function getRoomPricePlansWithOffers(roomType, hotelPlansWithOffers) {
+        return hotelPlansWithOffers.filter(rec => {
             return rec.roomType === roomType;
         })
     }
 
-        const offers=searchResults.offers;
-        const pricePlans=searchResults.pricePlans;
-        const rooms = hotel.roomTypes;
-        const hotelPricePlansWithOffers = getHotelPricePlansWithOffers(hotel,offers,pricePlans);
-        const passengers = searchResults.passengers;
 
-        const payButtonClick= () =>{
+    const payButtonClick = () => {
+        let results = storePassengerDetails(passengerDetails);
+        results.then((response) => {
+            console.debug("Successfully saved pax details", response);
+            redirectToPayment();
+        }).catch(err => {
+            console.error("Failed to store passenger details", err);
+            //TODO - add proper error handling (show user a message)
+        })
+    }
 
-        }
+    function initializePassengerForm(searchResults){
+        let passengers = [];
+        Object.keys(searchResults.passengers).forEach(paxId=>{
+            let pax = searchResults.passengers[paxId]
+            passengers.push({
+                id:paxId,
+                type:pax.type
+            })
+        })
+        return passengers;
+    }
 
-        return (
+    function redirectToPayment() {
+        let offerId = selectedOffer.offerId
+        let url = '/payment/' + offerId;
+        history.push(url);
+    }
+
+    const offers = searchResults.offers;
+    const pricePlans = searchResults.pricePlans;
+    const rooms = hotel.roomTypes;
+    const hotelPricePlansWithOffers = getHotelPricePlansWithOffers(hotel, offers, pricePlans);
+    const passengers = initializePassengerForm(searchResults);
+
+    return (
             <Container >
                 <Row>
                     <Col className={style.offerWrapper}>
@@ -120,32 +142,12 @@ export default function HotelDetails({hotel, searchResults}) {
                                 <PaxDetails onDataChange={handleContactDetailsChange} passengers={passengers}/>
                         </div>
                         {selectedOffer!==undefined && (
-                                <HotelPriceSummary price={selectedOffer.price} onPayButtonClick={payButtonClick}/>
+                                <HotelPriceSummary price={selectedOffer.price} onPayButtonClick={payButtonClick} passengerDetailsValid={passengerDetailsValid}/>
                         )}
                     </Col>
                 </Row>
             </Container>
         )
-    /*
-    "offers": {
-        "b64a914d-53a1-4df0-a5a3-731dd780e8b5": {
-          "pricePlansReferences": {
-            "LSAVE": {
-              "accommodation": "erevmax.07119",
-              "roomType": "ND"
-            }
-          },
-          "price": {
-            "currency": "SEK",
-            "public": "576.0",
-            "taxes": -64
-          }
-        },
-
-
-     */
-
-
 }
 
 
@@ -163,7 +165,7 @@ export function HotelLeadingImage({images}){
 
 
 
-export function HotelPriceSummary({price, onPayButtonClick}){
+export function HotelPriceSummary({price, onPayButtonClick, passengerDetailsValid=false}){
     return (<>
             <Row>
                 <Col xs={12} lg={6} className={style.hotelPrice}>
@@ -172,7 +174,7 @@ export function HotelPriceSummary({price, onPayButtonClick}){
             </Row>
             <Row className='flex-row-reverse'>
                 <Col xs={12} sm={3} lg={3} className={style.hotelPriceButton}>
-                    <Button variant="primary" onClick={onPayButtonClick} size="lg" block>Pay now</Button>
+                    <Button variant="primary" onClick={onPayButtonClick} size="lg" block disabled={!passengerDetailsValid}>Pay now</Button>
                 </Col>
             </Row>
             </>
