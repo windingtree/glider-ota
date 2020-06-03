@@ -13,27 +13,34 @@ const CONFIRMATION_STATUS={
     CANNOT_CONFIRM:'CANNOT_CONFIRM'
 }
 
-const MAX_CONFIRMATION_WAIT_TIME_MILLIS=60000;
+const MAX_CONFIRMATION_WAIT_TIME_MILLIS=70000;
 const RETRY_TIMEOUT_MILLIS=5000;
 
 export default function PaymentConfirmation({orderID}) {
     const [checkStatus, setCheckStatus] = useState(CONFIRMATION_STATUS.INITIAL);
     const [error, setError] = useState();
     const [timeoutRef,setTimeoutRef] = useState();
-    const [firstCheck, setFirstCheck] = useState();
+    const [firstCheck, setFirstCheck] = useState(new Date());
     const [order, setOrder] = useState();
 
     // Check the order status
-    function checkOrderStatus(orderIdentifier){
-        setCheckStatus(CONFIRMATION_STATUS.PENDING)
-        let diff = Date.now() - firstCheck;
-
-        if(diff>MAX_CONFIRMATION_WAIT_TIME_MILLIS) {
+    function checkOrderStatus(orderIdentifier) {
+        setCheckStatus(CONFIRMATION_STATUS.PENDING);
+        let now = new Date();
+        console.log('checkOrderStatus>>', now, firstCheck, now-firstCheck);
+        
+        // If timeout is exceeded, stop
+        if((now - firstCheck) > MAX_CONFIRMATION_WAIT_TIME_MILLIS) {
             stopCheckingInFuture();
             setCheckStatus(CONFIRMATION_STATUS.TOOLONG);
             return;
+        } else {
+            console.log(`Total time: ${now - firstCheck}`);
         }
-        getStatus(orderIdentifier)
+        firstCheck && console.log(`Total time: ${now - firstCheck}`);
+
+        // Otherwise status is retrieved from server
+        getStatus(orderIdentifier);
     };
 
     function getStatus(orderIdentifier){
@@ -42,9 +49,9 @@ export default function PaymentConfirmation({orderID}) {
                 processOrderStatus(data);
             })
             .catch(err=>{
-                setError("Failure during check");
+                setError("We can not retrieve the status, please refresh your browser to retry");
                 setCheckStatus(CONFIRMATION_STATUS.FAILURE);
-                checkStatusInFuture();
+                //checkStatusInFuture();
             });
     }
 
@@ -64,7 +71,7 @@ export default function PaymentConfirmation({orderID}) {
     function processOrderStatus(data){
         setOrder(data);
         let orderStatus = data.order_status;
-        console.debug("processOrderStatus:", orderStatus);
+        //console.debug("processOrderStatus:", orderStatus);
 
         switch (orderStatus){
             case 'NEW':
@@ -85,14 +92,13 @@ export default function PaymentConfirmation({orderID}) {
     }
 
     const retryCheck = ()=>{
-        getStatus(orderID)
+        getStatus(orderID);
     }
 
     useEffect(() => {
-        setFirstCheck(new Date());
         checkOrderStatus(orderID);
         }, []
-    )
+    );
 
 
     const renderRetry = () => {
@@ -155,9 +161,9 @@ export default function PaymentConfirmation({orderID}) {
             case 'NOT_PAID':
                 iconStatus = 'pending';
                 message = (
-                    <span>
+                    <small>
                         We have not yet received confirmation of your payment
-                    </span>
+                    </small>
                 );
                 break;
             case 'PAID':
@@ -174,13 +180,18 @@ export default function PaymentConfirmation({orderID}) {
             case 'FAILED':
                 iconStatus = 'failed';
                 message = (
-                    <span>
+                    <small>
                         Your payment has been declined
-                    </span>
+                    </small>
                 );
                 break;
             default:
                 iconStatus = 'undefined';
+                message = (
+                    <small>
+                        The status of your payment is being retrieved from the server
+                    </small>
+                );
                 break;
         }
 
@@ -203,7 +214,7 @@ export default function PaymentConfirmation({orderID}) {
                 if(order.payment_status !== 'PAID') {
                     message = (
                         <small>
-                            We will process your booking once we receive confirmation of the payment
+                            We will process your booking once the payment is confirmed
                         </small>
                     );
                 }
@@ -245,6 +256,11 @@ export default function PaymentConfirmation({orderID}) {
                 break;
             default:
                 iconStatus = 'undefined';
+                message = (
+                    <small>
+                        The status of your booking is being retrieved from the server
+                    </small>
+                );
                 break;
         }
 
