@@ -5,12 +5,12 @@ import _ from 'lodash'
 import SingleHotel from "./single-hotel";
 import {HotelSearchResultsFilterHelper} from "../../utils/hotel-search-results-filter-helper";
 
-export default function HotelsSearchResults({searchResults, onHotelSelected}) {
+export default function HotelsSearchResults({searchResults, onHotelSelected, filters}) {
     if (searchResults === undefined) {
         return (<>No hotels found</>)
     }
     const helper = new HotelSearchResultsFilterHelper(searchResults);
-    const results = helper.generateSearchResults();
+    const results = helper.generateSearchResults(filters);
 
     return (
         <Container fluid={false}>

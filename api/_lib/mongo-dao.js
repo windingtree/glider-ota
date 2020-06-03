@@ -193,15 +193,18 @@ function updateOrderStatus(offerId, order_status, comment, transactionDetails){
  * @param transactionDetails
  * @returns {Promise<*>}
  */
-function updatePaymentStatus(offerId, payment_status, comment, transactionDetails){
+function updatePaymentStatus(offerId, payment_status, payment_details, comment, transactionDetails){
     let updates = {
         $set: {
-            payment_status:payment_status
+            payment_status:payment_status,
+            payment_details:payment_details,
         },
         $currentDate: {
-            lastModifyDateTime: { $type: "timestamp" }
+            lastModifyDateTime: { $type: "timestamp" },
         },
-        $push: { transactions: createTransactionEntry(comment,transactionDetails) }
+        $push: { 
+            transactions: createTransactionEntry(comment, transactionDetails),
+        }
     }
     logger.info("Updating payment status, offerId:%s, payment_status:%s", offerId, payment_status)
     return updateOne('orders',{offerId:offerId}, updates);

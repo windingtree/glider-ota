@@ -1,16 +1,8 @@
 import OfferUtils from "./offer-utils";
 import {FlightSearchResultsWrapper} from "./flight-search-results-wrapper";
-// import {FILTERS} from "../components/filters/filters";
+import {FILTERS} from "../components/filters/filters-utils";
 
 
-export const FILTERS={
-    MAXSTOPS:'maxstops',
-    PRICE:'price',
-    ITINERARYDURATION:'itinduration',
-    LAYOVERDURATION:'layoverduration',
-    BAGGAGE:'baggage',
-    AIRLINES:'airlines'
-}
 
 export class FlightSearchResultsFilterHelper {
     constructor(searchResults){
@@ -20,10 +12,10 @@ export class FlightSearchResultsFilterHelper {
     /**
      * Generate a list of offers (search results).
      * Each item in the list contains metadata (e.g. trip duration, operating carriers, baggage allowance) so that it can be used later to narrow down/filter search results.
-     * @param sortBy
+     * @param sortBy (PRICE or DURATION)
+     * @param filters Object containing filters selection
      * @returns {[]}
      */
-    // generateSearchResults(sortBy = 'PRICE', predicates={}){
     generateSearchResults(sortBy = 'PRICE', filters={}){
         let trips={};
         //extract all available offers from search results

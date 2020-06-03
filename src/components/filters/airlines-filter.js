@@ -28,7 +28,7 @@ function initializeAirlinesFilterState(searchResults) {
         airlines[segment.operator.iataCode] = segment.operator.airline_name;
     })
     Object.keys(airlines).map(iata => {
-        filterState.push({key: iata, display: airlines[iata], selected: true});
+        filterState.push({key: iata, display: airlines[iata], selected: false});
     })
     return filterState;
 }
