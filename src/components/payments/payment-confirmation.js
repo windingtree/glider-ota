@@ -107,7 +107,7 @@ export default function PaymentConfirmation({orderID}) {
     const renderPleaseWait = () => {
         return (
             <div className='glider-font-text24medium-fg'>
-                Please wait while we are completing your travel documents
+                Please wait while we are completing your booking
                 <Spinner enabled={true}></Spinner>
             </div>
         )
@@ -117,7 +117,6 @@ export default function PaymentConfirmation({orderID}) {
         return (
             <div className='glider-font-h2-fg'>
                 Unfortunately we cannot confirm your booking at the moment. <br/>
-                Your travel documents will be send to you by email
             </div>
         )
     }
@@ -187,7 +186,7 @@ export default function PaymentConfirmation({orderID}) {
         return (
             <div className='col-status'>
                 <div className={`icon-status-${iconStatus}`} aria-label={status}/>
-                <div>{message}</div>
+                <div className='message-status'>{message}</div>
             </div>
         );
     };
@@ -200,6 +199,22 @@ export default function PaymentConfirmation({orderID}) {
         switch(status) {
             case 'NEW':
                 iconStatus = 'pending';
+                if(order.payment_status !== 'PAID') {
+                    message = (
+                        <small>
+                            We will process your booking once we receive confirmation of the payment
+                        </small>
+                    );
+                }
+                
+                else {
+                    message = (
+                        <small>
+                            We are confirming your booking with the travel supplier.
+                        </small>
+                    );
+                }
+                
                 break;
             case 'FULFILLED':
                 iconStatus = 'success';
@@ -220,6 +235,12 @@ export default function PaymentConfirmation({orderID}) {
                 break;
             case 'FAILED':
                 iconStatus = 'failed';
+                message = (
+                    <small>
+                        We could not confirm your booking immediatly with the travel supplier, sorry!
+                        We are going to retry a bit later and send your confirmation by email. In case we can not create your booking within 24h, we will cancel your payment automatically.
+                    </small>
+                );
                 break;
             default:
                 iconStatus = 'undefined';
@@ -229,7 +250,7 @@ export default function PaymentConfirmation({orderID}) {
         return (
             <div className='col-status'>
                 <div className={`icon-status-${iconStatus}`} aria-label={status}/>
-                <div>{message}</div>
+                <div className='message-status'>{message}</div>
             </div>
         );
     };

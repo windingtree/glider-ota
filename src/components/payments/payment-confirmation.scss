@@ -2,6 +2,7 @@
     height: 24px;
     width: 24px;
     margin: 5px;
+    min-width: 24px;
 }
 
 .icon-status {
@@ -24,6 +25,10 @@
         @extend %status;
         background: url(../../assets/circle-clock.svg) no-repeat center;
     }
+}
+
+.message-status {
+    display: flex;
 }
 
 .col-status {

@@ -539,7 +539,21 @@ const failedStatusMockResponse={
     ],
     "order_status": "FAILED",
     "payment_status": "PAID",
-    "createDate": "2020-05-21T14:41:13.380Z"
+    "createDate": "2020-05-21T14:41:13.380Z",
+    "payment_details": {
+        "card": {
+            "brand": "VISA",
+            "last4": "1234"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1GpdcHBtLSGo1hFPmmxZDIXD/rcpt_HOQTaYAn1S9RgonBodL3XpoabVTttHk"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "seller_message": "Payment complete.",
+        },
+    },
 }
 
 
