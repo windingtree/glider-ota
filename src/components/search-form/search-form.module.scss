@@ -26,6 +26,9 @@
 
 
 .searchButtonContainer{
+    width:100%;
+    margin: auto;
+    margin-top: 80px;
     @include glider-media-medium_768 {
         width: 620px;
     }
@@ -33,10 +36,8 @@
 
 .searchButton{
     height: 64px;
-    margin-top: 100px;
     @include glider-media-small_576 {
         width: 620px;
-        margin-top: 80px;
     }
     @include glider-media-medium_768 {
         width: 620px;

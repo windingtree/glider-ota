@@ -115,7 +115,7 @@ function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initA
               <Col xs={12} lg={6} className={style.formElem}><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
             </Row>
           </div>
-          <div  className={style.searchButtonContainer}>
+          <div className={style.searchButtonContainer}>
             <Row >
               <Col xs={12} className='d-flex'>
                 <Button className={style.searchButton} variant="primary" size="lg"
