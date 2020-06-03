@@ -82,37 +82,35 @@ export default function FlightsSearchPage({match,location}) {
         <div>
             <Header violet={true}/>
             <div className='root-container-subpages'>
-
                 <div className='d-flex flex-row '>
                     <div className="filters-wrapper">
-                            {/*<Filters searchResults={searchResults} filtersStates={filtersStates} onFilterApply={onFiltersChanged}/>*/}
                             <Filters key={key} searchResults={searchResults}  onFiltersChanged={setFilters}/>
                     </div>
-                        <div >
-                            <SearchForm
-                                onSearchButtonClick={onSearchButtonClick}
-                                enableOrigin={true}
-                                oneWayAllowed={true}
-                                initAdults={initialParameters.adults}
-                                initChildren={initialParameters.children}
-                                initInfants={initialParameters.infants}
-                                initiDest={initialParameters.destination}
-                                initOrigin={initialParameters.origin}
-                                initDepartureDate={initialParameters.departureDate}
-                                initReturnDate={initialParameters.returnDate}
-                                maxPassengers={9}
-                            />
-                            <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
-                            {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
-                            {searchResults !== undefined &&
-                            <FlightsSearchResults
-                                onOfferDisplay={onOfferSelected}
-                                searchResults={searchResults}
-                                filters={filters}
-                            />
-                            }
-                        </div>
+                    <div>
+                        <SearchForm
+                            onSearchButtonClick={onSearchButtonClick}
+                            enableOrigin={true}
+                            oneWayAllowed={true}
+                            initAdults={initialParameters.adults}
+                            initChildren={initialParameters.children}
+                            initInfants={initialParameters.infants}
+                            initiDest={initialParameters.destination}
+                            initOrigin={initialParameters.origin}
+                            initDepartureDate={initialParameters.departureDate}
+                            initReturnDate={initialParameters.returnDate}
+                            maxPassengers={9}
+                        />
+                        <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
+                        {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
+                        {searchResults !== undefined &&
+                        <FlightsSearchResults
+                            onOfferDisplay={onOfferSelected}
+                            searchResults={searchResults}
+                            filters={filters}
+                        />
+                        }
                     </div>
+                </div>
             </div>
         </div>
     )

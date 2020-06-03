@@ -219,7 +219,8 @@ export function buildFlightsSearchCriteria(origin,destination,departureDate,retu
 
 export function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, adults,children,infants) {
   const criteriaBuilder = new SearchCriteriaBuilder();
-  let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,config.LOCATION_BOUNDING_BOX_IN_KM)
+  let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,10)
+  let boundingBoxForSelectedLocation2 = criteriaBuilder.boundingBox(latitude,longitude,40)
   const searchCriteria = criteriaBuilder
       .withAccommodationLocation(boundingBoxForSelectedLocation,'rectangle')
       .withAccommodationArrivalDate(arrivalDate)
