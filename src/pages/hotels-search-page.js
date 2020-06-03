@@ -1,6 +1,10 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
-import {SearchForm,buildFlightsSearchCriteria,searchForHotels} from '../components/search-form/search-form';
+import {
+    buildFlightsSearchCriteria,
+    searchForHotels,
+    HotelsSearchForm
+} from '../components/search-form/search-form';
 import {LOCATION_SOURCE} from '../components/lookup/lookup-field';
 import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
@@ -83,11 +87,8 @@ export default function HotelsSearchPage({match,location}) {
                             <HotelFilters key={key} searchResults={searchResults} onFiltersChanged={setFilters}/>
                     </div>
                     <div >
-                        <SearchForm
+                        <HotelsSearchForm
                             onSearchButtonClick={onSearchButtonClick}
-                            enableOrigin={false}
-                            locationsSource={LOCATION_SOURCE.CITIES}
-                            oneWayAllowed={false}
                             initAdults={initialParameters.adults}
                             initChildren={initialParameters.children}
                             initInfants={initialParameters.infants}

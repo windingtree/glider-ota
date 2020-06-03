@@ -1,6 +1,10 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
-import {SearchForm,buildFlightsSearchCriteria,searchForFlightsWithCriteria} from '../components/search-form/search-form';
+import {
+    buildFlightsSearchCriteria,
+    searchForFlightsWithCriteria,
+    FlightsSearchForm
+} from '../components/search-form/search-form';
 import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
 import Filters from "../components/filters/filters";
@@ -88,10 +92,8 @@ export default function FlightsSearchPage({match,location}) {
                             <Filters key={key} searchResults={searchResults}  onFiltersChanged={setFilters}/>
                     </div>
                     <div >
-                        <SearchForm
+                        <FlightsSearchForm
                             onSearchButtonClick={onSearchButtonClick}
-                            enableOrigin={true}
-                            oneWayAllowed={true}
                             initAdults={initialParameters.adults}
                             initChildren={initialParameters.children}
                             initInfants={initialParameters.infants}

@@ -25,7 +25,12 @@ export default function HotelDetails({hotel, searchResults}) {
 
     function handleSelectedOfferChange(newOffer){
         let offer  = searchResultsWrapper.getOffer(newOffer.offerId)
-        let results = storeSelectedOffer(offer);
+        //with hotels we need confirmedOfferId
+        let confirmedOffer = Object.assign({},offer);
+        confirmedOffer['confirmedOfferId']=newOffer.offerId;
+
+
+        let results = storeSelectedOffer(confirmedOffer);
         results.then((response) => {
             console.debug("Selected offer successfully added to a shopping cart", response);
         }).catch(err => {
