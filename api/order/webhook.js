@@ -135,10 +135,11 @@ function processWebhookEvent(event) {
  * @param webhookEvent
  */
 function processPaymentFailure(confirmedOfferId, webhookEvent) {
-    logger.info("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.FAILED, confirmedOfferId);
+    logger.info("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.FAILED, confirmedOfferId);    
     return updatePaymentStatus(
         confirmedOfferId,
         PAYMENT_STATUSES.FAILED,
+        {},
         "Webhook event:" + webhookEvent.type,
         {webhookEvent}
     );
@@ -158,10 +159,34 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
     return new Promise(function(resolve, reject) {
         logger.info("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.PAID, confirmedOfferId);
         
+        // Extract relevant details from Stripe
+        let paymentDetails;
+        try {
+            const chargeDetails = webhookEvent.data.object.charges.data[0];
+            paymentDetails = {
+                card: {
+                    brand: chargeDetails.payment_method_details.card.brand,
+                    last4: chargeDetails.payment_method_details.card.last4,
+                },
+                receipt: {
+                    url: chargeDetails.receipt_url,
+                },
+                status: {
+                    type: chargeDetails.outcome.type,
+                    network: chargeDetails.outcome.network_status,
+                    message: chargeDetails.outcome.seller_message,
+                }
+            }
+        }
+        catch(error) {
+            logger.warn('Can not retrieve payment details: ', error);
+        }
+
         // Update the Payment Status in DB
         updatePaymentStatus(
             confirmedOfferId,
             PAYMENT_STATUSES.PAID,
+            paymentDetails,
             "Webhook event:" + webhookEvent.type,
             {webhookEvent}
         )

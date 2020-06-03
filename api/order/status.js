@@ -26,14 +26,22 @@ const checkOrderStatusController = async (req, res) => {
     }*/
 
     let document = await findConfirmedOffer(offerId);
-    if (document === undefined) {
+    if (!document) {
         logger.warn("Cannot find confirmed offer, orderId:%s", offerId);
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Offer not found",req.body);
         return;
     }
 
-    //TODO - remove unnecessary elements from response!!!
-    res.json(document)
+    // Return a subset of the order to avoid leaking sensitive information
+    let order = {
+        payment_status: document.payment_status,
+        payment_details: document.payment_details,
+        order_status: document.order_status,
+    };
+    if(document.confirmation) {
+        order.confirmation = document.confirmation;
+    }
+    res.json(order);
 }
 
 module.exports = decorate(checkOrderStatusController);
