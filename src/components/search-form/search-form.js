@@ -84,6 +84,11 @@ export function SearchForm(props){
       return false;
     }
 
+    //@fixme: Infants are not yet supported by AC
+    if(infants > 0) {
+      return false;
+    }
+
     // Check if infants do not exceed adults (since they seat on laps)
     if(infants > adults) {
       return false;
