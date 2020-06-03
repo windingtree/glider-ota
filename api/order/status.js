@@ -37,6 +37,12 @@ const checkOrderStatusController = async (req, res) => {
         payment_status: document.payment_status,
         payment_details: document.payment_details,
         order_status: document.order_status,
+        history: document.transactions.map(transaction => {
+            return {
+                comment: transaction.comment,
+                timestamp: transaction.transactionTime,
+            }
+        }),
     };
     if(document.confirmation) {
         order.confirmation = document.confirmation;

@@ -221,7 +221,7 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
 
                     // In case of issue to send the email, abort
                     .catch(error => {
-                        logger.error("Failed to updated order status");
+                        logger.error("Failed to send email confirmation");
                         reject(error);
                     });
                 }
@@ -262,7 +262,6 @@ function fulfillOrder(confirmedOfferId) {
 
         // Process the retrieved offer
         .then(document => {
-            console.debug("#2 document retrieved", document);
 
             // Check if fulfillment was already processed
             if(document.confirmation && (document.order_status === ORDER_STATUSES.FULFILLED)) {
@@ -301,8 +300,18 @@ function fulfillOrder(confirmedOfferId) {
     
                     // Handle the error creation error
                     .catch(error => {
-                        logger.error("Failure in response from /createWithOffer", error.response ? error.response.data : error);
-                        updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Order creation failed[${error}]`, {request:orderRequest})
+                        // Override Error with Glider message
+                        if(error.response && error.response.data && error.response.data.message) {
+                            error.message = `Glider B2B: ${error.response.data.message}`;
+                        }
+                        logger.error("Failure in response from /createWithOffer: %s", error.message);
+
+                        // Update order status
+                        updateOrderStatus(
+                            confirmedOfferId,
+                            ORDER_STATUSES.FAILED,
+                            `Order creation failed[${error}]`,
+                            {request:orderRequest})
                         
                         // Once order is updated, reject the error
                         .then(() => {
@@ -320,7 +329,7 @@ function fulfillOrder(confirmedOfferId) {
     
                 // Handle the guarantee creation error
                 .catch(error => {
-                    logger.error("Could not create guarantee", error);
+                    logger.error("Could not create guarantee: %s", error);
                     reject(error);
                 });
             }
@@ -329,7 +338,7 @@ function fulfillOrder(confirmedOfferId) {
 
         // Handle the error when offer can not be retrieved
         .catch(error => {
-            logger.error("Could not find the offer", error);
+            logger.error("Could not find the offer: %s", error);
             reject(error);
         });
 
