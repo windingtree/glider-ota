@@ -42,8 +42,9 @@ export default function PaymentConfirmation({orderID}) {
                 processOrderStatus(data);
             })
             .catch(err=>{
-                setError("Failure during check")
-                setCheckStatus(CONFIRMATION_STATUS.FAILURE)
+                setError("Failure during check");
+                setCheckStatus(CONFIRMATION_STATUS.FAILURE);
+                checkStatusInFuture();
             });
     }
 
