@@ -5,13 +5,15 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import Spinner from "../../components/common/spinner"
 import {loadStripe} from "@stripe/stripe-js";
 import {createPaymentIntent, getStripePublicKey} from "../../utils/api-utils";
+
+
 const stripePromise = getStripePublicKey().then(data => {
     let key = data.publicKey;
-    console.log("Stripe public key", key)
+    //console.log("Stripe public key", key)
     // loadStripe(key);
     return loadStripe(key);
 }).catch(err => {
-    console.error("Cannot load stripe public key", err)
+    console.error("Cannot load stripe public key", err);
 })
 
 
@@ -19,8 +21,11 @@ export default function PaymentForm({confirmedOfferId, onPaymentSuccess, onPayme
     return (
         <Container>
             <Elements stripe={stripePromise}>
-                <CheckoutForm onPaymentSuccess={onPaymentSuccess} onPaymentFailure={onPaymentFailure}
-                              confirmedOfferId={confirmedOfferId}/>
+                <CheckoutForm
+                    onPaymentSuccess={onPaymentSuccess}
+                    onPaymentFailure={onPaymentFailure}
+                    confirmedOfferId={confirmedOfferId}
+                />
             </Elements>
         </Container>
     )

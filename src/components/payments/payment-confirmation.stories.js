@@ -124,6 +124,20 @@ const pendingStatusMockResponse={
     ],
     "order_status": "NEW",
     "payment_status": "PAID",
+    "payment_details": {
+        "card": {
+            "brand": "VISA",
+            "last4": "1234"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1GpdcHBtLSGo1hFPmmxZDIXD/rcpt_HOQTaYAn1S9RgonBodL3XpoabVTttHk"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "seller_message": "Payment complete.",
+        },
+    },
     "createDate": "2020-05-21T14:41:13.380Z"
 }
 
@@ -240,6 +254,20 @@ const fulfilledStatusMockResponse={
     ],
     "order_status": "FULFILLED",
     "payment_status": "PAID",
+    "payment_details": {
+        "card": {
+            "brand": "VISA",
+            "last4": "1234"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1GpdcHBtLSGo1hFPmmxZDIXD/rcpt_HOQTaYAn1S9RgonBodL3XpoabVTttHk"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "seller_message": "Payment complete.",
+        },
+    },
     "createDate": "2020-05-21T19:59:47.492Z",
     "transaction_history": [],
     "lastModifyDateTime": "6829389843391315971",

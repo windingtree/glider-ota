@@ -1,0 +1,46 @@
+%status {
+    height: 24px;
+    width: 24px;
+    margin: 5px;
+}
+
+.icon-status {
+    &-success {
+        @extend %status;
+        background: url(../../assets/circle-tick.svg) no-repeat center;
+    }
+
+    &-failed {
+        @extend %status;
+        background: url(../../assets/circle-exclamation.svg) no-repeat center;
+    }
+
+    &-undefined {
+        @extend %status;
+        background: url(../../assets/circle-question.svg) no-repeat center;
+    }
+
+    &-pending {
+        @extend %status;
+        background: url(../../assets/circle-clock.svg) no-repeat center;
+    }
+}
+
+.col-status {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.col-category {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.col-thankyou {
+    margin-top: 50px;
+    text-align: center;
+}
