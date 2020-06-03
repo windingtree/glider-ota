@@ -5,7 +5,10 @@ export const FILTERS={
     ITINERARYDURATION:'itinduration',
     LAYOVERDURATION:'layoverduration',
     BAGGAGE:'baggage',
-    AIRLINES:'airlines'
+    AIRLINES:'airlines',
+    RATING:'rating',
+    HOTELPRICE:'hotelprice',
+    AMENITIES:'amenities'
 }
 
 

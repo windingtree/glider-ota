@@ -28,13 +28,15 @@ export default class FareFamilyHelper {
     Object.keys(pricePlansMinFares).map(pricePlanId=>{
       plans.push({pricePlanId:pricePlanId, price:pricePlansMinFares[pricePlanId]})
     })
+    //sort it
     plans.sort((a,b)=>{
-      if(a.price<b.price) return 1;
-      else if(a.price>b.price) return -1;
+      if(parseInt(a.price)<parseInt(b.price)) return -1;
+      else if(parseInt(a.price)>parseInt(b.price)) return 1;
       else return 0;
     })
+    let res=plans.map(a=>a.pricePlanId);
     //we only need to return array of price plan IDs
-    return plans.map(a=>a.pricePlanId);
+    return res;
   }
 
   /**

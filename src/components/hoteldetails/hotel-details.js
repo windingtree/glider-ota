@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import style from './hotel-details.module.scss'
 import {Container, Row, Col, Button, Image} from 'react-bootstrap'
 import _ from 'lodash'
@@ -6,119 +6,45 @@ import PaxDetails from "../passengers/pax-details";
 import Room from "./room-details"
 import YourChoice from "./your-choice";
 import default_hotel_image from "../../assets/default_hotel_image.png";
+import {storePassengerDetails, storeSelectedOffer} from "../../utils/api-utils";
+import {HotelSearchResultsWrapper} from "../../utils/hotel-search-results-wrapper";
+import {useHistory} from "react-router-dom";
 
-export default class HotelDetails extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedOfferId:undefined,
-            selectedOffer:undefined,
-            contact_details:[]
-        };
-        this.handleContactDetailsChange = this.handleContactDetailsChange.bind(this);
-        this.handlePayButtonClick = this.handlePayButtonClick.bind(this);
-        this.handleSelectedOfferChange= this.handleSelectedOfferChange.bind(this);
+export default function HotelDetails({hotel, searchResults}) {
+    let history = useHistory();
+    const [selectedOffer,setSelectedOffer] = useState()
+    const [passengerDetails, setPassengerDetails] = useState();
+    const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
+
+    let searchResultsWrapper=new HotelSearchResultsWrapper(searchResults);
+
+    function handleContactDetailsChange(paxData, allPassengersDetailsAreValid){
+        setPassengerDetails(paxData)
+        setPassengerDetailsValid(allPassengersDetailsAreValid)
     }
 
-    handleContactDetailsChange(contactDetails, allPassengersDetailsAreValid){
-        this.setState({ contact_details:contactDetails})
-        console.log("Contact details",contactDetails, "allPassengersDetailsAreValid:",allPassengersDetailsAreValid)
-    }
-
-    handleSelectedOfferChange(newOffer){
-        console.log("Offer changed",newOffer)
-        this.setState({
-            // selectedOfferId:newOffer.offerId,
-            selectedOffer:newOffer
+    function handleSelectedOfferChange(newOffer){
+        let offer  = searchResultsWrapper.getOffer(newOffer.offerId)
+        let results = storeSelectedOffer(offer);
+        results.then((response) => {
+            console.debug("Selected offer successfully added to a shopping cart", response);
+        }).catch(err => {
+            console.error("Failed to add selecteed offer to a shopping cart", err);
+            //TODO - add proper error handling (show user a message)
         })
+        setSelectedOffer(newOffer);
     }
 
 
-    handlePayButtonClick(){
-        const contactDetails = this.state.contact_details;
-        // const selectedOffer = this.state.selectedOffer;
-        // console.log("Pay button clicked, offer:",selectedOffer, "pax details:", contactDetails);
 
-    }
-
-    render() {
-        const {hotel,searchResults} = this.props;
-        const offers=searchResults.offers;
-        const pricePlans=searchResults.pricePlans;
-        const rooms = hotel.roomTypes;
-        const hotelPricePlansWithOffers = this.getHotelPricePlansWithOffers(hotel,offers,pricePlans);
-        const passengers = searchResults.passengers;
-
-        const payButtonClick= () =>{
-
-        }
-        return (
-            <Container >
-                <Row>
-                    <Col className={style.offerWrapper}>
-                        <div className='glider-font-h1-fg mb-4'>
-                            Book your room
-                        </div>
-                        <div className='glider-font-text24medium-fg mb-3'>
-                            {hotel.name}
-                        </div>
-                        <div className='glider-font-text16-fg mb-5'>
-                            on Olympuc st 14, Moscow | 1 adult for 2 nights
-                        </div>
-                            <HotelLeadingImage images={hotel.media}/>
-                        <div>
-                            {
-                                _.map(rooms, (room, roomId) => {
-                                    const roomPricePlansWithOffers=this.getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
-
-                                    return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers} onOfferSelected={this.handleSelectedOfferChange}/>)
-                                })
-                            }
-
-                        </div>
-                        <div>
-                                {this.state.selectedOffer!==undefined && (
-                                    <YourChoice room={this.state.selectedOffer.room}
-                                                hotel={hotel}
-                                                price={this.state.selectedOffer.price}/>
-                                    )}
-                        </div>
-                        <div>
-                                <PaxDetails onDataChange={this.handleContactDetailsChange} passengers={passengers}/>
-                        </div>
-                        {this.state.selectedOffer!==undefined && (
-                                <HotelPriceSummary price={this.state.selectedOffer.price} onPayButtonClick={payButtonClick}/>
-                        )}
-                    </Col>
-                </Row>
-            </Container>
-        )
-    }
-    /*
-    "offers": {
-        "b64a914d-53a1-4df0-a5a3-731dd780e8b5": {
-          "pricePlansReferences": {
-            "LSAVE": {
-              "accommodation": "erevmax.07119",
-              "roomType": "ND"
-            }
-          },
-          "price": {
-            "currency": "SEK",
-            "public": "576.0",
-            "taxes": -64
-          }
-        },
-
-
-     */
-
-    getHotelPricePlansWithOffers(hotel, offers, pricePlans){
+    function getHotelPricePlansWithOffers(hotel, offers, pricePlans){
         let hotelOffers = [];
         let roomTypes = hotel.roomTypes;
         let accommodationId = hotel.accommodationId;
-
+        console.log("hotel",hotel)
+        console.log("hotel accommodationId",accommodationId)
         _.map(offers,(offer,offerId)=>{
+            console.log("OfferID",offerId," = ",offer)
             _.map(offer.pricePlansReferences,(ppRef,ppRefId)=>{
                 if(ppRef.accommodation === accommodationId){
                     hotelOffers.push({
@@ -140,11 +66,88 @@ export default class HotelDetails extends React.Component {
         return hotelOffers
     }
 
-    getRoomPricePlansWithOffers(roomType, hotelPlansWithOffers){
-        return hotelPlansWithOffers.filter(rec=>{
+    function getRoomPricePlansWithOffers(roomType, hotelPlansWithOffers) {
+        return hotelPlansWithOffers.filter(rec => {
             return rec.roomType === roomType;
         })
     }
+
+
+    const payButtonClick = () => {
+        let results = storePassengerDetails(passengerDetails);
+        results.then((response) => {
+            console.debug("Successfully saved pax details", response);
+            redirectToPayment();
+        }).catch(err => {
+            console.error("Failed to store passenger details", err);
+            //TODO - add proper error handling (show user a message)
+        })
+    }
+
+    function initializePassengerForm(searchResults){
+        let passengers = [];
+        Object.keys(searchResults.passengers).forEach(paxId=>{
+            let pax = searchResults.passengers[paxId]
+            passengers.push({
+                id:paxId,
+                type:pax.type
+            })
+        })
+        return passengers;
+    }
+
+    function redirectToPayment() {
+        let offerId = selectedOffer.offerId
+        let url = '/payment/' + offerId;
+        history.push(url);
+    }
+
+    const offers = searchResults.offers;
+    const pricePlans = searchResults.pricePlans;
+    const rooms = hotel.roomTypes;
+    const hotelPricePlansWithOffers = getHotelPricePlansWithOffers(hotel, offers, pricePlans);
+    const passengers = initializePassengerForm(searchResults);
+
+    return (
+            <Container >
+                <Row>
+                    <Col className={style.offerWrapper}>
+                        <div className='glider-font-h1-fg mb-4'>
+                            Book your room
+                        </div>
+                        <div className='glider-font-text24medium-fg mb-3'>
+                            {hotel.name}
+                        </div>
+                        <div className='glider-font-text16-fg mb-5'>
+                            on Olympuc st 14, Moscow | 1 adult for 2 nights
+                        </div>
+                            <HotelLeadingImage images={hotel.media}/>
+                        <div>
+                            {
+                                _.map(rooms, (room, roomId) => {
+                                    const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
+                                    return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers} onOfferSelected={handleSelectedOfferChange}/>)
+                                })
+                            }
+
+                        </div>
+                        <div>
+                                {selectedOffer!==undefined && (
+                                    <YourChoice room={selectedOffer.room}
+                                                hotel={hotel}
+                                                price={selectedOffer.price}/>
+                                    )}
+                        </div>
+                        <div>
+                                <PaxDetails onDataChange={handleContactDetailsChange} passengers={passengers}/>
+                        </div>
+                        {selectedOffer!==undefined && (
+                                <HotelPriceSummary price={selectedOffer.price} onPayButtonClick={payButtonClick} passengerDetailsValid={passengerDetailsValid}/>
+                        )}
+                    </Col>
+                </Row>
+            </Container>
+        )
 }
 
 
@@ -162,7 +165,7 @@ export function HotelLeadingImage({images}){
 
 
 
-export function HotelPriceSummary({price, onPayButtonClick}){
+export function HotelPriceSummary({price, onPayButtonClick, passengerDetailsValid=false}){
     return (<>
             <Row>
                 <Col xs={12} lg={6} className={style.hotelPrice}>
@@ -171,7 +174,7 @@ export function HotelPriceSummary({price, onPayButtonClick}){
             </Row>
             <Row className='flex-row-reverse'>
                 <Col xs={12} sm={3} lg={3} className={style.hotelPriceButton}>
-                    <Button variant="primary" onClick={onPayButtonClick} size="lg" block>Pay now</Button>
+                    <Button variant="primary" onClick={onPayButtonClick} size="lg" block disabled={!passengerDetailsValid}>Pay now</Button>
                 </Col>
             </Row>
             </>
