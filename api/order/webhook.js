@@ -24,6 +24,8 @@ const logger = createLogger("/webhook");
 const webhookController = (request, response ) => {
 
     // Get the raw request
+    // We can not rely on request.body here 
+    // as the JSON payload from Stripe can not be reconstructed in a reliable way
     getRawBodyFromRequest(request)
     .then(rawBody => {
         // Extract the event and signature
@@ -43,7 +45,7 @@ const webhookController = (request, response ) => {
             // If signature bypassed, fallback
             if(STRIPE_CONFIG.BYPASS_WEBHOOK_SIGNATURE_CHECK) {
                 logger.info("Signature check bypassed");
-                event = request.body;
+                event = JSON.parse(rawBody);
             }
             
             // If process not bypassed, stop processing immediatly
