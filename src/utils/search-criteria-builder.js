@@ -112,16 +112,20 @@ export default class SearchCriteriaBuilder {
     console.log(JSON.stringify(request))
     return request
   }
-  boundingBox(latitude,longitude, distanceInKm)
+  boundingBox(lat,long, distanceInKm)
   {
+    let latitude = parseFloat(lat);
+    let longitude = parseFloat(long);
+    let size = parseInt(distanceInKm)
     const adjust = .008983112; // 1km at equator(in degrees).
     const lngRatio = 1/Math.cos(latitude*(Math.PI/180));
-    return {
-      north:latitude + ( distanceInKm * adjust),
-      south:latitude - ( distanceInKm * adjust),
-      west:longitude + (distanceInKm * adjust) * lngRatio,
-      east:longitude - (distanceInKm * adjust) * lngRatio
+    let result =  {
+      north:latitude + ( size * adjust),
+      south:latitude - ( size * adjust),
+      west:longitude + (size * adjust) * lngRatio,
+      east:longitude - (size * adjust) * lngRatio
     }
+    return result;
   }
 
 

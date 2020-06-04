@@ -184,10 +184,11 @@ function processWebhookEvent(event) {
  * @param webhookEvent
  */
 function processPaymentFailure(confirmedOfferId, webhookEvent) {
-    logger.info("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.FAILED, confirmedOfferId);
+    logger.info("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.FAILED, confirmedOfferId);    
     return updatePaymentStatus(
         confirmedOfferId,
         PAYMENT_STATUSES.FAILED,
+        {},
         "Webhook event:" + webhookEvent.type,
         {webhookEvent}
     );
@@ -207,10 +208,34 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
     return new Promise(function(resolve, reject) {
         logger.info("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.PAID, confirmedOfferId);
         
+        // Extract relevant details from Stripe
+        let paymentDetails;
+        try {
+            const chargeDetails = webhookEvent.data.object.charges.data[0];
+            paymentDetails = {
+                card: {
+                    brand: chargeDetails.payment_method_details.card.brand,
+                    last4: chargeDetails.payment_method_details.card.last4,
+                },
+                receipt: {
+                    url: chargeDetails.receipt_url,
+                },
+                status: {
+                    type: chargeDetails.outcome.type,
+                    network: chargeDetails.outcome.network_status,
+                    message: chargeDetails.outcome.seller_message,
+                }
+            }
+        }
+        catch(error) {
+            logger.warn('Can not retrieve payment details: ', error);
+        }
+
         // Update the Payment Status in DB
         updatePaymentStatus(
             confirmedOfferId,
             PAYMENT_STATUSES.PAID,
+            paymentDetails,
             "Webhook event:" + webhookEvent.type,
             {webhookEvent}
         )
@@ -250,7 +275,7 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
 
                     // In case of issue to send the email, abort
                     .catch(error => {
-                        logger.error("Failed to updated order status");
+                        logger.error("Failed to send email confirmation");
                         reject(error);
                     });
                 }
@@ -297,7 +322,6 @@ function fulfillOrder(confirmedOfferId) {
 
         // Process the retrieved offer
         .then(document => {
-            console.debug("#2 document retrieved", document);
 
             // Check if fulfillment was already processed
             if(document.confirmation && (document.order_status === ORDER_STATUSES.FULFILLED)) {
@@ -336,8 +360,18 @@ function fulfillOrder(confirmedOfferId) {
     
                     // Handle the error creation error
                     .catch(error => {
-                        logger.error("Failure in response from /createWithOffer", error.response ? error.response.data : error);
-                        updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Order creation failed[${error}]`, {request:orderRequest})
+                        // Override Error with Glider message
+                        if(error.response && error.response.data && error.response.data.message) {
+                            error.message = `Glider B2B: ${error.response.data.message}`;
+                        }
+                        logger.error("Failure in response from /createWithOffer: %s", error.message);
+
+                        // Update order status
+                        updateOrderStatus(
+                            confirmedOfferId,
+                            ORDER_STATUSES.FAILED,
+                            `Order creation failed[${error}]`,
+                            {request:orderRequest})
                         
                         // Once order is updated, reject the error
                         .then(() => {
@@ -355,7 +389,7 @@ function fulfillOrder(confirmedOfferId) {
     
                 // Handle the guarantee creation error
                 .catch(error => {
-                    logger.error("Could not create guarantee", error);
+                    logger.error("Could not create guarantee: %s", error);
                     reject(error);
                 });
             }
@@ -364,7 +398,7 @@ function fulfillOrder(confirmedOfferId) {
 
         // Handle the error when offer can not be retrieved
         .catch(error => {
-            logger.error("Could not find the offer", error);
+            logger.error("Could not find the offer: %s", error);
             reject(error);
         });
 

@@ -74,7 +74,7 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
     let itineraries = tripRates.itineraries;
     return (
         <>
-            <Container fluid={true}>
+            <div>
                 <Row>
                     <Col>
                         <TripRates itineraries={itineraries} tripRates={tripRates} selectedOffer={currentOffer}
@@ -91,7 +91,7 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
 
                 </Row>
 
-            </Container>
+            </div>
         </>
     )
 }

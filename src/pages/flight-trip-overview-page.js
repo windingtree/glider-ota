@@ -29,13 +29,13 @@ export default function FlightTripOverviewPage({match}) {
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-                    <Container fluid={true}>
+                    <div>
                         <Row>
                             <Col >
                                 <TripDetails itineraries={itineraries}/>
                             </Col>
                         </Row>
-                    </Container>
+                    </div>
                     <TotalPriceButton price={selectedOffer.price} proceedButtonTitle="Proceed" onProceedClicked={proceedButtonClick}/>
                 </div>
             </div>

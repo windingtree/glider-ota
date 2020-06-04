@@ -1,8 +1,10 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
-import {SearchForm,buildFlightsSearchCriteria,searchForFlightsWithCriteria} from '../components/search-form/search-form';
+import {
+    searchForFlightsWithCriteria,
+    FlightsSearchForm
+} from '../components/search-form/search-form';
 import {parse,isValid} from "date-fns";
-import {Button, Container,  Row, Col} from "react-bootstrap";
 import Filters from "../components/filters/filters";
 import FlightsSearchResults from "../components/flightresults/flights-search-results";
 import {useHistory} from "react-router-dom";
@@ -10,7 +12,8 @@ import cssdefs from './flights-search-page.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
-import {SelectionFilter} from "../components/filters/selection-filter";
+import {Col, Row} from "react-bootstrap";
+import Alert from 'react-bootstrap/Alert';
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -19,11 +22,10 @@ const SEARCH_STATE={
     FINISHED:'FINISHED'
 }
 
-export default function FlightsSearchPage({match,location}) {
+export default function FlightsSearchPage({match, location, results}) {
     let history = useHistory();
-    console.debug("FlightsSearchPage, match:",match, "Location:",location);
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
-    const [searchResults, setSearchResults] = useState();
+    const [searchResults, setSearchResults] = useState(results);
     const [filters, setFilters] = useState({});
 
     const onSearchButtonClick = (criteria) => {
@@ -71,60 +73,75 @@ export default function FlightsSearchPage({match,location}) {
         history.push(url, { passengers: passengers });
     };
 
-
     let key = '';
     if(searchResults && searchResults.metadata && searchResults.metadata.uuid)
         key=searchResults.metadata.uuid;
     console.debug("Render flight results")
 
-
     return (
 
         <div>
             <Header violet={true}/>
-            <div className='root-container-subpages'>
-
-                <div className='d-flex flex-row '>
-                    <div className="filters-wrapper">
-                            {/*<Filters searchResults={searchResults} filtersStates={filtersStates} onFilterApply={onFiltersChanged}/>*/}
-                            <Filters key={key} searchResults={searchResults}  onFiltersChanged={setFilters}/>
-                    </div>
-                        <div >
-                            <SearchForm
-                                onSearchButtonClick={onSearchButtonClick}
-                                enableOrigin={true}
-                                oneWayAllowed={true}
-                                initAdults={initialParameters.adults}
-                                initChildren={initialParameters.children}
-                                initInfants={initialParameters.infants}
-                                initiDest={initialParameters.destination}
-                                initOrigin={initialParameters.origin}
-                                initDepartureDate={initialParameters.departureDate}
-                                initReturnDate={initialParameters.returnDate}
-                            />
-                            <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
-                            {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
-                            {searchResults !== undefined &&
-                            <FlightsSearchResults
-                                onOfferDisplay={onOfferSelected}
-                                searchResults={searchResults}
-                                filters={filters}
-                            />
-                            }
-                        </div>
-                    </div>
+            <div className='root-container-searchpage'>
+                <Row>
+                    <Col xs={0} lg={3} xl={2} className='d-none d-lg-block'>
+                        <Filters key={key} searchResults={searchResults}  onFiltersChanged={setFilters}/>
+                    </Col>
+                    <Col xs={12} lg={9} xl={10}>
+                        <FlightsSearchForm
+                            onSearchButtonClick={onSearchButtonClick}
+                            initAdults={initialParameters.adults}
+                            initChildren={initialParameters.children}
+                            initInfants={initialParameters.infants}
+                            initiDest={initialParameters.destination}
+                            initOrigin={initialParameters.origin}
+                            initDepartureDate={initialParameters.departureDate}
+                            initReturnDate={initialParameters.returnDate}
+                            maxPassengers={9}
+                        />
+                        <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
+                        {searchState === SEARCH_STATE.FAILED && <WarningNoResults/>}
+                        {searchResults !== undefined &&
+                        <FlightsSearchResults
+                            onOfferDisplay={onOfferSelected}
+                            searchResults={searchResults}
+                            filters={filters}
+                        />
+                        }
+                        </Col>
+                    </Row>
+                </div>
             </div>
-        </div>
     )
 }
 
 
-
-const SearchFailed = ()=>{
+// Display the No Flight message
+const SearchFailed = () => {
     return (
-        <div className='glider-font-h1-fg pt-3'>No flights found</div>
+        <div className='glider-font-h3-fg pt-3'></div>
     )
-}
+};
+
+const WarningNoResults = () => {
+     return (
+        <Alert variant="warning">
+        <Alert.Heading>
+            Sorry, we could not find any flights
+            <span role='img' aria-label='sorry'> 😢</span>
+        </Alert.Heading>
+        <p>
+            Glider has been launched with our amazing partner <b><a href='https://aircanada.com'>Air Canada</a></b>,
+            so for now we have only results flying to, from or over Canada 🇨🇦! Why not going there?
+        </p>
+        <hr />
+        <p className="mb-0">
+            We are working with other partners, and more options will quickly
+            become available, stay tuned! <span role='img' aria-label='wink'>😉</span>
+        </p>
+        </Alert>
+     );
+};
 
 function createOfferURL(offerId){
     const url = "/flights/tripoverview/"+offerId;
@@ -147,7 +164,6 @@ const parseDeeplinkParams = (location) =>{
         action:params.action
     }
 }
-
 
 function parseJSONWithDefault(obj,defaultValue){
     try{

@@ -94,7 +94,6 @@ export async function createPaymentIntent(confirmedOfferId,type){
   return fetchPost('/api/order/checkout',{type:type,confirmedOfferId:confirmedOfferId});
 }
 
-
 export async function getStripePublicKey() {
   return fetchPost('/api/order/key', {});
 }

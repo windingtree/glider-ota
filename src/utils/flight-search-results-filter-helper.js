@@ -1,16 +1,8 @@
 import OfferUtils from "./offer-utils";
 import {FlightSearchResultsWrapper} from "./flight-search-results-wrapper";
-// import {FILTERS} from "../components/filters/filters";
+import {FILTERS} from "../components/filters/filters-utils";
 
 
-export const FILTERS={
-    MAXSTOPS:'maxstops',
-    PRICE:'price',
-    ITINERARYDURATION:'itinduration',
-    LAYOVERDURATION:'layoverduration',
-    BAGGAGE:'baggage',
-    AIRLINES:'airlines'
-}
 
 export class FlightSearchResultsFilterHelper {
     constructor(searchResults){
@@ -20,10 +12,10 @@ export class FlightSearchResultsFilterHelper {
     /**
      * Generate a list of offers (search results).
      * Each item in the list contains metadata (e.g. trip duration, operating carriers, baggage allowance) so that it can be used later to narrow down/filter search results.
-     * @param sortBy
+     * @param sortBy (PRICE or DURATION)
+     * @param filters Object containing filters selection
      * @returns {[]}
      */
-    // generateSearchResults(sortBy = 'PRICE', predicates={}){
     generateSearchResults(sortBy = 'PRICE', filters={}){
         let trips={};
         //extract all available offers from search results
@@ -38,6 +30,7 @@ export class FlightSearchResultsFilterHelper {
         // calculate basic metadata (e.g. trip duration, number of stops, operating carriers)
         // and later on apply "flight level" criteria (e.g. min & max flight duration or allowed operating carriers)
         Object.keys(offers).forEach(offerId=>{
+
             let offer = this.searchResultsWrapper.getOffer(offerId);
             let offerItineraries = this.searchResultsWrapper.getOfferItineraries(offerId);
             //ensure filter metadata (e.g. itinerary duration, operating carriers, etc...) is calculated for each itin
@@ -59,12 +52,13 @@ export class FlightSearchResultsFilterHelper {
                 trips[tripID]=tripInfo;
             }
             let prevOffer = tripInfo.bestoffer;
-            if (prevOffer === undefined || price.public < prevOffer.price.public) {
+            if (prevOffer === undefined || parseInt(price.public) < parseInt(prevOffer.price.public)) {
                 //in case it's cheaper - store it (entire offer)
                 tripInfo.bestoffer = offer;
                 tripInfo.itineraries = offerItineraries;
                 tripInfo.trip_duration=this.calculateTripDuration(offerItineraries);
             }
+
         })
         let tripArray=[];
         Object.keys(trips).forEach(tripId=>tripArray.push(trips[tripId]));

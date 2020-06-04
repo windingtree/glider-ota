@@ -51,7 +51,7 @@ export function OtherPolicies({otherPolicies}){
         <div className={style.otherPoliciesItem}>
         {_.map(otherPolicies, (policy, id) => {
             return (
-                <p>{policy}</p>
+                <p key={id}>{policy}</p>
             )
         })}
         </div>

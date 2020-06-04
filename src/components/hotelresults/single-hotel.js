@@ -7,6 +7,11 @@ import default_hotel_image from "../../assets/default_hotel_image.png";
 export default function SingleHotel({hotel, bestoffer, handleClick}){
     const image=(hotel.media!==undefined && hotel.media.length>0)?hotel.media[0].url:default_hotel_image;
     let bestPrice = bestoffer.price;
+    if(!bestPrice)
+        bestPrice = {
+            public:123,
+            currency:'CAD'
+        }
     return(
         <Container  className={style.container}>
         {/*<Container  className="hotel-search-offer__container d-flex flex-row flex-wrap p-3">*/}

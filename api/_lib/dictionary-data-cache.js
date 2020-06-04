@@ -6,7 +6,7 @@ const logger = createLogger('dictionary-data-cache')
 const TABLES={
     AIRLINES:'airlines',
     AIRPORTS:'airports',
-    CITIES:'CITIES',
+    CITIES:'cities',
     CURRENCIES:'currencies',
     COUNTRIES:'COUNTRIES'
 }

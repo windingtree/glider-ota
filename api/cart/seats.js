@@ -9,7 +9,22 @@ const seatRequestHandler = async (req, res) => {
 
     switch(req.method) {
         case 'POST': 
-            // Add items to cart 
+            // Retrieve and check the seats
+            let seats = req.body;
+            if(!seats && !Array.isArray(seats)) {
+                res.status(400).json({message:"Seat request format is invalid"});
+            } else {
+                seats = seats.map(seat => {
+                    let {code, passenger, seatNumber, segment} = seat;
+                    if(!code) res.status(400).json({message:"Missing seat code"});
+                    if(!passenger) res.status(400).json({message:"Missing seat passenger"});
+                    if(!seatNumber) res.status(400).json({message:"Missing seat seatNumber"});
+                    if(!segment) res.status(400).json({message:"Missing seat segment"});
+                    return {code, passenger, seatNumber, segment};
+                });
+            }
+
+            // Add items to cart
             shoppingCart.addItemToCart(CART_ITEMKEYS.SEATS, req.body, 0)
                 .then(() => {
                     res.status(200).json({result:"OK"});

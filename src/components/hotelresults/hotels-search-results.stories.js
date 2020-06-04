@@ -2,13 +2,13 @@ import React from 'react';
 import {
     action
 } from '@storybook/addon-actions';
-import sample from "../../data/sample_response_hotels1.json"
 import HotelsSearchResults from './hotels-search-results'
+import sample from "../../data/sample_response_hotels_simulator.json"
 
 export default {
-    title: 'Hotels/Search results',
+    title: 'Hotels/Search/Multiple hotels',
     component: HotelsSearchResults
 };
 
-
-export const MultipleHotels = () => (<HotelsSearchResults searchResults={sample} onHotelSelected={action("onHotelSelected")}/> );
+//FIXME - use sample with more results
+export const Default = () => (<HotelsSearchResults searchResults={sample} onHotelSelected={action("onHotelSelected")}/> );
