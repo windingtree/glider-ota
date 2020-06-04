@@ -23,45 +23,52 @@ const logger = createLogger("/webhook");
  */
 const webhookController = (request, response ) => {
 
-    // Extract the event and signature
-    let event;
-    let signature = request.headers['stripe-signature'];
+    // Get the raw request
+    getRawBodyFromRequest(request)
+    .then(rawBody => {
+        // Extract the event and signature
+        let event;
+        let stripeSignature = request.headers['stripe-signature'];
 
-    // Validate the signature
-    try {
-        event = validateWebhook(request.body, signature);
-    }
-
-    // Signature verification fails
-    catch(error) {
-        // Log an error
-        logger.error("Webhook signature verification failed %s", error);
-
-        // If signature bypassed, fallback
-        if(STRIPE_CONFIG.BYPASS_WEBHOOK_SIGNATURE_CHECK) {
-            logger.info("Signature check bypassed");
-            event = request.body;
+        // Validate the signature
+        try {
+            event = validateWebhook(rawBody, stripeSignature);
         }
-        
-        // If process not bypassed, stop processing immediatly
-        else {
-            response.status(400).send(`Webhook signature verification failed: ${error.message}`);
-        }   
-    }
 
-    // Process the event
-    if(event) {
-        processWebhookEvent(event)
-        .then(() => {
-            response.json({received: true});
-        })
-        .catch(error => {
-            logger.error("/webhook error:%s", error);
-            response.status(500).send(`Webhook processing error: ${error.message}`);
-        })
-        
-    }
+        // Signature verification fails
+        catch(error) {
+            // Log an error
+            logger.error("Webhook signature verification failed %s", error);
 
+            // If signature bypassed, fallback
+            if(STRIPE_CONFIG.BYPASS_WEBHOOK_SIGNATURE_CHECK) {
+                logger.info("Signature check bypassed");
+                event = request.body;
+            }
+            
+            // If process not bypassed, stop processing immediatly
+            else {
+                response.status(400).send(`Webhook signature verification failed: ${error.message}`);
+            }   
+        }
+
+        // Process the event
+        if(event) {
+            processWebhookEvent(event)
+            .then(() => {
+                response.json({received: true});
+            })
+            .catch(error => {
+                logger.error("/webhook error:%s", error);
+                response.status(500).send(`Webhook processing error: ${error.message}`);
+            })
+            
+        }
+    })
+    .catch(error => {
+        logger.error("/webhook error:%s", error);
+        response.status(500).send(`Webhook processing error: ${error.message}`);
+    })
 
 }
 

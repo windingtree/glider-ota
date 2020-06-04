@@ -52,7 +52,7 @@ function validateWebhook(body, sig){
     let endpointSecret=STRIPE_CONFIG.WEBHOOK_SECRET;
 
     try {
-        event = stripe.webhooks.constructEvent(JSON.stringify(body), sig, endpointSecret);
+        event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
     }
     catch (err) {
         logger.error("Stripe webhook cannot be validated: %s, stripe-signature header:[%s], webhook secret:[%s]",err,sig,endpointSecret);
