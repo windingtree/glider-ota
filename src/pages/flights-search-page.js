@@ -13,6 +13,7 @@ import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
 import {Col, Row} from "react-bootstrap";
+import Alert from 'react-bootstrap/Alert';
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -130,7 +131,7 @@ const WarningNoResults = () => {
             <span role='img' aria-label='sorry'> 😢</span>
         </Alert.Heading>
         <p>
-            Glider has been launched with our amazing partner <b><a href='https://aircanada.com'>Air Canada</a></b>, 
+            Glider has been launched with our amazing partner <b><a href='https://aircanada.com'>Air Canada</a></b>,
             so for now we have only results flying to, from or over Canada 🇨🇦! Why not going there?
         </p>
         <hr />
