@@ -47,12 +47,12 @@ async function createPaymentIntent(payment_method_type, amount, currency, confir
  * @param sig - content of stripe-signature header
  * @returns {Stripe.Event}
  */
-function validateWebhook(rawBody, sig){
+function validateWebhook(body, sig){
     let event;
     let endpointSecret=STRIPE_CONFIG.WEBHOOK_SECRET;
 
     try {
-        event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
+        event = stripe.webhooks.constructEvent(JSON.stringify(body), sig, endpointSecret);
     }
     catch (err) {
         logger.error("Stripe webhook cannot be validated: %s, stripe-signature header:[%s], webhook secret:[%s]",err,sig,endpointSecret);
