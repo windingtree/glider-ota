@@ -63,16 +63,16 @@ body{
 
 .root-container-subpages{
   width:100%;
-  margin-right: auto;
-  margin-left: auto;
-  //border: 1px solid red;
+  margin: auto;
+  @include glider-media-medium_768{
+    max-width: 830px;
+  }
   @include glider-media-large_992{
-    max-width: 80%;
-    //min-width: 80%;
+    width:90%;
+    max-width: none;
   }
   @include glider-media-xlarge_1600{
-    max-width: 1770px;
-
+    max-width: 1166px;
   }
   //border: 1px solid black;
 }

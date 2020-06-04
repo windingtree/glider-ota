@@ -111,8 +111,8 @@ function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initA
               <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
             </Row>
             <Row>
-              <Col xs={12} lg={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate}/></Col>
-              <Col xs={12} lg={6} className={style.formElem}><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
+              <Col xs={12}  md={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate}/></Col>
+              <Col xs={12} md={6} className={style.formElem}><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
             </Row>
           </div>
           <div className={style.searchButtonContainer}>
