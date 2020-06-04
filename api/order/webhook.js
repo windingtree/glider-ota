@@ -15,13 +15,40 @@ const {
     PAYMENT_STATUSES
 } = require('../_lib/mongo-dao');
 const logger = createLogger("/webhook");
-
+const EventEmitter = require('events');
+const GliderWebhookEmitter = new EventEmitter();
+const GLIDER_EVENT_PAYMENT_STATUS_UPDATED = 'paymentStatusUpdated';
 
 /**
  * /webhook call handler
  * This is invoked by Stripe after a given event related to a payment occurs.
  */
 const webhookController = (request, response ) => {
+    // Define if webhook is acknowledged
+    let isWebhookAcknowledged = false;
+
+    // Define a function to handle the reject
+    const handleReject = (code, message) => {
+        if(!isWebhookAcknowledged) {
+            response.status(code).send(message);
+        } else {
+            response.end(JSON.stringify({
+                received: true,
+                fulfilled: false,
+                message: message,
+            }));
+        }
+    }
+
+    // Define a function to handle the webhook ack
+    const handleAck = () => {
+        if(!isWebhookAcknowledged) {
+            response.writeHead(200, {'Content-Type': 'application/json'})
+            //response.json({received: true});
+            logger.info("/webhook acknowledged");
+            isWebhookAcknowledged = true;
+        }
+    }
 
     // Get the raw request
     // We can not rely on request.body here 
@@ -40,7 +67,7 @@ const webhookController = (request, response ) => {
         // Signature verification fails
         catch(error) {
             // Log an error
-            logger.error("Webhook signature verification failed %s", error);
+            logger.error("Webhook signature verification failed %s", error.message);
 
             // If signature bypassed, fallback
             if(STRIPE_CONFIG.BYPASS_WEBHOOK_SIGNATURE_CHECK) {
@@ -50,26 +77,46 @@ const webhookController = (request, response ) => {
             
             // If process not bypassed, stop processing immediatly
             else {
-                response.status(400).send(`Webhook signature verification failed: ${error.message}`);
+                handleReject(400, `Webhook signature verification failed: ${error.message}`);
             }   
         }
 
         // Process the event
         if(event) {
+            // Register to DB Payment update and ack at this point
+            GliderWebhookEmitter.on(GLIDER_EVENT_PAYMENT_STATUS_UPDATED, offerId => {
+                if(offerId === getConfirmedOfferId(event)) {
+                    setImmediate(() => {
+                        handleAck();
+                    });
+                }
+            });
+
+            // Process the webhook
             processWebhookEvent(event)
-            .then(() => {
-                response.json({received: true});
+            .then((confirmation) => {
+                // Answer to webhook if not yet done
+                setImmediate(() => {
+                    handleAck();
+                    response.end(JSON.stringify({
+                        received: true,
+                        fulfilled: true,
+                        orderId: confirmation && confirmation.orderId,
+                    }));
+                });
+                
+                logger.info("/webhook processsing success");
             })
             .catch(error => {
                 logger.error("/webhook error:%s", error);
-                response.status(500).send(`Webhook processing error: ${error.message}`);
+                handleReject(500, `Webhook processing error: ${error.message}`);
             })
             
         }
     })
     .catch(error => {
         logger.error("/webhook error:%s", error);
-        response.status(500).send(`Webhook processing error: ${error.message}`);
+        handleReject(500, `Webhook processing error: ${error.message}`);
     })
 
 }
@@ -170,6 +217,9 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
 
         // Once payment status is updated, proceed to fulfillment
         .then(() => {
+            // Emit the event to acknowledge websocket
+            GliderWebhookEmitter.emit(GLIDER_EVENT_PAYMENT_STATUS_UPDATED, confirmedOfferId);
+
             // Send the fulfill request
             fulfillOrder(confirmedOfferId)
 
@@ -189,7 +239,9 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
                     // When status is updated, send the email confirmation
                     .then(() => {
                         sendConfirmation(confirmedOfferId, confirmation)
-                        .then(resolve)
+                        .then(() => {
+                            resolve(confirmation);
+                        })
                         .catch(error => {
                             logger.error(`Failed to send email confirmation: ${error.message}`);
                             reject(error);
@@ -211,7 +263,13 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
 
             // Handle the fulfillment error 
             .catch(error => {
-                logger.error(`Failed to fulfill order: ${error.message}`);
+                let message;
+                if(error.response && error.response.data && error.response.data.message) {
+                    message = `Glider: ${error.response.data.message}`;
+                } else {
+                    message = error.message;
+                }
+                logger.error(`Failed to fulfill order: ${message}`);
                 reject(error);
             });
         })
