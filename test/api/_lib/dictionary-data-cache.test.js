@@ -100,10 +100,17 @@ describe('dictionary-data-cache', function () {
             let result = dict.findCity('krak');
             assert.equal(result[0].city_name,'Kraków');
         });
-        it('should find city with partial name (narrow down search results)', function () {
+        it('should return same results if there are spaces added in the end (or begining) or search query', function () {
             let result = dict.findCity('New');
             let result2 = dict.findCity('New ');
-            let result3 = dict.findCity('New y');
+            let result3 = dict.findCity('New   ');
+            assert.ok(result.length===result2.length);
+            assert.ok(result2.length===result3.length);
+        });
+        it('should find city with partial name (narrow down search results)', function () {
+            let result = dict.findCity('Lo');
+            let result2 = dict.findCity('Lon');
+            let result3 = dict.findCity('Lond');
             assert.ok(result.length>result2.length);
             assert.ok(result2.length>result3.length);
         });

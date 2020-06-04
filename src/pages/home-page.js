@@ -98,7 +98,8 @@ const FlightsSearchForm = ({onFlightsSearch}) =>{
             onSearchButtonClick={onFlightsSearch}
             enableOrigin = {true}
             locationsSource={LOCATION_SOURCE.AIRPORTS}
-            oneWayAllowed={true}/>
+            oneWayAllowed={true}
+            maxPassengers={9}/>
     )
 }
 

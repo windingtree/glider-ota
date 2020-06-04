@@ -50,13 +50,20 @@ export default function FlightSeatmapPage({match}) {
         // Load the seat map
         retrieveSeatmap()
             // Load results in state
-            .then(res => {
-                setIndexedSeatmap(res);
-                //TODO: Push the segment in path history
+            .then(result => {
+                if(result.error) {
+                    console.log(`[SEATMAP Page] Error ${result.error.code}: ${result.error.message}`);
+                    proceedToSummary();
+                } else {
+                    setIndexedSeatmap(result);
+                }
             })
 
             // Handle error
-            .catch(console.log)
+            .catch(error => {
+                console.log('[SEATMAP Page] Error while retrieving seatmap', error);
+                proceedToSummary();
+            })
 
             // Stop spinner
             .finally(() => {
@@ -78,7 +85,6 @@ export default function FlightSeatmapPage({match}) {
         // If there are more segments with seatmaps, show the next one
         if(activeSegmentIndex < Object.keys(indexedSeatmap).length - 1) {
             setActiveSegmentIndex(activeSegmentIndex + 1);
-            
         } 
         
         // Otherwise proceed to summary
@@ -99,9 +105,13 @@ export default function FlightSeatmapPage({match}) {
             } else {
                 proceedToSummary();
             }
-
         }
     };
+
+    // Handle click on the Skip button
+    const handleSkip = () => {
+        handleNext(seatOptions);
+    }
 
     // Handle a click on continue in the seatmap
     const handleContinue = (selectedSeats) => {
@@ -129,8 +139,8 @@ export default function FlightSeatmapPage({match}) {
     // Get the details of a segment
     const getSeatMapSegment = (segmentKey) => {
         // Get the list of flights from the offer
-        const flightKeys = Object.keys(offer.pricePlansReferences).reduce((f, pricePlan) => {
-            return f.concat(offer.pricePlansReferences[pricePlan].flights);
+        const flightKeys = Object.keys(offer.pricePlansReferences).reduce((f, pricePlanKey) => {
+            return f.concat(offer.pricePlansReferences[pricePlanKey].flights);
         }, []);
         const flights = flightKeys.map(flightKey => retrieveFlightFromLocalStorage(flightKey));
         
@@ -206,7 +216,7 @@ export default function FlightSeatmapPage({match}) {
                     initialPrice={totalPrice}
                     currency={offer.price.currency}
                     handleSeatMapContinue={handleContinue}
-                    handleSeatMapSkip={handleNext}
+                    handleSeatMapSkip={handleSkip}
                 />
             );
         }
@@ -217,8 +227,8 @@ export default function FlightSeatmapPage({match}) {
         if(isLoading) {
             let message;
             if(!indexedSeatmap) {
-                message = "We are retrieving the aircraft and seat availability for your journey, this can take up to 60 seconds.";
-            } else if(seatOptions) {
+                message = "We are retrieving available seats for your journey, this can take up to 60 seconds.";
+            } else if(seatOptions.length > 0) {
                 message = "We are adding your seat selection to your booking.";
             }
             return (

@@ -8,7 +8,7 @@ import {AirportLookup} from "../lookup/lookup";
 
 export default {
     component: PaymentForm,
-    title: 'Payment form',
+    title: 'Payments/Payment form',
 };
 
 const publicKeyMockedResponse={

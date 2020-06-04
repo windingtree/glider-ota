@@ -83,7 +83,7 @@ async function seatmap(offerId) {
  * @param offerId - offerID to be repriced
  * @returns {Promise<any>} response from Glider
  */
-async function reprice(offerId, options = []) {
+async function reprice(offerId, options) {
     let urlTemplate=GLIDER_CONFIG.REPRICE_OFFER_URL;
     let urlWithOfferId = urlTemplate.replace("{offerId}",offerId);
     logger.debug("Reprice URL:[%s], options=%s",urlWithOfferId, JSON.stringify(options));
@@ -91,7 +91,7 @@ async function reprice(offerId, options = []) {
         method: 'post',
         url: urlWithOfferId,
         headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN),
-        data : options,
+        data : options ? options : [],
     });
     logger.debug("Reprice response",response.data);
     return response.data;

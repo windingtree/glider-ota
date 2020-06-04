@@ -3,14 +3,15 @@ import Header from '../components/common/header/header';
 import {SearchForm,buildFlightsSearchCriteria,searchForFlightsWithCriteria} from '../components/search-form/search-form';
 import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
-import Alert from 'react-bootstrap/Alert'
-import Filters,{generateFiltersStates} from "../components/filters/filters";
+import Alert from 'react-bootstrap/Alert';
+import Filters from "../components/filters/filters";
 import FlightsSearchResults from "../components/flightresults/flights-search-results";
 import {useHistory} from "react-router-dom";
 import cssdefs from './flights-search-page.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
+import {SelectionFilter} from "../components/filters/selection-filter";
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -24,7 +25,7 @@ export default function FlightsSearchPage({match,location}) {
     console.debug("FlightsSearchPage, match:",match, "Location:",location);
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
     const [searchResults, setSearchResults] = useState();
-    const [filtersStates, setFiltersStates] = useState();
+    const [filters, setFilters] = useState({});
 
     const onSearchButtonClick = (criteria) => {
         onSearchStart();
@@ -39,13 +40,13 @@ export default function FlightsSearchPage({match,location}) {
     };
     const onSearchSuccess = (results) => {
         console.debug("Search completed, results to be displayed:", results)
+        setFilters({});
         setSearchResults(results);
-        let filters=generateFiltersStates(results);
-        setFiltersStates(filters);
         setSearchState(SEARCH_STATE.FINISHED);
     }
     const onSearchFailure = (err) => {
         console.error("Search failed", err)
+        setFilters({});
         setSearchResults(undefined);
         setSearchState(SEARCH_STATE.FAILED);
     }
@@ -53,10 +54,6 @@ export default function FlightsSearchPage({match,location}) {
         setSearchState(SEARCH_STATE.IN_PROGRESS);
     }
 
-    const onFiltersChanged = (filters) => {
-        setFiltersStates(filters)
-
-    }
 
     const initialParameters = parseDeeplinkParams(location);
     const deeplinkAction = initialParameters.action;
@@ -75,40 +72,45 @@ export default function FlightsSearchPage({match,location}) {
         history.push(url, { passengers: passengers });
     };
 
+    let key = '';
+    if(searchResults && searchResults.metadata && searchResults.metadata.uuid)
+        key=searchResults.metadata.uuid;
     console.debug("Render flight results")
+
     return (
+
         <div>
             <Header violet={true}/>
             <div className='root-container-subpages'>
-
                 <div className='d-flex flex-row '>
                     <div className="filters-wrapper">
-                            <Filters searchResults={searchResults} filtersStates={filtersStates} onFilterApply={onFiltersChanged}/>
+                            <Filters key={key} searchResults={searchResults}  onFiltersChanged={setFilters}/>
                     </div>
-                        <div >
-                            <SearchForm
-                                onSearchButtonClick={onSearchButtonClick}
-                                enableOrigin={true}
-                                oneWayAllowed={true}
-                                initAdults={initialParameters.adults}
-                                initChildren={initialParameters.children}
-                                initInfants={initialParameters.infants}
-                                initiDest={initialParameters.destination}
-                                initOrigin={initialParameters.origin}
-                                initDepartureDate={initialParameters.departureDate}
-                                initReturnDate={initialParameters.returnDate}
-                            />
-                            <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
-                            {searchState === SEARCH_STATE.FAILED && <WarningNoResults/>}
-                            {searchResults !== undefined &&
-                            <FlightsSearchResults
-                                onOfferDisplay={onOfferSelected}
-                                searchResults={searchResults}
-                                filtersStates={filtersStates}
-                            />
-                            }
-                        </div>
+                    <div>
+                        <SearchForm
+                            onSearchButtonClick={onSearchButtonClick}
+                            enableOrigin={true}
+                            oneWayAllowed={true}
+                            initAdults={initialParameters.adults}
+                            initChildren={initialParameters.children}
+                            initInfants={initialParameters.infants}
+                            initiDest={initialParameters.destination}
+                            initOrigin={initialParameters.origin}
+                            initDepartureDate={initialParameters.departureDate}
+                            initReturnDate={initialParameters.returnDate}
+                            maxPassengers={9}
+                        />
+                        <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
+                        {searchState === SEARCH_STATE.FAILED && <WarningNoResults/>}
+                        {searchResults !== undefined &&
+                        <FlightsSearchResults
+                            onOfferDisplay={onOfferSelected}
+                            searchResults={searchResults}
+                            filters={filters}
+                        />
+                        }
                     </div>
+                </div>
             </div>
         </div>
     )

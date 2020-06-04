@@ -11,16 +11,33 @@ import {uiEvent} from "../../utils/events";
 import {AirportLookup,CityLookup} from "../lookup/lookup";
 
 
-export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initAdults,initChildren,initInfants,onSearchButtonClick, enableOrigin,locationsSource, oneWayAllowed}){
+export function SearchForm(props){
+  // Destructure properties
+  const {
+    initOrigin,
+    initiDest,
+    initDepartureDate,
+    initReturnDate,
+    initAdults,
+    initChildren,
+    initInfants,
+    onSearchButtonClick,
+    enableOrigin,
+    locationsSource,
+    oneWayAllowed,
+    maxPassengers,
+  } = props;
+
+  // Define states
   const [origin, setOrigin] = useState(initOrigin);
   const [destination, setDestination] = useState(initiDest);
   const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
   const [returnDate, setReturnDate] = useState(initReturnDate?initReturnDate:undefined);
   const [adults, setAdults] = useState(initAdults||1);
-  const [childrn, setChildren] = useState(initChildren||0);
+  const [children, setChildren] = useState(initChildren||0);
   const [infants, setInfants] = useState(initInfants||0);
 
-  console.log("SearchForm, origin:",initOrigin,", dest:",initiDest)
+  //console.log("SearchForm, origin:",initOrigin,", dest:",initiDest, ",maxPassengers:", maxPassengers);
 
   function serializeSearchForm(){
     return {
@@ -29,7 +46,7 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
       departureDate: departureDate,
       returnDate: returnDate,
       adults:adults,
-      children:childrn,
+      children:children,
       infants:infants,
       isValid:validate(),
       locationsSource:locationsSource
@@ -56,13 +73,29 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
   function isReturnDateValid(){
     if (returnDate!==undefined) {
       return departureDate!==undefined && returnDate >= departureDate;
-    }else{
+    } else{
       return false
     }
-    return true;
   }
+
   function isPaxSelectionValid(){
-    return (adults>0)
+    // Check if maximum is not exceeded
+    if(maxPassengers && (adults + infants + children) > maxPassengers) {
+      return false;
+    }
+
+    //@fixme: Infants are not yet supported by AC
+    if(infants > 0) {
+      return false;
+    }
+
+    // Check if infants do not exceed adults (since they seat on laps)
+    if(infants > adults) {
+      return false;
+    }
+
+    // Otherwise just ensure we have adults (minor-only not supported)
+    return (adults>0);
   }
 
   function validate(){
@@ -86,7 +119,7 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
           <Container fluid={true} >
             <Row >
               <Col lg={6} className='form-elem'><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
-              <Col lg={6} className='form-elem'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest'/></Col>
+              <Col lg={6} className='form-elem'><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest'/></Col>
             </Row>
             <Row>
               <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} startPlaceholder='Check in' endPlaceholder='Check out'/></Col>
@@ -113,7 +146,7 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
             </Row>
             <Row>
               <Col xs={12} lg={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate}/></Col>
-              <Col xs={12} lg={6} className='form-elem'><PassengerSelector adults={adults} childrn={childrn} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
+              <Col xs={12} lg={6} className='form-elem'><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} maxPassengers={maxPassengers}/></Col>
             </Row>
           </Container>
           <Container fluid={true} className='searchbutton__container'>
@@ -127,11 +160,6 @@ export function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDat
         </>
     )
   }
-
-
-
-
-
 
   return (<>
         {enableOrigin && renderFlightsForm()}
@@ -191,7 +219,8 @@ export function buildFlightsSearchCriteria(origin,destination,departureDate,retu
 
 export function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, adults,children,infants) {
   const criteriaBuilder = new SearchCriteriaBuilder();
-  let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,config.LOCATION_BOUNDING_BOX_IN_KM)
+  let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,10)
+  let boundingBoxForSelectedLocation2 = criteriaBuilder.boundingBox(latitude,longitude,40)
   const searchCriteria = criteriaBuilder
       .withAccommodationLocation(boundingBoxForSelectedLocation,'rectangle')
       .withAccommodationArrivalDate(arrivalDate)

@@ -912,14 +912,14 @@ describe('FareFamilyHelper', function () {
         it('should return list of price plan IDs available for itinID - list should be in ascending order (cheapest plan first)', function () {
             let pricePlanIds = fareFamilyHelper.getItineraryPricePlansInAscendingOrder('CVCWVO8WEP-OD142')
             console.log("Pricplan",pricePlanIds)
-            assert.deepEqual(pricePlanIds,['YQ80NLKQO5-PremiumEconomyflexible',
-                'H68WNDKGTP-Latitude',
-                'HLVAYZDZ46-PremiumEconomylowest',
-                'JJU2G5KVXN-Standard',
+            assert.deepEqual(pricePlanIds,[ 'HSEOUVCLW2-Flex',
                 'RXT7EMIQC6-Basic',
-                'HSEOUVCLW2-Flex',
+                'JJU2G5KVXN-Standard',
+                'HLVAYZDZ46-PremiumEconomylowest',
+                'H68WNDKGTP-Latitude',
+                'YQ80NLKQO5-PremiumEconomyflexible',
                 'YTIRCE3JL9-BusinessClasslowest',
-                'QM2CAQP4ZM-BusinessClassflexible'])
+                'QM2CAQP4ZM-BusinessClassflexible' ])
         })
         it('should return list of price plans available for itinID with an offset price', function () {
             let itinPricePlanOffsetPrices = fareFamilyHelper.getItineraryPricePlanOffsetPrices('26192dd9-1357-4363-aea1-281646f2507c,4e52ba1d-d4d2-4dde-b3cb-56a9952f0489','CVCWVO8WEP-OD142');
@@ -946,7 +946,14 @@ describe('FareFamilyHelper', function () {
                 'QM2CAQP4ZM-BusinessClassflexible':
                     { offerId:
                             '26192dd9-1357-4363-aea1-281646f2507c,1d7f36b5-f9cd-4d13-bf61-d9fe6cb23d00',
-                        priceOffset: { public: 3444.0000000000005, currency: 'CAD' } } }
+                        priceOffset: { public: 3444.0000000000005, currency: 'CAD' } },
+                "YTIRCE3JL9-BusinessClasslowest": {
+                    "offerId": "26192dd9-1357-4363-aea1-281646f2507c,4e52ba1d-d4d2-4dde-b3cb-56a9952f0489",
+                    "priceOffset": {
+                        "currency": "CAD",
+                        "public": 0
+                    }
+                }}
             assert.deepEqual(itinPricePlanOffsetPrices,expected)
         })
 

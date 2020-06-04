@@ -9,7 +9,7 @@ let searchResultsWrapper = new FlightSearchResultsWrapper(sample_response)
 
 export default {
     component: TripRates,
-    title: 'Fare families selection',
+    title: 'Flights/Fare families selection',
 };
 
 let amenities = [

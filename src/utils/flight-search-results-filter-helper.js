@@ -1,5 +1,8 @@
 import OfferUtils from "./offer-utils";
 import {FlightSearchResultsWrapper} from "./flight-search-results-wrapper";
+import {FILTERS} from "../components/filters/filters-utils";
+
+
 
 export class FlightSearchResultsFilterHelper {
     constructor(searchResults){
@@ -9,26 +12,29 @@ export class FlightSearchResultsFilterHelper {
     /**
      * Generate a list of offers (search results).
      * Each item in the list contains metadata (e.g. trip duration, operating carriers, baggage allowance) so that it can be used later to narrow down/filter search results.
-     * @param sortBy
+     * @param sortBy (PRICE or DURATION)
+     * @param filters Object containing filters selection
      * @returns {[]}
      */
-    generateSearchResults(sortBy = 'PRICE', predicates=[]){
+    generateSearchResults(sortBy = 'PRICE', filters={}){
         let trips={};
-        //extract all available offers
-        let allOffers=this.searchResultsWrapper.getAllOffers();
-        let beforeOfferPredicates=Object.keys(allOffers).length;
+        //extract all available offers from search results
+        let offers=this.searchResultsWrapper.getAllOffers();
+        console.debug(`Filter stats: total offers count:${Object.keys(offers).length}`);
 
-        //filter out offers based on "offer level" criteria  (and not a flight), for example price conditions (min & max price) is an "offer level" criteria, whereas e.g. "flight duration" is a trip level criteria
-        allOffers = this.applyOfferPredicates(allOffers,predicates);
+        //apply "offer level" filters (e.g. price range or baggage allowance to limit the amount of offers to process in next steps
+        offers = this.applyOfferFilters(offers,filters);
+        console.debug(`Filter stats: offers count after offer level filters:${Object.keys(offers).length}`);
 
-        let afterOfferPredicates=Object.keys(allOffers).length;
+        //now iterate over each offer,
+        // calculate basic metadata (e.g. trip duration, number of stops, operating carriers)
+        // and later on apply "flight level" criteria (e.g. min & max flight duration or allowed operating carriers)
+        Object.keys(offers).forEach(offerId=>{
 
-        //now iterate over each offer, calculate basic metadata (e.g. trip duration, number of stops, operating carriers) and later on apply "flight level" criteria (e.g. min & max flight duration or allowed operating carriers)
-        Object.keys(allOffers).forEach(offerId=>{
             let offer = this.searchResultsWrapper.getOffer(offerId);
             let offerItineraries = this.searchResultsWrapper.getOfferItineraries(offerId);
             //ensure filter metadata (e.g. itinerary duration, operating carriers, etc...) is calculated for each itin
-            offerItineraries.map(itinerary=>{
+            offerItineraries.forEach(itinerary=>{
                 if(!itinerary.filter_metadata)
                     this.decorateItineraryWithFilterMetadata(itinerary)
             });
@@ -46,20 +52,28 @@ export class FlightSearchResultsFilterHelper {
                 trips[tripID]=tripInfo;
             }
             let prevOffer = tripInfo.bestoffer;
-            if (prevOffer === undefined || price.public < prevOffer.price.public) {
+            if (prevOffer === undefined || parseInt(price.public) < parseInt(prevOffer.price.public)) {
                 //in case it's cheaper - store it (entire offer)
                 tripInfo.bestoffer = offer;
                 tripInfo.itineraries = offerItineraries;
+                tripInfo.trip_duration=this.calculateTripDuration(offerItineraries);
             }
+
         })
         let tripArray=[];
         Object.keys(trips).forEach(tripId=>tripArray.push(trips[tripId]));
-        let beforeTripPredicates=tripArray.length;
-        tripArray = this.applyTripPredicates(tripArray,predicates);
+        console.debug(`Filter stats: trip count before trip level filters:${tripArray.length}`);
+        tripArray = this.applyTripFilters(tripArray,filters);
+        console.debug(`Filter stats: trip count after trip level filters:${tripArray.length}`);
         tripArray = this.sortTrips(tripArray, sortBy);
-        console.debug(`Filter stats: total results:${beforeOfferPredicates}, after offer level filters:${afterOfferPredicates}, before trip level filters:${beforeTripPredicates}, results after all filters:${tripArray.length}`);
-
         return tripArray;
+    }
+    calculateTripDuration(itineraries){
+        let duration=0;
+        itineraries.forEach(itinerary=>{
+            duration+=itinerary.filter_metadata.itinerary_duration;
+        })
+        return duration;
     }
 
     sortTrips(trips,sortBy){
@@ -81,9 +95,11 @@ export class FlightSearchResultsFilterHelper {
             else return 0;
         }
         if(sortBy === 'PRICE') {
+            console.debug('Sorting by price')
             trips.sort(priceComparator)
         }
         else {
+            console.debug('Sorting by duration')
             trips.sort(durationComparator);
         }
         return trips;
@@ -111,132 +127,131 @@ export class FlightSearchResultsFilterHelper {
         return itinerary;
     }
 
-    applyOfferPredicates(offers, predicates) {
+
+    applyOfferFilters(offers, filters) {
         let result={};
-        Object.keys(offers).map(offerId=>{
+
+        if(!filters)
+            return offers;
+
+        Object.keys(offers).forEach(offerId=>{
             let offer=offers[offerId];
             let checkResult = true;
-            predicates.map(predicate=>{
-                if(predicate.type==='offer')
-                    checkResult=result && predicate.predicate(offer);
-            })
-            if(checkResult)
+            if(filters[FILTERS.BAGGAGE])
+                checkResult = checkResult && (this.checkBaggageFilter(filters[FILTERS.BAGGAGE], offer) ===true);
+            if(filters[FILTERS.PRICE])
+                checkResult = checkResult && (this.checkPriceFilter(filters[FILTERS.PRICE],offer) === true);
+            if(checkResult===true)
                 result[offerId]=(offer);
-        })
+        });
         return result;
     }
-    applyTripPredicates(trips, predicates) {
-        let result=[];
-        trips.map(tripInfo=>{
-            let itineraries = tripInfo.itineraries;
 
-            let checkResult = true;
-            predicates.map(predicate=>{
-                if(predicate.type==='trip')
-                    checkResult=result && predicate.predicate(itineraries);
-            })
+
+
+
+    applyTripFilters(trips, filterStates) {
+        let result=[];
+        if(!filterStates)
+            return trips;
+        let checkResult = true;
+        trips.forEach(tripInfo=>{
+            let itineraries = tripInfo.itineraries;
+            if(filterStates[FILTERS.AIRLINES])
+                checkResult = checkResult && (this.checkAirlineFilter(filterStates[FILTERS.AIRLINES], itineraries)===true);
+            if(filterStates[FILTERS.MAXSTOPS])
+                checkResult = checkResult && (this.checkMaxStopsFilter(filterStates[FILTERS.MAXSTOPS], itineraries)===true);
+            // if(predicates[FILTERS.LAYOVERDURATION])
+            //     checkResult = checkResult && (predicates[FILTERS.LAYOVERDURATION](itineraries)===true);
+
             if(checkResult)
                 result.push(tripInfo);
-        })
+        });
         return result;
     }
 
-}
 
-
-
-
-export function createAirlinePredicate(airlines){
-
-    const predicate = (itineraries) => {
+    checkAirlineFilter(filter, itineraries) {
         let result = true;
-        if(airlines['ALL'] && airlines['ALL']===true)
+        if (filter['ALL'] && filter['ALL'] === true)
             return true;
-        itineraries.map(itinerary=>{
-            itinerary.segments.map(segment=>{
+        itineraries.forEach(itinerary=>{
+            itinerary.segments.forEach(segment=>{
                 let carrierCode = segment.operator.iataCode;
-                if(!airlines[carrierCode] || airlines[carrierCode] === false)
+                if (!filter[carrierCode] || filter[carrierCode] === false)
                     result = false;
-            })
-        })
+            });
+        });
         return result;
     }
-    return predicate;
-}
 
-
-export function createPricePredicate(priceRange){
-    const {min, max} = priceRange;
-
-    const predicate = (offer) => {
+    checkLayoverDurationFilter(filterState, itineraries) {
+        const {min, max} = filterState;
         let result = true;
-        if(min)
-            result = result && min<=offer.price.public;
-        if(max)
-            result = result && offer.price.public<=max;
-        return result;
-    }
-    return predicate;
-}
-
-
-export function createMaxStopsPredicate(stopsCriteria){
-
-    const predicate = (itineraries) => {
-        let result = true;
-        if(stopsCriteria['ALL'] && stopsCriteria['ALL']===true)
-            return true;
-        itineraries.map(itinerary=>{
-            let stops = itinerary.segments.length-1;
-            if(!stopsCriteria[stops] || stopsCriteria[stops]===false)
-                result = false;
-        })
-        return result;
-    }
-    return predicate;
-}
-
-export function createBagsPredicate(bagsCriteria){
-
-    const predicate = (offer) => {
-        let result = true;
-        if(bagsCriteria['ALL'] && bagsCriteria['ALL']===true)
-            return true;
-        //TODO
-        return result;
-    }
-    return predicate;
-}
-
-
-export function createLayoverDurationPredicate(layoverDurationRange){
-    const {min, max} = layoverDurationRange;
-
-    const predicate = (itineraries) => {
-        let result = true;
-        let layovers=[];
-        itineraries.map(itinerary=>{
+        let layovers = [];
+        itineraries.map(itinerary => {
             let segments = itinerary.segments;
             let prevSegment = null;
             //if it's a direct flight - add 0 so that we can also filter out direct flights if min range is specified
-            if(segments.length==1)
+            if (segments.length == 1)
                 layovers.push(0);
-            segments.map(segment=>{
-                if(prevSegment!=null){
-                    layovers.push(OfferUtils.calculateLayoverDurationInMinutes(prevSegment,segment));
+            segments.map(segment => {
+                if (prevSegment != null) {
+                    layovers.push(OfferUtils.calculateLayoverDurationInMinutes(prevSegment, segment));
                 }
-                prevSegment=segment;
+                prevSegment = segment;
             })
         })
 
-        for(let i=0;i<layovers.length;i++){
+        for (let i = 0; i < layovers.length; i++) {
             let duration = layovers[i];
-            if(min)
-                result = result && min<=duration;
-            if(max)
-                result = result && duration<=max;
+            if (min)
+                result = result && min <= duration;
+            if (max)
+                result = result && duration <= max;
         }
         return result;
     }
-    return predicate;
+
+    checkMaxStopsFilter(filterState, itineraries) {
+        let result = true;
+        if (filterState['ALL'] && filterState['ALL'] === true)
+            return true;
+        itineraries.forEach(itinerary=>{
+            let stops = itinerary.segments.length - 1;
+            if (!filterState[stops] || filterState[stops] === false)
+                result = false;
+        });
+        return result;
+    }
+
+     checkPriceFilter(filter, offer) {
+        const {min, max} = filter;
+        let result = true;
+        if (min)
+            result = result && min <= offer.price.public;
+        if (max)
+            result = result && offer.price.public <= max;
+        return result;
+    }
+
+    checkBaggageFilter(filter, offer) {
+        if (filter['ALL'] && filter['ALL'] === true)
+            return true;
+        let result = true;
+        let pricePlans=this.searchResultsWrapper.getOfferPricePlans(offer.offerId)
+        pricePlans.map(pricePlan => {
+            let bagsAllowance=0;
+            if(pricePlan.checkedBaggages && pricePlan.checkedBaggages.quantity)
+                bagsAllowance=pricePlan.checkedBaggages.quantity;
+            result = result && (filter[bagsAllowance]===true);
+        })
+        return result;
+    }
+
 }
+
+
+
+
+

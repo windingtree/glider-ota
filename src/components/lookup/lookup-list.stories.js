@@ -8,7 +8,7 @@ import {
 
 export default {
     component: LookupList,
-    title: 'LookupList (expanded list)',
+    title: 'Search form/Lookup/Lookup dropdown list',
     excludeStories: /.*Data$/,
 };
 
@@ -32,6 +32,5 @@ export const citiesData = [
 
 export const AirportsList = () => (<LookupList locations={airportsData}/>);
 export const CitiesList = () => (<LookupList locations={citiesData}/>);
-export const Testin = () => (<LookupList />);
 export const NarrowWithLongNames = () => (<div style={{width:'280px'}}><LookupList locations={airportsData}/></div>);
 

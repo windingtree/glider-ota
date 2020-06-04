@@ -39,8 +39,8 @@ const REDIS_CONFIG =
 
 const MONGO_CONFIG =
     {
-        DBNAME: process.env.MONGO_DNNAME,
-        URL: process.env.MONGO_URL
+        URL: process.env.MONGO_URL,
+        DBNAME: process.env.MONGO_DBNAME,
     };
 
 const STRIPE_CONFIG =
@@ -48,7 +48,7 @@ const STRIPE_CONFIG =
         PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
         SECRET_KEY: process.env.STRIPE_SECRET_KEY,
         WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-        DISABLE_WEBHOOK_SIGNATURE_CHECK:true
+        BYPASS_WEBHOOK_SIGNATURE_CHECK: (process.env.STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK === "yes"),
     };
 const ELASTIC_CONFIG =
     {
