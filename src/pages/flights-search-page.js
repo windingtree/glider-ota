@@ -72,7 +72,6 @@ export default function FlightsSearchPage({match, location, results}) {
         history.push(url, { passengers: passengers });
     };
 
-
     let key = '';
     if(searchResults && searchResults.metadata && searchResults.metadata.uuid)
         key=searchResults.metadata.uuid;
@@ -100,7 +99,7 @@ export default function FlightsSearchPage({match, location, results}) {
                             maxPassengers={9}
                         />
                         <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
-                        {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
+                        {searchState === SEARCH_STATE.FAILED && <WarningNoResults/>}
                         {searchResults !== undefined &&
                         <FlightsSearchResults
                             onOfferDisplay={onOfferSelected}
@@ -116,12 +115,32 @@ export default function FlightsSearchPage({match, location, results}) {
 }
 
 
-
-const SearchFailed = ()=>{
+// Display the No Flight message
+const SearchFailed = () => {
     return (
-        <div className='glider-font-h1-fg pt-3'>No flights found</div>
+        <div className='glider-font-h3-fg pt-3'></div>
     )
-}
+};
+
+const WarningNoResults = () => {
+     return (
+        <Alert variant="warning">
+        <Alert.Heading>
+            Sorry, we could not find any flights
+            <span role='img' aria-label='sorry'> 😢</span>
+        </Alert.Heading>
+        <p>
+            Glider has been launched with our amazing partner <b><a href='https://aircanada.com'>Air Canada</a></b>, 
+            so for now we have only results flying to, from or over Canada 🇨🇦! Why not going there?
+        </p>
+        <hr />
+        <p className="mb-0">
+            We are working with other partners, and more options will quickly
+            become available, stay tuned! <span role='img' aria-label='wink'>😉</span>
+        </p>
+        </Alert>
+     );
+};
 
 function createOfferURL(offerId){
     const url = "/flights/tripoverview/"+offerId;
@@ -144,7 +163,6 @@ const parseDeeplinkParams = (location) =>{
         action:params.action
     }
 }
-
 
 function parseJSONWithDefault(obj,defaultValue){
     try{
