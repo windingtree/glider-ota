@@ -5,10 +5,7 @@ import {
     searchForHotels,
     HotelsSearchForm
 } from '../components/search-form/search-form';
-import {LOCATION_SOURCE} from '../components/lookup/lookup-field';
 import {parse,isValid} from "date-fns";
-import {Button, Container,  Row, Col} from "react-bootstrap";
-import Filters from "../components/filters/filters";
 import {useHistory} from "react-router-dom";
 import cssdefs from './flights-search-page.scss'
 import Spinner from "../components/common/spinner"
@@ -16,6 +13,7 @@ import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
 import HotelsSearchResults from "../components/hotelresults/hotels-search-results";
 import HotelFilters from "../components/filters/hotel-filters";
+import {Col, Row} from "react-bootstrap";
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -24,10 +22,10 @@ const SEARCH_STATE={
     FINISHED:'FINISHED'
 }
 
-export default function HotelsSearchPage({match,location}) {
+export default function HotelsSearchPage({match,location, results}) {
     let history = useHistory();
     const [searchState, setSearchState] = useState(SEARCH_STATE.NOT_STARTED);
-    const [searchResults, setSearchResults] = useState();
+    const [searchResults, setSearchResults] = useState(results);
     const [filters, setFilters] = useState({});
 
     const onSearchButtonClick = (criteria) => {
@@ -81,12 +79,12 @@ export default function HotelsSearchPage({match,location}) {
     return (
         <div>
             <Header violet={true}/>
-            <div className='root-container-subpages'>
-                <div className='d-flex flex-row '>
-                    <div className="filters-wrapper">
+            <div className='root-container-searchpage'>
+                <Row>
+                    <Col xs={0} lg={3} xl={2} className='d-none d-lg-block'>
                             <HotelFilters key={key} searchResults={searchResults} onFiltersChanged={setFilters}/>
-                    </div>
-                    <div >
+                    </Col>
+                    <Col xs={12} lg={9} xl={10}>
                         <HotelsSearchForm
                             onSearchButtonClick={onSearchButtonClick}
                             initAdults={initialParameters.adults}
@@ -101,8 +99,8 @@ export default function HotelsSearchPage({match,location}) {
                         {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
                         {searchResults != undefined &&
                         <HotelsSearchResults onHotelSelected={onHotelSelected} searchResults={searchResults} filters={filters}/>}
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             </div>
         </div>
     )

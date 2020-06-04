@@ -83,7 +83,7 @@ export default function FlightsSearchPage({match, location, results}) {
 
         <div>
             <Header violet={true}/>
-            <div className='root-container-subpages'>
+            <div className='root-container-searchpage'>
                 <Row>
                     <Col xs={0} lg={3} xl={2} className='d-none d-lg-block'>
                         <Filters key={key} searchResults={searchResults}  onFiltersChanged={setFilters}/>
@@ -108,10 +108,10 @@ export default function FlightsSearchPage({match, location, results}) {
                             filters={filters}
                         />
                         }
-                    </Col>
-                </Row>
+                        </Col>
+                    </Row>
+                </div>
             </div>
-        </div>
     )
 }
 

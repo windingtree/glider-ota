@@ -7,7 +7,7 @@ export default function TotalPriceButton({price, proceedButtonTitle = 'Proceed',
         onProceedClicked();
     }
     return (
-        <Row className='pt-5' >
+        <Row className='pt-5 pb-5' >
             <Col xs={12} md={6} className={style.priceContainer}>
                 <span className={style.price}>Total price {price.public} {price.currency}</span>
             </Col>

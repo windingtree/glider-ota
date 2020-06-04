@@ -14,7 +14,7 @@ export default function HotelDetailsPage({match}) {
     return (
         <>
             <div>
-                <Header type='violet'/>
+                <Header violet={true}/>
                 <HotelDetails hotel={hotel} searchResults={searchResults}/>
             </div>
         </>

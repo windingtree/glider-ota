@@ -9,6 +9,7 @@ import default_hotel_image from "../../assets/default_hotel_image.png";
 import {storePassengerDetails, storeSelectedOffer} from "../../utils/api-utils";
 import {HotelSearchResultsWrapper} from "../../utils/hotel-search-results-wrapper";
 import {useHistory} from "react-router-dom";
+import TotalPriceButton from "../common/totalprice/total-price";
 
 export default function HotelDetails({hotel, searchResults}) {
     let history = useHistory();
@@ -147,7 +148,7 @@ export default function HotelDetails({hotel, searchResults}) {
                                 <PaxDetails onDataChange={handleContactDetailsChange} passengers={passengers}/>
                         </div>
                         {selectedOffer!==undefined && (
-                                <HotelPriceSummary price={selectedOffer.price} onPayButtonClick={payButtonClick} passengerDetailsValid={passengerDetailsValid}/>
+                            <TotalPriceButton price={selectedOffer.price} onProceedClicked={payButtonClick} disabled={!passengerDetailsValid}/>
                         )}
                     </Col>
                 </Row>
@@ -169,19 +170,3 @@ export function HotelLeadingImage({images}){
 }
 
 
-
-export function HotelPriceSummary({price, onPayButtonClick, passengerDetailsValid=false}){
-    return (<>
-            <Row>
-                <Col xs={12} lg={6} className={style.hotelPrice}>
-                   Pay {price.public} {price.currency} to complete the booking
-                </Col>
-            </Row>
-            <Row className='flex-row-reverse'>
-                <Col xs={12} sm={3} lg={3} className={style.hotelPriceButton}>
-                    <Button variant="primary" onClick={onPayButtonClick} size="lg" block disabled={!passengerDetailsValid}>Pay now</Button>
-                </Col>
-            </Row>
-            </>
-    )
-}
