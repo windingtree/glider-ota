@@ -250,7 +250,7 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
 
             // On confirmaton handle it
             .then(confirmation => {
-                logger.info("Response from fulfillment", confirmation);
+                //logger.info("Response from fulfillment", confirmation);
                 
                 if(confirmation) {
                     // Update the order status
