@@ -3,6 +3,8 @@ import {Container, Row, Col, Form, Alert} from 'react-bootstrap'
 import _ from 'lodash'
 import style from "./single-pax-details.module.scss";
 import Button from "react-bootstrap/Button";
+import 'react-phone-number-input/style.css';
+import PhoneInput, {isPossiblePhoneNumber} from 'react-phone-number-input';
 const DEFAULT_PAXTYPE='ADT';
 
 export default function SinglePaxDetails({passengerId, passengerType, onDataChange, initial, showSubmitButton, onSubmit}) {
@@ -34,6 +36,9 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         const {name,value} = e.target;
         let copy = {...fieldIsInvalidFlags};
         copy[name] = !e.target.checkValidity();
+        if(name==='phone') {
+            copy[name] = copy[name] || !isPossiblePhoneNumber(value);
+        }
         setFieldIsInvalidFlags(copy);
         setSaveButtonEnabled(formRef.current.checkValidity())
         onDataChange(passengerId,fieldValues,formRef.current.checkValidity());
@@ -86,7 +91,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       value={fieldValues['lastName']}
                                       required
                                       isInvalid={fieldIsInvalidFlags['lastName']}
-                                        onInput={onFieldInput}/>
+                                    onInput={onFieldInput}/>
                     </Col>
                     <Col>
                         <Form.Label className={style.label}>Name</Form.Label>
@@ -147,14 +152,35 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                         </Col>
                         <Col>
                             <Form.Label className={style.label}>Telephone</Form.Label>
-                            <Form.Control type="phone"
-                                          placeholder="+12 3456789"
-                                          name="phone"
-                                          value={fieldValues['phone']}
-                                          onChange={onFieldValueChanged}
-                                          onBlur={onFieldBlur}
-                                          isInvalid={fieldIsInvalidFlags['phone']}
-                                          onInput={onFieldInput} required/>
+                            <PhoneInput
+                                ref={React.createRef()}
+                                international
+                                placeholder="Enter phone number"
+                                value={fieldValues['phone']}
+                                //onChange={(value) => onFieldValueChanged({
+                                //    target: {
+                                //        name: 'phone',
+                                //        value: value,
+                                //    },
+                                //})}
+                                onChange={console.log}
+                                name="phone"
+                                onBlur={onFieldBlur}
+                                isInvalid={fieldIsInvalidFlags['phone']}
+                                
+                                //onInput={onFieldInput}
+                                inputComponent={React.forwardRef((props, ref) => (
+                                    <Form.Control
+                                        {...props}
+                                        ref={ref}
+                                        //onFocus={props.onFocus}
+                                        //onBlur={props.onBlur}
+                                        //isInvalid={fieldIsInvalidFlags['phone']}
+                                        //onChange={onFieldValueChanged}
+                                    />
+                                ))}
+                                required
+                            />
                         </Col>
                     </Form.Row>
                 </div>

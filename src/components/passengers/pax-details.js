@@ -3,7 +3,6 @@ import _ from 'lodash'
 import style from "./pax-details.module.scss"
 import SinglePaxDetails from "./single-pax-details";
 
-
 export default function PaxDetails({passengers, onDataChange}) {
     // const [passengersList,setPassengersList] = useState(passengers);
 
@@ -52,7 +51,7 @@ export default function PaxDetails({passengers, onDataChange}) {
                     }
                 </div>
                 <div className={style.footnote}>
-                    We will send a ticket to the mail, we will send an SMS to the phone about changes in the flight or in case of other emergency situations
+                    We will send your tickets to your email. The travel supplier might send SMS to the provided phone number in case of changes or emergency situations
                 </div>
             </>
         )
