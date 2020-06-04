@@ -21,7 +21,7 @@ function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initA
   const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
   const [returnDate, setReturnDate] = useState(initReturnDate?initReturnDate:undefined);
   const [adults, setAdults] = useState(initAdults||1);
-  const [childrn, setChildren] = useState(initChildren||0);
+  const [children, setChildren] = useState(initChildren||0);
   const [infants, setInfants] = useState(initInfants||0);
 
   function serializeSearchForm(){
@@ -31,7 +31,7 @@ function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initA
       departureDate: departureDate,
       returnDate: returnDate,
       adults:adults,
-      children:childrn,
+      children:children,
       infants:infants,
       isValid:validate(),
       locationsSource:locationsSource
@@ -58,13 +58,29 @@ function SearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initA
   function isReturnDateValid(){
     if (returnDate!==undefined) {
       return departureDate!==undefined && returnDate >= departureDate;
-    }else{
+    } else{
       return false
     }
-    return true;
   }
+
   function isPaxSelectionValid(){
-    return (adults>0)
+    // Check if maximum is not exceeded
+    if(maxPassengers && (adults + infants + children) > maxPassengers) {
+      return false;
+    }
+
+    //@fixme: Infants are not yet supported by AC
+    if(infants > 0) {
+      return false;
+    }
+
+    // Check if infants do not exceed adults (since they seat on laps)
+    if(infants > adults) {
+      return false;
+    }
+
+    // Otherwise just ensure we have adults (minor-only not supported)
+    return (adults>0);
   }
 
   function validate(){
