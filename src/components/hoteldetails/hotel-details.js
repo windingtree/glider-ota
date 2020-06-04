@@ -6,7 +6,7 @@ import PaxDetails from "../passengers/pax-details";
 import Room from "./room-details"
 import YourChoice from "./your-choice";
 import default_hotel_image from "../../assets/default_hotel_image.png";
-import {storePassengerDetails, storeSelectedOffer} from "../../utils/api-utils";
+import {storePassengerDetails, storeSelectedAccommodation} from "../../utils/api-utils";
 import {HotelSearchResultsWrapper} from "../../utils/hotel-search-results-wrapper";
 import {useHistory} from "react-router-dom";
 import TotalPriceButton from "../common/totalprice/total-price";
@@ -26,12 +26,11 @@ export default function HotelDetails({hotel, searchResults}) {
 
     function handleSelectedOfferChange(newOffer){
         let offer  = searchResultsWrapper.getOffer(newOffer.offerId)
-        //with hotels we need confirmedOfferId
-        let confirmedOffer = Object.assign({},offer);
-        confirmedOffer['confirmedOfferId']=newOffer.offerId;
 
-
-        let results = storeSelectedOffer(confirmedOffer);
+        let results = storeSelectedAccommodation({
+            offerId:newOffer.offerId,
+            offer:offer
+        }, true);
         results.then((response) => {
             console.debug("Selected offer successfully added to a shopping cart", response);
         }).catch(err => {
