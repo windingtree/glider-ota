@@ -13,7 +13,6 @@
 }
 
 .buttonContainer{
-  @include glider-media-medium_768 {
     text-align: right;
-  }
+  padding-right: 20px;
 }

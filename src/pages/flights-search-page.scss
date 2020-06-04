@@ -13,6 +13,7 @@
   padding: 0 20px 20px 20px;
   visibility: hidden;
   width: 0px;
+  border: 1px solid red;
   @include glider-media-small_576 {
     visibility: hidden;
   }
@@ -32,8 +33,4 @@
 }
 .filters-container{
 
-}
-
-.alert {
-  margin-top: 50px;
 }

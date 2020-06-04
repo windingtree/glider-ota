@@ -3,7 +3,7 @@ import Header  from '../components/common/header/header';
 import Footer from '../components/common/footer/footer';
 import {Container,Row,Col,ToggleButton, ToggleButtonGroup,Button} from 'react-bootstrap';
 import {LOCATION_SOURCE} from '../components/lookup/lookup-field';
-import {SearchForm} from '../components/search-form/search-form';
+import {FlightsSearchForm,HotelsSearchForm} from '../components/search-form/search-form';
 import MainPageContent from './main-page-content';
 import {format} from "date-fns";
 import  {stringify}  from 'query-string';
@@ -49,15 +49,15 @@ export default function HomePage() {
             <div className={style.mainPageBackground}>
                 <Header violet={false}/>
                 <Container fluid={true} className='root-container-mainpage'>
-                    <Row >
+                    <Row className={style.searchFormWrapper} noGutters={true}>
                         <Col>
                             <FlightOrHotel defaultValue={searchType} onToggle={setSearchType}/>
                         </Col>
                     </Row>
-                    <Row className={style.searchFormWrapper}>
+                    <Row className={style.searchFormWrapper} noGutters={true}>
                         <Col>
-                            {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onFlightsSearch={onFlightsSearch}/>}
-                            {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onHotelsSearch={onHotelsSearch}/>}
+                            {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onSearchButtonClick={onFlightsSearch}/>}
+                            {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onSearchButtonClick={onHotelsSearch}/>}
                         </Col>
                     </Row>
 
@@ -74,42 +74,21 @@ export default function HomePage() {
         </>)
 }
 
-// Toggle buttons on the top of the main page to select if you search hotelresults or flights
-const FlightOrHotel = ({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}) => {
+// Toggle buttons on the top of the main page to select if you search hotel or flights
+export function FlightOrHotel({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}){
     const [value, setValue] = useState(defaultValue);
     const onFlightClick = () => {setValue(SEARCH_TYPE.FLIGHTS);onToggle(SEARCH_TYPE.FLIGHTS);}
     const onHotelClick = ()  => {setValue(SEARCH_TYPE.HOTELS);onToggle(SEARCH_TYPE.HOTELS);}
     return (
-        <Container fluid={true} className={style.flightOrHotelToggle}>
-            <Row className={style.flightOrHotelToggleContainer}>
-                <Col xs={6} className="d-flex ">
+        <div className={style.flightOrHotelToggle}>
+            <Row className={style.flightOrHotelToggleContainer} >
+                <Col xs={6} className={style.flightOrHotelCol}>
                     <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.FLIGHTS?"primary":"primary-inactive"} size="lg" onClick={onFlightClick}>Flights</Button>
                 </Col>
-                <Col xs={6} className="d-flex ">
+                <Col xs={6} className={style.flightOrHotelCol}>
                     <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.HOTELS?"primary":"primary-inactive"} size="lg" onClick={onHotelClick}>Hotels</Button>
                 </Col>
             </Row>
-        </Container>)
-}
-
-const FlightsSearchForm = ({onFlightsSearch}) =>{
-    return (
-        <SearchForm
-            onSearchButtonClick={onFlightsSearch}
-            enableOrigin = {true}
-            locationsSource={LOCATION_SOURCE.AIRPORTS}
-            oneWayAllowed={true}
-            maxPassengers={9}/>
-    )
-}
-
-const HotelsSearchForm = ({onHotelsSearch}) =>{
-    return (
-        <SearchForm
-            onSearchButtonClick={onHotelsSearch}
-            enableOrigin={false}
-            locationsSource={LOCATION_SOURCE.CITIES}
-            oneWayAllowed={false}/>
-            )
+        </div>)
 }
 

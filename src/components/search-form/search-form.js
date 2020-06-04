@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import {Button, Container, Row, Col} from 'react-bootstrap'
-import LookupField from '../lookup/lookup-field'
+import LookupField, {LOCATION_SOURCE} from '../lookup/lookup-field'
 import TravelDatepickup from './travel-datepickup'
-import './search-form.scss'
+import style from './search-form.module.scss'
 import PassengerSelector from './passenger-selector'
 import {config} from '../../config/default'
 import SearchCriteriaBuilder from "../../utils/search-criteria-builder";
@@ -10,8 +10,12 @@ import {findFlights, findHotels} from "../../utils/search";
 import {uiEvent} from "../../utils/events";
 import {AirportLookup,CityLookup} from "../lookup/lookup";
 
+const TYPE={
+  FLIGHTS:'flights',
+  HOTELS:'hotels'
+}
 
-export function SearchForm(props){
+function SearchForm(props){
   // Destructure properties
   const {
     initOrigin,
@@ -22,13 +26,12 @@ export function SearchForm(props){
     initChildren,
     initInfants,
     onSearchButtonClick,
-    enableOrigin,
+    formType,
     locationsSource,
     oneWayAllowed,
     maxPassengers,
   } = props;
 
-  // Define states
   const [origin, setOrigin] = useState(initOrigin);
   const [destination, setDestination] = useState(initiDest);
   const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
@@ -36,8 +39,6 @@ export function SearchForm(props){
   const [adults, setAdults] = useState(initAdults||1);
   const [children, setChildren] = useState(initChildren||0);
   const [infants, setInfants] = useState(initInfants||0);
-
-  //console.log("SearchForm, origin:",initOrigin,", dest:",initiDest, ",maxPassengers:", maxPassengers);
 
   function serializeSearchForm(){
     return {
@@ -99,7 +100,7 @@ export function SearchForm(props){
   }
 
   function validate(){
-    let originValid =  isOriginValid() || !enableOrigin;
+    let originValid =  isOriginValid() || (formType==TYPE.HOTELS);  //if it's hotels - origin is not displayed
     let destinationValid =  isDestinationValid();
     let departureDateValid = isDepartureDateValid();
     let returnDateValid = isReturnDateValid() || oneWayAllowed;
@@ -108,65 +109,100 @@ export function SearchForm(props){
     return isFormValid;
   }
     const isValid=validate();
-   // searchFormChanged();
-
-
 
 
   const renderHotelForm = () =>{
     return (<>
 
-          <Container fluid={true} >
+          <div className={style.searchFormContainer}>
             <Row >
-              <Col lg={6} className='form-elem'><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
-              <Col lg={6} className='form-elem'><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest'/></Col>
+              <Col lg={6} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
+              <Col lg={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest'/></Col>
             </Row>
             <Row>
               <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} startPlaceholder='Check in' endPlaceholder='Check out'/></Col>
             </Row>
-          </Container>
-          <Container fluid={true} className='searchbutton__container'>
+          </div>
+          <div className={style.searchButtonContainer}>
             <Row >
               <Col xs={12} className='d-flex'>
-                <Button className='searchbutton__button flex-fill' variant="primary" size="lg"
+                <Button className={style.searchButton} variant="primary" size="lg"
                         disabled={!isValid && !config.OFFLINE_MODE} onClick={searchButtonClick}>Search</Button>
               </Col>
             </Row>
-          </Container>
+          </div>
         </>
     )
   }
 
   const renderFlightsForm = () =>{
     return (<>
-          <Container fluid={true} >
+          <div className={style.searchFormContainer}>
             <Row >
-              <Col xs={12} md={6} className='form-elem'><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin'/></Col>
-              <Col xs={12} md={6} className='form-elem'><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
+              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin'/></Col>
+              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
             </Row>
             <Row>
-              <Col xs={12} lg={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate}/></Col>
-              <Col xs={12} lg={6} className='form-elem'><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} maxPassengers={maxPassengers}/></Col>
+              <Col xs={12}  md={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate}/></Col>
+              <Col xs={12} md={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
             </Row>
-          </Container>
-          <Container fluid={true} className='searchbutton__container'>
+          </div>
+          <div className={style.searchButtonContainer}>
             <Row >
               <Col xs={12} className='d-flex'>
-                <Button className='searchbutton__button flex-fill' variant="primary" size="lg"
+                <Button className={style.searchButton} variant="primary" size="lg"
                         disabled={!isValid && !config.OFFLINE_MODE} onClick={searchButtonClick}>Search</Button>
               </Col>
             </Row>
-          </Container>
+          </div>
         </>
     )
   }
-
   return (<>
-        {enableOrigin && renderFlightsForm()}
-        {!enableOrigin && renderHotelForm()}
+        {formType===TYPE.FLIGHTS && renderFlightsForm()}
+        {formType===TYPE.HOTELS && renderHotelForm()}
       </>
     )
 }
+
+export function FlightsSearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initAdults,initChildren,initInfants,onSearchButtonClick}) {
+  return (
+      <SearchForm
+          initOrigin={initOrigin}
+          initiDest={initiDest}
+          initAdults={initAdults}
+          initChildren={initChildren}
+          initInfants={initInfants}
+          initDepartureDate={initDepartureDate}
+          initReturnDate={initReturnDate}
+          oneWayAllowed={true}
+          locationsSource={LOCATION_SOURCE.AIRPORTS}
+          formType={TYPE.FLIGHTS}
+          onSearchButtonClick={onSearchButtonClick} />
+)
+}
+
+export function HotelsSearchForm ({initOrigin,initiDest,initDepartureDate,initReturnDate,initAdults,initChildren,initInfants,onSearchButtonClick}){
+  return (
+      <SearchForm
+          initOrigin={initOrigin}
+          initiDest={initiDest}
+          initAdults={initAdults}
+          initChildren={initChildren}
+          initInfants={initInfants}
+          initDepartureDate={initDepartureDate}
+          initReturnDate={initReturnDate}
+          oneWayAllowed={true}
+          locationsSource={LOCATION_SOURCE.CITIES}
+          formType={TYPE.HOTELS}
+          onSearchButtonClick={onSearchButtonClick} />
+
+  )
+}
+
+
+
+
 
 export async function searchForFlightsWithCriteria(criteria){
   return searchForFlights(criteria.origin.code, criteria.destination.code, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
