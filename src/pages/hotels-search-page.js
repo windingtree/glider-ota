@@ -1,12 +1,12 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
-import {SearchForm,buildFlightsSearchCriteria,searchForHotels} from '../components/search-form/search-form';
+import {SearchForm, searchForHotels} from '../components/search-form/search-form';
 import {LOCATION_SOURCE} from '../components/lookup/lookup-field';
 import {parse,isValid} from "date-fns";
 import {Button, Container,  Row, Col} from "react-bootstrap";
 import Filters from "../components/filters/filters";
+import Alert from 'react-bootstrap/Alert';
 import {useHistory} from "react-router-dom";
-import cssdefs from './flights-search-page.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
@@ -61,9 +61,6 @@ export default function HotelsSearchPage({match,location}) {
         }
     },[]);
 
-
-
-
     const onHotelSelected = (hotel) => {
         let url = createOfferURL(hotel.accommodationId);
         history.push(url);
@@ -72,7 +69,6 @@ export default function HotelsSearchPage({match,location}) {
     if(searchResults && searchResults.metadata && searchResults.metadata.uuid)
         key=searchResults.metadata.uuid;
     console.debug("Render hotel results")
-
 
     return (
         <div>
@@ -97,7 +93,7 @@ export default function HotelsSearchPage({match,location}) {
                             initReturnDate={initialParameters.returnDate}
                         />
                         <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
-                        {searchState === SEARCH_STATE.FAILED && <SearchFailed/>}
+                        {searchState === SEARCH_STATE.FAILED && <WarningNoResults/>}
                         {searchResults != undefined &&
                         <HotelsSearchResults onHotelSelected={onHotelSelected} searchResults={searchResults} filters={filters}/>}
                     </div>
@@ -108,12 +104,27 @@ export default function HotelsSearchPage({match,location}) {
 }
 
 
-
-const SearchFailed = ()=>{
+// Display warning message
+const WarningNoResults = () => {
     return (
-        <div className='glider-font-h1-fg pt-3'>No hotels found</div>
-    )
-}
+       <Alert variant="warning">
+       <Alert.Heading>
+           Sorry, we could not find any available hotels
+           <span role='img' aria-label='sorry'> 😢</span>
+       </Alert.Heading>
+       <p>
+           Glider has been launched with our amazing partner <b><a href='https://www.nordicchoicehotels.com/'>Nordic Choice Hotels</a></b>, 
+           so for now we have only results in the Nordics <span role='img' aria-label='flags'>🇸🇪🇳🇴🇫🇮</span>! 
+           Why not going there?
+       </p>
+       <hr />
+       <p className="mb-0">
+           We are working with other partners, and more options will quickly
+           become available, stay tuned! <span role='img' aria-label='wink'>😉</span>
+       </p>
+       </Alert>
+    );
+};
 
 function createOfferURL(accommodationId){
     const url = "/hotel/"+accommodationId;
