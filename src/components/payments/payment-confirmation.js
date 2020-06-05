@@ -135,14 +135,23 @@ export default function PaymentConfirmation({orderID}) {
             console.debug("Confirmation data - travel docs:", order.confirmation.travelDocuments);
             bookings = order.confirmation.travelDocuments.bookings;
         }catch(err){
-            console.error("Cant find travel documents in confirmation", order.confirmation)
+            console.warn("Cant find travel documents in confirmation", order.confirmation)
+        }
+
+        let reservationNumber;
+        try{
+            console.debug("Confirmation data:", order.confirmation.order);
+            reservationNumber = order.confirmation.order.reservationNumber;
+        }catch(err){
+            console.warn("Cant find reservation number in confirmation", order.confirmation)
         }
 
         return (
             <div className='glider-font-h2-fg'>
                 <p>
                     Your booking is confirmed!<br/>
-                    Booking reference: <b>{bookings.join(', ')}</b>
+                    {(bookings && bookings.length>0) && <>Booking reference: <b>{bookings.join(', ')}</b></>}
+                    {reservationNumber && <>Reservation number: <b>{reservationNumber}</b></>}
                 </p>
                 <p>Your travel documents will be send to you by email.</p>
             </div>
@@ -218,7 +227,7 @@ export default function PaymentConfirmation({orderID}) {
                         </small>
                     );
                 }
-                
+
                 else {
                     message = (
                         <small>
@@ -226,12 +235,12 @@ export default function PaymentConfirmation({orderID}) {
                         </small>
                     );
                 }
-                
+
                 break;
             case 'FULFILLED':
                 iconStatus = 'success';
                 if(
-                    order.confirmation && 
+                    order.confirmation &&
                     order.confirmation.travelDocuments
                 ) {
                     const {bookings, etickets} = order.confirmation.travelDocuments;
@@ -242,8 +251,19 @@ export default function PaymentConfirmation({orderID}) {
                             Your e-ticket{bookings.length > 1 ? 's are' : ' is'}: {(etickets).map(tkt => Object.keys(tkt)[0]).join(', ')}
                         </small>
                     );
+                }else if(
+                    order.confirmation &&
+                    order.confirmation.order &&
+                    order.confirmation.order.reservationNumber
+                ) {
+                    const reservationNumber = order.confirmation.order.reservationNumber;
+                    message = (
+                        <small>
+                            Your booking reference is: {reservationNumber}
+                        </small>
+                    );
                 }
-                
+
                 break;
             case 'FAILED':
                 iconStatus = 'failed';

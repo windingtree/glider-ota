@@ -141,7 +141,7 @@ const pendingStatusMockResponse={
     "createDate": "2020-05-21T14:41:13.380Z"
 }
 
-const fulfilledStatusMockResponse={
+const flightBookingFulfilledStatusMockResponse={
     "_id": "5ec6ddb3dafff062187951c3",
     "offerId": "ed0acb4c-b8a1-425a-bce5-459f27220a71",
     "confirmedOffer": {
@@ -422,6 +422,60 @@ const fulfilledStatusMockResponse={
 }
 
 
+const hotelBookingFulfilledStatusMockResponse={
+    "payment_status": "PAID",
+    "payment_details": {
+        "card": {
+            "brand": "visa",
+            "last4": "4242"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1GqL7IBtLSGo1hFPD8BB8j6t/rcpt_HP9QD6V22sO4HHXsGbeoIWOMwjTAVoO"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "message": "Payment complete."
+        }
+    },
+    "order_status": "FULFILLED",
+    "history": [
+        {
+            "comment": "Webhook event:payment_intent.succeeded",
+            "timestamp": "2020-06-04T15:36:33.845Z"
+        },
+        {
+            "comment": "Fulfilled after successful payment",
+            "timestamp": "2020-06-04T15:36:47.701Z"
+        }
+    ],
+    "confirmation": {
+        "orderId": "67e4fc9c-dfb4-4587-beaf-e2dc86a214b3",
+        "order": {
+            "response": "Committed",
+            "reservationNumber": "64478864",
+            "passengers": {
+                "PAX1": {
+                    "type": "ADT",
+                    "civility": "MR",
+                    "lastnames": [
+                        "test"
+                    ],
+                    "firstnames": [
+                        "test"
+                    ],
+                    "gender": "Male",
+                    "birthdate": "1999-12-12",
+                    "contactInformation": [
+                        "+12313123213",
+                        "tomasz.kurek@gmail.com"
+                    ]
+                }
+            }
+        }
+    }
+}
+
 
 
 
@@ -565,9 +619,15 @@ export const StatusPending = () => {
 
 
 
-export const StatusFulfilled = () => {
+export const StatusFulfilledForFlightBooking = () => {
     fetchMock.restore();
-    fetchMock.mock('path:/api/order/status',fulfilledStatusMockResponse);
+    fetchMock.mock('path:/api/order/status',flightBookingFulfilledStatusMockResponse);
+    return (<PaymentConfirmation orderID={"XYZ"}/>);
+}
+
+export const StatusFulfilledForHotelBooking = () => {
+    fetchMock.restore();
+    fetchMock.mock('path:/api/order/status',hotelBookingFulfilledStatusMockResponse);
     return (<PaymentConfirmation orderID={"XYZ"}/>);
 }
 
