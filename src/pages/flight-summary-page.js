@@ -90,12 +90,6 @@ export default function FlightSummaryPage({match}) {
                 disabled={loadInProgress}>
                 Retry
             </Button>
-            <Button
-                variant="secondary"
-                onClick={()=>history.push('/flights')}
-                disabled={loadInProgress}>
-                New Search
-            </Button>
         </Alert>
     );
 
