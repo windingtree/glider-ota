@@ -40,6 +40,7 @@ function initializePriceFilterState(searchResults, numberOfNights) {
     })
     filterState.min = filterState.lowest = Math.round(minPrice/numberOfNights);
     filterState.max = filterState.highest = Math.round(maxPrice/numberOfNights);
+    filterState.unit = currencyCode;
 
     return filterState;
 

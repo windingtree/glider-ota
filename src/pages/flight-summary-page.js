@@ -9,8 +9,9 @@ import TotalPriceButton from "../components/common/totalprice/total-price";
 import PaymentSummary from "../components/payment/payment-summary";
 import {RouteOverview} from "../components/flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
-import Spinner from "../components/common/spinner";
 import Alert from 'react-bootstrap/Alert';
+import Spinner from "../components/common/spinner"
+import Footer from "../components/common/footer/footer";
 
 
 function RenderPleaseWait(){
@@ -116,6 +117,8 @@ export default function FlightSummaryPage({match}) {
                     {confirmedOffer && <PaymentSummary totalPrice={confirmedOffer.offer.price} pricedItems={confirmedOffer.offer.pricedItems} options={confirmedOffer.offer.options}/>}
                     {confirmedOffer && <TotalPriceButton price={confirmedOffer.offer.price} proceedButtonTitle="Proceed to payment" onProceedClicked={onProceedButtonClick}/>}
                 </div>
+                <Footer/>
+
             </div>
         </>
     )

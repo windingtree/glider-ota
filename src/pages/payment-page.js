@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
 import PaymentForm from "../components/payments/checkout-form";
+import Footer from "../components/common/footer/footer";
 
 
 export default function PaymentPage({match}) {
@@ -28,6 +29,8 @@ export default function PaymentPage({match}) {
                 <div className='root-container-subpages'>
                     <PaymentForm confirmedOfferId={confirmedOfferId} onPaymentSuccess={onPaymentSuccess} onPaymentFailure={onPaymentFailure}/>
                 </div>
+                <Footer/>
+
             </div>
         </>
     )

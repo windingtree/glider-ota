@@ -13,6 +13,7 @@ import {parseUrl}  from 'query-string';
 import HotelsSearchResults from "../components/hotelresults/hotels-search-results";
 import HotelFilters from "../components/filters/hotel-filters";
 import {Col, Row} from "react-bootstrap";
+import Footer from "../components/common/footer/footer";
 import Alert from 'react-bootstrap/Alert';
 
 const SEARCH_STATE={
@@ -98,6 +99,8 @@ export default function HotelsSearchPage({match,location, results}) {
                     </Col>
                 </Row>
             </div>
+            <Footer/>
+
         </div>
     )
 }

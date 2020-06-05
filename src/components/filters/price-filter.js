@@ -37,6 +37,7 @@ function initializePriceFilterState(searchResults) {
     })
     filterState.min = filterState.lowest = minPrice;
     filterState.max = filterState.highest = maxPrice;
+    filterState.unit = currencyCode;
     return filterState;
 
 }
