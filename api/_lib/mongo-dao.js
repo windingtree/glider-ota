@@ -37,7 +37,7 @@ function getConnection() {
                 });
 
                 // Update cached connection and resolve
-                // Get the database name from setting, or URI otherwise 
+                // Get the database name from setting, or URI otherwise
                 _db=client.db(MONGO_CONFIG.DBNAME || url.parse(MONGO_CONFIG.URL).pathname.substr(1));
 
                 _db.on('close', ()=>{
@@ -129,7 +129,8 @@ function storeConfirmedOffer(offer, passengers){
         order_status:ORDER_STATUSES.NEW,
         payment_status:PAYMENT_STATUSES.NOT_PAID,
         createDate: new Date(),
-        transaction_history:[]
+        transactions:[createTransactionEntry('New order created', {order_status:ORDER_STATUSES.NEW,
+            payment_status:PAYMENT_STATUSES.NOT_PAID})]
     };
     logger.info("Storing confirmed offer, offerId:%s, order_status:%s, payment_status:%s",object.offerId,object.order_status,object.payment_status)
     return insert('orders',object);
@@ -202,7 +203,7 @@ function updatePaymentStatus(offerId, payment_status, payment_details, comment, 
         $currentDate: {
             lastModifyDateTime: { $type: "timestamp" },
         },
-        $push: { 
+        $push: {
             transactions: createTransactionEntry(comment, transactionDetails),
         }
     }
