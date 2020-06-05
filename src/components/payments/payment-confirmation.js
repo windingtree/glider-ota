@@ -3,13 +3,15 @@ import {Button, Container, Row, Col} from "react-bootstrap";
 import Spinner from "../common/spinner";
 import {getOrderStatus} from "../../utils/api-utils";
 import './payment-confirmation.scss';
+import Alert from 'react-bootstrap/Alert';
+
 
 const CONFIRMATION_STATUS={
     INITIAL:'INITIAL',
     PENDING:'PENDING',
     SUCCESS:'SUCCESS',
     FAILURE:'FAILURE',
-    TOOLONG:'TOOLONG',
+    TIMEOUT:'TIMEOUT',
     CANNOT_CONFIRM:'CANNOT_CONFIRM'
 }
 
@@ -32,7 +34,7 @@ export default function PaymentConfirmation({orderID}) {
         // If timeout is exceeded, stop
         if((now - firstCheck) > MAX_CONFIRMATION_WAIT_TIME_MILLIS) {
             stopCheckingInFuture();
-            setCheckStatus(CONFIRMATION_STATUS.TOOLONG);
+            setCheckStatus(CONFIRMATION_STATUS.TIMEOUT);
             return;
         } else {
             console.log(`Total time: ${now - firstCheck}`);
@@ -127,6 +129,65 @@ export default function PaymentConfirmation({orderID}) {
             </div>
         )
     }
+
+    const ConfirmationFailedAlert = () => (
+        <Alert variant="danger">
+            <Alert.Heading>We cannot confirm your booking.</Alert.Heading>
+            <p>
+                We are sorry, we could not confirm your booking.<br/>
+                Please see additional details below.
+            </p>
+        </Alert>
+    );
+
+    const ConfirmationPendingAlert = () => (
+        <>
+            <Alert variant="info">
+                <Alert.Heading>We are confirming your booking</Alert.Heading>
+                <p>
+                    Please wait while we confirm your booking.<br/>
+                    This can take a few minutes.
+                </p>
+            </Alert>
+            <Spinner/>
+        </>
+    );
+
+    const ConfirmationTimeoutAlert = () => (
+        <Alert variant="warning">
+            <Alert.Heading>We could not yet confirm your booking</Alert.Heading>
+            <p>
+                We are sorry, your booking confirmation is taking longer than usual.<br/>
+                Once your booking is created, you will receive an email with your confirmation.
+            </p>
+            <Button 
+                onClick={retryCheck}
+                size='lg'
+                variant='primary'>Refresh Status
+            </Button>
+        </Alert>
+    );
+
+    const ConfirmationSuccessAlert = () => {
+        let bookings = [];
+        try{
+            console.debug("Confirmation data:", order.confirmation);
+            console.debug("Confirmation data - travel docs:", order.confirmation.travelDocuments);
+            bookings = order.confirmation.travelDocuments.bookings;
+        }catch(err){
+            console.error("Cant find travel documents in confirmation", order.confirmation)
+        }
+        
+        return (
+            <Alert variant="success">
+                <Alert.Heading>Your booking confirmation is <b>{bookings.join(', ')}</b></Alert.Heading>
+                <p>
+                    Your booking has been created with the travel supplier.
+                    You will receive your booking confirmation by email shortly!
+                </p>
+            </Alert>
+        )
+    };
 
     const renderConfirmationSuccess = () => {
         let bookings = [];
@@ -281,10 +342,10 @@ export default function PaymentConfirmation({orderID}) {
             </Row>
             <Row>
                 <Col>
-                {checkStatus === CONFIRMATION_STATUS.PENDING && renderPleaseWait()}
-                {checkStatus === CONFIRMATION_STATUS.FAILURE && renderConfirmationFailed()}
-                {checkStatus === CONFIRMATION_STATUS.SUCCESS && renderConfirmationSuccess()}
-                {checkStatus === CONFIRMATION_STATUS.TOOLONG && renderRetry()}
+                {checkStatus === CONFIRMATION_STATUS.PENDING && ConfirmationPendingAlert()}
+                {checkStatus === CONFIRMATION_STATUS.FAILURE && ConfirmationFailedAlert()}
+                {checkStatus === CONFIRMATION_STATUS.SUCCESS && ConfirmationSuccessAlert()}
+                {checkStatus === CONFIRMATION_STATUS.TIMEOUT && ConfirmationTimeoutAlert()}
                 </Col>
             </Row>
             <Row>
