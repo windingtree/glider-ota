@@ -1,4 +1,4 @@
-import React, {useState,useRef} from 'react'
+import React, {useState, useRef} from 'react'
 import {Container, Row, Col, Form, Alert} from 'react-bootstrap'
 import _ from 'lodash'
 import style from "./single-pax-details.module.scss";
@@ -7,8 +7,12 @@ import 'react-phone-number-input/style.css';
 import PhoneInput, {isPossiblePhoneNumber} from 'react-phone-number-input';
 const DEFAULT_PAXTYPE='ADT';
 
+
+
+
 export default function SinglePaxDetails({passengerId, passengerType, onDataChange, initial, showSubmitButton, onSubmit}) {
     const formRef = useRef(null);
+    const phoneRef = useRef(null);
 
     const [fieldValues, setFieldValues] = useState({
         id: passengerId,
@@ -73,8 +77,9 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         INF:'Infant'
     }
     let paxTypeLabel=typeToLabel[passengerType];
-    if(!paxTypeLabel)
+    if(!paxTypeLabel) {
         paxTypeLabel=typeToLabel[DEFAULT_PAXTYPE];
+    }
 
     return (
         <>
@@ -153,32 +158,22 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                         <Col>
                             <Form.Label className={style.label}>Telephone</Form.Label>
                             <PhoneInput
-                                ref={React.createRef()}
+                                ref={phoneRef}
                                 international
                                 placeholder="Enter phone number"
                                 value={fieldValues['phone']}
-                                //onChange={(value) => onFieldValueChanged({
-                                //    target: {
-                                //        name: 'phone',
-                                //        value: value,
-                                //    },
-                                //})}
-                                onChange={console.log}
+                                onChange={(value) => {
+                                    onFieldValueChanged({
+                                        target: {
+                                            name: 'phone',
+                                            value: value,
+                                        },
+                                    });
+                                }}
                                 name="phone"
                                 onBlur={onFieldBlur}
                                 isInvalid={fieldIsInvalidFlags['phone']}
-                                
-                                //onInput={onFieldInput}
-                                inputComponent={React.forwardRef((props, ref) => (
-                                    <Form.Control
-                                        {...props}
-                                        ref={ref}
-                                        //onFocus={props.onFocus}
-                                        //onBlur={props.onBlur}
-                                        //isInvalid={fieldIsInvalidFlags['phone']}
-                                        //onChange={onFieldValueChanged}
-                                    />
-                                ))}
+                                inputComponent={PhoneInputComponent}
                                 required
                             />
                         </Col>
@@ -191,5 +186,11 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                 }
             </Form>
         </>
-    )
+    );
 }
+
+
+// Define a custom phone input component using react bootstrap control
+// Author's reference code: https://codesandbox.io/s/zealous-chatterjee-8c5mm?file=/src/App.js
+let PhoneInputComponent = (props, ref) => <Form.Control ref={ref} {...props}/>
+PhoneInputComponent = React.forwardRef(PhoneInputComponent);
