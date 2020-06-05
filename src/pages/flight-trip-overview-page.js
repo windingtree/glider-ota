@@ -6,6 +6,7 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import TripDetails from "../components/flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import TotalPriceButton from "../components/common/totalprice/total-price";
+import Footer from "../components/common/footer/footer";
 
 
 export default function FlightTripOverviewPage({match}) {
@@ -39,6 +40,8 @@ export default function FlightTripOverviewPage({match}) {
                     <TotalPriceButton price={selectedOffer.price} proceedButtonTitle="Proceed" onProceedClicked={proceedButtonClick}/>
                 </div>
             </div>
+            <Footer/>
+
         </>
     )
 }

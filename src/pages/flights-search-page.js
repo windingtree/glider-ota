@@ -13,6 +13,7 @@ import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
 import {Col, Row} from "react-bootstrap";
+import Footer from "../components/common/footer/footer";
 
 const SEARCH_STATE={
     NOT_STARTED:'NOT_STARTED',
@@ -111,7 +112,9 @@ export default function FlightsSearchPage({match, location, results}) {
                         </Col>
                     </Row>
                 </div>
-            </div>
+            <Footer/>
+
+        </div>
     )
 }
 

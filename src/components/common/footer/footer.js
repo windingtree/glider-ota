@@ -15,20 +15,15 @@ export default function Footer(props) {
 
                         <Container fluid={true}>
                             <Row noGutters={true}>
-                                <Col xs={12} sm={3} >
-                                    <div className={style.footerNavTitle}>Airlines</div>
-                                    <div className={style.footerNavLink}><a href="https://www.airfrance.com">Air
-                                        France</a></div>
+                                <Col xs={12} sm={6} >
+                                    <div className={style.footerNavTitle}>Launching partners</div>
                                     <div className={style.footerNavLink}><a href="https://www.aircanada.com">Air
                                         Canada</a></div>
-
-                                </Col>
-                                <Col xs={12} sm={3}>
-                                    <div className={style.footerNavTitle}>Hotels</div>
                                     <div className={style.footerNavLink}><a href="https://www.nordicchoicehotels.com">Nordic
                                         Choice Hotels</a></div>
-                                    <div className={style.footerNavLink}><a href="https://www.mhc.travel">Machefert
-                                        Hotels</a></div>
+                                    <div className={style.footerNavLink}><a href="https://www.atpco.net/ndc-exchange/"><img src='/images/atpco_logo.png' border='0'/></a></div>
+                                    <div className={style.footerNavLink}><a href="https://www.erevmax.com/ ">E-Revmax</a></div>
+
                                 </Col>
                                 <Col xs={12} sm={6}>
                                     <div className={style.footerNavTitle}>Contact</div>
@@ -49,15 +44,15 @@ export default function Footer(props) {
                                 <Col xs={12} sm={6}>
                                     <Container fluid={true}>
                                         <Row noGutters={true}>
-                                            <Col><a href="https://github.com/windingtree"><img src="images/github_icon.png"
+                                            <Col><a href="https://github.com/windingtree"><img src="/images/github_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
-                                            <Col><a href="https://blog.windingtree.com/"><img src="images/twitter_icon.png"
+                                            <Col><a href="https://blog.windingtree.com/"><img src="/images/twitter_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
-                                            <Col><a href="https://blog.windingtree.com/"><img src="images/medium_icon.png"
+                                            <Col><a href="https://blog.windingtree.com/"><img src="/images/medium_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
-                                            <Col><a href="https://t.me/windingtree"><img src="images/telegram_icon.png"
+                                            <Col><a href="https://t.me/windingtree"><img src="/images/telegram_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
-                                            <Col><a href="https://www.reddit.com/r/windingtree/"><img src="images/reddit_icon.png"
+                                            <Col><a href="https://www.reddit.com/r/windingtree/"><img src="/images/reddit_icon.png"
                                                                         className={style.icon} border="0"/></a></Col>
                                         </Row>
                                     </Container>

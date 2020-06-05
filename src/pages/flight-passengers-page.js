@@ -7,6 +7,7 @@ import {storePassengerDetails,retrievePassengerDetails} from "../utils/api-utils
 import TotalPriceButton from "../components/common/totalprice/total-price";
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import TripDetails from "../components/flightdetails/trip-details";
+import Footer from "../components/common/footer/footer";
 
 export default function FlightPassengersPage({match}) {
     let history = useHistory();
@@ -97,6 +98,8 @@ export default function FlightPassengersPage({match}) {
                     <PaxDetails passengers={passengerDetails} onDataChange={onPaxDetailsChange}/>
                     <TotalPriceButton price={offer.price} proceedButtonTitle="Proceed" disabled={!passengerDetailsValid} onProceedClicked={savePassengerDetailsAndProceed}/>
                 </div>
+                <Footer/>
+
             </div>
         </>
     )

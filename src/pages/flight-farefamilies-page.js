@@ -8,6 +8,7 @@ import {withRouter} from 'react-router'
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import TotalPriceButton from "../components/common/totalprice/total-price";
 import {storeSelectedOffer} from "../utils/api-utils";
+import Footer from "../components/common/footer/footer";
 
 export default function FlightFareFamiliesPage({match}) {
     let history = useHistory();
@@ -58,6 +59,8 @@ export default function FlightFareFamiliesPage({match}) {
                         selectedOffer={selectedOffer}  onSelectedOfferChange={handleOfferChange}/>
                     <TotalPriceButton price={selectedOffer.price} proceedButtonTitle="Proceed" onProceedClicked={onProceedButtonClick}/>
                 </div>
+                <Footer/>
+
             </div>
         </>
     )
