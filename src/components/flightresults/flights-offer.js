@@ -58,7 +58,7 @@ export function Itinerary({itinerary}) {
                                 className={style.itinAirports}>{firstSegment.origin.iataCode}-{lastSegment.destination.iataCode}</div>
                         </Col>
                         <Col>
-                            <div className={style.itinStopCount}>{stops.length} STOP</div>
+                            <div className={style.itinStopCount}>{stops.length==0?"DIRECT":stops.length+" STOP"}</div>
                             <div className={style.itinStopDetails}>{stops}</div>
                         </Col>
                     </Row>

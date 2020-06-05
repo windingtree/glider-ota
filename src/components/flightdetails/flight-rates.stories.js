@@ -28,6 +28,11 @@ let price = {
     currency:'CAD'
 }
 
+let baselineFare={
+    public: 1383,
+    currency:'CAD'
+}
+
 let amentiesTexts = [];
 amenities.forEach(r=>amentiesTexts.push(r.text))
 
@@ -940,5 +945,5 @@ console.log("selectedOfferId:",selectedOfferId)
 console.log("selectedOffer:",selectedOffer)
 
 let itinerary=tripRates.itineraries[0];
-export const itineraryFareFamilies = () => (<ItineraryRates itinerary={itinerary} tripRates={tripRates} selectedOffer={selectedOffer} onPricePlanSelected={action("onPricePlanSelected")} onOfferSelected={action("onOfferSelected")}/>);
-export const TripFareFamilySelection = () => (<TripRates tripRates={tripRates} selectedOffer={selectedOffer} onOfferChange={action("onOfferChange")}/>);
+export const itineraryFareFamilies = () => (<ItineraryRates itinerary={itinerary} tripRates={tripRates} selectedOffer={selectedOffer} onPricePlanSelected={action("onPricePlanSelected")} onOfferSelected={action("onOfferSelected")} baselineFare={baselineFare}/>);
+export const TripFareFamilySelection = () => (<TripRates tripRates={tripRates} selectedOffer={selectedOffer} onOfferChange={action("onOfferChange")} baselineFare={baselineFare}/>);
