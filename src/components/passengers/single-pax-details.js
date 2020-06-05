@@ -38,14 +38,17 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
 
     function onFieldBlur(e) {
         const {name,value} = e.target;
-        let copy = {...fieldIsInvalidFlags};
-        copy[name] = !e.target.checkValidity();
+        let newInvalidFlags = {...fieldIsInvalidFlags};
+        newInvalidFlags[name] = !e.target.checkValidity();
         if(name==='phone') {
-            copy[name] = copy[name] || !isPossiblePhoneNumber(value);
+            newInvalidFlags[name] = newInvalidFlags[name] || !isPossiblePhoneNumber(value);
         }
-        setFieldIsInvalidFlags(copy);
-        setSaveButtonEnabled(formRef.current.checkValidity())
-        onDataChange(passengerId,fieldValues,formRef.current.checkValidity());
+        const isFormValid = Object.keys(newInvalidFlags).reduce((valid, key) => {
+            return valid && !newInvalidFlags[key];
+        }, true);
+        setFieldIsInvalidFlags(newInvalidFlags);
+        setSaveButtonEnabled(isFormValid)
+        onDataChange(passengerId,fieldValues,isFormValid);
     }
 
     function onFieldValueChanged(e) {

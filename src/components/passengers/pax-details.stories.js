@@ -26,7 +26,7 @@ const initial_details_preset = [{
     lastName: 'Doe',
     birthDate: '',
     email: 'john@doe.com',
-    phone: '+1 234 567 890'
+    phone: '+1 234 567 8901'
 },
     {
         id: "PAX2",
@@ -35,7 +35,7 @@ const initial_details_preset = [{
         lastName: 'Doe',
         birthDate: '',
         email: 'john@doe.com',
-        phone: '+1 234 567 890'
+        phone: '+1 234 567 8901'
     }
 ];
 
