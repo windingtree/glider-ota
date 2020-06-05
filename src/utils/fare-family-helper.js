@@ -70,6 +70,7 @@ export default class FareFamilyHelper {
       if(selectedOfferId === candidateOffer.offerId){
         pricePlanOffsets[currentItinPricePlanId]={
           offerId: selectedOfferId,
+          price:candidateOffer.price,
           priceOffset:{
             public: 0,
             currency: candidateOffer.price.currency
@@ -82,6 +83,7 @@ export default class FareFamilyHelper {
         //TODO: what if currency codes are different? should not happen but....
         pricePlanOffsets[candidatePricePlanId]={
           offerId: candidateOffer.offerId,
+          price:candidateOffer.price,
           priceOffset:{
             public: priceDiff,
             currency: candidateOffer.price.currency
