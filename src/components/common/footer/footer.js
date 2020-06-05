@@ -21,7 +21,8 @@ export default function Footer(props) {
                                         Canada</a></div>
                                     <div className={style.footerNavLink}><a href="https://www.nordicchoicehotels.com">Nordic
                                         Choice Hotels</a></div>
-                                    <div className={style.footerNavLink}><a href="https://www.atpco.net/ndc-exchange/"><img src='/images/atpco_logo.png' border='0'/></a></div>
+                                    <div className={style.footerNavLink}><a href="https://www.atpco.net/ndc-exchange/">ATPCO</a></div>
+                                    <div className={style.footerNavLink}><a href="https://iata.org/"><img src='/images/iata_logo.png' border='0'/></a></div>
                                     <div className={style.footerNavLink}><a href="https://www.erevmax.com/ ">E-Revmax</a></div>
 
                                 </Col>
