@@ -16,9 +16,9 @@ export  function RouteOverview({itineraries=[]}){
                 <Col className={style.tripheader}>Route</Col>
             </Row>
             <Row className={style.tripcontainer}>
-                {itineraries.each(itinerary=>
-                    <Itinerary itinerary={itinerary}/>
-                )}
+                {itineraries.length > 0 && (<Itinerary itinerary={itineraries[0]}/>)}
+                {itineraries.length > 1 && (<Itinerary itinerary={itineraries[1]}/>)}
+                {itineraries.length > 3 && (<Itinerary itinerary={itineraries[2]}/>)}
             </Row>
         </div>
     )
