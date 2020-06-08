@@ -8,11 +8,16 @@ import TotalPriceButton from "../components/common/totalprice/total-price";
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import TripDetails from "../components/flightdetails/trip-details";
 import Footer from "../components/common/footer/footer";
+import Alert from 'react-bootstrap/Alert';
+import Spinner from "../components/common/spinner";
+
 
 export default function FlightPassengersPage({match}) {
     let history = useHistory();
     const [passengerDetails, setPassengerDetails] = useState(history.location.state.passengers);
     const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
+    const [highlightInvalidFields, setHighlightInvalidFields] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     let offerId = match.params.offerId;
     let searchResults = retrieveSearchResultsFromLocalStorage();
     let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
@@ -59,15 +64,42 @@ export default function FlightPassengersPage({match}) {
         let url='/flights/seatmap/'+offerId;
         history.push(url, {passengers: passengerDetails});
     }
-    function savePassengerDetailsAndProceed(){
+
+    function savePassengerDetailsAndProceed() {
+        setIsLoading(true);
         let results = storePassengerDetails(passengerDetails);
             results.then((response) => {
                 console.debug("Successfully saved pax details", response);
                 redirectToSeatmap();
          }).catch(err => {
              console.error("Failed to store passenger details", err);
-             //TODO - add proper error handling (show user a message)
+             setHighlightInvalidFields(true);
+             setPassengerDetailsValid(false);
          })
+         .finally(() => {
+            setIsLoading(false);
+         });
+    }
+
+    const PassengerInvalidAlert = () => (
+        <Alert variant="danger">
+            <Alert.Heading>Some passenger details are invalid</Alert.Heading>
+            <p>
+                We are sorry, we are missing some passenger details for this reservation.<br/>
+                Please review and complete the passenger details to proceed.
+            </p>
+        </Alert>
+    );
+
+    // Display a loading spinner
+    const loadingSpinner = () => {
+        return (
+            <div>
+                <Spinner enabled={true}/>
+                <span>We are validating the passenger details</span>
+            </div>
+        );
+        
     }
 
     /**
@@ -79,13 +111,12 @@ export default function FlightPassengersPage({match}) {
     {
         let searchResults = retrieveSearchResultsFromLocalStorage();
         let paxData = searchResults.passengers;
-        let passengers=[];
-        Object.keys(paxData).map(paxId=>{
-            let record = {id: paxId,
+        let passengers = Object.keys(paxData).map(paxId => {
+            return {
+                id: paxId,
                 type: paxData[paxId].type
             }
-            passengers.push(record)
-        })
+        });
         return passengers;
     }
     console.debug("FlightPassengersPage, render")
@@ -94,9 +125,22 @@ export default function FlightPassengersPage({match}) {
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-                    <TripDetails itineraries={itineraries}/>
-                    <PaxDetails passengers={passengerDetails} onDataChange={onPaxDetailsChange}/>
-                    <TotalPriceButton price={offer.price} proceedButtonTitle="Proceed" disabled={!passengerDetailsValid} onProceedClicked={savePassengerDetailsAndProceed}/>
+                    <TripDetails 
+                        itineraries={itineraries}
+                    />
+                    <PaxDetails 
+                        passengers={passengerDetails}
+                        onDataChange={onPaxDetailsChange}
+                        highlightInvalidFields={highlightInvalidFields}
+                    />
+                    {highlightInvalidFields && PassengerInvalidAlert()}
+                    {isLoading && loadingSpinner()}
+                    <TotalPriceButton
+                        price={offer.price}
+                        proceedButtonTitle="Proceed"
+                        disabled={!passengerDetailsValid}
+                        onProceedClicked={savePassengerDetailsAndProceed}
+                    />
                 </div>
                 <Footer/>
 

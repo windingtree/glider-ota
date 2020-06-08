@@ -10,7 +10,7 @@ const DEFAULT_PAXTYPE='ADT';
 
 
 
-export default function SinglePaxDetails({passengerId, passengerType, onDataChange, initial, showSubmitButton, onSubmit}) {
+export default function SinglePaxDetails({passengerId, passengerType, onDataChange, initial, showSubmitButton, onSubmit, highlightInvalidFields}) {
     const formRef = useRef(null);
     const phoneRef = useRef(null);
 
@@ -35,7 +35,6 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     });
     const [validated, setValidated] = useState(false);
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
-    const [highlightInvalidFields, setHighlightInvalidFields] = useState(false);
 
     // Function to determine if all fields are valid
     const allFieldsValid = () => {
@@ -69,7 +68,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         }, true);
         setFieldIsInvalidFlags(newInvalidFlags);
         setSaveButtonEnabled(isFormValid)
-        onDataChange(passengerId,fieldValues,isFormValid);
+        onDataChange(passengerId, fieldValues, isFormValid);
     }
 
     function onFieldValueChanged(e) {
@@ -94,9 +93,6 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     function onSaveButtonClicked(){
         if(allFieldsValid()) {
             onSubmit(fieldValues);
-        }
-        else {
-            setHighlightInvalidFields(true);
         }
     }
 
