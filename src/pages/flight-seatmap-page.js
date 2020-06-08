@@ -177,7 +177,7 @@ export default function FlightSeatmapPage({match}) {
             new Date(currentFlightSegments[segmentFlightIndex].departureTime)
         );
         const timeDeltaHours = Number(timeDelta/(1000*60*60)).toFixed(0);
-        const timeDeltaMinutes = Number((timeDelta-timeDeltaHours)/(1000*60)).toFixed(0);
+        const timeDeltaMinutes = Number((timeDelta-1000*60*60*timeDeltaHours)/(1000*60)).toFixed(0);
 
         return {
             stops: iataStops,

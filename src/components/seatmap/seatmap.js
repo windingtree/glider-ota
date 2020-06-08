@@ -175,7 +175,7 @@ export default function SeatMap(props) {
                     </Row>
                     <Row className='seatcard-row'>
                         {passengers.map(({type, name}, index) => (
-                            <Col xs={12} sm={6} md={12} lg={6} xl={4} className='seatcard-col' key={index}>
+                            <Col xs={12} sm={6} md={12} lg={6} className='seatcard-col' key={index}>
                                 <SeatCard
                                     // Passenger related properties
                                     active={!allSeatsSelected() && (index === activePassengerIndex)}
