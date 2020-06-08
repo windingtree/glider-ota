@@ -17,7 +17,7 @@ const adult_male = {
     lastName: 'Doe',
     birthDate: '1978-02-13',
     email: 'john@doe.com',
-    phone: '+1 234 567 890',
+    phone: '+1 234 567 8901',
     civility: 'MR'
 };
 const adult_female = {
@@ -27,7 +27,7 @@ const adult_female = {
     lastName: 'Doe',
     birthDate: '1978-02-13',
     email: 'john@doe.com',
-    phone: '+1 234 567 890',
+    phone: '+1 234 567 8901',
     civility: 'MRS'
 };
 const child=
@@ -38,7 +38,7 @@ const child=
         lastName: 'Smith',
         birthDate: '2016-01-02',
         email: 'anna@smith.com',
-        phone: '+1 234 567 890',
+        phone: '+1 234 567 8901',
         civility: 'MRS'
     }
 const inf=
@@ -49,7 +49,7 @@ const inf=
         lastName: 'Smith',
         birthDate: '2016-01-02',
         email: 'anna@smith.com',
-        phone: '+1 234 567 890',
+        phone: '+1 234 567 8901',
         civility: 'MR'
     }
 
