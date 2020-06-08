@@ -26,15 +26,36 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     })
 
     const [fieldIsInvalidFlags, setFieldIsInvalidFlags] = useState({
-        firstName:false,
-        lastName:false,
-        birthdate:false,
-        email:false,
-        phone:false,
-        civility:false
-    })
+        firstName:undefined,
+        lastName:undefined,
+        birthdate:undefined,
+        email:undefined,
+        phone:undefined,
+        civility:undefined
+    });
     const [validated, setValidated] = useState(false);
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
+    const [highlightInvalidFields, setHighlightInvalidFields] = useState(false);
+
+    // Function to determine if all fields are valid
+    const allFieldsValid = () => {
+        return Object.keys(fieldIsInvalidFlags).reduce((valid, key) => {
+            return valid && (key===false);
+        }, true);
+    };
+
+    // FUnction to determine if the invalid status should be shown
+    const showInvalidStatus = (key) => {
+        // If fields are not yet touched, don't show the invalid status
+        if(highlightInvalidFields) {
+            return (fieldIsInvalidFlags[key] === undefined) || fieldIsInvalidFlags[key];
+        }
+
+        // Otherwise return the flag
+        return (fieldIsInvalidFlags[key]===true);
+
+
+    }
 
     function onFieldBlur(e) {
         const {name,value} = e.target;
@@ -71,7 +92,12 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     }
 
     function onSaveButtonClicked(){
-        onSubmit(fieldValues)
+        if(allFieldsValid()) {
+            onSubmit(fieldValues);
+        }
+        else {
+            setHighlightInvalidFields(true);
+        }
     }
 
     let typeToLabel={
@@ -98,7 +124,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       onChange={onFieldValueChanged}
                                       value={fieldValues['lastName']}
                                       required
-                                      isInvalid={fieldIsInvalidFlags['lastName']}
+                                      isInvalid={showInvalidStatus('lastName')}
                                     onInput={onFieldInput}/>
                     </Col>
                     <Col>
@@ -110,7 +136,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       value={fieldValues['firstName']}
                                       onChange={onFieldValueChanged}
                                       onInput={onFieldInput}
-                                      isInvalid={fieldIsInvalidFlags['firstName']}
+                                      isInvalid={showInvalidStatus('firstName')}
                                       required
                         />
                     </Col>
@@ -124,7 +150,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       value={fieldValues['birthdate']}
                                       onBlur={onFieldBlur}
                                       onChange={onFieldValueChanged}
-                                      isInvalid={fieldIsInvalidFlags['birthdate']}
+                                      isInvalid={showInvalidStatus('birthdate')}
                                       onInput={onFieldInput} required/>
 
                     </Col>
@@ -136,7 +162,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                           onBlur={onFieldBlur}
                                           onChange={onFieldValueChanged}
                                           onInput={onFieldInput}
-                                          isInvalid={fieldIsInvalidFlags['civility']}
+                                          isInvalid={showInvalidStatus('civility')}
                                           required>
                                 <option value=''></option>
                                 <option value='MR'>Male</option>
@@ -155,7 +181,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                           value={fieldValues['email']}
                                           onChange={onFieldValueChanged}
                                           onBlur={onFieldBlur}
-                                          isInvalid={fieldIsInvalidFlags['email']}
+                                          isInvalid={showInvalidStatus('email')}
                                           onInput={onFieldInput} required/>
                         </Col>
                         <Col>
@@ -175,7 +201,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                 }}
                                 name="phone"
                                 onBlur={onFieldBlur}
-                                isInvalid={fieldIsInvalidFlags['phone']}
+                                isInvalid={showInvalidStatus('phone')}
                                 inputComponent={PhoneInputComponent}
                                 required
                             />
