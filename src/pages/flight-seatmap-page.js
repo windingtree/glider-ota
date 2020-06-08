@@ -13,6 +13,7 @@ import {
     addSeats,
 } from '../utils/api-utils';
 import Footer from "../components/common/footer/footer";
+import './flight-seatmap-page.scss';
 
 
 // SeatMap page rendering
@@ -233,10 +234,12 @@ export default function FlightSeatmapPage({match}) {
                 message = "We are adding your seat selection to your booking.";
             }
             return (
-                <div>
-                    <Spinner enabled={isLoading}/>
-                    <span>{message}</span>
+                <>
+                <div className='seatmap-loading-message'>
+                    <Spinner enabled={true}></Spinner>
+                    {message}
                 </div>
+            </>
             );
         }
     }
