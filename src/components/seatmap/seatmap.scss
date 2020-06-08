@@ -10,6 +10,10 @@
     /* Text */
     color: #202020;
 
+    &-price {
+        @extend .seatmap-h2;
+        margin-bottom: 40px;
+    }
 }
 
 
@@ -73,5 +77,10 @@
         color: #7161D6;
     }
 
+}
+
+.action-row {
+    margin-bottom: 100px;
+    align-items: center;
 }
 

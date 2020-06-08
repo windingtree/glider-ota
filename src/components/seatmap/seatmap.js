@@ -205,7 +205,7 @@ export default function SeatMap(props) {
                     />
                 </Col>
             </Row>
-            <Row>
+            <Row className='action-row'>
                 <Col xs={12} md={6}>
                     <h2 className='seatmap-h2-price'>Total Price: {currency} {getTotal()}</h2>
                 </Col>
@@ -214,6 +214,7 @@ export default function SeatMap(props) {
                         <Col xs={6}>
                             <Button 
                                 className='seatmap-btn-secondary'
+                                variant='secondary'
                                 onClick={handleSkip}
                             >
                                 Skip
