@@ -27,7 +27,6 @@ export default function FlightFareFamiliesPage({match}) {
         console.debug("baselineFare was already set ",history.location.state.baselineFare)
     }
 
-
     function onProceedButtonClick() {
         let url = '/flights/passengers/' + offerId;
         history.push(url, { passengers: passengers });

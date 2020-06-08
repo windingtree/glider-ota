@@ -8,7 +8,7 @@ import FareFamilyHelper from "../../utils/fare-family-helper";
 
 export default function TripRates({tripRates, selectedOffer, onOfferChange,baselineFare}) {
     const [currentOffer, setCurrentOffer] = useState(selectedOffer)
-    let fareFamilyHelper = new FareFamilyHelper(tripRates);
+
 
     function handlePricePlanSelection(itinId, pricePlanId) {
 
@@ -30,11 +30,8 @@ export default function TripRates({tripRates, selectedOffer, onOfferChange,basel
             <div>
                 {
                     itineraries.map(itinerary => {
-                        let itinId = itinerary.itinId;
-                        let pricePlanIds=fareFamilyHelper.getItineraryPricePlansInAscendingOrder(itinId);
-
                         return (
-                            <ItineraryRates key={itinId} itinerary={itinerary} tripRates={tripRates} selectedOffer={currentOffer}
+                            <ItineraryRates key={itinerary.itinId} itinerary={itinerary} tripRates={tripRates} selectedOffer={currentOffer}
                                             onPricePlanSelected={handlePricePlanSelection} onOfferSelected={onOfferSelected} baselineFare={baselineFare}/>)
 
                     })
@@ -51,9 +48,7 @@ export default function TripRates({tripRates, selectedOffer, onOfferChange,basel
 
 export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlanSelected, onOfferSelected, baselineFare}) {
     let itineraryId = itinerary.itinId;
-    function selectPlan(itineraryId,pricePlanId){
-        onPricePlanSelected(itineraryId,pricePlanId)
-    }
+
 
     function selectOffer(offerId){
         console.log("selectOffer",offerId)
@@ -67,7 +62,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
 
     let pricePlans = tripRates.pricePlans;
     let fareFamilyHelper = new FareFamilyHelper(tripRates);
-    let pricePlanIds = fareFamilyHelper.getItineraryPricePlansInAscendingOrder(itineraryId);
+    let itineraryPricePlans = fareFamilyHelper.getItineraryPriceWithLowestPrice(itineraryId);
     let priceOffsets = fareFamilyHelper.getItineraryPricePlanOffsetPrices(selectedOffer.offerId,itineraryId);
     let selectedPricePlanId = selectedOffer.itinToPlanMap[itineraryId];
 
@@ -78,7 +73,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
         <div className={style.ratesHeader}>Select a fare below</div>
         <div className='d-flex flex-row flex-wrap'>
                 {
-                    pricePlanIds.map(pricePlanId => {
+                    itineraryPricePlans.map(({pricePlanId,lowestPrice}) => {
                         let pricePlan = pricePlans[pricePlanId];
                         let priceOffset = priceOffsets[pricePlanId];
                         let priceDifference = {};
@@ -87,7 +82,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                             if(baselineFare){   //baselineFare is the fare selected by user from search results page
                                 //if it is set - we should calculate the difference between that fare and given fare family
                                 let baselineAmount = baselineFare.public;
-                                let fareFamilyAmount = priceOffset.price.public;
+                                let fareFamilyAmount = lowestPrice.public;
                                 let diff = parseInt(fareFamilyAmount) - parseInt(baselineAmount);
                                 //if there is no difference - don't display anything
                                 if(Math.round(diff)!=0){
