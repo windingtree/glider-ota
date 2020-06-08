@@ -9,6 +9,7 @@ import TotalPriceButton from "../components/common/totalprice/total-price";
 import PaymentSummary from "../components/payment/payment-summary";
 import {RouteOverview} from "../components/flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
+import Alert from 'react-bootstrap/Alert';
 import Spinner from "../components/common/spinner"
 import Footer from "../components/common/footer/footer";
 
@@ -17,7 +18,7 @@ function RenderPleaseWait(){
     return (
         <>
             <div className='glider-font-text24medium-fg'>
-                Please wait while we are confirming your price with an airline
+                Please wait while we are confirming your price with the airline
                 <Spinner enabled={true}></Spinner>
             </div>
         </>
@@ -27,9 +28,10 @@ function RenderPleaseWait(){
 
 export default function FlightSummaryPage({match}) {
     let history = useHistory();
-    const [passengerDetails,setPassengerDetails] = useState();
-    const [confirmedOffer,setConfirmedOffer] = useState();
-    const [loadInProgress,setLoadInProgress] = useState(false);
+    const [passengerDetails, setPassengerDetails] = useState();
+    const [confirmedOffer, setConfirmedOffer] = useState();
+    const [loadInProgress, setLoadInProgress] = useState(false);
+    const [pricingFailed, setPricingFailed] = useState(false);
     let offerId = match.params.offerId;
     let searchResults = retrieveSearchResultsFromLocalStorage();
     let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
@@ -59,23 +61,37 @@ export default function FlightSummaryPage({match}) {
         })
     }
 
-
-    function repriceItemsInCart(){
-        setLoadInProgress(true)
+    // Validate the price of the shopping cart
+    function repriceItemsInCart() {
+        setLoadInProgress(true);
+        setPricingFailed(false);
         let response=repriceShoppingCartContents();
         response.then(offer=>{
             console.log("Repriced offer:", offer);
             setConfirmedOffer(offer)
         }).catch(err=>{
             console.error("Failed to reprice cart", err);
-            //TODO - add proper error handling (show user a message)
+            setPricingFailed(true);
         }).finally(()=>{
             setLoadInProgress(false)
         });
     }
 
-
-
+    const PricingErrorAlert = () => (
+        <Alert variant="danger">
+            <Alert.Heading>We could not confirm your final price</Alert.Heading>
+            <p>
+                We are sorry, we could not confirm the final price with the airline.
+                This indicates that this itinerary can not be sold at the moment.
+                Please retry or change your itinerary.
+            </p>
+            <Button
+                onClick={repriceItemsInCart}
+                disabled={loadInProgress}>
+                Retry
+            </Button>
+        </Alert>
+    );
 
     //Populate summary with passengers details from session
     useEffect(()=>{
@@ -90,6 +106,7 @@ export default function FlightSummaryPage({match}) {
                 <div className='root-container-subpages'>
                     <RouteOverview itineraries={itineraries}/>
                     {loadInProgress && <RenderPleaseWait/>}
+                    {pricingFailed && PricingErrorAlert()}
                     {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}
                     {confirmedOffer && <PaymentSummary totalPrice={confirmedOffer.offer.price} pricedItems={confirmedOffer.offer.pricedItems} options={confirmedOffer.offer.options}/>}
                     {confirmedOffer && <TotalPriceButton price={confirmedOffer.offer.price} proceedButtonTitle="Proceed to payment" onProceedClicked={onProceedButtonClick}/>}
