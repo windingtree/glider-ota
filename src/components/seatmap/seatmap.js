@@ -175,7 +175,7 @@ export default function SeatMap(props) {
                     </Row>
                     <Row className='seatcard-row'>
                         {passengers.map(({type, name}, index) => (
-                            <Col xs={12} sm={6} md={12} lg={6} xl={4} className='seatcard-col' key={index}>
+                            <Col xs={12} sm={6} md={12} lg={6} className='seatcard-col' key={index}>
                                 <SeatCard
                                     // Passenger related properties
                                     active={!allSeatsSelected() && (index === activePassengerIndex)}
@@ -205,7 +205,7 @@ export default function SeatMap(props) {
                     />
                 </Col>
             </Row>
-            <Row>
+            <Row className='action-row'>
                 <Col xs={12} md={6}>
                     <h2 className='seatmap-h2-price'>Total Price: {currency} {getTotal()}</h2>
                 </Col>
@@ -214,6 +214,7 @@ export default function SeatMap(props) {
                         <Col xs={6}>
                             <Button 
                                 className='seatmap-btn-secondary'
+                                variant='secondary'
                                 onClick={handleSkip}
                             >
                                 Skip
