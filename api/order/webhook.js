@@ -100,7 +100,8 @@ const webhookController = (request, response ) => {
                     handleAck();
                     response.end(JSON.stringify({
                         received: true,
-                        fulfilled: true,
+                        fulfilled: (confirmation !== undefined && confirmation.isDuplicate ? undefined : true),
+                        isDuplicate: (confirmation !== undefined && confirmation.isDuplicate===true),
                         orderId: confirmation && confirmation.orderId,
                     }));
                 });
@@ -251,8 +252,10 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
             // On confirmaton handle it
             .then(confirmation => {
                 //logger.info("Response from fulfillment", confirmation);
-                
-                if(confirmation) {
+                if(confirmation && confirmation.isDuplicate) {
+                    resolve(confirmation);
+                }
+                else if(confirmation) {
                     // Update the order status
                     updateOrderStatus(
                         confirmedOfferId,
@@ -265,7 +268,7 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
                     .then(() => {
                         sendConfirmation(confirmedOfferId, confirmation)
                         .then(() => {
-                            resolve(confirmation);
+                            resolve({...confirmation, order_status:ORDER_STATUSES.FULFILLED});
                         })
                         .catch(error => {
                             logger.error(`Failed to send email confirmation: ${error.message}`);
@@ -323,77 +326,89 @@ function fulfillOrder(confirmedOfferId) {
         // Process the retrieved offer
         .then(document => {
 
-            // Check if fulfillment was already processed
-            if(document.confirmation && (document.order_status === ORDER_STATUSES.FULFILLED)) {
-                resolve(document.confirmation);
+            // Check if fulfillment is already processed or in progress
+            if(document && (
+                (document.order_status === ORDER_STATUSES.FULFILLED) || 
+                (document.order_status === ORDER_STATUSES.FULFILLING)))
+            {
+                resolve({...document.confirmation, isDuplicate: true});
             }
 
             // Proceed to next steps of fulfillment
             else {
-                let passengers = document.passengers;
-                // let offerItems = document.offerItems;
-                let offerId = document.confirmedOffer.offerId;
-                let offer = document.confirmedOffer.offer;
-                let price = offer.price;
-    
-                /*
-                TEST ONLY - Create deposit
-                logger.debug("#3 create deposit");
-                let settlement = await simulateDeposit(price.public, price.currency);
-                */
-    
-                // Request a guarantee to Simard
-                createGuarantee(price.public, price.currency)
-    
-                // Proceed to next steps with guarantee
-                .then(guarantee => {
-                    logger.debug("#4 guarantee created, guaranteeId:%s", guarantee.guaranteeId);
-    
-                    // Create the order
-                    let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers);
-                    createOrder(orderRequest)
-    
-                    // Handle the order creation success
-                    .then(confirmation => {
-                        resolve(confirmation);
-                    })
-    
-                    // Handle the error creation error
-                    .catch(error => {
-                        // Override Error with Glider message
-                        if(error.response && error.response.data && error.response.data.message) {
-                            error.message = `Glider B2B: ${error.response.data.message}`;
-                        }
-                        logger.error("Failure in response from /createWithOffer: %s", error.message);
-
-                        // Update order status
-                        updateOrderStatus(
-                            confirmedOfferId,
-                            ORDER_STATUSES.FAILED,
-                            `Order creation failed[${error}]`,
-                            {request:orderRequest})
-                        
-                        // Once order is updated, reject the error
-                        .then(() => {
-                            reject(error);
+                // Update the status to fulfilling
+                updateOrderStatus(
+                    confirmedOfferId,
+                    ORDER_STATUSES.FULFILLING,
+                    `Order creation started`,
+                    {}
+                )
+                
+                // Start fulfillment process
+                .then(() => {
+                    // Retrieve offer details
+                    let passengers = document.passengers;
+                    let offerId = document.confirmedOffer.offerId;
+                    let offer = document.confirmedOffer.offer;
+                    let price = offer.price;
+        
+                    // Request a guarantee to Simard
+                    createGuarantee(price.public, price.currency)
+        
+                    // Proceed to next steps with guarantee
+                    .then(guarantee => {
+                        logger.debug("#4 guarantee created, guaranteeId:%s", guarantee.guaranteeId);
+        
+                        // Create the order
+                        let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers);
+                        createOrder(orderRequest)
+        
+                        // Handle the order creation success
+                        .then(confirmation => {
+                            resolve(confirmation);
                         })
+        
+                        // Handle the error creation error
+                        .catch(error => {
+                            // Override Error with Glider message
+                            if(error.response && error.response.data && error.response.data.message) {
+                                error.message = `Glider B2B: ${error.response.data.message}`;
+                            }
+                            logger.error("Failure in response from /createWithOffer: %s", error.message);
     
-                        // If even the DB update fails, return the error
-                        .catch(updateError => {
-                            logger.error("Failed to update DB when processing error:%s", updateError.message);
-                            reject(error);
+                            // Update order status
+                            updateOrderStatus(
+                                confirmedOfferId,
+                                ORDER_STATUSES.FAILED,
+                                `Order creation failed[${error}]`,
+                                {request:orderRequest})
+                            
+                            // Once order is updated, reject the error
+                            .then(() => {
+                                reject(error);
+                            })
+        
+                            // If even the DB update fails, return the error
+                            .catch(updateError => {
+                                logger.error("Failed to update DB when processing error:%s", updateError.message);
+                                reject(error);
+                            });
                         });
+                        
+                    })
+        
+                    // Handle the guarantee creation error
+                    .catch(error => {
+                        logger.error("Could not create guarantee: %s", error);
+                        reject(error);
                     });
-                    
                 })
-    
-                // Handle the guarantee creation error
-                .catch(error => {
-                    logger.error("Could not create guarantee: %s", error);
-                    reject(error);
+                .catch(updateError => {
+                    logger.error("Failed to update order status to fulfilling: %s", updateError.message);
+                    reject(updateError);
                 });
-            }
 
+            }
         })
 
         // Handle the error when offer can not be retrieved

@@ -6,6 +6,7 @@ const url = require('url');
 
 const ORDER_STATUSES={
     NEW:'NEW',
+    FULFILLING:'FULFILLING',
     FULFILLED:'FULFILLED',
     FAILED:'FAILED'
 }
