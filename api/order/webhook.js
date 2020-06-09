@@ -100,7 +100,8 @@ const webhookController = (request, response ) => {
                     handleAck();
                     response.end(JSON.stringify({
                         received: true,
-                        fulfilled: true,
+                        fulfilled: (confirmation !== undefined && confirmation.isDuplicate ? undefined : true),
+                        isDuplicate: (confirmation !== undefined && confirmation.isDuplicate===true),
                         orderId: confirmation && confirmation.orderId,
                     }));
                 });
@@ -251,8 +252,10 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
             // On confirmaton handle it
             .then(confirmation => {
                 //logger.info("Response from fulfillment", confirmation);
-                
-                if(confirmation) {
+                if(confirmation && confirmation.isDuplicate) {
+                    resolve(confirmation);
+                }
+                else if(confirmation) {
                     // Update the order status
                     updateOrderStatus(
                         confirmedOfferId,
@@ -265,7 +268,7 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
                     .then(() => {
                         sendConfirmation(confirmedOfferId, confirmation)
                         .then(() => {
-                            resolve(confirmation);
+                            resolve({...confirmation, order_status:ORDER_STATUSES.FULFILLED});
                         })
                         .catch(error => {
                             logger.error(`Failed to send email confirmation: ${error.message}`);
@@ -324,11 +327,11 @@ function fulfillOrder(confirmedOfferId) {
         .then(document => {
 
             // Check if fulfillment is already processed or in progress
-            if(
+            if(document && (
                 (document.order_status === ORDER_STATUSES.FULFILLED) || 
-                (document.order_status === ORDER_STATUSES.FULFILLING)
-            ) {
-                resolve(document.confirmation);
+                (document.order_status === ORDER_STATUSES.FULFILLING)))
+            {
+                resolve({...document.confirmation, isDuplicate: true});
             }
 
             // Proceed to next steps of fulfillment
