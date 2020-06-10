@@ -133,6 +133,9 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
             <>
                 <Form validated={false}>
                     <Form.Row className={style.checkoutFormRow}>
+                        <h2>Payment</h2>
+                    </Form.Row>
+                    <Form.Row className={style.checkoutFormRow}>
                         <Col>
                             <Form.Label className=''>Card holder</Form.Label>
                             <Form.Control 
@@ -154,7 +157,7 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                         {error && <div className={style.errorMessage}>{error}</div>}
                     </div>
                     <Form.Row className={style.priceRow}>
-                            <h2>Total Price: {currency} {amount}</h2>
+                            {amount !== 0 && <h2>Total Price {currency} {amount}</h2>}
                             <Button
                                 variant="primary"
                                 size="lg"
@@ -163,7 +166,15 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                                 {processing ? "Processing...." : "Pay with Card"}
                             </Button>
                     </Form.Row>
+                    <Form.Row>
+                        <small className={style.disclaimer}>
+                            Your payment is made to Simard OÜ, the legal entity powering Glider.
+                            We are partnering with Stripe to securely encrypt and process your card details. 
+                            You will be asked to authenticate with your bank if your card issuer supports strong authentication.
+                        </small>
+                    </Form.Row>
                 </Form>
+
                 {processing && <Spinner enabled={processing}/>}
             </>
         );

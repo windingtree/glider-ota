@@ -13,11 +13,6 @@ export default function PaymentForm({match, onPaymentSuccess, onPaymentFailure})
     return (
         <Container>
             <Row>
-                <Col>
-                    <h2 className='seatmap-h2'>Payment</h2>
-                </Col>
-            </Row>
-            <Row>
                 <Col className='sr-main'>
                     <Elements stripe={stripePromise}>
                         <CheckoutForm onPaymentSuccess={onPaymentSuccess} onPaymentFailure={onPaymentFailure} orderID={orderID}/>
