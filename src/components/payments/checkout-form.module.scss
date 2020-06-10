@@ -25,6 +25,31 @@
   background-color: #fefde5 !important;
 }
 
-.errorMessage{
+:local(.errorMessage) {
   color: red;
+}
+
+:local(.checkoutFormRow) {
+  margin-bottom: 10px;
+}
+
+:local(.priceRow) {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  h2 {
+    display: inline;
+  }
+
+  col {
+    margin-top: 10px;
+  }
+}
+
+:local(.payBtnCol) {
+  align-self: flex-end;
 }

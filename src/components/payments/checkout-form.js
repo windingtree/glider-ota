@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {CardElement, useStripe, useElements, Elements} from "@stripe/react-stripe-js";
-import style from "./checkout-form.module.scss";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import Spinner from "../../components/common/spinner"
 import {loadStripe} from "@stripe/stripe-js";
 import {createPaymentIntent, getStripePublicKey} from "../../utils/api-utils";
+import style from "./checkout-form.module.scss";
 
 
 const stripePromise = getStripePublicKey().then(data => {
@@ -56,7 +56,7 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
             .then(data => {
                 setClientSecret(data.client_secret);
                 setAmount(data.amount);
-                setCurrency(data.currency);
+                setCurrency(data.currency.toUpperCase());
             })
             .catch(err => {
                 setError(err.message);
@@ -113,12 +113,14 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
             style: {
                 base: {
                     iconColor: '#7161D6',
-                    color: 'black',
-                    fontWeight: 500,
-                    fontFamily: 'sans-serif,Roboto, Open Sans, Segoe UI',
+                    color: '#495057',
+                    fontWeight: 400,
                     fontSize: '16px',
+                    fontFamily: 'Poppins, sans-serif',
                     fontSmoothing: 'antialiased',
-                    ':-webkit-autofill': {color: '#fce883'}, '::placeholder': {color: '#87bbfd'},
+                    ':-webkit-autofill': {color: '#fce883'}, '::placeholder': {color: '#6c757d'},
+                    border: '1px solid #ced4da',
+                    borderRadius: '0.25rem',
                 },
                 invalid: {
                     iconColor: '#ffc7ee',
@@ -127,19 +129,22 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
             },
         };
 
-
-
         return (
             <>
                 <Form validated={false}>
-                    <Form.Row className=''>
+                    <Form.Row className={style.checkoutFormRow}>
                         <Col>
                             <Form.Label className=''>Card holder</Form.Label>
-                            <Form.Control type="text" id="name" name="name" placeholder="Name"
-                                          autoComplete="cardholder"/>
+                            <Form.Control 
+                                type="text"
+                                id="name"
+                                name="name"
+                                placeholder="Name"
+                                autoComplete="cardholder"
+                            />
                         </Col>
                     </Form.Row>
-                    <Form.Row className=''>
+                    <Form.Row className={style.checkoutFormRow}>
                         <Col>
                             <Form.Label className=''>Card details</Form.Label>
                             <CardElement className="sr-input" options={CARD_OPTIONS}/>
@@ -148,24 +153,18 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                     <div>
                         {error && <div className={style.errorMessage}>{error}</div>}
                     </div>
-                    <Form.Row className='py-4'>
-
-                        <Col>
-                            <Button variant="primary" size="lg" disabled={processing || !clientSecret || !stripe}
-                                    onClick={handleSubmit}>
-                                {processing ? "Processing...." : "Pay with credit card"}
+                    <Form.Row className={style.priceRow}>
+                            <h2>Total Price: {currency} {amount}</h2>
+                            <Button
+                                variant="primary"
+                                size="lg"
+                                disabled={processing || !clientSecret || !stripe}
+                                onClick={handleSubmit}>
+                                {processing ? "Processing...." : "Pay with Card"}
                             </Button>
-                        </Col>
                     </Form.Row>
                 </Form>
-
-{/*
-                Processing:{processing}<br/>
-                clientSecret:{clientSecret}<br/>
-                stripe:{processing}<br/>
-                amount:{amount}<br/>
-*/}
-                {/*<Spinner enabled={processing===true}/>*/}
+                {processing && <Spinner enabled={processing}/>}
             </>
         );
     };
