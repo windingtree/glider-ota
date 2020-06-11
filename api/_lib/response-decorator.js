@@ -71,35 +71,29 @@ function setDepartureDatesToNoonUTC(criteria){
     let segments = _.get(criteria,'itinerary.segments',[])
     _.each(segments, (segment,id)=>{
         let local=parseISO(segment.departureTime);
-        local.setUTCDate(local.getDate());
-        local.setUTCHours(12);
-        local.setUTCMinutes(0);
-        local.setUTCSeconds(0);
-        segment.departureTime=local;
+        let utc=new Date(Date.UTC(local.getFullYear(),local.getMonth(),local.getDate(),12,0,0));
+        segment.departureTime=utc;
     });
 }
 
 function convertUTCtoLocalAirportTime(results){
     let segments = _.get(results,'itineraries.segments',[])
     _.each(segments, (segment,id)=>{
-        let airport=segment.origin;
-        let airportData = getAirportByIataCode(airport.iataCode);
+        let airportData = getAirportByIataCode(segment.origin.iataCode);
         if(airportData!==undefined && airportData.timezone){
-            let utc=segment.departureTime;
-            segment.departureTime=utcToZonedTime(utc,airportData.timezone).toISOString();
-            segment.departureTimeUtc=utc;
+            segment.departureTimeUtc=segment.departureTime;
+            segment.departureTime=utcToZonedTime(segment.departureTime,airportData.timezone).toISOString();
+            console.log(`departure UTC:${segment.departureTimeUtc} local:${segment.departureTime} airport:${segment.origin.iataCode} timezone:${airportData.timezone}`)
         }else{
-            throw new Error("Timezone definition not found for airport code:%s",airport.iataCode);
+            throw new Error("Timezone definition not found for airport code:%s",segment.origin.iataCode);
         }
 
-        airport=segment.destination;
-        airportData = getAirportByIataCode(airport.iataCode);
+        airportData = getAirportByIataCode(segment.destination.iataCode);
         if(airportData!==undefined && airportData.timezone){
             segment.arrivalTimeUtc=segment.arrivalTime;
             segment.arrivalTime=utcToZonedTime(segment.arrivalTime,airportData.timezone).toISOString();
         }else{
-            logger.warn("Timezone definition not found for airport code:%s",airport.iataCode)
-            throw new Error("Timezone definition not found for airport code:%s",airport.iataCode);
+            throw new Error("Timezone definition not found for airport code:%s",segment.destination.iataCode);
         }
     });
 }
