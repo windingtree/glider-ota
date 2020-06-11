@@ -72,6 +72,7 @@ function setDepartureDatesToNoonUTC(criteria){
     _.each(segments, (segment,id)=>{
         let local=parseISO(segment.departureTime);
         let utc=new Date(Date.UTC(local.getFullYear(),local.getMonth(),local.getDate(),12,0,0));
+        console.log(`Request, date from UI:${segment.departureTime}, parsed date from UI:${local}, UTC date:{utc}`)
         segment.departureTime=utc;
     });
 }
