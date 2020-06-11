@@ -28,7 +28,8 @@ axios.interceptors.response.use(response => {
  */
 async function searchOffers(criteria) {
     let response;
-    convertSearchCriteriaDatesToUTC(criteria)
+    if(criteria.itinerary)
+        convertSearchCriteriaDatesToUTC(criteria)
     try {
         response = await axios({
             method: 'post',
