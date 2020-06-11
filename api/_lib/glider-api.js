@@ -3,8 +3,8 @@ const _ = require('lodash');
 const axios = require('axios').default;
 const {GLIDER_CONFIG} = require('../../config');
 const logger = createLogger('aggregator-api');
-const {enrichResponseWithDictionaryData} = require('./response-decorator');
-
+const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC} = require('./response-decorator');
+const {createErrorResponse,ERRORS} = require ('./rest-utils');
 
 function createHeaders(token) {
     return {
@@ -50,6 +50,7 @@ async function searchOffers(criteria) {
     }
     return searchResults;
 }
+
 
 /**
  * Create offer in Glider API

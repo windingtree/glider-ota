@@ -29,6 +29,9 @@ const CURRENCIES_OUTPUT_FILENAME = 'currencies.json';
 const AIRLINES_INPUT_FILENAME = 'airlines.csv';
 const AIRLINES_OUTPUT_FILENAME = 'airlines.json';
 
+const TIMEZONES_INPUT_FILENAME = 'timezones.csv';
+
+
 
 function loadCities() {
     let records = [];
@@ -80,7 +83,6 @@ function loadAirlines() {
 }
 
 function createAirlineRecord(row) {
-    console.log(row);
     return {
         airline_iata_code:row['2char_code'],
         airline_name:row.name
@@ -91,6 +93,25 @@ function filterAirline(row) {
     let valid_to=row.validity_to;
     return valid_to === '';
 }
+
+function loadTimezones() {
+    let airportToTimezone = {};
+    let options = {
+        separator: ',',
+        headers: ['airportId', 'name', 'city', 'country', 'iata', 'icao', 'latitute', 'longitude', 'altitude', 'timezone', 'dst', 'tz', 'type','source']
+    }
+    return new Promise((resolve, reject) => {
+        const response = fs.createReadStream(INPUT_FOLDER + TIMEZONES_INPUT_FILENAME)
+            .pipe(csv(options))
+            .on('data', (row) => {
+                airportToTimezone[row['iata']]=row;
+            })
+            .on('end', () => {
+                resolve(airportToTimezone);
+            });
+    });
+}
+
 
 function loadAirports() {
     let records = [];
@@ -187,6 +208,7 @@ let airportsPromise = loadAirports();
 let countriesPromise = loadCountries();
 let currenciesPromise = loadCurrencies();
 let airlinesPromise = loadAirlines();
+let timezonesPromise = loadTimezones();
 
 
 function createCountriesMap(listOfCountries) {
@@ -218,7 +240,19 @@ function enrichAirportsWithCountryName(listOfAirports, countriesMap) {
     })
 }
 
-Promise.all([citiesPromise, airportsPromise, countriesPromise, currenciesPromise, airlinesPromise]).then(function (values) {
+function enrichAirportsWithTimezone(listOfAirports, airportTimezoneMap) {
+    _.each(listOfAirports, rec => {
+        let airportData = airportTimezoneMap[rec.airport_iata_code];
+        if (airportData) {
+            rec.timezone = airportData.tz;
+        } else {
+            console.warn("Missing timezone data for airport:", rec.airport_iata_code)
+        }
+    })
+}
+
+
+Promise.all([citiesPromise, airportsPromise, countriesPromise, currenciesPromise, airlinesPromise, timezonesPromise]).then(function (values) {
     let currenciesList = values[3];
 
     let countriesList = values[2];
@@ -231,6 +265,9 @@ Promise.all([citiesPromise, airportsPromise, countriesPromise, currenciesPromise
     enrichAirportsWithCountryName(airportsList, countriesMap);
 
     let airlinesList = values[4];
+
+    let airportToTimezoneMap = values[5];
+    enrichAirportsWithTimezone(airportsList, airportToTimezoneMap);
 
     console.log("Number of currencies:",currenciesList.length)
     saveJsonToFile(currenciesList,OUTPUT_FOLDER+CURRENCIES_OUTPUT_FILENAME)
@@ -246,4 +283,5 @@ Promise.all([citiesPromise, airportsPromise, countriesPromise, currenciesPromise
 
     console.log("Number of airlines:",airlinesList.length)
     saveJsonToFile(airlinesList,OUTPUT_FOLDER+AIRLINES_OUTPUT_FILENAME)
+
 });
