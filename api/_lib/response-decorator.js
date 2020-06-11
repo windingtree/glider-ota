@@ -23,7 +23,6 @@ function enrichAirportCodesWithAirportDetails(results){
         let origin = segment.origin;
         let airportCode = origin.iataCode;
         let airportDetails = getAirportByIataCode(airportCode);
-        //{"city_name":"Arraias","city_code":"AAI","country_code":"BR","airport_name":"Arraias","airport_iata_code":"AAI","type":"AIRPORT","country_name":"Brazil"}
         if(airportDetails!==undefined){
             origin.city_name=airportDetails.city_name;
             origin.airport_name=airportDetails.airport_name;

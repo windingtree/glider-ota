@@ -13,7 +13,14 @@ function createHeaders(token) {
         'Content-Type': 'application/json'
     }
 }
-
+/*axios.interceptors.request.use(request => {
+    console.log('Axios request', request)
+    return request
+})
+axios.interceptors.response.use(response => {
+    console.log('Axios response:', response)
+    return response
+})*/
 /**
  * Search for offers using Glider API
  * @param criteria - request to be passed to /searchOffers API
@@ -21,6 +28,7 @@ function createHeaders(token) {
  */
 async function searchOffers(criteria) {
     let response;
+    convertSearchCriteriaDatesToUTC(criteria)
     try {
         response = await axios({
             method: 'post',
@@ -29,10 +37,8 @@ async function searchOffers(criteria) {
             headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
         });
     }catch(err){
-        logger.error("Response from ",err.error)
-        console.log("Error while call: ERR",err.err)
-        console.log("Error while call: CODE",err.code)
-        console.log("Error while call: MESSAGE",err.message)
+        logger.error("Error ",err)
+        return createErrorResponse(400,ERRORS.INVALID_SERVER_RESPONSE,err.message,criteria);
     }
     let searchResults = [];
     if(response && response.data) {

@@ -94,10 +94,6 @@ function filterAirline(row) {
 
 function loadAirports() {
     let records = [];
-    let airportToCityMap = {};
-    let options = {
-        separator: '^'
-    }
     return new Promise((resolve, reject) => {
         const response = fs.createReadStream(INPUT_FOLDER + AIRPORTS_INPUT_FILENAME)
             .pipe(csv({separator: '^'}))
@@ -106,7 +102,6 @@ function loadAirports() {
                     records.push(createAirportRecord(row))
             })
             .on('end', () => {
-                // airportToCityMap = createAirportToCityMap(records);
                 resolve(records);
             });
     });
@@ -125,19 +120,6 @@ function createAirportRecord(row) {
         airport_iata_code: row.por_code,
         type: AIRPORTS_TYPES_MAP[row.loc_type]
     }
-}
-
-
-function createAirportToCityMap(airports) {
-    let airportToCityMap = {};
-    airports.map(record => {
-        // console.log(record);
-        airportToCityMap[record.iata] = {
-            city: record.city,
-            airport: record.port_name
-        };
-    });
-    return airportToCityMap;
 }
 
 
