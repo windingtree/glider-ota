@@ -1,6 +1,6 @@
 const winston = require('winston');
 const { Client } = require('@elastic/elasticsearch');
-const { ELASTIC_CONFIG } = require('../../config');
+const { ELASTIC_CONFIG } = require('./config');
 var Elasticsearch = require('winston-elasticsearch');
 /*const client = new Client({
     node: ELASTIC_CONFIG.URL,

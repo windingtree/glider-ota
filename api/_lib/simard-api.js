@@ -1,7 +1,7 @@
 const {createLogger} = require('./logger');
 const addDays = require("date-fns/addDays")
 const axios = require('axios').default;
-const {SIMARD_CONFIG,GLIDER_CONFIG} = require('../../config');
+const {SIMARD_CONFIG,GLIDER_CONFIG} = require('./config');
 const logger = createLogger('simard-api');
 
 /**

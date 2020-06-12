@@ -1,7 +1,7 @@
 const {createLogger} = require('./logger');
 const _ = require('lodash');
 const axios = require('axios').default;
-const {GLIDER_CONFIG} = require('../../config');
+const {GLIDER_CONFIG} = require('./config');
 const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData} = require('./response-decorator');
 
