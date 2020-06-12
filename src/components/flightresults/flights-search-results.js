@@ -55,8 +55,7 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
         <Container fluid={true} className={style.flightssearchresultscontainer}>
             <div className='pt-3'>
                 <FastCheapFilter defaultValue={sortType} onToggle={setSortType}/>
-                <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE}
-                                  onActivePageChange={onActivePageChange} totalRecords={totalResultsCount}/>
+                <div className='pt-5'/>
                 {
                     trips.map(tripInfo => {
                         let offer = tripInfo.bestoffer;
@@ -71,6 +70,8 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
 
                     })
                 }
+                <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE}
+                                  onActivePageChange={onActivePageChange} totalRecords={totalResultsCount}/>
             </div>
         </Container>
     )

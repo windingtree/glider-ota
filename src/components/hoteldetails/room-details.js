@@ -22,7 +22,7 @@ export default function Room({room, roomPricePlansWithOffers, onOfferSelected}) 
                     </div>
                     {/*<Col className='border'>TOTAL PRICE</Col>*/}
                 </div>
-                <div className='room-details__col2 '>
+                <div className='room-details__col2 d-flex flex-column flex-fill'>
                     {
                         roomPricePlansWithOffers.map(plan => {
                             let key = plan.offerId + room.roomTypeId + plan.pricePlanReference;
@@ -59,7 +59,7 @@ export function RoomPricePlan({offer, onOfferSelected, pricePlan, room}) {
         </div>
         <div>
             <div className='glider-font-text18medium-fg'>Total Price</div>
-            <div className='glider-font-h2-fg mb-3'>{price.public}</div>
+            <div className='glider-font-h2-fg mb-3'>{price.public} {price.currency} </div>
             <div><Button onClick={() => onOfferSelected(offer)} variant="outline-primary" size="lg">Select room</Button></div>
         </div>
     </div>)
