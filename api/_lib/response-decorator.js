@@ -70,9 +70,11 @@ function enrichOperatingCarrierWithAirlineNames(results){
 function setDepartureDatesToNoonUTC(criteria){
     let segments = _.get(criteria,'itinerary.segments',[])
     _.each(segments, (segment,id)=>{
-        let local=parseISO(segment.departureTime);
-        let utc=new Date(Date.UTC(local.getFullYear(),local.getMonth(),local.getDate(),12,0,0));
-        console.log(`Request, date from UI:${segment.departureTime}, parsed date from UI:${local}, UTC date:{utc}`)
+
+        let d=segment.departureTime.substr(0,10).split("-");
+        let utc = new Date(Date.UTC(d[0],d[1]-1,d[2]))
+        utc.setUTCHours(12);
+        logger.debug(`Departure date from UI:${segment.departureTime}, UTC date which will be used for search:${utc}`)
         segment.departureTime=utc;
     });
 }
@@ -84,7 +86,6 @@ function convertUTCtoLocalAirportTime(results){
         if(airportData!==undefined && airportData.timezone){
             segment.departureTimeUtc=segment.departureTime;
             segment.departureTime=utcToZonedTime(segment.departureTime,airportData.timezone).toISOString();
-            console.log(`departure UTC:${segment.departureTimeUtc} local:${segment.departureTime} airport:${segment.origin.iataCode} timezone:${airportData.timezone}`)
         }else{
             throw new Error("Timezone definition not found for airport code:%s",segment.origin.iataCode);
         }
