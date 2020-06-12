@@ -14,6 +14,7 @@ export default function HotelsSearchResults({searchResults, onHotelSelected, fil
 
     return (
         <Container fluid={false}>
+            <div className='pt-5'/>
             <Row className={style.hotelsSearchResultsWrapper}>
                 {
                     _.map(results, (result, id) => {
