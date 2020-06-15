@@ -3,7 +3,7 @@ const GLIDER_BASEURL = "https://staging.aggregator.windingtree.net/api/v1"
 
 const GLIDER_CONFIG =
     {
-        GLIDER_TOKEN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJpc3MiOiJkaWQ6b3JnaWQ6MHgwOGZmZmMxNGRmOTNhMzA1ZjFiYmMyZWUyNjE3MTg4NWZlZTgwMTgxNDQ1ZDg5MjNhYjg0ODkyOTUzYzA5M2YyI3dlYnNlcnZlciIsImF1ZCI6ImRpZDpvcmdpZDoweDcxY2QxNzgxYTMwODJmMzNkMjUyMWFjODI5MGM5ZDRiM2IzYjExNmU0ZTg1NDhhNDkxNGI3MWExZjcyMDFkYTAiLCJpYXQiOjE1ODQ0MTc5MzcsImV4cCI6MTU5MjE5MzkzN30.D0vRZ4vFs4xXJXfTzE040lQeuLtPER2fgtaVsf1To69cRia1FdX5ZoBv8d6Nz31mkboJfq-akIcQDNcKau45gw",
+        GLIDER_TOKEN: process.env.GLIDER_JWT,
         SEARCH_OFFERS_URL: GLIDER_BASEURL + "/offers/search",
         CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
         SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
@@ -20,7 +20,7 @@ const SIMARD_BASEURL = "https://staging.api.simard.io/api/v1"
 
 const SIMARD_CONFIG =
     {
-        SIMARD_TOKEN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJpc3MiOiJkaWQ6b3JnaWQ6MHgwOGZmZmMxNGRmOTNhMzA1ZjFiYmMyZWUyNjE3MTg4NWZlZTgwMTgxNDQ1ZDg5MjNhYjg0ODkyOTUzYzA5M2YyI3dlYnNlcnZlciIsImF1ZCI6ImRpZDpvcmdpZDoweDVlNjk5NGY3Njc2NGNlYjQyYzQ3NmEyNTA1MDY1YTYxNzAxNzhhMjRjMDNkODFjOWYzNzI1NjM4MzAwMDExNzEiLCJpYXQiOjE1ODQ0MTc5MzcsImV4cCI6MTU5MjE5MzkzN30.mJutBPjYnEvUYtaKHny9Pw4f1oL-xYgMLH0rMNlrUySq4Z-V6zvNEmBx-bXRa77nNj0cePz9l5E9q3uIwT9Y7g",
+        SIMARD_TOKEN: process.env.SIMARD_JWT,
         GUARANTEES_URL: SIMARD_BASEURL + "/balances/guarantees",
         CREATE_WITH_OFFER_URL: SIMARD_BASEURL + "/orders/createWithOffer",
         SIMULATE_DEPOSIT_URL: SIMARD_BASEURL + "/balances/simulateDeposit",
