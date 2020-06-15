@@ -1,4 +1,4 @@
-const GLIDER_BASEURL = "https://staging.aggregator.windingtree.net/api/v1"
+const GLIDER_BASEURL = "https://staging.b2b.glider.travel/api/v1"
 
 
 const GLIDER_CONFIG =

@@ -17,7 +17,7 @@ const stripePromise = getStripePublicKey().then(data => {
 })
 
 
-export default function PaymentForm({confirmedOfferId, onPaymentSuccess, onPaymentFailure}) {
+export default function PaymentForm({confirmedOfferId, onPaymentSuccess, onPaymentFailure, cardholderName}) {
     return (
         <Container>
             <Elements stripe={stripePromise}>
@@ -25,6 +25,7 @@ export default function PaymentForm({confirmedOfferId, onPaymentSuccess, onPayme
                     onPaymentSuccess={onPaymentSuccess}
                     onPaymentFailure={onPaymentFailure}
                     confirmedOfferId={confirmedOfferId}
+                    cardholderName={cardholderName}
                 />
             </Elements>
         </Container>
@@ -32,7 +33,7 @@ export default function PaymentForm({confirmedOfferId, onPaymentSuccess, onPayme
 }
 
 
-export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailure}) {
+export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailure, cardholderName}) {
     const [amount, setAmount] = useState(0);
     const [currency, setCurrency] = useState("");
     const [clientSecret, setClientSecret] = useState(null);
@@ -144,6 +145,7 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                                 name="name"
                                 placeholder="Name"
                                 autoComplete="cardholder"
+                                value={cardholderName}
                             />
                         </Col>
                     </Form.Row>

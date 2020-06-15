@@ -9,7 +9,7 @@ export default function PaymentPage({match}) {
     let history = useHistory();
     let confirmedOfferId = match.params.confirmedOfferId;
     const firstPassenger = history.location.state.passengers && history.location.state.passengers[0];
-    console.log(firstPassenger);
+    const cardholderName = firstPassenger && `${firstPassenger.civility} ${firstPassenger.firstName} ${firstPassenger.lastName}`;
 
     function onPaymentSuccess(){
         console.log("Successful payment")
@@ -33,7 +33,7 @@ export default function PaymentPage({match}) {
                         confirmedOfferId={confirmedOfferId}
                         onPaymentSuccess={onPaymentSuccess}
                         onPaymentFailure={onPaymentFailure}
-                        //cardholderName={cardholderName}
+                        cardholderName={cardholderName}
                     />
                 </div>
                 <Footer/>
