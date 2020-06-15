@@ -13,6 +13,7 @@ import {
     addSeats,
 } from '../utils/api-utils';
 import Footer from "../components/common/footer/footer";
+import './flight-seatmap-page.scss';
 
 
 // SeatMap page rendering
@@ -176,7 +177,7 @@ export default function FlightSeatmapPage({match}) {
             new Date(currentFlightSegments[segmentFlightIndex].departureTime)
         );
         const timeDeltaHours = Number(timeDelta/(1000*60*60)).toFixed(0);
-        const timeDeltaMinutes = Number((timeDelta-timeDeltaHours)/(1000*60)).toFixed(0);
+        const timeDeltaMinutes = Number((timeDelta-1000*60*60*timeDeltaHours)/(1000*60)).toFixed(0);
 
         return {
             stops: iataStops,
@@ -233,10 +234,12 @@ export default function FlightSeatmapPage({match}) {
                 message = "We are adding your seat selection to your booking.";
             }
             return (
-                <div>
-                    <Spinner enabled={isLoading}/>
-                    <span>{message}</span>
+                <>
+                <div className='seatmap-loading-message'>
+                    <Spinner enabled={true}></Spinner>
+                    {message}
                 </div>
+            </>
             );
         }
     }

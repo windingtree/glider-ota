@@ -49,4 +49,5 @@ export const SingleChild = () => (<SinglePaxDetails passengerId="PAX1" passenger
 export const SingleInfant = () => (<SinglePaxDetails passengerId="PAX1" passengerType="INF" onDataChange={action("onDataChange")} />);
 export const SingleAdultMaleWithInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData}/>);
 export const SingleAdultFemaleWithInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialDataFemale}/>);
-export const WithSubmitButton = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData} showSubmitButton={true}/>);
+export const FilledWithSubmitButton = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData} showSubmitButton={true}/>);
+export const EmptyWithSubmitButton = () => (<SinglePaxDetails onDataChange={action("onDataChange")} showSubmitButton={true} onSubmit={(data)=>console.log('Form submit>>', data)}/>);
