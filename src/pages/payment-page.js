@@ -8,6 +8,8 @@ import Footer from "../components/common/footer/footer";
 export default function PaymentPage({match}) {
     let history = useHistory();
     let confirmedOfferId = match.params.confirmedOfferId;
+    const firstPassenger = history.location.state.passengers && history.location.state.passengers[0];
+    console.log(firstPassenger);
 
     function onPaymentSuccess(){
         console.log("Successful payment")
@@ -27,7 +29,12 @@ export default function PaymentPage({match}) {
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-                    <PaymentForm confirmedOfferId={confirmedOfferId} onPaymentSuccess={onPaymentSuccess} onPaymentFailure={onPaymentFailure}/>
+                    <PaymentForm 
+                        confirmedOfferId={confirmedOfferId}
+                        onPaymentSuccess={onPaymentSuccess}
+                        onPaymentFailure={onPaymentFailure}
+                        //cardholderName={cardholderName}
+                    />
                 </div>
                 <Footer/>
 
