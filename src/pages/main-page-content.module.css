@@ -1,0 +1,24 @@
+/*@import './src/styles/mixins.scss';*/
+
+
+.imgmain{
+}
+
+.content{
+    /*border: 1px solid red;*/
+    margin:auto;
+    padding-top:170px;
+    padding-left: 45px;
+    padding-right: 45px;
+}
+
+.alignCenter{
+    text-align: center;
+}
+
+/*
+.fullHeight{
+@media (max-width: 990px) {
+    height: 100vh;
+}
+}*/

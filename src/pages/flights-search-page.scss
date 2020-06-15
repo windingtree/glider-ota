@@ -1,0 +1,36 @@
+@import 'src/styles/mixins';
+
+.flight-results-outer-boundary{
+  //max-width: 1800px;
+}
+
+
+
+
+.filters-wrapper{
+  justify-content: center;
+  display: flex;
+  padding: 0 20px 20px 20px;
+  visibility: hidden;
+  width: 0px;
+  border: 1px solid red;
+  @include glider-media-small_576 {
+    visibility: hidden;
+  }
+  @include glider-media-medium_768 {
+    visibility: hidden;
+  }
+  @include glider-media-large_992 {
+    min-width: 305px;
+    max-width: 400px;
+    visibility: visible;
+  }
+  @include glider-media-xlarge_1600 {
+    min-width: 305px;
+    max-width: 400px;
+    visibility: visible;
+  }
+}
+.filters-container{
+
+}

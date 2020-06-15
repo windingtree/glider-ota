@@ -1,0 +1,62 @@
+@import 'src/styles/mixins';
+
+.searchFormContainer{
+    width:100%;
+}
+
+/*toggle buttons on top of the main page to select search type (flights or hotelresults)*/
+.main-search-form{
+    width: 280px;
+    @include glider-media-small_576 {
+        width: 560px;
+    }
+    @include glider-media-medium_768 {
+        width: 560px;
+    }
+    @include glider-media-large_992 {
+        width: 830px;
+    }
+    @include glider-media-xlarge_1600 {
+        width: 1440px;
+    }
+    &__btn{
+        height: 60px;
+    }
+}
+
+
+.searchButtonContainer{
+    width:100%;
+    margin: auto;
+    margin-top: 80px;
+    @include glider-media-medium_768 {
+        width: 620px;
+    }
+}
+
+.searchButton{
+    height: 64px;
+    @include glider-media-small_576 {
+        width: 620px;
+    }
+    @include glider-media-medium_768 {
+        width: 620px;
+    }
+    -ms-flex: 1 1 auto !important;
+    flex: 1 1 auto !important;
+
+}
+.searchButton:disabled {
+    background: white;
+    color: grey;
+}
+
+.formElem{
+    //padding-right: 10px;
+    //padding-left: 10px;
+    padding-bottom: 20px;
+    @include glider-media-medium_768{
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}

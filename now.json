@@ -1,0 +1,23 @@
+{
+    "version": 2,
+    "functions": {
+        "api/**/*.js": {
+          "memory": 3008,
+          "maxDuration": 60,
+          "includeFiles":"api/_data/*.json"
+        }
+    },
+  "env": {
+    "MONGO_URL": "@staging.glider-ota.mongo.uri2",
+    "MONGO_DBNAME": "@staging.glider-ota.mongo.dbname",
+    "REDIS_HOST": "@staging.glider-ota.redis.host",
+    "REDIS_PASSWORD": "@staging.glider-ota.redis.password",
+    "STRIPE_PUBLISHABLE_KEY":"@staging.glider-ota.stripe.publishable_key",
+    "STRIPE_SECRET_KEY":"@staging.glider-ota.stripe.secret_key",
+    "STRIPE_WEBHOOK_SECRET":"@staging.glider-ota.stripe.webhook_secret",
+    "STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK":"@staging.glider-ota.stripe.webhook_bypass_signature",
+    "ELASTIC_URL":"@staging.glider-ota.elastic.url",
+    "GLIDER_JWT":"@staging.glider-ota.glider_jwt",
+    "SIMARD_JWT":"@staging.glider-ota.simard_jwt"
+  }
+}

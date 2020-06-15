@@ -1,0 +1,44 @@
+/**
+variables.scss
+variable definitions
+ */
+$glider-color-primary: #7161D6;
+$glider-color-body-background: #F3F4F6;
+$glider-color-primary-background: #ffffff;
+$glider-color-hover: #F1FCFF;
+$glider-color-text: #202020;
+$glider-color-text-background: #BBBBBB;
+$glider-font-family-base:'Poppins', sans-serif;
+
+
+
+//BREAKPOINTS
+
+// Small devices (landscape phones, 640px and up)
+$glider-break-sm: 640px;
+
+// Medium devices (tablets, 990px and up)
+$glider-break-md: 990px;
+
+// Large devices (desktops, 1440px and up)
+$glider-break-lg: 1440px;
+
+// Extra large devices (large desktops, 1920px and up)
+$glider-break-xl: 1920px;
+
+
+
+//override bootstrap variables
+$primary:      $glider-color-primary ;
+$font-family-base: $glider-font-family-base;
+$font-size-base :1rem;
+$font-size-lg: $font-size-base * 1.5;
+
+
+$grid-breakpoints: (
+        xs: 0,
+        sm: $glider-break-sm,
+        md: $glider-break-md,
+        lg: $glider-break-lg,
+        xl: $glider-break-xl
+) ;

@@ -1,0 +1,59 @@
+@import 'src/styles/mixins';
+/**
+logo.modules.scss
+ */
+
+.logo{
+  //text-align: left;
+  //width:300px;
+
+}
+
+
+.logoImage{
+  //padding-right: 20px;
+  //padding-left: 10px;
+  padding-right: 10px;
+
+}
+
+.logoHref{
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 51px;
+  color:white;
+
+}
+.logoHref:active{
+  color:white;
+}
+.logoHref:hover{
+  color:white;
+  text-decoration: none;
+}
+.logoHref:visited{
+  color:white;
+}
+
+.logoHrefViolet{
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 51px;
+  color: $glider-color-primary;
+
+}
+
+.logoHrefViolet:active{
+  color:$glider-color-text;
+}
+.logoHrefViolet:hover{
+  color:$glider-color-text;
+  text-decoration: none;
+}
+.logoHrefViolet:visited{
+  color:$glider-color-text;
+}
