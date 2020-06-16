@@ -44,3 +44,11 @@ footer.modules.scss
   //width: 400px;
   padding-left: 15px;
 }
+
+.accreditation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  padding: 5px;
+}
