@@ -62,6 +62,16 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
             a.getMonth() === b.getMonth() &&
             a.getDate() === b.getDate();
     }
+    let items=[];
+    let prevSegment;
+    for(let s=0;s<segments.length;s++)
+    {
+        let segment=segments[s];
+        if(prevSegment)
+            items.push(<LayoverInfo prevSegment={prevSegment} nextSegment={segment}/>);
+        items.push(<SegmentDetails segment={segment}/>);
+        prevSegment=segment;
+    }
 
     return (
         <>
@@ -76,12 +86,8 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
                     </Col>
                 </Row>
             </Container>
-
-            {segments.length>0 && (<SegmentDetails segment={segments[0]}/>)}
-            {segments.length>1 && (<SegmentDetails segment={segments[1]}/>)}
-            {segments.length>2 && (<SegmentDetails segment={segments[2]}/>)}
-            {segments.length>3 && (<SegmentDetails segment={segments[3]}/>)}
-        </>
+            {items}
+                </>
     )
 }
 
@@ -157,4 +163,22 @@ function getFirstSegmentOfItinerary (itinerary) {
 
 function  getLastSegmentOfItinerary (itinerary) {
     return itinerary.segments[itinerary.segments.length - 1];
+}
+
+
+export function LayoverInfo({prevSegment, nextSegment}){
+    //
+    return (
+        <>
+            <Container fluid={true} className='pt-4'>
+                <Row className={style.layoverBorder}></Row>
+                <Row className={style.layoverTitle}>
+                    Transfer in {prevSegment.destination.city_name} {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
+                </Row>
+                <Row className={style.layoverText}>A transit visa may be required</Row>
+                <Row className={style.layoverText}>For flight transfers, baggage can be checked through</Row>
+                <Row className={style.layoverBorder}></Row>
+            </Container>
+        </>
+    )
 }
