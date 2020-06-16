@@ -7,8 +7,8 @@ export default class OfferUtils {
   static calculateDuration (itinerary) {
     const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
     const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
-    const startOfTrip = parseISO(firstSegment.departureTime);
-    const endOfTrip = parseISO(lastSegment.arrivalTime);
+    const startOfTrip = parseISO(firstSegment.departureTimeUtc);
+    const endOfTrip = parseISO(lastSegment.arrivalTimeUtc);
 
     const hrs = differenceInHours(endOfTrip, startOfTrip);
     const mins = differenceInMinutes(endOfTrip, startOfTrip) - hrs * 60;
@@ -20,15 +20,15 @@ export default class OfferUtils {
   static calculateDurationInMins (itinerary) {
     const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
     const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
-    const startOfTrip = parseISO(firstSegment.departureTime);
-    const endOfTrip = parseISO(lastSegment.arrivalTime);
+    const startOfTrip = parseISO(firstSegment.departureTimeUtc);
+    const endOfTrip = parseISO(lastSegment.arrivalTimeUtc);
     const mins = differenceInMinutes(endOfTrip, startOfTrip);
     return mins;
   }
 
   static calculateLayoverDurationInMinutes (prevSegment, nextSegment) {
-    const arrival = parseISO(prevSegment.arrivalTime);
-    const departure = parseISO(nextSegment.departureTime);
+    const arrival = parseISO(prevSegment.arrivalTimeUtc);
+    const departure = parseISO(nextSegment.departureTimeUtc);
     return  differenceInMinutes(departure, arrival);
   }
 
