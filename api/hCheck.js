@@ -1,4 +1,4 @@
-const {MONGO_CONFIG,GLIDER_CONFIG,REDIS_CONFIG,SIMARD_CONFIG} = require('../config')
+const {MONGO_CONFIG,GLIDER_CONFIG,REDIS_CONFIG,SIMARD_CONFIG} = require('./_lib/config')
 const {decorate} = require('./_lib/decorators');
 const {insert,findOne} = require('./_lib/mongo-dao');
 const {client} = require('./_lib/session-storage');

@@ -16,6 +16,8 @@
     "STRIPE_SECRET_KEY":"@staging.glider-ota.stripe.secret_key",
     "STRIPE_WEBHOOK_SECRET":"@staging.glider-ota.stripe.webhook_secret",
     "STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK":"@staging.glider-ota.stripe.webhook_bypass_signature",
-    "ELASTIC_URL":"@staging.glider-ota.elastic.url"
+    "ELASTIC_URL":"@staging.glider-ota.elastic.url",
+    "GLIDER_JWT":"@staging.glider-ota.glider_jwt",
+    "SIMARD_JWT":"@staging.glider-ota.simard_jwt"
   }
 }
