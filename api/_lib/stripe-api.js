@@ -1,4 +1,4 @@
-const {STRIPE_CONFIG} = require('../../config');
+const {STRIPE_CONFIG} = require('./config');
 const {createLogger} = require('./logger');
 const {getCurrencyByCode} = require('./dictionary-data-cache')
 const logger = createLogger("stripe-api")
