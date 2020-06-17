@@ -111,7 +111,7 @@ export function SegmentDetails({segment}){
                     </Row>
                 </Col>
                 <Col xs={12} md={7}>
-                    <Row className={style.segmentRow}><Col className={style.segmentDuration}>{toDurationString(segment.departureTime,segment.arrivalTime)}</Col></Row>
+                    <Row className={style.segmentRow}><Col className={style.segmentDuration}>{toDurationString(segment.departureTimeUtc,segment.arrivalTimeUtc)}</Col></Row>
                     <Row className={style.segmentRow}>
                         <Col><FlightInfo operator={segment.operator}/></Col>
                     </Row>

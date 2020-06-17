@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const {MONGO_CONFIG} = require('../../config');
+const {MONGO_CONFIG} = require('./config');
 const {createLogger} = require('./logger');
 const logger = createLogger('dao');
 const url = require('url');

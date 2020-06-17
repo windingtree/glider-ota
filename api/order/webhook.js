@@ -4,7 +4,7 @@ const {createLogger} = require('../_lib/logger');
 const {getRawBodyFromRequest} = require('../_lib/rest-utils');
 const {createWithOffer} = require('../_lib/glider-api');
 const {createGuarantee, simulateDeposit} = require('../_lib/simard-api');
-const {STRIPE_CONFIG} = require('../../config');
+const {STRIPE_CONFIG} = require('../_lib/config');
 const {sendErrorResponse, ERRORS} = require("../_lib/rest-utils")
 const _ = require('lodash');
 const {

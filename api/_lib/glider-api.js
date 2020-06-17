@@ -1,10 +1,10 @@
 const {createLogger} = require('./logger');
 const _ = require('lodash');
 const axios = require('axios').default;
-const {GLIDER_CONFIG} = require('../../config');
+const {GLIDER_CONFIG} = require('./config');
 const logger = createLogger('aggregator-api');
-const {enrichResponseWithDictionaryData} = require('./response-decorator');
-
+const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC} = require('./response-decorator');
+const {createErrorResponse,ERRORS} = require ('./rest-utils');
 
 function createHeaders(token) {
     return {
@@ -13,7 +13,17 @@ function createHeaders(token) {
         'Content-Type': 'application/json'
     }
 }
+/*
+axios.interceptors.request.use(request => {
+    console.log('Axios request', JSON.stringify(request.data))
+    return request
+})
 
+axios.interceptors.response.use(response => {
+    console.log('Axios response:', response)
+    return response
+})
+*/
 /**
  * Search for offers using Glider API
  * @param criteria - request to be passed to /searchOffers API
@@ -21,6 +31,9 @@ function createHeaders(token) {
  */
 async function searchOffers(criteria) {
     let response;
+    if(criteria.itinerary)
+        setDepartureDatesToNoonUTC(criteria)
+    console.debug("Criteria:",JSON.stringify(criteria))
     try {
         response = await axios({
             method: 'post',
@@ -29,10 +42,8 @@ async function searchOffers(criteria) {
             headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
         });
     }catch(err){
-        logger.error("Response from ",err.error)
-        console.log("Error while call: ERR",err.err)
-        console.log("Error while call: CODE",err.code)
-        console.log("Error while call: MESSAGE",err.message)
+        logger.error("Error ",err)
+        return createErrorResponse(400,ERRORS.INVALID_SERVER_RESPONSE,err.message,criteria);
     }
     let searchResults = [];
     if(response && response.data) {
@@ -43,6 +54,7 @@ async function searchOffers(criteria) {
     }
     return searchResults;
 }
+
 
 /**
  * Create offer in Glider API
