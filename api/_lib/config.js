@@ -1,5 +1,22 @@
-const GLIDER_BASEURL = "https://staging.aggregator.windingtree.net/api/v1"
-
+// Define the current enviroment
+const determineEnviroment = () => {
+    // If defined, use the Glider environment variable
+    if(process.env.GLIDER_ENV) {
+        return process.env.GLIDER_ENV;
+    }
+  
+    // Otherwise use the Github branch provided by Vercel
+    switch(process.env.VERCEL_GITHUB_COMMIT_REF || process.env.NOW_GITHUB_COMMIT_REF) {
+        case 'master':
+            return 'production';
+        case 'develop':
+        default:
+            return 'staging';
+    }
+}
+const enviroment = determineEnviroment();
+  
+const GLIDER_BASEURL = process.env.GLIDER_BASEURL || `https://${enviroment}.b2b.glider.travel/api/v1`;
 
 const GLIDER_CONFIG =
     {
@@ -9,14 +26,14 @@ const GLIDER_CONFIG =
         SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
         REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
         FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
-        ORGID:"0x71cd1781a3082f33d2521ac8290c9d4b3b3b116e4e8548a4914b71a1f7201da0"
+        ORGID: process.env.GLIDER_ORGID || "0x71cd1781a3082f33d2521ac8290c9d4b3b3b116e4e8548a4914b71a1f7201da0",
     };
 
 const ORGID = {
-    OTA_ORGID:"0x08fffc14df93a305f1bbc2ee26171885fee80181445d8923ab84892953c093f2"
+    OTA_ORGID: process.env.OTA_ORGID || "0x08fffc14df93a305f1bbc2ee26171885fee80181445d8923ab84892953c093f2",
 }
 
-const SIMARD_BASEURL = "https://staging.api.simard.io/api/v1"
+const SIMARD_BASEURL = process.env.SIMARD_BASEURL || `https://${enviroment}.api.simard.io/api/v1`;
 
 const SIMARD_CONFIG =
     {
@@ -24,17 +41,17 @@ const SIMARD_CONFIG =
         GUARANTEES_URL: SIMARD_BASEURL + "/balances/guarantees",
         CREATE_WITH_OFFER_URL: SIMARD_BASEURL + "/orders/createWithOffer",
         SIMULATE_DEPOSIT_URL: SIMARD_BASEURL + "/balances/simulateDeposit",
-        ORGID:"0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171",
-        DEPOSIT_EXPIRY_DAYS:14
+        ORGID: process.env.SIMARD_ORGID || "0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171",
+        DEPOSIT_EXPIRY_DAYS:14,
     };
 
 
 const REDIS_CONFIG =
     {
-        REDIS_PORT: 14563,
+        REDIS_PORT: (process.env.REDIS_PORT && parseInt(process.env.REDIS_PORT)) || 14563,
         REDIS_HOST: process.env.REDIS_HOST,
         REDIS_PASSWORD: process.env.REDIS_PASSWORD,
-        SESSION_TTL_IN_SECS: 60 * 60
+        SESSION_TTL_IN_SECS: 60 * 60,
     };
 
 const MONGO_CONFIG =
@@ -52,11 +69,15 @@ const STRIPE_CONFIG =
     };
 const ELASTIC_CONFIG =
     {
-        URL: process.env.ELASTIC_URL
+        URL: process.env.ELASTIC_URL,
     };
 
 module.exports = {
-    GLIDER_CONFIG, SIMARD_CONFIG,
-    REDIS_CONFIG, MONGO_CONFIG,
-    STRIPE_CONFIG, ELASTIC_CONFIG
+    GLIDER_CONFIG,
+    SIMARD_CONFIG,
+    REDIS_CONFIG,
+    MONGO_CONFIG,
+    STRIPE_CONFIG,
+    ELASTIC_CONFIG,
+    ORGID,
 };
