@@ -1,19 +1,24 @@
-/*@import './src/styles/mixins.scss';*/
-
+/*@import 'src/styles/mixins';*/
 
 .imgmain{
+    width:70%;
+    display: flex;
 }
 
 .content{
-    /*border: 1px solid red;*/
-    margin:auto;
+    /*margin:auto;*/
     padding-top:170px;
-    padding-left: 45px;
-    padding-right: 45px;
+    /*padding-left: 45px;*/
+    /*padding-right: 45px;*/
 }
 
 .alignCenter{
     text-align: center;
+}
+
+.padding{
+    padding-top: 170px;
+
 }
 
 /*

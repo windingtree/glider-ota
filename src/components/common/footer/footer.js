@@ -8,12 +8,10 @@ export default function Footer(props) {
         <footer className={style.footer}>
             <Container fluid={true}>
                 <Row noGutters={true}>
-                    <Col lg={4} xs={12}>
-                        <Container fluid={true}>
-                            <Row>
-                                <div className={style.logo}>
+                    <Col lg={1}>
+                        <Container fluid={true} className={style.footerLogo}>
+                            <Row noGutters={true}>
                                     <Logo violet={true}/>
-                                </div>
                             </Row>
                             <Row>
                                 <div className={style.accreditation}>
@@ -29,10 +27,10 @@ export default function Footer(props) {
                             </Row>
                         </Container>
                     </Col>
-                    <Col lg={8} xs={12}>
-                        <Container fluid={true}>
-                            <Row noGutters={true}>
-                                <Col xs={12} sm={6} >
+                    <Col >
+                        <Container className='root-container-mainpage'>
+                            <Row >
+                                <Col  md={6} >
                                     <div className={style.footerNavTitle}>Launching partners</div>
                                     <div className={style.footerNavLink}>
                                         <a href="https://www.aircanada.com">Air Canada</a>
@@ -44,7 +42,7 @@ export default function Footer(props) {
                                         <a href="https://www.erevmax.com">eRevMax</a>
                                     </div>
                                 </Col>
-                                <Col xs={12} sm={6}>
+                                <Col  md={6} >
                                     <div className={style.footerNavTitle}>Contact</div>
                                     <div className={style.footerNavLink}>
                                         <a href='mailto:hello@glider.travel'>hello@glider.travel</a>
@@ -120,6 +118,7 @@ export default function Footer(props) {
                             </Row>
                         </Container>
                     </Col>
+                    <Col lg={1}></Col>
                 </Row>
 
             </Container>
