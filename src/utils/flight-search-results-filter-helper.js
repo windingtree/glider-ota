@@ -155,12 +155,16 @@ export class FlightSearchResultsFilterHelper {
         if(!filterStates)
             return trips;
         let checkResult = true;
+
         trips.forEach(tripInfo=>{
             let itineraries = tripInfo.itineraries;
-            if(filterStates[FILTERS.AIRLINES])
-                checkResult = checkResult && (this.checkAirlineFilter(filterStates[FILTERS.AIRLINES], itineraries)===true);
-            if(filterStates[FILTERS.MAXSTOPS])
-                checkResult = checkResult && (this.checkMaxStopsFilter(filterStates[FILTERS.MAXSTOPS], itineraries)===true);
+            checkResult = true;
+            if(filterStates[FILTERS.AIRLINES]) {
+                checkResult = checkResult && (this.checkAirlineFilter(filterStates[FILTERS.AIRLINES], itineraries) === true);
+            }
+            if(filterStates[FILTERS.MAXSTOPS]) {
+                checkResult = checkResult && (this.checkMaxStopsFilter(filterStates[FILTERS.MAXSTOPS], itineraries) === true);
+            }
             // if(predicates[FILTERS.LAYOVERDURATION])
             //     checkResult = checkResult && (predicates[FILTERS.LAYOVERDURATION](itineraries)===true);
 
@@ -217,11 +221,14 @@ export class FlightSearchResultsFilterHelper {
         let result = true;
         if (filterState['ALL'] && filterState['ALL'] === true)
             return true;
+
         itineraries.forEach(itinerary=>{
             let stops = itinerary.segments.length - 1;
             if (!filterState[stops] || filterState[stops] === false)
                 result = false;
         });
+
+
         return result;
     }
 
