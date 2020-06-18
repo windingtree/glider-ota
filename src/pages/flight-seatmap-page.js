@@ -8,10 +8,12 @@ import {
     retrieveSegmentFromLocalStorage,
     retrieveFlightFromLocalStorage,
 } from "../utils/local-storage-cache";
-import { 
+import {
     retrieveSeatmap,
     addSeats,
 } from '../utils/api-utils';
+import Footer from "../components/common/footer/footer";
+import './flight-seatmap-page.scss';
 
 
 // SeatMap page rendering
@@ -85,15 +87,15 @@ export default function FlightSeatmapPage({match}) {
         // If there are more segments with seatmaps, show the next one
         if(activeSegmentIndex < Object.keys(indexedSeatmap).length - 1) {
             setActiveSegmentIndex(activeSegmentIndex + 1);
-        } 
-        
+        }
+
         // Otherwise proceed to summary
         else {
             // Call the API to add the seats if any
             if(currentSeatOptions.length > 0) {
                 setIsLoading(true);
                 addSeats(currentSeatOptions)
-                    .then(() => { 
+                    .then(() => {
                         proceedToSummary();
                     })
                     .catch(error => {
@@ -143,7 +145,7 @@ export default function FlightSeatmapPage({match}) {
             return f.concat(offer.pricePlansReferences[pricePlanKey].flights);
         }, []);
         const flights = flightKeys.map(flightKey => retrieveFlightFromLocalStorage(flightKey));
-        
+
         // Retrieve current flight
         let currentFlight = flights.find(flight => flight.includes(segmentKey));
         if(!currentFlight) {
@@ -171,11 +173,11 @@ export default function FlightSeatmapPage({match}) {
         // Compute flight time
         const segmentFlightIndex = currentFlight.indexOf(segmentKey);
         const timeDelta = (
-            new Date(currentFlightSegments[segmentFlightIndex].arrivalTime) - 
+            new Date(currentFlightSegments[segmentFlightIndex].arrivalTime) -
             new Date(currentFlightSegments[segmentFlightIndex].departureTime)
         );
         const timeDeltaHours = Number(timeDelta/(1000*60*60)).toFixed(0);
-        const timeDeltaMinutes = Number((timeDelta-timeDeltaHours)/(1000*60)).toFixed(0);
+        const timeDeltaMinutes = Number((timeDelta-1000*60*60*timeDeltaHours)/(1000*60)).toFixed(0);
 
         return {
             stops: iataStops,
@@ -207,7 +209,7 @@ export default function FlightSeatmapPage({match}) {
         if(!isLoading && indexedSeatmap) {
             // Retrieve segment details
             const activeSegmentKey = Object.keys(indexedSeatmap)[activeSegmentIndex];
-            
+
             return (
                 <SeatMap
                     cabin={getSeatMapCabin(activeSegmentKey)}
@@ -232,10 +234,12 @@ export default function FlightSeatmapPage({match}) {
                 message = "We are adding your seat selection to your booking.";
             }
             return (
-                <div>
-                    <Spinner enabled={isLoading}/>
-                    <span>{message}</span>
+                <>
+                <div className='seatmap-loading-message'>
+                    <Spinner enabled={true}></Spinner>
+                    {message}
                 </div>
+            </>
             );
         }
     }
@@ -248,6 +252,8 @@ export default function FlightSeatmapPage({match}) {
                     {loadingSpinner()}
                     {currentSeatmap()}
                 </div>
+                <Footer/>
+
             </div>
         </>
     );

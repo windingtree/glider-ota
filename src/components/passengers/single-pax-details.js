@@ -1,12 +1,18 @@
-import React, {useState,useRef} from 'react'
+import React, {useState, useRef} from 'react'
 import {Container, Row, Col, Form, Alert} from 'react-bootstrap'
 import _ from 'lodash'
 import style from "./single-pax-details.module.scss";
 import Button from "react-bootstrap/Button";
+import 'react-phone-number-input/style.css';
+import PhoneInput, {isPossiblePhoneNumber} from 'react-phone-number-input';
 const DEFAULT_PAXTYPE='ADT';
 
-export default function SinglePaxDetails({passengerId, passengerType, onDataChange, initial, showSubmitButton, onSubmit}) {
+
+
+
+export default function SinglePaxDetails({passengerId, passengerType, onDataChange, initial, showSubmitButton, onSubmit, highlightInvalidFields}) {
     const formRef = useRef(null);
+    const phoneRef = useRef(null);
 
     const [fieldValues, setFieldValues] = useState({
         id: passengerId,
@@ -20,23 +26,49 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     })
 
     const [fieldIsInvalidFlags, setFieldIsInvalidFlags] = useState({
-        firstName:false,
-        lastName:false,
-        birthdate:false,
-        email:false,
-        phone:false,
-        civility:false
-    })
+        firstName:undefined,
+        lastName:undefined,
+        birthdate:undefined,
+        email:undefined,
+        phone:undefined,
+        civility:undefined
+    });
     const [validated, setValidated] = useState(false);
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
 
+    // Function to determine if all fields are valid
+    const allFieldsValid = () => {
+        return Object.keys(fieldIsInvalidFlags).reduce((valid, key) => {
+            return valid && (key===false);
+        }, true);
+    };
+
+    // FUnction to determine if the invalid status should be shown
+    const showInvalidStatus = (key) => {
+        // If fields are not yet touched, don't show the invalid status
+        if(highlightInvalidFields) {
+            return (fieldIsInvalidFlags[key] === undefined) || fieldIsInvalidFlags[key];
+        }
+
+        // Otherwise return the flag
+        return (fieldIsInvalidFlags[key]===true);
+
+
+    }
+
     function onFieldBlur(e) {
         const {name,value} = e.target;
-        let copy = {...fieldIsInvalidFlags};
-        copy[name] = !e.target.checkValidity();
-        setFieldIsInvalidFlags(copy);
-        setSaveButtonEnabled(formRef.current.checkValidity())
-        onDataChange(passengerId,fieldValues,formRef.current.checkValidity());
+        let newInvalidFlags = {...fieldIsInvalidFlags};
+        newInvalidFlags[name] = !e.target.checkValidity();
+        if(name==='phone') {
+            newInvalidFlags[name] = newInvalidFlags[name] || !isPossiblePhoneNumber(value);
+        }
+        const isFormValid = Object.keys(newInvalidFlags).reduce((valid, key) => {
+            return valid && !newInvalidFlags[key];
+        }, true);
+        setFieldIsInvalidFlags(newInvalidFlags);
+        setSaveButtonEnabled(isFormValid)
+        onDataChange(passengerId, fieldValues, isFormValid);
     }
 
     function onFieldValueChanged(e) {
@@ -59,7 +91,9 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     }
 
     function onSaveButtonClicked(){
-        onSubmit(fieldValues)
+        if(allFieldsValid()) {
+            onSubmit(fieldValues);
+        }
     }
 
     let typeToLabel={
@@ -68,8 +102,9 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         INF:'Infant'
     }
     let paxTypeLabel=typeToLabel[passengerType];
-    if(!paxTypeLabel)
+    if(!paxTypeLabel) {
         paxTypeLabel=typeToLabel[DEFAULT_PAXTYPE];
+    }
 
     return (
         <>
@@ -85,8 +120,8 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       onChange={onFieldValueChanged}
                                       value={fieldValues['lastName']}
                                       required
-                                      isInvalid={fieldIsInvalidFlags['lastName']}
-                                        onInput={onFieldInput}/>
+                                      isInvalid={showInvalidStatus('lastName')}
+                                    onInput={onFieldInput}/>
                     </Col>
                     <Col>
                         <Form.Label className={style.label}>Name</Form.Label>
@@ -97,7 +132,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       value={fieldValues['firstName']}
                                       onChange={onFieldValueChanged}
                                       onInput={onFieldInput}
-                                      isInvalid={fieldIsInvalidFlags['firstName']}
+                                      isInvalid={showInvalidStatus('firstName')}
                                       required
                         />
                     </Col>
@@ -111,7 +146,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       value={fieldValues['birthdate']}
                                       onBlur={onFieldBlur}
                                       onChange={onFieldValueChanged}
-                                      isInvalid={fieldIsInvalidFlags['birthdate']}
+                                      isInvalid={showInvalidStatus('birthdate')}
                                       onInput={onFieldInput} required/>
 
                     </Col>
@@ -123,7 +158,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                           onBlur={onFieldBlur}
                                           onChange={onFieldValueChanged}
                                           onInput={onFieldInput}
-                                          isInvalid={fieldIsInvalidFlags['civility']}
+                                          isInvalid={showInvalidStatus('civility')}
                                           required>
                                 <option value=''></option>
                                 <option value='MR'>Male</option>
@@ -142,19 +177,30 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                           value={fieldValues['email']}
                                           onChange={onFieldValueChanged}
                                           onBlur={onFieldBlur}
-                                          isInvalid={fieldIsInvalidFlags['email']}
+                                          isInvalid={showInvalidStatus('email')}
                                           onInput={onFieldInput} required/>
                         </Col>
                         <Col>
                             <Form.Label className={style.label}>Telephone</Form.Label>
-                            <Form.Control type="phone"
-                                          placeholder="+12 3456789"
-                                          name="phone"
-                                          value={fieldValues['phone']}
-                                          onChange={onFieldValueChanged}
-                                          onBlur={onFieldBlur}
-                                          isInvalid={fieldIsInvalidFlags['phone']}
-                                          onInput={onFieldInput} required/>
+                            <PhoneInput
+                                ref={phoneRef}
+                                international
+                                placeholder="Enter phone number"
+                                value={fieldValues['phone']}
+                                onChange={(value) => {
+                                    onFieldValueChanged({
+                                        target: {
+                                            name: 'phone',
+                                            value: value,
+                                        },
+                                    });
+                                }}
+                                name="phone"
+                                onBlur={onFieldBlur}
+                                isInvalid={showInvalidStatus('phone')}
+                                inputComponent={PhoneInputComponent}
+                                required
+                            />
                         </Col>
                     </Form.Row>
                 </div>
@@ -165,5 +211,11 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                 }
             </Form>
         </>
-    )
+    );
 }
+
+
+// Define a custom phone input component using react bootstrap control
+// Author's reference code: https://codesandbox.io/s/zealous-chatterjee-8c5mm?file=/src/App.js
+let PhoneInputComponent = (props, ref) => <Form.Control ref={ref} {...props}/>
+PhoneInputComponent = React.forwardRef(PhoneInputComponent);

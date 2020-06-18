@@ -7,18 +7,18 @@ export default class FareFamilyHelper {
 
   /**
    * For a given itinerary, find all available price plans and return an ascending order (order in which they should be displayed in the UI).
-   * It returns an array containing price plan IDs.
+   * It returns an array containing price plan IDs with it's lowest fares.
    * @param itinId
    * @returns {*[]}
    */
-  getItineraryPricePlansInAscendingOrder(itinId){
+  getItineraryPriceWithLowestPrice(itinId){
     let pricePlansMinFares={};
     //iterate over price plans and find lowest available price for a given price plan ID and store it in hashmap(planID -> price)
     Object.keys(this.tripRates.offers).forEach(offerId=>{
       let offer = this.tripRates.offers[offerId];
       if(offer.itinToPlanMap[itinId]){
         let pricePlanId = offer.itinToPlanMap[itinId];
-        let price = offer.price.public;
+        let price = offer.price;
         if(!pricePlansMinFares[pricePlanId] || pricePlansMinFares[pricePlanId]>price)
           pricePlansMinFares[pricePlanId] = price;
       }
@@ -26,18 +26,17 @@ export default class FareFamilyHelper {
     //we have lowest fares for price planID, now we need a list of price plans and sort it by price (ascending)
     let plans=[];
     Object.keys(pricePlansMinFares).map(pricePlanId=>{
-      plans.push({pricePlanId:pricePlanId, price:pricePlansMinFares[pricePlanId]})
+      plans.push({pricePlanId:pricePlanId, lowestPrice:pricePlansMinFares[pricePlanId]})
     })
     //sort it
     plans.sort((a,b)=>{
-      if(parseInt(a.price)<parseInt(b.price)) return -1;
-      else if(parseInt(a.price)>parseInt(b.price)) return 1;
+      if(parseInt(a.lowestPrice.public)<parseInt(b.lowestPrice.public)) return -1;
+      else if(parseInt(a.lowestPrice.public)>parseInt(b.lowestPrice.public)) return 1;
       else return 0;
     })
-    let res=plans.map(a=>a.pricePlanId);
-    //we only need to return array of price plan IDs
-    return res;
+    return plans;
   }
+
 
   /**
    * Once the user selects a given offer (which is combination of price plans), for other alternative price plans we need to display price difference
@@ -70,6 +69,7 @@ export default class FareFamilyHelper {
       if(selectedOfferId === candidateOffer.offerId){
         pricePlanOffsets[currentItinPricePlanId]={
           offerId: selectedOfferId,
+          price:candidateOffer.price,
           priceOffset:{
             public: 0,
             currency: candidateOffer.price.currency
@@ -82,6 +82,7 @@ export default class FareFamilyHelper {
         //TODO: what if currency codes are different? should not happen but....
         pricePlanOffsets[candidatePricePlanId]={
           offerId: candidateOffer.offerId,
+          price:candidateOffer.price,
           priceOffset:{
             public: priceDiff,
             currency: candidateOffer.price.currency

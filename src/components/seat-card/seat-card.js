@@ -44,15 +44,16 @@ export default function SeatCard(props) {
                     className='name'>
                         {seatAssigned ? `Seat ${seatNumber}` : `${cabinName ? cabinName : 'Random'} Seat`}
                 </span>
-                <Button
-                    variant="link"
-                    className='remove'
-                    disabled={!seatAssigned}
-                    // Clicking on button also propagates to the Card.Body onClick
-                    onClick={handleRemove}
-                    >
-                        Remove
-                </Button>
+                {seatAssigned && 
+                    <Button
+                        variant="link"
+                        className='remove'
+                        // Clicking on button also propagates to the Card.Body onClick
+                        onClick={handleRemove}
+                        >
+                            Remove
+                    </Button>
+                }
                 <span
                     className='price'>
                         {priceDescription()}

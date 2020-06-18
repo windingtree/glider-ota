@@ -30,7 +30,7 @@ const initialData={
     lastName:'Doe',
     birthdate:'1978-02-20',
     email:'john@doe.com',
-    phone:'+1 234 567 890',
+    phone:'+1 234 567 8901',
     civility:'MR'
 }
 
@@ -39,7 +39,7 @@ const initialDataFemale={
     lastName:'Doe',
     birthdate:'1978-02-20',
     email:'john@doe.com',
-    phone:'+1 234 567 890',
+    phone:'+1 234 567 8901',
     civility:'MRS'
 }
 
@@ -49,4 +49,5 @@ export const SingleChild = () => (<SinglePaxDetails passengerId="PAX1" passenger
 export const SingleInfant = () => (<SinglePaxDetails passengerId="PAX1" passengerType="INF" onDataChange={action("onDataChange")} />);
 export const SingleAdultMaleWithInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData}/>);
 export const SingleAdultFemaleWithInitialData = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialDataFemale}/>);
-export const WithSubmitButton = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData} showSubmitButton={true}/>);
+export const FilledWithSubmitButton = () => (<SinglePaxDetails passengerId="PAX1" passengerType="ADT" onDataChange={action("onDataChange")} initial={initialData} showSubmitButton={true}/>);
+export const EmptyWithSubmitButton = () => (<SinglePaxDetails onDataChange={action("onDataChange")} showSubmitButton={true} onSubmit={(data)=>console.log('Form submit>>', data)}/>);

@@ -3,6 +3,7 @@ import Header from '../components/common/header/header';
 import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import HotelDetails from "../components/hoteldetails/hotel-details"
 import {HotelSearchResultsWrapper} from "../utils/hotel-search-results-wrapper";
+import Footer from "../components/common/footer/footer";
 
 export default function HotelDetailsPage({match}) {
     let accommodationId = match.params.accommodationId;
@@ -16,6 +17,8 @@ export default function HotelDetailsPage({match}) {
             <div>
                 <Header violet={true}/>
                 <HotelDetails hotel={hotel} searchResults={searchResults}/>
+                <Footer/>
+
             </div>
         </>
     )

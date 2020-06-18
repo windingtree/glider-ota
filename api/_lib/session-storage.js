@@ -1,6 +1,6 @@
 const redis = require('async-redis');
 const {createLogger} = require('./logger');
-const {REDIS_CONFIG} = require('../../config');
+const {REDIS_CONFIG} = require('./config');
 const logger = createLogger('session-storage');
 
 const KEYS = {

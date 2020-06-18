@@ -6,9 +6,9 @@ import FareFamilyHelper from "../../utils/fare-family-helper";
 
 
 
-export default function TripRates({tripRates, selectedOffer, onOfferChange}) {
+export default function TripRates({tripRates, selectedOffer, onOfferChange,baselineFare}) {
     const [currentOffer, setCurrentOffer] = useState(selectedOffer)
-    let fareFamilyHelper = new FareFamilyHelper(tripRates);
+
 
     function handlePricePlanSelection(itinId, pricePlanId) {
 
@@ -30,11 +30,9 @@ export default function TripRates({tripRates, selectedOffer, onOfferChange}) {
             <div>
                 {
                     itineraries.map(itinerary => {
-                        let itinId = itinerary.itinId;
-                        let pricePlanIds=fareFamilyHelper.getItineraryPricePlansInAscendingOrder(itinId);
                         return (
-                            <ItineraryRates key={itinId} itinerary={itinerary} tripRates={tripRates} selectedOffer={currentOffer}
-                                            onPricePlanSelected={handlePricePlanSelection} onOfferSelected={onOfferSelected}/>)
+                            <ItineraryRates key={itinerary.itinId} itinerary={itinerary} tripRates={tripRates} selectedOffer={currentOffer}
+                                            onPricePlanSelected={handlePricePlanSelection} onOfferSelected={onOfferSelected} baselineFare={baselineFare}/>)
 
                     })
                 }
@@ -48,11 +46,9 @@ export default function TripRates({tripRates, selectedOffer, onOfferChange}) {
  * Render price plans of an itinerary
  */
 
-export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlanSelected, onOfferSelected}) {
+export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlanSelected, onOfferSelected, baselineFare}) {
     let itineraryId = itinerary.itinId;
-    function selectPlan(itineraryId,pricePlanId){
-        onPricePlanSelected(itineraryId,pricePlanId)
-    }
+
 
     function selectOffer(offerId){
         console.log("selectOffer",offerId)
@@ -66,9 +62,10 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
 
     let pricePlans = tripRates.pricePlans;
     let fareFamilyHelper = new FareFamilyHelper(tripRates);
-    let pricePlanIds = fareFamilyHelper.getItineraryPricePlansInAscendingOrder(itineraryId);
+    let itineraryPricePlans = fareFamilyHelper.getItineraryPriceWithLowestPrice(itineraryId);
     let priceOffsets = fareFamilyHelper.getItineraryPricePlanOffsetPrices(selectedOffer.offerId,itineraryId);
     let selectedPricePlanId = selectedOffer.itinToPlanMap[itineraryId];
+
 
     return (<>
         <ItineraryDetails itinerary={itinerary}/>
@@ -76,18 +73,32 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
         <div className={style.ratesHeader}>Select a fare below</div>
         <div className='d-flex flex-row flex-wrap'>
                 {
-                    pricePlanIds.map(pricePlanId => {
+                    itineraryPricePlans.map(({pricePlanId,lowestPrice}) => {
                         let pricePlan = pricePlans[pricePlanId];
                         let priceOffset = priceOffsets[pricePlanId];
-                        let price = {};
+                        let priceDifference = {};
                         let offerId = 'UNKNOWN';
-
                         if(priceOffset) {
-                            price = priceOffset.priceOffset;
+                            if(baselineFare){   //baselineFare is the fare selected by user from search results page
+                                //if it is set - we should calculate the difference between that fare and given fare family
+                                let baselineAmount = baselineFare.public;
+                                let fareFamilyAmount = lowestPrice.public;
+                                let diff = parseInt(fareFamilyAmount) - parseInt(baselineAmount);
+                                //if there is no difference - don't display anything
+                                if(Math.round(diff)!=0){
+                                    priceDifference={
+                                        public:diff,
+                                        currency:baselineFare.currency
+                                    }
+                                }else {
+                                    priceDifference=null;
+                                }
+                            }
+
                             offerId = priceOffset.offerId;
                         }
                         return (
-                            <FareFamilyBenefits key={offerId} amenities={pricePlan.amenities} price={price} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}}/>
+                            <FareFamilyBenefits key={offerId} amenities={pricePlan.amenities} price={priceDifference} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}}/>
                         )
 
                     })
@@ -129,10 +140,11 @@ export function FareFamilyBenefits({familyName, price, isSelected, amenities=[],
     let fare='';
     if(price && price.public){
         fare = Math.round(price.public) + " "+ price.currency;
-        if(price.public>=0)
+        if(price.public>0)
             fare = "+"+fare;
-    }else{
-        fare = "+0 ";
+        else if(price.public==0){
+            fare = "";
+        }
     }
     function handleClick(){
         onClick();

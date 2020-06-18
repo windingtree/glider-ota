@@ -5,11 +5,15 @@ import PropTypes from 'prop-types'
 
 export default function LookupList({locations=[], onLocationSelected}){
     let key = 0;
+    function selected(rec){
+        console.log("Location selected,",rec)
+        onLocationSelected(rec)
+    }
     return (
         <Container className={style.list}>
             {locations.map(rec=>{
                 return (
-                    <Row noGutters={true} className={style.row} key={createKey(rec.primary,rec.secondary,rec.code)} onClick={event => onLocationSelected(rec)}>
+                    <Row noGutters={true} className={style.row} key={createKey(rec.primary,rec.secondary,rec.code)} onMouse={()=>console.log("onMouse")} onClick={event => selected(rec)}>
                         <Col xs={9}  className={style.primaryText}>
                             {rec.primary} <span className={style.secondaryText}>{rec.secondary}</span>
                         </Col>

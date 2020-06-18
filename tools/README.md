@@ -26,6 +26,9 @@ List of cities (with population over 15000 is used but can be custom)
 List of airlines (only airlines that operate currently will be used)
 * https://github.com/opentraveldata/opentraveldata/blob/master/opentraveldata/optd_airline_best_known_so_far.csv
 
+List of airport timezones
+* https://openflights.org/data.html  - airports.dat
+
 ## Dictionary data maintenance
 Dictionary data is considered static however there may be times when it has to be updated.
 This document explain steps needed to re-generate all dictionary data.
@@ -52,6 +55,10 @@ This document explain steps needed to re-generate all dictionary data.
 #### Airlines
 * Download list of airlines from https://github.com/opentraveldata/opentraveldata/blob/master/opentraveldata/optd_airline_best_known_so_far.csv 
 * Save it as /tools/dictionary/input/airlines.csv
+
+#### Airport timezones
+* Download list of airports from https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat 
+* Save it as /tools/dictionary/input/timezones.csv
 
 
 ### Step 2 - Process downloaded data 

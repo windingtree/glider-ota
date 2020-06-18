@@ -53,6 +53,16 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
     let lastSegment = getLastSegmentOfItinerary(itinerary);
     let tripDestination = lastSegment.destination;
     let segments=itinerary.segments;
+    let departure=firstSegment.departureTime;
+    let arrival=lastSegment.arrivalTime;
+    const sameDay = (a, b) => {
+        a = parseISO(a);
+        b = parseISO(b);
+        return a.getFullYear() === b.getFullYear() &&
+            a.getMonth() === b.getMonth() &&
+            a.getDate() === b.getDate();
+    }
+
     return (
         <>
             <Container fluid={true} className='no-padding-left'>
@@ -62,7 +72,7 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
                 <Row>
                     <Col>
                         <span className={style.itinRoute}>{tripOrigin.city_name?tripOrigin.city_name:tripOrigin.iataCode} —> {tripDestination.city_name?tripDestination.city_name:tripDestination.iataCode} </span>
-                        <span className={style.itinDates}> {dateToStr(firstSegment.departureTime,'MMMM d (EE)')} | {dateToStr(lastSegment.arrivalTime,'MMMM d (EE)')}</span>
+                        <span className={style.itinDates}> {dateToStr(departure,'MMMM d (EE)')} {!sameDay(departure,arrival) && <>| {dateToStr(arrival,'MMMM d (EE)')}</>}</span>
                     </Col>
                 </Row>
             </Container>
@@ -95,7 +105,7 @@ export function SegmentDetails({segment}){
                     </Row>
                 </Col>
                 <Col xs={12} md={7}>
-                    <Row className={style.segmentRow}><Col className={style.segmentDuration}>{toDurationString(segment.departureTime,segment.arrivalTime)}</Col></Row>
+                    <Row className={style.segmentRow}><Col className={style.segmentDuration}>{toDurationString(segment.departureTimeUtc,segment.arrivalTimeUtc)}</Col></Row>
                     <Row className={style.segmentRow}>
                         <Col><FlightInfo operator={segment.operator}/></Col>
                     </Row>

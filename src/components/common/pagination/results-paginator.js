@@ -4,12 +4,9 @@ import Pagination from "react-js-pagination";
 
 export default function ResultsPaginator({activePage, recordsPerPage, totalRecords, onActivePageChange}) {
     function onPageChange(page){
-        console.log("onPageChange")
         onActivePageChange(page)
     }
     return (
-        // <Container fluid={true} >
-        //     <Row>
             <div className={style.paginatorContainer}>
                 <Pagination
                     activePage={activePage}
@@ -19,8 +16,6 @@ export default function ResultsPaginator({activePage, recordsPerPage, totalRecor
                     onChange={onPageChange} itemClass="page-item"
                     linkClass="page-link"/>
             </div>
-            // </Row>
-        // </Container>
     )
 }
 

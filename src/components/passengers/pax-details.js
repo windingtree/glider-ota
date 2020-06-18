@@ -3,11 +3,10 @@ import _ from 'lodash'
 import style from "./pax-details.module.scss"
 import SinglePaxDetails from "./single-pax-details";
 
-
-export default function PaxDetails({passengers, onDataChange}) {
+export default function PaxDetails({passengers, onDataChange, highlightInvalidFields}) {
     // const [passengersList,setPassengersList] = useState(passengers);
 
-    function onPassengerDataChanged(paxId,passengerRecord, isValid) {
+    function onPassengerDataChanged(paxId, passengerRecord, isValid) {
         let paxListCopy = Object.assign([],passengers)
         let idx = findPaxIndex(paxListCopy,paxId);
         passengerRecord.isValid=isValid;
@@ -16,13 +15,13 @@ export default function PaxDetails({passengers, onDataChange}) {
         }else{
             paxListCopy[idx] = passengerRecord;
         }
-        let areAllValid = true;
-        paxListCopy.map(pax=>{
-            areAllValid = areAllValid && pax.isValid;
-        })
-        console.log("new passenger details:",passengerRecord)
+        let allPaxValid = paxListCopy.reduce((valid, pax) =>{
+            return valid && pax.isValid;
+        }, true);
+        console.log("new passenger details:",passengerRecord);
+
         // setPassengersList(paxListCopy)
-        onDataChange(paxListCopy, areAllValid)
+        onDataChange(paxListCopy, allPaxValid)
     }
 
     function findPaxIndex(passengers,id) {
@@ -47,12 +46,20 @@ export default function PaxDetails({passengers, onDataChange}) {
                 <div className='paxdetails'>
                     {
                         _.map(passengers,(pax,id)=> {
-                            return (<SinglePaxDetails key={pax.id} passengerId={pax.id} passengerType={pax.type} onDataChange={onPassengerDataChanged} initial={pax}/>)
+                            return (
+                                <SinglePaxDetails
+                                    key={pax.id}
+                                    passengerId={pax.id}
+                                    passengerType={pax.type}
+                                    onDataChange={onPassengerDataChanged}
+                                    initial={pax}
+                                    highlightInvalidFields={highlightInvalidFields}
+                                />)
                         })
                     }
                 </div>
                 <div className={style.footnote}>
-                    We will send a ticket to the mail, we will send an SMS to the phone about changes in the flight or in case of other emergency situations
+                    We will send your tickets to your email. The travel supplier might send SMS to the provided phone number in case of changes or emergency situations
                 </div>
             </>
         )

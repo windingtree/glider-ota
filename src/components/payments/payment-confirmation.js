@@ -3,37 +3,42 @@ import {Button, Container, Row, Col} from "react-bootstrap";
 import Spinner from "../common/spinner";
 import {getOrderStatus} from "../../utils/api-utils";
 import './payment-confirmation.scss';
+import Alert from 'react-bootstrap/Alert';
+
 
 const CONFIRMATION_STATUS={
     INITIAL:'INITIAL',
     PENDING:'PENDING',
     SUCCESS:'SUCCESS',
     FAILURE:'FAILURE',
-    TOOLONG:'TOOLONG',
+    TIMEOUT:'TIMEOUT',
     CANNOT_CONFIRM:'CANNOT_CONFIRM'
 }
 
-const MAX_CONFIRMATION_WAIT_TIME_MILLIS=60000;
+const MAX_CONFIRMATION_WAIT_TIME_MILLIS=70000;
 const RETRY_TIMEOUT_MILLIS=5000;
 
 export default function PaymentConfirmation({orderID}) {
     const [checkStatus, setCheckStatus] = useState(CONFIRMATION_STATUS.INITIAL);
     const [error, setError] = useState();
     const [timeoutRef,setTimeoutRef] = useState();
-    const [firstCheck, setFirstCheck] = useState();
+    let firstCheck = new Date();
     const [order, setOrder] = useState();
 
     // Check the order status
-    function checkOrderStatus(orderIdentifier){
-        setCheckStatus(CONFIRMATION_STATUS.PENDING)
-        let diff = Date.now() - firstCheck;
-
-        if(diff>MAX_CONFIRMATION_WAIT_TIME_MILLIS) {
+    function checkOrderStatus(orderIdentifier) {
+        setCheckStatus(CONFIRMATION_STATUS.PENDING);
+        let now = new Date();
+        
+        // If timeout is exceeded, stop
+        if((now - firstCheck) > MAX_CONFIRMATION_WAIT_TIME_MILLIS) {
             stopCheckingInFuture();
-            setCheckStatus(CONFIRMATION_STATUS.TOOLONG);
+            setCheckStatus(CONFIRMATION_STATUS.TIMEOUT);
             return;
         }
-        getStatus(orderIdentifier)
+
+        // Otherwise status is retrieved from server
+        getStatus(orderIdentifier);
     };
 
     function getStatus(orderIdentifier){
@@ -42,8 +47,9 @@ export default function PaymentConfirmation({orderID}) {
                 processOrderStatus(data);
             })
             .catch(err=>{
-                setError("Failure during check")
-                setCheckStatus(CONFIRMATION_STATUS.FAILURE)
+                setError("We can not retrieve the status, please refresh your browser to retry");
+                setCheckStatus(CONFIRMATION_STATUS.FAILURE);
+                //checkStatusInFuture();
             });
     }
 
@@ -63,7 +69,7 @@ export default function PaymentConfirmation({orderID}) {
     function processOrderStatus(data){
         setOrder(data);
         let orderStatus = data.order_status;
-        console.debug("processOrderStatus:", orderStatus);
+        //console.debug("processOrderStatus:", orderStatus);
 
         switch (orderStatus){
             case 'NEW':
@@ -84,63 +90,78 @@ export default function PaymentConfirmation({orderID}) {
     }
 
     const retryCheck = ()=>{
-        getStatus(orderID)
+        getStatus(orderID);
     }
 
     useEffect(() => {
-        setFirstCheck(new Date());
         checkOrderStatus(orderID);
-        }, []
-    )
+        }, [orderID]
+    );
 
 
-    const renderRetry = () => {
-        return (
-            <div className='glider-font-text24medium-fg'>
-                Confirmation takes too much time.
-                Please retry by clicking below button
-                <Button onClick={retryCheck} size='lg' variant='primary'>Retry</Button>
-            </div>
-        )
-    }
+    const ConfirmationFailedAlert = () => (
+        <Alert variant="danger">
+            <Alert.Heading>We cannot confirm your booking.</Alert.Heading>
+            <p>
+                We are sorry, we could not confirm your booking.<br/>
+                Please see additional details below.
+            </p>
+        </Alert>
+    );
 
-    const renderPleaseWait = () => {
-        return (
-            <div className='glider-font-text24medium-fg'>
-                Please wait while we are completing your booking
-                <Spinner enabled={true}></Spinner>
-            </div>
-        )
-    }
+    const ConfirmationPendingAlert = () => (
+        <>
+            <Alert variant="info">
+                <Alert.Heading>We are confirming your booking</Alert.Heading>
+                <p>
+                    Please wait while we confirm your booking.<br/>
+                    This can take a few minutes.
+                </p>
+            </Alert>
+            <Spinner/>
+        </>
+    );
 
-    const renderConfirmationFailed = () => {
-        return (
-            <div className='glider-font-h2-fg'>
-                Unfortunately we cannot confirm your booking at the moment. <br/>
-            </div>
-        )
-    }
+    const ConfirmationTimeoutAlert = () => (
+        <Alert variant="warning">
+            <Alert.Heading>We could not yet confirm your booking</Alert.Heading>
+            <p>
+                We are sorry, your booking confirmation is taking longer than usual.<br/>
+                Once your booking is created, you will receive an email with your confirmation.
+            </p>
+            <Button 
+                onClick={retryCheck}
+                variant='primary'>Refresh Status
+            </Button>
+        </Alert>
+    );
 
-    const renderConfirmationSuccess = () => {
+    const ConfirmationSuccessAlert = () => {
+        const confirmation = order.confirmation;
         let bookings = [];
-        try{
-            console.debug("Confirmation data:", order.confirmation);
-            console.debug("Confirmation data - travel docs:", order.confirmation.travelDocuments);
-            bookings = order.confirmation.travelDocuments.bookings;
-        }catch(err){
-            console.error("Cant find travel documents in confirmation", order.confirmation)
+
+        // Get the bookings from travel document
+        if(confirmation.travelDocuments &&
+            Array.isArray(confirmation.travelDocuments.bookings)) 
+        {
+            bookings = confirmation.travelDocuments.bookings
         }
 
+        // Add the bookings from the order (for Hotels)
+        if(confirmation.order && confirmation.order.reservationNumber) {
+            bookings.push(confirmation.order.reservationNumber);
+        }
+        
         return (
-            <div className='glider-font-h2-fg'>
+            <Alert variant="success">
+                <Alert.Heading>Your booking confirmation number{bookings.length > 1 ? 's are' : ' is'} <b>{bookings.join(', ')}</b></Alert.Heading>
                 <p>
-                    Your booking is confirmed!<br/>
-                    Booking reference: <b>{bookings.join(', ')}</b>
+                    Your booking has been created with the travel supplier.<br/>
+                    You will receive your booking confirmation by email shortly!
                 </p>
-                <p>Your travel documents will be send to you by email.</p>
-            </div>
+            </Alert>
         )
-    }
+    };
 
     // Render the Payment Status
     const paymentStatus = () => {
@@ -154,9 +175,9 @@ export default function PaymentConfirmation({orderID}) {
             case 'NOT_PAID':
                 iconStatus = 'pending';
                 message = (
-                    <span>
+                    <small>
                         We have not yet received confirmation of your payment
-                    </span>
+                    </small>
                 );
                 break;
             case 'PAID':
@@ -173,13 +194,18 @@ export default function PaymentConfirmation({orderID}) {
             case 'FAILED':
                 iconStatus = 'failed';
                 message = (
-                    <span>
+                    <small>
                         Your payment has been declined
-                    </span>
+                    </small>
                 );
                 break;
             default:
                 iconStatus = 'undefined';
+                message = (
+                    <small>
+                        The status of your payment is being retrieved from the server
+                    </small>
+                );
                 break;
         }
 
@@ -202,11 +228,11 @@ export default function PaymentConfirmation({orderID}) {
                 if(order.payment_status !== 'PAID') {
                     message = (
                         <small>
-                            We will process your booking once we receive confirmation of the payment
+                            We will process your booking once the payment is confirmed
                         </small>
                     );
                 }
-                
+
                 else {
                     message = (
                         <small>
@@ -214,12 +240,12 @@ export default function PaymentConfirmation({orderID}) {
                         </small>
                     );
                 }
-                
+
                 break;
             case 'FULFILLED':
                 iconStatus = 'success';
                 if(
-                    order.confirmation && 
+                    order.confirmation &&
                     order.confirmation.travelDocuments
                 ) {
                     const {bookings, etickets} = order.confirmation.travelDocuments;
@@ -230,8 +256,19 @@ export default function PaymentConfirmation({orderID}) {
                             Your e-ticket{bookings.length > 1 ? 's are' : ' is'}: {(etickets).map(tkt => Object.keys(tkt)[0]).join(', ')}
                         </small>
                     );
+                }else if(
+                    order.confirmation &&
+                    order.confirmation.order &&
+                    order.confirmation.order.reservationNumber
+                ) {
+                    const reservationNumber = order.confirmation.order.reservationNumber;
+                    message = (
+                        <small>
+                            Your booking reference is: {reservationNumber}
+                        </small>
+                    );
                 }
-                
+
                 break;
             case 'FAILED':
                 iconStatus = 'failed';
@@ -244,6 +281,11 @@ export default function PaymentConfirmation({orderID}) {
                 break;
             default:
                 iconStatus = 'undefined';
+                message = (
+                    <small>
+                        The status of your booking is being retrieved from the server
+                    </small>
+                );
                 break;
         }
 
@@ -264,10 +306,10 @@ export default function PaymentConfirmation({orderID}) {
             </Row>
             <Row>
                 <Col>
-                {checkStatus === CONFIRMATION_STATUS.PENDING && renderPleaseWait()}
-                {checkStatus === CONFIRMATION_STATUS.FAILURE && renderConfirmationFailed()}
-                {checkStatus === CONFIRMATION_STATUS.SUCCESS && renderConfirmationSuccess()}
-                {checkStatus === CONFIRMATION_STATUS.TOOLONG && renderRetry()}
+                {checkStatus === CONFIRMATION_STATUS.PENDING && ConfirmationPendingAlert()}
+                {checkStatus === CONFIRMATION_STATUS.FAILURE && ConfirmationFailedAlert()}
+                {checkStatus === CONFIRMATION_STATUS.SUCCESS && ConfirmationSuccessAlert()}
+                {checkStatus === CONFIRMATION_STATUS.TIMEOUT && ConfirmationTimeoutAlert()}
                 </Col>
             </Row>
             <Row>
