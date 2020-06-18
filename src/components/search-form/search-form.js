@@ -32,6 +32,7 @@ function SearchForm(props){
     maxPassengers,
   } = props;
 
+
   const [origin, setOrigin] = useState(initOrigin);
   const [destination, setDestination] = useState(initiDest);
   const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
@@ -120,7 +121,7 @@ function SearchForm(props){
               <Col lg={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest'/></Col>
             </Row>
             <Row>
-              <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} startPlaceholder='Check in' endPlaceholder='Check out'/></Col>
+              <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} startPlaceholder='Check in' endPlaceholder='Check out'/></Col>
             </Row>
           </div>
           <div className={style.searchButtonContainer}>
