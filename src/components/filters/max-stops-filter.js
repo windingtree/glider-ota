@@ -1,5 +1,5 @@
 import React from 'react';
-import {SelectionFilter} from "./selection-filter";
+import {RadiobuttonFilter, SelectionFilter} from "./radiobutton-filter";
 
 export function MaxNumberOfStopsFilter({title = 'Stops',  onFilterSelectionChanged, searchResults}) {
     function onFilterStateChanged(filterState){
@@ -7,7 +7,7 @@ export function MaxNumberOfStopsFilter({title = 'Stops',  onFilterSelectionChang
     }
     let initialFilterState=initializeMaxNumberOfStopsFilterState(searchResults);
     return (
-        <SelectionFilter title={title} filterItems={initialFilterState}  firstItemMutuallyExclusive={true} onFilterStateChanged={onFilterStateChanged}/>
+        <RadiobuttonFilter title={title} filterItems={initialFilterState}  onFilterStateChanged={onFilterStateChanged} />
     )
 }
 
