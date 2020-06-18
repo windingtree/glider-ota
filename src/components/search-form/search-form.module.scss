@@ -28,10 +28,14 @@
 .searchButtonContainer{
     width:100%;
     margin: auto;
-    margin-top: 80px;
+
     @include glider-media-medium_768 {
         width: 620px;
     }
+    @include glider-media-small_576 {
+        margin-top: 80px;
+    }
+
 }
 
 .searchButton{

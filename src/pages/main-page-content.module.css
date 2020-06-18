@@ -1,8 +1,11 @@
-/*@import 'src/styles/mixins';*/
+@import '/src/styles/mixins';
 
-.imgmain{
-    width:70%;
+.imgmain {
+    width: 100%;
     display: flex;
+    @include glider-media-small_576 {
+        width: 80%;
+    }
 }
 
 .content{

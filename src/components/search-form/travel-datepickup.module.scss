@@ -72,7 +72,8 @@
     box-shadow: none;
     border: 1px solid black;
     border-radius: 2px;
-    width: 480px;
+    max-width: 480px;
+    width:90%;
     transition: none;
 }
 
