@@ -21,17 +21,25 @@ export function MaxNumberOfStopsFilter({title = 'Stops',  onFilterSelectionChang
     if (!searchResults || !searchResults.itineraries)
         return filterState;
 
+    let stops=[];
     let combinations = searchResults.itineraries.combinations;
+    //iterate over all itineraries and check how many stops each of them has
     Object.keys(combinations).map(combinationId => {
         let combination = combinations[combinationId];
-        if (combination.length > maxStops)
-            maxStops = combination.length;
+        let stopsCount = combination.length-1;
+        //store number of stops
+        if(stopsCount>0 && !stops.includes(stopsCount)) {
+            stops.push(stopsCount);
+        }
     })
-    for (let i = 1; i <= maxStops; i++) {
-        let title = i + " Stops"
-        if (i === 1)
-            title = "1 Stop"
-        filterState.push({key: i, display: title, selected: false});
+     //sort number of stops
+    stops.sort();
+    for (let i = 0; i < stops.length; i++) {
+        let idx = stops[i];
+        let title = "Max "+idx + " stops";
+        if (idx === 1)
+            title = "Max 1 Stop";
+        filterState.push({key: idx, display: title, selected: false});
     }
     return filterState;
 }
