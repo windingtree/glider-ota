@@ -24,9 +24,9 @@ let segments=[{
   },
   "destination": {
     "locationType": "airport",
-    "iataCode": "YOW",
-    "city_name": "Ottawa",
-    "airport_name": "Metropolitan Area"
+    "iataCode": "CDG",
+    "city_name": "Paris",
+    "airport_name": "Charles de Gaulle"
   },
   "departureTime": "2020-07-11T21:10:00.000Z",
   "arrivalTime": "2020-07-11T22:12:00.000Z"
@@ -34,15 +34,37 @@ let segments=[{
   {
     "operator": {
       "operatorType": "airline",
-      "iataCode": "QK",
-      "flightNumber": "AC8988",
-      "airline_name": "Jazz Aviation"
+      "iataCode": "AC",
+      "flightNumber": "AC0460",
+      "airline_name": "Air Canada"
     },
     "origin": {
       "locationType": "airport",
-      "iataCode": "YOW",
-      "city_name": "Ottawa",
-      "airport_name": "Metropolitan Area"
+      "iataCode": "CDG",
+      "city_name": "Paris",
+      "airport_name": "Charles de Gaulle"
+    },
+    "destination": {
+      "locationType": "airport",
+      "iataCode": "YUL",
+      "city_name": "Montreal",
+      "airport_name": "Pierre E.Trudeau Intl"
+    },
+    "departureTime": "2020-07-11T22:40:00.000Z",
+    "arrivalTime": "2020-07-11T23:25:00.000Z"
+  },
+  {
+    "operator": {
+      "operatorType": "airline",
+      "iataCode": "AC",
+      "flightNumber": "AC0460",
+      "airline_name": "Air Canada"
+    },
+    "origin": {
+      "locationType": "airport",
+      "iataCode": "ORY",
+      "city_name": "Paris",
+      "airport_name": "Orly"
     },
     "destination": {
       "locationType": "airport",
@@ -171,3 +193,4 @@ export const itineraryDetails = () => (<ItineraryDetails itinerary={itinerary1}/
 export const tripOverview = () => (<RouteOverview itineraries={roundtrip}/>);
 export const tripDetails = () => (<TripDetails itineraries={roundtrip}/>);
 export const transferInfo = () => (<LayoverInfo prevSegment={segments[0]}  nextSegment={segments[1]}/>);
+export const transferInfoWithAirportChange = () => (<LayoverInfo prevSegment={segments[0]}  nextSegment={segments[2]}/>);

@@ -168,16 +168,39 @@ function  getLastSegmentOfItinerary (itinerary) {
 
 export function LayoverInfo({prevSegment, nextSegment}){
     //
+    let changeOfAirport=false;
+    if(prevSegment.destination.iataCode!==nextSegment.origin.iataCode)
+        changeOfAirport=true;
+
+
+    const renderChangeOfAirports=()=>{
+        return (
+            <Row className={style.layoverTitle}>
+                Transfer from {prevSegment.destination.airport_name}({prevSegment.destination.iataCode}) to {nextSegment.origin.airport_name}({nextSegment.origin.iataCode}) {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
+            </Row>
+        )
+    }
+
+    const renderTransfer=()=>{
+        return (
+            <Row className={style.layoverTitle}>
+                Transfer in {prevSegment.destination.city_name} {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
+            </Row>
+        )
+    }
+
+
     return (
         <>
             <Container fluid={true} className='pt-4'>
                 <Row className={style.layoverBorder}></Row>
-                <Row className={style.layoverTitle}>
-                    Transfer in {prevSegment.destination.city_name} {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
-                </Row>
-                <Row className={style.layoverText}>A transit visa may be required. For flight transfers, baggage can be checked through</Row>
+
+                {changeOfAirport?renderChangeOfAirports():renderTransfer()}
+
+                <Row className={style.layoverText}>Please make sure you have all travel documents for this transfer.</Row>
                 <Row className={style.layoverBorder}></Row>
             </Container>
         </>
     )
+
 }
