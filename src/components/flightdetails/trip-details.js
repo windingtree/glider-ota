@@ -176,7 +176,7 @@ export function LayoverInfo({prevSegment, nextSegment}){
     const renderChangeOfAirports=()=>{
         return (
             <Row className={style.layoverTitle}>
-                Transfer from {prevSegment.destination.airport_name}({prevSegment.destination.iataCode}) to {nextSegment.origin.airport_name}({nextSegment.origin.iataCode}) {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
+                Transfer in {prevSegment.destination.city_name}, from {prevSegment.destination.airport_name}({prevSegment.destination.iataCode}) to {nextSegment.origin.airport_name}({nextSegment.origin.iataCode}): {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
             </Row>
         )
     }
@@ -184,7 +184,7 @@ export function LayoverInfo({prevSegment, nextSegment}){
     const renderTransfer=()=>{
         return (
             <Row className={style.layoverTitle}>
-                Transfer in {prevSegment.destination.city_name} {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
+                Transfer in {prevSegment.destination.city_name}, {prevSegment.destination.airport_name}({prevSegment.destination.iataCode}): {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
             </Row>
         )
     }
