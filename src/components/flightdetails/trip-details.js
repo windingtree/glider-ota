@@ -175,8 +175,7 @@ export function LayoverInfo({prevSegment, nextSegment}){
                 <Row className={style.layoverTitle}>
                     Transfer in {prevSegment.destination.city_name} {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
                 </Row>
-                <Row className={style.layoverText}>A transit visa may be required</Row>
-                <Row className={style.layoverText}>For flight transfers, baggage can be checked through</Row>
+                <Row className={style.layoverText}>A transit visa may be required. For flight transfers, baggage can be checked through</Row>
                 <Row className={style.layoverBorder}></Row>
             </Container>
         </>
