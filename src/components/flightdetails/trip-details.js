@@ -62,6 +62,16 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
             a.getMonth() === b.getMonth() &&
             a.getDate() === b.getDate();
     }
+    let items=[];
+    let prevSegment;
+    for(let s=0;s<segments.length;s++)
+    {
+        let segment=segments[s];
+        if(prevSegment)
+            items.push(<LayoverInfo prevSegment={prevSegment} nextSegment={segment}/>);
+        items.push(<SegmentDetails segment={segment}/>);
+        prevSegment=segment;
+    }
 
     return (
         <>
@@ -76,12 +86,8 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
                     </Col>
                 </Row>
             </Container>
-
-            {segments.length>0 && (<SegmentDetails segment={segments[0]}/>)}
-            {segments.length>1 && (<SegmentDetails segment={segments[1]}/>)}
-            {segments.length>2 && (<SegmentDetails segment={segments[2]}/>)}
-            {segments.length>3 && (<SegmentDetails segment={segments[3]}/>)}
-        </>
+            {items}
+                </>
     )
 }
 
@@ -105,7 +111,7 @@ export function SegmentDetails({segment}){
                     </Row>
                 </Col>
                 <Col xs={12} md={7}>
-                    <Row className={style.segmentRow}><Col className={style.segmentDuration}>{toDurationString(segment.departureTime,segment.arrivalTime)}</Col></Row>
+                    <Row className={style.segmentRow}><Col className={style.segmentDuration}>{toDurationString(segment.departureTimeUtc,segment.arrivalTimeUtc)}</Col></Row>
                     <Row className={style.segmentRow}>
                         <Col><FlightInfo operator={segment.operator}/></Col>
                     </Row>
@@ -157,4 +163,44 @@ function getFirstSegmentOfItinerary (itinerary) {
 
 function  getLastSegmentOfItinerary (itinerary) {
     return itinerary.segments[itinerary.segments.length - 1];
+}
+
+
+export function LayoverInfo({prevSegment, nextSegment}){
+    //
+    let changeOfAirport=false;
+    if(prevSegment.destination.iataCode!==nextSegment.origin.iataCode)
+        changeOfAirport=true;
+
+
+    const renderChangeOfAirports=()=>{
+        return (
+            <Row className={style.layoverTitle}>
+                Transfer in {prevSegment.destination.city_name}, from {prevSegment.destination.airport_name}({prevSegment.destination.iataCode}) to {nextSegment.origin.airport_name}({nextSegment.origin.iataCode}): {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
+            </Row>
+        )
+    }
+
+    const renderTransfer=()=>{
+        return (
+            <Row className={style.layoverTitle}>
+                Transfer in {prevSegment.destination.city_name}, {prevSegment.destination.airport_name}({prevSegment.destination.iataCode}): {toDurationString(prevSegment.arrivalTime,nextSegment.departureTime)}
+            </Row>
+        )
+    }
+
+
+    return (
+        <>
+            <Container fluid={true} className='pt-4'>
+                <Row className={style.layoverBorder}></Row>
+
+                {changeOfAirport?renderChangeOfAirports():renderTransfer()}
+
+                <Row className={style.layoverText}>Please make sure you have all travel documents for this transfer.</Row>
+                <Row className={style.layoverBorder}></Row>
+            </Container>
+        </>
+    )
+
 }

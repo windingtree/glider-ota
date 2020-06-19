@@ -52,13 +52,13 @@ body{
 
 .root-container-mainpage{
   width:100%;
+  margin: auto;
   @include glider-media-medium_768{
    max-width: 830px;
   }
   @include glider-media-xlarge_1600{
     max-width: 1166px;
   }
-  //border: 1px solid black;
 }
 
 

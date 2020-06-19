@@ -8,6 +8,7 @@ footer.modules.scss
   background-color: #ffffff;
   padding-top: 90px;
   padding-bottom: 90px;
+  margin:auto;
 }
 
 .footerNavTitle {
@@ -43,4 +44,21 @@ footer.modules.scss
 .logo{
   //width: 400px;
   padding-left: 15px;
+}
+
+.accreditation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  padding: 15px;
+}
+
+.footerLogo{
+  display: inline-block;
+  //position: relative;
+  min-width: 300px;
+  @include glider-media-medium_768 {
+    padding-left: 65px;
+  }
 }

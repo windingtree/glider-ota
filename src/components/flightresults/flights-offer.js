@@ -42,7 +42,15 @@ export function Itinerary({itinerary}) {
             stops.push(',');
         stops.push(segment.destination.iataCode)
     }
-    const operators = OfferUtils.getItineraryOperatingCarriers(itinerary);
+    let conxType="DIRECT";
+    if(segments.length===2)
+        conxType="1 STOP"
+    else if(segments.length>2)
+        conxType=(segments.length-1)+" STOPS";
+
+
+        const operators = OfferUtils.getItineraryOperatingCarriers(itinerary);
+
     return (
         <Container fluid={true}>
             <Row>
@@ -58,7 +66,7 @@ export function Itinerary({itinerary}) {
                                 className={style.itinAirports}>{firstSegment.origin.iataCode}-{lastSegment.destination.iataCode}</div>
                         </Col>
                         <Col>
-                            <div className={style.itinStopCount}>{stops.length==0?"DIRECT":stops.length+" STOP"}</div>
+                            <div className={style.itinStopCount}>{conxType}</div>
                             <div className={style.itinStopDetails}>{stops}</div>
                         </Col>
                     </Row>

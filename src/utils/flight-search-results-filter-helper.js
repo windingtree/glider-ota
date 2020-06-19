@@ -3,7 +3,9 @@ import {FlightSearchResultsWrapper} from "./flight-search-results-wrapper";
 import {FILTERS} from "../components/filters/filters-utils";
 
 
-
+/**
+ * Helper class to process unfiltered search results and return only offers that pass filter criteria selected by the user
+ */
 export class FlightSearchResultsFilterHelper {
     constructor(searchResults){
         this.searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
@@ -147,20 +149,27 @@ export class FlightSearchResultsFilterHelper {
         return result;
     }
 
-
-
-
+    /**
+     * Apply "trip level" filters (e.g. airline name or max number of stops)
+     * @param trips
+     * @param filterStates
+     * @returns {[]|*}
+     */
     applyTripFilters(trips, filterStates) {
         let result=[];
         if(!filterStates)
             return trips;
         let checkResult = true;
+
         trips.forEach(tripInfo=>{
             let itineraries = tripInfo.itineraries;
-            if(filterStates[FILTERS.AIRLINES])
-                checkResult = checkResult && (this.checkAirlineFilter(filterStates[FILTERS.AIRLINES], itineraries)===true);
-            if(filterStates[FILTERS.MAXSTOPS])
-                checkResult = checkResult && (this.checkMaxStopsFilter(filterStates[FILTERS.MAXSTOPS], itineraries)===true);
+            checkResult = true;
+            if(filterStates[FILTERS.AIRLINES]) {
+                checkResult = checkResult && (this.checkAirlineFilter(filterStates[FILTERS.AIRLINES], itineraries) === true);
+            }
+            if(filterStates[FILTERS.MAXSTOPS]) {
+                checkResult = checkResult && (this.checkMaxStopsFilter(filterStates[FILTERS.MAXSTOPS], itineraries) === true);
+            }
             // if(predicates[FILTERS.LAYOVERDURATION])
             //     checkResult = checkResult && (predicates[FILTERS.LAYOVERDURATION](itineraries)===true);
 
@@ -170,7 +179,12 @@ export class FlightSearchResultsFilterHelper {
         return result;
     }
 
-
+    /**
+     * Check if a given itineraries(usually outbound and return) pass 'airline' filter
+     * @param filter
+     * @param itineraries
+     * @returns {boolean}
+     */
     checkAirlineFilter(filter, itineraries) {
         let result = true;
         if (filter['ALL'] && filter['ALL'] === true)
@@ -185,6 +199,12 @@ export class FlightSearchResultsFilterHelper {
         return result;
     }
 
+    /**
+     * Check if a given itineraries(usually outbound and return) pass 'airline' filter (e.g. allowed carried = AC only)
+     * @param filterState
+     * @param itineraries
+     * @returns {boolean}
+     */
     checkLayoverDurationFilter(filterState, itineraries) {
         const {min, max} = filterState;
         let result = true;
@@ -214,14 +234,24 @@ export class FlightSearchResultsFilterHelper {
     }
 
     checkMaxStopsFilter(filterState, itineraries) {
-        let result = true;
-        if (filterState['ALL'] && filterState['ALL'] === true)
+        if (filterState['ALL'] && filterState['ALL'] === true) {
+            console.log("ALL selected - all offers valid")
             return true;
+        }
+
+        let maxStops = 0;
+        Object.keys(filterState).forEach(key=>{
+            if(filterState[key] === true && parseInt(key) > maxStops)
+                maxStops = parseInt(key);
+        })
+
+        let result = true;
         itineraries.forEach(itinerary=>{
             let stops = itinerary.segments.length - 1;
-            if (!filterState[stops] || filterState[stops] === false)
+            if (stops > maxStops)
                 result = false;
         });
+
         return result;
     }
 

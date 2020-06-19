@@ -2,14 +2,16 @@ const {createLogger} = require('./logger');
 const {getAirportByIataCode,getCountryByCountryCode, getAirlineByIataCode} = require ('./dictionary-data-cache')
 const _ = require('lodash');
 const {v4} = require('uuid');
-// log REST calls to a separate logger
-const restlogger = createLogger('response-decorator-logger');
-
+const { utcToZonedTime,zonedTimeToUtc } = require('date-fns-tz');
+const { parseISO } = require('date-fns');
+const logger = createLogger('response-decorator-logger');
 
 
 function enrichResponseWithDictionaryData(results){
     enrichAirportCodesWithAirportDetails(results);
     enrichOperatingCarrierWithAirlineNames(results);
+    convertUTCtoLocalAirportTime(results);
+
     results['metadata']={
         uuid:v4(),
         timestamp:new Date(),
@@ -23,7 +25,6 @@ function enrichAirportCodesWithAirportDetails(results){
         let origin = segment.origin;
         let airportCode = origin.iataCode;
         let airportDetails = getAirportByIataCode(airportCode);
-        //{"city_name":"Arraias","city_code":"AAI","country_code":"BR","airport_name":"Arraias","airport_iata_code":"AAI","type":"AIRPORT","country_name":"Brazil"}
         if(airportDetails!==undefined){
             origin.city_name=airportDetails.city_name;
             origin.airport_name=airportDetails.airport_name;
@@ -61,8 +62,46 @@ function enrichOperatingCarrierWithAirlineNames(results){
 
 }
 
+/**
+ * Departure date from UI may come in a local timezone and hour may be random.
+ * We should search with UTC and with hour = 12
+ * @param criteria
+ */
+function setDepartureDatesToNoonUTC(criteria){
+    let segments = _.get(criteria,'itinerary.segments',[])
+    _.each(segments, (segment,id)=>{
+
+        let d=segment.departureTime.substr(0,10).split("-");
+        let utc = new Date(Date.UTC(d[0],d[1]-1,d[2]))
+        utc.setUTCHours(12);
+        logger.debug(`Departure date from UI:${segment.departureTime}, UTC date which will be used for search:${utc}`)
+        segment.departureTime=utc;
+    });
+}
+
+function convertUTCtoLocalAirportTime(results){
+    let segments = _.get(results,'itineraries.segments',[])
+    _.each(segments, (segment,id)=>{
+        let airportData = getAirportByIataCode(segment.origin.iataCode);
+        if(airportData!==undefined && airportData.timezone){
+            segment.departureTimeUtc=segment.departureTime;
+            segment.departureTime=utcToZonedTime(segment.departureTime,airportData.timezone).toISOString();
+        }else{
+            throw new Error("Timezone definition not found for airport code:%s",segment.origin.iataCode);
+        }
+
+        airportData = getAirportByIataCode(segment.destination.iataCode);
+        if(airportData!==undefined && airportData.timezone){
+            segment.arrivalTimeUtc=segment.arrivalTime;
+            segment.arrivalTime=utcToZonedTime(segment.arrivalTime,airportData.timezone).toISOString();
+        }else{
+            throw new Error("Timezone definition not found for airport code:%s",segment.destination.iataCode);
+        }
+    });
+}
+
 
 
 module.exports={
-    enrichResponseWithDictionaryData,enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames
+    enrichResponseWithDictionaryData,enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames,replaceUTCTimeWithLocalAirportTime: convertUTCtoLocalAirportTime, setDepartureDatesToNoonUTC
 }

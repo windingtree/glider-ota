@@ -17,6 +17,7 @@
     "cookie": "^0.4.0",
     "csv-parser": "^2.3.2",
     "date-fns": "^2.10.0",
+    "date-fns-tz": "^1.0.10",
     "esm": "^3.2.25",
     "immutability-helper": "^3.0.2",
     "jquery": "^3.4.1",
