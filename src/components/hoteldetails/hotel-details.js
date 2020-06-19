@@ -104,7 +104,7 @@ export default function HotelDetails({hotel, searchResults}) {
     function redirectToPayment() {
         let offerId = selectedOffer.offerId
         let url = '/payment/' + offerId;
-        history.push(url);
+        history.push(url, { passengers: passengerDetails });
     }
 
     const offers = searchResults.offers;

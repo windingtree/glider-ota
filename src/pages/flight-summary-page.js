@@ -42,7 +42,7 @@ export default function FlightSummaryPage({match}) {
 
     function onProceedButtonClick(){
         let url='/payment/'+confirmedOffer.offerId;
-        history.push(url);
+        history.push(url, { passengers: passengerDetails });
     }
 
     console.debug("FlightSummaryPage, offerID:",offerId," offer from local storage:", offer)
