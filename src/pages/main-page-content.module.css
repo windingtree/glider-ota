@@ -1,19 +1,27 @@
-/*@import './src/styles/mixins.scss';*/
+@import '/src/styles/mixins';
 
-
-.imgmain{
+.imgmain {
+    width: 100%;
+    display: flex;
+    @include glider-media-small_576 {
+        width: 80%;
+    }
 }
 
 .content{
-    /*border: 1px solid red;*/
-    margin:auto;
+    /*margin:auto;*/
     padding-top:170px;
-    padding-left: 45px;
-    padding-right: 45px;
+    /*padding-left: 45px;*/
+    /*padding-right: 45px;*/
 }
 
 .alignCenter{
     text-align: center;
+}
+
+.padding{
+    padding-top: 170px;
+
 }
 
 /*

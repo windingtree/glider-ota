@@ -63,13 +63,7 @@ export default function HomePage() {
 
                 </Container>
             </div>
-            <Container fluid={true} className='root-container-mainpage'>
-                <Row>
-                    <MainPageContent/>
-                </Row>
-            </Container>
-
-
+            <MainPageContent/>
             <Footer/>
         </>)
 }
