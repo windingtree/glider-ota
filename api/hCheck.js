@@ -1,7 +1,7 @@
-const {MONGO_CONFIG,GLIDER_CONFIG,REDIS_CONFIG,SIMARD_CONFIG} = require('./_lib/config')
+const {GLIDER_CONFIG,SIMARD_CONFIG,GENERIC_CONFIG} = require('./_lib/config')
 const {decorate} = require('./_lib/decorators');
 const {insert,findOne} = require('./_lib/mongo-dao');
-const {client} = require('./_lib/session-storage');
+const {getClient} = require('./_lib/session-storage');
 const {v4} = require('uuid');
 const {createLogger} = require('./_lib/logger')
 const logger = createLogger('/debug')
@@ -10,6 +10,10 @@ var getNamespace = require('continuation-local-storage').getNamespace;
 var session = getNamespace('ota');
 
 const healthCheckController = async (req, res) => {
+    if(!GENERIC_CONFIG.ENABLE_HEALHCHECK){
+        return res.status(404).send('');
+    }
+
     let log = new StringBuffer();
     log.log("correlationID:"+session.get('correlationID'));
 
@@ -77,10 +81,10 @@ async function checkRedis(log){
     log.log("Adding test record to redis:"+JSON.stringify(record));
     let key='healthcheck_'+record.id;
     try{
-        await client.multi().set(key, record).expire(key, 60).exec();
+        await getClient().multi().set(key, record).expire(key, 60).exec();
         log.log("Record was added");
         log.log("Retrieving test record from redis");
-        let result = await client.get(key);
+        let result = await getClient().get(key);
         log.log("Retrieved record:"+result);
     }catch(err){
         log.log("Exception caught:"+err.message)

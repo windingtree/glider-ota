@@ -14,4 +14,3 @@ export default {
 
 
 export const Default = () => (<MaxNumberOfStopsFilter  onPredicateChanged={action("onPredicateChanged")} searchResults={searchResults}/>);
-export const Max5Stops = () => (<MaxNumberOfStopsFilter  maxStops={5} onPredicateChanged={action("onPredicateChanged")} searchResults={searchResults}/>);
