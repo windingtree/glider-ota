@@ -131,7 +131,7 @@ export default function HotelDetails({hotel, searchResults}) {
                             {
                                 _.map(rooms, (room, roomId) => {
                                     const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
-                                    return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers} onOfferSelected={handleSelectedOfferChange}/>)
+                                    return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers} onOfferSelected={handleSelectedOfferChange} selectedOffer={selectedOffer}/>)
                                 })
                             }
 
