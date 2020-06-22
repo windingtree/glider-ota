@@ -13,7 +13,7 @@ export default function LookupList({locations=[], onLocationSelected}){
         <Container className={style.list}>
             {locations.map(rec=>{
                 return (
-                    <Row noGutters={true} className={style.row} key={createKey(rec.primary,rec.secondary,rec.code)} onMouse={()=>console.log("onMouse")} onClick={event => selected(rec)}>
+                    <Row noGutters={true} className={style.row} key={createKey(rec.primary,rec.secondary,rec.code)} onClick={event => selected(rec)}>
                         <Col xs={9}  className={style.primaryText}>
                             {rec.primary} <span className={style.secondaryText}>{rec.secondary}</span>
                         </Col>
