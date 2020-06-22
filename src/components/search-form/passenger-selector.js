@@ -5,7 +5,7 @@ import {Button, Dropdown, Container, Row, Col, Form, FormCheck} from 'react-boot
 import {InputGroupRadio} from "react-bootstrap/InputGroup";
 import Alert from 'react-bootstrap/Alert';
 
-export default function PassengerSelector({adults, children, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false, maxPassengers}) {
+export default function PassengerSelector({adults, children, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false, maxPassengers, infantsAllowed = true}) {
 
     function handleChange(evt){
         console.log("handleChange",evt.target)
@@ -32,7 +32,7 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
                     console.log("Passenger type not implemented");
                 }
         }
-        
+
     }
 
     function decrease(type) {
@@ -144,7 +144,7 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
                                 <div className={style.paxSelectorSubtitle}>
                                     Under 2, lap infant
                                 </div>
-                                
+
                             </Col>
                             <Col xs={6} className={style.paxSelectorButtons}>
                                 <Button onClick={() => decrease('infants')} variant=' pax-btn-circle pax-btn-decrease' size='sm'>—</Button>
@@ -152,7 +152,7 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
                                 <Button onClick={() => increase('infants')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
                             </Col>
                         </Row>
-                        { infants > 0 && infantWarning()}
+                        { !infantsAllowed && infants > 0 && infantWarning()}
                         { maxPassengerReached && maxPassengersWarning() }
                         { hasOnlyMinors && unaccompaniedMinorWarning() }
                         { showCabin && (
