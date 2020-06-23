@@ -112,7 +112,7 @@ export default function FlightSummaryPage({match}) {
                     <>
                         <PaymentSummary offer = {confirmedOffer.offer}/>
                         <TotalPriceButton price={confirmedOffer.offer.price} proceedButtonTitle="Proceed to payment"
-                                          onProceedClicked={onProceedButtonClick}/>}
+                                          onProceedClicked={onProceedButtonClick}/>
                     </>
                     }
                 </div>

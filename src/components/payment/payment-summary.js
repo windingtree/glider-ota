@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import style from "./payment-summary.module.scss"
 import {Accordion, Card, Col, Container, Form, Row, Tab, Tabs, Button} from "react-bootstrap";
+import linkifyHtml from 'linkifyjs/html';
 
 
 export default function PaymentSummary({offer}) {
@@ -87,15 +88,6 @@ function Options({options}) {
     )
 }
 
-const replaceNewlineWithParagraph = (text) =>{
-    let lines = text.split('\n');
-    let result = [];
-    lines.map((line,idx) =>{
-        result.push(<p key={idx}>{line}</p>);
-    })
-    return result;
-}
-
 
 
 export function TermsFareRules({offer}){
@@ -124,7 +116,7 @@ export function TermsFareRules({offer}){
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
                     <Card.Body>
-                        <div className={style.termsText}>{replaceNewlineWithParagraph(terms)}</div>
+                        <div className={style.termsText} dangerouslySetInnerHTML={convertToParagraphsAndRemoveDupes(terms)}></div>
                     </Card.Body>
                 </Accordion.Collapse>
             </Card>
@@ -145,14 +137,14 @@ export function TermsFareRules({offer}){
 
 function FareRules({components=[]}) {
     let idx=0;
+    components=removeDuplicateFareRules(components);        //if there are two same rules (having same booking class, fare basis code, conditoions text and name) - keep only one
     return (
         <div className='fareRules'>
         <Tabs defaultActiveKey={idx} id="fare-rules" >
         {
             components.map((component)=>(
-                <Tab title={component.name + '('+component.designator+')' } eventKey={idx++} key={idx}>
-                    <div className={style.fareRulesText}>
-                        {replaceNewlineWithParagraph(component.conditions)}
+                <Tab title={ component.basisCode+" - "+component.name } eventKey={idx++} key={idx}>
+                    <div className={style.fareRulesText} dangerouslySetInnerHTML={convertToParagraphsAndRemoveDupes(component.conditions)}>
                     </div>
                 </Tab>
             ))
@@ -160,4 +152,40 @@ function FareRules({components=[]}) {
         </Tabs>
         </div>
     )
+}
+
+
+const convertToParagraphsAndRemoveDupes = (text) =>{
+    text = replaceTextLinksWithHrefs(text);     //convert "http://aircanada.com/blahblah" to "<a href='http://aircanada.com/blahblah' target=_blank>http://aircanada.com/blahblah</a>"
+    let lines = text.split('\n');
+    let result = [];
+    lines.map((line,idx) =>{
+        result.push("<p >"+line+"</p>");
+    })
+    // return result;
+    return {__html: result.join("")};
+}
+
+
+function replaceTextLinksWithHrefs(inputText){
+    return linkifyHtml(inputText)
+}
+
+function removeDuplicateFareRules(components)
+{
+    const uniqueComponents=[];
+    const isFareRuleAlreadyExisting = (component) => {
+        for(let i=0;i<uniqueComponents.length;i++){
+            const rule = uniqueComponents[i];
+            if(rule.name === component.name && rule.basisCode === component.basisCode && rule.designator === component.designator && rule.conditions === component.conditions)
+                return true;
+        }
+        return false;
+    }
+
+    components.forEach(component=>{
+        if(!isFareRuleAlreadyExisting(component))
+            uniqueComponents.push(component)
+    })
+    return uniqueComponents;
 }
