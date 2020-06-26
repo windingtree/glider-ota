@@ -187,7 +187,7 @@ export default function FlightSeatmapPage({match}) {
     };
 
     // Get the details of a cabin
-    const  getSeatMapCabin = (segmentKey) => {
+    const getSeatMapCabin = (segmentKey) => {
             // Destructure the API response
             const { cabins, prices } = indexedSeatmap[segmentKey];
 
