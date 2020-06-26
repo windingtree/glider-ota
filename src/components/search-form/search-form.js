@@ -145,7 +145,7 @@ function SearchForm(props){
             </Row>
             <Row>
               <Col xs={12}  md={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate}/></Col>
-              <Col xs={12} md={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false}/></Col>
+              <Col xs={12} md={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9}/></Col>
             </Row>
           </div>
           <div className={style.searchButtonContainer}>
