@@ -76,7 +76,7 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
                 <Alert variant='warning' className={style.passengerWarning}>
                     We are sorry, we do not support unaccompanied minors
                     bookings! We invite you to make a booking with an adult
-                    or call the airline's service center for this specific service.
+                    or call the service center for this specific service.
                 </Alert>
             </Row>
         );
