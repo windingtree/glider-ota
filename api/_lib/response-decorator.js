@@ -122,6 +122,8 @@ function increaseConfirmedPriceWithStripeCommission(repriceResponse){
     }
 }
 
+//add 5% on top of the total price to cover for OPC fee
+//FIXME - replace hardcoded commision with configurable value
 function _addOPCFee(price){
     return Number(price)*1.05;
 }
