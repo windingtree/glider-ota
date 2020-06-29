@@ -11,7 +11,7 @@ function enrichResponseWithDictionaryData(results){
     enrichAirportCodesWithAirportDetails(results);
     enrichOperatingCarrierWithAirlineNames(results);
     convertUTCtoLocalAirportTime(results);
-
+    increaseOfferPriceWithStripeCommission(results);
     results['metadata']={
         uuid:v4(),
         timestamp:new Date(),
@@ -101,7 +101,34 @@ function convertUTCtoLocalAirportTime(results){
 }
 
 
+function increaseOfferPriceWithStripeCommission(results){
+    let offers = _.get(results,'offers',{})
+    _.each(offers, (offer,id)=>{
+        let price = offer.price;
+        price.public=_roundToTwoDecimals(_addOPCFee(price.public));;
+    });
+}
 
+
+function increaseConfirmedPriceWithStripeCommission(repriceResponse){
+    if (repriceResponse && repriceResponse.offer && repriceResponse.offer.price){
+        let price = repriceResponse.offer.price;
+        let priceWithoutOpcFee = Number(price.public);
+        let priceWithOpcFee = _addOPCFee(price.public);
+        price.public=_roundToTwoDecimals(priceWithOpcFee);
+        price.publicWithoutFees=priceWithoutOpcFee;
+        let diff = _roundToTwoDecimals(priceWithOpcFee-priceWithoutOpcFee);
+        price.opcFee=diff;
+    }
+}
+
+function _addOPCFee(price){
+    return Number(price)*1.05;
+}
+
+function _roundToTwoDecimals(number){
+    return Math.round( number * 100 + Number.EPSILON ) / 100
+}
 module.exports={
-    enrichResponseWithDictionaryData,enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames,replaceUTCTimeWithLocalAirportTime: convertUTCtoLocalAirportTime, setDepartureDatesToNoonUTC
+    enrichResponseWithDictionaryData,enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames,replaceUTCTimeWithLocalAirportTime: convertUTCtoLocalAirportTime, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission
 }

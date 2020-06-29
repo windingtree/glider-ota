@@ -3,7 +3,7 @@ const _ = require('lodash');
 const axios = require('axios').default;
 const {GLIDER_CONFIG} = require('./config');
 const logger = createLogger('aggregator-api');
-const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC} = require('./response-decorator');
+const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission} = require('./response-decorator');
 const {createErrorResponse,ERRORS} = require ('./rest-utils');
 
 function createHeaders(token) {
@@ -105,7 +105,12 @@ async function reprice(offerId, options) {
         headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN),
         data : options ? options : [],
     });
-    logger.debug("Reprice response",response.data);
+    let repriceResponse = {};
+    if(response && response.data) {
+        repriceResponse = response.data;
+        increaseConfirmedPriceWithStripeCommission(repriceResponse)
+    }
+    logger.debug("Reprice response",repriceResponse);
     return response.data;
 }
 

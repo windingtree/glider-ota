@@ -10,13 +10,16 @@ export default {
     title: 'Payments/Payment summary',
 };
 
+
 const confirmedOffer = {
     "offerId": "e3efb841-5196-4ecd-a336-fb17c5f5dc5e",
     "offer": {
         "price": {
             "currency": "CAD",
-            "public": "178.21",
-            "taxes": "53.21"
+            "public": 529.62,
+            "taxes": "60.40",
+            "publicWithoutFees": 504.4,
+            "opcFee": 25.22
         },
         "pricedItems": [
             {
@@ -98,8 +101,10 @@ const confirmedOffer_multi_segment_with_seats = {
     "offer": {
         "price": {
             "currency": "CAD",
-            "public": "2492.76",
-            "taxes": "267.76"
+            "public": 529.62,
+            "taxes": "60.40",
+            "publicWithoutFees": 504.4,
+            "opcFee": 25.22
         },
         "pricedItems": [
             {
