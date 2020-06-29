@@ -118,7 +118,7 @@ function SearchForm(props){
           <div className={style.searchFormContainer}>
             <Row >
               <Col lg={6} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
-              <Col lg={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest'/></Col>
+              <Col lg={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true}/></Col>
             </Row>
             <Row>
               <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} startPlaceholder='Check in' endPlaceholder='Check out'/></Col>
@@ -145,7 +145,7 @@ function SearchForm(props){
             </Row>
             <Row>
               <Col xs={12}  md={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate}/></Col>
-              <Col xs={12} md={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants}/></Col>
+              <Col xs={12} md={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9}/></Col>
             </Row>
           </div>
           <div className={style.searchButtonContainer}>
