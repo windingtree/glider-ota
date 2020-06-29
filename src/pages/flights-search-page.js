@@ -85,10 +85,10 @@ export default function FlightsSearchPage({match, location, results}) {
             <Header violet={true}/>
             <div className='root-container-searchpage'>
                 <Row>
-                    <Col xs={0} lg={3} xl={2} className='d-none d-lg-block'>
+                    <Col xs={0} md={3} xl={2} className='d-none d-md-block'>
                         <Filters key={key} searchResults={searchResults}  onFiltersChanged={setFilters}/>
                     </Col>
-                    <Col xs={12} lg={9} xl={10}>
+                    <Col xs={12} md={9} xl={10}>
                         <FlightsSearchForm
                             onSearchButtonClick={onSearchButtonClick}
                             initAdults={initialParameters.adults}
