@@ -3166,3 +3166,39 @@ export const largeCabinSeatMapWithLargeGroup = () => (
 
 
 
+
+
+const cabinWithoutSelectableSeats = {
+    layout: 'ABC DEF',
+    name: 'VIP',
+    firstRow: 1,
+    lastRow: 2,
+    wingFirst: 1,
+    wingLast: 2,
+    seats: [
+    ],
+    prices: {
+        "A0": {
+            "currency": "CAD",
+            "public": "0.00",
+            "taxes": "0.00"
+        },
+        "A1": {
+            "currency": "CAD",
+            "public": "50.00",
+            "taxes": "0.00"
+        },
+    }
+};
+
+export const seatmapWithoutSelectableSeats = () => (
+    <SeatMap
+        cabin={cabinWithoutSelectableSeats}
+        segment={segmentOneStop}
+        passengers={adultAndChild}
+        initialPrice={1164.65}
+        currency='CAD'
+        handleSeatMapContinue={console.log}
+        handleSeatMapSkip={console.log}
+    />
+);
