@@ -71,7 +71,12 @@ body{
 .root-container-subpages{
   width:100%;
   margin: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+
   @include glider-media-medium_768{
+    padding-left: 0px;
+    padding-right: 0px;
     max-width: 830px;
   }
   @include glider-media-large_992{
