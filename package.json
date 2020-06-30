@@ -21,6 +21,7 @@
     "esm": "^3.2.25",
     "immutability-helper": "^3.0.2",
     "jquery": "^3.4.1",
+    "linkifyjs": "^2.1.9",
     "localstorage-cache": "^1.0.1",
     "lz-string": "^1.4.4",
     "mongodb": "^3.5.5",

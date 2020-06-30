@@ -9,7 +9,6 @@ header.modules.scss
   display: flex;
   padding-top: 45px;
   padding-bottom: 69px;
-
   @include glider-media-medium_768 {
     text-align: left;
     padding-top: 85px;

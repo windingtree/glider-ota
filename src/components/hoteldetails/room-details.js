@@ -6,7 +6,7 @@ import {Container, Row, Col, Button, Image} from 'react-bootstrap'
 import _ from 'lodash'
 import default_hotel_image from "../../assets/default_hotel_image.png";
 
-export default function Room({room, roomPricePlansWithOffers, onOfferSelected}) {
+export default function Room({room, roomPricePlansWithOffers, onOfferSelected, selectedOffer}) {
     return (
         <div className={style.roomContainer}>
             <div className={style.roomName} >{room.name}</div>
@@ -29,7 +29,7 @@ export default function Room({room, roomPricePlansWithOffers, onOfferSelected}) 
                             return (
                                 <RoomPricePlan key={key}
                                            offer={plan} room={room} pricePlan={plan.pricePlan}
-                                           onOfferSelected={onOfferSelected} />
+                                           onOfferSelected={onOfferSelected} selectedOffer={selectedOffer}/>
                             )
                         })
                     }
@@ -44,10 +44,16 @@ export default function Room({room, roomPricePlansWithOffers, onOfferSelected}) 
 }
 
 
-export function RoomPricePlan({offer, onOfferSelected, pricePlan, room}) {
+export function RoomPricePlan({offer, onOfferSelected, pricePlan, room, selectedOffer}) {
     // let room = offer.room;
     // let pricePlan = offer.pricePlan;
     let price = offer.price;
+
+    let isThisSelectedOffer = false;
+    if(selectedOffer){
+        if(selectedOffer.offerId === offer.offerId)
+            isThisSelectedOffer=true;
+    }
 
     return (<div className='d-flex flex-row flex-wrap border-bottom border-dark pb-3 mb-3'>
         <div className='glider-font-text18medium-fg d-flex flex-column flex-fill'>
@@ -60,7 +66,7 @@ export function RoomPricePlan({offer, onOfferSelected, pricePlan, room}) {
         <div>
             <div className='glider-font-text18medium-fg'>Total Price</div>
             <div className='glider-font-h2-fg mb-3'>{price.public} {price.currency} </div>
-            <div><Button onClick={() => onOfferSelected(offer)} variant="outline-primary" size="lg">Select room</Button></div>
+            <div><Button onClick={() => onOfferSelected(offer)} variant={isThisSelectedOffer?"primary":"outline-primary"} size="lg">Select room</Button></div>
         </div>
     </div>)
 }

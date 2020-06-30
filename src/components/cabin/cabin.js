@@ -68,7 +68,7 @@ export default function Cabin(props) {
         if(column === ' ') {
             return (<span className='aisle'>{row}</span>);
         }
-        
+
         // Another element
         else {
             // Retrieve the seat at this position
@@ -115,12 +115,12 @@ export default function Cabin(props) {
             if(firstRow < wingFirst) {
                 return (<td rowSpan={wingFirst - firstRow} className={airClass}></td>);
             }
-            
+
             // Row is already on the wing
             else {
                 return (<td rowSpan={wingLast - firstRow + 1} className={wingClass}></td>);
             }
-            
+
         }
 
         // If the row is just after the wing, it takes the rest of the rows
@@ -132,39 +132,52 @@ export default function Cabin(props) {
         return null;
     };
 
+    //if there are no seats in seatmap (e.g. codeshare flights), inform user about that
+    const seatSelectionNotAvailable = () => {
+        return ( <div className="alert alert-dark" role="alert">Unfortunately seat selection for this flight is not available.<br/>Please skip to the next flight</div>)
+    }
+
+    const renderCabinLayout = () =>{
+        return(
+        <table /*bordered*/ size="sm">
+            <thead>
+            <tr>
+                <th/>
+                { // Letters of the columns
+                    columns.map((column, c) => (
+                        <th key={c}>{column}</th>
+                    ))}
+                <th/>
+            </tr>
+            </thead>
+            <tbody>
+            { // Draw the rows
+                rows.map((row, r) => (
+                    <tr key={r}>
+                        {getWingCell(row, true)}
+                        { // Draw each element in the row
+                            columns.map((column,c) => (
+
+                                <td key={c}>
+                                    {getElement(row, column)}
+                                </td>
+
+                            ))}
+                        {getWingCell(row, false)}
+                    </tr>
+                ))}
+            </tbody>
+        </table>)
+    }
+
     // Render Component
     return (
 
         <div className='cabin'>
-            <table /*bordered*/ size="sm">
-                <thead>
-                    <tr>
-                    <th/>
-                    { // Letters of the columns
-                    columns.map((column, c) => (
-                        <th key={c}>{column}</th>
-                    ))}
-                    <th/>
-                    </tr>
-                </thead>
-                <tbody>
-                    { // Draw the rows
-                    rows.map((row, r) => (
-                        <tr key={r}>
-                            {getWingCell(row, true)}
-                            { // Draw each element in the row
-                            columns.map((column,c) => (
-                                
-                                <td key={c}>
-                                    {getElement(row, column)}
-                                </td>
-                                
-                            ))}
-                            {getWingCell(row, false)}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            {seats.length === 0 && seatSelectionNotAvailable()}
+            {seats.length > 0 && renderCabinLayout()}
+
+
         </div>
 
     );

@@ -203,7 +203,7 @@ class SessionStorage {
 }
 
 module.exports = {
-    SessionStorage
+    SessionStorage, getClient
 }
 
 

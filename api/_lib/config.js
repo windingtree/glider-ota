@@ -89,6 +89,14 @@ const ELASTIC_CONFIG =
         URL: getConfigKey('ELASTIC_URL'),
     };
 
+const GENERIC_CONFIG =
+    {
+        ENVIRONMENT: determineEnviroment(),
+        ENABLE_HEALHCHECK:(getConfigKey('HEALTHCHECK_ENABLE') === "yes")
+    };
+
+
+
 module.exports = {
     GLIDER_CONFIG,
     SIMARD_CONFIG,
@@ -97,4 +105,5 @@ module.exports = {
     STRIPE_CONFIG,
     ELASTIC_CONFIG,
     ORGID,
+    GENERIC_CONFIG
 };
