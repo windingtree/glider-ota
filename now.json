@@ -22,6 +22,7 @@
     "PRODUCTION_MONGO_URL": "@production.glider-ota.mongo.uri",
     "PRODUCTION_MONGO_DBNAME": "@production.glider-ota.mongo.dbname",
     "PRODUCTION_REDIS_HOST": "@production.glider-ota.redis.host",
+    "PRODUCTION_REDIS_PORT": "@production.glider-ota.redis.port",
     "PRODUCTION_REDIS_PASSWORD": "@production.glider-ota.redis.password",
     "PRODUCTION_STRIPE_PUBLISHABLE_KEY": "@production.glider-ota.stripe.publishable_key",
     "PRODUCTION_STRIPE_SECRET_KEY": "@production.glider-ota.stripe.secret_key",
