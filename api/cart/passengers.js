@@ -18,8 +18,8 @@ const shoppingCartController = async (req, res) => {
     }
     else if(method === 'GET') {
         let passengers = await shoppingCart.getItemFromCart(cartItemKey);
-        // if(passengers === null)
-        //     passengers={};//don't return "null" - return empty response
+        if(passengers === null)
+            passengers={};//don't return "null" - return empty response
         res.json(passengers);
     }
     else if(method === 'DELETE') {

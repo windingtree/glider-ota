@@ -17,18 +17,18 @@ export function FastCheapFilter({defaultValue = VALUE_PRICE, onToggle}) {
         onToggle(VALUE_DURATION);
     }
     return (
-        <Container className={style.fastCheapFilterToggle}>
-            <Row className={style.fastCheapFilterContainer}>
-                <Col xs={6} className="d-flex ">
-                    <Button className={style.fastCheapFilterToggleBtn}
+        <div className={style.fastCheapFilterToggle} fluid={true}>
+            <Row className={style.fastCheapFilterContainer} noGutters={true}>
+                <Col xs={6}>
+                    <Button className={style.fastCheapFilterToggleBtnCheapest}
                             variant={value == VALUE_PRICE ? "primary" : "outline-primary"} size="lg"
                             onClick={onPriceClick}>Cheapest</Button>
                 </Col>
-                <Col xs={6} className="d-flex ">
-                    <Button className={style.fastCheapFilterToggleBtn}
+                <Col xs={6}>
+                    <Button className={style.fastCheapFilterToggleBtnFastest}
                             variant={value == VALUE_DURATION ? "primary" : "outline-primary"} size="lg"
                             onClick={onDurationClick}>Fastest</Button>
                 </Col>
             </Row>
-        </Container>)
+        </div>)
 }
