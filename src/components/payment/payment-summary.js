@@ -18,6 +18,7 @@ export default function PaymentSummary({offer}) {
                     <Taxes items={pricedItem.taxes} title="Taxes, fees and charges" type="taxes"/>
                     <Fare items={pricedItem.fare} title="Air transportation taxes" type="fare"/>
                     {options && options.length >0 ? (<Options options={options}/>) : null}
+                    <OpcFee opcFee={totalPrice.opcFee}/>
                     <TermsFareRules offer={offer}/>
                     <div className={style.totalTitle}>GRAND TOTAL</div>
                     <div className={style.totalPrice}>{totalPrice.public}</div>
@@ -84,6 +85,17 @@ function Options({options}) {
                     </div>
                 ))
             }
+        </>
+    )
+}
+function OpcFee({opcFee}) {
+    return (
+        <>
+            <div className={style.itemTitle}>Fees</div>
+                    <div>
+                        <div className={style.itemName}>Card processing fee</div>
+                        <div className={style.itemPrice}>{opcFee}</div>
+                    </div>
         </>
     )
 }
