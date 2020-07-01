@@ -18,6 +18,7 @@
     "ELASTIC_URL": "@staging.glider-ota.elastic.url",
     "GLIDER_JWT": "@staging.glider-ota.glider_jwt",
     "SIMARD_JWT": "@staging.glider-ota.simard_jwt",
+    "HEALTHCHECK_ENABLE": "@staging.glider-ota.enable_healthcheck",
 
     "PRODUCTION_MONGO_URL": "@production.glider-ota.mongo.uri",
     "PRODUCTION_MONGO_DBNAME": "@production.glider-ota.mongo.dbname",
@@ -29,6 +30,7 @@
     "PRODUCTION_STRIPE_WEBHOOK_SECRET": "@production.glider-ota.stripe.webhook_secret",
     "PRODUCTION_ELASTIC_URL": "@production.glider-ota.elastic.url",
     "PRODUCTION_GLIDER_JWT": "@production.glider-ota.glider_jwt",
-    "PRODUCTION_SIMARD_JWT": "@production.glider-ota.simard_jwt"
+    "PRODUCTION_SIMARD_JWT": "@production.glider-ota.simard_jwt",
+    "PRODUCTION_HEALTHCHECK_ENABLE": "@production.glider-ota.enable_healthcheck"
   }
 }
