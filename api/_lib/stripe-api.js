@@ -27,6 +27,7 @@ async function createPaymentIntent(payment_method_type, amount, currency, confir
         payment_method_types:[payment_method_type],
         amount: amount,
         currency: currency,
+        capture_method: 'manual',
         metadata:{
             confirmedOfferId:confirmedOfferId
         }

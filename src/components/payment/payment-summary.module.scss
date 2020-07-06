@@ -36,3 +36,36 @@
   @include _glider-font-text24medium;
   text-align: right;
 }
+
+//*************Fare fules****************
+
+.fareRules{
+}
+
+.fareRulesText{
+  @include _glider-font-text12;
+  padding-top: 20px;
+}
+
+:global(div.fareRules > nav > a){
+  @include _glider-font-text12;
+}
+:global(div.fareRules > tab-content){
+
+}
+
+ //*************terms and conditions****************
+
+:global(div.termsconditions  .card-header){
+  padding: 0px;
+}
+:global(.card-header > button){
+}
+
+.termsTitle{
+  @include _glider-font-text12;
+}
+
+.termsText{
+  @include _glider-font-text12;
+}

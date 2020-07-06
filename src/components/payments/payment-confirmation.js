@@ -29,7 +29,7 @@ export default function PaymentConfirmation({orderID}) {
     function checkOrderStatus(orderIdentifier) {
         setCheckStatus(CONFIRMATION_STATUS.PENDING);
         let now = new Date();
-        
+
         // If timeout is exceeded, stop
         if((now - firstCheck) > MAX_CONFIRMATION_WAIT_TIME_MILLIS) {
             stopCheckingInFuture();
@@ -73,6 +73,7 @@ export default function PaymentConfirmation({orderID}) {
 
         switch (orderStatus){
             case 'NEW':
+            case 'FULFILLING':
                 setCheckStatus(CONFIRMATION_STATUS.PENDING);
                 checkStatusInFuture();
                 break;
@@ -85,7 +86,8 @@ export default function PaymentConfirmation({orderID}) {
                 stopCheckingInFuture();
                 break;
             default:
-                console.error("Unknown order status:",orderStatus)
+                console.error("Unknown order status:",orderStatus);
+                stopCheckingInFuture();//fail fast to avoid endless loop
         }
     }
 
@@ -129,7 +131,7 @@ export default function PaymentConfirmation({orderID}) {
                 We are sorry, your booking confirmation is taking longer than usual.<br/>
                 Once your booking is created, you will receive an email with your confirmation.
             </p>
-            <Button 
+            <Button
                 onClick={retryCheck}
                 variant='primary'>Refresh Status
             </Button>
@@ -142,7 +144,7 @@ export default function PaymentConfirmation({orderID}) {
 
         // Get the bookings from travel document
         if(confirmation.travelDocuments &&
-            Array.isArray(confirmation.travelDocuments.bookings)) 
+            Array.isArray(confirmation.travelDocuments.bookings))
         {
             bookings = confirmation.travelDocuments.bookings
         }
@@ -151,7 +153,7 @@ export default function PaymentConfirmation({orderID}) {
         if(confirmation.order && confirmation.order.reservationNumber) {
             bookings.push(confirmation.order.reservationNumber);
         }
-        
+
         return (
             <Alert variant="success">
                 <Alert.Heading>Your booking confirmation number{bookings.length > 1 ? 's are' : ' is'} <b>{bookings.join(', ')}</b></Alert.Heading>

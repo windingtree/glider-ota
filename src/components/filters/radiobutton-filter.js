@@ -2,22 +2,17 @@ import React, {useState} from 'react';
 import style from "./selection-filter.module.scss"
 import {Form} from "react-bootstrap";
 
-export function SelectionFilter({title = 'title', filterItems, onItemCheckStateChange, onFilterStateChanged, firstItemMutuallyExclusive}) {
+export function RadiobuttonFilter({title = 'title', filterItems, onItemCheckStateChange, onFilterStateChanged}) {
     const [items, setItems] = useState(filterItems)
     function onChange(itemIdx, item, checked) {
         let newItems = Object.assign([],items);
         newItems[itemIdx].selected=checked;
-        if(firstItemMutuallyExclusive) {
-            if(itemIdx === 0){
-                //first items was checked(unchecked), uncheck(check) remaining items
-                for(let idx=1;idx<newItems.length;idx++)
-                    newItems[idx].selected=!checked;
-            }else{
-                //if any of remaining item was checked, uncheck(check) first item
-                // if(checked)
-                    newItems[0].selected=false;
-            }
-        }
+        newItems.forEach(newItem=>{
+            if(newItem.key === item.key)
+                newItem.selected = true;
+            else
+                newItem.selected = false;
+        })
         setItems(newItems);
 
         if(onItemCheckStateChange)
@@ -35,13 +30,15 @@ export function SelectionFilter({title = 'title', filterItems, onItemCheckStateC
     let checkboxes = [];
     for(let idx=0;idx<items.length;idx++){
         let item = items[idx];
-        checkboxes.push(<span onClick={console.log("Click")} key={idx}>
+        checkboxes.push(<span >
                             <Form.Check
-                                    // id={item.key}
+                                type={'radio'}
+                                    id={item.key}
+                                    name='group'
                                     className={style.filterCheckbox}
                                     checked={item.selected===true}
                                     label={item.display}
-                                    onChange={(event) => onChange(idx, item, event.target.checked)} /></span>)
+                                    onClick={(event) => onChange(idx, item, event.target.checked)} /></span>)
     }
 
 
@@ -50,7 +47,9 @@ export function SelectionFilter({title = 'title', filterItems, onItemCheckStateC
         <div className={style.filter}>
             <div className={style.filterTitle}>{title}</div>
             <div className={style.filterContainer}>
+                <fieldset>
                 {checkboxes}
+                </fieldset>
             </div>
         </div>
     )

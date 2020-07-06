@@ -128,3 +128,17 @@
     display: inline;
 }
 
+.layoverBorder{
+    border-top: 1px solid #BBBBBB;
+}
+.layoverTitle{
+    @include _glider-font-text24medium;
+    color: $glider-color-primary;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.layoverText{
+    @include _glider-font-text16;
+    padding-bottom: 20px;
+}

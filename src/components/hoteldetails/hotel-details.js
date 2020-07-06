@@ -104,7 +104,7 @@ export default function HotelDetails({hotel, searchResults}) {
     function redirectToPayment() {
         let offerId = selectedOffer.offerId
         let url = '/payment/' + offerId;
-        history.push(url);
+        history.push(url, { passengers: passengerDetails });
     }
 
     const offers = searchResults.offers;
@@ -131,7 +131,7 @@ export default function HotelDetails({hotel, searchResults}) {
                             {
                                 _.map(rooms, (room, roomId) => {
                                     const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
-                                    return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers} onOfferSelected={handleSelectedOfferChange}/>)
+                                    return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers} onOfferSelected={handleSelectedOfferChange} selectedOffer={selectedOffer}/>)
                                 })
                             }
 

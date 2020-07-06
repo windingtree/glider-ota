@@ -6,7 +6,7 @@ import {Button} from "react-bootstrap";
 import PaxSummary from "../components/passengers/pax-summary";
 import {repriceShoppingCartContents, retrievePassengerDetails} from "../utils/api-utils";
 import TotalPriceButton from "../components/common/totalprice/total-price";
-import PaymentSummary from "../components/payment/payment-summary";
+import PaymentSummary, {TermsFareRules} from "../components/payment/payment-summary";
 import {RouteOverview} from "../components/flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import Alert from 'react-bootstrap/Alert';
@@ -42,7 +42,7 @@ export default function FlightSummaryPage({match}) {
 
     function onProceedButtonClick(){
         let url='/payment/'+confirmedOffer.offerId;
-        history.push(url);
+        history.push(url, { passengers: passengerDetails });
     }
 
     console.debug("FlightSummaryPage, offerID:",offerId," offer from local storage:", offer)
@@ -108,8 +108,13 @@ export default function FlightSummaryPage({match}) {
                     {loadInProgress && <RenderPleaseWait/>}
                     {pricingFailed && PricingErrorAlert()}
                     {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}
-                    {confirmedOffer && <PaymentSummary totalPrice={confirmedOffer.offer.price} pricedItems={confirmedOffer.offer.pricedItems} options={confirmedOffer.offer.options}/>}
-                    {confirmedOffer && <TotalPriceButton price={confirmedOffer.offer.price} proceedButtonTitle="Proceed to payment" onProceedClicked={onProceedButtonClick}/>}
+                    {confirmedOffer &&
+                    <>
+                        <PaymentSummary offer = {confirmedOffer.offer}/>
+                        <TotalPriceButton price={confirmedOffer.offer.price} proceedButtonTitle="Proceed to payment"
+                                          onProceedClicked={onProceedButtonClick}/>
+                    </>
+                    }
                 </div>
                 <Footer/>
 

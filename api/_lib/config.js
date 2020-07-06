@@ -43,11 +43,11 @@ const GLIDER_CONFIG =
         SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
         REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
         FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
-        ORGID: getConfigKey('GLIDER_ORGID') || "0x71cd1781a3082f33d2521ac8290c9d4b3b3b116e4e8548a4914b71a1f7201da0",
+        ORGID: getConfigKey('GLIDER_ORGID'),
     };
 
 const ORGID = {
-    OTA_ORGID: getConfigKey('OTA_ORGID') || "0x08fffc14df93a305f1bbc2ee26171885fee80181445d8923ab84892953c093f2",
+    OTA_ORGID: getConfigKey('OTA_ORGID'),
 }
 
 const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL') || `https://${enviroment}.api.simard.io/api/v1`;
@@ -89,6 +89,14 @@ const ELASTIC_CONFIG =
         URL: getConfigKey('ELASTIC_URL'),
     };
 
+const GENERIC_CONFIG =
+    {
+        ENVIRONMENT: determineEnviroment(),
+        ENABLE_HEALHCHECK:(getConfigKey('HEALTHCHECK_ENABLE') === "yes")
+    };
+
+
+
 module.exports = {
     GLIDER_CONFIG,
     SIMARD_CONFIG,
@@ -97,4 +105,5 @@ module.exports = {
     STRIPE_CONFIG,
     ELASTIC_CONFIG,
     ORGID,
+    GENERIC_CONFIG
 };
