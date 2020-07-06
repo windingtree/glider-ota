@@ -51,7 +51,6 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
 
 
     function selectOffer(offerId){
-        console.log("selectOffer",offerId)
         //TODO fixme
         if(offerId!='UNKNOWN')
             onOfferSelected(offerId)

@@ -109,7 +109,6 @@ export default class SearchCriteriaBuilder {
       request.accommodation = this.buildAccomodationRequest();
     }
 
-    console.log(JSON.stringify(request))
     return request
   }
   boundingBox(lat,long, distanceInKm)

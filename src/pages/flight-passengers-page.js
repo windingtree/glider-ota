@@ -119,7 +119,6 @@ export default function FlightPassengersPage({match}) {
         });
         return passengers;
     }
-    console.debug("FlightPassengersPage, render")
     return (
         <>
             <div>

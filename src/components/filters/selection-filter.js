@@ -35,7 +35,7 @@ export function SelectionFilter({title = 'title', filterItems, onItemCheckStateC
     let checkboxes = [];
     for(let idx=0;idx<items.length;idx++){
         let item = items[idx];
-        checkboxes.push(<span onClick={console.log("Click")} key={idx}>
+        checkboxes.push(<span key={idx}>
                             <Form.Check
                                     // id={item.key}
                                     className={style.filterCheckbox}

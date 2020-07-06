@@ -69,7 +69,8 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
         let segment=segments[s];
         if(prevSegment)
             items.push(<LayoverInfo prevSegment={prevSegment} nextSegment={segment}/>);
-        items.push(<SegmentDetails segment={segment}/>);
+        let segmentKey = segment.departureTime+segment.origin.flightNumber+segment.destination.flightNumber;
+        items.push(<SegmentDetails key={segmentKey} segment={segment} />);
         prevSegment=segment;
     }
 
