@@ -21,7 +21,7 @@ function initializePriceFilterState(searchResults, numberOfNights) {
     let maxPrice = 0;
     let currencyCode; //FIXME: naive detection of currency code based on first offer currency
 
-    if (!searchResults || !searchResults.offers)
+    if (!searchResults || !searchResults.offers || Object.keys(searchResults.offers).length === 0)
         return filterState;
     let offers = searchResults.offers;
 
