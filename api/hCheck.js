@@ -10,9 +10,9 @@ var getNamespace = require('continuation-local-storage').getNamespace;
 var session = getNamespace('ota');
 
 const healthCheckController = async (req, res) => {
-    if(!GENERIC_CONFIG.ENABLE_HEALHCHECK){
+/*    if(!GENERIC_CONFIG.ENABLE_HEALHCHECK){
         return res.status(404).send('');
-    }
+    }*/
 
     let log = new StringBuffer();
     log.log("correlationID:"+session.get('correlationID'));
