@@ -158,7 +158,8 @@ function processWebhookEvent(event) {
             logger.debug('Payment failed!')
             return processPaymentFailure(confirmedOfferId, event)
 
-        case 'payment_intent.succeeded':
+        // case 'payment_intent.succeeded': //
+        case 'charge.succeeded':
             logger.debug('Payment was successful!')
             return processPaymentSuccess(confirmedOfferId, event);
         

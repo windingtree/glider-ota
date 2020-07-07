@@ -16,7 +16,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     const [searchQueryTimeout, setSearchQueryTimeout] = useState();
     const [focus,setFocus] = useState(false);
 
-    useEscape(() => {console.log("ESCAPE clicked");setFocus(false)})
+    useEscape(() => {setFocus(false)})
     function handleLocationSelected(location) {
         setSelectedLocation(location);
         setValue(location.primary);
@@ -33,12 +33,10 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     }
 
     function handleOnBlur(event) {
-        console.log("Blur")
         setFocus(false)
         clearSelectedLocation();
     }
     function handleOnChange(event) {
-        console.log("Change")
         const enteredText = event.target.value;
         clearSelectedLocation();
         if(searchQueryTimeout!=undefined){
@@ -56,7 +54,6 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     }
 
     function handleOnFocus(event) {
-        console.log("focus")
         setFocus(true)
         event.target.select();
     };

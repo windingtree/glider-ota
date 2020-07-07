@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 export default function LookupList({locations=[], onLocationSelected}){
     let key = 0;
     function selected(rec){
-        console.log("Location selected,",rec)
         onLocationSelected(rec)
     }
     return (

@@ -17,7 +17,7 @@ export function FastCheapFilter({defaultValue = VALUE_PRICE, onToggle}) {
         onToggle(VALUE_DURATION);
     }
     return (
-        <div className={style.fastCheapFilterToggle} fluid={true}>
+        <div className={style.fastCheapFilterToggle}>
             <Row className={style.fastCheapFilterContainer} noGutters={true}>
                 <Col xs={6}>
                     <Button className={style.fastCheapFilterToggleBtnCheapest}

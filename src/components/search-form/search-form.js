@@ -211,11 +211,9 @@ export async function searchForFlightsWithCriteria(criteria){
 
 export async function searchForFlights(originCode, destinationCode, departureDate, returnDate, adults, children, infants){
   let searchRequest;
-  console.log("searchForFlights(.,.,.,.,.), originCode",originCode,"destinationCode",destinationCode)
   // if(!config.OFFLINE_MODE) { //no need to fill search criteria in OFFLINE_MODE
     searchRequest = buildFlightsSearchCriteria(originCode, destinationCode, departureDate, returnDate, adults, children, infants);
   // }
-  console.log("searchForFlights(.,.,.,.,.), searchRequest",searchRequest)
   return findFlights(searchRequest);
 }
 

@@ -30,7 +30,7 @@ export function RadiobuttonFilter({title = 'title', filterItems, onItemCheckStat
     let checkboxes = [];
     for(let idx=0;idx<items.length;idx++){
         let item = items[idx];
-        checkboxes.push(<span >
+        checkboxes.push(<span key={item.key}>
                             <Form.Check
                                 type={'radio'}
                                     id={item.key}

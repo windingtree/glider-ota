@@ -10,7 +10,6 @@ import Footer from "../components/common/footer/footer";
 
 
 export default function FlightTripOverviewPage({match}) {
-    console.debug("FlightTripOverviewPage, match:",match)
     let history = useHistory();
     let offerId = match.params.offerId;
 
