@@ -113,7 +113,6 @@ const mergeRoundTripOffers = (searchResults) => {
  */
 export default function extendResponse(response){
     if(response && ('metadata' in response) && ('postprocessed' in response.metadata)){
-        console.debug("Response was already extended -ignoring this")
         return response;
     }
     let copy = Object.assign({},response)
@@ -128,7 +127,6 @@ export default function extendResponse(response){
     if(!copy.metadata)
         copy.metadata={};
     copy.metadata['postprocessed']=true;
-    console.info(`Search results extender, time:${end-start}ms`);
     /*
     Object.keys(copy.offers).forEach(offerId => {
       const offer = copy.offers[offerId];

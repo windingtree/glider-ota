@@ -159,7 +159,7 @@ export default function FlightSeatmapPage({match}) {
                 segmentKey = flights[1][segmentIndex - flights[0].length];
                 currentFlight = flights[1];
             }
-            console.info(`[SEATMAP PAGE] Guess segment is ${segmentKey}`);
+            // console.info(`[SEATMAP PAGE] Guess segment is ${segmentKey}`);
         }
 
         // Retrieve segments associated with current flight

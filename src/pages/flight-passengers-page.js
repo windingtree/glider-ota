@@ -69,7 +69,7 @@ export default function FlightPassengersPage({match}) {
         setIsLoading(true);
         let results = storePassengerDetails(passengerDetails);
             results.then((response) => {
-                console.debug("Successfully saved pax details", response);
+                // console.debug("Successfully saved pax details", response);
                 redirectToSeatmap();
          }).catch(err => {
              console.error("Failed to store passenger details", err);
@@ -119,7 +119,6 @@ export default function FlightPassengersPage({match}) {
         });
         return passengers;
     }
-    console.debug("FlightPassengersPage, render")
     return (
         <>
             <div>

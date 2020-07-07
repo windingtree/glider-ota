@@ -158,7 +158,8 @@ function processWebhookEvent(event) {
             logger.debug('Payment failed!')
             return processPaymentFailure(confirmedOfferId, event)
 
-        case 'payment_intent.succeeded':
+        // case 'payment_intent.succeeded': //
+        case 'charge.succeeded':
             logger.debug('Payment was successful!')
             return processPaymentSuccess(confirmedOfferId, event);
         
@@ -205,14 +206,15 @@ function processPaymentFailure(confirmedOfferId, webhookEvent) {
  * @param webhookEvent
  * @returns {Promise<void>}
  */
+
 function processPaymentSuccess(confirmedOfferId, webhookEvent) {
     return new Promise(function(resolve, reject) {
         logger.info("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.PAID, confirmedOfferId);
-        
+
         // Extract relevant details from Stripe
         let paymentDetails;
         try {
-            const chargeDetails = webhookEvent.data.object.charges.data[0];
+            const chargeDetails = webhookEvent.data.object;
             paymentDetails = {
                 card: {
                     brand: chargeDetails.payment_method_details.card.brand,

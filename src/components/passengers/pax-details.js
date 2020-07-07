@@ -18,7 +18,7 @@ export default function PaxDetails({passengers, onDataChange, highlightInvalidFi
         let allPaxValid = paxListCopy.reduce((valid, pax) =>{
             return valid && pax.isValid;
         }, true);
-        console.log("new passenger details:",passengerRecord);
+        // console.log("new passenger details:",passengerRecord);
 
         // setPassengersList(paxListCopy)
         onDataChange(paxListCopy, allPaxValid)
