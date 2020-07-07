@@ -14,10 +14,7 @@ export default function YourChoice({hotel, price, room}){
                 {room.name}
             </div>
             <div className={style.price}>
-                {price.public} {price.currency} for [X] nights
-            </div>
-            <div className={style.guestInfo}>
-               Guest 1
+                {price.public} {price.currency} total
             </div>
             <div>
                 <CheckinPolicy checkinoutPolicy={hotel.checkinoutPolicy}/>

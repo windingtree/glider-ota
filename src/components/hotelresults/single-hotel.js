@@ -17,7 +17,7 @@ export default function SingleHotel({hotel, bestoffer, handleClick}){
             <Col>
                 <Container >
                     <Row className={style.hotelname}>{hotel.name}</Row>
-                    <Row className={style.address}>[Moscow, Olympic St 14]</Row>
+                    <Row className={style.address}><HotelAddress hotel={hotel}/></Row>
                     <Row className={style.description}>{extractShortInfoFromHotelDescription(hotel.description,100)}</Row>
                     <Row noGutters={true}>
                         <Col md={8} xs={12}>{bestPrice && <HotelPrice price={bestPrice}/>}</Col>
@@ -47,3 +47,13 @@ function HotelFullyBooked(){
 const extractShortInfoFromHotelDescription = (description, maxlen)=>{
         return description.slice(0,Math.min(maxlen,description.length));
 }
+
+function HotelAddress({hotel}){
+    if (hotel && hotel.contactInformation && hotel.contactInformation.address){
+        const address = hotel.contactInformation.address;
+        return (<>{address.streetAddress}, {address.locality}</>)
+    }else{
+        return (<></>)
+    }
+}
+
