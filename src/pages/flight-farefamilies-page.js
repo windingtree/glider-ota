@@ -22,11 +22,7 @@ export default function FlightFareFamiliesPage({match}) {
     if(!history.location.state.baselineFare){
         //it's the first load of 'fare families' page - we need to store fare selected by the user on the search result page in order to display incremental amount to be paid for each fare family
         history.location.state.baselineFare=selectedOffer.price;
-        console.debug("baselineFare was not set - setting it to ",selectedOffer.price)
-    }else{
-        console.debug("baselineFare was already set ",history.location.state.baselineFare)
     }
-
     function onProceedButtonClick() {
         let url = '/flights/passengers/' + offerId;
         history.push(url, { passengers: passengers });
@@ -36,7 +32,6 @@ export default function FlightFareFamiliesPage({match}) {
         let offer=searchResultsWrapper.getOffer(offerId);
         let results = storeSelectedOffer(offer);
         results.then((response) => {
-            console.debug("Selected offer successfully added to a shopping cart", response);
         }).catch(err => {
             console.error("Failed to add selecteed offer to a shopping cart", err);
             //TODO - add proper error handling (show user a message)
@@ -71,7 +66,6 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
     const passengers = history.location.state && history.location.state.passengers;
     let baselineFare = history.location.state.baselineFare;
     function handleSelectedOfferChange(offerId) {
-        console.debug("Selected offer changed, new offerID", offerId)
         displayOffer(offerId);
         onSelectedOfferChange(offerId)
     }

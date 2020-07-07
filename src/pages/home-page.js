@@ -18,7 +18,6 @@ const SEARCH_TYPE={
 
 
 function createURL(route,criteria){
-    console.log("Criteria:",criteria)
     let departureDate=dateToStr(criteria.departureDate,'');
     let returnDate=dateToStr(criteria.returnDate,'');
     let params={

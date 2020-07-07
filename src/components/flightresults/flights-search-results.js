@@ -18,7 +18,6 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
     const [sortType, setSortType] = useState('PRICE');
 
     function handleOfferDisplay(offerId) {
-        console.log("handleOfferDisplay", offerId);
         onOfferDisplay(offerId);
     }
 
@@ -41,7 +40,6 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
         let endIdx = currentPage * ITEMS_PER_PAGE;
         if (endIdx >= totalCount)
             endIdx = totalCount;
-        console.debug(`Paging, total:${totalCount}, active page:${currentPage}, items per page:${ITEMS_PER_PAGE}, startIdx:${startIdx}, endIdx:${endIdx}`);
         return records.slice(startIdx, endIdx)
     }
 

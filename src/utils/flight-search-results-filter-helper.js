@@ -22,11 +22,9 @@ export class FlightSearchResultsFilterHelper {
         let trips={};
         //extract all available offers from search results
         let offers=this.searchResultsWrapper.getAllOffers();
-        console.debug(`Filter stats: total offers count:${Object.keys(offers).length}`);
 
         //apply "offer level" filters (e.g. price range or baggage allowance to limit the amount of offers to process in next steps
         offers = this.applyOfferFilters(offers,filters);
-        console.debug(`Filter stats: offers count after offer level filters:${Object.keys(offers).length}`);
 
         //now iterate over each offer,
         // calculate basic metadata (e.g. trip duration, number of stops, operating carriers)
@@ -64,9 +62,7 @@ export class FlightSearchResultsFilterHelper {
         })
         let tripArray=[];
         Object.keys(trips).forEach(tripId=>tripArray.push(trips[tripId]));
-        console.debug(`Filter stats: trip count before trip level filters:${tripArray.length}`);
         tripArray = this.applyTripFilters(tripArray,filters);
-        console.debug(`Filter stats: trip count after trip level filters:${tripArray.length}`);
         tripArray = this.sortTrips(tripArray, sortBy);
         return tripArray;
     }
@@ -97,11 +93,9 @@ export class FlightSearchResultsFilterHelper {
             else return 0;
         }
         if(sortBy === 'PRICE') {
-            console.debug('Sorting by price')
             trips.sort(priceComparator)
         }
         else {
-            console.debug('Sorting by duration')
             trips.sort(durationComparator);
         }
         return trips;
@@ -235,7 +229,6 @@ export class FlightSearchResultsFilterHelper {
 
     checkMaxStopsFilter(filterState, itineraries) {
         if (filterState['ALL'] && filterState['ALL'] === true) {
-            console.log("ALL selected - all offers valid")
             return true;
         }
 

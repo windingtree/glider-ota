@@ -45,7 +45,6 @@ export default function FlightSummaryPage({match}) {
         history.push(url, { passengers: passengerDetails });
     }
 
-    console.debug("FlightSummaryPage, offerID:",offerId," offer from local storage:", offer)
 
     function onEditFinished(){
         loadPassengerDetailsFromServer();
@@ -67,10 +66,8 @@ export default function FlightSummaryPage({match}) {
         setPricingFailed(false);
         let response=repriceShoppingCartContents();
         response.then(offer=>{
-            console.log("Repriced offer:", offer);
             setConfirmedOffer(offer)
         }).catch(err=>{
-            console.error("Failed to reprice cart", err);
             setPricingFailed(true);
         }).finally(()=>{
             setLoadInProgress(false)

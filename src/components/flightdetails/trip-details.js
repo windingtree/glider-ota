@@ -62,16 +62,22 @@ export function ItineraryDetails({itinerary, header='Departure flight'}) {
             a.getMonth() === b.getMonth() &&
             a.getDate() === b.getDate();
     }
+    const createSegmentKey = (segment) =>{
+        return segment.departureTime+segment.origin.flightNumber+segment.destination.flightNumber;
+    }
+
+
     let items=[];
     let prevSegment;
     for(let s=0;s<segments.length;s++)
     {
         let segment=segments[s];
         if(prevSegment)
-            items.push(<LayoverInfo prevSegment={prevSegment} nextSegment={segment}/>);
-        items.push(<SegmentDetails segment={segment}/>);
+            items.push(<LayoverInfo prevSegment={prevSegment} nextSegment={segment} key={createSegmentKey(prevSegment)}/>);
+        items.push(<SegmentDetails key={createSegmentKey(segment)} segment={segment} />);
         prevSegment=segment;
     }
+
 
     return (
         <>

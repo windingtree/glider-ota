@@ -31,7 +31,6 @@ export default function FlightsSearchPage({match, location, results}) {
 
     const onSearchButtonClick = (criteria) => {
         onSearchStart();
-        console.log("Search criteria:",criteria)
         searchForFlightsWithCriteria(criteria)
             .then(results=>{
                 uiEvent("/flights, search completed");
@@ -41,7 +40,6 @@ export default function FlightsSearchPage({match, location, results}) {
                 onSearchFailure(err)})
     };
     const onSearchSuccess = (results) => {
-        console.debug("Search completed, results to be displayed:", results)
         setFilters({});
         setSearchResults(results);
         setSearchState(SEARCH_STATE.FINISHED);
@@ -77,7 +75,6 @@ export default function FlightsSearchPage({match, location, results}) {
     let key = '';
     if(searchResults && searchResults.metadata && searchResults.metadata.uuid)
         key=searchResults.metadata.uuid;
-    console.debug("Render flight results")
 
     return (
 
