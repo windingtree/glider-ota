@@ -115,7 +115,7 @@ const WarningNoResults = () => {
            <span role='img' aria-label='sorry'> 😢</span>
        </Alert.Heading>
        <p>
-           Glider has been launched with our amazing partner <b><a href='https://www.nordicchoicehotels.com/'>Nordic Choice Hotels</a></b>,
+           Glider has been launched with our amazing partner <b><a href='https://www.nordicchoicehotels.com/' target="_blank">Nordic Choice Hotels</a></b>,
            so for now we have only results in the Nordics <span role='img' aria-label='flags'>🇸🇪🇳🇴🇫🇮</span>!
            Why not going there?
        </p>

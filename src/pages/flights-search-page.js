@@ -134,7 +134,7 @@ const WarningNoResults = () => {
             <span role='img' aria-label='sorry'> 😢</span>
         </Alert.Heading>
         <p>
-            Glider has been launched with our amazing partner <b><a href='https://aircanada.com'>Air Canada</a></b>,
+            Glider has been launched with our amazing partner <b><a href='https://aircanada.com' target="_blank">Air Canada</a></b>,
             so for now we have only results flying to, from or over Canada 🇨🇦! Why not going there?
         </p>
         <hr />

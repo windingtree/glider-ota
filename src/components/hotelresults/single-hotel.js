@@ -6,12 +6,9 @@ import default_hotel_image from "../../assets/default_hotel_image.png";
 
 export default function SingleHotel({hotel, bestoffer, handleClick}){
     const image=(hotel.media!==undefined && hotel.media.length>0)?hotel.media[0].url:default_hotel_image;
-    let bestPrice = bestoffer.price;
-    if(!bestPrice)
-        bestPrice = {
-            public:123,
-            currency:'CAD'
-        }
+    let bestPrice;
+    if(bestoffer && bestoffer.price)    //if there is no availability for a hotel (e.g. all rooms booked), there won't be any offer but we still want to show the hotel
+        bestPrice = bestoffer.price;
     return(
         <Container  className={style.container}>
         {/*<Container  className="hotel-search-offer__container d-flex flex-row flex-wrap p-3">*/}
@@ -23,8 +20,11 @@ export default function SingleHotel({hotel, bestoffer, handleClick}){
                     <Row className={style.address}>[Moscow, Olympic St 14]</Row>
                     <Row className={style.description}>{extractShortInfoFromHotelDescription(hotel.description,100)}</Row>
                     <Row noGutters={true}>
-                        <Col md={8} xs={12}><HotelPrice price={bestPrice}/> </Col>
-                        <Col className="align-self-end "><Button className="w-100" variant="outline-primary" size="lg" onClick={() => { handleClick(hotel)}}>select</Button></Col>
+                        <Col md={8} xs={12}>{bestPrice && <HotelPrice price={bestPrice}/>}</Col>
+                        <Col className="align-self-end ">
+                            {bestPrice && <Button className="w-100" variant="outline-primary" size="lg" onClick={() => { handleClick(hotel)}}>select</Button>}
+                            {!bestPrice && <HotelFullyBooked/>}
+                        </Col>
                     </Row>
                 </Container>
             </Col>
@@ -32,10 +32,14 @@ export default function SingleHotel({hotel, bestoffer, handleClick}){
         </Container>)
 }
 
-function HotelPrice({price}){
+const HotelPrice = ({price}) => {
     return (<div className={style.price}>
         from <span className='glider-font-h2-fg'>{price.public} {price.currency}</span> per night
     </div>)
+}
+
+function HotelFullyBooked(){
+    return (<div className='alert alert-secondary small'>Unfortunately we do not have availability at requested dates</div>)
 }
 
 
