@@ -23,7 +23,7 @@ function initializeAmenitiesFilterState(searchResults) {
     Object.keys(searchResults.accommodations).map(hotelId => {
         let hotel = searchResults.accommodations[hotelId];
         let rooms = hotel.roomTypes;
-        Object.keys(rooms).map(roomId => {
+        rooms && Object.keys(rooms).map(roomId => {
             let room = rooms[roomId];
             let roomAmenities = room.amenities;
             for(let i=0;i<roomAmenities.length;i++)
