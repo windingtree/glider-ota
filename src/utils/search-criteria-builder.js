@@ -121,8 +121,8 @@ export default class SearchCriteriaBuilder {
     let result =  {
       north:latitude + ( size * adjust),
       south:latitude - ( size * adjust),
-      west:longitude + (size * adjust) * lngRatio,
-      east:longitude - (size * adjust) * lngRatio
+      east:longitude + (size * adjust) * lngRatio,
+      west:longitude - (size * adjust) * lngRatio
     }
     return result;
   }
