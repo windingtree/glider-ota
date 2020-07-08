@@ -14,6 +14,7 @@ export default function LookupList({locations=[], onLocationSelected}){
                 return (
                     <Row noGutters={true} className={style.row} key={createKey(rec.primary,rec.secondary,rec.code)} onClick={event => selected(rec)}>
                         <Col xs={9}  className={style.primaryText}>
+                            {rec.indent && <span className={style.indent}/>}
                             {rec.primary} <span className={style.secondaryText}>{rec.secondary}</span>
                         </Col>
                         <Col xs={3} className={style.codeText}>{rec.code}</Col>

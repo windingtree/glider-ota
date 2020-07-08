@@ -16,13 +16,29 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
         })
     }
 
+    //identify whoch airports belong to metropolitan area and make them indented
     function convertResponse(airports) {
-        return airports.map(rec => {
-            return {
-                primary: rec.city_name + " " + rec.airport_name,
-                secondary: rec.country_name,
-                code: rec.airport_iata_code
+        let metropolitanArea;
+        return airports.map(airport => {
+            if(airport.type === 'METROPOLITAN')
+                metropolitanArea=airport;
+
+            let result = {
+                primary: airport.city_name + " " + airport.airport_name,
+                secondary: airport.country_name,
+                code: airport.airport_iata_code,
+                indent:false
             }
+
+            if(metropolitanArea){
+               if(metropolitanArea.city_code === airport.city_code){
+                   if(airport.type !== 'METROPOLITAN')
+                       result.indent=true;
+               }else{
+                   metropolitanArea=null;
+               }
+            }
+            return result;
         })
     }
 
