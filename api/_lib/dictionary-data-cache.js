@@ -231,7 +231,7 @@ function findAirport(query,maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
  * @returns {*}
  */
 function findCity(query,maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
-    return findTableRecords(TABLES.CITIES,query,"city_name", maxResults);
+    return findTableRecords(TABLES.CITIES,query,["city_name","alternatenames"], maxResults);
 }
 
 
