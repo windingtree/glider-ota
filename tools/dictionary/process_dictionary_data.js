@@ -54,7 +54,7 @@ function loadCities() {
 
 //filter out cities with too small population
 function filterCity(row) {
-    return (parseInt(row.population) > 300000);
+    return (parseInt(row.population) > 2000);
 }
 
 function createCityRecord(row) {
@@ -62,7 +62,8 @@ function createCityRecord(row) {
         city_name: row.name,
         country_code: row.country_code,
         latitude: row.latitude,
-        longitude: row.longitude
+        longitude: row.longitude,
+        alternatenames: row.alternatenames
     }
 }
 
