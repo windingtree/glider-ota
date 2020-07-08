@@ -17,7 +17,14 @@
         ],
         "emails": [
           "xpress.stockholmcentral@choice.se"
-        ]
+        ],
+        "address": {
+          "streetAddress": "Maskingatan 11",
+          "premise": "Gota Alv River",
+          "locality": "Gothenburg",
+          "postalCode": "417 64",
+          "country": "SE"
+        }
       },
       "checkinoutPolicy": {
         "checkinTime": "15:00",

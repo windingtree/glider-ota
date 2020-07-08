@@ -124,7 +124,7 @@ export default function HotelDetails({hotel, searchResults}) {
                             {hotel.name}
                         </div>
                         <div className='glider-font-text16-fg mb-5'>
-                            on Olympuc st 14, Moscow | 1 adult for 2 nights
+                            <HotelAddress hotel={hotel}/>
                         </div>
                             <HotelLeadingImage images={hotel.media}/>
                         <div>
@@ -168,4 +168,13 @@ export function HotelLeadingImage({images}){
     )
 }
 
+
+function HotelAddress({hotel}){
+    if (hotel && hotel.contactInformation && hotel.contactInformation.address){
+        const address = hotel.contactInformation.address;
+        return (<>{address.streetAddress}, {address.locality}</>)
+    }else{
+        return (<></>)
+    }
+}
 
