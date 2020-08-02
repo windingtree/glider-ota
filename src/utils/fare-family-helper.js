@@ -10,7 +10,7 @@ export default class FareFamilyHelper {
   }
 
   /**
-   * For a given itinerary, find all available price plans and return an ascending order (order in which they should be displayed in the UI).
+   * For a given itinerary, find all available price plans and return them in an ascending order (order in which they should be displayed in the UI).
    * It returns an array containing price plan IDs with it's lowest fares.
    * @param itinId
    */

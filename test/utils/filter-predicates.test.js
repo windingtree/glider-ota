@@ -37,18 +37,18 @@ describe('Filters', function () {
             ];
             let filter119_121 = {min: 119, max: 121};
             assert.equal(helper.checkLayoverDurationFilter(filter119_121, mockItinDirect), false)
-            assert.equal(helper.checkLayoverDurationFilter(filter119_121, mockItinConnecting_120mins), true)
+            assert.equal(helper.checkLayoverDurationFilter(filter119_121, mockItinConnecting_120mins), false)
             assert.equal(helper.checkLayoverDurationFilter(filter119_121, mockItinConnecting_240mins), false)
 
             let filter_121 = {max: 121}; //this should pass if layover duration is up to 2hrs, false otherwise
             assert.equal(helper.checkLayoverDurationFilter(filter_121, mockItinDirect), true)
-            assert.equal(helper.checkLayoverDurationFilter(filter_121, mockItinConnecting_120mins), true)
+            assert.equal(helper.checkLayoverDurationFilter(filter_121, mockItinConnecting_120mins), false)
             assert.equal(helper.checkLayoverDurationFilter(filter_121, mockItinConnecting_240mins), false)
 
             let filter_1 = {min: 1}; //this should pass if layover duration is more than 1 min
             assert.equal(helper.checkLayoverDurationFilter(filter_1, mockItinDirect), false)
-            assert.equal(helper.checkLayoverDurationFilter(filter_1, mockItinConnecting_120mins), true)
-            assert.equal(helper.checkLayoverDurationFilter(filter_1, mockItinConnecting_240mins), true)
+            assert.equal(helper.checkLayoverDurationFilter(filter_1, mockItinConnecting_120mins), false)
+            assert.equal(helper.checkLayoverDurationFilter(filter_1, mockItinConnecting_240mins), false)
 
         });
     });
@@ -132,16 +132,16 @@ describe('Filters', function () {
             ];
 
             let filter_1 = {1: true};
-            assert.equal(helper.checkMaxStopsFilter(filter_1, mockItinDirect), false);
+            assert.equal(helper.checkMaxStopsFilter(filter_1, mockItinDirect), true);
             assert.equal(helper.checkMaxStopsFilter(filter_1, mockItinWith1Stop), true);
             assert.equal(helper.checkMaxStopsFilter(filter_1, mockItinWith2Stops), false);
             assert.equal(helper.checkMaxStopsFilter(filter_1, mockItinWith3Stops), false);
             assert.equal(helper.checkMaxStopsFilter(filter_1, mockItinWith1_and_3Stops), false);
 
             let filter_1_3 = {1: true, 2: false, 3: true};
-            assert.equal(helper.checkMaxStopsFilter(filter_1_3, mockItinDirect), false);
+            assert.equal(helper.checkMaxStopsFilter(filter_1_3, mockItinDirect), true);
             assert.equal(helper.checkMaxStopsFilter(filter_1_3, mockItinWith1Stop), true);
-            assert.equal(helper.checkMaxStopsFilter(filter_1_3, mockItinWith2Stops), false);
+            assert.equal(helper.checkMaxStopsFilter(filter_1_3, mockItinWith2Stops), true);
             assert.equal(helper.checkMaxStopsFilter(filter_1_3, mockItinWith3Stops), true);
 
             let filter_all = {'ALL': true};
