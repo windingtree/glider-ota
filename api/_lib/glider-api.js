@@ -6,6 +6,17 @@ const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission} = require('./response-decorator');
 const {createErrorResponse,ERRORS} = require ('./rest-utils');
 
+/**
+ * This module is used to interact with Glider (searching for flights/hotels, retrieving seatmaps, creating orders).
+ * @module _lib/glider-api
+ */
+
+
+/**
+ * Create headers needed to make a request to Glider
+ * @param token
+ * @returns {{Authorization: string, accept: string, "Content-Type": string}}
+ */
 function createHeaders(token) {
     return {
         'Authorization': 'Bearer ' + token,
@@ -33,7 +44,6 @@ async function searchOffers(criteria) {
     let response;
     if(criteria.itinerary)
         setDepartureDatesToNoonUTC(criteria)
-    console.debug("Criteria:",JSON.stringify(criteria))
     try {
         response = await axios({
             method: 'post',
@@ -124,7 +134,7 @@ async function reprice(offerId, options) {
  * @returns {Promise<any>} - booking confirmation, response from Glider /orders/.../fulfill API
  */
 async function fulfill(orderId,orderItems,passengers, guaranteeId) {
-    let request = createFulfilmentRequest(orderItems,passengers,guaranteeId)
+    let request = _createFulfilmentRequest(orderItems,passengers,guaranteeId)
     let urlTemplate=GLIDER_CONFIG.FULFILL_URL;
     let urlWithOrderId = urlTemplate.replace("{orderId}",orderId);
     logger.debug("Fulfillment URL:[%s]",urlWithOrderId);
@@ -138,7 +148,7 @@ async function fulfill(orderId,orderItems,passengers, guaranteeId) {
 }
 
 
-function createFulfilmentRequest(orderItems,passengers,guaranteeId){
+function _createFulfilmentRequest(orderItems,passengers,guaranteeId){
     let passengerReferences=[];
     _.each(passengers, (rec,key)=>{
         passengerReferences.push(key)
@@ -151,9 +161,6 @@ function createFulfilmentRequest(orderItems,passengers,guaranteeId){
     }
 }
 
-
-
-function addAirports(){}
 
 module.exports = {
     createWithOffer,

@@ -7,12 +7,25 @@ var Elasticsearch = require('winston-elasticsearch');
     name: 'glider-ota',
     index: 'ota-default'
 });*/
+
+/**
+ * Module used for logging.
+ * It uses 'Winston' logger which can be further customized to add additional transports (e.g. Elastic)
+ * @module _lib/logger
+ */
+
+
 let esTransportOpts = {
     level: 'debug',
     indexPrefix:'ota-log',
     clientOpts: { node: ELASTIC_CONFIG.URL }
 };
 
+/**
+ * Create new instance of a logger.
+ * @param loggerName name of the logger (usually unique name per module/functionality)
+ * @returns {Logger}
+ */
 function createLogger(loggerName) {
     const logger = winston.createLogger({
         level: 'debug',

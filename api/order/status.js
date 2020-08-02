@@ -4,8 +4,18 @@ const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const {findConfirmedOffer} = require('../_lib/mongo-dao');
 const logger = createLogger('/checkoutUrl')
 const DEV_MODE=true;
+/**
+ * @module endpoint /order/status
+ */
 
-const checkOrderStatusController = async (req, res) => {
+/**
+ *  /order/status endpoint handler
+ *  <p/>This endpoint is used to check what is the status of an order (either hotel or flight booking).
+ *  <br/>Payment processing and ticket creation is a time consuming process. This endpoint is used to poll the status of order creation process (status of payment and ticketing separately)
+ *  @async
+ */
+
+const orderStatusController = async (req, res) => {
     let offerId=req.body.offerId;
     //TODO add additional check (e.g. sessionID vs orderID)
     logger.info("Checking order status, offerId:%s", offerId)
@@ -14,16 +24,6 @@ const checkOrderStatusController = async (req, res) => {
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Missing offerId",req.body);
         return;
     }
-/*
-    if(DEV_MODE) {
-        res.json({
-            orderId: orderId,
-            status: 'confirmed',
-            bookingConfirmation: 'ABCDEF',
-            ticketNumber: '0123123123123'
-        });
-        return;
-    }*/
 
     let document = await findConfirmedOffer(offerId);
     if (!document) {
@@ -50,4 +50,4 @@ const checkOrderStatusController = async (req, res) => {
     res.json(order);
 }
 
-module.exports = decorate(checkOrderStatusController);
+module.exports = decorate(orderStatusController);

@@ -80,6 +80,7 @@
     "@storybook/preset-create-react-app": "^2.1.1",
     "@storybook/react": "^5.3.18",
     "fetch-mock": "^9.4.0",
+    "jsdoc": "~3.6.5",
     "mocha": "^7.1.2",
     "node-fetch": "^2.6.0"
   },

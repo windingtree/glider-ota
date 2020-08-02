@@ -4,7 +4,20 @@ const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const dictionary = require("../_lib/dictionary-data-cache")
 
 const logger = createLogger('/lookup/airportByIata')
-const lookupController = async (req, res) => {
+
+/**
+ * @module endpoint /lookup/airportByIata
+ */
+
+
+/**
+ *  /lookup/airportByIata endpoint handler
+ *  <p/>This endpoint is used to search for airports using airport IATA code (e.g. LHR = London Heathrow)
+ *  @async
+ */
+
+
+const lookupAirportByIataController = async (req, res) => {
     let iataCode = req.query.iata;
     if(!validateRequest(iataCode)){
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Invalid request parameter, iata="+iataCode,req.body);
@@ -24,4 +37,4 @@ function validateRequest(iataCode){
         return false;
     return true;
 }
-module.exports = decorate(lookupController);
+module.exports = decorate(lookupAirportByIataController);

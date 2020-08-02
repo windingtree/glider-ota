@@ -4,7 +4,21 @@ const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const dictionary = require("../_lib/dictionary-data-cache")
 const MAX_RESULTS=30;
 const logger = createLogger('/lookup/airportSearch')
-const lookupController = async (req, res) => {
+
+
+/**
+ * @module endpoint /lookup/airportSearch
+ */
+
+
+/**
+ *  /lookup/airportSearch endpoint handler
+ *  <p/>This endpoint is used to search for airports by it's name (or city, metropolitan area, airport name).
+ *  @async
+ */
+
+
+const lookupAirportSearchController = async (req, res) => {
     let searchquery = req.query.searchquery;
     if(!validateRequest(searchquery)){
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Invalid request parameter, searchquery="+searchquery,req.body);
@@ -24,4 +38,4 @@ function validateRequest(query){
         return false;
     return true;
 }
-module.exports = decorate(lookupController);
+module.exports = decorate(lookupAirportSearchController);

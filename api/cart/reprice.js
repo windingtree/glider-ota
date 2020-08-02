@@ -6,13 +6,17 @@ const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const logger = createLogger('/offerSummary')
 
 /**
+ * @module endpoint /cart/reprice
+ */
+
+
+/**
  * /cart/reprice controller
  * This call should be made to re-price all items from the cart and get a final, binding price
- * @param req
- * @param res
- * @returns {Promise<void>}
+ * @async
  */
-const offerRepriceController = async (req, res) => {
+
+const cartRepriceController = async (req, res) => {
     let sessionID=req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let offer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.OFFER);
@@ -34,5 +38,5 @@ const offerRepriceController = async (req, res) => {
 }
 
 
-module.exports = decorate(offerRepriceController);
+module.exports = decorate(cartRepriceController);
 

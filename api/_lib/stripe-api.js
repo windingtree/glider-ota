@@ -1,3 +1,8 @@
+/**
+ * Module contains functions used to integrate with Stripe payment API
+ *
+ * @module _lib/stripe-api
+ */
 const {STRIPE_CONFIG} = require('./config');
 const {createLogger} = require('./logger');
 const {getCurrencyByCode} = require('./dictionary-data-cache')
@@ -13,8 +18,8 @@ const PAYMENT_TYPES={CARD:'card'}
 
 /**
  * Creates payment intent - that's required before authorizing payment by stripe.
- * For security reasons, server side must future transaction details, before card can be authorized.
- * confirmedOfferId is passed to stripe intent as metadata, so that it can be later on retrieved in a webhook call (after successful payment)
+ * <br/>For security reasons, server side must future transaction details, before card can be authorized.
+ * <br/>confirmedOfferId is passed to stripe intent as metadata, so that it can be later on retrieved in a webhook call (after successful payment)
  * @param payment_method_type
  * @param amount
  * @param currency

@@ -3,6 +3,15 @@ const _ = require('lodash');
 const DB_LOCATION="api/_data/";
 const {createLogger} = require('./logger');
 const logger = createLogger('dictionary-data-cache')
+
+/**
+ * This module contains functions that operate on static data (aka dictionary data), such as: list of airports, airlines, currencies.
+ * <br/>In general, static data is read into memory once and stored for later usage by API calls (such as airport lookup or decorating search results by additional information)
+ * @module _lib/dictionary-data-cache
+ */
+
+//types of dictionary data being used
+//each entry corresponds with JSON file which will be lazy-loaded
 const TABLES={
     AIRLINES:'airlines',
     AIRPORTS:'airports',
@@ -11,6 +20,7 @@ const TABLES={
     COUNTRIES:'COUNTRIES'
 }
 
+//cache holder
 const CACHE={
 
 };
@@ -134,7 +144,6 @@ function loadTableIntoCache(tableName) {
 }
 
 function loadAirlines(){
-    console.log("Loading airlines into memory")
     let path = `${DB_LOCATION}${TABLES.AIRLINES}.json`;
     let data = JSON.parse(fs.readFileSync(path));
     let airlineMap = {};
@@ -144,7 +153,6 @@ function loadAirlines(){
     return airlineMap;
 }
 function loadAirports(){
-    console.log("Loading airports into memory")
     let path = `${DB_LOCATION}${TABLES.AIRPORTS}.json`;
     let data = JSON.parse(fs.readFileSync(path));
     let airportsMap = {};
@@ -233,7 +241,6 @@ function findAirport(query,maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
 function findCity(query,maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
     return findTableRecords(TABLES.CITIES,query,"city_name", maxResults);
 }
-
 
 
 module.exports = {

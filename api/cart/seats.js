@@ -4,11 +4,23 @@ const { sendErrorResponse, ERRORS } = require("../_lib/rest-utils");
 const logger = require('../_lib/logger').createLogger('/cart1');
 const { decorate } = require('../_lib/decorators');
 
-const seatRequestHandler = async (req, res) => {
+
+/**
+ * @module endpoint /cart/seats
+ */
+
+
+
+/**
+ *  /cart/seats endpoint handler
+ *  <p/>This endpoint is used to add/remove/retrieve selected flight seats to/from the shopping cart
+ *  @async
+ */
+const cartSeatsController = async (req, res) => {
     const shoppingCart = new ShoppingCart(req.sessionID);
 
     switch(req.method) {
-        case 'POST': 
+        case 'POST':
             // Retrieve and check the seats
             let seats = req.body;
             if(!seats && !Array.isArray(seats)) {
@@ -34,7 +46,7 @@ const seatRequestHandler = async (req, res) => {
                     res.status(500).json({message:"Failed to add seats to shopping cart"});
                 });
             break;
-            
+
         default:
             logger.warn("Unsupported method:%s",req.method);
             res.status(405).json({message:"Method Not Supported"});
@@ -42,4 +54,4 @@ const seatRequestHandler = async (req, res) => {
 
 }
 
-module.exports = decorate(seatRequestHandler);
+module.exports = decorate(cartSeatsController);
