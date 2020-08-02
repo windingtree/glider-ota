@@ -1,4 +1,4 @@
-import update from 'immutability-helper';
+// import update from 'immutability-helper';
 import FareFamilyHelper from '../../src/utils/fare-family-helper';
 var assert = require('assert');
 
@@ -910,7 +910,7 @@ const fareFamilyHelper = new FareFamilyHelper(sample);
 describe('FareFamilyHelper', function () {
     describe('#getItineraryPricePlansInAscendingOrder()', function () {
         it('should return list of price plan IDs available for itinID - list should be in ascending order (cheapest plan first)', function () {
-            let pricePlanIds = fareFamilyHelper.getItineraryPricePlansInAscendingOrder('CVCWVO8WEP-OD142')
+            let pricePlanIds = fareFamilyHelper.getItineraryPriceWithLowestPrice('CVCWVO8WEP-OD142')
             console.log("Pricplan",pricePlanIds)
             assert.deepEqual(pricePlanIds,[ 'HSEOUVCLW2-Flex',
                 'RXT7EMIQC6-Basic',

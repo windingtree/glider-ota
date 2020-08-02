@@ -97,7 +97,7 @@ describe('dictionary-data-cache', function () {
     });
     describe('#findCity()', function () {
         it('should find city with matching city name', function () {
-            let result = dict.findCity('krak');
+            let result = dict.findCity('Kraków');
             assert.equal(result[0].city_name,'Kraków');
         });
         it('should return same results if there are spaces added in the end (or begining) or search query', function () {
@@ -108,11 +108,9 @@ describe('dictionary-data-cache', function () {
             assert.ok(result2.length===result3.length);
         });
         it('should find city with partial name (narrow down search results)', function () {
-            let result = dict.findCity('Lo');
-            let result2 = dict.findCity('Lon');
-            let result3 = dict.findCity('Lond');
+            let result = dict.findCity('New');
+            let result2 = dict.findCity('New York');
             assert.ok(result.length>result2.length);
-            assert.ok(result2.length>result3.length);
         });
     });
 });

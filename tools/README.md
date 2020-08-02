@@ -8,7 +8,7 @@ Type of dictionary data:
 * list of countries (search results enrichment)
 * list of airlines (search results enrichment)
 
-This data is not maintained by Glider OTA, it is sources from multiple locations (open source).
+This data is not maintained by Glider OTA, it is sourced from multiple locations (open source).
 It's format however and storage is custom to Glider OTA.
 Therefore data needs to be generated to Glider OTA format.
 
