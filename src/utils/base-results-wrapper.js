@@ -1,9 +1,17 @@
 import update from 'immutability-helper';
 
+/**
+ * @module utils/base-results-wrapper
+
+ */
 
 /**
- * Base class for operations on search results.
- * Flight and Hotel specific methods are implemented in subclasses.
+ * Base class for operations on search results which simplifies operations/logic related to search results returned by Glider OTA backend.
+ * <br/>Since flight and hotel search results are having different structure, there are two subclasses of BaseSearchResultsWrapper:
+ * <ul>
+ *     <li>FlightSearchResultsWrapper - wrapper for flight search results</li>
+ *     <li>HotelSearchResultsWrapper - wrapper for hotel search results</li>
+ * </ul>
  */
 export class BaseSearchResultsWrapper {
     constructor(searchResults) {
@@ -11,9 +19,9 @@ export class BaseSearchResultsWrapper {
         this.pricePlans = searchResults.pricePlans;
     }
 
-
     /**
      * Get a list with all unique offers from search results.
+     * @returns {Object} All offers retrieved from the backend enriched with offerId added to each offer
      */
     getAllOffers(){
         let offers={};
@@ -25,9 +33,10 @@ export class BaseSearchResultsWrapper {
 
     /**
      * Returns offer details for an offerID provided as a parameter
-     * Returned object is a deep copy of a corresponding record from search results.
-     * Returned object is enriched with offerId
-     * @param offerId
+     * <br/>Returned object is a deep copy of a corresponding record from search results.
+     * <br/>Returned object is enriched with offerId
+     * @param {string} offerId
+     * @returns {Object} Requested offer
      */
     getOffer(offerId){
         let offer = this.offers[offerId];
@@ -42,7 +51,7 @@ export class BaseSearchResultsWrapper {
 
     /**
      * Return array containing price plans that belong to a given offerId
-     * Returned object is a deep copy of a corresponding record from search results
+     * <br/>Returned object is a deep copy of a corresponding record from search results
      * @param offerId
      * @returns
      */
@@ -60,8 +69,5 @@ export class BaseSearchResultsWrapper {
         let pricePlan = update(this.pricePlans[pricePlanId],{pricePlanId:{$set:pricePlanId}});  //enrich returned object with "pricePlanId" property
         return pricePlan;
     }
-
-
-
 }
 

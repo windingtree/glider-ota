@@ -1,9 +1,13 @@
 import update from 'immutability-helper';
 import {BaseSearchResultsWrapper} from "./base-results-wrapper";
 
+/**
+ * @module utils/flight-search-results-wrapper
+ */
 
 /**
- * Wrapper class that offers helper methods to process flight results operations
+ * Subclass of BaseSearchResultsWrapper.
+ * <br/>Wrapper class that offers helper methods to process flight results operations
  */
 export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
     constructor(searchResults) {

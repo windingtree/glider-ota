@@ -1,0 +1,14 @@
+{
+  "plugins": [],
+  "recurseDepth": 10,
+  "source": {
+    "include": ["src/utils"],
+    "includePattern": ".+\\.js",
+    "excludePattern": ".+\\.json"
+  },
+  "sourceType": "script",
+  "opts": {
+    "destination": "./docs/frontend/",
+    "recurse": true
+  }
+}

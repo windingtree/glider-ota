@@ -1,4 +1,8 @@
-
+/**
+ * Class contains logic related to fare families (aka price plans):
+ * <li>finds the lowest offer/price for a given route(itinerary)</li>
+ * <li>retrieves fare families for a given offer with it's prices (needed to let the user choose the right fare family)</li>
+ */
 
 export default class FareFamilyHelper {
   constructor(tripRates){
@@ -9,7 +13,6 @@ export default class FareFamilyHelper {
    * For a given itinerary, find all available price plans and return an ascending order (order in which they should be displayed in the UI).
    * It returns an array containing price plan IDs with it's lowest fares.
    * @param itinId
-   * @returns {*[]}
    */
   getItineraryPriceWithLowestPrice(itinId){
     let pricePlansMinFares={};

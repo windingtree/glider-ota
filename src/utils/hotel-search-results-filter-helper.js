@@ -1,13 +1,19 @@
 import {HotelSearchResultsWrapper} from "./hotel-search-results-wrapper";
 import {FILTERS} from "../components/filters/filters-utils";
 
+/**
+ * There are multiple types of search results filter available in the UI that allow users to narrow down search results.
+ * <br/>This module contains helper functions that simplify filtering of hotel search results based on user criteria.
+ * @module utils/hotel-search-results-filter-helper
+ */
+
 export class HotelSearchResultsFilterHelper {
     constructor(searchResults) {
         this.searchResultsWrapper = new HotelSearchResultsWrapper(searchResults);
     }
 
     /**
-     * Generate a list of offers (search results).
+     * Generate a list of offers (search results) after applying all filters (optional parameter).
      * Each item in the list contains metadata (e.g. price per night, amenities, rating) so that it can be used later to narrow down/filter search results.
      * @param filters Object containing filters selection
      * @returns {[]}
@@ -38,6 +44,12 @@ export class HotelSearchResultsFilterHelper {
         return result;
     }
 
+    /**
+     * Find the cheapest offer for a given hotel
+     * @param accommodationId
+     * @param offers
+     * @private
+     */
     getCheapestHotelOffer(accommodationId, offers) {
         let minPrice = Number.MAX_SAFE_INTEGER;
         let minOffer = undefined;
@@ -51,6 +63,7 @@ export class HotelSearchResultsFilterHelper {
     }
 
     applyOfferFilters(offers, filters) {
+
         let result = {};
 
         if (!filters)
