@@ -1,4 +1,4 @@
-# Introduction
+# Static data
 Glider OTA (backend and frontend) needs to store multiple types of dictionary data.
 
 Type of dictionary data:
