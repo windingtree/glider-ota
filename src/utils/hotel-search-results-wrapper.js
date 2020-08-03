@@ -2,6 +2,10 @@ import update from 'immutability-helper';
 import {BaseSearchResultsWrapper} from "./base-results-wrapper";
 const _ = require('lodash')
 
+/**
+ * Subclass of {link BaseSearchResultsWrapper} which should be used to operate on hotel search results.
+ */
+
 export class HotelSearchResultsWrapper extends BaseSearchResultsWrapper{
     constructor(searchResults) {
         super(searchResults)

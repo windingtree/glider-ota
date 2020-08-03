@@ -4,7 +4,26 @@ const { sendErrorResponse, ERRORS } = require("../_lib/rest-utils");
 const logger = require('../_lib/logger').createLogger('/cart1');
 const { decorate } = require('../_lib/decorators');
 
-const shoppingCartController = async (req, res) => {
+/**
+ * @module endpoint /cart/cart
+ */
+
+
+/**
+ * /cart/cart endpoint handler
+ *
+ * <p/>This is a generic endpoint to add/remove/retrieve items from shopping cart.
+ * <br/>More specialized endpoints exist to store specific type of items in cart:
+ * <ul>
+ *     <li>/cart/accommodation to add/remove/retrieve hotel stays to/from cart
+ *     <li>/cart/offer to add/remove/retrieve flight offers to/from cart
+ *     <li>/cart/passengers to add/remove/retrieve passengers to/from cart
+ *     <li>/cart/seats to add/remove/retrieve seats to/from cart
+ * </ul>
+ *
+ * @async
+ */
+const cartController = async (req, res) => {
     let sessionID = req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let method = req.method;
@@ -37,5 +56,5 @@ const shoppingCartController = async (req, res) => {
 }
 
 
-module.exports = decorate(shoppingCartController);
+module.exports = decorate(cartController);
 

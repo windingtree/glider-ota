@@ -5,8 +5,15 @@ const logger = createLogger('session-storage');
 const SESSION_ID_COOKIE = "wt-ota-session-id";
 
 /**
+ * Glider OTA is using cookie to maintain session/state between API calls
+ * <br/>This module contains helper methods to generate, read and update session cookie
+ * @module _lib/cookie-manager
+ */
+
+
+/**
  * Returns sessionID (from request cookie) if it already exists or generates new sessionID in case it did not exist
- * This ensures that with the first time request, we will also have sessionID and send that to the client.
+ * <br/>This ensures that with the first time request, we will also have sessionID and send that to the client.
  * @param req
  * @param res
  * @returns sessionID

@@ -6,25 +6,31 @@ const {storeConfirmedOffer} = require('../_lib/mongo-dao');
 const {createGuarantee} = require('../_lib/simard-api');
 const logger = createLogger('/checkout')
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
-const DEV_MODE=false;
+
 /**
- * /checkoutUrl call handler
- * This creates payment intent to be later paid with a given form of payment
- * Expected request:
- * {
- *     type: <form of payment - so far 'card' is only supported>
- *     orderId: <orderId to be paid for>
- * }
+ * @module endpoint /order/checkout
+ */
+
+
+/**
+ * /order/checkout endpoint handler
+ * <br/>This creates payment intent to be later paid with a given form of payment
  *
  * Handlers performs the following logical steps:
  * 1 - retrieve order details (e.g. amount, currency) from session storage
- * 2 - stores order details in a database (mongo)
- * 3 - creates an intent
- * @param req
- * @param res
- * @returns {Promise<void>}
+ * 2 - stores order details in a database
+ * 3 - creates an intent (Stripe)
+
+ * @async
+ * @example  <caption>Example request</caption>
+ {
+      type:'card'
+      orderId: 'd3c6b615-aa65-4d42-86b6-15aa65dd0002'
+  }
+ *
  */
-const checkoutUrlController = async (req, res) => {
+
+const orderCheckoutController = async (req, res) => {
     let payload = req.body;
     let payment_type=payload.type;
     let sessionID=req.sessionID;
@@ -75,4 +81,4 @@ function prepareResponse(intent){
 
 
 
-module.exports = decorate(checkoutUrlController);
+module.exports = decorate(orderCheckoutController);

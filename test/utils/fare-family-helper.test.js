@@ -1,4 +1,4 @@
-import update from 'immutability-helper';
+// import update from 'immutability-helper';
 import FareFamilyHelper from '../../src/utils/fare-family-helper';
 var assert = require('assert');
 
@@ -908,52 +908,59 @@ const sample = {
 const fareFamilyHelper = new FareFamilyHelper(sample);
 
 describe('FareFamilyHelper', function () {
-    describe('#getItineraryPricePlansInAscendingOrder()', function () {
-        it('should return list of price plan IDs available for itinID - list should be in ascending order (cheapest plan first)', function () {
-            let pricePlanIds = fareFamilyHelper.getItineraryPricePlansInAscendingOrder('CVCWVO8WEP-OD142')
-            console.log("Pricplan",pricePlanIds)
-            assert.deepEqual(pricePlanIds,[ 'HSEOUVCLW2-Flex',
-                'RXT7EMIQC6-Basic',
-                'JJU2G5KVXN-Standard',
-                'HLVAYZDZ46-PremiumEconomylowest',
-                'H68WNDKGTP-Latitude',
-                'YQ80NLKQO5-PremiumEconomyflexible',
-                'YTIRCE3JL9-BusinessClasslowest',
-                'QM2CAQP4ZM-BusinessClassflexible' ])
+    describe('#getItineraryPriceWithLowestPrice()', function () {
+        it('should return list of price plan IDs available for itinID - from cheapest to most expensive', function () {
+            let pricePlanIds = fareFamilyHelper.getItineraryPriceWithLowestPrice('CVCWVO8WEP-OD142')
+            assert.equal(pricePlanIds[0].pricePlanId , 'RXT7EMIQC6-Basic');
+            assert.equal(pricePlanIds[0].lowestPrice.public , 906.72);
+
+            assert.equal(pricePlanIds[1].pricePlanId , 'JJU2G5KVXN-Standard');
+            assert.equal(pricePlanIds[1].lowestPrice.public , 906.72);
+
+            assert.equal(pricePlanIds[2].pricePlanId , 'HSEOUVCLW2-Flex');
+            assert.equal(pricePlanIds[2].lowestPrice.public , 1323.71);
         })
         it('should return list of price plans available for itinID with an offset price', function () {
             let itinPricePlanOffsetPrices = fareFamilyHelper.getItineraryPricePlanOffsetPrices('26192dd9-1357-4363-aea1-281646f2507c,4e52ba1d-d4d2-4dde-b3cb-56a9952f0489','CVCWVO8WEP-OD142');
-            let expected = { 'RXT7EMIQC6-Basic':
-                    { offerId:
-                            '26192dd9-1357-4363-aea1-281646f2507c,7f4d2a46-32a1-4865-ba47-516c56e31e11',
-                        priceOffset: { public: -3146.55, currency: 'CAD' } },
-                'HSEOUVCLW2-Flex':
-                    { offerId:
-                            '26192dd9-1357-4363-aea1-281646f2507c,627edbee-5ef1-47a0-8859-3ad68684378f',
-                        priceOffset: { public: -2669.56, currency: 'CAD' } },
-                'H68WNDKGTP-Latitude':
-                    { offerId:
-                            '26192dd9-1357-4363-aea1-281646f2507c,372159ff-eec9-4cd2-a765-cbde4b0904bd',
-                        priceOffset: { public: -1826.56, currency: 'CAD' } },
-                'HLVAYZDZ46-PremiumEconomylowest':
-                    { offerId:
-                            '26192dd9-1357-4363-aea1-281646f2507c,fb872ec3-239d-4dbb-a440-04ed71a7a1d9',
-                        priceOffset: { public: -2401.56, currency: 'CAD' } },
-                'YQ80NLKQO5-PremiumEconomyflexible':
-                    { offerId:
-                            '26192dd9-1357-4363-aea1-281646f2507c,20aa84ae-31f5-4c57-86ce-9e3660ca825f',
-                        priceOffset: { public: -1651.56, currency: 'CAD' } },
-                'QM2CAQP4ZM-BusinessClassflexible':
-                    { offerId:
-                            '26192dd9-1357-4363-aea1-281646f2507c,1d7f36b5-f9cd-4d13-bf61-d9fe6cb23d00',
-                        priceOffset: { public: 3444.0000000000005, currency: 'CAD' } },
+            let expected = {
+                "RXT7EMIQC6-Basic": {
+                    "offerId": "26192dd9-1357-4363-aea1-281646f2507c,7f4d2a46-32a1-4865-ba47-516c56e31e11",
+                    "price": {"currency": "CAD", "public": "906.72", "taxes": "111.74"},
+                    "priceOffset": {"public": -3146.55, "currency": "CAD"}
+                },
+                "HSEOUVCLW2-Flex": {
+                    "offerId": "26192dd9-1357-4363-aea1-281646f2507c,627edbee-5ef1-47a0-8859-3ad68684378f",
+                    "price": {"currency": "CAD", "public": "1383.71", "taxes": "111.74"},
+                    "priceOffset": {"public": -2669.56, "currency": "CAD"}
+                },
+                "H68WNDKGTP-Latitude": {
+                    "offerId": "26192dd9-1357-4363-aea1-281646f2507c,372159ff-eec9-4cd2-a765-cbde4b0904bd",
+                    "price": {"currency": "CAD", "public": "2226.71", "taxes": "111.74"},
+                    "priceOffset": {"public": -1826.56, "currency": "CAD"}
+                },
+                "HLVAYZDZ46-PremiumEconomylowest": {
+                    "offerId": "26192dd9-1357-4363-aea1-281646f2507c,fb872ec3-239d-4dbb-a440-04ed71a7a1d9",
+                    "price": {"currency": "CAD", "public": "1651.71", "taxes": "111.74"},
+                    "priceOffset": {"public": -2401.56, "currency": "CAD"}
+                },
+                "YQ80NLKQO5-PremiumEconomyflexible": {
+                    "offerId": "26192dd9-1357-4363-aea1-281646f2507c,20aa84ae-31f5-4c57-86ce-9e3660ca825f",
+                    "price": {"currency": "CAD", "public": "2401.71", "taxes": "111.74"},
+                    "priceOffset": {"public": -1651.56, "currency": "CAD"}
+                },
                 "YTIRCE3JL9-BusinessClasslowest": {
                     "offerId": "26192dd9-1357-4363-aea1-281646f2507c,4e52ba1d-d4d2-4dde-b3cb-56a9952f0489",
-                    "priceOffset": {
-                        "currency": "CAD",
-                        "public": 0
-                    }
-                }}
+                    "price": {"currency": "CAD", "public": "4053.27", "taxes": "195.80"},
+                    "priceOffset": {"public": 0, "currency": "CAD"}
+                },
+                "QM2CAQP4ZM-BusinessClassflexible": {
+                    "offerId": "26192dd9-1357-4363-aea1-281646f2507c,1d7f36b5-f9cd-4d13-bf61-d9fe6cb23d00",
+                    "price": {"currency": "CAD", "public": "7497.27", "taxes": "195.80"},
+                    "priceOffset": {"public": 3444.0000000000005, "currency": "CAD"}
+                }
+            }
+
+
             assert.deepEqual(itinPricePlanOffsetPrices,expected)
         })
 

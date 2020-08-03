@@ -7,7 +7,7 @@ const _ = require('lodash');
 const { utcToZonedTime,zonedTimeToUtc } = require('date-fns-tz');
 describe('response-decorator', function () {
     describe('#enrichAirportCodesWithAirportDetails()', function () {
-        it('should add origin and destination airport details to the response (to results.itineraries.segments', function () {
+        it('should add origin and destination airport details to the response (to results.itineraries.segments', async ()=>{
             let segments = _.get(sample_response,'itineraries.segments',[]);
             let seg1 = segments["NW737YSSN6-SEG1"];
             assert.equal(seg1.origin.iataCode,"YYZ");
@@ -29,7 +29,7 @@ describe('response-decorator', function () {
 
 
     describe('#enrichOperatingCarrierWithAirlineNames()', function () {
-        it('should add origin and destination airport details to the response (to results.itineraries.segments', function () {
+        it('should add origin and destination airport details to the response (to results.itineraries.segments', async ()=>{
             let segments = _.get(sample_response,'itineraries.segments',[]);
             let seg1 = segments["NW737YSSN6-SEG1"];
             assert.equal(seg1.operator.iataCode,"KV");
@@ -43,22 +43,16 @@ describe('response-decorator', function () {
     });
 
     describe('#replaceUTCTimeWithLocalAirportTime()', function () {
-        it('should convert UTC time (for departure and arrival time) ', function () {
+        it('should convert UTC time (for departure and arrival time) ',async ()=> {
 
             let segments = _.get(sample_response,'itineraries.segments',[]);
             let seg1 = segments["NW737YSSN6-SEG1"];
 
             assert.equal(seg1.departureTimeUtc,undefined);
-            assert.equal(seg1.departureTime,"2020-05-21T04:30:00.000Z");
-
             assert.equal(seg1.arrivalTimeUtc,undefined);
-            assert.equal(seg1.arrivalTime,"2020-05-21T05:45:00.000Z");
             replaceUTCTimeWithLocalAirportTime(sample_response);
-            assert.equal(seg1.departureTimeUtc,"2020-05-21T04:30:00.000Z");
-            assert.equal(seg1.departureTime,"2020-05-20T22:30:00.000Z");
-
-            assert.equal(seg1.arrivalTimeUtc,"2020-05-21T05:45:00.000Z");
-            assert.equal(seg1.arrivalTime,"2020-05-20T23:45:00.000Z");
+            assert.equal(seg1.departureTimeUtc,"2020-05-21T04:30:00.000Z"); //local="2020-05-20T22:30:00.000Z"
+            assert.equal(seg1.arrivalTimeUtc,"2020-05-21T05:45:00.000Z");   //local="2020-05-20T23:45:00.000Z"
         });
     });
 

@@ -1,3 +1,8 @@
+/**
+ * Module contains helper functions to store/retrieve data in/from temporary session storage (Redis)
+ * @module _lib/session-storage
+ */
+
 const redis = require('async-redis');
 const {createLogger} = require('./logger');
 const {REDIS_CONFIG} = require('./config');
@@ -17,6 +22,7 @@ const getClient = () => {
 
     // Lazy load the client
     if(!_client) {
+        console.warn("Redis client not initialized - connecting")
         _client = redis.createClient({
             port: REDIS_CONFIG.REDIS_PORT,
             host: REDIS_CONFIG.REDIS_HOST,
@@ -48,7 +54,6 @@ const getClient = () => {
                 return Math.min(options.attempt * 100, 3000);
             }
         });
-        
         // Close connection to the Redis on exit
         process.on('exit', function () {
             logger.info("Shutting down redis connections gracefully");
@@ -60,16 +65,19 @@ const getClient = () => {
 
         _client.on('end', function () {
             logger.info("Redis client event=end");
+            if(_client) {
+                _client = undefined;
+            }
         });
-        
+
         _client.on('error', function (err) {
             logger.error("Redis client event=error, message=%s", err);
         });
-        
+
         _client.on('ready', function (param) {
             logger.info("Redis client event=ready");
         });
-        
+
         _client.on('connect', function (param) {
             logger.info("Redis client event=connect");
         });
@@ -83,8 +91,8 @@ const getClient = () => {
 
 /**
  * Helper class to deal with storing session data on a server side.
- * Data is stored in Redis database, using temporary keys (short TTL, configured with REDIS_CONFIG.SESSION_TTL_IN_SECS)
- * Session is maintained with the client using cookie
+ * <br/>Data is stored in Redis database, using temporary keys (short TTL, configured with REDIS_CONFIG.SESSION_TTL_IN_SECS)
+ * <br/>Session is maintained with the client using cookie
  */
 class SessionStorage {
     constructor(sessionID) {

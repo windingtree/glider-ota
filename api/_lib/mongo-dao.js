@@ -4,6 +4,11 @@ const {createLogger} = require('./logger');
 const logger = createLogger('dao');
 const url = require('url');
 
+/**
+ * DAO module to support mongo operations.
+ * @module _lib/mongo-dao
+ */
+
 const ORDER_STATUSES={
     NEW:'NEW',
     FULFILLING:'FULFILLING',
@@ -19,7 +24,12 @@ const PAYMENT_STATUSES={
 // Create cached connection variable
 let _db;
 
-// Get the connection
+/**
+ * Return connection to mongo instance.
+ * <br/>If connection was previously initialized, it will return that instance.
+ * <br/>Otherwise connection is initialized before returning.
+ * @returns {Promise<unknown>}
+ */
 function getConnection() {
     return new Promise(function(resolve, reject) {
         // Get the cached connection if exists
@@ -158,7 +168,7 @@ function createTransactionEntry(comment, details){
 
 /**
  * Update order  status in database (<orders>.order.order_status)
- * Operation also updates <orders>.order.lastModifyDateTime and adds record to <orders>.order.transactions to log a change
+ * <br/>Operation also updates <orders>.order.lastModifyDateTime and adds record to <orders>.order.transactions to log a change
 
  * @param offerId
  * @param order_status
@@ -188,7 +198,7 @@ function updateOrderStatus(offerId, order_status, comment, transactionDetails){
 
 /**
  * Update order payment status in database (<orders>.order.payment_status)
- * Operation also updates <orders>.order.lastModifyDateTime and adds record to <orders>.order.transactions to log a change
+ * <br/>Operation also updates <orders>.order.lastModifyDateTime and adds record to <orders>.order.transactions to log a change
  * @param offerId
  * @param payment_status
  * @param comment
@@ -215,7 +225,7 @@ function updatePaymentStatus(offerId, payment_status, payment_details, comment, 
 
 /**
  * Update passengers of an offer
- * Operation also updates <orders>.order.lastModifyDateTime and adds record to <orders>.order.transactions to log a change
+ * <br/>Operation also updates <orders>.order.lastModifyDateTime and adds record to <orders>.order.transactions to log a change
 
  * @param offerId
  * @param passengers passengers details

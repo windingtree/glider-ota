@@ -4,7 +4,19 @@ const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const logger = require('../_lib/logger').createLogger('/cart1')
 const {decorate} = require('../_lib/decorators');
 
-const shoppingCartController = async (req, res) => {
+
+/**
+ * @module endpoint /cart/offer
+ */
+
+
+/**
+ *  /cart/offer endpoint handler
+ *  <p/>This endpoint is used to add/remove/retrieve flight offer to/from the shopping cart
+ *  @async
+ */
+
+const cartOfferController = async (req, res) => {
     let sessionID = req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let method = req.method;
@@ -62,5 +74,5 @@ function sendValidationErrorResponse(res, fieldName, validationMessage){
     return false;
 }
 
-module.exports = decorate(shoppingCartController);
+module.exports = decorate(cartOfferController);
 

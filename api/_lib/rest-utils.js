@@ -1,3 +1,9 @@
+/**
+ * This module contains helper method used with REST api
+ * @module _lib/rest-utils
+ *
+ */
+
 const ERRORS={
     REQUEST_TIMEOUT:500,
     INVALID_METHOD:'INVALID_METHOD',

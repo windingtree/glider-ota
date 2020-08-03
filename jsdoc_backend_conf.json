@@ -1,0 +1,13 @@
+{
+  "plugins": [],
+  "recurseDepth": 10,
+  "source": {
+    "include": ["api"],
+    "includePattern": ".+\\.js"
+  },
+  "sourceType": "script",
+  "opts": {
+    "destination": "./docs/backend/",
+    "recurse": true
+  }
+}

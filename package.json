@@ -50,9 +50,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test:unit": "mocha --require @babel/register  'src/**/*.spec.js'",
+    "test:unit": "mocha -r esm --require @babel/register  'test/**/*.test.js'",
+    "test:integration": "mocha -r esm --require @babel/register  'test/**/*.test-integration.js'",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
@@ -80,6 +80,7 @@
     "@storybook/preset-create-react-app": "^2.1.1",
     "@storybook/react": "^5.3.18",
     "fetch-mock": "^9.4.0",
+    "jsdoc": "~3.6.5",
     "mocha": "^7.1.2",
     "node-fetch": "^2.6.0"
   },

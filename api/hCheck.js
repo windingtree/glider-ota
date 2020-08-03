@@ -6,8 +6,15 @@ const {v4} = require('uuid');
 const {createLogger} = require('./_lib/logger')
 const logger = createLogger('/debug')
 
+
+/**
+ * @module endpoint /hCheck
+ */
+
+
 var getNamespace = require('continuation-local-storage').getNamespace;
 var session = getNamespace('ota');
+
 
 const healthCheckController = async (req, res) => {
     if(!GENERIC_CONFIG.ENABLE_HEALHCHECK){

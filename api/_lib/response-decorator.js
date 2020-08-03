@@ -1,3 +1,10 @@
+/**
+ * Module contains various method which are used to enrich response from Glider Aggregator before it's returned to UI.
+ * <br/>For example, search results don't contain full airport names (IATA codes instead), for the users however we need to display full airport name.
+ * <br/>Therefore we cannot simply return 'raw' results, we need to 'enrich' them before.
+ * @module _lib/response-decorator
+ */
+
 const {createLogger} = require('./logger');
 const {getAirportByIataCode,getCountryByCountryCode, getAirlineByIataCode} = require ('./dictionary-data-cache')
 const _ = require('lodash');
@@ -7,10 +14,21 @@ const { parseISO } = require('date-fns');
 const logger = createLogger('response-decorator-logger');
 
 
+
+/**
+ * Main function which takes care of enriching search results with additional information (e.g. full airport name, airline name)
+ *
+ * @param results
+ */
 function enrichResponseWithDictionaryData(results){
+
+    //add origin & destination airport details (city_name and airport_name)
     enrichAirportCodesWithAirportDetails(results);
+    //add airline details for each flight segment(airline_name)
     enrichOperatingCarrierWithAirlineNames(results);
+    //add local time to each flight segment departure and arrival (dates returned by Glider are always UTC)
     convertUTCtoLocalAirportTime(results);
+    //add small commission to the price to cover credit card transaction fee
     increaseOfferPriceWithStripeCommission(results);
     results['metadata']={
         uuid:v4(),
@@ -64,7 +82,7 @@ function enrichOperatingCarrierWithAirlineNames(results){
 
 /**
  * Departure date from UI may come in a local timezone and hour may be random.
- * We should search with UTC and with hour = 12
+ * <br/>We should search with UTC and with hour = 12
  * @param criteria
  */
 function setDepartureDatesToNoonUTC(criteria){
@@ -123,7 +141,7 @@ function increaseConfirmedPriceWithStripeCommission(repriceResponse){
 }
 
 //add 5% on top of the total price to cover for OPC fee
-//FIXME - replace hardcoded commision with configurable value
+//FIXME - replace hardcoded commission with configurable value
 function _addOPCFee(price){
     return Number(price)*1.05;
 }

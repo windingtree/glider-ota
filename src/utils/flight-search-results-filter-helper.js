@@ -2,6 +2,11 @@ import OfferUtils from "./offer-utils";
 import {FlightSearchResultsWrapper} from "./flight-search-results-wrapper";
 import {FILTERS} from "../components/filters/filters-utils";
 
+/**
+ * There are multiple types of search results filter available in the UI that allow users to narrow down search results.
+ * <br/>This module contains helper functions that simplify filtering of flight search results based on user criteria.
+ * @module utils/flight-search-results-filter-helper
+ */
 
 /**
  * Helper class to process unfiltered search results and return only offers that pass filter criteria selected by the user
@@ -12,7 +17,7 @@ export class FlightSearchResultsFilterHelper {
     }
 
     /**
-     * Generate a list of offers (search results).
+     * Generate a list of offers (search results) after filters (optional parameter) are applied and sort offers by either price or duration
      * Each item in the list contains metadata (e.g. trip duration, operating carriers, baggage allowance) so that it can be used later to narrow down/filter search results.
      * @param sortBy (PRICE or DURATION)
      * @param filters Object containing filters selection
@@ -74,6 +79,13 @@ export class FlightSearchResultsFilterHelper {
         return duration;
     }
 
+    /**
+     * Sort trips by either price or duration
+     * @param trips
+     * @param sortBy {string} PRICE =  sort by price, otherwise sort by duration
+     * @return {*}
+     * @private
+     */
     sortTrips(trips,sortBy){
         const priceComparator = (trip1,trip2) =>{
         let price1 = trip1.bestoffer.price;
@@ -100,6 +112,7 @@ export class FlightSearchResultsFilterHelper {
         }
         return trips;
     }
+
 
     generateTripID(itineraries){
         let itinIDs=itineraries.map(itinerary=>itinerary.itinId);
@@ -148,6 +161,7 @@ export class FlightSearchResultsFilterHelper {
      * @param trips
      * @param filterStates
      * @returns {[]|*}
+     * @private
      */
     applyTripFilters(trips, filterStates) {
         let result=[];
@@ -178,6 +192,7 @@ export class FlightSearchResultsFilterHelper {
      * @param filter
      * @param itineraries
      * @returns {boolean}
+     * @private
      */
     checkAirlineFilter(filter, itineraries) {
         let result = true;
@@ -198,6 +213,7 @@ export class FlightSearchResultsFilterHelper {
      * @param filterState
      * @param itineraries
      * @returns {boolean}
+     * @private
      */
     checkLayoverDurationFilter(filterState, itineraries) {
         const {min, max} = filterState;

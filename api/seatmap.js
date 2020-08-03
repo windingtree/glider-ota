@@ -2,6 +2,12 @@ const { ShoppingCart, CART_ITEMKEYS } = require('./_lib/shopping-cart');
 const { seatmap } = require('./_lib/glider-api');
 const { decorate } = require('./_lib/decorators');
 
+
+/**
+ * @module endpoint /seatmap
+ */
+
+
 // Controller for the seatmap request
 const seatmapController = async (req, res) => {
     // Check the method
@@ -39,8 +45,8 @@ const seatmapController = async (req, res) => {
                 return res.status(502).json({error: {code: 502, message: `Error ${error.response.status} received from Glider B2B`}});
         }
     }
-  
-    
+
+
 }
 
 module.exports = decorate(seatmapController);

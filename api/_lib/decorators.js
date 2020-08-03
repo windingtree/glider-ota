@@ -4,6 +4,16 @@ const {v4} = require('uuid');
 const createNamespace = require('continuation-local-storage').createNamespace;
 const session = createNamespace('ota');
 
+/**
+ * This module contains decorators wrapping API calls, such as:
+ * - HTTP request/response logging
+ * - session management (adding sessionID cookie if it does not exist)
+ * - unhandled exceptions logging
+ * @module _lib/decorators
+ */
+
+
+
 
 // log REST calls to a separate logger
 const restlogger = createLogger('rest-logger');

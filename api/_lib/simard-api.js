@@ -1,3 +1,9 @@
+/**
+ * This module contains functions to interact with Simard (payments)
+ *
+ * @module _lib/simard-api
+ */
+
 const {createLogger} = require('./logger');
 const addDays = require("date-fns/addDays")
 const axios = require('axios').default;
@@ -65,7 +71,7 @@ function simulateDeposit(amount, currency) {
             logger.error("Guarantee creation failed", error);
             reject(error);
         });
-        
+
     });
 }
 

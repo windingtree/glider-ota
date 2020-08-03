@@ -1,3 +1,7 @@
+/**
+ * Shopping cart module
+ * @module _lib/shopping-cart
+ */
 const {createLogger} = require('./logger');
 const logger = createLogger('session-storage');
 const {SessionStorage} = require('./session-storage');
@@ -8,7 +12,7 @@ const CART_ITEMKEYS = {
     OFFER : 'offer',
     PASSENGERS : 'passengers',
     SEATS : 'seats',
-    ANCILLARIES : 'ancillaries', 
+    ANCILLARIES : 'ancillaries',
     CONFIRMED_OFFER : 'confirmed-offer',
 };
 
@@ -32,10 +36,10 @@ class ShoppingCart {
 
     /**
      * Upsert (add or replace) offer in the shopping cart.
-     * Multiple items can be added to the shopping cart (e.g.  flights, hotelresults, passenger details, ancillaries).
-     * cartKey parameter is supposed to identify what type of element is added to the cart.
-     * If item with a given key is added for the first time, it will be normally added and can be later retrieved.
-     * If item with a same key is added again, previously stored item is replaced with a new one.
+     * <br/>Multiple items can be added to the shopping cart (e.g.  flights, hotelresults, passenger details, ancillaries).
+     * <br/>cartKey parameter is supposed to identify what type of element is added to the cart.
+     * <br/>If item with a given key is added for the first time, it will be normally added and can be later retrieved.
+     * <br/>If item with a same key is added again, previously stored item is replaced with a new one.
      *
      * @param cartKey identifies what type of item is added to the cart (e.g. flight, seat selection, hotel)
      * @param item value which will be associated in the cart with a cartKey

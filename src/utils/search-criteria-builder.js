@@ -1,5 +1,15 @@
 import formatISO from 'date-fns/formatISO'
+/**
+ * @module utils/search-criteria-builder
+ */
 
+
+/**
+ * Class that simplifies flight/hotel search criteria request creation.
+ * <br/>Glider API requires certain format of a search request and user can search using multiple search criteria.
+ * <br/>This class allows adding multiple search criteria (e.g. origin, destination, departure date, number of passengers) and creates an object which can be used to search for flights or hotels in Glider API
+ *
+ */
 export default class SearchCriteriaBuilder {
   constructor (type) {
     this.searchCriteria = {
@@ -26,7 +36,12 @@ export default class SearchCriteriaBuilder {
     }
   }
 
-
+  /**
+   * Add origin airport search criteria
+   * @param location {string} IATA code of an airport
+   * @param locationType {string} 'airport' only supported
+   * @return {SearchCriteriaBuilder}
+   */
   withTransportDepartureFromLocation (location,locationType='airport') {
     this.validateLocation(location,locationType);
     this.searchCriteria.transportOrigin = {
@@ -36,6 +51,12 @@ export default class SearchCriteriaBuilder {
     return this;
   }
 
+  /**
+   * Add destination airport search criteria
+   * @param location {string} IATA code of an airport
+   * @param locationType {string} 'airport' only supported
+   * @return {SearchCriteriaBuilder}
+   */
   withTransportReturnFromLocation (location,locationType='airport') {
     this.validateLocation(location,locationType);
     this.searchCriteria.transportDestination = {
@@ -45,16 +66,32 @@ export default class SearchCriteriaBuilder {
     return this;
   }
 
+  /**
+   * Add departure date
+   * @param departureDate
+   * @return {SearchCriteriaBuilder}
+   */
   withTransportDepartureDate (departureDate) {
     this.searchCriteria.transportDepartureDate = formatISO(departureDate);
     return this;
   }
 
+  /**
+   * Add return date
+   * @param returnDate
+   * @return {SearchCriteriaBuilder}
+   */
   withTransportReturnDate (returnDate) {
     this.searchCriteria.transportReturnDate = formatISO(returnDate);
     return this;
   }
 
+  /**
+   * Specify location which should be used to search for hotels
+   * @param location
+   * @param locationType
+   * @return {SearchCriteriaBuilder}
+   */
   withAccommodationLocation (location,locationType='rectangle') {
     this.validateLocation(location,locationType);
     this.searchCriteria.accommodationLocation = {
@@ -64,17 +101,33 @@ export default class SearchCriteriaBuilder {
     return this;
   }
 
+  /**
+   * Add arrival date (for hotels search)
+   * @param arrivalDate
+   * @return {SearchCriteriaBuilder}
+   */
   withAccommodationArrivalDate (arrivalDate) {
     this.searchCriteria.accommodationArrivalDate = formatISO(arrivalDate);
     return this;
   }
+
+  /**
+   * Add return date (for hotels search)
+   * @param arrivalDate
+   * @return {SearchCriteriaBuilder}
+   */
   withAccommodationReturnDate (arrivalDate) {
     this.searchCriteria.accommodationReturnDate = formatISO(arrivalDate);
     return this;
   }
 
-
-
+  /**
+   * Specify number and type of passengers
+   * @param adult {number} number of adults
+   * @param children {number} number of children
+   * @param infant {number} number of infants
+   * @return {SearchCriteriaBuilder}
+   */
   withPassengers (adult, children, infant) {
     this.searchCriteria.passengers = [];
     this.searchCriteria.passengers.push({
@@ -96,6 +149,10 @@ export default class SearchCriteriaBuilder {
     return this
   }
 
+  /**
+   * Create search criteria request that should be used to pass to Glider API
+   * @return {Object}
+   */
   build () {
     const request = {
       passengers: this.searchCriteria.passengers
