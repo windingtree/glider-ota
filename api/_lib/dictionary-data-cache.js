@@ -17,7 +17,7 @@ const TABLES={
     AIRPORTS:'airports',
     CITIES:'cities',
     CURRENCIES:'currencies',
-    COUNTRIES:'COUNTRIES'
+    COUNTRIES:'countries'
 }
 
 //cache holder
