@@ -49,16 +49,10 @@ describe('response-decorator', function () {
             let seg1 = segments["NW737YSSN6-SEG1"];
 
             assert.equal(seg1.departureTimeUtc,undefined);
-            assert.equal(seg1.departureTime,"2020-05-21T04:30:00.000Z");
-
             assert.equal(seg1.arrivalTimeUtc,undefined);
-            assert.equal(seg1.arrivalTime,"2020-05-21T05:45:00.000Z");
             replaceUTCTimeWithLocalAirportTime(sample_response);
-            assert.equal(seg1.departureTimeUtc,"2020-05-21T04:30:00.000Z");
-            assert.equal(seg1.departureTime,"2020-05-20T22:30:00.000Z");
-
-            assert.equal(seg1.arrivalTimeUtc,"2020-05-21T05:45:00.000Z");
-            assert.equal(seg1.arrivalTime,"2020-05-20T23:45:00.000Z");
+            assert.equal(seg1.departureTimeUtc,"2020-05-21T04:30:00.000Z"); //local="2020-05-20T22:30:00.000Z"
+            assert.equal(seg1.arrivalTimeUtc,"2020-05-21T05:45:00.000Z");   //local="2020-05-20T23:45:00.000Z"
         });
     });
 
