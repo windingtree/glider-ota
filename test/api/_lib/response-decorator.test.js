@@ -7,7 +7,7 @@ const _ = require('lodash');
 const { utcToZonedTime,zonedTimeToUtc } = require('date-fns-tz');
 describe('response-decorator', function () {
     describe('#enrichAirportCodesWithAirportDetails()', function () {
-        it('should add origin and destination airport details to the response (to results.itineraries.segments', function () {
+        it('should add origin and destination airport details to the response (to results.itineraries.segments', async ()=>{
             let segments = _.get(sample_response,'itineraries.segments',[]);
             let seg1 = segments["NW737YSSN6-SEG1"];
             assert.equal(seg1.origin.iataCode,"YYZ");
@@ -29,7 +29,7 @@ describe('response-decorator', function () {
 
 
     describe('#enrichOperatingCarrierWithAirlineNames()', function () {
-        it('should add origin and destination airport details to the response (to results.itineraries.segments', function () {
+        it('should add origin and destination airport details to the response (to results.itineraries.segments', async ()=>{
             let segments = _.get(sample_response,'itineraries.segments',[]);
             let seg1 = segments["NW737YSSN6-SEG1"];
             assert.equal(seg1.operator.iataCode,"KV");
@@ -43,7 +43,7 @@ describe('response-decorator', function () {
     });
 
     describe('#replaceUTCTimeWithLocalAirportTime()', function () {
-        it('should convert UTC time (for departure and arrival time) ', function () {
+        it('should convert UTC time (for departure and arrival time) ',async ()=> {
 
             let segments = _.get(sample_response,'itineraries.segments',[]);
             let seg1 = segments["NW737YSSN6-SEG1"];

@@ -5,7 +5,7 @@ const assert = require('assert');
 
 describe('dictionary-data-cache', function () {
     describe('#getTableRecordByKey()', function () {
-        it('should return existing currency(GBP)', function () {
+        it('should return existing currency(GBP)', async ()=> {
             let result = dict.getTableRecordByKey(TABLES.CURRENCIES, 'GBP');
             assert.notEqual(result, undefined);
             assert.equal(result.currency_name, 'Pound Sterling')
@@ -14,22 +14,22 @@ describe('dictionary-data-cache', function () {
             let result = dict.getTableRecordByKey(TABLES.CURRENCIES, 'gbp');
             assert.equal(result, undefined);
         });
-        it('should return undefined on non existing currency XXX', function () {
+        it('should return undefined on non existing currency XXX', async ()=> {
             let result = dict.getTableRecordByKey(TABLES.CURRENCIES, 'XYZ');
             assert.equal(result, undefined);
         });
     });
     describe('#findTableRecords()', function () {
-        it('should find matching currencies ', function () {
+        it('should find matching currencies ', async ()=> {
             let result = dict.findTableRecords(TABLES.CURRENCIES, 'Pound', 'currency_name', 10);
             assert.ok(result.length>2);
         });
-        it('should return same results using  upper or  lower case query', function () {
+        it('should return same results using  upper or  lower case query', async ()=> {
             let resultLowercase = dict.findTableRecords(TABLES.CURRENCIES, 'POUND', 'currency_name');
             let resultUppercase = dict.findTableRecords(TABLES.CURRENCIES, 'pound', 'currency_name');
             assert.deepEqual(resultLowercase,resultUppercase);
         });
-        it('should restrict amount of results to max specified', function () {
+        it('should restrict amount of results to max specified', async ()=> {
             let result = dict.findTableRecords(TABLES.CURRENCIES, 'Pound', 'currency_name');
             let max = result.length-1;
             let result2 = dict.findTableRecords(TABLES.CURRENCIES, 'Pound', 'currency_name',max);
@@ -38,19 +38,19 @@ describe('dictionary-data-cache', function () {
     });
 
     describe('#getCurrencyByCode()', function () {
-        it('should return existing currency by currency code ', function () {
+        it('should return existing currency by currency code ', async ()=> {
             let result = dict.getCurrencyByCode('PLN');
             assert.notEqual(result,undefined);
             assert.equal(result.currency_code,'PLN')
         });
-        it('should return undefined if currency does not exist', function () {
+        it('should return undefined if currency does not exist',async ()=> {
             let result = dict.getCurrencyByCode('XYZ');
             assert.equal(result,undefined);
         });
     });
 
     describe('#getAirlineByIataCode()', function () {
-        it('should return existing airline by IATA code ', function () {
+        it('should return existing airline by IATA code ', async ()=> {
             let result = dict.getAirlineByIataCode('SN');
             assert.notEqual(result,undefined);
             assert.equal(result.airline_iata_code,'SN')
@@ -59,14 +59,14 @@ describe('dictionary-data-cache', function () {
     });
 
     describe('#getAirportByIataCode()', function () {
-        it('should return existing airport by IATA code ', function () {
+        it('should return existing airport by IATA code ', async ()=> {
             let result = dict.getAirportByIataCode('JFK');
             assert.notEqual(result,undefined);
             assert.equal(result.airport_iata_code,'JFK')
         });
     });
     describe('#getCountryByCountryCode()', function () {
-        it('should return existing airport by IATA code ', function () {
+        it('should return existing airport by IATA code ', async ()=>{
             let result = dict.getCountryByCountryCode('PL');
             assert.notEqual(result,undefined);
             assert.equal(result.country_code,'PL')
@@ -74,40 +74,40 @@ describe('dictionary-data-cache', function () {
         });
     });
     describe('#findAirport()', function () {
-        it('should find an airports with matching airport name', function () {
+        it('should find an airports with matching airport name', async ()=> {
             let result = dict.findAirport('Pulkovo');
             assert.equal(result[0].airport_name,'Pulkovo');
         });
 
-        it('should find an airports with matching airport iata code', function () {
+        it('should find an airports with matching airport iata code', async ()=> {
             let result = dict.findAirport('jfk');
             assert.equal(result[0].airport_iata_code,'JFK');
         });
 
-        it('should find an airports with matching city name', function () {
+        it('should find an airports with matching city name', async ()=>{
             let result = dict.findAirport('Wroclaw');
             assert.equal(result[0].city_name,'Wroclaw');
         });
 
-        it('should find an airports with matching city code', function () {
+        it('should find an airports with matching city code', async ()=>{
             let result = dict.findAirport('KRK');
             assert.equal(result[0].city_code,'KRK');
         });
 
     });
     describe('#findCity()', function () {
-        it('should find city with matching city name', function () {
+        it('should find city with matching city name', async ()=>{
             let result = dict.findCity('Kraków');
             assert.equal(result[0].city_name,'Kraków');
         });
-        it('should return same results if there are spaces added in the end (or begining) or search query', function () {
+        it('should return same results if there are spaces added in the end (or begining) or search query', async ()=> {
             let result = dict.findCity('New');
             let result2 = dict.findCity('New ');
             let result3 = dict.findCity('New   ');
             assert.ok(result.length===result2.length);
             assert.ok(result2.length===result3.length);
         });
-        it('should find city with partial name (narrow down search results)', function () {
+        it('should find city with partial name (narrow down search results)', async ()=> {
             let result = dict.findCity('New');
             let result2 = dict.findCity('New York');
             assert.ok(result.length>result2.length);

@@ -22,6 +22,7 @@ const getClient = () => {
 
     // Lazy load the client
     if(!_client) {
+        console.warn("Redis client not initialized - connecting")
         _client = redis.createClient({
             port: REDIS_CONFIG.REDIS_PORT,
             host: REDIS_CONFIG.REDIS_HOST,
@@ -53,7 +54,6 @@ const getClient = () => {
                 return Math.min(options.attempt * 100, 3000);
             }
         });
-
         // Close connection to the Redis on exit
         process.on('exit', function () {
             logger.info("Shutting down redis connections gracefully");
@@ -65,6 +65,9 @@ const getClient = () => {
 
         _client.on('end', function () {
             logger.info("Redis client event=end");
+            if(_client) {
+                _client = undefined;
+            }
         });
 
         _client.on('error', function (err) {

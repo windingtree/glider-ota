@@ -1,5 +1,6 @@
 require('dotenv').config();  //load .env
 const {ShoppingCart} = require('../../../api/_lib/shopping-cart');
+const {getClient} = require('../../../api/_lib/session-storage');
 const assert = require('assert');
 const {v4} = require('uuid');
 
@@ -80,5 +81,11 @@ describe('ShoppingCart', function () {
         });
 
     });
+
+    after(async function () {
+        //shutdown redis connection to prevent tests running forever
+        await getClient().quit();
+    });
+
 });
 
