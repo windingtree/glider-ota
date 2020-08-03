@@ -2,8 +2,6 @@
 **Open source Online Travel Agency backed up by Winding Tree ecosystem** 
 
 
-
-
 ## Setting up local development environment
 #### Prerequisites
 Before you start, make sure you have the following prerequisites completed:    
