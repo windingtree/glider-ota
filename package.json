@@ -52,6 +52,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "test:unit": "mocha -r esm --require @babel/register  'test/**/*.test.js'",
+    "test:integration": "mocha -r esm --require @babel/register  'test/**/*.test-integration.js'",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
