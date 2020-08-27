@@ -1,6 +1,6 @@
 const config = {
     SEARCH_OFFERS_URL:"/api/searchOffers",
-    LOCATION_BOUNDING_BOX_IN_KM:10,
+    LOCATION_BOUNDING_BOX_IN_KM:30,
     DEBUG_MODE:true,
     OFFLINE_MODE:false,
     FLIGHTS_PER_PAGE:10,
