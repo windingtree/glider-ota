@@ -39,15 +39,15 @@ export class HotelSearchResultsFilterHelper {
     }
 
     getCheapestHotelOffer(accommodationId, offers) {
-        let minPrice = Number.MAX_SAFE_INTEGER;
-        let minOffer = undefined;
-
-        Object.keys(offers).map(offerId => {
-            let offer = offers[offerId];
-            if (parseInt(offer.price.public) < minPrice)
-                minOffer = offer;
-        })
-        return minOffer;
+        return Object.values(offers).reduce((cheapestSoFar,offer)  => {
+            if(cheapestSoFar === undefined) {
+                cheapestSoFar = offer;
+                return cheapestSoFar;
+            }
+            if (parseInt(offer.price.public) < parseInt(cheapestSoFar.price.public))
+                cheapestSoFar = offer;
+            return cheapestSoFar;
+        },undefined)
     }
 
     applyOfferFilters(offers, filters) {
@@ -79,7 +79,6 @@ export class HotelSearchResultsFilterHelper {
 
 
     applyHotelFilters(hotel, filterStates) {
-        let result = [];
         if (!filterStates)
             return true;
         let checkResult = true;
