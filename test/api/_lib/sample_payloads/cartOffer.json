@@ -1,0 +1,30 @@
+{
+  "valid": [
+    {
+      "offer": {
+        "expiration": "2020-09-13T08:29:38.408Z",
+        "pricePlansReferences": {
+          "MP8NOIGMXE-Basic": {
+            "flights": [
+              "HN4QYO20U8-OD2",
+              "BHF0MM2OAN-OD157"
+            ]
+          }
+        },
+        "price": {
+          "currency": "CAD",
+          "public": "1003.38",
+          "taxes": "263.00"
+        },
+        "offerId": "6ea72272-5e04-4388-8ba3-dd0a0fef0e8a,da1438b6-4bba-4141-8b06-36e777862d55"
+      }
+    }
+  ],
+  "invalid": [
+    {},
+    {
+      "offer": {}
+    },
+    {"offer":{"expiration":"2020-09-13T08:29:38.408Z","pricePlansReferences":{"MP8NOIGMXE-Basic":{"flights":["HN4QYO20U8-OD2","BHF0MM2OAN-OD157"]}},"price":{"currency":"CAD","public":"1003.38","taxes":"263.00"}}}
+  ]
+}

@@ -3,6 +3,7 @@ const {SessionStorage} = require('../_lib/session-storage');
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const logger = require('../_lib/logger').createLogger('/cart1')
 const {decorate} = require('../_lib/decorators');
+const {validateCartPassengersPayload} = require('../_lib/validators')
 
 const shoppingCartController = async (req, res) => {
     let sessionID = req.sessionID;
@@ -10,9 +11,12 @@ const shoppingCartController = async (req, res) => {
     let method = req.method;
     let cartItemKey=CART_ITEMKEYS.PASSENGERS;
     if(method === 'POST') {
+        //validate if payload is OK
+        validateCartPassengersPayload(req.body);
+
         let passengers = req.body.passengers;
-        if(!validatePassengers(res,passengers))
-            return;
+        // if(!validatePassengers(res,passengers))
+        //     return;
         let cart =  await shoppingCart.addItemToCart(cartItemKey,passengers,0);
         res.json({result:"OK"})
     }

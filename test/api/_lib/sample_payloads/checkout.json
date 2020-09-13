@@ -1,0 +1,23 @@
+{
+  "valid": [
+    {
+      "type":"card",
+      "confirmedOfferId":"4411e285-5fed-4fe9-ac9c-fc2d9620937e"
+    },
+    {
+      "type":"card",
+      "confirmedOfferId":"4411e285-5fed-4fe9-ac9c-fc2d9620937e,4411e285-5fed-4fe9-ac9c-fc2d9620937d"
+    }
+  ],
+  "invalid": [
+    {},
+    {
+      "type":"dummy",
+      "confirmedOfferId":"4411e285-5fed-4fe9-ac9c-fc2d9620937e"
+    },
+    {
+      "type":"card",
+      "confirmedOfferId":""
+    }
+  ]
+}

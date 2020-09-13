@@ -34,7 +34,9 @@ function getCookie(req, name) {
  */
 function setCookie(res, name, value, maxAge) {
     let options = {
-        path:'/'
+        path:'/',
+        httpOnly: true,
+        Secure: true
     };
     if (maxAge !== undefined)
         options['maxAge'] = maxAge;

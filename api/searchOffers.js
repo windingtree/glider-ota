@@ -1,12 +1,11 @@
 const {searchOffers} = require('./_lib/glider-api');
-const {createLogger} = require('./_lib/logger')
 const {decorate} = require('./_lib/decorators');
-// const logger = createLogger('/searchOffers')
-
+const {validateSearchCriteriaPayload} = require('./_lib/validators')
 const searchOffersController = async (req, res) => {
+  //validate if payload is OK
+  validateSearchCriteriaPayload(req.body);
   // Call glider API to get offers
   let offerResult = await searchOffers(req.body);
-
   res.json(offerResult);
 }
 
