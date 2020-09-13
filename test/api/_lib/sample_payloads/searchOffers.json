@@ -1,0 +1,429 @@
+{
+  "valid": [
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "ADT"
+        }
+      ]
+    },
+    {
+      "accommodation": {
+        "location": {
+          "rectangle": {
+            "north": "59",
+            "south": "57",
+            "west": "11",
+            "east": "20"
+          }
+        },
+        "arrival": "2020-09-13T22:44:28.053Z",
+        "departure": "2020-10-11T22:44:28.053Z"
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "accommodation": {
+        "location": {
+          "circle": {
+            "longitude": 14.63636847,
+            "latitude": 63.17994135,
+            "radius": 50.00
+          }
+        },
+        "arrival": "2020-10-10T22:44:53.898Z",
+        "departure": "2020-11-09T22:44:53.898Z"
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 3
+        },
+        {
+          "type": "CHD",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "accommodation": {
+        "location": {
+          "polygon": [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              3
+            ]
+          ]
+        },
+        "arrival": "2020-10-10T22:44:53.898Z",
+        "departure": "2020-11-09T22:44:53.898Z"
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 3
+        },
+        {
+          "type": "CHD",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "invalid": [
+    {},
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "CDG"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YYZ"
+            },
+            "departureTime": "2020-10-11T23:48:44.627Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "typeXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX": "ADT"
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCodeXXXXXXXXXXXXXXXXX": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "DUMMY"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "DUMMY",
+              "iataCode": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          },
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "LHR"
+            },
+            "departureTime": "2020-11-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "iataCode": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            }
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "itinerary": {
+      },
+      "passengers": [
+        {
+          "type": "ADT",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "count": 2
+        }
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+      ]
+    },
+    {
+      "itinerary": {
+        "segments": [
+          {
+            "origin": {
+              "locationType": "airport",
+              "iataCode": "LHR"
+            },
+            "destination": {
+              "locationType": "airport",
+              "iataCode": "YVR"
+            },
+            "departureTime": "2020-10-11T22:42:26.912Z"
+          }
+        ]
+      },
+      "passengers": [
+        {
+          "type": "DUMMY",
+          "count": 2
+        },
+        {
+          "type": "CHD",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

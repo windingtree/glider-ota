@@ -1,0 +1,129 @@
+{
+  "valid": [
+    {
+      "offerId": "3dc12c66-ebb1-4962-b2a0-5bcbe500018d",
+      "offerItems": null,
+      "passengers": {
+        "PAX1": {
+          "type": "ADT",
+          "civility": "MR",
+          "lastnames": [
+            "Marley"
+          ],
+          "firstnames": [
+            "Bob"
+          ],
+          "birthdate": "1980-03-21",
+          "contactInformation": [
+            "+32123456789",
+            "contact@org.co.uk"
+          ]
+        }
+      }
+    }
+  ],
+  "invalid": [
+    {},
+    {
+      "passengers": {
+        "PAX1": {
+          "type": "ADT",
+          "civility": "MR",
+          "lastnames": [
+            "Marley"
+          ],
+          "firstnames": [
+            "Bob"
+          ],
+          "birthdate": "1980-03-21",
+          "contactInformation": [
+            "+32123456789",
+            "contact@org.co.uk"
+          ]
+        }
+      }
+    },
+    {
+      "offerId": "3dc12c66-ebb1-4962-b2a0-5bcbe500018d"
+    },
+
+    {
+      "offerId": "3dc12c66-ebb1-4962-b2a0-5bcbe500018d",
+      "offerItems": null,
+      "passengers": {
+        "PAX1": {
+          "civility": "MR",
+          "lastnames": [
+            "Marley"
+          ],
+          "firstnames": [
+            "Bob"
+          ],
+          "birthdate": "1980-03-21",
+          "contactInformation": [
+            "+32123456789",
+            "contact@org.co.uk"
+          ]
+        }
+      }
+    },
+    {
+      "offerId": "3dc12c66-ebb1-4962-b2a0-5bcbe500018d",
+      "offerItems": null,
+      "passengers": {
+        "PAX1": {
+          "type": "ADT",
+          "civility": "MR",
+          "lastnames": [
+          ],
+          "firstnames": [
+            "Bob"
+          ],
+          "birthdate": "1980-03-21",
+          "contactInformation": [
+            "+32123456789",
+            "contact@org.co.uk"
+          ]
+        }
+      }
+    },
+    {
+      "offerId": "3dc12c66-ebb1-4962-b2a0-5bcbe500018d",
+      "offerItems": null,
+      "passengers": {
+        "PAX1": {
+          "type": "ADT",
+          "civility": "MR",
+          "firstnames": [
+            "Bob"
+          ],
+          "lastnames": [],
+          "birthdate": "1980-03-21",
+          "contactInformation": [
+            "+32123456789",
+            "contact@org.co.uk"
+          ]
+        }
+      }
+    },
+    {
+      "offerId": "3dc12c66-ebb1-4962-b2a0-5bcbe500018d",
+      "offerItems": null,
+      "passengers": {
+        "PAX1": {
+          "type": "ADT",
+          "civility": "MR",
+          "lastnames": [
+            "Marley"
+          ],
+          "firstnames": [
+            "Bob"
+          ],
+          "birthdate": "1980-03-21",
+          "contactInformation": [
+          ]
+        }
+      }
+    }
+  ]
+}

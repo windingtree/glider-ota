@@ -53,7 +53,13 @@ function exceptionInterceptorDecorator(fn) {
             await fn(req, res);
         } catch (err) {
             restlogger.error("Exception occurred while processing request %s, error:%s", req.url, err.message, err)
-            res.status(500).send(`Failure: ${err.message}`);
+            res.exception = err;
+            // res.status(500).send(`Failure: ${err.message}`);
+            res.status(typeof err.status === 'number' ? err.status : 500).json({
+                message: err.message,
+                ...(err.code ? { code: err.code } : {})
+            });
+
         }
     }
 }
@@ -78,10 +84,10 @@ function clsDecorator(fn) {
  * @returns {Function}
  */
 function decorate(fn){
-    let wrapper = clsDecorator(fn);             //decorate with correlationID
+    let wrapper = exceptionInterceptorDecorator(fn);   //capture any uncaught exceptions and log it
+    wrapper = clsDecorator(wrapper);             //decorate with correlationID
     wrapper = sessionDecorator(wrapper);        //add sessionID cookie
     wrapper = restLoggerDecorator(wrapper);     //log request/response
-    wrapper = exceptionInterceptorDecorator(wrapper);   //capture any uncaught exceptions and log it
     return wrapper;
 }
 module.exports={
