@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './seat.scss';
 
 export default function Seat(props) {
@@ -12,7 +12,7 @@ export default function Seat(props) {
         selectionAllowed = true,
     } = props;
 
-    // Manage React states    
+    // Manage React states
     const handleSelectionChange = () => {
         if(selected || selectionAllowed) {
             onSelectionChange(number, !selected);

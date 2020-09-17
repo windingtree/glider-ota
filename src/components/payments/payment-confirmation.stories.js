@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-    action
-} from '@storybook/addon-actions';
 import PaymentConfirmation from "./payment-confirmation";
 import fetchMock from 'fetch-mock';
 

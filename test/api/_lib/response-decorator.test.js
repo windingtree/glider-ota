@@ -1,10 +1,10 @@
 const dotenv = require('dotenv')
 dotenv.config({path: '.env'})
 const sample_response = require('../../test_data/sample_flights_response')
-const {enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames,replaceUTCTimeWithLocalAirportTime, convertSearchCriteriaDatesToUTC} = require('../../../api/_lib/response-decorator');
+const {enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames,replaceUTCTimeWithLocalAirportTime} = require('../../../api/_lib/response-decorator');
 const assert = require('assert');
 const _ = require('lodash');
-const { utcToZonedTime,zonedTimeToUtc } = require('date-fns-tz');
+
 describe('response-decorator', function () {
     describe('#enrichAirportCodesWithAirportDetails()', function () {
         it('should add origin and destination airport details to the response (to results.itineraries.segments', function () {

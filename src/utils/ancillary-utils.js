@@ -1,4 +1,3 @@
-import _ from 'lodash'
 
 export default class AncillaryUtils {
   static getPricePLan (searchResults, pricePlanId) {
@@ -10,7 +9,7 @@ export default class AncillaryUtils {
     let flightPricePlan = offer.flightCombination.find(rec=>rec.flight === itinId);
     let pricePlanId = undefined;
 
-    if(flightPricePlan!=undefined){
+    if (flightPricePlan !== undefined) {
       pricePlanId = flightPricePlan.pricePlan;
     }
     return pricePlanId;

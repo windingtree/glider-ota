@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './total-price.module.scss'
-import {Container, Row, Col, Image, Button} from 'react-bootstrap'
+import { Row, Col, Button} from 'react-bootstrap'
 
 export default function TotalPriceButton({price, proceedButtonTitle = 'Proceed', disabled=false, onProceedClicked}) {
     function click(){

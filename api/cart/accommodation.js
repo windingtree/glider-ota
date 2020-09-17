@@ -13,7 +13,7 @@ const shoppingCartController = async (req, res) => {
         let offer = req.body.offer;
         if(!validateOffer(res,offer))
             return;
-        let cart =  await shoppingCart.addItemToCart(cartItemKey,offer,0);
+        await shoppingCart.addItemToCart(cartItemKey,offer,0);
         res.json({result:"OK"})
     }
     else if(method === 'GET') {
@@ -41,8 +41,8 @@ function validateOffer(res, offer){
     return true;
 }
 
-function isNullOrEmpty(str){
-    return (str === undefined || str=='')
+function isNullOrEmpty(str) {
+    return (str === undefined || str === '')
 }
 
 

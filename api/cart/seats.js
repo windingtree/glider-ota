@@ -1,6 +1,4 @@
 const { ShoppingCart, CART_ITEMKEYS } = require('../_lib/shopping-cart');
-const { SessionStorage } = require('../_lib/session-storage');
-const { sendErrorResponse, ERRORS } = require("../_lib/rest-utils");
 const logger = require('../_lib/logger').createLogger('/cart1');
 const { decorate } = require('../_lib/decorators');
 
@@ -8,7 +6,7 @@ const seatRequestHandler = async (req, res) => {
     const shoppingCart = new ShoppingCart(req.sessionID);
 
     switch(req.method) {
-        case 'POST': 
+        case 'POST':
             // Retrieve and check the seats
             let seats = req.body;
             if(!seats && !Array.isArray(seats)) {
@@ -34,7 +32,7 @@ const seatRequestHandler = async (req, res) => {
                     res.status(500).json({message:"Failed to add seats to shopping cart"});
                 });
             break;
-            
+
         default:
             logger.warn("Unsupported method:%s",req.method);
             res.status(405).json({message:"Method Not Supported"});

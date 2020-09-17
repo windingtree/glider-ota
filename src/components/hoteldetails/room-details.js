@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 
 import './hotel-details.module.scss'
 import style from  './room-details.module.scss'
-import {Container, Row, Col, Button, Image} from 'react-bootstrap'
+import {Button, Image} from 'react-bootstrap'
 import _ from 'lodash'
 import default_hotel_image from "../../assets/default_hotel_image.png";
 
@@ -103,12 +103,12 @@ export function MaxOccupation({maximumOccupancy}){
     let adults = maximumOccupancy.adults;
     let children = maximumOccupancy.childs?maximumOccupancy.childs:0;
     let text;
-    if(adults==1)
+    if (adults === 1)
         text = `Up to 1 adult`;
     else
         text = `Up to ${adults} adults`;
 
-    if(children==1)
+    if (children === 1)
         text += ` and 1 child`;
     else if(children>1)
         text += ` and ${children} children`;

@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import Header  from '../components/common/header/header';
 import Footer from '../components/common/footer/footer';
-import {Container,Row,Col,ToggleButton, ToggleButtonGroup,Button} from 'react-bootstrap';
-import {LOCATION_SOURCE} from '../components/lookup/lookup-field';
+import {Container, Row, Col, Button} from 'react-bootstrap';
 import {FlightsSearchForm,HotelsSearchForm} from '../components/search-form/search-form';
 import MainPageContent from './main-page-content';
 import {format} from "date-fns";
@@ -76,10 +75,10 @@ export function FlightOrHotel({defaultValue = SEARCH_TYPE.FLIGHTS, onToggle}){
         <div className={style.flightOrHotelToggle}>
             <Row className={style.flightOrHotelToggleContainer} >
                 <Col xs={6} className={style.flightOrHotelCol}>
-                    <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.FLIGHTS?"primary":"primary-inactive"} size="lg" onClick={onFlightClick}>Flights</Button>
+                    <Button className={style.flightOrHotelToggleBtn} variant={value===SEARCH_TYPE.FLIGHTS?"primary":"primary-inactive"} size="lg" onClick={onFlightClick}>Flights</Button>
                 </Col>
                 <Col xs={6} className={style.flightOrHotelCol}>
-                    <Button className={style.flightOrHotelToggleBtn} variant={value==SEARCH_TYPE.HOTELS?"primary":"primary-inactive"} size="lg" onClick={onHotelClick}>Hotels</Button>
+                    <Button className={style.flightOrHotelToggleBtn} variant={value===SEARCH_TYPE.HOTELS?"primary":"primary-inactive"} size="lg" onClick={onHotelClick}>Hotels</Button>
                 </Col>
             </Row>
         </div>)

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import _ from 'lodash'
 import style from "./pax-details.module.scss"
 import SinglePaxDetails from "./single-pax-details";
@@ -10,7 +10,7 @@ export default function PaxDetails({passengers, onDataChange, highlightInvalidFi
         let paxListCopy = Object.assign([],passengers)
         let idx = findPaxIndex(paxListCopy,paxId);
         passengerRecord.isValid=isValid;
-        if(idx==-1){
+        if (idx === -1) {
             paxListCopy.push(passengerRecord)
         }else{
             paxListCopy[idx] = passengerRecord;

@@ -42,7 +42,7 @@ export class HotelSearchResultsFilterHelper {
         let minPrice = Number.MAX_SAFE_INTEGER;
         let minOffer = undefined;
 
-        Object.keys(offers).map(offerId => {
+        Object.keys(offers).forEach(offerId => {
             let offer = offers[offerId];
             if (parseInt(offer.price.public) < minPrice)
                 minOffer = offer;
@@ -79,7 +79,6 @@ export class HotelSearchResultsFilterHelper {
 
 
     applyHotelFilters(hotel, filterStates) {
-        let result = [];
         if (!filterStates)
             return true;
         let checkResult = true;

@@ -20,7 +20,7 @@ describe('ShoppingCart', function () {
             let item = {text: 'sample flight details'}
             let cart = await shoppingCart.addItemToCart('flight', item, 123);
             assert.equal(cart.totalPrice,123);
-            record = cart.items['flight'].item;
+            let record = cart.items['flight'].item;
             assert.notEqual(record,undefined);
             assert.equal(record.text,'sample flight details')
         });
@@ -32,7 +32,7 @@ describe('ShoppingCart', function () {
             let insurance = {text: 'insurance XYZ'}
             let cart2 = await shoppingCart.addItemToCart('flight', flight1, 1);
             assert.equal(cart2.totalPrice,1);
-            record = cart2.items['flight'].item;
+            let record = cart2.items['flight'].item;
             assert.equal(record.text,'flight AAA')
             cart2 = await shoppingCart.addItemToCart('flight', flight2, 100);
             assert.equal(cart2.totalPrice,100);
@@ -69,7 +69,7 @@ describe('ShoppingCart', function () {
         it('should return existing item from cart', async ()=> {
             let shoppingCart = new ShoppingCart(v4());
             let flight = {text: 'flight AAA'};
-            let cart = await shoppingCart.addItemToCart('flight', flight, 3);
+            await shoppingCart.addItemToCart('flight', flight, 3);
             let item = await shoppingCart.getItemFromCart('flight');
             assert.deepEqual(item,flight);
         });

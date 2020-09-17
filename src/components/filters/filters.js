@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import style from "./filters.module.scss"
 import "react-input-range/lib/css/index.css";
 
 import {MaxNumberOfStopsFilter} from "./max-stops-filter";
@@ -9,7 +8,6 @@ import {AirlinesFilter} from "./airlines-filter";
 import {FILTERS} from "./filters-utils";
 
 export default function Filters({searchResults, onFiltersChanged}) {
-    const [predicates, setPredicates] = useState({})
     const [filterStates, setFilterStates] = useState({})
 
 

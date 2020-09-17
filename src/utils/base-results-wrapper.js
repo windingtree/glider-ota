@@ -50,7 +50,7 @@ export class BaseSearchResultsWrapper {
         let offer = this.getOffer(offerId);
         let pricePlans=[];
         let pricePlansReferences = offer.pricePlansReferences;
-        Object.keys(pricePlansReferences).map(pricePlanId=> {
+        Object.keys(pricePlansReferences).forEach(pricePlanId=> {
             pricePlans.push(this.getPricePlan(pricePlanId));
         })
         return pricePlans;

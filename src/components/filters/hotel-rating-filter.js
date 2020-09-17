@@ -23,7 +23,7 @@ function initializeRatingFilterState(searchResults) {
         return filterState;
     }
 
-    Object.keys(searchResults.accommodations).map(hotelId => {
+    Object.keys(searchResults.accommodations).forEach(hotelId => {
         let hotel = searchResults.accommodations[hotelId];
         if(!isNaN(parseInt(hotel.rating)))
             ratings[parseInt(hotel.rating)]=true;

@@ -1,6 +1,5 @@
 import React from "react";
 import {PulseLoader} from "react-spinners";
-import { css } from "@emotion/core";
 import {Container, Row, Col} from "react-bootstrap";
 
 export default function Spinner({enabled}){

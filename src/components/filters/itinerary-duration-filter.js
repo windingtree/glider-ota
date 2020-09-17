@@ -25,12 +25,12 @@ function initializeItineraryDurationFilterState(searchResults, orig, dest) {
     let segments = searchResults.itineraries.segments;
 
     //iterate over all itineraries (combinations)
-    Object.keys(combinations).map(itinId => {
+    Object.keys(combinations).forEach(itinId => {
         let itinSegmentIds = combinations[itinId];
         let itinSegments = [];
 
         //for each itinerary, extract it's segments and add to itinSegments array
-        itinSegmentIds.map(segmentId => {
+        itinSegmentIds.forEach(segmentId => {
             let segment = segments[segmentId];
             itinSegments.push(segment);
         })

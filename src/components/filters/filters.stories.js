@@ -7,8 +7,6 @@ import searchResults from "../../data/sample_response_unprocessed2.json"
 import searchResults2 from "../../data/sample_flights.json"
 
 import Filters from "./filters"
-import {ItineraryDurationFilter} from "./itinerary-duration-filter";
-import {AirlinesFilter} from "./airlines-filter";
 import {Button} from "react-bootstrap";
 import {useState} from "@storybook/addons";
 

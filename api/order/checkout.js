@@ -3,7 +3,6 @@ const {createLogger} = require('../_lib/logger')
 const {ShoppingCart,CART_ITEMKEYS} = require('../_lib/shopping-cart');
 const {decorate} = require('../_lib/decorators');
 const {storeConfirmedOffer} = require('../_lib/mongo-dao');
-const {createGuarantee} = require('../_lib/simard-api');
 const logger = createLogger('/checkout')
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const {validateCheckoutPayload} = require('../_lib/validators')
@@ -40,7 +39,6 @@ const checkoutUrlController = async (req, res) => {
         }
         logger.debug("SessionID: %s, confirmedOffer:%s", sessionID, confirmedOfferId)
         let passengers = await shoppingCart.getItemFromCart(CART_ITEMKEYS.PASSENGERS);
-        let unconfirmedOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.OFFER);
         let confirmedOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.CONFIRMED_OFFER)
         logger.debug("passenger details in shopping cart", passengers)
         logger.debug("shopping cart ", await shoppingCart.getCart());

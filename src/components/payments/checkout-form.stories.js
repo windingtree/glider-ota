@@ -4,7 +4,6 @@ import {
 } from '@storybook/addon-actions';
 import PaymentForm from "./checkout-form";
 import fetchMock from 'fetch-mock';
-import {AirportLookup} from "../lookup/lookup";
 
 export default {
     component: PaymentForm,

@@ -20,7 +20,7 @@ const lookupController = async (req, res) => {
 };
 
 function validateRequest(iataCode){
-    if(iataCode==undefined || iataCode.length!=3)
+    if (iataCode === undefined || iataCode.length !== 3)
         return false;
     return true;
 }

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import {Button, Container, Row, Col} from 'react-bootstrap'
-import LookupField, {LOCATION_SOURCE} from '../lookup/lookup-field'
+import {Button, Row, Col} from 'react-bootstrap'
+import {LOCATION_SOURCE} from '../lookup/lookup-field'
 import TravelDatepickup from './travel-datepickup'
 import style from './search-form.module.scss'
 import PassengerSelector from './passenger-selector'
@@ -101,7 +101,7 @@ function SearchForm(props){
   }
 
   function validate(){
-    let originValid =  isOriginValid() || (formType==TYPE.HOTELS);  //if it's hotels - origin is not displayed
+    let originValid = isOriginValid() || (formType === TYPE.HOTELS);  //if it's hotels - origin is not displayed
     let destinationValid =  isDestinationValid();
     let departureDateValid = isDepartureDateValid();
     let returnDateValid = isReturnDateValid() || oneWayAllowed;
@@ -255,7 +255,6 @@ export function buildFlightsSearchCriteria(origin,destination,departureDate,retu
 export function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, adults,children,infants) {
   const criteriaBuilder = new SearchCriteriaBuilder();
   let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,10)
-  let boundingBoxForSelectedLocation2 = criteriaBuilder.boundingBox(latitude,longitude,40)
   const searchCriteria = criteriaBuilder
       .withAccommodationLocation(boundingBoxForSelectedLocation,'rectangle')
       .withAccommodationArrivalDate(arrivalDate)
