@@ -1,0 +1,257 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Glider OTA backend",
+    "description": "Glider OTA backend API documentation",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://staging.glider.travel",
+      "description": "Staging environment"
+    },
+    {
+      "url": "https://glider.travel",
+      "description": "Production environment"
+    }
+  ],
+  "paths": {
+    "/api/searchOffers": {
+      "post": {
+        "tags": [
+          "offers"
+        ],
+        "summary": "Search for offers matching search criterias",
+        "operationId": "offersWithSearchCriteria",
+        "requestBody": {
+          "description": "Search for offers matching input criteria",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "wt-aggregator.yaml#/components/schemas/SearchCriteria"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Offers Retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lookup/airportSearch": {
+      "get": {
+        "summary": "Airports lookup",
+        "operationId": "airportSearch",
+        "parameters": [
+          {
+            "name": "searchquery",
+            "in": "path",
+            "description": "Airport/city name (or partial)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching airports",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cart/offer": {
+      "post": {
+        "summary": "Store offer in shopping cart",
+        "operationId": "addOfferToCart",
+        "requestBody": {
+          "description": "Store selected offer in shopping cart",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CartItemOffer"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cart/passengers": {
+      "post": {
+        "summary": "Store passenger details",
+        "operationId": "addPaxDetailsToCart",
+        "requestBody": {
+          "description": "Store passenger details to be used to issue the ticket",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CartItemPassengers"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/checkout": {
+      "post": {
+        "summary": "Checkout - start payment process",
+        "operationId": "checkout",
+        "requestBody": {
+          "description": "Initiate payment process (it will create payment intent)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutParameters"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SearchCriteria": {
+        "$ref": "wt-aggregator.yaml#/components/schemas/SearchCriteria"
+      },
+      "CartItemOffer": {
+        "description": "An offer to be stored in cart",
+        "type": "object",
+        "required": [
+          "offer"
+        ],
+        "properties": {
+          "offer": {
+            "type": "object",
+            "description": "offer",
+            "required": [
+              "offerId"
+            ],
+            "properties": {
+              "offerId": {
+                "$ref": "#/components/schemas/CommaSepUUIDs"
+              }
+            }
+          }
+        }
+      },
+      "CommaSepUUIDs": {
+        "description": "Comma separated list of offerIDs",
+        "type": "string",
+        "minLength": 36,
+        "example": "11111111-2222-3333-4444-000000000001,11111111-2222-3333-4444-000000000002"
+      },
+      "CartItemPassengers": {
+        "description": "Passengers details to be stored for late ticket issuance",
+        "required": [
+          "passengers"
+        ],
+        "properties": {
+          "passengers": {
+            "type": "array",
+            "description": "List of passenger details",
+            "minItems": 1,
+            "items": {
+              "$ref": "wt-aggregator.yaml#/components/schemas/Passenger"
+            }
+          }
+        }
+      },
+      "CheckoutParameters": {
+        "description": "Payment details",
+        "required": [
+          "type",
+          "confirmedOfferId"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Method of payment",
+            "enum": [
+              "card"
+            ]
+          },
+          "confirmedOfferId": {
+            "$ref": "#/components/schemas/CommaSepUUIDs"
+          }
+        }
+      }
+    }
+  }
+}

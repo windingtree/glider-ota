@@ -6,6 +6,8 @@ const {storeConfirmedOffer} = require('../_lib/mongo-dao');
 const {createGuarantee} = require('../_lib/simard-api');
 const logger = createLogger('/checkout')
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
+const {validateCheckoutPayload} = require('../_lib/validators')
+
 const DEV_MODE=false;
 /**
  * /checkoutUrl call handler
@@ -25,6 +27,7 @@ const DEV_MODE=false;
  * @returns {Promise<void>}
  */
 const checkoutUrlController = async (req, res) => {
+    validateCheckoutPayload(req.body)
     let payload = req.body;
     let payment_type=payload.type;
     let sessionID=req.sessionID;

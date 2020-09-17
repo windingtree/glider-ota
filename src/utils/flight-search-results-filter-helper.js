@@ -73,22 +73,23 @@ export class FlightSearchResultsFilterHelper {
         })
         return duration;
     }
-
     sortTrips(trips,sortBy){
         const priceComparator = (trip1,trip2) =>{
-        let price1 = trip1.bestoffer.price;
-        let price2 = trip2.bestoffer.price;
-        if (price1.public < price2.public)
-            return -1;
-        else if (price1.public > price2.public)
-            return 1;
-        else return 0;
+            let price1 = Number(trip1.bestoffer.price.public);
+            let price2 = Number(trip2.bestoffer.price.public);
+            if (price1 < price2)
+                return -1;
+            else if (price1 > price2)
+                return 1;
+            else return 0;
         }
 
         const durationComparator = (trip1,trip2) =>{
-            if(trip1.trip_duration < trip2.trip_duration)
+            let duration1=Number(trip1.trip_duration);
+            let duration2=Number(trip2.trip_duration);
+            if(duration1 < duration2)
                 return -1;
-            else if(trip1.trip_duration > trip2.trip_duration)
+            else if(duration1 > duration2)
                 return 1;
             else return 0;
         }

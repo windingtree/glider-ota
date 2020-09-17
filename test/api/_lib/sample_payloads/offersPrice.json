@@ -1,0 +1,13 @@
+{
+  "valid": [
+    [],
+    [{"code":"divNonAir04.ASPW_0","seatNumber":"18A","segment":"WX7TD370QE-SEG1","passenger":"E10E4D05"}]
+  ],
+  "invalid": [
+    {},
+    [{"code":"","seatNumber":"18A","segment":"WX7TD370QE-SEG1","passenger":"E10E4D05"}],
+    [{"code":"divNonAir04.ASPW_0","seatNumber":"","segment":"WX7TD370QE-SEG1","passenger":"E10E4D05"}],
+    [{"code":"divNonAir04.ASPW_0","seatNumber":"18A","segment":"","passenger":"E10E4D05"}],
+    [{"code":"divNonAir04.ASPW_0","seatNumber":"18A","segment":"WX7TD370QE-SEG1","passenger":""}]
+  ]
+}

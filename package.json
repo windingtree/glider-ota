@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
+    "ajv": "^6.12.4",
     "async-redis": "^1.1.7",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
@@ -20,12 +21,12 @@
     "date-fns-tz": "^1.0.10",
     "esm": "^3.2.25",
     "immutability-helper": "^3.0.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "linkifyjs": "^2.1.9",
     "localstorage-cache": "^1.0.1",
     "lz-string": "^1.4.4",
     "mongodb": "^3.5.5",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "query-string": "^6.12.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
@@ -37,7 +38,7 @@
     "react-phone-number-input": "^3.0.23",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0",
+    "react-scripts": "^3.4.3",
     "react-spinners": "^0.8.1",
     "redis": "^3.0.2",
     "redux": "^4.0.5",
@@ -54,7 +55,10 @@
     "eject": "react-scripts eject",
     "test:unit": "mocha --require @babel/register  'src/**/*.spec.js'",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "build-schema-ota": "npx js-yaml ./api/_lib/schemas/backend-api-schema.yaml > api/_lib/schemas/backend-api-schema.json",
+    "build-schemas-b2b": "npx js-yaml ./api/_lib/schemas/wt-aggregator.yaml > api/_lib/schemas/wt-aggregator.json",
+    "nowdev": "npx now dev"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -81,7 +85,8 @@
     "@storybook/react": "^5.3.18",
     "fetch-mock": "^9.4.0",
     "mocha": "^7.1.2",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.1",
+    "now": "^20.1.0"
   },
   "resolutions": {}
 }

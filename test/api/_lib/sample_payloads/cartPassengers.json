@@ -1,0 +1,59 @@
+{
+  "valid": [
+    {
+      "passengers": [
+        {
+          "passenger_id": "PAX1",
+          "type": "ADT",
+          "civility": "MR",
+          "lastname": "Smith",
+          "firstname": "John",
+          "gender": "Male",
+          "birthdate": "1980-01-01",
+          "email": "test@test.com",
+          "phone": "+48123456789"
+        }
+      ]
+    },
+    {
+      "passengers": [
+        {
+          "passenger_id": "PAX1",
+          "type": "ADT",
+          "civility": "MR",
+          "lastname": "Smith",
+          "firstname": "John",
+          "gender": "Male",
+          "birthdate": "1980-01-01",
+          "email": "test@test.com",
+          "phone": "+48123456789"
+        },
+        {
+          "passenger_id": "PAX2",
+          "type": "ADT",
+          "civility": "MR",
+          "lastname": "Smith",
+          "firstname": "John",
+          "gender": "Male",
+          "birthdate": "1980-01-01",
+          "email": "test@test.com",
+          "phone": "+48123456789"
+        }
+      ]
+    }
+  ],
+  "invalid": [
+    {},
+    {
+      "passengers": [
+      ]
+    },
+    {
+      "passengers": [
+        {
+          "passenger_id": "PAX1"
+        }
+      ]
+    }
+  ]
+}
