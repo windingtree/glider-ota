@@ -106,8 +106,7 @@ function SearchForm(props){
     let departureDateValid = isDepartureDateValid();
     let returnDateValid = isReturnDateValid() || oneWayAllowed;
     let paxSelectionValid = isPaxSelectionValid();
-    let isFormValid = originValid && destinationValid && departureDateValid && returnDateValid && paxSelectionValid;
-    return isFormValid;
+    return originValid && destinationValid && departureDateValid && returnDateValid && paxSelectionValid;
   }
     const isValid=validate();
 

@@ -34,7 +34,7 @@ export default function SingleHotel({hotel, bestoffer, handleClick}){
 
 const HotelPrice = ({price}) => {
     return (<div className={style.price}>
-        from <span className='glider-font-h2-fg'>{price.public} {price.currency}</span> per night
+        from <span className='glider-font-h2-fg'>{price.public} {price.currency}</span> per stay
     </div>)
 }
 

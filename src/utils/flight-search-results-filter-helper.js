@@ -73,7 +73,6 @@ export class FlightSearchResultsFilterHelper {
         })
         return duration;
     }
-
     sortTrips(trips,sortBy){
         const priceComparator = (trip1,trip2) =>{
             let price1 = Number(trip1.bestoffer.price.public);

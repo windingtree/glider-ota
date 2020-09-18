@@ -48,6 +48,7 @@ export class HotelSearchResultsFilterHelper {
                 minOffer = offer;
         })
         return minOffer;
+
     }
 
     applyOfferFilters(offers, filters) {
