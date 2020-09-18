@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React from 'react';
 import Header from '../components/common/header/header';
 import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import HotelDetails from "../components/hoteldetails/hotel-details"

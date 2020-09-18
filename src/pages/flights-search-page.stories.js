@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-    action
-} from '@storybook/addon-actions';
 
 import FlightsSearchPage from "./flights-search-page";
 import searchResults from "../data/sample_response_flights.json";

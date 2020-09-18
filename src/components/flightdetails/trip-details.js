@@ -1,10 +1,7 @@
-import {Button, Col, Container, Image, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import {differenceInHours, differenceInMinutes, format, parseISO} from "date-fns";
-import logo from "../../assets/airline_logo.png";
-import {iataToCityName} from "../../utils/offer-utils"
 import React from "react";
 import style from "./trip-details.module.scss";
-import {config} from "../../config/default";
 import {AirlineLogo, Itinerary} from "../flightresults/flights-offer";
 
 
@@ -35,11 +32,11 @@ export default function TripDetails({itineraries=[]}){
             let itineraryHeader='';
             //only if there is 1 or 2 trips, display trip headers as 'departure' and 'return', otherwise don't display anything
             if(itineraries.length<=2){
-                if(itinIdx==0) itineraryHeader='Departure flight';
-                if(itinIdx==1) itineraryHeader='Return flight';
+                if(itinIdx===0) itineraryHeader='Departure flight';
+                if(itinIdx===1) itineraryHeader='Return flight';
             }
             itinIdx++;
-            return (<ItineraryDetails key={itinerary.itinId} itinerary={itinerary} header={itineraryHeader}/>)
+            return (<ItineraryDetails key={itinIdx} itinerary={itinerary} header={itineraryHeader}/>)
         })}
         </>)
 }

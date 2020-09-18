@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
-import {Col, Container, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import TripRates from "../components/flightdetails/flight-rates";
 import {withRouter} from 'react-router'
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
@@ -61,7 +61,7 @@ export default function FlightFareFamiliesPage({match}) {
 }
 
 export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) {
-    const [currentOffer, setCurrentOffer] = useState(selectedOffer)
+    const [currentOffer] = useState(selectedOffer)
     let history = useHistory();
     const passengers = history.location.state && history.location.state.passengers;
     let baselineFare = history.location.state.baselineFare;

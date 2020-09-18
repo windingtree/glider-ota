@@ -1,7 +1,3 @@
-import update from 'immutability-helper';
-import {BaseSearchResultsWrapper} from "./base-results-wrapper";
-const _ = require('lodash')
-
 
 // Detect if the search is one-way and return, and in case of return merge one-way offers
 // This function heavily impact performances
@@ -25,33 +21,33 @@ const mergeRoundTripOffers = (searchResults) => {
             break;
         }
     }
-    
+
     if(isReturn) {
       // Prepare to split inbound and outbound offers
       let inboundOffers = [];
       let outboundOffers = [];
-  
+
       // Go through each offer
       Object.keys(searchResults.offers).forEach(offerId => {
         // Extract the price plans
         let pricePlans = Object.keys(searchResults.offers[offerId].pricePlansReferences);
-  
+
         // If there is only one price plan with one flight, it is a one-way offer
-        if(pricePlans.length === 1 && 
+        if(pricePlans.length === 1 &&
           searchResults.offers[offerId].pricePlansReferences[pricePlans[0]].flights.length === 1) {
             let flightKey = searchResults.offers[offerId].pricePlansReferences[pricePlans[0]].flights[0];
             let segmentKeys = searchResults.itineraries.combinations[flightKey];
-  
+
             // Add offer to outbound or inbound arrays
             if(searchResults.itineraries.segments[segmentKeys[0]].origin.iataCode === orgIata) {
               outboundOffers.push(offerId);
             } else {
               inboundOffers.push(offerId);
             }
-            
+
         }
       });
-  
+
       // Create new combinations using the outbound and inboud
       for(let i=0; i<inboundOffers.length; i++) {
         let inboundOfferId = inboundOffers[i];
@@ -104,7 +100,7 @@ const mergeRoundTripOffers = (searchResults) => {
         delete(searchResults.offers[outboundOffers[j]]);
       }
     }
-  
+
     return searchResults;
 };
 
@@ -116,14 +112,12 @@ export default function extendResponse(response){
         return response;
     }
     let copy = Object.assign({},response)
-    let start=Date.now();
     copy = mergeRoundTripOffers(copy);
     //console.log("[Flight Results] Resulting merged offer: ", JSON.stringify(copy));
     // let combinations = getAllCombinations(response);
     // decorateHotelWithAccommodationId(response.accommodations)
     // decoratePricePlanWithPricePlanId(response.pricePlans);
     // response.combinations=combinations;
-    let end=Date.now();
     if(!copy.metadata)
         copy.metadata={};
     copy.metadata['postprocessed']=true;

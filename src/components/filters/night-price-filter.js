@@ -25,7 +25,7 @@ function initializePriceFilterState(searchResults, numberOfNights) {
         return filterState;
     let offers = searchResults.offers;
 
-    Object.keys(offers).map(offerId => {
+    Object.keys(offers).forEach(offerId => {
         let offer = offers[offerId];
         let price = offer.price;
         if (!currencyCode)

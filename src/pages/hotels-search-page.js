@@ -1,7 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {
-    buildFlightsSearchCriteria,
     searchForHotels,
     HotelsSearchForm
 } from '../components/search-form/search-form';
@@ -94,7 +93,7 @@ export default function HotelsSearchPage({match,location, results}) {
                         />
                         <Spinner enabled={searchState === SEARCH_STATE.IN_PROGRESS}/>
                         {searchState === SEARCH_STATE.FAILED && <WarningNoResults/>}
-                        {searchResults != undefined &&
+                        {searchResults !== undefined &&
                         <HotelsSearchResults onHotelSelected={onHotelSelected} searchResults={searchResults} filters={filters}/>}
                     </Col>
                 </Row>
@@ -115,7 +114,7 @@ const WarningNoResults = () => {
            <span role='img' aria-label='sorry'> 😢</span>
        </Alert.Heading>
        <p>
-           Glider has been launched with our amazing partner <b><a href='https://www.nordicchoicehotels.com/' target="_blank">Nordic Choice Hotels</a></b>,
+           Glider has been launched with our amazing partner <b><a href='https://www.nordicchoicehotels.com/' target="_blank" rel="noopener noreferrer">Nordic Choice Hotels</a></b>,
            so for now we have only results in the Nordics <span role='img' aria-label='flags'>🇸🇪🇳🇴🇫🇮</span>!
            Why not going there?
        </p>

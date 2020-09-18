@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import style from './hotel-details.module.scss'
-import {Container, Row, Col, Button, Image} from 'react-bootstrap'
+import {Container, Row, Col, Image} from 'react-bootstrap'
 import _ from 'lodash'
 import PaxDetails from "../passengers/pax-details";
 import Room from "./room-details"

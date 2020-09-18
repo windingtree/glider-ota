@@ -25,7 +25,7 @@ export default class FareFamilyHelper {
     })
     //we have lowest fares for price planID, now we need a list of price plans and sort it by price (ascending)
     let plans=[];
-    Object.keys(pricePlansMinFares).map(pricePlanId=>{
+    Object.keys(pricePlansMinFares).forEach(pricePlanId=>{
       plans.push({pricePlanId:pricePlanId, lowestPrice:pricePlansMinFares[pricePlanId]})
     })
     //sort it

@@ -1,4 +1,3 @@
-import update from 'immutability-helper';
 import FareFamilyHelper from '../../src/utils/fare-family-helper';
 var assert = require('assert');
 

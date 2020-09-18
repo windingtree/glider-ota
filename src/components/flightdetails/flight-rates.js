@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import OfferUtils from "../../utils/offer-utils";
 import style from "./flight-rates.module.scss"
 import {ItineraryDetails} from "./trip-details";
 import FareFamilyHelper from "../../utils/fare-family-helper";
@@ -52,7 +51,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
 
     function selectOffer(offerId){
         //TODO fixme
-        if(offerId!='UNKNOWN')
+        if (offerId !== 'UNKNOWN')
             onOfferSelected(offerId)
         else{
             console.error("Unknown offer was selected!")
@@ -67,7 +66,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
 
 
     return (<>
-        <ItineraryDetails itinerary={itinerary}/>
+        <ItineraryDetails itinerary={itinerary} key={itineraryId}/>
         <div className='py-5'/>
         <div className={style.ratesHeader}>Select a fare below</div>
         <div className='d-flex flex-row flex-wrap'>
@@ -84,7 +83,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                                 let fareFamilyAmount = lowestPrice.public;
                                 let diff = parseInt(fareFamilyAmount) - parseInt(baselineAmount);
                                 //if there is no difference - don't display anything
-                                if(Math.round(diff)!=0){
+                                if (Math.round(diff) !== 0) {
                                     priceDifference={
                                         public:diff,
                                         currency:baselineFare.currency
@@ -141,7 +140,7 @@ export function FareFamilyBenefits({familyName, price, isSelected, amenities=[],
         fare = Math.round(price.public) + " "+ price.currency;
         if(price.public>0)
             fare = "+"+fare;
-        else if(price.public==0){
+        else if (price.public === 0) {
             fare = "";
         }
     }

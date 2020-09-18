@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-  action
-} from '@storybook/addon-actions';
-
 import TripDetails, {ItineraryDetails,SegmentDetails,RouteOverview,LayoverInfo} from "./trip-details"
 
 export default {
@@ -179,12 +175,6 @@ const itinerary2 = {
 }
 
 
-const price = {
-  "currency": "EUR",
-      "public": "1410.77",
-      "commission": "8.21",
-      "taxes": "589.77"
-}
 
 const roundtrip = [itinerary1,itinerary2];
 

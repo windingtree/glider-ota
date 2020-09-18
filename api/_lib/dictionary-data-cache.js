@@ -1,8 +1,6 @@
 const fs = require("fs");
 const _ = require('lodash');
 const DB_LOCATION="api/_data/";
-const {createLogger} = require('./logger');
-const logger = createLogger('dictionary-data-cache')
 const TABLES={
     AIRLINES:'airlines',
     AIRPORTS:'airports',
@@ -59,7 +57,6 @@ function findTableRecords(tableName, searchQuery, searchFieldNames, maxResults =
     else
         fieldNames.push(searchFieldNames);
 
-    let concatenatedFields="";
      _.each(table,rec=>{
         let valuesToSearch = _getFieldValues(rec,fieldNames);
         if (result.length<maxResults && _match(searchQuery,valuesToSearch)){
@@ -98,7 +95,7 @@ function _isArrayType(param){
 }
 
 function ensureTablesIsLoaded(tableName){
-    if(CACHE[tableName] != undefined) {
+    if (CACHE[tableName] !== undefined) {
         return;
     }
     CACHE[tableName] = loadTableIntoCache(tableName);

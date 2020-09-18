@@ -1,12 +1,12 @@
 import React, {useState,useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
-import {retrieveOfferFromLocalStorage, retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
+import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
 import {Button} from "react-bootstrap";
 import PaxSummary from "../components/passengers/pax-summary";
 import {repriceShoppingCartContents, retrievePassengerDetails} from "../utils/api-utils";
 import TotalPriceButton from "../components/common/totalprice/total-price";
-import PaymentSummary, {TermsFareRules} from "../components/payment/payment-summary";
+import PaymentSummary from "../components/payment/payment-summary";
 import {RouteOverview} from "../components/flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import Alert from 'react-bootstrap/Alert';
@@ -37,7 +37,7 @@ export default function FlightSummaryPage({match}) {
     let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
 
-    let offer = retrieveOfferFromLocalStorage(offerId);
+    // let offer = retrieveOfferFromLocalStorage(offerId);
 
 
     function onProceedButtonClick(){

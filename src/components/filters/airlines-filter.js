@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import {SelectionFilter} from "./selection-filter";
 
 export function AirlinesFilter({title = 'Airlines', onFilterSelectionChanged, searchResults}) {
@@ -23,11 +23,11 @@ function initializeAirlinesFilterState(searchResults) {
         return filterState;
     }
     let segments = searchResults.itineraries.segments;
-    Object.keys(segments).map(segmentId => {
+    Object.keys(segments).forEach(segmentId => {
         let segment = segments[segmentId];
         airlines[segment.operator.iataCode] = segment.operator.airline_name;
     })
-    Object.keys(airlines).map(iata => {
+    Object.keys(airlines).forEach(iata => {
         filterState.push({key: iata, display: airlines[iata], selected: false});
     })
     return filterState;

@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useEffect} from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
 import PaymentForm from "../components/payments/checkout-form";
@@ -28,7 +28,7 @@ export default function PaymentPage({match}) {
             <div>
                 <Header violet={true}/>
                 <div className='root-container-subpages'>
-                    <PaymentForm 
+                    <PaymentForm
                         confirmedOfferId={confirmedOfferId}
                         onPaymentSuccess={onPaymentSuccess}
                         onPaymentFailure={onPaymentFailure}

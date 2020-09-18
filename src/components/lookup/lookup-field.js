@@ -10,7 +10,7 @@ export const LOCATION_SOURCE={
 const SEARCH_TIMEOUT_MILLIS=100;
 
 export default function LookupField({initialLocation,onSelectedLocationChange, placeHolder, onQueryEntered, locations=[]})  {
-    const [value, setValue] = useState(initialLocation!=undefined?initialLocation.primary:'');
+    const [value, setValue] = useState(initialLocation!==undefined?initialLocation.primary:'');
     const [target, setTarget] = useState();
     const [selectedLocation, setSelectedLocation] = useState(initialLocation);
     const [searchQueryTimeout, setSearchQueryTimeout] = useState();
@@ -39,7 +39,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     function handleOnChange(event) {
         const enteredText = event.target.value;
         clearSelectedLocation();
-        if(searchQueryTimeout!=undefined){
+        if(searchQueryTimeout!==undefined){
             //check if there was already a timeout handler set previously - if so, cancel it (in case user entered text too fast)
             clearTimeout(searchQueryTimeout);
             setSearchQueryTimeout(undefined)

@@ -3,7 +3,7 @@ import {
     action
 } from '@storybook/addon-actions';
 
-import {RadiobuttonFilter, SelectionFilter} from "./radiobutton-filter"
+import {RadiobuttonFilter} from "./radiobutton-filter"
 
 export default {
     title: 'Filters/Base radiobutton filter',

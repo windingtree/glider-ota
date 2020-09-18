@@ -1,6 +1,5 @@
 import React, {useState, useRef} from 'react'
-import {Container, Row, Col, Form, Alert} from 'react-bootstrap'
-import _ from 'lodash'
+import {Col, Form} from 'react-bootstrap'
 import style from "./single-pax-details.module.scss";
 import Button from "react-bootstrap/Button";
 import 'react-phone-number-input/style.css';
@@ -87,7 +86,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
         setValidated(true);
     }
     function onFieldInput(e){
-        const {name,value} = e.target;
+        // const {name,value} = e.target;
     }
 
     function onSaveButtonClicked(){

@@ -19,7 +19,7 @@ export function RadiobuttonFilter({title = 'title', filterItems, onItemCheckStat
             onItemCheckStateChange(itemIdx, item, checked)
         if(onFilterStateChanged) {
             let filter={};
-            newItems.map(item=>{
+            newItems.forEach(item=>{
                 filter[item.key] = item.selected;
             })
             onFilterStateChanged(filter);

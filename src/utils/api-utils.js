@@ -1,5 +1,4 @@
 import  {stringify}  from 'query-string';
-import {config} from "../config/default";
 
 
 function ApiFetchException(message,response) {

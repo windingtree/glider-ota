@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import style from "./hotel-filters.module.scss"
 import "react-input-range/lib/css/index.css";
 
 import {FILTERS} from "./filters-utils";

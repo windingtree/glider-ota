@@ -1,5 +1,4 @@
 const {validateCartOfferPayload, validateSearchCriteriaPayload, validateCartPassengersPayload, validateCheckoutPayload} = require('../../../api/_lib/validators');
-const GliderError = require('../../../api/_lib/rest-utils');
 const assert = require('assert');
 
 describe('/api/searchOffers payload validator', () => {

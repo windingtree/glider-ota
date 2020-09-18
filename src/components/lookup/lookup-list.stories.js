@@ -1,10 +1,6 @@
 import React from 'react';
 
 import LookupList from "./lookup-list";
-import {
-    action
-} from '@storybook/addon-actions';
-
 
 export default {
     component: LookupList,

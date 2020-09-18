@@ -1,21 +1,11 @@
-import React, {useState} from 'react'
+import React from 'react'
 import style from './passenger-selector.module.scss'
 
-import {Button, Dropdown, Container, Row, Col, Form, FormCheck} from 'react-bootstrap'
-import {InputGroupRadio} from "react-bootstrap/InputGroup";
+import {Button, Dropdown, Container, Row, Col} from 'react-bootstrap'
 import Alert from 'react-bootstrap/Alert';
 
 export default function PassengerSelector({adults, children, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false, maxPassengers, infantsAllowed = true}) {
 
-    function handleChange(evt){
-        console.log("handleChange",evt.target)
-        console.log("handleChange state",evt.target.state)
-        console.log("handleChange value",evt.target.value)
-        console.log("handleChange id",evt.target.id)
-        let id = evt.target.id;
-        let value = evt.target.value;
-
-    }
     function increase(type) {
         if (!maxPassengers || (getTotal() < maxPassengers)) {
             switch (type) {

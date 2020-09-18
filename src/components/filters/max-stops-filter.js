@@ -1,5 +1,5 @@
 import React from 'react';
-import {RadiobuttonFilter, SelectionFilter} from "./radiobutton-filter";
+import {RadiobuttonFilter} from "./radiobutton-filter";
 
 export function MaxNumberOfStopsFilter({title = 'Stops',  onFilterSelectionChanged, searchResults}) {
     function onFilterStateChanged(filterState){
@@ -17,14 +17,13 @@ export function MaxNumberOfStopsFilter({title = 'Stops',  onFilterSelectionChang
         {key: "ALL", display: "ALL", selected: true},
         {key: "0", display: "Direct flights only", selected: false},
     ]
-    let maxStops = 0;
     if (!searchResults || !searchResults.itineraries)
         return filterState;
 
     let stops=[];
     let combinations = searchResults.itineraries.combinations;
     //iterate over all itineraries and check how many stops each of them has
-    Object.keys(combinations).map(combinationId => {
+    Object.keys(combinations).forEach(combinationId => {
         let combination = combinations[combinationId];
         let stopsCount = combination.length-1;
         //store number of stops

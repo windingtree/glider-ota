@@ -20,7 +20,7 @@ const lookupController = async (req, res) => {
 };
 
 function validateRequest(query){
-    if(query==undefined || query.length<2)
+    if (query === undefined || query.length < 2)
         return false;
     return true;
 }

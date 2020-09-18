@@ -1,17 +1,16 @@
 const winston = require('winston');
-const { Client } = require('@elastic/elasticsearch');
-const { ELASTIC_CONFIG } = require('./config');
-var Elasticsearch = require('winston-elasticsearch');
 /*const client = new Client({
     node: ELASTIC_CONFIG.URL,
     name: 'glider-ota',
     index: 'ota-default'
 });*/
+/*
 let esTransportOpts = {
     level: 'debug',
     indexPrefix:'ota-log',
     clientOpts: { node: ELASTIC_CONFIG.URL }
 };
+*/
 
 function createLogger(loggerName) {
     const logger = winston.createLogger({

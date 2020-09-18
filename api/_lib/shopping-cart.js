@@ -8,7 +8,7 @@ const CART_ITEMKEYS = {
     OFFER : 'offer',
     PASSENGERS : 'passengers',
     SEATS : 'seats',
-    ANCILLARIES : 'ancillaries', 
+    ANCILLARIES : 'ancillaries',
     CONFIRMED_OFFER : 'confirmed-offer',
 };
 
@@ -81,7 +81,7 @@ class ShoppingCart {
      */
     async removeItemFromCart(cartKey){
         let cart = await this.getCart();
-        if(cart.items[cartKey]!=undefined){
+        if (cart.items[cartKey] !== undefined) {
             delete cart.items[cartKey];
         }
         this._calculateTotalPrice(cart);

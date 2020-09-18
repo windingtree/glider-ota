@@ -20,10 +20,10 @@ function initializeAmenitiesFilterState(searchResults) {
     }
     let amenities={};
     //iterate over all hotels and extract all unique amenities
-    Object.keys(searchResults.accommodations).map(hotelId => {
+    Object.keys(searchResults.accommodations).forEach(hotelId => {
         let hotel = searchResults.accommodations[hotelId];
         let rooms = hotel.roomTypes;
-        rooms && Object.keys(rooms).map(roomId => {
+        rooms && Object.keys(rooms).forEach(roomId => {
             let room = rooms[roomId];
             let roomAmenities = room.amenities;
             for(let i=0;i<roomAmenities.length;i++)
