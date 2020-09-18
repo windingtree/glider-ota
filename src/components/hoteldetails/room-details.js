@@ -16,7 +16,7 @@ export default function Room({room, roomPricePlansWithOffers, onOfferSelected, s
                     {/*{room.roomTypeId}*/}
                     {/*<div>{room.description}</div>*/}
                     <div ><RoomImage images={room.media}/></div>
-                    <div className='glider-font-text16-fg'>{room.size.value} {room.size._unit_}</div>
+                    <div className='glider-font-text16-fg'><RoomSize room={room}/></div>
                     <div>
                         <RoomAmenities amenities={room.amenities}/>
                     </div>
@@ -43,6 +43,15 @@ export default function Room({room, roomPricePlansWithOffers, onOfferSelected, s
     )
 }
 
+const RoomSize = ({room}) =>{
+    let size = '';
+    if(room && room.size && room.size.value){
+        size+=room.size.value;
+        if(room.size._unit_)
+            size+=' '+room.size.value;
+    }
+    return (<span>{size})</span>)
+}
 
 export function RoomPricePlan({offer, onOfferSelected, pricePlan, room, selectedOffer}) {
     // let room = offer.room;
@@ -54,13 +63,13 @@ export function RoomPricePlan({offer, onOfferSelected, pricePlan, room, selected
         if(selectedOffer.offerId === offer.offerId)
             isThisSelectedOffer=true;
     }
-
+    let {name,penalties} = pricePlan||{}
     return (<div className='d-flex flex-row flex-wrap border-bottom border-dark pb-3 mb-3'>
         <div className='glider-font-text18medium-fg d-flex flex-column flex-fill'>
-            <div className={style.pricePlanName}>{pricePlan.name}</div>
+            <div className={style.pricePlanName}>{name}</div>
             <div>
                 <MaxOccupation maximumOccupancy={room.maximumOccupancy}/>
-                <PlanPenalties penalties={pricePlan.penalties}/>
+                <PlanPenalties penalties={penalties}/>
             </div>
         </div>
         <div>
@@ -91,11 +100,15 @@ export function RoomAmenities({title = "More amenities", amenities, expanded = f
 }
 
 export function PlanPenalties({penalties}){
-    let refund = penalties.refund;
-    if (refund.refundable === true) {
-        return (<div className={style.penaltyRefundable}>Refundable</div>)
-    } else {
-        return (<div className={style.penaltyNonRefundable}>Non-refundable</div>)
+    if(penalties && penalties.refund) {
+        let refund = penalties.refund;
+        if (refund.refundable === true) {
+            return (<div className={style.penaltyRefundable}>Refundable</div>)
+        } else {
+            return (<div className={style.penaltyNonRefundable}>Non-refundable</div>)
+        }
+    }else{
+        return (<></>)
     }
 }
 
