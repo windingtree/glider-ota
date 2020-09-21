@@ -1,6 +1,6 @@
 import React from 'react'
 import style from "./payment-summary.module.scss"
-import {Accordion, Card, Col,  Row, Tab, Tabs, Button} from "react-bootstrap";
+import {Accordion, Button, Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import linkifyHtml from 'linkifyjs/html';
 
 
@@ -118,8 +118,13 @@ export function TermsFareRules({offer}){
             }
         })
     }
+    //find fare basis codes(aka 'components') which have fare rules populated (aka 'conditions')
+    let componentsWithConditions = components.filter(c => (c.conditions && c.conditions.trim().length > 0));
+    //only display terms & conditions when they exist
+    //only display fare rules when they exist
     return (
         <Accordion className={'termsconditions'}>
+            {terms && terms.length>0 && (
             <Card>
                 <Card.Header>
                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
@@ -131,7 +136,8 @@ export function TermsFareRules({offer}){
                         <div className={style.termsText} dangerouslySetInnerHTML={convertToParagraphsAndRemoveDupes(terms)}></div>
                     </Card.Body>
                 </Accordion.Collapse>
-            </Card>
+            </Card>)}
+            {componentsWithConditions.length>0 && (
             <Card>
                 <Card.Header>
                     <Accordion.Toggle as={Button} variant="link" eventKey="1">
@@ -139,9 +145,10 @@ export function TermsFareRules({offer}){
                     </Accordion.Toggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey="1">
-                    <Card.Body><FareRules components={components} /></Card.Body>
+                    <Card.Body><FareRules components={componentsWithConditions} /></Card.Body>
                 </Accordion.Collapse>
             </Card>
+            )}
         </Accordion>
     )
 }

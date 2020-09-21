@@ -4,7 +4,7 @@ const determineEnviroment = () => {
     if(process.env.GLIDER_ENV) {
         return process.env.GLIDER_ENV;
     }
-  
+
     // Otherwise use the Github branch provided by Vercel
     switch(process.env.VERCEL_GITHUB_COMMIT_REF || process.env.NOW_GITHUB_COMMIT_REF) {
         case 'master':
@@ -23,16 +23,16 @@ const getConfigKey = (key) => {
     if(process.env.hasOwnProperty(envKey)) {
       return process.env[envKey];
     }
-  
+
     // Return variable key
     if(process.env.hasOwnProperty(key)) {
       return process.env[key];
     }
-  
+
     // Config key does not exist
     return undefined;
 };
-  
+
 const GLIDER_BASEURL = getConfigKey('GLIDER_BASEURL') || `https://${enviroment}.b2b.glider.travel/api/v1`;
 
 const GLIDER_CONFIG =
@@ -92,9 +92,9 @@ const ELASTIC_CONFIG =
 const GENERIC_CONFIG =
     {
         ENVIRONMENT: determineEnviroment(),
-        ENABLE_HEALHCHECK:(getConfigKey('HEALTHCHECK_ENABLE') === "yes")
+        ENABLE_HEALHCHECK:(getConfigKey('HEALTHCHECK_ENABLE') === "yes"),
+        DEVELOPMENT_MODE:(getConfigKey('DEVELOPMENT_MODE') === "yes")
     };
-
 
 
 module.exports = {
