@@ -3,7 +3,7 @@ const {v4} = require('uuid');
 const {createLogger} = require('./logger');
 const logger = createLogger('session-storage');
 const SESSION_ID_COOKIE = "wt-ota-session-id";
-
+const config = require('./config')
 /**
  * Returns sessionID (from request cookie) if it already exists or generates new sessionID in case it did not exist
  * This ensures that with the first time request, we will also have sessionID and send that to the client.
@@ -38,6 +38,13 @@ function setCookie(res, name, value, maxAge) {
         httpOnly: true,
         secure: true
     };
+
+    if(config.GENERIC_CONFIG.DEVELOPMENT_MODE){
+        //in localhost we would need HTTPS in order default cookie setup work
+        //that's why in this case 'httpOnly' and 'secure' flag won't be used for local development
+        delete options.httpOnly;
+        delete options.secure;
+    }
     if (maxAge !== undefined)
         options['maxAge'] = maxAge;
 
