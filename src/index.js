@@ -5,6 +5,9 @@ import {
     Route
 } from "react-router-dom";
 
+import { Provider } from 'react-redux';
+import  store from './redux/store';
+
 import ReactDOM from 'react-dom'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/glider.scss'
@@ -21,36 +24,42 @@ import FlightFareFamiliesPage from "./pages/flight-farefamilies-page";
 import FlightPassengersPage from "./pages/flight-passengers-page";
 import FlightSummaryPage from "./pages/flight-summary-page";
 import PaymentPage from "./pages/payment-page";
+import CryptoPay from './components/crypto/pay';
 
 
 function Dispatcher() {
     return (
-        <CookiesProvider>
-            <Router>
-                <Switch>
-                    {/*Flights flow*/}
-                    <Route path="/flights/tripoverview/:offerId" component={FlightTripOverviewPage}/>
-                    <Route path="/flights/farefamilies/:offerId" component={FlightFareFamiliesPage}/>
-                    <Route path="/flights/seatmap/:offerId/:segmentId?" component={FlightSeatmapPage}/>
-                    <Route path="/flights/passengers/:offerId" component={FlightPassengersPage}/>
-                    <Route path="/flights/summary/:offerId" component={FlightSummaryPage}/>
-                    <Route path="/flights/" component={FlightsSearchPage}/>
+        <Provider store={store}>
+            <CookiesProvider>
+                <Router>
+                    <Switch>
+                        {/*Flights flow*/}
+                        <Route path="/flights/tripoverview/:offerId" component={FlightTripOverviewPage}/>
+                        <Route path="/flights/farefamilies/:offerId" component={FlightFareFamiliesPage}/>
+                        <Route path="/flights/seatmap/:offerId/:segmentId?" component={FlightSeatmapPage}/>
+                        <Route path="/flights/passengers/:offerId" component={FlightPassengersPage}/>
+                        <Route path="/flights/summary/:offerId" component={FlightSummaryPage}/>
+                        <Route path="/flights/" component={FlightsSearchPage}/>
 
-                    <Route path="/payment/:confirmedOfferId" component={PaymentPage}/>
-                    <Route path="/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
+                        <Route path="/payment/:confirmedOfferId" component={PaymentPage}/>
+                        <Route path="/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
 
-                    {/*<Route path="/summary/:offerId" component={FlightOffer}/>*/}
-                    {/*<Route path="/confirmation/" component={FlightOffer}/>*/}
+                        {/*<Route path="/summary/:offerId" component={FlightOffer}/>*/}
+                        {/*<Route path="/confirmation/" component={FlightOffer}/>*/}
 
-                    {/*Hotels flow*/}
-                    <Route path="/hotels/" component={HotelsSearchPage}/>
-                    <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
+                        {/*Hotels flow*/}
+                        <Route path="/hotels/" component={HotelsSearchPage}/>
+                        <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
+
+                        {/** Remove me before production */}
+                        <Route path="/crypto" component={CryptoPay}/>
 
 
-                    <Route path="/" component={HomePage} />
-                </Switch>
-            </Router>
-        </CookiesProvider>
+                        <Route path="/" component={HomePage} />
+                    </Switch>
+                </Router>
+            </CookiesProvider>
+        </Provider>
     );
 }
 

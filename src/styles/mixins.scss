@@ -46,6 +46,14 @@ mixins re-used in multiple other scripts
   font-size: 12px;
   line-height: 150%;
 }
+//text 14px
+@mixin _glider-font-text16 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 150%;
+}
 //caps 12px medium
 @mixin _glider-font-caps12medium {
   font-family: 'Poppins', sans-serif;

@@ -1,0 +1,43 @@
+@import 'src/styles/mixins';
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.cryptoTitle {
+    display: flex;
+    align-items: center;
+}
+
+.buttonLabel {
+    @include _glider-font-text16;
+    color: $glider-color-primary-background;
+    display: flex;
+    align-items: center;
+}
+
+.buttonSpinner {
+    margin-left: 10px;
+}
+
+.walletAddress {
+    @include _glider-font-text12;
+    color: $glider-color-primary-background;
+}
+
+.cryptoListWrapper {
+    margin-top: 20px;
+    border: 1px solid $glider-color-primary;
+}
+
+.cryptoListRow {
+    border-bottom: 1px solid $glider-color-primary;
+    padding: 5px 0 5px 5px;
+    &:hover {
+        background-color: $glider-color-text-background;
+        cursor: pointer;
+    }
+    &:last-child {
+        border: none;
+    }
+}
