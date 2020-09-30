@@ -4,12 +4,11 @@ import Portis from '@portis/web3';
 import { createSelector } from 'reselect';
 import { eventChannel, END } from 'redux-saga';
 import { all, call, put, takeLatest, select, take, delay } from 'redux-saga/effects';
-import { config } from '../../config/default';
-const {
-    INFURA_ENDPOINT,
+import {
+    DEFAULT_NETWORK,
     PORTIS_ID,
-    DEFAULT_NETWORK
-} = config;
+    INFURA_ENDPOINT
+} from '../../config/default';
 
 const networkIdParser = id => {
     id = parseInt(id);
@@ -101,45 +100,33 @@ export default (state = initialState, action) => {
 
 // Actions
 
-export function signInRequest(provider) {
-    return {
-        type: SIGN_IN_REQUEST,
-        provider
-    }
-}
+export const signInRequest = provider => ({
+    type: SIGN_IN_REQUEST,
+    provider
+});
 
-export function signInSuccess(payload) {
-    return {
-        type: SIGN_IN_SUCCESS,
-        payload
-    }
-}
+export const signInSuccess = payload => ({
+    type: SIGN_IN_SUCCESS,
+    payload
+});
 
-export function signInFailure(error) {
-    return {
-        type: SIGN_IN_FAILURE,
-        error
-    }
-}
+export const signInFailure = error => ({
+    type: SIGN_IN_FAILURE,
+    error
+});
 
-export function logOutRequest() {
-    return {
-      type: LOGOUT_REQUEST
-    }
-}
+export const logOutRequest = () => ({
+    type: LOGOUT_REQUEST
+});
 
-export function logOutSuccess() {
-    return {
-      type: LOGOUT_REQUEST_SUCCESS
-    }
-}
+export const logOutSuccess = () => ({
+    type: LOGOUT_REQUEST_SUCCESS
+});
 
-export function accountChangeRequest(payload) {
-    return {
-        type: ACCOUNT_CHANGE,
-        payload
-    }
-}
+export const accountChangeRequest = payload => ({
+    type: ACCOUNT_CHANGE,
+    payload
+});
 
 export function openPortis() {
     return {

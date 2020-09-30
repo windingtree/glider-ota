@@ -64,7 +64,9 @@
     "build-storybook": "build-storybook -s public",
     "build-schema-ota": "npx js-yaml ./api/_lib/schemas/backend-api-schema.yaml > api/_lib/schemas/backend-api-schema.json",
     "build-schemas-b2b": "npx js-yaml ./api/_lib/schemas/wt-aggregator.yaml > api/_lib/schemas/wt-aggregator.json",
-    "nowdev": "npx now dev"
+    "nowdev": "npx now dev",
+    "build:staging": "env-cmd -f zeit.staging.env react-scripts build",
+    "build:production": "env-cmd -f zeit.production.env react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -92,7 +94,8 @@
     "fetch-mock": "^9.4.0",
     "mocha": "^7.1.2",
     "node-fetch": "^2.6.1",
-    "now": "^20.1.0"
+    "now": "^20.1.0",
+    "env-cmd": "10.1.0"
   },
   "resolutions": {}
 }
