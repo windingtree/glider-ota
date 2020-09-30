@@ -3,7 +3,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import Portis from '@portis/web3';
 import { createSelector } from 'reselect';
 import { eventChannel, END } from 'redux-saga';
-import { all, call, put, takeLatest, select, take } from 'redux-saga/effects';
+import { all, call, put, takeLatest, select, take, delay } from 'redux-saga/effects';
 import { config } from '../../config/default';
 const {
     INFURA_ENDPOINT,
@@ -272,10 +272,16 @@ function* subscribePortisSaga() {
     const portisEvents = yield call(subscribePortisEventChannel);
     yield call(openPortisPopUp);
 
-    while (true) {
+    let address;
+    let signingIn;
+
+    do {
         const eventAction = yield take(portisEvents);
         yield put(eventAction);
-    }
+        yield delay(300);
+        address = yield select(walletAddress);
+        signingIn = yield select(isSigningIn);
+    } while (address || signingIn);
 }
 
 function* subscribeMetamaskSaga() {
@@ -284,11 +290,14 @@ function* subscribeMetamaskSaga() {
     let accounts;
 
     if (typeof ethereumProvider !== 'undefined') {
+        ethereumProvider.autoRefreshOnNetworkChange = false;
         const connectMethod = typeof ethereumProvider.request === 'function'
             ? () => ethereumProvider.request({ method: 'eth_requestAccounts' })
             : () => ethereumProvider.enable();
         accounts = yield connectMethod();
-        ethereumProvider.autoRefreshOnNetworkChange = false;
+        if (accounts.length === 0) {
+            throw new Error('You must connect at least one account address in the MetaMask wallet');
+        }
         web3 = new Web3(ethereumProvider);
     }
 
@@ -309,10 +318,16 @@ function* subscribeMetamaskSaga() {
         accounts
     );
 
-    while (true) {
+    let address;
+    let signingIn;
+
+    do {
         const eventAction = yield take(metamaskEvents);
         yield put(eventAction);
-    }
+        yield delay(300);
+        address = yield select(walletAddress);
+        signingIn = yield select(isSigningIn);
+    } while (address || signingIn);
 }
 
 function* signInSaga({ provider }) {
