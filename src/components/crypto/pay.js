@@ -58,11 +58,8 @@ const CryptoPay = props => {
             }
             {walletAddress &&
                 <SelectCrypto
-                    amounts={{
-                        'ETH': '0.023',
-                        'LIF': '1500',
-                        'DAI': '150'
-                    }}
+                    title="Select Currency"
+                    usdValue={100}
                 />
             }
         </Container>

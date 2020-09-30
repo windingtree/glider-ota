@@ -25,19 +25,13 @@
     color: $glider-color-primary-background;
 }
 
-.cryptoListWrapper {
-    margin-top: 20px;
-    border: 1px solid $glider-color-primary;
+.tokenIcon {
+    height: 18px;
+    width: auto;
+    margin-right: 5px;
 }
 
-.cryptoListRow {
-    border-bottom: 1px solid $glider-color-primary;
-    padding: 5px 0 5px 5px;
-    &:hover {
-        background-color: $glider-color-text-background;
-        cursor: pointer;
-    }
-    &:last-child {
-        border: none;
-    }
+.tokenLabel {
+    @include _glider-font-text16;
+    text-transform: capitalize;
 }

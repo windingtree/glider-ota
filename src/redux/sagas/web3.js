@@ -9,24 +9,9 @@ import {
     PORTIS_ID,
     INFURA_ENDPOINT
 } from '../../config/default';
-
-const networkIdParser = id => {
-    id = parseInt(id);
-    switch (id) {
-        case 1:
-            return 'main';
-        case 3:
-            return 'ropsten';
-        case 4:
-            return 'rinkeby';
-        case 5:
-            return 'goerli';
-        case 42:
-            return 'kovan';
-        default:
-            throw new Error('Unknown network Id');
-    }
-};
+import {
+    networkIdParser
+} from '../../utils/web3-utils';
 
 const defaultWeb3 = new Web3(INFURA_ENDPOINT);
 const portis = new Portis(PORTIS_ID, DEFAULT_NETWORK);
