@@ -240,11 +240,11 @@ export const subscribeMetamaskEventChannel = (ethereumProvider, web3, accounts) 
         ethereumProvider.on('chainChanged', handleChainChange);
         ethereumProvider.on('customLogout', handleLogOut); // ethereumProvider is the event emitter
 
-        emitter(signInSuccess({
+        setTimeout(() => emitter(signInSuccess({
             provider: 'metamask',
             address: accounts[0],
             web3
-        }));
+        })), 10);
 
         return () => {
             ethereumProvider.off('accountsChanged', handleNewAccounts);
