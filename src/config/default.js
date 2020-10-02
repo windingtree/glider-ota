@@ -17,6 +17,7 @@ export const DEFAULT_NETWORK = process.env.REACT_APP_DEFAULT_NETWORK;
 export const PORTIS_ID = process.env.REACT_APP_PORTIS_ID;
 export const INFURA_ENDPOINT = process.env.REACT_APP_INFURA_ENDPOINT;
 export const UNISWAP_ROUTER_ADDRESS = process.env.REACT_APP_UNISWAP_ROUTER_ADDRESS;
+export const BASE_PRICE_TOKEN = process.env.REACT_APP_BASE_PRICE_TOKEN;
 
 export const DEFAULT_DEFAULT_NETWORK_ID = networkIdByName(DEFAULT_NETWORK);
 export const DEFAULT_DEFAULT_NETWORK_ID_HEX = networkIdByName(DEFAULT_NETWORK, true);

@@ -1,16 +1,4 @@
 {
-    "name": "Winding Tree",
-    "timestamp": "2020-08-27T13:47:56+00:00",
-    "version": {
-        "major": 1,
-        "minor": 1,
-        "patch": 0
-    },
-    "tags": {},
-    "logoURI": "https://raw.githubusercontent.com/windingtree/branding/master/winding-tree/png/winding-tree-symbol-small.png",
-    "keywords": [
-        "travel"
-    ],
     "tokens": [
         {
             "name": "Lif",
@@ -19,6 +7,14 @@
             "decimals": 18,
             "chainId": 1,
             "logoURI": "https://raw.githubusercontent.com/windingtree/branding/master/lif/png/lif-logo.png"
+        },
+        {
+            "name": "Dai Stablecoin",
+            "address": "0xaD6D458402F60fD3Bd25163575031ACDce07538D",
+            "symbol": "DAI",
+            "decimals": 18,
+            "chainId": 3,
+            "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
         },
         {
             "name": "Lif",

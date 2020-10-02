@@ -35,3 +35,12 @@
     @include _glider-font-text16;
     text-transform: capitalize;
 }
+
+.tokenComment {
+    @include _glider-font-text14;
+    color: #9f9f9f;
+}
+
+.selectedCoinWrapper {
+    @include _glider-font-text16;
+}

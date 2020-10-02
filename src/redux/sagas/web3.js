@@ -3,7 +3,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import Portis from '@portis/web3';
 import { createSelector } from 'reselect';
 import { eventChannel, END } from 'redux-saga';
-import { all, call, put, takeLatest, select, take, delay } from 'redux-saga/effects';
+import { all, call, put, takeEvery, select, take, delay } from 'redux-saga/effects';
 import {
     DEFAULT_NETWORK,
     PORTIS_ID,
@@ -351,8 +351,8 @@ function* openPortisSaga() {
 // Main saga
 export const saga = function*() {
     yield all([
-        takeLatest(SIGN_IN_REQUEST, signInSaga),
-        takeLatest(LOGOUT_REQUEST, logoutSaga),
-        takeLatest(OPEN_PORTIS_WALLET, openPortisSaga)
+        takeEvery(SIGN_IN_REQUEST, signInSaga),
+        takeEvery(LOGOUT_REQUEST, logoutSaga),
+        takeEvery(OPEN_PORTIS_WALLET, openPortisSaga)
     ]);
 };
