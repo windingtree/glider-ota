@@ -108,9 +108,11 @@ export const logOutSuccess = () => ({
     type: LOGOUT_REQUEST_SUCCESS
 });
 
-export const accountChangeRequest = payload => ({
+export const accountChangeRequest = address => ({
     type: ACCOUNT_CHANGE,
-    payload
+    payload: {
+        address
+    }
 });
 
 export function openPortis() {
@@ -192,6 +194,7 @@ export const subscribeMetamaskEventChannel = (ethereumProvider, web3, accounts) 
             throw new Error(`Please connect to ${DEFAULT_NETWORK}`);
         }
         const handleNewAccounts = accounts => {
+            console.log('@@@@', accounts);
             if (accounts.length === 0) {
                 emitter(logOutRequest());
                 emitter(END);

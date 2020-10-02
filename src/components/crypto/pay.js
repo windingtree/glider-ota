@@ -20,6 +20,7 @@ const CryptoPay = props => {
         web3ProviderType,
         signInError
     } = props;
+    const usdValue = 101.12;
 
     const handleAccountClick = () => {
         if (web3ProviderType === 'portis') {
@@ -30,7 +31,7 @@ const CryptoPay = props => {
     return (
         <Container>
             <h1 className={styles.cryptoTitle}>
-                Pay with Crypto&nbsp;
+                Pay {usdValue} USD with Crypto&nbsp;
                 {walletAddress &&
                     <Badge
                         variant="info"
@@ -59,7 +60,7 @@ const CryptoPay = props => {
             {walletAddress &&
                 <SelectCrypto
                     title="Select Currency"
-                    usdValue={101.12}
+                    usdValue={usdValue}
                 />
             }
         </Container>
