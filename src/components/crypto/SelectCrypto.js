@@ -60,7 +60,7 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
                         targetTokenValue,
                         path
                     )
-                    .call())[2];
+                    .call())[0];
             }
         }
 
