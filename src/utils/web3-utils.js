@@ -7,7 +7,7 @@ export const networkIdParser = id => {
     id = parseInt(id);
     switch (id) {
         case 1:
-            return 'main';
+            return 'mainnet';
         case 3:
             return 'ropsten';
         case 4:
@@ -25,7 +25,7 @@ export const networkIdParser = id => {
 export const networkIdByName = (name, returnHex = false) => {
     let id;
     switch (name) {
-        case 'main':
+        case 'mainnet':
             id = 1;
             break;
         case 'ropsten':
