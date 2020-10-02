@@ -47,21 +47,25 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
         } else {
             const uniswapRouter = createUniswapRouterContract(web3);
             const wethAddress = await uniswapRouter.methods['WETH()']().call();
+            let path;
             if (coinAddress === wethAddress) {
-                amount = targetTokenValue;
+                path = [
+                    coinAddress,
+                    BASE_PRICE_TOKEN
+                ];
             } else {
-                const path = [
+                path = [
                     coinAddress,
                     wethAddress,
                     BASE_PRICE_TOKEN
                 ];
-                amount = (await uniswapRouter
-                    .methods['getAmountsIn(uint256,address[])'](
-                        targetTokenValue,
-                        path
-                    )
-                    .call())[0];
             }
+            amount = (await uniswapRouter
+                .methods['getAmountsIn(uint256,address[])'](
+                    targetTokenValue,
+                    path
+                )
+                .call())[0];
         }
 
         return [
