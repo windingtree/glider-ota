@@ -255,7 +255,7 @@ export default function PaymentConfirmation({orderID}) {
                         <small>
                             Your booking reference{bookings.length > 1 ? 's are' : ' is'}: {bookings.join(', ')}
                             <br/>
-                            Your e-ticket{bookings.length > 1 ? 's are' : ' is'}: {(etickets).map(tkt => Object.keys(tkt)[0]).join(', ')}
+                            {(etickets && etickets.length>0) && (<>Your e-ticket{bookings.length > 1 ? 's are' : ' is'}: {(etickets).map(tkt => Object.keys(tkt)[0]).join(', ')}</>)}
                         </small>
                     );
                 }else if(
