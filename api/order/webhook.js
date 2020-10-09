@@ -4,6 +4,7 @@ const {createLogger} = require('../_lib/logger');
 const {getRawBodyFromRequest} = require('../_lib/rest-utils');
 const {createWithOffer} = require('../_lib/glider-api');
 const {createGuarantee} = require('../_lib/simard-api');
+const {sendBookingConfirmations} = require('../_lib/email-confirmations');
 const {STRIPE_CONFIG} = require('../_lib/config');
 const {
     updateOrderStatus,
@@ -454,8 +455,7 @@ function createOrder(orderRequest) {
  * @returns {Promise<any>}
  */
 function sendConfirmation(orderId, confirmation) {
-    //TODO
-    logger.info("Send confirmation email ")
+    sendBookingConfirmations(confirmation);
     return Promise.resolve();
 }
 

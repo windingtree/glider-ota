@@ -95,6 +95,11 @@ const GENERIC_CONFIG =
         ENABLE_HEALHCHECK:(getConfigKey('HEALTHCHECK_ENABLE') === "yes"),
         DEVELOPMENT_MODE:(getConfigKey('DEVELOPMENT_MODE') === "yes")
     };
+const SENDGRID_CONFIG =
+    {
+        SENDGRID_API_KEY: getConfigKey('SENDGRID_API_KEY'),
+        FROM_EMAIL_ADDR: getConfigKey('SENDGRID_FROM_EMAIL_ADDR')
+    };
 
 
 module.exports = {
@@ -105,5 +110,6 @@ module.exports = {
     STRIPE_CONFIG,
     ELASTIC_CONFIG,
     ORGID,
-    GENERIC_CONFIG
+    GENERIC_CONFIG,
+    SENDGRID_CONFIG
 };
