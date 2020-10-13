@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import PaymentConfirmation from "../components/payments/payment-confirmation";
 import Header from "../components/common/header/header";
 import Footer from "../components/common/footer/footer";

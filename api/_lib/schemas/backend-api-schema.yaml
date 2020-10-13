@@ -137,7 +137,7 @@ components:
     CommaSepUUIDs:
       description: Comma separated list of offerIDs
       type: string
-      minLength: 36
+      minLength: 5
       example: "11111111-2222-3333-4444-000000000001,11111111-2222-3333-4444-000000000002"
     CartItemPassengers:
       description: Passengers details to be stored for late ticket issuance

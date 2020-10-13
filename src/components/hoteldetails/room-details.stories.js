@@ -5,7 +5,6 @@ import {
 import sample from "../../data/sample_response_hotels.json"
 import Room, {MaxOccupation, PlanPenalties, RoomAmenities, RoomPolicies,RoomPricePlan} from './room-details'
 
-let hotel = sample.accommodations["erevmax.07119"]
 let roomND = sample.accommodations["erevmax.07119"].roomTypes.ND
 let roomND1 = sample.accommodations["erevmax.07119"].roomTypes.ND1
 let roomNMD = sample.accommodations["erevmax.07119"].roomTypes.NMD

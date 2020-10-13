@@ -1,9 +1,8 @@
 import React, {useState} from 'react'
 import style from './flights-offer.module.scss'
-import {Container, Row, Col, Image, Button} from 'react-bootstrap'
+import {Container, Row, Col, Button} from 'react-bootstrap'
 import {format, parseISO} from "date-fns";
 import OfferUtils from '../../utils/offer-utils'
-import {config} from "../../config/default";
 import _ from 'lodash'
 
 
@@ -119,15 +118,4 @@ function ItineraryAncillaries({pricePlan}) {
     )
 }
 
-
-const Price = ({combination, offerWrapper, onOfferDisplay}) => {
-    let offer = offerWrapper.offer
-    return (
-        <>
-            <Button className={style.offerhighlightprice} variant={"outline-primary"} size="lg" onClick={() => {
-                onOfferDisplay(combination.combinationId, offerWrapper.offerId)
-            }}>{offer.price.public} {offer.price.currency}</Button>
-        </>
-    )
-}
 

@@ -39,15 +39,16 @@ export class HotelSearchResultsFilterHelper {
     }
 
     getCheapestHotelOffer(accommodationId, offers) {
-        return Object.values(offers).reduce((cheapestSoFar,offer)  => {
-            if(cheapestSoFar === undefined) {
-                cheapestSoFar = offer;
-                return cheapestSoFar;
-            }
-            if (parseInt(offer.price.public) < parseInt(cheapestSoFar.price.public))
-                cheapestSoFar = offer;
-            return cheapestSoFar;
-        },undefined)
+        let minPrice = Number.MAX_SAFE_INTEGER;
+        let minOffer = undefined;
+
+        Object.keys(offers).forEach(offerId => {
+            let offer = offers[offerId];
+            if (parseInt(offer.price.public) < minPrice)
+                minOffer = offer;
+        })
+        return minOffer;
+
     }
 
     applyOfferFilters(offers, filters) {

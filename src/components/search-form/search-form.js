@@ -101,7 +101,7 @@ function SearchForm(props){
   }
 
   function validate(){
-    let originValid =  isOriginValid() || (formType===TYPE.HOTELS);  //if it's hotels - origin is not displayed
+    let originValid = isOriginValid() || (formType === TYPE.HOTELS);  //if it's hotels - origin is not displayed
     let destinationValid =  isDestinationValid();
     let departureDateValid = isDepartureDateValid();
     let returnDateValid = isReturnDateValid() || oneWayAllowed;
@@ -253,7 +253,7 @@ export function buildFlightsSearchCriteria(origin,destination,departureDate,retu
 
 export function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, adults,children,infants) {
   const criteriaBuilder = new SearchCriteriaBuilder();
-  let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,config.LOCATION_BOUNDING_BOX_IN_KM)
+  let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,10)
   const searchCriteria = criteriaBuilder
       .withAccommodationLocation(boundingBoxForSelectedLocation,'rectangle')
       .withAccommodationArrivalDate(arrivalDate)

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Container,Row,Col,ToggleButton, ToggleButtonGroup,Button} from 'react-bootstrap';
+import React from 'react';
+import {Container,Row,Col} from 'react-bootstrap';
 import style from './main-page-content.module.css'
 
 export default function MainPageContent() {

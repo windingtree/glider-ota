@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkout-form";
 import api from "./api";
-import {Button, Container, Row, Col} from "react-bootstrap";
+import {Container, Row, Col} from "react-bootstrap";
 const stripePromise = api.getPublicStripeKey().then(key => loadStripe(key));
 
 

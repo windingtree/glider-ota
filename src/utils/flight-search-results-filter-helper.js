@@ -204,13 +204,13 @@ export class FlightSearchResultsFilterHelper {
         const {min, max} = filterState;
         let result = true;
         let layovers = [];
-        itineraries.map(itinerary => {
+        itineraries.forEach(itinerary => {
             let segments = itinerary.segments;
             let prevSegment = null;
             //if it's a direct flight - add 0 so that we can also filter out direct flights if min range is specified
-            if (segments.length == 1)
+            if (segments.length === 1)
                 layovers.push(0);
-            segments.map(segment => {
+            segments.forEach(segment => {
                 if (prevSegment != null) {
                     layovers.push(OfferUtils.calculateLayoverDurationInMinutes(prevSegment, segment));
                 }
@@ -264,7 +264,7 @@ export class FlightSearchResultsFilterHelper {
             return true;
         let result = true;
         let pricePlans=this.searchResultsWrapper.getOfferPricePlans(offer.offerId)
-        pricePlans.map(pricePlan => {
+        pricePlans.forEach(pricePlan => {
             let bagsAllowance=0;
             if(pricePlan.checkedBaggages && pricePlan.checkedBaggages.quantity)
                 bagsAllowance=pricePlan.checkedBaggages.quantity;

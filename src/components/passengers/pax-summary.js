@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import style from "./pax-summary.module.scss"
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import SinglePaxDetails from "./single-pax-details";
 import {retrievePassengerDetails,storePassengerDetails} from "../../utils/api-utils";
 

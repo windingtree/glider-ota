@@ -24,7 +24,7 @@ export function SelectionFilter({title = 'title', filterItems, onItemCheckStateC
             onItemCheckStateChange(itemIdx, item, checked)
         if(onFilterStateChanged) {
             let filter={};
-            newItems.map(item=>{
+            newItems.forEach(item=>{
                 filter[item.key] = item.selected;
             })
             onFilterStateChanged(filter);

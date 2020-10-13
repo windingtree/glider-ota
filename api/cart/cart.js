@@ -1,5 +1,4 @@
-const { ShoppingCart, CART_ITEMKEYS } = require('../_lib/shopping-cart');
-const { SessionStorage } = require('../_lib/session-storage');
+const { ShoppingCart } = require('../_lib/shopping-cart');
 const { sendErrorResponse, ERRORS } = require("../_lib/rest-utils");
 const logger = require('../_lib/logger').createLogger('/cart1');
 const { decorate } = require('../_lib/decorators');

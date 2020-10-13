@@ -19,8 +19,6 @@ describe('HotelSearchResultsFilterHelper', function () {
 
     describe('#getCheapestHotelOffer()', function () {
         it('should return find the cheapest offer for a given hotel among provided offers', function () {
-            let sampleHotel = sample.accommodations[sampleHotelId];
-
             let cheapestHotelOffer = helper.getCheapestHotelOffer(sampleHotelId,sample.offers);
             console.log(JSON.stringify(cheapestHotelOffer))
             assert.equal(cheapestHotelOffer.price.public,590);

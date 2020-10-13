@@ -1,9 +1,6 @@
 require('dotenv').config();  //load .env
 const {createLogger} = require('../../../api/_lib/logger');
 const logger = createLogger('session-storage');
-const assert = require('assert');
-
-
 
 describe('Logger', function () {
     describe('#debug level', function () {

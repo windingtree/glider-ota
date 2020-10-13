@@ -10,20 +10,6 @@ export default {
     title: 'Passenger/SinglePaxDetails',
 };
 
-const bareMinimum={
-    id:'PAX1',
-    type:'ADT'
-}
-
-const child={
-    id:'PAX1',
-    type:'CHD'
-}
-
-const infant={
-    id:'PAX1',
-    type:'INF'
-}
 
 const initialData={
     firstName:'John',

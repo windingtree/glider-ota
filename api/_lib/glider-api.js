@@ -153,8 +153,6 @@ function createFulfilmentRequest(orderItems,passengers,guaranteeId){
 
 
 
-function addAirports(){}
-
 module.exports = {
     createWithOffer,
     searchOffers,

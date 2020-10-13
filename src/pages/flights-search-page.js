@@ -8,7 +8,6 @@ import {parse,isValid} from "date-fns";
 import Filters from "../components/filters/filters";
 import FlightsSearchResults from "../components/flightresults/flights-search-results";
 import {useHistory} from "react-router-dom";
-import cssdefs from './flights-search-page.scss'
 import Spinner from "../components/common/spinner"
 import {uiEvent} from "../utils/events";
 import {parseUrl}  from 'query-string';
@@ -116,12 +115,12 @@ export default function FlightsSearchPage({match, location, results}) {
 }
 
 
-// Display the No Flight message
+/*// Display the No Flight message
 const SearchFailed = () => {
     return (
         <div className='glider-font-h3-fg pt-3'></div>
     )
-};
+};*/
 
 const WarningNoResults = () => {
      return (
@@ -131,7 +130,7 @@ const WarningNoResults = () => {
             <span role='img' aria-label='sorry'> 😢</span>
         </Alert.Heading>
         <p>
-            Glider has been launched with our amazing partner <b><a href='https://aircanada.com' target="_blank">Air Canada</a></b>,
+            Glider has been launched with our amazing partner <b><a href='https://aircanada.com' target="_blank" rel="noreferrer noopener">Air Canada</a></b>,
             so for now we have only results flying to, from or over Canada 🇨🇦! Why not going there?
         </p>
         <hr />

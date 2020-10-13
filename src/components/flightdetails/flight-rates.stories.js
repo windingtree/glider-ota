@@ -2,10 +2,7 @@ import React from 'react';
 import {
     action
 } from '@storybook/addon-actions';
-import TripRates,{FareFamilyBenefits,ItineraryRates} from "./flight-rates"
-import sample_response from "../../data/sample_response_unprocessed"
-import {FlightSearchResultsWrapper} from "../../utils/flight-search-results-wrapper";
-let searchResultsWrapper = new FlightSearchResultsWrapper(sample_response)
+import TripRates,{ItineraryRates} from "./flight-rates"
 
 export default {
     component: TripRates,
@@ -23,10 +20,7 @@ let amenities = [
     {text:'Free changes, cancellations and standby', type:'changes'},
     {text:'lorem ipsum'}
 ]
-let price = {
-    public: 123.2,
-    currency:'CAD'
-}
+
 
 let baselineFare={
     public: 1383,

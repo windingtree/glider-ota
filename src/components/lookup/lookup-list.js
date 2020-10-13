@@ -1,10 +1,9 @@
-import React, {useState} from 'react'
-import {Overlay, Popover, ListGroup, Form, Col,Row, Container} from 'react-bootstrap'
+import React from 'react'
+import {Col,Row, Container} from 'react-bootstrap'
 import style from './lookup-list.module.scss'
 import PropTypes from 'prop-types'
 
 export default function LookupList({locations=[], onLocationSelected}){
-    let key = 0;
     function selected(rec){
         onLocationSelected(rec)
     }

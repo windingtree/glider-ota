@@ -1,4 +1,4 @@
-import React, {useState}  from 'react'
+import React  from 'react'
 import Seat from '../seat/seat'
 import { isSeatRestrictedForPassenger } from '../../utils/seat-utils'
 import './cabin.scss';

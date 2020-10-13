@@ -1,8 +1,8 @@
-import React, {useState,useEffect} from 'react';
+import React from 'react';
 import Header from '../components/common/header/header';
 import {useHistory} from "react-router-dom";
 import {retrieveSearchResultsFromLocalStorage} from "../utils/local-storage-cache"
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import TripDetails from "../components/flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../utils/flight-search-results-wrapper";
 import TotalPriceButton from "../components/common/totalprice/total-price";

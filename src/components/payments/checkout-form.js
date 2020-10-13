@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {CardElement, useStripe, useElements, Elements} from "@stripe/react-stripe-js";
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Col, Container, Form} from "react-bootstrap";
 import Spinner from "../../components/common/spinner"
 import {loadStripe} from "@stripe/stripe-js";
 import {createPaymentIntent, getStripePublicKey} from "../../utils/api-utils";
@@ -139,7 +139,7 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                     <Form.Row className={style.checkoutFormRow}>
                         <Col>
                             <Form.Label className=''>Card holder</Form.Label>
-                            <Form.Control 
+                            <Form.Control
                                 type="text"
                                 id="name"
                                 name="name"
@@ -171,7 +171,7 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                     <Form.Row>
                         <small className={style.disclaimer}>
                             Your payment is made to Simard OÜ, the legal entity powering Glider.
-                            We are partnering with Stripe to securely encrypt and process your card details. 
+                            We are partnering with Stripe to securely encrypt and process your card details.
                             You will be asked to authenticate with your bank if your card issuer supports strong authentication.
                         </small>
                     </Form.Row>
@@ -189,8 +189,3 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
     );
 }
 
-
-
-function PaymentSuccess(){
-
-}
