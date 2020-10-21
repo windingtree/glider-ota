@@ -18,27 +18,25 @@ const sendBookingConfirmations = async (confirmation) => {
     let emailTemplateInputs = prepareEmailTemplateInput(confirmation);
 
     //send email to every passenger
-    emailTemplateInputs.forEach(data=>{
+    for (const data of emailTemplateInputs) {
         let {recipientEmail,recipientName} = data;
         logger.debug(`Send email confirmation to ${recipientEmail} (${recipientName}`);
         const msg = {
             to:recipientEmail,
             from: SENDGRID_CONFIG.FROM_EMAIL_ADDR,
             subject:'Booking confirmation',
-            templateId: 'd-90995b372c8c4f6dbdde45e002d8e782',
+            templateId: 'd-199fb2f410334d1296b0176e0435c4a7',
             dynamicTemplateData: data,
-            text:'',
-            html:''
+            text:' ',
+            html:' '
         }
-        sgMail
-            .send(msg)
-            .then(() => {
-            })
-            .catch((error) => {
+        try {
+            let response = await sgMail.send(msg);
+        }catch(error){
+                console.log('Error while sending email',error);
                 logger.error(`Email to ${recipientEmail} was not sent, error occurred`);
-                console.error(error)
-            })
-    })
+        }
+    }
 }
 /**
  * Each email that will be send (by sendgrid) requires input data (e.g.pax name, email address, eTicket, list of segments).

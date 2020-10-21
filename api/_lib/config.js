@@ -98,7 +98,7 @@ const GENERIC_CONFIG =
 const SENDGRID_CONFIG =
     {
         SENDGRID_API_KEY: getConfigKey('SENDGRID_API_KEY'),
-        FROM_EMAIL_ADDR: getConfigKey('SENDGRID_FROM_EMAIL_ADDR')
+        FROM_EMAIL_ADDR: getConfigKey('SENDGRID_FROM_EMAIL_ADDR') || 'noreply@em5199.glider.travel'
     };
 
 
