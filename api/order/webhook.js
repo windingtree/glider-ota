@@ -1,4 +1,4 @@
-const {validateWebhook} = require('../_lib/stripe-api');
+const {validateWebhook, cancelPaymentIntent} = require('../_lib/stripe-api');
 const {decorate} = require('../_lib/decorators');
 const {createLogger} = require('../_lib/logger');
 const {getRawBodyFromRequest} = require('../_lib/rest-utils');
@@ -105,7 +105,7 @@ const webhookController = (request, response ) => {
                     }));
                 });
 
-                logger.info("/webhook processsing success");
+                logger.info("/webhook processing success");
             })
             .catch(error => {
                 logger.error("/webhook error:%s", error);
@@ -121,6 +121,22 @@ const webhookController = (request, response ) => {
 
 }
 
+/**
+ * This will cancel payment on stripe (in case fulfillment fails)
+ * When order cannot be created, we should return money to they passenger.
+ *
+ * @param intentId
+ */
+const handlePaymentCancellation = (intentId) => {
+    logger.debug('Cancelling payment, intendId:'+intentId);
+    cancelPaymentIntent(intentId)
+        .then(()=>{
+            logger.info('Payment cancelled successfully')
+        })
+        .catch(err=>{
+            logger.error('Error during payment cancellation:',err);
+        })
+}
 /**
  * Extract confirmedOfferId from stripe event (confirmedOfferId is passed as metadata)
  * @param event Stripe event
@@ -297,6 +313,7 @@ function processPaymentSuccess(confirmedOfferId, webhookEvent) {
         // Handle the error while updating DB
         .catch(error => {
             logger.error(`Failed to update DB Status: ${error.message}`);
+            handlePaymentCancellation(webhookEvent.id);
             reject(error);
         });
     });

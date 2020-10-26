@@ -42,6 +42,18 @@ async function createPaymentIntent(payment_method_type, amount, currency, confir
     }
 }
 
+async function cancelPaymentIntent(uncapturedIntent){
+    try {
+        logger.debug("Payment intent will be cancelled:%s",JSON.stringify(uncapturedIntent));
+        const paymentIntent = await stripe.paymentIntents.cancel(uncapturedIntent);
+        return paymentIntent;
+    } catch (err) {
+        logger.error("Error while cancelling intent %s",err)
+        return err;
+    }
+}
+
+
 /**
  * This validates if the webhook request is legit. Stripe provides measures to verify that request body is unmodified
  * @param rawBody - request body (important - this must be raw body!)
@@ -94,5 +106,5 @@ function convertPriceToMajorUnits(price, currencyCode){
 
 
 module.exports = {
-    getPublicKey,createPaymentIntent, validateWebhook,convertPriceToMajorUnits,convertPriceToMinorUnits,PAYMENT_TYPES
+    getPublicKey,createPaymentIntent, validateWebhook,convertPriceToMajorUnits,convertPriceToMinorUnits,PAYMENT_TYPES, cancelPaymentIntent
 }
