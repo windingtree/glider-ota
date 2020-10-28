@@ -131,7 +131,6 @@ function loadTableIntoCache(tableName) {
 }
 
 function loadAirlines(){
-    console.log("Loading airlines into memory")
     let path = `${DB_LOCATION}${TABLES.AIRLINES}.json`;
     let data = JSON.parse(fs.readFileSync(path));
     let airlineMap = {};
@@ -141,7 +140,6 @@ function loadAirlines(){
     return airlineMap;
 }
 function loadAirports(){
-    console.log("Loading airports into memory")
     let path = `${DB_LOCATION}${TABLES.AIRPORTS}.json`;
     let data = JSON.parse(fs.readFileSync(path));
     let airportsMap = {};

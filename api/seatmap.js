@@ -27,7 +27,6 @@ const seatmapController = async (req, res) => {
         const seatmapResult = await seatmap(offer.offerId);
         return res.status(200).json(seatmapResult);
     } catch (error) {
-        console.log(error);
         switch(error.response && error.response.status) {
             case undefined:
                 return res.status(500).json({error: {code: 500, message: `Could not connect to Glider B2B`}});
@@ -39,8 +38,8 @@ const seatmapController = async (req, res) => {
                 return res.status(502).json({error: {code: 502, message: `Error ${error.response.status} received from Glider B2B`}});
         }
     }
-  
-    
+
+
 }
 
 module.exports = decorate(seatmapController);

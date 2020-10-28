@@ -1,5 +1,5 @@
 require('dotenv').config();  //load .env
-const {prepareEmailTemplateInput, findEmail} = require('../../../api/_lib/email-confirmations');
+const {prepareEmailTemplateInput, findEmail,sendBookingConfirmations} = require('../../../api/_lib/email-confirmations');
 const assert = require('assert');
 const Handlebars = require("handlebars");
 
@@ -21,7 +21,7 @@ let flightConfirmation_2ADT1CHD_Return = {
                     "Marley"
                 ],
                 "firstnames": [
-                    "Bob Andrew"
+                    "Tomasz Kurek"
                 ],
                 "birthdate": "1980-03-21",
                 "contactInformation": [
@@ -232,7 +232,7 @@ let flightConfirmatoin_2ADT1CHD_Return_GDS = {
 describe('Email booking confirmation', function () {
     describe('#sendBookingConfirmations()', function () {
         it('should send email', () => {
-            // sendBookingConfirmations(flightConfirmation_2ADT1CHD_Return)
+            sendBookingConfirmations(flightConfirmation_2ADT1CHD_Return)
             // sendBookingConfirmations(hotelConfirmation_1ADT)
             // sendBookingConfirmations(flightConfirmatoin_2ADT1CHD_Return_GDS)
         })

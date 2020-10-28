@@ -43,14 +43,9 @@ async function createPaymentIntent(payment_method_type, amount, currency, confir
 }
 
 async function cancelPaymentIntent(uncapturedIntent){
-    try {
-        logger.debug("Payment intent will be cancelled:%s",JSON.stringify(uncapturedIntent));
-        const paymentIntent = await stripe.paymentIntents.cancel(uncapturedIntent);
-        return paymentIntent;
-    } catch (err) {
-        logger.error("Error while cancelling intent %s",err)
-        return err;
-    }
+    logger.debug("Payment intent will be cancelled:%s",JSON.stringify(uncapturedIntent));
+    const paymentIntent = await stripe.paymentIntents.cancel(uncapturedIntent);
+    return paymentIntent;
 }
 
 

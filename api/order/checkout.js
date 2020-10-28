@@ -7,7 +7,6 @@ const logger = createLogger('/checkout')
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const {validateCheckoutPayload} = require('../_lib/validators')
 
-const DEV_MODE=false;
 /**
  * /checkoutUrl call handler
  * This creates payment intent to be later paid with a given form of payment
