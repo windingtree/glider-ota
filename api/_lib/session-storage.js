@@ -48,7 +48,7 @@ const getClient = () => {
                 return Math.min(options.attempt * 100, 3000);
             }
         });
-        
+
         // Close connection to the Redis on exit
         process.on('exit', function () {
             logger.info("Shutting down redis connections gracefully");
@@ -59,19 +59,19 @@ const getClient = () => {
         });
 
         _client.on('end', function () {
-            logger.info("Redis client event=end");
+            logger.debug("Redis client event=end");
         });
-        
+
         _client.on('error', function (err) {
-            logger.error("Redis client event=error, message=%s", err);
+            logger.debug("Redis client event=error, message=%s", err);
         });
-        
+
         _client.on('ready', function (param) {
-            logger.info("Redis client event=ready");
+            logger.debug("Redis client event=ready");
         });
-        
+
         _client.on('connect', function (param) {
-            logger.info("Redis client event=connect");
+            logger.debug("Redis client event=connect");
         });
     }
 

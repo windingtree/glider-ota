@@ -1,4 +1,4 @@
-const {validateWebhook} = require('../_lib/stripe-api');
+const {validateWebhook, cancelPaymentIntent} = require('../_lib/stripe-api');
 const {decorate} = require('../_lib/decorators');
 const {createLogger} = require('../_lib/logger');
 const {getRawBodyFromRequest} = require('../_lib/rest-utils');
@@ -14,111 +14,96 @@ const {
     PAYMENT_STATUSES
 } = require('../_lib/mongo-dao');
 const logger = createLogger("/webhook");
-const EventEmitter = require('events');
-const GliderWebhookEmitter = new EventEmitter();
-const GLIDER_EVENT_PAYMENT_STATUS_UPDATED = 'paymentStatusUpdated';
 
 /**
  * /webhook call handler
  * This is invoked by Stripe after a given event related to a payment occurs.
  */
-const webhookController = (request, response ) => {
-    // Define if webhook is acknowledged
-    let isWebhookAcknowledged = false;
+const webhookController = async (request, response) => {
 
-    // Define a function to handle the reject
-    const handleReject = (code, message) => {
-        if(!isWebhookAcknowledged) {
-            response.status(code).send(message);
-        } else {
-            response.end(JSON.stringify({
-                received: true,
-                fulfilled: false,
-                message: message,
-            }));
-        }
+    // Send error response to the client with error code
+    const sendErrorResponseAndFinish = (code, message) => {
+        logger.info(`/webhook reply to caller with failure: ${message}`);
+        response.status(code).json({
+            received: true,
+            fulfilled: false,
+            message: message,
+        });
     }
 
-    // Define a function to handle the webhook ack
-    const handleAck = () => {
-        if(!isWebhookAcknowledged) {
-            response.writeHead(200, {'Content-Type': 'application/json'})
-            //response.json({received: true});
-            logger.info("/webhook acknowledged");
-            isWebhookAcknowledged = true;
-        }
+    // Send success response to the client with body
+    const sendSuccessResponseAndFinish = (body) => {
+        logger.info("/webhook acknowledged with success");
+        response.status(200).json(body);
     }
 
-    // Get the raw request
-    // We can not rely on request.body here
-    // as the JSON payload from Stripe can not be reconstructed in a reliable way
-    getRawBodyFromRequest(request)
-    .then(rawBody => {
-        // Extract the event and signature
-        let event;
-        let stripeSignature = request.headers['stripe-signature'];
-
-        // Validate the signature
-        try {
-            event = validateWebhook(rawBody, stripeSignature);
+    try {
+        // Extract the event and signature, verify if it's legit request or skip verification if configuration flag is set (DEV purpose only)
+        let event = await validateAndParseEvent(request);
+        if (!event) {
+            return sendErrorResponseAndFinish(500, `Webhook processing error, invalid webhook body`);
         }
-
-        // Signature verification fails
-        catch(error) {
-            // Log an error
-            logger.error("Webhook signature verification failed %s", error.message);
-
-            // If signature bypassed, fallback
-            if(STRIPE_CONFIG.BYPASS_WEBHOOK_SIGNATURE_CHECK) {
-                logger.info("Signature check bypassed");
-                event = JSON.parse(rawBody);
-            }
-
-            // If process not bypassed, stop processing immediatly
-            else {
-                handleReject(400, `Webhook signature verification failed: ${error.message}`);
-            }
-        }
-
-        // Process the event
-        if(event) {
-            // Register to DB Payment update and ack at this point
-            GliderWebhookEmitter.on(GLIDER_EVENT_PAYMENT_STATUS_UPDATED, offerId => {
-                if(offerId === getConfirmedOfferId(event)) {
-                    setImmediate(() => {
-                        handleAck();
-                    });
-                }
-            });
-
-            // Process the webhook
-            processWebhookEvent(event)
-            .then((confirmation) => {
-                // Answer to webhook if not yet done
-                setImmediate(() => {
-                    handleAck();
-                    response.end(JSON.stringify({
-                        received: true,
-                        fulfilled: (confirmation !== undefined && confirmation.isDuplicate ? undefined : true),
-                        isDuplicate: (confirmation !== undefined && confirmation.isDuplicate===true),
-                        orderId: confirmation && confirmation.orderId,
-                    }));
-                });
-
-                logger.info("/webhook processsing success");
-            })
-            .catch(error => {
-                logger.error("/webhook error:%s", error);
-                handleReject(500, `Webhook processing error: ${error.message}`);
-            })
-
-        }
-    })
-    .catch(error => {
+        logger.info(`Process webhook, type:[${event.type}]`);
+        // Process the webhook
+        let confirmation = await processWebhookEvent(event);
+        console.log('Confirmation:', JSON.stringify(confirmation))
+        // Answer to webhook if not yet done
+        return sendSuccessResponseAndFinish({
+            received: true,
+            fulfilled: (confirmation && !confirmation.isDuplicate && confirmation.orderId) ? true : false,
+            isDuplicate: confirmation && confirmation.isDuplicate === true,
+            orderId: confirmation && confirmation.orderId,
+        });
+    } catch (error) {
         logger.error("/webhook error:%s", error);
-        handleReject(500, `Webhook processing error: ${error.message}`);
-    })
+        sendErrorResponseAndFinish(500, `Webhook processing error: ${error.message}`);
+    }
 
+}
+const validateAndParseEvent = async (request) => {
+    let event;
+    let stripeSignature = request.headers['stripe-signature'];
+    let rawBody = await getRawBodyFromRequest(request);
+    // Validate the signature
+    try {
+        event = validateWebhook(rawBody, stripeSignature);
+    } catch (error) {
+        // Signature verification fails
+        logger.warn("Webhook signature verification failed %s", error.message);
+
+        // If signature bypassed, fallback
+        if (STRIPE_CONFIG.BYPASS_WEBHOOK_SIGNATURE_CHECK) {
+            logger.warn("Signature check bypassed");
+            event = JSON.parse(rawBody);
+        }
+        // If process not bypassed, stop processing immediately
+        else {
+            throw new Error(`Webhook signature verification failed: ${error.message}`)
+        }
+    }
+    return event;
+}
+/**
+ * This will cancel payment on stripe (in case fulfillment fails)
+ * When order cannot be created, we should return money to they passenger.
+ *
+ * @param confirmedOfferId  ID of the offer which we want to cancel payment for
+ * @param intentId  payment intent ID (from stripe)
+ * @param errorMessage  error message (text)
+ * @param errorDetails  additional information to be added to a DB transaction log
+ */
+const cancelPaymentAndUpdatePaymentStatus = async (confirmedOfferId, webhookEvent, errorMessage) => {
+    try {
+        let paymentIntentId = getPaymentIntentId(webhookEvent);
+        await cancelPaymentIntent(paymentIntentId);
+        logger.info('Payment cancelled successfully')
+        await updatePaymentStatus(confirmedOfferId, PAYMENT_STATUSES.CANCELLED, {paymentIntentId: paymentIntentId}, errorMessage, {});
+    } catch (cancellationError) {
+        logger.error(`Failed to cancel payment!, error: ${getErrorMessage(cancellationError)}`);
+        console.error(cancellationError);
+        //last resort - got error while cancelling payment, set payment status to UNKNOWN for further analysis/manual handling
+        await updatePaymentStatus(confirmedOfferId, PAYMENT_STATUSES.UNKNOWN, {paymentIntentId: paymentIntentId}, "Payment cancellation failed due to error", cancellationError && cancellationError.message?cancellationError:'Unknown error');
+    }
 }
 
 /**
@@ -131,41 +116,48 @@ function getConfirmedOfferId(event) {
 }
 
 /**
+ * Extract payment_intent_id from stripe event
+ * @param event Stripe event
+ * @returns {string}
+ */
+function getPaymentIntentId(event) {
+    return event.data.object.payment_intent;
+}
+
+/**
  * Depending on a type of event, perform further actions.
  * Event <payment_intent.succeeded>: update payment_status in DB to PAID, fulfill order related to payment, update order status in DB to FULFILLED, notify customer (TODO)
  * Event <payment_intent.payment_failed>: update payment_status in DB to FAILED
  *
  * @param event
  */
-function processWebhookEvent(event) {
-    //logger.debug("Webhook event:%s", JSON.stringify(event));
+async function processWebhookEvent(event) {
+
     let confirmedOfferId = getConfirmedOfferId(event);
     logger.debug("Confirmed offerID:%s", confirmedOfferId);
-
+    let response;
     // Handle the event
     switch (event.type) {
         case 'payment_intent.payment_failed':
             logger.debug('Payment failed!')
-            return processPaymentFailure(confirmedOfferId, event)
-
+            await processPaymentFailure(confirmedOfferId, event)
+            break;
         // case 'payment_intent.succeeded': //
         case 'charge.succeeded':
             logger.debug('Payment was successful!')
-            return processPaymentSuccess(confirmedOfferId, event);
-
+            response = await processPaymentSuccess(confirmedOfferId, event);
+            break;
         case 'payment_method.attached':
             //const paymentMethod = event.data.object;
             logger.debug('PaymentMethod was attached to a Customer!')
-            return Promise.resolve();
-
+            break;
         // Handle other event types
         default:
             // Unexpected event type
-            logger.warn("Unhandled event type: [%d], ignoring this webhook", event.type);
-            return Promise.resolve();
-            // throw new Error(`Unhandled event type: ${event.type}`)
+            logger.warn(`Unhandled event type: [${event.type}], ignoring this webhook`);
+        // throw new Error(`Unhandled event type: ${event.type}`)
     }
-
+    return response;
 }
 
 
@@ -175,15 +167,9 @@ function processWebhookEvent(event) {
  * @param confirmedOfferId
  * @param webhookEvent
  */
-function processPaymentFailure(confirmedOfferId, webhookEvent) {
+async function processPaymentFailure(confirmedOfferId, webhookEvent) {
     logger.info("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.FAILED, confirmedOfferId);
-    return updatePaymentStatus(
-        confirmedOfferId,
-        PAYMENT_STATUSES.FAILED,
-        {},
-        "Webhook event:" + webhookEvent.type,
-        {webhookEvent}
-    );
+    return updatePaymentStatus(confirmedOfferId, PAYMENT_STATUSES.FAILED, {}, "Webhook event:" + webhookEvent.type, {webhookEvent});
 }
 
 /**
@@ -197,219 +183,150 @@ function processPaymentFailure(confirmedOfferId, webhookEvent) {
  * @returns {Promise<void>}
  */
 
-function processPaymentSuccess(confirmedOfferId, webhookEvent) {
-    return new Promise(function(resolve, reject) {
-        logger.info("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.PAID, confirmedOfferId);
+async function processPaymentSuccess(confirmedOfferId, webhookEvent) {
+    logger.debug("Update payment status, status:%s, confirmedOfferId:%s", PAYMENT_STATUSES.PAID, confirmedOfferId);
 
-        // Extract relevant details from Stripe
-        let paymentDetails;
+    // Extract relevant details from Stripe
+    let paymentDetails = retrievePaymentDetailsFromWebhook(webhookEvent);
+
+    // Update the Payment Status in DB
+    await updatePaymentStatus(confirmedOfferId, PAYMENT_STATUSES.PAID, paymentDetails, "Webhook event:" + webhookEvent.type, {webhookEvent});
+    let confirmation;
+    // Once payment status is updated, proceed to fulfillment
+    try {
+        // Send the fulfill request
+        logger.debug("Webhook event:%s", JSON.stringify(webhookEvent));
+        confirmation = await fulfillOrder(confirmedOfferId, webhookEvent);
+    } catch (fulfillmentError) {
+        logger.error(`Failed to fulfill order: ${getErrorMessage(fulfillmentError)}`);
+        // await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Failed to fulfill the order due to error`, getErrorMessage(fulfillmentError));
+    }
+    // On confirmation handle it
+    logger.info("Booking confirmation:%s", JSON.stringify(confirmation));
+    if (confirmation && confirmation.isDuplicate) {
+        logger.info("It's a duplicate - will ignore it");
+    } else if (confirmation) {
+        // Update the order status
+        await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED, "Fulfilled after successful payment", confirmation)
+        // When status is updated, send the email confirmation
         try {
-            const chargeDetails = webhookEvent.data.object;
-            paymentDetails = {
-                card: {
-                    brand: chargeDetails.payment_method_details.card.brand,
-                    last4: chargeDetails.payment_method_details.card.last4,
-                },
-                receipt: {
-                    url: chargeDetails.receipt_url,
-                },
-                status: {
-                    type: chargeDetails.outcome.type,
-                    network: chargeDetails.outcome.network_status,
-                    message: chargeDetails.outcome.seller_message,
-                }
+            await sendBookingConfirmations(confirmation);
+        } catch (error) {
+            logger.error(`Failed to send email confirmations: ${getErrorMessage(error)}`);
+        }
+    }
+    return confirmation;
+}
+
+const getErrorMessage = (error) => {
+    let message;
+    if (error.response && error.response.data && error.response.data.message) {
+        message = `Glider: ${error.response.data.message}`;
+    } else {
+        message = error.message;
+    }
+    return message;
+}
+
+const retrievePaymentDetailsFromWebhook = (webhookEvent) => {
+    const chargeDetails = webhookEvent.data.object;
+    let paymentDetails;
+    try {
+        paymentDetails = {
+            card: {
+                brand: chargeDetails.payment_method_details.card.brand,
+                last4: chargeDetails.payment_method_details.card.last4,
+            },
+            receipt: {
+                url: chargeDetails.receipt_url,
+            },
+            status: {
+                type: chargeDetails.outcome.type,
+                network: chargeDetails.outcome.network_status,
+                message: chargeDetails.outcome.seller_message,
             }
         }
-        catch(error) {
-            logger.warn('Can not retrieve payment details: ', error);
-        }
-
-        // Update the Payment Status in DB
-        updatePaymentStatus(
-            confirmedOfferId,
-            PAYMENT_STATUSES.PAID,
-            paymentDetails,
-            "Webhook event:" + webhookEvent.type,
-            {webhookEvent}
-        )
-
-        // Once payment status is updated, proceed to fulfillment
-        .then(() => {
-            // Emit the event to acknowledge websocket
-            GliderWebhookEmitter.emit(GLIDER_EVENT_PAYMENT_STATUS_UPDATED, confirmedOfferId);
-
-            // Send the fulfill request
-            fulfillOrder(confirmedOfferId)
-
-            // On confirmaton handle it
-            .then(confirmation => {
-                //logger.info("Response from fulfillment", confirmation);
-                if(confirmation && confirmation.isDuplicate) {
-                    resolve(confirmation);
-                }
-                else if(confirmation) {
-                    // Update the order status
-                    updateOrderStatus(
-                        confirmedOfferId,
-                        ORDER_STATUSES.FULFILLED,
-                        "Fulfilled after successful payment",
-                        confirmation,
-                    )
-
-                    // When status is updated, send the email confirmation
-                    .then(() => {
-                        sendConfirmation(confirmedOfferId, confirmation)
-                        .then(() => {
-                            resolve({...confirmation, order_status:ORDER_STATUSES.FULFILLED});
-                        })
-                        .catch(error => {
-                            logger.error(`Failed to send email confirmation: ${error.message}`);
-                            reject(error);
-                        });
-                    })
-
-                    // In case of issue to send the email, abort
-                    .catch(error => {
-                        logger.error("Failed to send email confirmation");
-                        reject(error);
-                    });
-                }
-
-                else {
-                    logger.error("Confirmation was empty");
-                    reject(confirmation);
-                }
-            })
-
-            // Handle the fulfillment error
-            .catch(error => {
-                let message;
-                if(error.response && error.response.data && error.response.data.message) {
-                    message = `Glider: ${error.response.data.message}`;
-                } else {
-                    message = error.message;
-                }
-                logger.error(`Failed to fulfill order: ${message}`);
-                reject(error);
-            });
-        })
-
-        // Handle the error while updating DB
-        .catch(error => {
-            logger.error(`Failed to update DB Status: ${error.message}`);
-            reject(error);
-        });
-    });
+    } catch (error) {
+        logger.warn('Can not retrieve payment details: ', error);
+    }
+    return paymentDetails;
 }
+
 
 /**
  * Order fulfillment
  * @param confirmedOfferId
+ * @param intentId
  * @returns {Promise<any>}
  */
-function fulfillOrder(confirmedOfferId) {
-    return new Promise(function(resolve, reject) {
-        logger.debug("Starting fulfilment process for confirmedOfferId:%s", confirmedOfferId);
+async function fulfillOrder(confirmedOfferId, webhookEvent) {
+    logger.debug("Starting fulfilment process for confirmedOfferId:%s", confirmedOfferId);
 
-        // Retrieve offer details
-        logger.debug("#1 Retrieve offerDetails from DB");
-        findConfirmedOffer(confirmedOfferId)
+    // Retrieve offer details
+    logger.debug("#1 Retrieve offerDetails from DB");
+    let document = await findConfirmedOffer(confirmedOfferId)
+    if (!document) {
+        logger.error(`Offer not found, confirmedOfferId=${confirmedOfferId}`);
+        throw new Error(`Could not find offer ${confirmedOfferId} in the database`);
+    }
 
-        // Process the retrieved offer
-        .then(document => {
+    // Check if fulfillment is already processed or in progress
+    if (document && (
+        (document.order_status === ORDER_STATUSES.FULFILLED) ||
+        (document.order_status === ORDER_STATUSES.FULFILLING))) {
+        return {...document.confirmation, isDuplicate: true};
+    }
 
-            // Check if fulfillment is already processed or in progress
-            if(document && (
-                (document.order_status === ORDER_STATUSES.FULFILLED) ||
-                (document.order_status === ORDER_STATUSES.FULFILLING)))
-            {
-                resolve({...document.confirmation, isDuplicate: true});
-            }
+    // Proceed to next steps of fulfillment
+    // Update the status to fulfilling
+    await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLING, `Order creation started`, {})
+    // Start fulfillment process
+    // Retrieve offer details
+    let passengers = document.passengers;
+    let offerId = document.confirmedOffer.offerId;
+    let offer = document.confirmedOffer.offer;
+    let price = offer.price;
 
-            // Proceed to next steps of fulfillment
-            else {
-                // Update the status to fulfilling
-                updateOrderStatus(
-                    confirmedOfferId,
-                    ORDER_STATUSES.FULFILLING,
-                    `Order creation started`,
-                    {}
-                )
+    // Request a guarantee to Simard
+    let guarantee;
+    try {
+        guarantee = await createGuarantee(price.public, price.currency)
 
-                // Start fulfillment process
-                .then(() => {
-                    // Retrieve offer details
-                    let passengers = document.passengers;
-                    let offerId = document.confirmedOffer.offerId;
-                    let offer = document.confirmedOffer.offer;
-                    let price = offer.price;
+    }catch(error){
+        logger.error("Guarantee could not be created, simard error:%s", error);
+        //to cancel payment
+        await cancelPaymentAndUpdatePaymentStatus(confirmedOfferId, webhookEvent, `Payment cancelled due to guarantee error`);
 
-                    // Request a guarantee to Simard
-                    createGuarantee(price.public, price.currency)
+        // Update order status
+        await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Could not create guarantee[${error}]`, {simardError: error});
+        throw error;
+    }
+    // Proceed to next steps with guarantee
+    logger.info("Guarantee created, guaranteeId:%s", guarantee.guaranteeId);
 
-                    // Proceed to next steps with guarantee
-                    .then(guarantee => {
-                        logger.debug("#4 guarantee created, guaranteeId:%s", guarantee.guaranteeId);
+    // Create the order
+    let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers);
+    let confirmation;
+    try {
+        confirmation = await createWithOffer(orderRequest);
+        logger.info("Order created");
+        // Handle the order creation success
 
-                        // Create the order
-                        let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers);
-                        createOrder(orderRequest)
+        // Handle the error creation error
+    } catch (error) {
+        // Override Error with Glider message
+        if (error.response && error.response.data && error.response.data.message) {
+            error.message = `Glider B2B: ${error.response.data.message}`;
+        }
+        logger.error("Failure in response from /createWithOffer: %s, will try to cancel the payment", error.message);
+        //if fulfilment fails - try to cancel payment
+        await cancelPaymentAndUpdatePaymentStatus(confirmedOfferId, webhookEvent, `Payment cancelled due to fulfillment error`);
+        // Update order status
+        await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Order creation failed[${error}]`, {request: orderRequest});
 
-                        // Handle the order creation success
-                        .then(confirmation => {
-                            resolve(confirmation);
-                        })
-
-                        // Handle the error creation error
-                        .catch(error => {
-                            // Override Error with Glider message
-                            if(error.response && error.response.data && error.response.data.message) {
-                                error.message = `Glider B2B: ${error.response.data.message}`;
-                            }
-                            logger.error("Failure in response from /createWithOffer: %s", error.message);
-
-                            // Update order status
-                            updateOrderStatus(
-                                confirmedOfferId,
-                                ORDER_STATUSES.FAILED,
-                                `Order creation failed[${error}]`,
-                                {request:orderRequest})
-
-                            // Once order is updated, reject the error
-                            .then(() => {
-                                reject(error);
-                            })
-
-                            // If even the DB update fails, return the error
-                            .catch(updateError => {
-                                logger.error("Failed to update DB when processing error:%s", updateError.message);
-                                reject(error);
-                            });
-                        });
-
-                    })
-
-                    // Handle the guarantee creation error
-                    .catch(error => {
-                        logger.error("Could not create guarantee: %s", error);
-                        reject(error);
-                    });
-                })
-                .catch(updateError => {
-                    logger.error("Failed to update order status to fulfilling: %s", updateError.message);
-                    reject(updateError);
-                });
-
-            }
-        })
-
-        // Handle the error when offer can not be retrieved
-        .catch(error => {
-            logger.error("Could not find the offer: %s", error);
-            reject(error);
-        });
-
-    });
+        throw error;
+    }
+    return confirmation;
 }
 
 // Prepare the order creation request
@@ -442,22 +359,6 @@ function createPassengers(passengers) {
     return passengersRequest;
 }
 
-// Create the order
-function createOrder(orderRequest) {
-    return createWithOffer(orderRequest)
-}
-
-
-/**
- * Send confirmation email
- * @Param orderId
- * @param confirmation
- * @returns {Promise<any>}
- */
-function sendConfirmation(orderId, confirmation) {
-    sendBookingConfirmations(confirmation);
-    return Promise.resolve();
-}
 
 module.exports = decorate(webhookController);
 

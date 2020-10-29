@@ -13,10 +13,10 @@ sgMail.setApiKey(SENDGRID_CONFIG.SENDGRID_API_KEY);
  * Send email confirmation to every passenger from the booking (use contact details from order confirmation response)
  * @param confirmation Response from /createWithOffer
  */
-const sendBookingConfirmations = async (confirmation) => {
+const sendBookingConfirmations =  async (confirmation) => {
     //generate input data for email templates (for all passengers from booking confirmation)
+    logger.info('Sending email confirmations');
     let emailTemplateInputs = prepareEmailTemplateInput(confirmation);
-
     //send email to every passenger
     for (const data of emailTemplateInputs) {
         let {recipientEmail,recipientName} = data;
@@ -25,19 +25,17 @@ const sendBookingConfirmations = async (confirmation) => {
             to:recipientEmail,
             from: SENDGRID_CONFIG.FROM_EMAIL_ADDR,
             subject:'Booking confirmation',
-            templateId: 'd-199fb2f410334d1296b0176e0435c4a7',
+            templateId: SENDGRID_CONFIG.TEMPLATE_ID,
             dynamicTemplateData: data,
-            text:' ',
-            html:' '
+            text:'Booking confirmation',
+            html:'Booking confirmation'
         }
-        try {
-            let response = await sgMail.send(msg);
-        }catch(error){
-                console.log('Error while sending email',error);
-                logger.error(`Email to ${recipientEmail} was not sent, error occurred`);
-        }
+        // let msg2={"to":"tomasz.kurek@gmail.com","from":"noreply@em5199.glider.travel","subject":"Booking confirmation","templateId":"d-199fb2f410334d1296b0176e0435c4a7","dynamicTemplateData":{"recipientEmail":"tomasz.kurek@gmail.com","recipientName":" John Doe","price":{"currency":"EUR","public":"118.00","commission":0,"taxes":"0.00"},"passengers":[{"name":" John Doe","birthdate":"1999-12-12","email":"tomasz.kurek@gmail.com","contactInformation":["tomasz.kurek@gmail.com","48609111222"]}],"segments":[{"flightNumber":"LO3908","origin":"John Paul II - Balice(KRK)","destination":"Frederic Chopin(WAW)","departureDate":"5 Nov","departureTime":"13:15","arrivalDate":"5 Nov","arrivalTime":"14:10"},{"flightNumber":"LO0521","origin":"Frederic Chopin(WAW)","destination":"Ruzyne(PRG)","departureDate":"5 Nov","departureTime":"16:20","arrivalDate":"5 Nov","arrivalTime":"17:45"},{"flightNumber":"LO0522","origin":"Ruzyne(PRG)","destination":"Frederic Chopin(WAW)","departureDate":"7 Nov","departureTime":"18:20","arrivalDate":"7 Nov","arrivalTime":"19:40"},{"flightNumber":"LO3921","origin":"Frederic Chopin(WAW)","destination":"John Paul II - Balice(KRK)","departureDate":"7 Nov","departureTime":"20:40","arrivalDate":"7 Nov","arrivalTime":"21:35"}],"etickets":"","bookingReferences":"KUFJNA","totalPrice":"118.00 EUR","ancillaryPriceInfo":[]},"text":"Booking confirmation","html":"Booking confirmation"}
+        await sgMail.send(msg);
+        logger.debug(`#2 Email to ${recipientName} <${recipientEmail}> was sent`)
     }
 }
+
 /**
  * Each email that will be send (by sendgrid) requires input data (e.g.pax name, email address, eTicket, list of segments).
  * This data should be provided to sendgrid API as json object.
@@ -113,7 +111,7 @@ const prepareEmailTemplateInput = (confirmation, paxID) => {
         let recipientName = formatSalutation(recipient);
 
 
-        return template = {
+        return {
             recipientEmail: recipientEmail,
             recipientName: recipientName,
             price: price,

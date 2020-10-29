@@ -33,7 +33,7 @@ async function searchOffers(criteria) {
     let response;
     if(criteria.itinerary)
         setDepartureDatesToNoonUTC(criteria)
-    console.debug("Criteria:",JSON.stringify(criteria))
+    logger.debug(`Search criteria:${JSON.stringify(criteria)}`);
     try {
         response = await axios({
             method: 'post',

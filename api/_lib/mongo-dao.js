@@ -13,7 +13,9 @@ const ORDER_STATUSES={
 const PAYMENT_STATUSES={
     NOT_PAID:'NOT_PAID',
     PAID:'PAID',
-    FAILED:'FAILED'
+    FAILED:'FAILED',
+    CANCELLED:'CANCELLED',      //payment was cancelled (e.g. after fulfilment failed)
+    UNKNOWN:'UNKNOWN'           //we don't know what's the final status (rare case, e.g. if we try to cancel payment but cancellation request fails)
 }
 
 // Create cached connection variable
