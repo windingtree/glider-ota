@@ -33,6 +33,7 @@ const getConfigKey = (key) => {
     return undefined;
 };
 
+// const GLIDER_BASEURL = `http://localhost:3000/api/v1`;
 const GLIDER_BASEURL = getConfigKey('GLIDER_BASEURL') || `https://${enviroment}.b2b.glider.travel/api/v1`;
 
 const GLIDER_CONFIG =
@@ -95,6 +96,12 @@ const GENERIC_CONFIG =
         ENABLE_HEALHCHECK:(getConfigKey('HEALTHCHECK_ENABLE') === "yes"),
         DEVELOPMENT_MODE:(getConfigKey('DEVELOPMENT_MODE') === "yes")
     };
+const SENDGRID_CONFIG =
+    {
+        SENDGRID_API_KEY: getConfigKey('SENDGRID_API_KEY'),
+        FROM_EMAIL_ADDR: getConfigKey('SENDGRID_FROM_EMAIL_ADDR') || 'noreply@glider.travel',
+        TEMPLATE_ID: getConfigKey('SENDGRID_TEMPLATE_ID') || 'd-199fb2f410334d1296b0176e0435c4a7',
+    };
 
 
 module.exports = {
@@ -105,5 +112,6 @@ module.exports = {
     STRIPE_CONFIG,
     ELASTIC_CONFIG,
     ORGID,
-    GENERIC_CONFIG
+    GENERIC_CONFIG,
+    SENDGRID_CONFIG
 };
