@@ -41,6 +41,7 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
     const [metadata, setMetadata] = useState(null);
     const [succeeded, setSucceeded] = useState(false);
     const [processing, setProcessing] = useState(false);
+    const [cardholder, setCardholder] = useState(cardholderName);
     const stripe = useStripe();
     const elements = useElements();
 
@@ -145,7 +146,8 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                                 name="name"
                                 placeholder="Name"
                                 autoComplete="cardholder"
-                                value={cardholderName}
+                                value={cardholder}
+                                onChange={(event)=>setCardholder(event.target.value)}
                             />
                         </Col>
                     </Form.Row>
