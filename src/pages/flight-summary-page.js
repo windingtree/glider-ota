@@ -53,6 +53,12 @@ export default function FlightSummaryPage({match}) {
     function loadPassengerDetailsFromServer(){
         let response=retrievePassengerDetails();
         response.then(passengers=>{
+            //sort passengers (ADT>CHD>INF)
+            passengers.sort((a,b)=>{
+                let typeA=a.type?a.type:'ADT';  //if there is no type - assume it's adult
+                let typeB=b.type?b.type:'ADT';
+                return typeA.localeCompare(typeB);
+            })
             setPassengerDetails(passengers);
         }).catch(err=>{
             console.error("Failed to load passenger details", err);
