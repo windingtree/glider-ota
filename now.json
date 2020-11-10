@@ -15,6 +15,7 @@
     "STRIPE_PUBLISHABLE_KEY": "@staging.glider-ota.stripe.publishable_key",
     "STRIPE_SECRET_KEY": "@staging.glider-ota.stripe.secret_key",
     "STRIPE_WEBHOOK_SECRET": "@staging.glider-ota.stripe.webhook_secret",
+    "STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK": "@staging.glider-ota.stripe.bypass_webhook",
     "ELASTIC_URL": "@staging.glider-ota.elastic.url",
     "GLIDER_JWT": "@staging.glider-ota.glider_jwt",
     "SIMARD_JWT": "@staging.glider-ota.simard_jwt",
@@ -31,6 +32,11 @@
     "PRODUCTION_ELASTIC_URL": "@production.glider-ota.elastic.url",
     "PRODUCTION_GLIDER_JWT": "@production.glider-ota.glider_jwt",
     "PRODUCTION_SIMARD_JWT": "@production.glider-ota.simard_jwt",
-    "PRODUCTION_GLIDER_ORGID": "@production.glider-ota.glider-b2b_orgid"
+    "PRODUCTION_GLIDER_ORGID": "@production.glider-ota.glider-b2b_orgid",
+    "STAGING_SENDGRID_API_KEY": "@staging.glider-ota.sendgrid_api_key",
+    "PRODUCTION_SENDGRID_API_KEY": "@production.glider-ota.sendgrid_api_key",
+    "STAGING_SENDGRID_FROM_EMAIL_ADDR": "@staging.glider-ota.sendgrid_from_email_addr",
+    "PRODUCTION_SENDGRID_FROM_EMAIL_ADDR": "@production.glider-ota.sendgrid_from_email_addr"
+
   }
 }

@@ -5,6 +5,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.1",
     "@emotion/core": "^10.0.28",
+    "@sendgrid/mail": "^7.2.6",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.4.0",
     "@testing-library/jest-dom": "^4.2.4",
@@ -20,6 +21,7 @@
     "date-fns": "^2.10.0",
     "date-fns-tz": "^1.0.10",
     "esm": "^3.2.25",
+    "handlebars": "^4.7.6",
     "immutability-helper": "^3.0.2",
     "jquery": "^3.5.1",
     "linkifyjs": "^2.1.9",
@@ -67,7 +69,8 @@
     "build-schemas-b2b": "npx js-yaml ./api/_lib/schemas/wt-aggregator.yaml > api/_lib/schemas/wt-aggregator.json",
     "nowdev": "npx now dev",
     "build:staging": "env-cmd -f zeit.staging.env react-scripts build",
-    "build:production": "env-cmd -f zeit.production.env react-scripts build"
+    "build:production": "env-cmd -f zeit.production.env react-scripts build",
+    "lint": "npx eslint src api"
   },
   "eslintConfig": {
     "extends": "react-app"

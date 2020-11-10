@@ -44,6 +44,7 @@ export default function PaymentConfirmation({orderID}) {
     function getStatus(orderIdentifier){
         getOrderStatus(orderIdentifier)
             .then(data => {
+                console.log(data)
                 processOrderStatus(data);
             })
             .catch(err=>{
@@ -69,7 +70,7 @@ export default function PaymentConfirmation({orderID}) {
     function processOrderStatus(data){
         setOrder(data);
         let orderStatus = data.order_status;
-        //console.debug("processOrderStatus:", orderStatus);
+        console.debug("processOrderStatus:", orderStatus);
 
         switch (orderStatus){
             case 'NEW':
@@ -201,6 +202,14 @@ export default function PaymentConfirmation({orderID}) {
                     </small>
                 );
                 break;
+            case 'CANCELLED':
+                iconStatus = 'failed';
+                message = (
+                    <small>
+                        Your payment was refunded
+                    </small>
+                );
+                break;
             default:
                 iconStatus = 'undefined';
                 message = (
@@ -255,7 +264,7 @@ export default function PaymentConfirmation({orderID}) {
                         <small>
                             Your booking reference{bookings.length > 1 ? 's are' : ' is'}: {bookings.join(', ')}
                             <br/>
-                            Your e-ticket{bookings.length > 1 ? 's are' : ' is'}: {(etickets).map(tkt => Object.keys(tkt)[0]).join(', ')}
+                            {(etickets && etickets.length>0) && (<>Your e-ticket{bookings.length > 1 ? 's are' : ' is'}: {(etickets).map(tkt => Object.keys(tkt)[0]).join(', ')}</>)}
                         </small>
                     );
                 }else if(
@@ -276,8 +285,9 @@ export default function PaymentConfirmation({orderID}) {
                 iconStatus = 'failed';
                 message = (
                     <small>
-                        We could not confirm your booking immediatly with the travel supplier, sorry!
-                        We are going to retry a bit later and send your confirmation by email. In case we can not create your booking within 24h, we will cancel your payment automatically.
+                        We could not create your booking due to an error.
+                        This may be due to changed availability or increased price.
+                        Please try again later.
                     </small>
                 );
                 break;

@@ -48,9 +48,11 @@ const RoomSize = ({room}) =>{
     if(room && room.size && room.size.value){
         size+=room.size.value;
         if(room.size._unit_)
-            size+=' '+room.size.value;
+            size+=' '+room.size._unit_;
+        else
+            size+=' Sq.M.';
     }
-    return (<span>{size})</span>)
+    return (<span>{size}</span>)
 }
 
 export function RoomPricePlan({offer, onOfferSelected, pricePlan, room, selectedOffer}) {

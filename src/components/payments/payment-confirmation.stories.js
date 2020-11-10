@@ -634,3 +634,9 @@ export const StatusFailed = () => {
     fetchMock.mock('path:/api/order/status',failedStatusMockResponse);
     return (<PaymentConfirmation orderID={"XYZ"}/>);
 }
+let statusPaymentCancelled={"payment_status":"CANCELLED","payment_details":{"paymentIntentId":"pi_1HhFRrBtLSGo1hFPqtIUXQPm"},"order_status":"FAILED","history":[{"comment":"New order created","timestamp":"2020-10-28T14:16:22.229Z"},{"comment":"Webhook event:charge.succeeded","timestamp":"2020-10-28T14:16:41.397Z"},{"comment":"Order creation started","timestamp":"2020-10-28T14:16:41.953Z"},{"comment":"Payment cancelled due to fulfillment error","timestamp":"2020-10-28T14:17:02.648Z"},{"comment":"Order creation failed[Error: Glider B2B: DUMMY ERROR]","timestamp":"2020-10-28T14:17:02.690Z"}]}
+export const StatusPaymentCancelled = () => {
+    fetchMock.restore();
+    fetchMock.mock('path:/api/order/status',statusPaymentCancelled);
+    return (<PaymentConfirmation orderID={"XYZ"}/>);
+}
