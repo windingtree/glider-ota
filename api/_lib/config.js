@@ -40,6 +40,9 @@ const GLIDER_CONFIG =
     {
         GLIDER_TOKEN: getConfigKey('GLIDER_JWT'),
         SEARCH_OFFERS_URL: GLIDER_BASEURL + "/offers/search",
+        ENABLE_ROOMS_SEARCH: getConfigKey('ENABLE_ROOMS_SEARCH'),
+        ROOMS_SEARCH_OFFERS_URL: getConfigKey('ROOMS_SEARCH_OFFERS_URL'),
+        ROOMS_TOKEN: getConfigKey('ROOMS_TOKEN'),
         CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
         SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
         REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
