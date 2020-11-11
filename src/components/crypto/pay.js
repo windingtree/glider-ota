@@ -12,36 +12,21 @@ import {
 import MetamaskButton from './MetamaskButton';
 import PortisButton from './PortisButton';
 import SelectCrypto from './SelectCrypto';
+import WalletAddress from './WalletAddress';
 
 const CryptoPay = props => {
     const {
         walletAddress,
-        openPortis,
-        web3ProviderType,
         signInError
     } = props;
     const usdValue = 101.12;
 
-    const handleAccountClick = () => {
-        if (web3ProviderType === 'portis') {
-            openPortis();
-        }
-    };
-
     return (
         <Container>
             <h1 className={styles.cryptoTitle}>
-                Pay {usdValue} USD with Crypto&nbsp;
-                {walletAddress &&
-                    <Badge
-                        variant="info"
-                        className={styles.walletAddress}
-                        onClick={handleAccountClick}
-                    >
-                        {walletAddress}
-                    </Badge>
-                }
+                Pay {usdValue} USD with Crypto
             </h1>
+            <WalletAddress />
             <Row className={styles.mb10}>
                 <Col>
                     <MetamaskButton exclusive />
@@ -59,7 +44,7 @@ const CryptoPay = props => {
             }
             {walletAddress &&
                 <SelectCrypto
-                    title="Select Currency"
+                    title="Select a token"
                     usdValue={usdValue}
                 />
             }

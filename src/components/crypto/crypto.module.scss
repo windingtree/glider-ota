@@ -4,9 +4,30 @@
     margin-bottom: 10px;
 }
 
+.mt10 {
+    margin-top: 10px;
+}
+
 .cryptoTitle {
     display: flex;
     align-items: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 120%;
+    color: #202020;
+
+
+}
+
+.selectorTitle {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 150%;
+    display: flex;
+    align-items: center;
+    color: #202020;
 }
 
 .buttonLabel {
@@ -18,11 +39,13 @@
 
 .buttonSpinner {
     margin-left: 10px;
+    vertical-align: middle;
 }
 
 .walletAddress {
     @include _glider-font-text12;
     color: $glider-color-primary-background;
+    margin-bottom: 10px;
 }
 
 .tokenIcon {
@@ -32,7 +55,11 @@
 }
 
 .tokenLabel {
-    @include _glider-font-text16;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    color: #202020;
     text-transform: capitalize;
 }
 
@@ -41,6 +68,87 @@
     color: #9f9f9f;
 }
 
-.selectedCoinWrapper {
-    @include _glider-font-text16;
+.cryptoCardWrapper {
+    background: #FFFFFF;
+    border: 1px solid #BBBBBB;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.tokenDataText {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    color: #202020;
+
+    @include media-max-sm {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 150%;
+        display: flex;
+        align-items: center;
+        color: #202020;
+    }
+}
+
+.amountWrapper {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    text-align: right;
+    color: #7161D6;
+
+    @include media-max-sm {
+        font-size: 18px;
+
+        &.selected {
+            font-size: 24px;
+        }
+    }
+
+    &.red {
+        color: red;
+    }
+}
+
+.actionRow {
+    margin-top: 20px;
+}
+
+.actionNote {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #5E666A;
+}
+
+.actionWrapper {
+    text-align: right;
+}
+
+.xsHide {
+    @include media-max-sm {
+        display: none;
+    }
+}
+
+.xsShow {
+    @include glider-media-small_576 {
+        display: none;
+    }
+}
+
+.xsBlock {
+    @include media-max-sm {
+        display: block;
+        width: 100%;
+    }
 }

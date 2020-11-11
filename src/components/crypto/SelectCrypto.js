@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Table, Button, Spinner, Alert } from 'react-bootstrap';
+import { Container, Table, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
 import styles from './crypto.module.scss';
 
 import {
@@ -29,6 +29,192 @@ import {
     txRegister,
     invalidateTxErrors
 } from '../../redux/sagas/tx';
+
+const CryptoCard = props => {
+    const {
+        coin,
+        selectedCoin,
+        onSelected,
+        onError,
+        web3,
+        walletAddress,
+        minedTx,
+        txRegister
+    } = props;
+    const [selected, setSelected] = useState(false);
+    const [coinProcessingHash, setCoinProcessingHash] = useState(null);
+
+    useEffect(() => {
+        if (coin && selectedCoin && coin.address !== selectedCoin.address) {
+            setSelected(false);
+        }
+    }, [coin, selectedCoin]);
+
+    useEffect(() => {
+        if (minedTx[coinProcessingHash]) {
+            setTimeout(() => {
+                setCoinProcessingHash(false)
+            }, 2000);
+        }
+    }, [coinProcessingHash, minedTx]);
+
+    const handleCardClick = () => {
+        setSelected(!selected);
+        onSelected(coin);
+    };
+
+    const handleApprove = async coin => {
+        try {
+            setCoinProcessingHash(true);
+            const hash = await approveToken(
+                web3,
+                coin.address,
+                walletAddress,
+                UNISWAP_ROUTER_ADDRESS,
+                coin.rawAmount
+            );
+            txRegister(hash);
+            setCoinProcessingHash(hash);
+        } catch (error) {
+            console.log(error);
+            onError(error);
+            setCoinProcessingHash(null);
+        }
+    };
+
+    return (
+        <Container fluid className={styles.cryptoCardWrapper}>
+            <Row
+                onClick={handleCardClick}
+            >
+                <Col>
+                    <div className={styles.tokenDataText}>
+                        <img
+                            className={styles.tokenIcon}
+                            alt={coin.name}
+                            src={coin.logoURI}
+                        />
+                        <span className={styles.tokenLabel}>
+                            {coin.symbol}
+                        </span>
+                    </div>
+                </Col>
+                <Col className={styles.xsHide}>
+                    <div className={styles.tokenDataText}>
+                        {selected ? 'Balance' : coin.balance}
+                    </div>
+                </Col>
+                <Col className={styles.xsHide}>
+                    <div className={styles.tokenDataText}>
+                        {selected ? 'Allowance' : coin.allowance}
+                    </div>
+                </Col>
+                <Col xs='auto' sm='4'>
+                    <div className={[
+                        styles.amountWrapper,
+                        (selected ? styles.selected : ''),
+                        (coin.balance < coin.amount ? styles.red : '')
+                    ].join(' ')}>
+                        {coin.amount}
+                    </div>
+                </Col>
+            </Row>
+            {!selected &&
+                <Row className={styles.xsShow}>
+                    <Col>
+                        <div className={styles.tokenDataText}>
+                            {coin.balance}
+                        </div>
+                    </Col>
+                </Row>
+            }
+            {selected &&
+                <>
+                    <Row className={[
+                        styles.xsShow,
+                        styles.mt10
+                    ].join(' ')}>
+                        <Col>
+                            <div className={styles.tokenDataText}>
+                                {'Balance'}
+                            </div>
+                        </Col>
+                        <Col>
+                            <div className={styles.tokenDataText}>
+                                {'Allowance'}
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className={styles.xsShow}>
+                        <Col>
+                            <div className={styles.tokenDataText}>
+                                {coin.balance}
+                            </div>
+                        </Col>
+                        <Col>
+                            <div className={styles.tokenDataText}>
+                                {coin.allowance}
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className={styles.actionRow}>
+                        <Col className={styles.xsHide}>
+                            &nbsp;
+                        </Col>
+                        <Col className={styles.xsHide}>
+                            <div className={styles.tokenDataText}>
+                                {coin.balance}
+                            </div>
+                        </Col>
+                        <Col className={styles.xsHide}>
+                            <div className={styles.tokenDataText}>
+                                {coin.allowance}
+                            </div>
+
+                        </Col>
+                        <Col xs={12} sm='4'>
+                            <div className={styles.actionWrapper}>
+                                {(coin.balance >= coin.amount && coin.allowance < coin.amount) &&
+                                    <Button
+                                        className={styles.xsBlock}
+                                        size='sm'
+                                        onClick={() => handleApprove(coin)}
+                                        disabled={coinProcessingHash}
+                                    >
+                                        Unlock
+                                        {coinProcessingHash &&
+                                            <Spinner
+                                                className={styles.buttonSpinner}
+                                                animation="border"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                            />
+                                        }
+                                    </Button>
+                                }
+                                {(coin.balance >= coin.amount && coin.allowance >= coin.amount) &&
+                                    <Button
+                                        size="sm"
+                                        onClick={() => {}}
+                                        disabled={!selectedCoin || coinProcessingHash}
+                                    >
+                                        Pay
+                                    </Button>
+                                }
+                                {coin.balance < coin.amount &&
+                                    <span className={styles.actionNote}>
+                                        Insufficient funds
+                                    </span>
+                                }
+                            </div>
+                        </Col>
+                    </Row>
+                </>
+            }
+        </Container>
+    );
+};
 
 const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallback, usdValue) => {
     loadingCallback(true);
@@ -150,7 +336,6 @@ const SelectCrypto = props => {
     const [error, setError] = useState(null);
     const [tokesLoading, setTokensLoading] = useState(true);
     const [tokensDetails, setTokensDetails] = useState([]);
-    const [coinsProcessing, setCoinsProcessing] = useState({});
     const [selectedCoin, setSelectedCoin] = useState(null);
 
     useEffect(() => {
@@ -165,22 +350,6 @@ const SelectCrypto = props => {
         return () => stopPoller();
     }, [web3, walletAddress, usdValue]);
 
-    useEffect(() => {
-        Object
-            .entries(coinsProcessing)
-            .forEach(coin => {
-                if (coin[1].hash && coin[1].processing && minedTx[coin[1].hash]) {
-                    setCoinsProcessing({
-                        ...coinsProcessing,
-                        [coin[0]]: {
-                            ...coin[1],
-                            processing: false
-                        }
-                    });
-                }
-            });
-    }, [coinsProcessing, minedTx]);
-
     const handleErrorsDismiss = () => {
         setError(null);
     };
@@ -189,46 +358,13 @@ const SelectCrypto = props => {
         invalidateTxErrors();
     };
 
-    const handleApprove = async coin => {
-        try {
-            setCoinsProcessing({
-                ...coinsProcessing,
-                [coin.address]: {
-                    processing: true
-                }
-            });
-            const hash = await approveToken(
-                web3,
-                coin.address,
-                walletAddress,
-                UNISWAP_ROUTER_ADDRESS,
-                coin.rawAmount
-            );
-            txRegister(hash);
-            setCoinsProcessing({
-                ...coinsProcessing,
-                [coin.address]: {
-                    processing: true,
-                    hash
-                }
-            });
-        } catch (error) {
-            console.log(error);
-            setError(error);
-        }
-    };
-
-    const handleSelect = coin => {
-        setSelectedCoin(coin);
-    };
-
     if (!loggedIn) {
         return null;
     }
 
     return (
         <>
-            <h2>{title}</h2>
+            <h2 className={styles.selectorTitle}>{title}</h2>
             {tokesLoading &&
                 <>
                     Loading...
@@ -241,6 +377,21 @@ const SelectCrypto = props => {
                 </>
             }
             {!tokesLoading &&
+                tokensDetails.map((coin, i) => (
+                    <CryptoCard
+                        key={i}
+                        coin={coin}
+                        selectedCoin={selectedCoin}
+                        onSelected={setSelectedCoin}
+                        onError={setError}
+                        web3={web3}
+                        walletAddress={walletAddress}
+                        minedTx={minedTx}
+                        txRegister={txRegister}
+                    />
+                ))
+            }
+            {/* {!tokesLoading &&
                 <Table bordered hover>
                     <thead>
                         <tr>
@@ -313,13 +464,14 @@ const SelectCrypto = props => {
                     ))}
                     </tbody>
                 </Table>
-            }
+            } */}
             {error &&
                 <Alert
                     dismissible
                     variant="danger"
                     onClose={handleErrorsDismiss}
                 >
+                    <Alert.Heading>Error</Alert.Heading>
                     <p>
                         {error.message}
                     </p>
@@ -338,16 +490,6 @@ const SelectCrypto = props => {
                         </p>
                     ))}
                 </Alert>
-            }
-            {selectedCoin &&
-                <div className={styles.selectedCoinWrapper}>
-                    <p>
-                        Pay {usdValue} USD with {selectedCoin.name}
-                    </p>
-                    <Button size="lg">
-                        Pay {selectedCoin.amount} {selectedCoin.symbol}
-                    </Button>
-                </div>
             }
         </>
     );
