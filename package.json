@@ -11,6 +11,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
+    "@windingtree/config-profiles": "^1.0.5",
     "ajv": "^6.12.4",
     "async-redis": "^1.1.7",
     "axios": "^0.19.2",
@@ -60,6 +61,7 @@
     "build-storybook": "build-storybook -s public",
     "build-schema-ota": "npx js-yaml ./api/_lib/schemas/backend-api-schema.yaml > api/_lib/schemas/backend-api-schema.json",
     "build-schemas-b2b": "npx js-yaml ./api/_lib/schemas/wt-aggregator.yaml > api/_lib/schemas/wt-aggregator.json",
+    "now-build": "mkdir -p build & node -r ./node_modules/dotenv/config ./now-build.js dotenv_config_path=./.env",
     "nowdev": "npx now dev",
     "lint": "npx eslint src api"
   },

@@ -38,5 +38,11 @@
     "STAGING_SENDGRID_FROM_EMAIL_ADDR": "@staging.glider-ota.sendgrid_from_email_addr",
     "PRODUCTION_SENDGRID_FROM_EMAIL_ADDR": "@production.glider-ota.sendgrid_from_email_addr"
 
+  },
+  "build": {
+    "env": {
+      "MONGO_URL": "@staging.glider-ota.mongo.uri2",
+      "PRODUCTION_MONGO_URL": "@production.glider-ota.mongo.uri"
+    }
   }
 }

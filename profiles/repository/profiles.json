@@ -1,0 +1,34 @@
+[
+  {
+    "key": "GLIDER_ORGID",
+    "comment": "",
+    "profiles": [
+      {"profile": "default", "value": "0x94bf5a57b850a35b4d1d7b59f663ce3a8a76fd9928ef2067cc772fc97fb0ad75"},
+      {"profile": "default", "value": "0xa8eacc80e138a30cd86002f12f5f324a3f2214b1fefc833435901ab6189579bb"}
+    ]
+  },
+  {
+    "key": "SENDGRID_FROM_EMAIL_ADDR",
+    "comment": "",
+    "profiles": [
+      {"profile": "default", "value": "noreply@em5199.glider.travel"},
+      {"profile": "production", "value": "noreply@em5199.glider.travel"}
+    ]
+  },
+  {
+    "key": "ENABLE_ROOMS_SEARCH",
+    "comment": "",
+    "profiles": [
+      {"profile": "default", "value": "yes"},
+      {"profile": "production", "value": "no"}
+    ]
+  },
+  {
+    "key": "ROOMS_SEARCH_OFFERS_URL",
+    "comment": "",
+    "profiles": [
+      {"profile": "default", "value": "https://staging.rooms.windingtree.com/api/v1/offers/search"},
+      {"profile": "production", "value": "https://"}
+    ]
+  }
+]
