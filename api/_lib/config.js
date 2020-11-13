@@ -1,36 +1,17 @@
-// Define the current enviroment
-const determineEnviroment = () => {
-    // If defined, use the Glider environment variable
-    if(process.env.GLIDER_ENV) {
-        return process.env.GLIDER_ENV;
-    }
+const profiles = require('@windingtree/config-profiles');
 
-    // Otherwise use the Github branch provided by Vercel
-    switch(process.env.VERCEL_GITHUB_COMMIT_REF || process.env.NOW_GITHUB_COMMIT_REF) {
-        case 'master':
-            return 'production';
-        case 'develop':
-        default:
-            return 'staging';
+const enviroment = profiles.determineActiveProfile();
+console.log('Detected environment:',enviroment)
+const dbUrl = profiles.getEnvironmentEntry(enviroment,'MONGO_URL');
+
+profiles.init({
+        dbUrl: dbUrl
     }
-}
-const enviroment = determineEnviroment();
+)
 
 // Get an an environment variable
 const getConfigKey = (key) => {
-    // Return environment specific variable if any
-    const envKey = `${enviroment.toUpperCase()}_${key}`;
-    if(process.env.hasOwnProperty(envKey)) {
-      return process.env[envKey];
-    }
-
-    // Return variable key
-    if(process.env.hasOwnProperty(key)) {
-      return process.env[key];
-    }
-
-    // Config key does not exist
-    return undefined;
+    return profiles.getEnvOrProfileEntry(key)
 };
 
 // const GLIDER_BASEURL = `http://localhost:3000/api/v1`;
@@ -95,7 +76,7 @@ const ELASTIC_CONFIG =
 
 const GENERIC_CONFIG =
     {
-        ENVIRONMENT: determineEnviroment(),
+        ENVIRONMENT: enviroment,
         ENABLE_HEALHCHECK:(getConfigKey('HEALTHCHECK_ENABLE') === "yes"),
         DEVELOPMENT_MODE:(getConfigKey('DEVELOPMENT_MODE') === "yes")
     };
@@ -118,3 +99,5 @@ module.exports = {
     GENERIC_CONFIG,
     SENDGRID_CONFIG
 };
+
+
