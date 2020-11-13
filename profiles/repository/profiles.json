@@ -30,5 +30,13 @@
       {"profile": "default", "value": "https://staging.rooms.windingtree.com/api/v1/offers/search"},
       {"profile": "production", "value": "https://"}
     ]
+  },
+  {
+    "key": "GLIDER_BASEURL",
+    "comment": "",
+    "profiles": [
+      {"profile": "default", "value": "https://staging.b2b.glider.travel/api/v1"},
+      {"profile": "production", "value": "https://production.b2b.glider.travel/api/v1"}
+    ]
   }
 ]

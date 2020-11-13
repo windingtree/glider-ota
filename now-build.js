@@ -7,7 +7,6 @@ console.log('__dirname:',__dirname);
 console.log('process.cwd():',process.cwd());
 
 const dbUrl = profiles.getEnvironmentEntry( activeProfile,'MONGO_URL');
-// console.log(process.env)
 profiles.init({dbUrl:dbUrl})
 
 profiles.dumpProfile(activeProfile).then(()=>{

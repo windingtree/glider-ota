@@ -14,8 +14,7 @@ const getConfigKey = (key) => {
     return profiles.getEnvOrProfileEntry(key)
 };
 
-// const GLIDER_BASEURL = `http://localhost:3000/api/v1`;
-const GLIDER_BASEURL = getConfigKey('GLIDER_BASEURL') || `https://${enviroment}.b2b.glider.travel/api/v1`;
+const GLIDER_BASEURL = getConfigKey('GLIDER_BASEURL');
 
 const GLIDER_CONFIG =
     {
