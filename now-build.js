@@ -1,13 +1,17 @@
 const dotenv = require('dotenv').config();  //load .env
 const profiles = require('@windingtree/config-profiles');
-const activeProfile = profiles.determineActiveProfile();
+const activeProfile = process.env.ACTIVE_PROFILE || 'staging';
+console.log('Active profile:', activeProfile)
+
+profiles.init({
+      dbUrl: profiles.getEnvironmentEntry(activeProfile, 'MONGO_URL'),
+      encryptionDetails: profiles.getEnvironmentEntry(activeProfile, 'PROFILE_SECRET')
+    }
+)
 console.log('activeProfile:',activeProfile);
 console.log('__filename:',__filename);
 console.log('__dirname:',__dirname);
 console.log('process.cwd():',process.cwd());
-
-const dbUrl = profiles.getEnvironmentEntry( activeProfile,'MONGO_URL');
-profiles.init({dbUrl:dbUrl})
 
 profiles.dumpProfile(activeProfile).then(()=>{
   console.log(`profile ${activeProfile} successfully generated`);
