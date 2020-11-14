@@ -1,11 +1,16 @@
+const path = require('path');
+
 const profiles = require('@windingtree/config-profiles');
 
-const enviroment = profiles.determineActiveProfile();
-console.log('Detected environment:',enviroment)
-const dbUrl = profiles.getEnvironmentEntry(enviroment,'MONGO_URL');
-
+const activeProfile = process.env.ACTIVE_PROFILE || 'staging';
+console.log('Active profile:', activeProfile)
+console.log('__filename:',__filename);
+console.log('__dirname:',__dirname);
+console.log('process.cwd():',process.cwd());
 profiles.init({
-        dbUrl: dbUrl
+    baseFolder: path.join(process.cwd(),'api/profiles'),
+        dbUrl: profiles.getEnvironmentEntry(activeProfile, 'MONGO_URL'),
+        encryptionDetails: profiles.getEnvironmentEntry(activeProfile, 'PROFILE_SECRET')
     }
 )
 
@@ -14,8 +19,7 @@ const getConfigKey = (key) => {
     return profiles.getEnvOrProfileEntry(key)
 };
 
-// const GLIDER_BASEURL = `http://localhost:3000/api/v1`;
-const GLIDER_BASEURL = getConfigKey('GLIDER_BASEURL') || `https://${enviroment}.b2b.glider.travel/api/v1`;
+const GLIDER_BASEURL = getConfigKey('GLIDER_BASEURL');
 
 const GLIDER_CONFIG =
     {
@@ -35,7 +39,7 @@ const ORGID = {
     OTA_ORGID: getConfigKey('OTA_ORGID'),
 }
 
-const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL') || `https://${enviroment}.api.simard.io/api/v1`;
+const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL') || `https://${activeProfile}.api.simard.io/api/v1`;
 
 const SIMARD_CONFIG =
     {
@@ -44,7 +48,7 @@ const SIMARD_CONFIG =
         CREATE_WITH_OFFER_URL: SIMARD_BASEURL + "/orders/createWithOffer",
         SIMULATE_DEPOSIT_URL: SIMARD_BASEURL + "/balances/simulateDeposit",
         ORGID: getConfigKey('SIMARD_ORGID') || "0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171",
-        DEPOSIT_EXPIRY_DAYS:14,
+        DEPOSIT_EXPIRY_DAYS: 14,
     };
 
 
@@ -76,9 +80,9 @@ const ELASTIC_CONFIG =
 
 const GENERIC_CONFIG =
     {
-        ENVIRONMENT: enviroment,
-        ENABLE_HEALHCHECK:(getConfigKey('HEALTHCHECK_ENABLE') === "yes"),
-        DEVELOPMENT_MODE:(getConfigKey('DEVELOPMENT_MODE') === "yes")
+        ENVIRONMENT: activeProfile,
+        ENABLE_HEALHCHECK: (getConfigKey('HEALTHCHECK_ENABLE') === "yes"),
+        DEVELOPMENT_MODE: (getConfigKey('DEVELOPMENT_MODE') === "yes")
     };
 const SENDGRID_CONFIG =
     {
