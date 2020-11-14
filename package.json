@@ -62,7 +62,7 @@
     "build-storybook": "build-storybook -s public",
     "build-schema-ota": "npx js-yaml ./api/_lib/schemas/backend-api-schema.yaml > api/_lib/schemas/backend-api-schema.json",
     "build-schemas-b2b": "npx js-yaml ./api/_lib/schemas/wt-aggregator.yaml > api/_lib/schemas/wt-aggregator.json",
-    "now-build": "mkdir -p build & node -r ./node_modules/dotenv/config ./now-build.js dotenv_config_path=./.env",
+    "install": "node -r ./node_modules/dotenv/config ./now-build.js dotenv_config_path=./.env",
     "nowdev": "npx now dev",
     "lint": "npx eslint src api"
   },

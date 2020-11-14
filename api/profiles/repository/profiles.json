@@ -32,6 +32,14 @@
     ]
   },
   {
+    "key": "ROOMS_TOKEN",
+    "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "https://staging.rooms.windingtree.com/api/v1/offers/search"},
+      {"profile": "production", "value": "https://"}
+    ]
+  },
+  {
     "key": "GLIDER_BASEURL", "comment": "",
     "profiles": [
       {"profile": "staging", "value": "https://staging.b2b.glider.travel/api/v1"},
