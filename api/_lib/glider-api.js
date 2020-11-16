@@ -35,7 +35,11 @@ async function searchOffers(criteria) {
         setDepartureDatesToNoonUTC(criteria)
     logger.debug(`Search criteria:${JSON.stringify(criteria)}`);
     try {
-        if (GLIDER_CONFIG.ENABLE_ROOMS_SEARCH !== 'true') {
+        console.log(`GLIDER_CONFIG.ENABLE_ROOMS_SEARCH = ${GLIDER_CONFIG.ENABLE_ROOMS_SEARCH}`)
+        console.log(`GLIDER_CONFIG.ROOMS_SEARCH_OFFERS_URL = ${GLIDER_CONFIG.ROOMS_SEARCH_OFFERS_URL}`)
+        console.log(`GLIDER_CONFIG.ROOMS_TOKEN = ${GLIDER_CONFIG.ROOMS_TOKEN}`)
+
+        if (GLIDER_CONFIG.ENABLE_ROOMS_SEARCH !== 'yes') {
             response = await axios({
                 method: 'post',
                 url: GLIDER_CONFIG.SEARCH_OFFERS_URL,
