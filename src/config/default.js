@@ -2,6 +2,9 @@ import {
     networkIdByName
 } from '../utils/web3-utils';
 import tokenList from './tokenList.json';
+const {
+    addresses: { PaymentManager: PAYMENT_MANAGER }
+} = require('@windingtree/payment-manager');
 
 export const config = {
     SEARCH_OFFERS_URL: "/api/searchOffers",
@@ -24,3 +27,9 @@ export const DEFAULT_DEFAULT_NETWORK_ID_HEX = networkIdByName(DEFAULT_NETWORK, t
 export const tokens = tokenList.tokens.filter(
     t => t.chainId === DEFAULT_DEFAULT_NETWORK_ID
 );
+
+export const GLIDER_ORGID = DEFAULT_NETWORK !== 'ropsten'
+    ? process.env.REACT_APP_PRODUCTION_GLIDER_ORGID
+    : process.env.REACT_APP_GLIDER_ORGID;
+
+export const PAYMENT_MANAGER_ADDRESS = PAYMENT_MANAGER[DEFAULT_NETWORK];

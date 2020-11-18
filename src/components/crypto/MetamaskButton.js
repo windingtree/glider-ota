@@ -66,6 +66,7 @@ const MetamaskButton = props => {
 
     return (
         <Button
+            size="sm"
             onClick={handleClick}
             className={styles.buttonLabel}
             disabled={isSigningIn || (loggedIn && web3ProviderType !== 'metamask')}

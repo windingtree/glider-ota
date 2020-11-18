@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Badge, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import styles from './crypto.module.scss';
 import {
     walletAddress,
@@ -19,7 +19,7 @@ const CryptoPay = props => {
         walletAddress,
         signInError
     } = props;
-    const usdValue = 101.12;
+    const usdValue = 1.3;
 
     return (
         <Container>
@@ -46,6 +46,8 @@ const CryptoPay = props => {
                 <SelectCrypto
                     title="Select a token"
                     usdValue={usdValue}
+                    attachment={'offerId'}
+                    deadline={Math.ceil(Date.now() / 1000) + (60*60*30)}
                 />
             }
         </Container>

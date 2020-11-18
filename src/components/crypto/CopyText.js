@@ -13,7 +13,8 @@ export default props => {
     label,
     toastText,
     icon,
-    ellipsis
+    ellipsis,
+    className
   } = props;
   const [showToast, setShowToast] = useState(false);
 
@@ -24,22 +25,22 @@ export default props => {
 
   return (
     <span
-      className={styles.wrapper}
+      className={className ? className : styles.wrapper}
     >
       {toastText &&
-        <div className={styles.copyTextToastWrapper}>
+        <span className={styles.copyTextToastWrapper}>
           <Toast
             className={styles.copyTextToast}
             onClose={() => setShowToast(false)}
             show={showToast}
-            delay={1000}
+            delay={1200}
             autohide
           >
-            <Toast.Header closeButton={false}>
+            <Toast.Body as='span'>
               {toastText}
-            </Toast.Header>
+            </Toast.Body>
           </Toast>
-        </div>
+        </span>
       }
       {icon &&
         <img

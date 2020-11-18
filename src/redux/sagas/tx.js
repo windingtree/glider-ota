@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
-
 import { web3 } from './web3';
+import { getBlock } from '../../utils/web3-utils';
 
 export const moduleName = 'tx';
 const COMMON_ERROR = `${moduleName}/COMMON_ERROR`;
@@ -185,33 +185,47 @@ function* pollingSaga() {
         }
 
         const web3Instance = yield select(web3);
-        let pending = yield select(pendingTxRaw);
+        let pending;
         let count = 0;
         let tx;
+        let currentBlock;
 
         yield put(pollingStart());
 
-        while (pending.length > 0 && count < 7200) {
+        while (true) {
+            pending = yield select(pendingTxRaw);
+            console.log('PENDING:', pending);
+            if (Object.keys(pending).length === 0) {
+                yield put(pollingStop());
+                break;
+            }
+            if (count >= 14400) {
+                yield put(commonError(new Error('Too much polling requests')));
+                yield put(pollingStop());
+                break;
+            }
+            yield delay(5000);
             for (let hash of pending) {
                 try {
                     tx = yield call(fetchTx, web3Instance, hash);
                     if (tx.blockHash !== null && tx.blockNumber !== null) {
-                        yield put(txMined(hash));
+                        currentBlock = yield call(getBlock, web3Instance, 'latest', false);
+                        console.log(
+                            'Tx:', [
+                            hash,
+                            'Confirmations:',
+                            currentBlock.number - tx.blockNumber
+                        ]);
+
+                        if (currentBlock.number - tx.blockNumber > 2) {
+                            yield put(txMined(hash));
+                        }
                     }
                 } catch (error) {
                     yield put(txError(hash, error));
                 }
-                yield delay(5000);
             }
-            pending = yield select(pendingTxRaw);
             count++;
-            if (Object.keys(pending).length === 0) {
-                yield put(pollingStop());
-            }
-            if (count === 7200) {
-                yield put(commonError(new Error('Too much polling requests')));
-                yield put(pollingStop());
-            }
         };
     } catch (error) {
         yield put(commonError(error))

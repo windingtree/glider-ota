@@ -16,8 +16,6 @@
     font-size: 30px;
     line-height: 120%;
     color: #202020;
-
-
 }
 
 .selectorTitle {
@@ -28,6 +26,19 @@
     display: flex;
     align-items: center;
     color: #202020;
+}
+
+.paymentSuccess {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 120%;
+    color: #202020;
+}
+
+.paymentTx {
+    color: #5E666A;
+    font-weight: normal;
 }
 
 .buttonLabel {

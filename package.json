@@ -55,7 +55,8 @@
     "underscore": "^1.9.2",
     "uuid": "^7.0.2",
     "winston": "^3.2.1",
-    "winston-elasticsearch": "^0.8.5"
+    "winston-elasticsearch": "^0.8.5",
+    "@windingtree/payment-manager": "0.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -95,11 +96,11 @@
     "@storybook/addons": "^5.3.18",
     "@storybook/preset-create-react-app": "^2.1.1",
     "@storybook/react": "^5.3.18",
+    "env-cmd": "10.1.0",
     "fetch-mock": "^9.4.0",
     "mocha": "^7.1.2",
     "node-fetch": "^2.6.1",
-    "now": "^20.1.0",
-    "env-cmd": "10.1.0"
+    "now": "^20.1.4"
   },
   "resolutions": {}
 }

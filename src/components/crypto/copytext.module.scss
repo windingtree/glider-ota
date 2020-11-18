@@ -20,6 +20,7 @@
 }
 
 .copyTextToastWrapper {
+    display: block;
     position: absolute;
     top: 20px;
     left: 50%;
@@ -27,6 +28,7 @@
 }
 
 .copyTextToast {
+    display: block;
     text-align: center;
     padding: 6px 4px;
 }

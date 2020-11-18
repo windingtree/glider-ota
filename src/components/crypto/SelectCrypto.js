@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Container, Table, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
 import styles from './crypto.module.scss';
 
 import {
     tokens,
-    UNISWAP_ROUTER_ADDRESS,
-    BASE_PRICE_TOKEN
+    PAYMENT_MANAGER_ADDRESS
 } from '../../config/default';
 import {
     getTokenBalance,
     getTokenAllowance,
     parseTokenValue,
-    rawTokenValue,
-    createErc20Contract,
-    createUniswapRouterContract,
-    approveToken
+    getStableCoinValue,
+    getAmountIn,
+    approveToken,
+    payWithToken,
+    payWithETH
 } from '../../utils/web3-utils';
 
 import {
@@ -29,34 +29,48 @@ import {
     txRegister,
     invalidateTxErrors
 } from '../../redux/sagas/tx';
+import CopyText from './CopyText';
 
 const CryptoCard = props => {
     const {
         coin,
+        value,
+        attachment,
+        deadline,
         selectedCoin,
         onSelected,
         onError,
+        onProcessing,
+        onPayment,
         web3,
         walletAddress,
         minedTx,
         txRegister
     } = props;
     const [selected, setSelected] = useState(false);
-    const [coinProcessingHash, setCoinProcessingHash] = useState(null);
+    const [coinUnlockHash, setCoinUnlockHash] = useState(null);
+    const [coinPayProcessingHash, setPayProcessingHash] = useState(null);
 
     useEffect(() => {
-        if (coin && selectedCoin && coin.address !== selectedCoin.address) {
+        if (
+            coin && selectedCoin &&
+            (coin.address !== selectedCoin.address ||
+            coin.symbol !== selectedCoin.symbol)
+        ) {
             setSelected(false);
         }
     }, [coin, selectedCoin]);
 
     useEffect(() => {
-        if (minedTx[coinProcessingHash]) {
-            setTimeout(() => {
-                setCoinProcessingHash(false)
-            }, 2000);
+        if (minedTx[coinUnlockHash]) {
+            setCoinUnlockHash(false);
+            onProcessing(false);
         }
-    }, [coinProcessingHash, minedTx]);
+        if (minedTx[coinPayProcessingHash]) {
+            const hash = coinPayProcessingHash;
+            onPayment(hash);
+        }
+    }, [coinUnlockHash, coinPayProcessingHash, minedTx, onPayment, onProcessing]);
 
     const handleCardClick = () => {
         setSelected(!selected);
@@ -65,20 +79,60 @@ const CryptoCard = props => {
 
     const handleApprove = async coin => {
         try {
-            setCoinProcessingHash(true);
+            setCoinUnlockHash(true);
+            onProcessing(true);
             const hash = await approveToken(
                 web3,
                 coin.address,
                 walletAddress,
-                UNISWAP_ROUTER_ADDRESS,
+                PAYMENT_MANAGER_ADDRESS,
                 coin.rawAmount
             );
             txRegister(hash);
-            setCoinProcessingHash(hash);
+            setCoinUnlockHash(hash);
         } catch (error) {
             console.log(error);
             onError(error);
-            setCoinProcessingHash(null);
+            setCoinUnlockHash(null);
+            onProcessing(false);
+        }
+    };
+
+    const handlePay = async coin => {
+        try {
+            setPayProcessingHash(true);
+            onProcessing(true);
+            const stableCoinValue = await getStableCoinValue(web3, value);
+            let hash;
+
+            if (coin.ether) {
+                hash = await payWithETH(
+                    web3,
+                    stableCoinValue,
+                    coin.rawAmount,
+                    String(deadline),
+                    attachment,
+                    walletAddress
+                );
+            } else {
+                hash = await payWithToken(
+                    web3,
+                    stableCoinValue,
+                    coin.rawAmount,
+                    coin.address,
+                    String(deadline),
+                    attachment,
+                    walletAddress
+                );
+            }
+
+            txRegister(hash);
+            setPayProcessingHash(hash);
+        } catch (error) {
+            console.log(error);
+            onError(error);
+            setPayProcessingHash(null);
+            onProcessing(false);
         }
     };
 
@@ -179,10 +233,10 @@ const CryptoCard = props => {
                                         className={styles.xsBlock}
                                         size='sm'
                                         onClick={() => handleApprove(coin)}
-                                        disabled={coinProcessingHash}
+                                        disabled={coinUnlockHash}
                                     >
                                         Unlock
-                                        {coinProcessingHash &&
+                                        {coinUnlockHash &&
                                             <Spinner
                                                 className={styles.buttonSpinner}
                                                 animation="border"
@@ -195,11 +249,21 @@ const CryptoCard = props => {
                                 }
                                 {(coin.balance >= coin.amount && coin.allowance >= coin.amount) &&
                                     <Button
+                                        className={styles.xsBlock}
                                         size="sm"
-                                        onClick={() => {}}
-                                        disabled={!selectedCoin || coinProcessingHash}
+                                        onClick={() => handlePay(coin)}
+                                        disabled={!selectedCoin || coinPayProcessingHash}
                                     >
                                         Pay
+                                        {coinPayProcessingHash &&
+                                            <Spinner
+                                                className={styles.buttonSpinner}
+                                                animation="border"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                            />
+                                        }
                                     </Button>
                                 }
                                 {coin.balance < coin.amount &&
@@ -223,90 +287,76 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
     let list = JSON.parse(JSON.stringify(tokens));
     let isActive = true;
 
-    const fetchAmount = async (coinAddress, value) => {
-        const targetToken = createErc20Contract(web3, BASE_PRICE_TOKEN);
-        const targetTokenDecimals = await targetToken.methods['decimals()']().call();
-        const targetTokenValue = rawTokenValue(web3, value, targetTokenDecimals);
-        let amount;
-        if (coinAddress === BASE_PRICE_TOKEN) {
-            amount = targetTokenValue;
-        } else {
-            const uniswapRouter = createUniswapRouterContract(web3);
-            const wethAddress = await uniswapRouter.methods['WETH()']().call();
-            let path;
-            if (coinAddress === wethAddress) {
-                path = [
-                    coinAddress,
-                    BASE_PRICE_TOKEN
-                ];
-            } else {
-                path = [
-                    coinAddress,
-                    wethAddress,
-                    BASE_PRICE_TOKEN
-                ];
-            }
-            amount = (await uniswapRouter
-                .methods['getAmountsIn(uint256,address[])'](
-                    targetTokenValue,
-                    path
-                )
-                .call())[0];
+    const fetchAmount = async (coinAddress, coinDecimals, usdValue) => {
+        try {
+            const amount = await getAmountIn(web3, usdValue, coinAddress);
+            return [
+                parseTokenValue(web3, amount, coinDecimals, true, 6),
+                amount
+            ];
+        } catch (error) {
+            console.log(error);
+            return [];
         }
-
-        return [
-            parseTokenValue(web3, amount, targetTokenDecimals, true, 6),
-            amount
-        ];
     };
 
     const updateTokensList = async list => {
-        try {
-            const balanceList = await Promise.all(
-                list.map(
-                    coin => getTokenBalance(
-                        web3,
-                        coin.address,
-                        walletAddress
-                    )
-                )
-            );
-            const allowanceList = await Promise.all(
-                list.map(
-                    coin => getTokenAllowance(
-                        web3,
-                        coin.address,
-                        walletAddress,
-                        UNISWAP_ROUTER_ADDRESS
-                    )
-                )
-            );
-            const amountsList = await Promise.all(
-                list.map(
-                    coin => fetchAmount(
-                        coin.address,
-                        usdValue
-                    )
-                )
-            );
-            list = list.map(
-                (coin, index) => ({
-                    ...coin,
-                    balance: parseTokenValue(web3, balanceList[index], coin.decimals, true, 6),
-                    allowance: parseTokenValue(web3, allowanceList[index], coin.decimals, true, 6),
-                    amount: amountsList[index][0],
-                    rawAmount: amountsList[index][1]
-                })
-            );
-            updateCallback(list);
-            loadingCallback(false);
-        } catch (error) {
-            console.log(error);
-        }
+        list = await Promise.all(
+            list.map(
+                async coin => {
+                    try {
+                        let balance = 0;
+                        let allowance = 0;
+                        let amount = 0;
+                        let rawAmount = '0';
+
+                        if (coin.ether) {
+                            balance = await web3.eth.getBalance(walletAddress);
+                            allowance = balance;
+                        } else {
+                            balance = await getTokenBalance(
+                                web3,
+                                coin.address,
+                                walletAddress
+                            );
+                            allowance = await getTokenAllowance(
+                                web3,
+                                coin.address,
+                                walletAddress,
+                                PAYMENT_MANAGER_ADDRESS
+                            );
+                        }
+
+                        const amounts = await fetchAmount(
+                            coin.address,
+                            coin.decimals,
+                            usdValue
+                        );
+
+                        amount = amounts[0];
+                        rawAmount = amounts[1];
+
+                        return {
+                            ...coin,
+                            balance: parseTokenValue(web3, balance, coin.decimals, true, 6),
+                            allowance: parseTokenValue(web3, allowance, coin.decimals, true, 6),
+                            amount,
+                            rawAmount
+                        };
+                    } catch (error) {
+                        console.log(error);
+                        return null;
+                    }
+                }
+            )
+        );
+        updateCallback(list.filter(t => t !== null));
+        loadingCallback(false);
     };
 
     setTimeout(async () => {
         try {
+            console.log('Poller start!');
             while (isActive) {
                 updateTokensList(list);
                 await new Promise(resolve => setTimeout(resolve, 3000)); // Pause for 3 sec
@@ -318,6 +368,7 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
 
     return () => {
         isActive = false;
+        console.log('Poller stop!');
     };
 };
 
@@ -328,6 +379,9 @@ const SelectCrypto = props => {
         walletAddress,
         title,
         usdValue,
+        attachment,
+        deadline,
+        onPaymentSuccess,
         minedTx,
         txErrors,
         txRegister,
@@ -337,18 +391,22 @@ const SelectCrypto = props => {
     const [tokesLoading, setTokensLoading] = useState(true);
     const [tokensDetails, setTokensDetails] = useState([]);
     const [selectedCoin, setSelectedCoin] = useState(null);
+    const [paymentHash, setPaymentHash] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
-        const stopPoller = tokensPoller(
-            web3,
-            walletAddress,
-            tokens,
-            setTokensLoading,
-            setTokensDetails,
-            usdValue
-        );
-        return () => stopPoller();
-    }, [web3, walletAddress, usdValue]);
+        if (!isProcessing) {
+            const stopPoller = tokensPoller(
+                web3,
+                walletAddress,
+                tokens,
+                setTokensLoading,
+                setTokensDetails,
+                usdValue
+            );
+            return () => stopPoller();
+        }
+    }, [web3, walletAddress, usdValue, isProcessing]);
 
     const handleErrorsDismiss = () => {
         setError(null);
@@ -358,113 +416,73 @@ const SelectCrypto = props => {
         invalidateTxErrors();
     };
 
+    const showPaymentSuccess = hash => {
+        setPaymentHash(hash);
+    };
+
     if (!loggedIn) {
         return null;
     }
 
     return (
         <>
-            <h2 className={styles.selectorTitle}>{title}</h2>
-            {tokesLoading &&
+            {!paymentHash &&
                 <>
-                    Loading...
-                    <Spinner
-                        className={styles.buttonSpinner}
-                        animation="border"
-                        role="status"
-                        aria-hidden="true"
-                    />
+                    <h2 className={styles.selectorTitle}>{title}</h2>
+                    {(tokesLoading && tokensDetails.length === 0) &&
+                        <>
+                            Loading...
+                            <Spinner
+                                className={styles.buttonSpinner}
+                                animation="border"
+                                role="status"
+                                aria-hidden="true"
+                            />
+                        </>
+                    }
+                    {tokensDetails.length > 0 &&
+                        tokensDetails.map((coin, i) => (
+                            <CryptoCard
+                                key={i}
+                                coin={coin}
+                                value={usdValue}
+                                attachment={attachment}
+                                deadline={deadline}
+                                selectedCoin={selectedCoin}
+                                onSelected={setSelectedCoin}
+                                onError={setError}
+                                onProcessing={setIsProcessing}
+                                onPayment={showPaymentSuccess}
+                                web3={web3}
+                                walletAddress={walletAddress}
+                                minedTx={minedTx}
+                                txRegister={txRegister}
+                            />
+                        ))
+                    }
                 </>
             }
-            {!tokesLoading &&
-                tokensDetails.map((coin, i) => (
-                    <CryptoCard
-                        key={i}
-                        coin={coin}
-                        selectedCoin={selectedCoin}
-                        onSelected={setSelectedCoin}
-                        onError={setError}
-                        web3={web3}
-                        walletAddress={walletAddress}
-                        minedTx={minedTx}
-                        txRegister={txRegister}
-                    />
-                ))
+            {paymentHash &&
+                <div>
+                    <p className={styles.paymentSuccess}>
+                        Payment has been successfully done. Transaction:&nbsp;
+                        <CopyText
+                            className={styles.paymentTx}
+                            text={paymentHash}
+                            label={paymentHash}
+                            toastText='Transaction hash copied to clipboard'
+                            ellipsis
+                        />
+                    </p>
+                    <Button
+                        className={styles.xsBlock}
+                        size='lg'
+                        onClick={() => onPaymentSuccess(paymentHash)}
+                    >
+                        Continue
+                    </Button>
+                </div>
             }
-            {/* {!tokesLoading &&
-                <Table bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Token</th>
-                            <th>Balance</th>
-                            <th>Amount</th>
-                            <th>Allowance</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {tokensDetails.map((coin, i) => (
-                        <tr
-                            key={i}
-                        >
-                            <td>
-                                <img
-                                    className={styles.tokenIcon}
-                                    alt={coin.name}
-                                    src={coin.logoURI}
-                                />
-                                <span className={styles.tokenLabel}>
-                                    {coin.symbol}
-                                </span>
-                            </td>
-                            <td>
-                                {coin.balance}
-                            </td>
-                            <td>
-                                {coin.amount}
-                            </td>
-                            <td>
-                                {coin.allowance}
-                            </td>
-                            <td>
-                                {(coin.balance >= coin.amount && coin.allowance < coin.amount) &&
-                                    <Button
-                                        size="sm"
-                                        onClick={() => handleApprove(coin)}
-                                        disabled={coinsProcessing[coin.address] && coinsProcessing[coin.address].processing}
-                                    >
-                                        Approve
-                                        {(coinsProcessing[coin.address] && coinsProcessing[coin.address].processing) &&
-                                            <Spinner
-                                                className={styles.buttonSpinner}
-                                                animation="border"
-                                                size="sm"
-                                                role="status"
-                                                aria-hidden="true"
-                                            />
-                                        }
-                                    </Button>
-                                }
-                                {(coin.balance >= coin.amount && coin.allowance >= coin.amount) &&
-                                    <Button
-                                        size="sm"
-                                        onClick={() => handleSelect(coin)}
-                                        disabled={selectedCoin && coin.address === selectedCoin.address}
-                                    >
-                                        Select
-                                    </Button>
-                                }
-                                {(coin.balance < coin.amount) &&
-                                    <p className={styles.tokenComment}>
-                                        Insufficient funds
-                                    </p>
-                                }
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </Table>
-            } */}
             {error &&
                 <Alert
                     dismissible

@@ -1,6 +1,13 @@
 import erc20abi from '../config/erc20abi.json';
 import IUniswapV2Router02 from '@uniswap/v2-periphery/build/IUniswapV2Router02.json';
-import { UNISWAP_ROUTER_ADDRESS } from '../config/default';
+import {
+    UNISWAP_ROUTER_ADDRESS,
+    GLIDER_ORGID,
+    PAYMENT_MANAGER_ADDRESS
+} from '../config/default';
+const {
+    PaymentManagerContract
+} = require('@windingtree/payment-manager');
 
 // Converts network Id to the name format
 export const networkIdParser = id => {
@@ -52,14 +59,92 @@ export const mappedUnits = web3 => Object
     .entries(web3.utils.unitMap)
     .reduce((a,v) => ({...a, [v[1]]: v[0]}), {});
 
+// Timeout helper for Promise
+const setTimeoutPromise = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+
+// Get block
+export const getBlock = async (web3, typeOrNumber = 'latest', checkEmptyBlocks = true) => {
+let counter = 0;
+let block;
+
+const isEmpty = block => checkEmptyBlocks
+    ? block.transactions.length === 0
+    : false;
+
+const blockRequest = () => new Promise(resolve => {
+    const blockNumberTimeout = setTimeout(() => resolve(null), 2000);
+    try {
+    web3.eth.getBlock(typeOrNumber, (error, result) => {
+        clearTimeout(blockNumberTimeout);
+
+        if (error) {
+            return resolve();
+        }
+
+        resolve(result);
+    });
+    } catch (error) {
+        // ignore errors due because of we will be doing retries
+        resolve(null);
+    }
+});
+
+do {
+    const isConnected = () => typeof web3.currentProvider.isConnected === 'function'
+    ? web3.currentProvider.isConnected()
+    : web3.currentProvider.connected;
+    if (!isConnected()) {
+    throw new Error(`Unable to fetch block "${typeOrNumber}": no connection`);
+    }
+
+    if (counter === 100) {
+        counter = 0;
+        throw new Error(
+        `Unable to fetch block "${typeOrNumber}": retries limit has been reached`
+        );
+    }
+
+    block = await blockRequest();
+    console.log('>>>', counter, block.hash);
+
+    if (!block) {
+        await setTimeoutPromise(parseInt(3000 + 1000 * counter / 5));
+    } else {
+    await setTimeoutPromise(2500);
+    }
+
+    counter++;
+} while (!block || isEmpty(block));
+
+return block;
+};
+
 // Create a smart contract object
-export const createContract = (web3, abi, address) => new web3.eth.Contract(abi, address);
+export const createContract = (web3, abi, address) => new web3.eth.Contract(
+    abi,
+    address
+);
 
 // Create ERC20 contract object
-export const createErc20Contract = (web3, address) => createContract(web3, erc20abi, address);
+export const createErc20Contract = (web3, address) => createContract(
+    web3,
+    erc20abi,
+    address
+);
 
 // Create Uniswap Router contract
-export const createUniswapRouterContract = web3 => createContract(web3, IUniswapV2Router02.abi, UNISWAP_ROUTER_ADDRESS);
+export const createUniswapRouterContract = web3 => createContract(
+    web3,
+    IUniswapV2Router02.abi,
+    UNISWAP_ROUTER_ADDRESS
+);
+
+// Create PaymentManager contract
+export const createPaymentManagerContract = web3 => createContract(
+    web3,
+    PaymentManagerContract.abi,
+    PAYMENT_MANAGER_ADDRESS
+);
 
 // Get ETH balance
 export const getEthBalance = (web3, address) => web3.eth.getBalance(address);
@@ -76,11 +161,53 @@ export const getTokenAllowance = (web3, tokenAddress, ownerAddress, spenderAddre
     return token.methods['allowance(address,address)'](ownerAddress, spenderAddress).call();
 };
 
+// Normalize token value by decimals
+export const parseTokenValue = (web3, value, decimals, asNumber, fractionalLength) => {
+    const units = mappedUnits(web3);
+    let parsedValue = web3.utils
+        .fromWei(
+            value,
+            units[Math.pow(10, decimals)]
+        );
+    if (fractionalLength) {
+        const splitted = parsedValue.split('.');
+        parsedValue = `${splitted[0]}${splitted[1] ? '.' + splitted[1].substr(0, fractionalLength) : ''}`;
+    }
+    return asNumber ? Number(parsedValue) : parsedValue;
+};
+
+// Returns raw token value
+export const rawTokenValue = (web3, value, decimals) => web3.utils
+    .toWei(
+        String(value),
+        mappedUnits(web3)[Math.pow(10, decimals)]
+    );
+
+// Convert usd value into stablecoin raw value
+export const getStableCoinValue = async (web3, usdValue) => {
+    const paymentManagerContract = createPaymentManagerContract(web3);
+    const stableCoinAddress = await paymentManagerContract.methods.stableCoin().call();
+    const stableCoinContract = createErc20Contract(web3, stableCoinAddress);
+    const stableCoinDecimals = await stableCoinContract.methods.decimals().call();
+    return rawTokenValue(web3, usdValue, stableCoinDecimals);
+};
+
+// Get amount of token to make a payment
+export const getAmountIn = async (web3, usdValue, coinAddress) => {
+    const paymentManagerContract = createPaymentManagerContract(web3);
+    const stableCoinValue = await getStableCoinValue(web3, usdValue);
+    // console.log('#getAmountIn:', stableCoinValue, coinAddress);
+    return paymentManagerContract.methods.getAmountIn(stableCoinValue, coinAddress).call();
+};
+
 // Approve amount of tokens
 export const approveToken = (web3, tokenAddress, ownerAddress, spenderAddress, amount, gasPrice) => {
     const token = createErc20Contract(web3, tokenAddress);
     return new Promise((resolve, reject) => {
-        token.methods['approve(address,uint256)'](spenderAddress, amount).send(
+        token.methods['approve(address,uint256)'](
+            spenderAddress,
+            amount
+        ).send(
             {
                 from: ownerAddress,
                 ...(gasPrice ? { gasPrice } : {})
@@ -94,6 +221,92 @@ export const approveToken = (web3, tokenAddress, ownerAddress, spenderAddress, a
         );
     });
 };
+
+// Make a payment with ERC20 token
+export const payWithToken = (
+    web3,
+    amountOut,
+    amountIn,
+    tokenIn,
+    deadline,
+    attachment,
+    from,
+    gasPrice
+) => new Promise((resolve, reject) => {
+    const paymentManager = createPaymentManagerContract(web3);
+    console.log('Pay with token', [
+        amountOut,
+        amountIn,
+        tokenIn,
+        deadline,
+        attachment,
+        GLIDER_ORGID
+    ]);
+    paymentManager.methods.pay(
+        amountOut,
+        amountIn,
+        tokenIn,
+        deadline,
+        attachment,
+        GLIDER_ORGID
+    ).send(
+        {
+            from,
+            ...(gasPrice ? { gasPrice } : {})
+        },
+        (error, hash) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve(hash);
+        }
+    );
+});
+
+// uint256 amountOut,
+// uint256 deadline,
+// string calldata attachment,
+// bytes32 merchant
+
+// Make a payment with ETH
+export const payWithETH = (
+    web3,
+    amountOut,
+    amountIn,
+    deadline,
+    attachment,
+    from,
+    gasPrice
+) => new Promise((resolve, reject) => {
+    const paymentManager = createPaymentManagerContract(web3);
+    console.log('Pay with ETH', [
+        amountOut,
+        deadline,
+        attachment,
+        GLIDER_ORGID,
+        {
+            value: amountIn
+        }
+    ]);
+    paymentManager.methods.payETH(
+        amountOut,
+        deadline,
+        attachment,
+        GLIDER_ORGID
+    ).send(
+        {
+            value: amountIn,
+            from,
+            ...(gasPrice ? { gasPrice } : {})
+        },
+        (error, hash) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve(hash);
+        }
+    );
+});
 
 // Build ether transfer transaction object
 const buildEthTransaction = (from, to, value, gasPrice) => ({
@@ -119,24 +332,3 @@ export const sendEth = (web3, from, to, value, gasPrice) => {
     });
 };
 
-// Normalize token value by decimals
-export const parseTokenValue = (web3, value, decimals, asNumber, fractionalLength) => {
-    const units = mappedUnits(web3);
-    let parsedValue = web3.utils
-        .fromWei(
-            value,
-            units[Math.pow(10, decimals)]
-        );
-    if (fractionalLength) {
-        const splitted = parsedValue.split('.');
-        parsedValue = `${splitted[0]}${splitted[1] ? '.' + splitted[1].substr(0, fractionalLength) : ''}`;
-    }
-    return asNumber ? Number(parsedValue) : parsedValue;
-};
-
-// Returns raw token value
-export const rawTokenValue = (web3, value, decimals) => web3.utils
-    .toWei(
-        value,
-        mappedUnits(web3)[Math.pow(10, decimals)]
-    );
