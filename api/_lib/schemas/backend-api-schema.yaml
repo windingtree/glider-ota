@@ -158,6 +158,7 @@ components:
           description: Method of payment
           enum:
             - card
+            - crypto
         confirmedOfferId:
           $ref: "#/components/schemas/CommaSepUUIDs"
 

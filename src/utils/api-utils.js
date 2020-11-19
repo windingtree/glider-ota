@@ -49,7 +49,11 @@ export async function fetchPost(url,payload){
     throw new ApiFetchException("Failed to retrieve data from server");
   }
   if(results.error){
-    throw new ApiFetchException("Error while fetching data from server",results);
+    console.log(results)
+    throw new ApiFetchException(
+      `Error while fetching data from server${results.description ? `: ${results.description}` : ''}`,
+      results
+    );
   }
   return results;
 }

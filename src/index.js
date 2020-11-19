@@ -24,7 +24,7 @@ import FlightFareFamiliesPage from "./pages/flight-farefamilies-page";
 import FlightPassengersPage from "./pages/flight-passengers-page";
 import FlightSummaryPage from "./pages/flight-summary-page";
 import PaymentPage from "./pages/payment-page";
-import CryptoPay from './components/crypto/pay';
+import PaymentCryptoPage from "./pages/payment-crypto-page";
 
 
 function Dispatcher() {
@@ -42,6 +42,7 @@ function Dispatcher() {
                         <Route path="/flights/" component={FlightsSearchPage}/>
 
                         <Route path="/payment/:confirmedOfferId" component={PaymentPage}/>
+                        <Route path="/crypto/:confirmedOfferId" component={PaymentCryptoPage}/>
                         <Route path="/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
 
                         {/*<Route path="/summary/:offerId" component={FlightOffer}/>*/}
@@ -50,10 +51,6 @@ function Dispatcher() {
                         {/*Hotels flow*/}
                         <Route path="/hotels/" component={HotelsSearchPage}/>
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
-
-                        {/** Remove me before production */}
-                        <Route path="/crypto" component={CryptoPay}/>
-
 
                         <Route path="/" component={HomePage} />
                     </Switch>

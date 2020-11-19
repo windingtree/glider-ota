@@ -20,6 +20,7 @@
     "GLIDER_JWT": "@staging.glider-ota.glider_jwt",
     "SIMARD_JWT": "@staging.glider-ota.simard_jwt",
     "GLIDER_ORGID": "@staging.glider-ota.glider-b2b_orgid",
+    "INFURA_ENDPOINT": "@staging.glider-ota.infura_endpoint",
 
     "PRODUCTION_MONGO_URL": "@production.glider-ota.mongo.uri",
     "PRODUCTION_MONGO_DBNAME": "@production.glider-ota.mongo.dbname",
@@ -36,7 +37,7 @@
     "STAGING_SENDGRID_API_KEY": "@staging.glider-ota.sendgrid_api_key",
     "PRODUCTION_SENDGRID_API_KEY": "@production.glider-ota.sendgrid_api_key",
     "STAGING_SENDGRID_FROM_EMAIL_ADDR": "@staging.glider-ota.sendgrid_from_email_addr",
-    "PRODUCTION_SENDGRID_FROM_EMAIL_ADDR": "@production.glider-ota.sendgrid_from_email_addr"
-
+    "PRODUCTION_SENDGRID_FROM_EMAIL_ADDR": "@production.glider-ota.sendgrid_from_email_addr",
+    "PRODUCTION_INFURA_ENDPOINT": "@production.glider-ota.infura_endpoint"
   }
 }

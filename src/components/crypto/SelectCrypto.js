@@ -73,8 +73,10 @@ const CryptoCard = props => {
     }, [coinUnlockHash, coinPayProcessingHash, minedTx, onPayment, onProcessing]);
 
     const handleCardClick = () => {
-        setSelected(!selected);
-        onSelected(coin);
+        if (!coin.insufficientLiquidity) {
+            setSelected(!selected);
+            onSelected(coin);
+        }
     };
 
     const handleApprove = async coin => {
@@ -137,7 +139,10 @@ const CryptoCard = props => {
     };
 
     return (
-        <Container fluid className={styles.cryptoCardWrapper}>
+        <Container fluid className={[
+            styles.cryptoCardWrapper,
+            (coin.insufficientLiquidity ? styles.disabled : '')
+        ].join(' ')}>
             <Row
                 onClick={handleCardClick}
             >
@@ -163,15 +168,25 @@ const CryptoCard = props => {
                         {selected ? 'Allowance' : coin.allowance}
                     </div>
                 </Col>
-                <Col xs='auto' sm='4'>
-                    <div className={[
-                        styles.amountWrapper,
-                        (selected ? styles.selected : ''),
-                        (coin.balance < coin.amount ? styles.red : '')
-                    ].join(' ')}>
-                        {coin.amount}
-                    </div>
-                </Col>
+                {coin.insufficientLiquidity &&
+                    <Col xs='auto' sm='4' className={styles.xsHide}>
+                        <div className={styles.amountWrapper + ` ${styles.noLiquidity}`}>
+                            Insufficient Token Liquidity
+                        </div>
+                    </Col>
+                }
+                {!coin.insufficientLiquidity &&
+                    <Col xs='auto' sm='4'>
+                        <div className={[
+                            styles.amountWrapper,
+                            (selected ? styles.selected : ''),
+                            (coin.balance < coin.amount ? styles.red : ''),
+                            (coin.insufficientLiquidity ? styles.noLiquidity: '')
+                        ].join(' ')}>
+                            {coin.amount}
+                        </div>
+                    </Col>
+                }
             </Row>
             {!selected &&
                 <Row className={styles.xsShow}>
@@ -266,7 +281,7 @@ const CryptoCard = props => {
                                         }
                                     </Button>
                                 }
-                                {coin.balance < coin.amount &&
+                                {(!coin.insufficientLiquidity && coin.balance < coin.amount) &&
                                     <span className={styles.actionNote}>
                                         Insufficient funds
                                     </span>
@@ -309,6 +324,7 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
                         let allowance = 0;
                         let amount = 0;
                         let rawAmount = '0';
+                        let insufficientLiquidity = false;
 
                         if (coin.ether) {
                             balance = await web3.eth.getBalance(walletAddress);
@@ -336,8 +352,13 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
                         amount = amounts[0];
                         rawAmount = amounts[1];
 
+                        if (amount === undefined) {
+                            insufficientLiquidity = true;
+                        }
+
                         return {
                             ...coin,
+                            insufficientLiquidity,
                             balance: parseTokenValue(web3, balance, coin.decimals, true, 6),
                             allowance: parseTokenValue(web3, allowance, coin.decimals, true, 6),
                             amount,
@@ -395,7 +416,7 @@ const SelectCrypto = props => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
-        if (!isProcessing) {
+        if (!isProcessing && walletAddress) {
             const stopPoller = tokensPoller(
                 web3,
                 walletAddress,

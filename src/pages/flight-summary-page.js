@@ -45,6 +45,11 @@ export default function FlightSummaryPage({match}) {
         history.push(url, { passengers: passengerDetails });
     }
 
+    function onProceedCryptoButtonClick(){
+        let url=`/crypto/${confirmedOffer.offerId}`;
+        history.push(url, { passengers: passengerDetails });
+    }
+
 
     function onEditFinished(){
         loadPassengerDetailsFromServer();
@@ -108,8 +113,13 @@ export default function FlightSummaryPage({match}) {
                     {confirmedOffer &&
                     <>
                         <PaymentSummary offer = {confirmedOffer.offer}/>
-                        <TotalPriceButton price={confirmedOffer.offer.price} proceedButtonTitle="Proceed to payment"
-                                          onProceedClicked={onProceedButtonClick}/>
+                        <TotalPriceButton
+                            forPayment={true}
+                            price={confirmedOffer.offer.price}
+                            proceedButtonTitle="Pay with Card"
+                            onProceedClicked={onProceedButtonClick}
+                            onProceedCryptoClicked={onProceedCryptoButtonClick}
+                        />
                     </>
                     }
                 </div>

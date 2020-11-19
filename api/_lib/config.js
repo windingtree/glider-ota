@@ -103,6 +103,9 @@ const SENDGRID_CONFIG =
         TEMPLATE_ID: getConfigKey('SENDGRID_TEMPLATE_ID') || 'd-199fb2f410334d1296b0176e0435c4a7',
     };
 
+const CRYPTO_CONFIG = {
+    INFURA_ENDPOINT: getConfigKey('INFURA_ENDPOINT')
+};
 
 module.exports = {
     GLIDER_CONFIG,
@@ -113,5 +116,6 @@ module.exports = {
     ELASTIC_CONFIG,
     ORGID,
     GENERIC_CONFIG,
-    SENDGRID_CONFIG
+    SENDGRID_CONFIG,
+    CRYPTO_CONFIG
 };
