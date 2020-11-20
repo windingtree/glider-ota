@@ -1,3 +1,4 @@
+const axios = require('axios').default;
 const {createPaymentIntent, convertPriceToMinorUnits,convertPriceToMajorUnits,PAYMENT_TYPES} = require('../_lib/stripe-api');
 const {createLogger} = require('../_lib/logger')
 const {ShoppingCart,CART_ITEMKEYS} = require('../_lib/shopping-cart');
@@ -6,6 +7,7 @@ const {storeConfirmedOffer} = require('../_lib/mongo-dao');
 const logger = createLogger('/checkout')
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const {validateCheckoutPayload} = require('../_lib/validators')
+const { CRYPTO_CONFIG } = require('../_lib/config');
 
 const checkoutCard = async (req, res) => {
     let payload = req.body;
@@ -42,6 +44,17 @@ const checkoutCard = async (req, res) => {
     };
 };
 
+const convertCurrencyToUSD = async (currency, amount) => {
+    if (currency === 'USD' || currency === 'usd') {
+        return amount;
+    }
+    const response = await axios.get(
+        `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currency}&to_currency=USD&apikey=${CRYPTO_CONFIG.EXCHANGE_RATE_KEY}`
+    );
+    const rate = response.data['Realtime Currency Exchange Rate']['9. Ask Price'];
+    return Number((Number(amount) * Number(rate)).toFixed(2));
+};
+
 const checkoutCrypto = async (req, res) => {
     const payload = req.body;
     const confirmedOfferId = payload.confirmedOfferId;
@@ -64,9 +77,14 @@ const checkoutCrypto = async (req, res) => {
         return;
     }
     await storeConfirmedOffer(confirmedOffer,passengers);
-    // const price = confirmedOffer.offer.price;
-    // const priceInBaseUnits = convertPriceToMinorUnits(price.public, price.currency);
-    return confirmedOffer;
+    const {
+        public: amount,
+        currency
+    } = confirmedOffer.offer.price;
+    return {
+        offer: confirmedOffer,
+        amount: await convertCurrencyToUSD(currency, amount)
+    };
 };
 
 /**

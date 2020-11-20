@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button, Spinner as RoundSpinner, Alert } from 'react-bootstrap';
+import Spinner from '../../components/common/spinner';
+import {
+    createCryptoOrder
+} from '../../utils/api-utils';
 import styles from './crypto.module.scss';
 
 import {
@@ -252,7 +256,7 @@ const CryptoCard = props => {
                                     >
                                         Unlock
                                         {coinUnlockHash &&
-                                            <Spinner
+                                            <RoundSpinner
                                                 className={styles.buttonSpinner}
                                                 animation="border"
                                                 size="sm"
@@ -271,7 +275,7 @@ const CryptoCard = props => {
                                     >
                                         Pay
                                         {coinPayProcessingHash &&
-                                            <Spinner
+                                            <RoundSpinner
                                                 className={styles.buttonSpinner}
                                                 animation="border"
                                                 size="sm"
@@ -310,7 +314,7 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
                 amount
             ];
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             return [];
         }
     };
@@ -400,7 +404,7 @@ const SelectCrypto = props => {
         walletAddress,
         title,
         usdValue,
-        attachment,
+        confirmedOfferId,
         deadline,
         onPaymentSuccess,
         minedTx,
@@ -414,6 +418,8 @@ const SelectCrypto = props => {
     const [selectedCoin, setSelectedCoin] = useState(null);
     const [paymentHash, setPaymentHash] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [orderProcessing, setOrderProcessing] = useState(false);
+    const [order, setOrder] = useState(null);
 
     useEffect(() => {
         if (!isProcessing && walletAddress) {
@@ -439,6 +445,18 @@ const SelectCrypto = props => {
 
     const showPaymentSuccess = hash => {
         setPaymentHash(hash);
+        setOrderProcessing(true);
+        // Create an order
+        createCryptoOrder(confirmedOfferId, hash)
+            .then(data => {
+                setOrder(data);
+                setOrderProcessing(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setError(error);
+                setOrderProcessing(false);
+            });
     };
 
     if (!loggedIn) {
@@ -450,24 +468,16 @@ const SelectCrypto = props => {
             {!paymentHash &&
                 <>
                     <h2 className={styles.selectorTitle}>{title}</h2>
-                    {(tokesLoading && tokensDetails.length === 0) &&
-                        <>
-                            Loading...
-                            <Spinner
-                                className={styles.buttonSpinner}
-                                animation="border"
-                                role="status"
-                                aria-hidden="true"
-                            />
-                        </>
-                    }
+                    <Spinner
+                        enabled={tokesLoading && tokensDetails.length === 0}
+                    />
                     {tokensDetails.length > 0 &&
                         tokensDetails.map((coin, i) => (
                             <CryptoCard
                                 key={i}
                                 coin={coin}
                                 value={usdValue}
-                                attachment={attachment}
+                                attachment={confirmedOfferId}
                                 deadline={deadline}
                                 selectedCoin={selectedCoin}
                                 onSelected={setSelectedCoin}
@@ -495,13 +505,23 @@ const SelectCrypto = props => {
                             ellipsis
                         />
                     </p>
-                    <Button
-                        className={styles.xsBlock}
-                        size='lg'
-                        onClick={() => onPaymentSuccess(paymentHash)}
-                    >
-                        Continue
-                    </Button>
+                    {orderProcessing &&
+                        <>
+                            <p>Processing an order...</p>
+                            <Spinner
+                                enabled={true}
+                            />
+                        </>
+                    }
+                    {order &&
+                        <Button
+                            className={styles.xsBlock}
+                            size='lg'
+                            onClick={onPaymentSuccess}
+                        >
+                            Continue
+                        </Button>
+                    }
                 </div>
             }
             {error &&

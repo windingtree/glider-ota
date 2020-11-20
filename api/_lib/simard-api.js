@@ -41,10 +41,35 @@ function createGuarantee(amount, currency) {
     });
 }
 
-const createCryptoGuarantee = (amount, currency, transactionHash) => new Promise(function(resolve, reject) {
+const createCryptoDeposit = transactionHash => new Promise((resolve, reject) => {
+    logger.debug('Creating deposit for crypto payment made with transaction %s', transactionHash);
+    const request = {
+        instrument: 'blockchain',
+        chain: 'ethereum',
+        transactionHash
+    };
+    axios({
+        method: 'post',
+        url: SIMARD_CONFIG.DEPOSITS_URL,
+        data: request,
+        headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+    })
+
+    .then(response => {
+        logger.debug("Deposit created",response.data);
+        resolve(response.data);
+    })
+
+    .catch(error => {
+        logger.error("Deposit creation failed", error);
+        reject(error);
+    });
+});
+
+const createCryptoGuarantee = (amount, currency, transactionHash) => new Promise((resolve, reject) => {
     logger.debug("Creating guarantee for %s %s",amount,currency);
-    let depositExpiration=addDays(new Date(),SIMARD_CONFIG.DEPOSIT_EXPIRY_DAYS)
-    let request = {
+    const depositExpiration = addDays(new Date(), SIMARD_CONFIG.DEPOSIT_EXPIRY_DAYS)
+    const request = {
         currency,
         amount,
         creditorOrgId: GLIDER_CONFIG.ORGID,
@@ -114,8 +139,9 @@ function createHeaders(token) {
 
 
 module.exports = {
-   createGuarantee,
-   createCryptoGuarantee,
-   simulateDeposit
+    createCryptoDeposit,
+    createGuarantee,
+    createCryptoGuarantee,
+    simulateDeposit
 }
 

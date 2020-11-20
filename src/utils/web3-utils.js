@@ -196,7 +196,7 @@ export const getStableCoinValue = async (web3, usdValue) => {
 export const getAmountIn = async (web3, usdValue, coinAddress) => {
     const paymentManagerContract = createPaymentManagerContract(web3);
     const stableCoinValue = await getStableCoinValue(web3, usdValue);
-    console.log('#getAmountIn:', stableCoinValue, coinAddress);
+    // console.log('#getAmountIn:', stableCoinValue, coinAddress);
     return paymentManagerContract.methods.getAmountIn(stableCoinValue, coinAddress).call();
 };
 

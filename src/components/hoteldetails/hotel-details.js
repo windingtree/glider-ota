@@ -89,6 +89,11 @@ export default function HotelDetails({hotel, searchResults}) {
         })
     }
 
+    function onProceedCryptoButtonClick(){
+        let url=`/crypto/${selectedOffer.offerId}`;
+        history.push(url, { passengers: passengerDetails });
+    }
+
     function initializePassengerForm(searchResults){
         let passengers = [];
         Object.keys(searchResults.passengers).forEach(paxId=>{
@@ -147,7 +152,14 @@ export default function HotelDetails({hotel, searchResults}) {
                                 <PaxDetails onDataChange={handleContactDetailsChange} passengers={passengers}/>
                         </div>
                         {selectedOffer!==undefined && (
-                            <TotalPriceButton price={selectedOffer.price} onProceedClicked={payButtonClick} disabled={!passengerDetailsValid}/>
+                            <TotalPriceButton
+                                forPayment={true}
+                                price={selectedOffer.price}
+                                proceedButtonTitle="Pay with Card"
+                                onProceedClicked={payButtonClick}
+                                onProceedCryptoClicked={onProceedCryptoButtonClick}
+                                disabled={!passengerDetailsValid}
+                            />
                         )}
                     </Col>
                 </Row>

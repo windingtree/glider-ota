@@ -116,6 +116,24 @@ paths:
             application/json:
               schema:
                 type: object
+  /api/order/crypto:
+    post:
+      summary: Create an order for the offer paid with crypto
+      operationId: crypto
+      requestBody:
+        description: Initiate creation of the order
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CryptoPaymentParameters"
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
 components:
   schemas:
     SearchCriteria:
@@ -161,6 +179,16 @@ components:
             - crypto
         confirmedOfferId:
           $ref: "#/components/schemas/CommaSepUUIDs"
+    CryptoPaymentParameters:
+      description: Crypto Payment details
+      required: ["confirmedOfferId","transactionHash"]
+      properties:
+        confirmedOfferId:
+          $ref: "#/components/schemas/CommaSepUUIDs"
+        transactionHash:
+          type: string
+          description: Hash of the transaction
+          example: 0x769b0b56f749b71d2e42acf570c67ec0d770c32336d1d542b0c74caca8c5c619
 
 #    Airports:
 #      description: List of airports

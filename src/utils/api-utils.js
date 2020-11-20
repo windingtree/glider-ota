@@ -20,17 +20,22 @@ export async function fetchGet(url,params){
   let urlWithQueryString = url;
   if(queryString.length>0)
     urlWithQueryString+='?'+queryString;
-  let results;
-  try {
-    results = await fetch(urlWithQueryString, options);
-    results = await results.json();
+    let response;
+    let result;
+    try {
+      response = await fetch(urlWithQueryString, options);
+    result = await response.json();
   }catch(error){
-    throw new ApiFetchException("Failed to retrieve data from server")
+    throw new ApiFetchException("Failed to retrieve data from server");
   }
-  if(results.error){
-    throw new ApiFetchException("Error while fetching data from server",results)
+  if(response.error || !response.ok){
+    const message = result.message || result.description || 'Error while fetching data from server';
+    throw new ApiFetchException(
+      message,
+      result
+    );
   }
-  return results;
+  return result;
 }
 
 export async function fetchPost(url,payload){
@@ -41,21 +46,22 @@ export async function fetchPost(url,payload){
     },
     body: JSON.stringify(payload),
   };
-  let results;
+  let response;
+  let result;
   try {
-    results = await fetch(url, options);
-    results = await results.json();
+    response = await fetch(url, options);
+    result = await response.json();
   }catch(error){
     throw new ApiFetchException("Failed to retrieve data from server");
   }
-  if(results.error){
-    console.log(results)
+  if(response.error || !response.ok){
+    const message = result.message || result.description || 'Error while fetching data from server';
     throw new ApiFetchException(
-      `Error while fetching data from server${results.description ? `: ${results.description}` : ''}`,
-      results
+      message,
+      result
     );
   }
-  return results;
+  return result;
 }
 
 ///////////////// PASSENGERS //////////////////////
@@ -104,6 +110,15 @@ export async function createPaymentIntent(confirmedOfferId,type){
 export async function getStripePublicKey() {
   return fetchPost('/api/order/key', {});
 }
+
+/////// CRYPTO ORDER //////////
+export const createCryptoOrder = (confirmedOfferId, transactionHash) => fetchPost(
+  '/api/order/crypto',
+  {
+    confirmedOfferId,
+    transactionHash
+  }
+);
 
 
 ///////////////// ORDER CONFIRMATION //////////////////////

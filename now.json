@@ -21,6 +21,7 @@
     "SIMARD_JWT": "@staging.glider-ota.simard_jwt",
     "GLIDER_ORGID": "@staging.glider-ota.glider-b2b_orgid",
     "INFURA_ENDPOINT": "@staging.glider-ota.infura_endpoint",
+    "CURRENCY_EXCHANGE_RATE": "@staging.glider-ota.currency_exchange_rate",
 
     "PRODUCTION_MONGO_URL": "@production.glider-ota.mongo.uri",
     "PRODUCTION_MONGO_DBNAME": "@production.glider-ota.mongo.dbname",

@@ -8,8 +8,8 @@ import MetamaskButton from '../components/crypto/MetamaskButton';
 import PortisButton from '../components/crypto/PortisButton';
 import WalletAddress from '../components/crypto/WalletAddress';
 import Footer from "../components/common/footer/footer";
-import styles from '../components/crypto//crypto.module.scss';
-import Spinner from "../../src/components/common/spinner"
+import styles from '../components/crypto/crypto.module.scss';
+import Spinner from "../components/common/spinner"
 import {
     walletAddress,
     web3ProviderType,
@@ -30,19 +30,23 @@ const CryptoPaymentPage = props => {
     const history = useHistory();
     const [error, setError] = useState(null);
     const [isOfferLoading, setOfferLoading] = useState(false);
+    const [deadline, setDeadline] = useState(0);
     const [offer, setOffer] = useState(null);
+    const [amountUSD, setAmountUSD] = useState(0);
 
-    const handlePaymentSuccess = hash => {
-        const url=`/confirmation/${confirmedOfferId}/${hash}`;
+    const handlePaymentSuccess = confirmedOfferId => {
+        const url=`/confirmation/${confirmedOfferId}`;
         history.push(url);
     }
 
     useEffect(()=>{
         setOfferLoading(true);
-        createPaymentIntent(confirmedOfferId, "crypto")
+        createPaymentIntent(confirmedOfferId, 'crypto')
             .then(data => {
                 console.log(data);
-                setOffer(data.offer);
+                setDeadline(Math.ceil(Date.now() / 1000) + (60*60*20)); // @todo Set better value
+                setOffer(data.offer.offer);
+                setAmountUSD(data.amount);
                 setOfferLoading(false);
             })
             .catch(err => {
@@ -55,9 +59,7 @@ const CryptoPaymentPage = props => {
         <div>
             <Header violet={true}/>
             <div className='root-container-subpages'>
-                {isOfferLoading &&
-                    <Spinner enabled={true}/>
-                }
+                <Spinner enabled={isOfferLoading}/>
                 {(!isOfferLoading && !error && offer) &&
                     <>
                         <h1 className={styles.cryptoTitle}>
@@ -77,10 +79,10 @@ const CryptoPaymentPage = props => {
                         {walletAddress &&
                             <SelectCrypto
                                 title='Select a token'
-                                usdValue={offer.price.public}
-                                attachment={confirmedOfferId}
-                                deadline={Math.ceil(Date.now() / 1000) + (60*60*30)}
-                                onPaymentSuccess={handlePaymentSuccess}
+                                usdValue={amountUSD}
+                                confirmedOfferId={confirmedOfferId}
+                                deadline={deadline}
+                                onPaymentSuccess={() => handlePaymentSuccess(confirmedOfferId)}
                             />
                         }
                     </>

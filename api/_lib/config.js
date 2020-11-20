@@ -56,6 +56,7 @@ const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL') || `https://${enviroment}.
 const SIMARD_CONFIG =
     {
         SIMARD_TOKEN: getConfigKey('SIMARD_JWT'),
+        DEPOSITS_URL: SIMARD_BASEURL + "/balances/deposits",
         GUARANTEES_URL: SIMARD_BASEURL + "/balances/guarantees",
         CREATE_WITH_OFFER_URL: SIMARD_BASEURL + "/orders/createWithOffer",
         SIMULATE_DEPOSIT_URL: SIMARD_BASEURL + "/balances/simulateDeposit",
@@ -104,7 +105,8 @@ const SENDGRID_CONFIG =
     };
 
 const CRYPTO_CONFIG = {
-    INFURA_ENDPOINT: getConfigKey('INFURA_ENDPOINT')
+    INFURA_ENDPOINT: getConfigKey('INFURA_ENDPOINT'),
+    EXCHANGE_RATE_KEY: getConfigKey('CURRENCY_EXCHANGE_RATE')
 };
 
 module.exports = {

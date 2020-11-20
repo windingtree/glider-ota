@@ -3,7 +3,10 @@ const { decorate } = require('../_lib/decorators');
 const { createLogger } = require('../_lib/logger');
 const { sendBookingConfirmations } = require('../_lib/email-confirmations');
 const { createWithOffer } = require('../_lib/glider-api');
-const { createCryptoGuarantee } = require('../_lib/simard-api');
+const {
+    createCryptoDeposit,
+    createCryptoGuarantee
+} = require('../_lib/simard-api');
 const { CRYPTO_CONFIG } = require('../_lib/config');
 const {
     updateOrderStatus,
@@ -16,7 +19,7 @@ const logger = createLogger('/crypto');
 
 const cancelPaymentAndUpdatePaymentStatus = async (confirmedOfferId, tx, errorMessage) => {
     try {
-        // await cancelPayment(tx); //???
+        // await cancelPayment(tx); // cryptoRefund ???
 
         logger.info('Payment cancelled successfully')
         await updatePaymentStatus(
@@ -64,7 +67,7 @@ const createPassengers = passengers => {
 };
 
 const fulfillOrder = async (confirmedOfferId, tx) => {
-    logger.debug('Starting fulfilment process for confirmedOfferId:%s and txHash:%s', confirmedOfferId, tx.hash);
+    logger.debug('Starting fulfillment process for confirmedOfferId:%s and transactionHash:%s', confirmedOfferId, tx.hash);
 
     let document = await findConfirmedOffer(confirmedOfferId);
 
@@ -73,12 +76,21 @@ const fulfillOrder = async (confirmedOfferId, tx) => {
         throw new Error(`Could not find offer ${confirmedOfferId} in the database`);
     }
 
+    let settlement;
+    try {
+        settlement = await createCryptoDeposit(tx.hash);
+        logger.info('Deposit created, settlement:%s', settlement.settlementId);
+    } catch (error) {
+        logger.error('Deposit error:%s', error);
+        throw error;
+    }
+
     // Update the status to fulfilling
     await updateOrderStatus(
         confirmedOfferId,
         ORDER_STATUSES.FULFILLING,
         'Order creation started',
-        {}
+        settlement
     );
 
     let passengers = document.passengers;
@@ -90,6 +102,7 @@ const fulfillOrder = async (confirmedOfferId, tx) => {
     let guarantee;
     try {
         guarantee = await createCryptoGuarantee(price.public, price.currency, tx.hash);
+        logger.info('Guarantee created, guaranteeId:%s', guarantee.guaranteeId);
     } catch (error) {
         logger.error('Guarantee could not be created, simard error:%s', error);
         //to cancel payment
@@ -111,29 +124,24 @@ const fulfillOrder = async (confirmedOfferId, tx) => {
         throw error;
     }
 
-    // Proceed to next steps with guarantee
-    logger.info("Guarantee created, guaranteeId:%s", guarantee.guaranteeId);
-
     // Create the order
     let orderRequest = {
         offerId,
         guaranteeId: guarantee.guaranteeId,
         passengers: createPassengers(passengers),
-    };// prepareRequest(offerId, guarantee.guaranteeId, passengers);
+    };
     let confirmation;
     try {
-        confirmation = await createWithOffer(orderRequest);
-        logger.info("Order created");
         // Handle the order creation success
-
-        // Handle the error creation error
+        confirmation = await createWithOffer(orderRequest);
+        logger.info('Order created:', confirmation);
     } catch (error) {
         // Override Error with Glider message
         if (error.response && error.response.data && error.response.data.message) {
             error.message = `Glider B2B: ${error.response.data.message}`;
         }
         logger.error("Failure in response from /createWithOffer: %s, will try to cancel the payment", error.message);
-        //if fulfilment fails - try to cancel payment
+        //if fulfillment fails - try to cancel payment
         await cancelPaymentAndUpdatePaymentStatus(
             confirmedOfferId,
             tx,
@@ -155,14 +163,14 @@ const fulfillOrder = async (confirmedOfferId, tx) => {
 };
 
 const processCryptoOrder = async (confirmedOfferId, tx) => {
-    logger.debug(`Update payment status, status:%s, confirmedOfferId:%s`, PAYMENT_STATUSES.PAID, confirmedOfferId);
+    logger.debug(`Update payment status, status:%s, confirmedOfferId:%s, transactionHash`, PAYMENT_STATUSES.PAID, confirmedOfferId, tx.hash);
 
     // Update the Payment Status in DB
     await updatePaymentStatus(
         confirmedOfferId,// offerId
         PAYMENT_STATUSES.PAID, // payment_status
         {// payment_details
-            transactionHash: tx.hash
+            tx
         },
         `Crypto payment`,// comment
         tx// transaction_details
@@ -171,13 +179,14 @@ const processCryptoOrder = async (confirmedOfferId, tx) => {
     let confirmation;
 
     try {
-        confirmation = await fulfillOrder(confirmedOfferId, tx.hash);
+        confirmation = await fulfillOrder(confirmedOfferId, tx);
     } catch (error) {
         logger.error(`Failed to fulfill order:`, error);
+        throw error;
     }
 
     // Confirmation handle
-    logger.info('Booking confirmation:', JSON.stringify(confirmation));
+    logger.info('Booking confirmation:', confirmation);
 
     // Update the order status
     await updateOrderStatus(
@@ -221,10 +230,10 @@ const cryptoOrderController = async (request, response) => {
 
     try {
         const tx = await web3.eth.getTransaction(transactionHash);
-        logger.info('Transaction:', JSON.stringify(tx));
+        logger.info('Transaction:', tx);
 
         const confirmation = await processCryptoOrder(confirmedOfferId, tx);
-        logger.info('Confirmation:', JSON.stringify(confirmation))
+        logger.info('Confirmation:', confirmation)
 
         sendSuccessResponseAndFinish({
             ...confirmation
