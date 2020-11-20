@@ -1,0 +1,133 @@
+[
+  {
+    "key": "GLIDER_ORGID",
+    "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "0x94bf5a57b850a35b4d1d7b59f663ce3a8a76fd9928ef2067cc772fc97fb0ad75"},
+      {"profile": "production", "value": "0xa8eacc80e138a30cd86002f12f5f324a3f2214b1fefc833435901ab6189579bb"}
+    ]
+  },
+  {
+    "key": "SENDGRID_FROM_EMAIL_ADDR",
+    "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "noreply@em5199.glider.travel"},
+      {"profile": "production", "value": "noreply@em5199.glider.travel"}
+    ]
+  },
+  {
+    "key": "ENABLE_ROOMS_SEARCH",
+    "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "yes"},
+      {"profile": "production", "value": "no"}
+    ]
+  },
+  {
+    "key": "ROOMS_SEARCH_OFFERS_URL",
+    "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "https://staging.rooms.windingtree.com/api/v1/offers/search"},
+      {"profile": "production", "value": "https://"}
+    ]
+  },
+  {
+    "key": "ROOMS_TOKEN",
+    "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "https://staging.rooms.windingtree.com/api/v1/offers/search"},
+      {"profile": "production", "value": "https://"}
+    ]
+  },
+  {
+    "key": "GLIDER_BASEURL", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "https://staging.b2b.glider.travel/api/v1"},
+      {"profile": "production", "value": "https://production.b2b.glider.travel/api/v1"}
+    ]
+  },
+  {
+    "key": "ELASTIC_URL", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "b9bc06a9aff39eb86d5faef405f3d5c19a6e9de94052a869887334bdaecb90c8507caebec088b436391bd6540c4a629c020e21ff656e691d4fc4f1dbcdc4517e7a36549d33ebfb01ae2f9a6ee656a41295c7c5f8f8aa", "isEncrypted": "true"},
+      {"profile": "production", "value": "b9bc06a9aff39eb86d5faef405f3d5c19a6e9de94052a869887334bdaecb90c8507caebec088b436391bd6540c4a629c020e21ff656e691d4fc4f1dbcdc4517e7a36549d33ebfb01ae2f9a6ee656a41295c7c5f8f8aa", "isEncrypted": "true"}
+    ]
+  },
+  {
+    "key": "REDIS_HOST", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "redis-14563.c78.eu-west-1-2.ec2.cloud.redislabs.com", "isEncrypted": "false"},
+      {"profile": "production", "value": "db-prod-01.cloud.simard.io", "isEncrypted": "false"}
+    ]
+  },
+  {
+    "key": "REDIS_PASSWORD", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "b6bc2aad9ba183dd176994e366e3968e8a28f1df6f2edd43887a2484afd59acc", "isEncrypted": "true"},
+      {"profile": "production", "value": "bea927be98bfe5ee4971bcb54fcdd6808579d0897d4fde3c9a4a17948fb4eaeb686d979182bba3043c32b454590f1bc00258698b3a3f667b48d8afe5d5f1693d1d50079f2bacdd029e78a34bee49bc44", "isEncrypted": "true"}
+    ]
+  },
+  {
+    "key": "REDIS_PORT", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "34024", "isEncrypted": "false"},
+      {"profile": "production", "value": "34024", "isEncrypted": "false"}
+    ]
+  },
+  {
+    "key": "SENDGRID_API_KEY", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "828f5c8d8cfae8fc11699ed67ab98c949377fe815677f6518d3340a5d9f499e1574fb49cfed1aa1f0939b450134e18de0b734791274e5e5d4b99f7c789f2680a0f6a459969", "isEncrypted": "true"},
+      {"profile": "production", "value": "828f5c8d8cfae8fc11699ed67ab98c949377fe815677f6518d3340a5d9f499e1574fb49cfed1aa1f0939b450134e18de0b734791274e5e5d4b99f7c789f2680a0f6a459969", "isEncrypted": "true"}
+    ]
+  },
+  {
+    "key": "STRIPE_PUBLISHABLE_KEY", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "a1a32dadb9bac5c86277aaf05fe0ed9eb76ddeef6a2ba056a97a0ba98db597d0323e8397c0a8b61e253a", "isEncrypted": "true"},
+      {"profile": "production", "value": "a1a32db5b5bfd4c8537cb5c57bc3d780974d97ff7b4da26980782a98a1b2b7de323eae97e7d98a3b0e2c", "isEncrypted": "true"}
+    ]
+  },
+  {
+    "key": "STRIPE_SECRET_KEY", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "a2a32dadb9bac5c85058a7c960cdc7be905fe6f1727aa76bbd251582aac18be2323eacb6fca4b2247919", "isEncrypted": "true"},
+      {"profile": "production", "value": "a3a32db5b5bfd4c8142cb8de64d9fbbba657f4ff5729f9489c7c01b8dee4b7de7a7b98aad4d7ad10380fcf0e0c4b6fc06e5f42b40f3d457355f1f3e3e8c86705004b64940cd6fc3eb12b9051e20be3059dc2baa0b6af8170a5c04dfc579ccf9edbcd044223eb285189e925", "isEncrypted": "true"}
+    ]
+  },
+  {
+    "key": "STRIPE_WEBHOOK_SECRET", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "a6a001bcbf96d2cf684d85b079c795b0ba5ddff77373a060be2844a0b9b6aff67241a58ec395", "isEncrypted": "true"},
+      {"profile": "production", "value": "a6a001bcbf96d4d6587190de5fa2f1c9ab7291f46e5ce93eb56d3ba9a3cca9ea326fac9cdf84", "isEncrypted": "true"}
+    ]
+  },
+  {
+    "key": "REACT_APP_BASE_PRICE_TOKEN", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "0xaD6D458402F60fD3Bd25163575031ACDce07538D", "isEncrypted": "false"},
+      {"profile": "production", "value": "MISSING", "isEncrypted": "false"}
+    ]
+  },
+  {
+    "key": "REACT_APP_DEFAULT_NETWORK", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "ropsten", "isEncrypted": "false"},
+      {"profile": "production", "value": "MISSING", "isEncrypted": "false"}
+    ]
+  },
+  {
+    "key": "REACT_APP_PORTIS_ID", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "b2ae14e8ebaad7a60c7bccb206b995ceea2e8ad95c28a523ad7b4b91dbbbe9ac3b37a49b", "isEncrypted": "true"},
+      {"profile": "production", "value": "MISSING", "isEncrypted": "true"}
+    ]
+  },
+  {
+    "key": "REACT_APP_UNISWAP_ROUTER_ADDRESS", "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D", "isEncrypted": "false"},
+      {"profile": "production", "value": "MISSING", "isEncrypted": "false"}
+    ]
+  }
+]

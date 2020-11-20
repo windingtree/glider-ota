@@ -4,7 +4,7 @@ const axios = require('axios').default;
 const {GLIDER_CONFIG} = require('./config');
 const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission} = require('./response-decorator');
-const {createErrorResponse,ERRORS} = require ('./rest-utils');
+const {createErrorResponse,mergeAggregatorResponse,ERRORS} = require ('./rest-utils');
 
 function createHeaders(token) {
     return {
@@ -35,12 +35,44 @@ async function searchOffers(criteria) {
         setDepartureDatesToNoonUTC(criteria)
     logger.debug(`Search criteria:${JSON.stringify(criteria)}`);
     try {
-        response = await axios({
-            method: 'post',
-            url: GLIDER_CONFIG.SEARCH_OFFERS_URL,
-            data: criteria,
-            headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
-        });
+        console.log(`GLIDER_CONFIG.ENABLE_ROOMS_SEARCH = ${GLIDER_CONFIG.ENABLE_ROOMS_SEARCH}`)
+        console.log(`GLIDER_CONFIG.ROOMS_SEARCH_OFFERS_URL = ${GLIDER_CONFIG.ROOMS_SEARCH_OFFERS_URL}`)
+        console.log(`GLIDER_CONFIG.ROOMS_TOKEN = ${GLIDER_CONFIG.ROOMS_TOKEN}`)
+
+        if (GLIDER_CONFIG.ENABLE_ROOMS_SEARCH !== 'yes') {
+            response = await axios({
+                method: 'post',
+                url: GLIDER_CONFIG.SEARCH_OFFERS_URL,
+                data: criteria,
+                headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
+            });
+        } else {
+          const promises = [
+              axios({
+                  method: 'post',
+                  url: GLIDER_CONFIG.SEARCH_OFFERS_URL,
+                  data: criteria,
+                  headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
+              }),
+              axios({
+                  method: 'post',
+                  url: GLIDER_CONFIG.ROOMS_SEARCH_OFFERS_URL,
+                  data: criteria,
+                  headers: createHeaders(GLIDER_CONFIG.ROOMS_TOKEN)
+              })
+          ]
+
+          const results = await Promise.all(promises.map(p => p.catch(e => e)))
+          const validResults = results.filter(result => !(result instanceof Error))
+
+          if (validResults.length === 0) {
+              throw new Error('No results.')
+          } else if (validResults.length === 1) {
+              response = validResults[0]
+          } else {
+              response = mergeAggregatorResponse(validResults[0], validResults[1])
+          }
+        }
     }catch(err){
         logger.error("Error ",err)
         return createErrorResponse(400,ERRORS.INVALID_SERVER_RESPONSE,err.message,criteria);
