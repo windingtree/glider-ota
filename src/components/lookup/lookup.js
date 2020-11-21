@@ -7,7 +7,7 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
     const [searchResults, setSearchResults] = useState([]);
 
     async function onQueryEntered(searchQuery) {
-        let results = fetchGet('/api/lookup/airportSearch', {searchquery: searchQuery});
+        let results = fetchGet('/api/lookup/airportSearch2', {searchquery: searchQuery});
         results.then((response) => {
             let airports = convertResponse(response.results);
             setSearchResults(airports);
@@ -17,11 +17,30 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
     }
 
     function convertResponse(airports) {
+        let lastMetropolitan;
         return airports.map(rec => {
+            let icon,primaryName, secondaryName, code, indent=false;
+
+            if(rec.type === 'AIRPORT')
+                icon='airport'
+            if(lastMetropolitan && lastMetropolitan.city_code === rec.city_code){
+                indent=true;
+            }
+            if(rec.type === 'METROPOLITAN'){
+                primaryName=rec.city_name
+            }else{
+                primaryName=rec.city_name + " " + rec.airport_name;
+            }
+            secondaryName=rec.country_name;
+            if(rec.type === 'METROPOLITAN'){
+                lastMetropolitan=rec;
+            }
             return {
-                primary: rec.city_name + " " + rec.airport_name,
-                secondary: rec.country_name,
-                code: rec.airport_iata_code
+                primary: primaryName,
+                secondary: secondaryName,
+                code: rec.airport_iata_code,
+                indent: indent,
+                icon:icon
             }
         })
     }

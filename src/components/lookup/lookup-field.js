@@ -74,7 +74,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
                     target={target}
                     placement="bottom-start">
                     <Popover id="popover-contained" className={style.locationLookupPopover}>
-                            <LookupList locations={locations} onLocationSelected={handleLocationSelected}/>
+                            <LookupList locations={locations} onLocationSelected={handleLocationSelected} key={1}/>
                     </Popover>
                 </Overlay>
             </div>

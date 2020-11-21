@@ -15,7 +15,12 @@ export const airportsData = [
     {primary:"city without country",code:"HAV"},
     {primary:"city without cody",secondary:"Country"},
     {primary:"Very long primary name which should be truncated",secondary:"Very long secondary name which should be truncated",code:"HAV"},
-    {primary:"Very long primary name which should be truncated without secondary"}];
+    {primary:"Very long primary name which should be truncated without secondary"},
+    {primary:"Moscow",secondary:"Russia",code:"MOW"},
+    {primary:"Domodedovo",secondary:"Russia",code:"DME", indent:true},
+    {primary:"Sheremetyevo",secondary:"Russia",code:"SVO", indent:true, icon:'airport'},
+    {primary:"Vnukovo",secondary:"Russia",code:"VKO", indent:true}
+];
 
 export const citiesData = [
     {primary:"London",secondary:"Great Britain",code:"LON"},

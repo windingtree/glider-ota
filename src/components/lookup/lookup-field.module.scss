@@ -8,7 +8,10 @@
     background: #FFFFFF;
     @include _glider-font-regular18;
 }
-
+.lookup:focus{
+    border: 1px solid $glider-color-primary;
+    border-radius: 8px;
+}
 .inputField{
     height:100%;
     width:80%;
@@ -18,6 +21,7 @@
 }
 .inputField:focus{
     box-shadow:none;
+
 }
 
 .inputField::placeholder {
