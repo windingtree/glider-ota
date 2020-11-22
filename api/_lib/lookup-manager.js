@@ -75,7 +75,8 @@ const searchByExactAirportCode = async (airportCode) => {
     if (!isQueryLongerOrEqualThan(airportCode, SEARCH_CONFIG.BY_AIRPORT_CODE.MIN_QUERY_LENGTH))
         return [];
     console.log(`searchByExactAirportCode(${airportCode})`);
-    let results = await searchAirports({airport_iata_code: airportCode});
+    let results = await searchAirports({'airport_iata_code': {'$regex': `^${airportCode}`, '$options': 'i'}});
+    // let results = await searchAirports({airport_iata_code: airportCode});
     return decorateRecordWithWeight(results, SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
 }
 const searchByCityName = async (cityName) => {

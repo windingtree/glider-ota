@@ -8,10 +8,7 @@
     background: #FFFFFF;
     @include _glider-font-regular18;
 }
-.lookup:focus{
-    border: 1px solid $glider-color-primary;
-    border-radius: 8px;
-}
+
 .inputField{
     height:100%;
     width:80%;
@@ -43,4 +40,19 @@
     border-radius: 0px 0px 5px 5px;
     width: 100%;
     max-width: 480px;
+}
+
+.locationLookupPopover .arrow{
+    display: none;
+}
+
+.pseudoFocus{
+    border: 2px solid $glider-color-primary;
+    border-radius: 8px;
+}
+
+
+.label{
+    color: $glider-color-text-labels;
+    font-size: 14px;
 }

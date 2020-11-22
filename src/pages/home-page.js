@@ -54,8 +54,8 @@ export default function HomePage() {
                     </Row>
                     <Row className={style.searchFormWrapper} noGutters={true}>
                         <Col>
-                            {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onSearchButtonClick={onFlightsSearch}/>}
-                            {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onSearchButtonClick={onHotelsSearch}/>}
+                            {searchType === SEARCH_TYPE.FLIGHTS && <FlightsSearchForm onSearchButtonClick={onFlightsSearch} showLabels={true}/>}
+                            {searchType === SEARCH_TYPE.HOTELS && <HotelsSearchForm onSearchButtonClick={onHotelsSearch} showLabels={true}/>}
                         </Col>
                     </Row>
 

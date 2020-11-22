@@ -9,7 +9,7 @@ export const LOCATION_SOURCE={
 
 const SEARCH_TIMEOUT_MILLIS=100;
 
-export default function LookupField({initialLocation,onSelectedLocationChange, placeHolder, onQueryEntered, locations=[]})  {
+export default function LookupField({initialLocation,onSelectedLocationChange, placeHolder, onQueryEntered, locations=[], label})  {
     const [value, setValue] = useState(initialLocation!==undefined?initialLocation.primary:'');
     const [target, setTarget] = useState();
     const [selectedLocation, setSelectedLocation] = useState(initialLocation);
@@ -34,7 +34,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
 
     function handleOnBlur(event) {
         setFocus(false)
-        clearSelectedLocation();
+        // clearSelectedLocation();
     }
     function handleOnChange(event) {
         const enteredText = event.target.value;
@@ -59,7 +59,8 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     };
 
         return (
-            <div className={style.lookup}>
+            <>{label && <div className={style.label}>{label}</div>}
+            <div className={focus?[style.lookup,style.pseudoFocus].join(' '):style.lookup}>
                 <Form.Control
                     type="text"
                     value={value}
@@ -75,9 +76,10 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
                     placement="bottom-start">
                     <Popover id="popover-contained" className={style.locationLookupPopover}>
                             <LookupList locations={locations} onLocationSelected={handleLocationSelected} key={1}/>
+
                     </Popover>
                 </Overlay>
-            </div>
+            </div></>
         )
 }
 

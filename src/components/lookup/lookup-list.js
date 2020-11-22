@@ -5,16 +5,18 @@ import PropTypes from 'prop-types'
 
 export default function LookupList({locations=[], onLocationSelected}){
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
-    const [selectedIndex, setSelectedIndex] = useState(-1);
-    console.log('Render lookup list, highlightedIndex:',highlightedIndex);
+    // const [selectedIndex, setSelectedIndex] = useState(-1);
 
-    const onArrowUp = () => {
+    const onArrowUpKeyPressed = () => {
         setHighlightedIndex(highlightedIndex - 1)
     };
-    const onArrowDown = () => {
+    const onArrowDownKeyPressed = () => {
         setHighlightedIndex(highlightedIndex + 1)
     };
-    const onEnterHit = () => {
+    const onEnterKeyPressed = () => {
+        selected(highlightedIndex);
+    };
+    const onTabKeyPressed = () => {
         selected(highlightedIndex);
     };
     const selected = (idx) => {
@@ -32,7 +34,7 @@ export default function LookupList({locations=[], onLocationSelected}){
         if(rowIndex === highlightedIndex)
             rowClassNames.push(style.highlighted);
         return (
-            <Row noGutters={true} className={rowClassNames} key={createKey(rec.primary,rec.secondary,rec.code)} onClick={event => selected(rowIndex)}>
+            <Row noGutters={true} className={rowClassNames} key={createKey(rec.code,rowIndex)} onClick={event => selected(rowIndex)}>
                 <Col xs={9}  className={style.primaryText}>
                     {rec.icon?(<span className={`icon${rec.icon}`}></span>):('')}
                     {/*{rec.indent===true?(<span className={style.indent}></span>):('')}*/}
@@ -49,11 +51,13 @@ export default function LookupList({locations=[], onLocationSelected}){
     useEffect(() => {
         const onKeyDown = (event) => {
             if(event.keyCode === 38)
-                onArrowUp();
+                onArrowUpKeyPressed();
             if(event.keyCode === 40)
-                onArrowDown();
+                onArrowDownKeyPressed();
             if(event.keyCode === 13)
-                onEnterHit();
+                onEnterKeyPressed();
+            if(event.keyCode === 9)
+                onTabKeyPressed();
         };
         window.addEventListener('keydown', onKeyDown);
         return () => {

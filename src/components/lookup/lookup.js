@@ -3,7 +3,7 @@ import LookupField from "./lookup-field";
 import {fetchGet} from "../../utils/api-utils";
 
 
-export function AirportLookup({initialLocation, onSelectedLocationChange, placeHolder}) {
+export function AirportLookup({initialLocation, onSelectedLocationChange, placeHolder, label}) {
     const [searchResults, setSearchResults] = useState([]);
 
     async function onQueryEntered(searchQuery) {
@@ -15,6 +15,7 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
             console.error("Failed to search for airports", err)
         })
     }
+
 
     function convertResponse(airports) {
         let lastMetropolitan;
@@ -47,11 +48,11 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
 
     return (
         <LookupField initialLocation={initialLocation} onSelectedLocationChange={onSelectedLocationChange}
-                     placeHolder={placeHolder} onQueryEntered={onQueryEntered} locations={searchResults}/>
+                     placeHolder={placeHolder} onQueryEntered={onQueryEntered} locations={searchResults} label={label}/>
     )
 }
 
-export function CityLookup({initialLocation, onSelectedLocationChange, placeHolder}) {
+export function CityLookup({initialLocation, onSelectedLocationChange, placeHolder, label}) {
     const [searchResults, setSearchResults] = useState([]);
 
     async function onQueryEntered(searchQuery) {
@@ -78,7 +79,7 @@ export function CityLookup({initialLocation, onSelectedLocationChange, placeHold
 
     return (
         <LookupField initialLocation={initialLocation} onSelectedLocationChange={onSelectedLocationChange}
-                     placeHolder={placeHolder} onQueryEntered={onQueryEntered} locations={searchResults}/>
+                     placeHolder={placeHolder} onQueryEntered={onQueryEntered} locations={searchResults} label={label}/>
     )
 }
 

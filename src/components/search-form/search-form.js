@@ -30,6 +30,7 @@ function SearchForm(props){
     locationsSource,
     oneWayAllowed,
     maxPassengers,
+    showLabels
   } = props;
 
 
@@ -116,11 +117,11 @@ function SearchForm(props){
 
           <div className={style.searchFormContainer}>
             <Row >
-              <Col lg={6} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
-              <Col lg={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true}/></Col>
+              <Col lg={6} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label={showLabels?'Where to?':undefined}/></Col>
+              <Col lg={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label={showLabels?'Who?':undefined}/></Col>
             </Row>
             <Row>
-              <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} startPlaceholder='Check in' endPlaceholder='Check out'/></Col>
+              <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} startPlaceholder='Check in' endPlaceholder='Check out' label={showLabels?'When':undefined}/></Col>
             </Row>
           </div>
           <div className={style.searchButtonContainer}>
@@ -139,12 +140,12 @@ function SearchForm(props){
     return (<>
           <div className={style.searchFormContainer}>
             <Row >
-              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin'/></Col>
-              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination'/></Col>
+              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin' label={showLabels?'Where from?':undefined}/></Col>
+              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label={showLabels?'Where to?':undefined}/></Col>
             </Row>
             <Row>
-              <Col xs={12}  md={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate}/></Col>
-              <Col xs={12} md={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9}/></Col>
+              <Col xs={12}  md={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label={showLabels?'When?':undefined} /></Col>
+              <Col xs={12} md={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label={showLabels?'Who?':undefined}/></Col>
             </Row>
           </div>
           <div className={style.searchButtonContainer}>
@@ -165,7 +166,7 @@ function SearchForm(props){
     )
 }
 
-export function FlightsSearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initAdults,initChildren,initInfants,onSearchButtonClick}) {
+export function FlightsSearchForm({initOrigin,initiDest,initDepartureDate,initReturnDate,initAdults,initChildren,initInfants,onSearchButtonClick, showLabels}) {
   return (
       <SearchForm
           initOrigin={initOrigin}
@@ -178,11 +179,11 @@ export function FlightsSearchForm({initOrigin,initiDest,initDepartureDate,initRe
           oneWayAllowed={true}
           locationsSource={LOCATION_SOURCE.AIRPORTS}
           formType={TYPE.FLIGHTS}
-          onSearchButtonClick={onSearchButtonClick} />
+          onSearchButtonClick={onSearchButtonClick} showLabels={showLabels}/>
 )
 }
 
-export function HotelsSearchForm ({initOrigin,initiDest,initDepartureDate,initReturnDate,initAdults,initChildren,initInfants,onSearchButtonClick}){
+export function HotelsSearchForm ({initOrigin,initiDest,initDepartureDate,initReturnDate,initAdults,initChildren,initInfants,onSearchButtonClick, showLabels}){
   return (
       <SearchForm
           initOrigin={initOrigin}
@@ -195,7 +196,7 @@ export function HotelsSearchForm ({initOrigin,initiDest,initDepartureDate,initRe
           oneWayAllowed={true}
           locationsSource={LOCATION_SOURCE.CITIES}
           formType={TYPE.HOTELS}
-          onSearchButtonClick={onSearchButtonClick} />
+          onSearchButtonClick={onSearchButtonClick} showLabels={showLabels}/>
 
   )
 }

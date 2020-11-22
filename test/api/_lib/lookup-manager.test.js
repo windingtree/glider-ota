@@ -8,6 +8,9 @@ describe('lookup-manager', function () {
             let result = await searchByExactAirportCode('JFK');
             expect(result).to.have.length(1);
             expect(result[0].airport_iata_code).to.equal('JFK')
+            //with lower case it should give same results
+            let resultLowerCase = await searchByExactAirportCode('jfk');
+            expect(resultLowerCase).to.deep.equal(result)
         });
     });
 

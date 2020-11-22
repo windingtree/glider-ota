@@ -4,7 +4,7 @@ import style from './passenger-selector.module.scss'
 import {Button, Dropdown, Container, Row, Col} from 'react-bootstrap'
 import Alert from 'react-bootstrap/Alert';
 
-export default function PassengerSelector({adults, children, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false, maxPassengers, infantsAllowed = true}) {
+export default function PassengerSelector({adults, children, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false, maxPassengers, infantsAllowed = true, label}) {
 
     function increase(type) {
         if (!maxPassengers || (getTotal() < maxPassengers)) {
@@ -90,6 +90,7 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
 
     return (
         <>
+            {label && <div className={style.label}>{label}</div>}
             <Dropdown bsPrefix={style.paxSelector}>
                 <Dropdown.Toggle className={style.paxSelectorDropdown} id='dropdown-basic' as="button">
                     {total} {placeholder}{total > 1 ? 's' : ''}

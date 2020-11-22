@@ -5,7 +5,7 @@ import 'react-nice-dates/build/style.css'
 import style from './travel-datepickup.module.scss'
 import {Row,Col} from "react-bootstrap";
 
-export default function TravelDatepickup({initialStart,initialEnd,onStartDateChanged,onEndDateChanged, startPlaceholder='Departure', endPlaceholder='Return'}) {
+export default function TravelDatepickup({initialStart,initialEnd,onStartDateChanged,onEndDateChanged, startPlaceholder='Departure', endPlaceholder='Return', label}) {
   const [startDate, setStartDate] = useState(initialStart);
   const [endDate, setEndDate] = useState(initialEnd);
 
@@ -19,6 +19,7 @@ export default function TravelDatepickup({initialStart,initialEnd,onStartDateCha
     onEndDateChanged(date);
   }
     return (<>
+          {label && <div className={style.label}>{label}</div>}
       <DateRangePicker
         startDate={startDate}
         endDate={endDate}
@@ -33,15 +34,16 @@ export default function TravelDatepickup({initialStart,initialEnd,onStartDateCha
             <div className={style.dateRange}>
               <Row >
                 <Col className={style.formElem} sm={6}>
+
                   <input
-                      className={'date-range__input' + (focus === START_DATE ? ' -focused' : '')}
+                      className={'date-range__input' + (focus === START_DATE ? ' focused' : '')}
                       {...startDateInputProps}
                       placeholder={startPlaceholder} readOnly={true}
                   />
                 </Col>
                 <Col className={style.formElem} sm={6}>
                   <input
-                      className={'date-range__input' + (focus === END_DATE ? ' -focused' : '')}
+                      className={'date-range__input' + (focus === END_DATE ? ' focused' : '')}
                       {...endDateInputProps}
                       placeholder={endPlaceholder} readOnly={true}
                   />
