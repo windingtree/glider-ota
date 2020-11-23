@@ -11,6 +11,10 @@ const SEARCH_CONFIG = {
         MIN_QUERY_LENGTH: 3,
         WEIGHT: 20
     },
+    BY_CITY_CODE: {
+        MIN_QUERY_LENGTH: 3,
+        WEIGHT: 25
+    },
     BY_AIRPORT_CODE: {
         MIN_QUERY_LENGTH: 3,
         WEIGHT: 30               //highest weight, match with airport code is more relevant than city or airport name
@@ -66,33 +70,45 @@ const searchAirports = async (query, orderBy) => {
     let results = await q.exec();
     return results;
 }
-
-/*const searchByExactAirportCode = async (airportCode)=>{
-    let results = await searchAirports({airport_iata_code:airportCode});
-}*/
+const printResults = (message, airports) => {
+    console.log(message)
+    airports.forEach(airport=>{
+        console.log(`\t${airport.airport_name} [iata=${airport.airport_iata_code} city=${airport.city_code} type=${airport.type}] [${airport.weight}]`)
+    })
+}
 
 const searchByExactAirportCode = async (airportCode) => {
     if (!isQueryLongerOrEqualThan(airportCode, SEARCH_CONFIG.BY_AIRPORT_CODE.MIN_QUERY_LENGTH))
         return [];
     let results = await searchAirports({'airport_iata_code': {'$regex': `^${airportCode}`, '$options': 'i'}});
-    console.log(`searchByExactAirportCode(${airportCode})==>${results.length}`);
-    // let results = await searchAirports({airport_iata_code: airportCode});
-    return decorateRecordWithWeight(results, SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
+    results = decorateRecordWithWeight(results, SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
+    printResults(`searchByExactAirportCode(${airportCode})==>${results.length}`, results);
+    return results;
 }
 const searchByCityName = async (cityName) => {
     if (!isQueryLongerOrEqualThan(cityName, SEARCH_CONFIG.BY_CITY_NAME.MIN_QUERY_LENGTH))
         return [];
     let results = await searchAirports({'city_name': {'$regex': `^${cityName}`, '$options': 'i'}});
-    console.log(`searchByCityName(${cityName})==>${results.length}`);
-    return decorateRecordWithWeight(results, SEARCH_CONFIG.BY_CITY_NAME.WEIGHT);
+    results = decorateRecordWithWeight(results, SEARCH_CONFIG.BY_CITY_NAME.WEIGHT);
+    printResults(`searchByCityName(${cityName})==>${results.length}`, results);
+    return results;
+}
+const searchByCityCode = async (cityCode) => {
+    if (!isQueryLongerOrEqualThan(cityCode, SEARCH_CONFIG.BY_CITY_CODE.MIN_QUERY_LENGTH))
+        return [];
+    let results = await searchAirports({'city_code': {'$regex': `^${cityCode}`, '$options': 'i'}});
+    results =  decorateRecordWithWeight(results, SEARCH_CONFIG.BY_CITY_CODE.WEIGHT);
+    printResults(`searchByCityCode(${cityCode})==>${results.length}`, results);
+    return results;
 }
 
 const searchByAirportName = async (airportName) => {
     if (!isQueryLongerOrEqualThan(airportName, SEARCH_CONFIG.BY_AIRPORT_NAME.MIN_QUERY_LENGTH))
         return [];
     let results = await searchAirports({'airport_name': {'$regex': `^${airportName}`, '$options': 'i'}});
-    console.log(`searchByAirportName(${airportName})==>${results.length}`);
-    return decorateRecordWithWeight(results, SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
+    results =  decorateRecordWithWeight(results, SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
+    printResults(`searchByAirportName(${airportName})==>${results.length}`, results);
+    return results;
 }
 
 const sortResults = (results) => {
@@ -112,7 +128,13 @@ const sortResults = (results) => {
     }
     return results.sort(comparator);
 }
-
+const removeDupes = (airports) => {
+    const isSame = (a,b) =>{
+        return ((a.airport_iata_code === b.airport_iata_code) && (a.type === b.type));
+    }
+    let uniques = airports.filter((v,i,a)=>a.findIndex(t=>isSame(t,v))===i)
+    return uniques;
+}
 const findAllAirportsOfCity = async (cityCode) => {
     let results = await searchAirports({'city_code': cityCode});
     return results;
@@ -134,6 +156,7 @@ const airportLookup = async (name) => {
 
     const promises = [
         searchByExactAirportCode(name),
+        searchByCityCode(name),
         searchByAirportName(name),
         searchByCityName(name)];
     const results = await Promise.all(promises);
@@ -144,6 +167,7 @@ const airportLookup = async (name) => {
         })
     })
     records = sortResults(records);
+    records = removeDupes(records);
     const MAX_LEN = 20;
     if (records.length > MAX_LEN) {
         records = records.splice(0, MAX_LEN)

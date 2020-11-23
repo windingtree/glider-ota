@@ -36,8 +36,8 @@ export default function LookupList({locations=[], onLocationSelected}){
         return (
             <Row noGutters={true} className={rowClassNames} key={createKey(rec.code,rowIndex)} onClick={event => selected(rowIndex)}>
                 <Col xs={9}  className={style.primaryText}>
+                    {rec.indent===true?(<span className={style.indent}></span>):('')}
                     {rec.icon?(<span className={`icon${rec.icon}`}></span>):('')}
-                    {/*{rec.indent===true?(<span className={style.indent}></span>):('')}*/}
                     {rec.primary}
                     <span className={style.secondaryText}>{rec.secondary}</span>
                 </Col>
