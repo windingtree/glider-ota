@@ -20,10 +20,8 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     useEscape(() => {setFocus(false)})
 
     useEffect(()=>{
-        console.log('useEffect')
         if(localstorageKey) {
             let storedValue = localStorage.getItem(`inputfield-${localstorageKey}`);
-            console.log(`Lookup field displayed - inputfield-${localstorageKey}=`, storedValue);
             if(storedValue){
                 try{
                     let previouslySelectedLocation=JSON.parse(storedValue);
@@ -37,12 +35,10 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
 
 
     function handleLocationSelected(location) {
-        console.log('Set selectedLocation:', location)
         setSelectedLocation(location);
         setValue(location.primary);
         onSelectedLocationChange(location)
         if(localstorageKey) {
-            console.log('handleLocationSelected, saving local storage:',location)
             localStorage.setItem(`inputfield-${localstorageKey}`, JSON.stringify(location));
         }
 

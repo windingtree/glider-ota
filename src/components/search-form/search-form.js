@@ -122,7 +122,7 @@ function SearchForm(props){
               <Col lg={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label={showLabels?'Who?':undefined}/></Col>
             </Row>
             <Row>
-              <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} startPlaceholder='Check in' endPlaceholder='Check out' label={showLabels?'When':undefined}/></Col>
+              <Col className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} startPlaceholder='Check in' endPlaceholder='Check out' label={showLabels?'When':undefined} localstorageKey={'traveldates'}/></Col>
             </Row>
           </div>
           <div className={style.searchButtonContainer}>
@@ -145,7 +145,7 @@ function SearchForm(props){
               <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label={showLabels?'Where to?':undefined} localstorageKey={'destination'}/></Col>
             </Row>
             <Row>
-              <Col xs={12}  md={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label={showLabels?'When?':undefined} /></Col>
+              <Col xs={12}  md={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label={showLabels?'When?':undefined} localstorageKey={'traveldates'}/></Col>
               <Col xs={12} md={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label={showLabels?'Who?':undefined}/></Col>
             </Row>
           </div>
