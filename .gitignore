@@ -30,6 +30,7 @@ yarn.json
 
 .now
 /.env
+/.env.build
 /.secrets
 /.idea/
 **.env

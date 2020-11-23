@@ -496,7 +496,8 @@ const SelectCrypto = props => {
             {paymentHash &&
                 <div>
                     <p className={styles.paymentSuccess}>
-                        Payment has been successfully done. Transaction:&nbsp;
+                        Payment has been successfully done.<br/>
+                        Transaction:&nbsp;
                         <CopyText
                             className={styles.paymentTx}
                             text={paymentHash}
