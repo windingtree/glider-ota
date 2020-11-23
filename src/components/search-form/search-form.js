@@ -112,12 +112,13 @@ function SearchForm(props){
     const isValid=validate();
 
 
+
   const renderHotelForm = () =>{
     return (<>
 
           <div className={style.searchFormContainer}>
             <Row >
-              <Col lg={6} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label={showLabels?'Where to?':undefined}/></Col>
+              <Col lg={6} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label={showLabels?'Where to?':undefined} localstorageKey={'destination'}/></Col>
               <Col lg={6} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label={showLabels?'Who?':undefined}/></Col>
             </Row>
             <Row>
@@ -140,8 +141,8 @@ function SearchForm(props){
     return (<>
           <div className={style.searchFormContainer}>
             <Row >
-              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin' label={showLabels?'Where from?':undefined}/></Col>
-              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label={showLabels?'Where to?':undefined}/></Col>
+              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin' label={showLabels?'Where from?':undefined} localstorageKey={'origin'}/></Col>
+              <Col xs={12} md={6} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label={showLabels?'Where to?':undefined} localstorageKey={'destination'}/></Col>
             </Row>
             <Row>
               <Col xs={12}  md={6} className=''><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label={showLabels?'When?':undefined} /></Col>

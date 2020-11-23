@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import {Overlay, Popover,  Form} from 'react-bootstrap'
+import {Dropdown, Container} from 'react-bootstrap'
 import LookupList from "./lookup-list";
 import style from './lookup-field.module.scss'
 export const LOCATION_SOURCE={
@@ -9,7 +10,7 @@ export const LOCATION_SOURCE={
 
 const SEARCH_TIMEOUT_MILLIS=100;
 
-export default function LookupField({initialLocation,onSelectedLocationChange, placeHolder, onQueryEntered, locations=[], label})  {
+export default function LookupField({initialLocation,onSelectedLocationChange, placeHolder, onQueryEntered, locations=[], label, localstorageKey})  {
     const [value, setValue] = useState(initialLocation!==undefined?initialLocation.primary:'');
     const [target, setTarget] = useState();
     const [selectedLocation, setSelectedLocation] = useState(initialLocation);
@@ -17,10 +18,34 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     const [focus,setFocus] = useState(false);
 
     useEscape(() => {setFocus(false)})
+
+    useEffect(()=>{
+        console.log('useEffect')
+        if(localstorageKey) {
+            let storedValue = localStorage.getItem(`inputfield-${localstorageKey}`);
+            console.log(`Lookup field displayed - inputfield-${localstorageKey}=`, storedValue);
+            if(storedValue){
+                try{
+                    let previouslySelectedLocation=JSON.parse(storedValue);
+                    handleLocationSelected(previouslySelectedLocation)
+                }catch(err){
+                    console.log('Error:',err)
+                }
+            }
+        }
+    },[])
+
+
     function handleLocationSelected(location) {
+        console.log('Set selectedLocation:', location)
         setSelectedLocation(location);
         setValue(location.primary);
         onSelectedLocationChange(location)
+        if(localstorageKey) {
+            console.log('handleLocationSelected, saving local storage:',location)
+            localStorage.setItem(`inputfield-${localstorageKey}`, JSON.stringify(location));
+        }
+
     }
 
     function clearSelectedLocation() {
@@ -35,6 +60,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     function handleOnBlur(event) {
         setFocus(false)
         // clearSelectedLocation();
+
     }
     function handleOnChange(event) {
         const enteredText = event.target.value;

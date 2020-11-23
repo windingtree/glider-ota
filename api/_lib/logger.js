@@ -14,7 +14,7 @@ let esTransportOpts = {
 
 function createLogger(loggerName) {
     const logger = winston.createLogger({
-        level: 'info',
+        level: 'debug',
         format: winston.format.combine(
             winston.format.timestamp({
                 format: 'YYYY-MM-DD HH:mm:ss'
