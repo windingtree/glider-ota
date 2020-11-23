@@ -19,7 +19,7 @@ const SEARCH_CONFIG = {
 
 const LOOKUP_CONFIG = {
     MIN_QUERY_LENGTH: 3,
-    MAX_RESULTS: 20
+    MAX_RESULTS: 30
 }
 
 
@@ -74,29 +74,34 @@ const searchAirports = async (query, orderBy) => {
 const searchByExactAirportCode = async (airportCode) => {
     if (!isQueryLongerOrEqualThan(airportCode, SEARCH_CONFIG.BY_AIRPORT_CODE.MIN_QUERY_LENGTH))
         return [];
-    console.log(`searchByExactAirportCode(${airportCode})`);
     let results = await searchAirports({'airport_iata_code': {'$regex': `^${airportCode}`, '$options': 'i'}});
+    console.log(`searchByExactAirportCode(${airportCode})==>${results.length}`);
     // let results = await searchAirports({airport_iata_code: airportCode});
     return decorateRecordWithWeight(results, SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
 }
 const searchByCityName = async (cityName) => {
     if (!isQueryLongerOrEqualThan(cityName, SEARCH_CONFIG.BY_CITY_NAME.MIN_QUERY_LENGTH))
         return [];
-    console.log(`searchByCityName(${cityName})`);
     let results = await searchAirports({'city_name': {'$regex': `^${cityName}`, '$options': 'i'}});
+    console.log(`searchByCityName(${cityName})==>${results.length}`);
     return decorateRecordWithWeight(results, SEARCH_CONFIG.BY_CITY_NAME.WEIGHT);
 }
 
 const searchByAirportName = async (airportName) => {
     if (!isQueryLongerOrEqualThan(airportName, SEARCH_CONFIG.BY_AIRPORT_NAME.MIN_QUERY_LENGTH))
         return [];
-    console.log(`searchByAirportName(${airportName})`);
     let results = await searchAirports({'airport_name': {'$regex': `^${airportName}`, '$options': 'i'}});
+    console.log(`searchByAirportName(${airportName})==>${results.length}`);
     return decorateRecordWithWeight(results, SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
 }
 
 const sortResults = (results) => {
     const comparator = (A, B) => {
+        let typeA=A.type || 'AIRPORT';
+        let typeB=B.type || 'AIRPORT';
+        if(typeA !== typeB){
+            return typeB.localeCompare(typeA)
+        }
         let weightA = A.weight || 0;
         let weightB = B.weight || 0;
         if (weightA !== weightB)
@@ -139,7 +144,7 @@ const airportLookup = async (name) => {
         })
     })
     records = sortResults(records);
-    const MAX_LEN = 8;
+    const MAX_LEN = 20;
     if (records.length > MAX_LEN) {
         records = records.splice(0, MAX_LEN)
     }

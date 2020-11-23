@@ -3,7 +3,7 @@
 .lookup{
     border: 1px solid $glider-color-text-background;
     box-sizing: border-box;
-    border-radius: 5px;
+    border-radius: 8px;
     height: 68px;
     background: #FFFFFF;
     @include _glider-font-regular18;
@@ -34,7 +34,7 @@
 
 
 
-.locationLookupPopover{
+global(.locationLookupPopover){
     background: #FFFFFF;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 0px 0px 5px 5px;
@@ -42,12 +42,12 @@
     max-width: 480px;
 }
 
-.locationLookupPopover .arrow{
-    display: none;
+global(.bs-popover-bottom > .arrow){
+    display: none !important;
 }
 
 .pseudoFocus{
-    border: 2px solid $glider-color-primary;
+    border: 1px solid $glider-color-primary;
     border-radius: 8px;
 }
 

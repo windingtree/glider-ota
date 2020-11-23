@@ -96,7 +96,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
                     show={focus && selectedLocation===undefined && locations.length > 0}
                     target={target}
                     placement="bottom-start">
-                    <Popover id="popover-contained" className={style.locationLookupPopover}>
+                    <Popover id="popover-contained" className={focus?['locationLookupPopover',style.pseudoFocus].join(' '):'locationLookupPopover'}>
                             <LookupList locations={locations} onLocationSelected={handleLocationSelected} key={1}/>
 
                     </Popover>
