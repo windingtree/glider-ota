@@ -119,18 +119,20 @@ function updateOne(collection, criteria, doc) {
 
 /**
  * Saves confirmed(re-priced) offer in a database (<orders> collection)
- * @param confirmedOfferId
  * @param offer
+ * @param passengers
+ * @param exchangeQuote
  * @returns {Promise<*>}
  */
 
-function storeConfirmedOffer(offer, passengers){
+function storeConfirmedOffer(offer, passengers, exchangeQuote){
     let object={
         offerId:offer.offerId,
         confirmedOffer:offer,
         passengers:passengers,
         order_status:ORDER_STATUSES.NEW,
         payment_status:PAYMENT_STATUSES.NOT_PAID,
+        exchangeQuote,
         createDate: new Date(),
         transactions:[createTransactionEntry('New order created', {order_status:ORDER_STATUSES.NEW,
             payment_status:PAYMENT_STATUSES.NOT_PAID})]

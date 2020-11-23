@@ -52,38 +52,64 @@ const convertCurrencyToUSD = async (currency, amount) => {
         `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currency}&to_currency=USD&apikey=${CRYPTO_CONFIG.EXCHANGE_RATE_KEY}`
     );
     const rate = response.data['Realtime Currency Exchange Rate']['9. Ask Price'];
-    return Number((Number(amount) * Number(rate)).toFixed(2));
+    return {
+        rate,
+        amount: Number((Number(amount) * Number(rate)).toFixed(2))
+    };
 };
 
 const checkoutCrypto = async (req, res) => {
     const payload = req.body;
     const confirmedOfferId = payload.confirmedOfferId;
     logger.debug("confirmedOffer:", confirmedOfferId);
+
     const sessionID=req.sessionID;
     const shoppingCart = new ShoppingCart(sessionID);
     logger.debug("shopping cart:", await shoppingCart.getCart());
+
     const passengers = await shoppingCart.getItemFromCart(CART_ITEMKEYS.PASSENGERS);
     logger.debug("passenger details in shopping cart:", passengers);
+
     const confirmedOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.CONFIRMED_OFFER);
     logger.debug("confirmedOffer:", confirmedOffer);
+
     if (confirmedOffer == null) {
         logger.warn("Cannot find requested confirmedOffer in session storage, SessionID: %s", sessionID)
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Cannot find offer",req.body);
         return;
     }
+
     if (confirmedOffer.offerId !== confirmedOfferId) {
         logger.warn("Requested offerId was found in session storage but its offerId(%s) does not match with requested confirmedOfferId(%s)", confirmedOffer.offerId, confirmedOfferId, confirmedOffer)
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Invalid offer retrieved",req.body);
         return;
     }
-    await storeConfirmedOffer(confirmedOffer,passengers);
+
     const {
-        public: amount,
+        public: publicPrice,
         currency
     } = confirmedOffer.offer.price;
+
+    // @todo Use the Simard for fetching rate
+    const {
+        rate,
+        amount
+    } = await convertCurrencyToUSD(currency, publicPrice);
+
+    await storeConfirmedOffer(
+        confirmedOffer,
+        passengers,
+        {
+            originalAmount: publicPrice,
+            originalCurrency: currency,
+            exchangeRate: rate,
+            amount
+        }
+    );
+
     return {
         offer: confirmedOffer,
-        amount: await convertCurrencyToUSD(currency, amount)
+        amount
     };
 };
 

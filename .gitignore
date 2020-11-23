@@ -28,15 +28,15 @@ logs/*
 package-lock.json
 yarn.json
 
-.now
 /.env
 /.env.build
 /.secrets
 /.idea/
 **.env
 
-.now
 /glider-ota-fresh.iml
 /storybook-static
 /profiles/active/*.json
 .vercel
+
+.vscode

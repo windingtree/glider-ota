@@ -7,7 +7,10 @@ const {
     createCryptoDeposit,
     createCryptoGuarantee
 } = require('../_lib/simard-api');
-const { CRYPTO_CONFIG } = require('../_lib/config');
+const {
+    GLIDER_CONFIG,
+    CRYPTO_CONFIG
+} = require('../_lib/config');
 const {
     updateOrderStatus,
     updatePaymentStatus,
@@ -15,6 +18,10 @@ const {
     ORDER_STATUSES,
     PAYMENT_STATUSES
 } = require('../_lib/mongo-dao');
+const {
+    PaymentManagerContract,
+    addresses: { PaymentManager: PAYMENT_MANAGER }
+} = require('@windingtree/payment-manager');
 const logger = createLogger('/crypto');
 
 const cancelPaymentAndUpdatePaymentStatus = async (confirmedOfferId, tx, errorMessage) => {
@@ -26,7 +33,7 @@ const cancelPaymentAndUpdatePaymentStatus = async (confirmedOfferId, tx, errorMe
             confirmedOfferId,
             PAYMENT_STATUSES.CANCELLED,
             {
-                transactionHash: tx.hash
+                tx
             },
             errorMessage,
             {}
@@ -37,7 +44,7 @@ const cancelPaymentAndUpdatePaymentStatus = async (confirmedOfferId, tx, errorMe
             confirmedOfferId,
             PAYMENT_STATUSES.UNKNOWN,
             {
-                transactionHash: tx.hash
+                tx
             },
             'Payment cancellation failed due to error',
             error && error.message ? error : 'Unknown error'
@@ -162,7 +169,14 @@ const fulfillOrder = async (confirmedOfferId, tx) => {
     return confirmation;
 };
 
-const processCryptoOrder = async (confirmedOfferId, tx) => {
+const processCryptoOrder = async (
+    confirmedOfferId,
+    {
+        tx,
+        receipt,
+        payment
+    }
+) => {
     logger.debug(`Update payment status, status:%s, confirmedOfferId:%s, transactionHash`, PAYMENT_STATUSES.PAID, confirmedOfferId, tx.hash);
 
     // Update the Payment Status in DB
@@ -170,10 +184,12 @@ const processCryptoOrder = async (confirmedOfferId, tx) => {
         confirmedOfferId,// offerId
         PAYMENT_STATUSES.PAID, // payment_status
         {// payment_details
-            tx
+            tx,
+            receipt,
+            payment
         },
         `Crypto payment`,// comment
-        tx// transaction_details
+        receipt// transaction_details
     );
 
     let confirmation;
@@ -205,12 +221,101 @@ const processCryptoOrder = async (confirmedOfferId, tx) => {
     return confirmation;
 };
 
+const toAddress = address => String(address).toLowerCase();
+
+const validatePaymentTransaction = async (confirmedOfferId, transactionHash) => {
+    const document = await findConfirmedOffer(confirmedOfferId);
+
+    if (!document) {
+        logger.error(`Offer not found, confirmedOfferId=${confirmedOfferId}`);
+        throw new Error(`Could not find offer ${confirmedOfferId} in the database`);
+    }
+
+    const web3 = new Web3(CRYPTO_CONFIG.INFURA_ENDPOINT);
+
+    const tx = await web3.eth.getTransaction(transactionHash);
+    logger.info('Transaction:', tx);
+
+    const pmAddress = toAddress(PAYMENT_MANAGER[CRYPTO_CONFIG.DEFAULT_NETWORK]);
+
+    if (toAddress(tx.to) !== pmAddress) {
+        logger.error(`Unknown PaymentManager`, tx.to);
+        throw new Error(`Unknown PaymentManager ${tx.to}`);
+    }
+
+    const receipt = await web3.eth.getTransactionReceipt(transactionHash);
+    logger.info('TransactionReceipt:', receipt);
+
+    const paidEventInputs = PaymentManagerContract.abi
+        .filter(e => e.type === 'event' && e.name === 'Paid')[0].inputs;
+    const paidEventTopic = web3.utils.soliditySha3(
+        `Paid(${paidEventInputs.map(i => i.type).join(',')})`
+    );
+    const event = receipt.logs.filter(
+        e => (
+            toAddress(e.address) === pmAddress &&
+            e.topics.includes(paidEventTopic)
+        )
+    )[0];
+
+    if (!event) {
+        logger.error(`Could not find "Paid" event in the transaction`, receipt);
+        throw new Error(`Could not find "Paid" event in the transaction ${transactionHash}`);
+    }
+
+    const decodedEvent = web3.eth.abi.decodeLog(
+        paidEventInputs,
+        event.data,
+        event.topics
+    );
+    const pm = new web3.eth.Contract(PaymentManagerContract.abi, pmAddress);
+    const payment = await pm.methods.payments(decodedEvent.index).call();
+
+    if (toAddress(payment.merchant) !== toAddress(GLIDER_CONFIG.ORGID)) {
+        logger.error(`Payment has wrong merchant`, payment.merchant);
+        throw new Error(`Payment has wrong merchant ${payment.merchant}`);
+    }
+
+    if (payment.attachment !== confirmedOfferId) {
+        logger.error(`Payment has wrong confirmed offerId`, payment.attachment);
+        throw new Error(`Payment has wrong confirmed offerId ${payment.attachment}`);
+    }
+
+    const {
+        currency
+    } = document.confirmedOffer.offer.price;
+    const exchangeQuote = document.exchangeQuote;
+
+    if (String(currency).toLowerCase() !== 'usd' && !exchangeQuote) {
+        logger.error(`The offer not enabled for payment with crypto`, confirmedOfferId);
+        throw new Error(`The offer not enabled for payment with crypto ${confirmedOfferId}`);
+    } else if (exchangeQuote) {
+        const amount = web3.utils.fromWei(payment.amountOut, 'picoether');// USDC uses picoether: 1000000
+
+        if (String(amount) !== String(exchangeQuote.amount)) {
+            logger.error(`Payment amount has a wrong value`, payment.amountOut);
+            throw new Error(`Payment amount has a wrong value ${payment.amountOut}`);
+        }
+    }
+
+    return {
+        tx,
+        receipt,
+        payment
+    };
+};
+
 const cryptoOrderController = async (request, response) => {
     const {
         confirmedOfferId,
         transactionHash
     } = request.body;
-    const web3 = new Web3(CRYPTO_CONFIG.INFURA_ENDPOINT);
+
+    const {
+        tx,
+        receipt,
+        payment
+    } = await validatePaymentTransaction(confirmedOfferId, transactionHash);
 
     // Send error response
     const sendErrorResponseAndFinish = (code, message) => {
@@ -229,10 +334,14 @@ const cryptoOrderController = async (request, response) => {
     }
 
     try {
-        const tx = await web3.eth.getTransaction(transactionHash);
-        logger.info('Transaction:', tx);
-
-        const confirmation = await processCryptoOrder(confirmedOfferId, tx);
+        const confirmation = await processCryptoOrder(
+            confirmedOfferId,
+            {
+                tx,
+                receipt,
+                payment
+            }
+        );
         logger.info('Confirmation:', confirmation)
 
         sendSuccessResponseAndFinish({
