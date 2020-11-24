@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {Col, Container, Row} from 'react-bootstrap'
 import style from './lookup-list.module.scss'
 import PropTypes from 'prop-types'
 
 export default function LookupList({locations=[], onLocationSelected}){
-    const [highlightedIndex, setHighlightedIndex] = useState(-1);
+    const [highlightedIndex, setHighlightedIndex] = useState(0);
     // const [selectedIndex, setSelectedIndex] = useState(-1);
 
     const onArrowUpKeyPressed = () => {
@@ -58,6 +58,7 @@ export default function LookupList({locations=[], onLocationSelected}){
                 onEnterKeyPressed();
             if(event.keyCode === 9)
                 onTabKeyPressed();
+            // console.log('Key event,keyCode:',event.keyCode, 'Event:',event)
         };
         window.addEventListener('keydown', onKeyDown);
         return () => {
