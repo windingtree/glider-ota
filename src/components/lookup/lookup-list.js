@@ -38,7 +38,7 @@ export default function LookupList({locations=[], onLocationSelected}){
                 <Col xs={9}  className={style.primaryText}>
                     {rec.indent===true?(<span className={style.indent}></span>):('')}
                     {rec.icon?(<span className={`icon${rec.icon}`}></span>):('')}
-                    {rec.primary}
+                    <span className={style.primaryTextSpan}>{rec.primary}</span>
                     <span className={style.secondaryText}>{rec.secondary}</span>
                 </Col>
                 <Col xs={3} className={style.codeText}>{rec.code}</Col>
