@@ -78,7 +78,6 @@ function getRawBodyFromRequest(request) {
     });
 }
 
-
 /**
  * Quickly check an Axios response from a Hotel search query.
  * See if response contains data property, and check that key properties are defined.
@@ -101,7 +100,6 @@ function dirtyAggregatorResponseValidator(response) {
     }
     return true
 }
-
 /**
  * Combines 2 Axios responses from Hotel search queries. Only combine if both
  * responses are potentially populated with data.
@@ -115,7 +113,7 @@ function mergeAggregatorResponse(response1, response2) {
     const isValidResponse1 = dirtyAggregatorResponseValidator(response1)
     const isValidResponse2 = dirtyAggregatorResponseValidator(response2)
     if (!isValidResponse1 && !isValidResponse2) {
-      throw new Error('No valid responses.')
+      throw new Error('No valid responses.');
     }
     if (!isValidResponse1) return response2
     if (!isValidResponse2) return response1
@@ -127,6 +125,5 @@ function mergeAggregatorResponse(response1, response2) {
     })
     return response
 }
-
 
 module.exports={ERRORS,createErrorResponse,mergeAggregatorResponse,sendErrorResponse,getRawBodyFromRequest, GliderError}
