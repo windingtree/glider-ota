@@ -79,18 +79,32 @@ export default function HotelDetails({hotel, searchResults}) {
 
 
     const payButtonClick = () => {
-        let results = storePassengerDetails(passengerDetails);
-        results.then((response) => {
-            console.debug("Successfully saved pax details", response);
-            redirectToPayment();
-        }).catch(err => {
-            console.error("Failed to store passenger details", err);
-            //TODO - add proper error handling (show user a message)
-        })
+        storePassengerDetails(passengerDetails)
+            .then((response) => {
+                console.debug("Successfully saved pax details", response);
+                redirectToPayment();
+            }).catch(err => {
+                console.error("Failed to store passenger details", err);
+                //TODO - add proper error handling (show user a message)
+            });
+    }
+
+    function onProceedCryptoButtonClick(){
+        storePassengerDetails(passengerDetails)
+            .then(response => {
+                console.debug("Successfully saved pax details", response);
+                let url=`/crypto/${selectedOffer.offerId}`;
+                history.push(url, { passengers: passengerDetails });
+            })
+            .catch(err => {
+                console.error("Failed to store passenger details", err);
+                //TODO - add proper error handling (show user a message)
+            });
     }
 
     function initializePassengerForm(searchResults){
         let passengers = [];
+        console.log('searchResults', searchResults);
         Object.keys(searchResults.passengers).forEach(paxId=>{
             let pax = searchResults.passengers[paxId]
             passengers.push({
@@ -147,7 +161,14 @@ export default function HotelDetails({hotel, searchResults}) {
                                 <PaxDetails onDataChange={handleContactDetailsChange} passengers={passengers}/>
                         </div>
                         {selectedOffer!==undefined && (
-                            <TotalPriceButton price={selectedOffer.price} onProceedClicked={payButtonClick} disabled={!passengerDetailsValid}/>
+                            <TotalPriceButton
+                                forPayment={true}
+                                price={selectedOffer.price}
+                                proceedButtonTitle="Pay with Card"
+                                onProceedClicked={payButtonClick}
+                                onProceedCryptoClicked={onProceedCryptoButtonClick}
+                                disabled={!passengerDetailsValid}
+                            />
                         )}
                     </Col>
                 </Row>

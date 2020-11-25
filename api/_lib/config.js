@@ -44,6 +44,7 @@ const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL') || `https://${activeProfil
 const SIMARD_CONFIG =
     {
         SIMARD_TOKEN: getConfigKey('SIMARD_JWT'),
+        DEPOSITS_URL: SIMARD_BASEURL + "/balances/deposits",
         GUARANTEES_URL: SIMARD_BASEURL + "/balances/guarantees",
         CREATE_WITH_OFFER_URL: SIMARD_BASEURL + "/orders/createWithOffer",
         SIMULATE_DEPOSIT_URL: SIMARD_BASEURL + "/balances/simulateDeposit",
@@ -91,6 +92,11 @@ const SENDGRID_CONFIG =
         TEMPLATE_ID: getConfigKey('SENDGRID_TEMPLATE_ID') || 'd-199fb2f410334d1296b0176e0435c4a7',
     };
 
+const CRYPTO_CONFIG = {
+    DEFAULT_NETWORK: getConfigKey('DEFAULT_NETWORK'),
+    INFURA_ENDPOINT: getConfigKey('INFURA_ENDPOINT'),
+    EXCHANGE_RATE_KEY: getConfigKey('CURRENCY_EXCHANGE_RATE')
+};
 
 module.exports = {
     GLIDER_CONFIG,
@@ -101,7 +107,8 @@ module.exports = {
     ELASTIC_CONFIG,
     ORGID,
     GENERIC_CONFIG,
-    SENDGRID_CONFIG
+    SENDGRID_CONFIG,
+    CRYPTO_CONFIG
 };
 
 

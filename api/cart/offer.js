@@ -15,6 +15,7 @@ const shoppingCartController = async (req, res) => {
         let offer = req.body.offer;
         // if(!validateOffer(res,offer))
         //     return;
+
         await shoppingCart.addItemToCart(cartItemKey,offer,0);
         res.json({result:"OK"})
     }

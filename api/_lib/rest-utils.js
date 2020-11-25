@@ -113,7 +113,7 @@ function mergeAggregatorResponse(response1, response2) {
     const isValidResponse1 = dirtyAggregatorResponseValidator(response1)
     const isValidResponse2 = dirtyAggregatorResponseValidator(response2)
     if (!isValidResponse1 && !isValidResponse2) {
-        throw new Error('No valid responses.')
+      throw new Error('No valid responses.');
     }
     if (!isValidResponse1) return response2
     if (!isValidResponse2) return response1

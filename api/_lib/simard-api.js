@@ -41,6 +41,64 @@ function createGuarantee(amount, currency) {
     });
 }
 
+const createCryptoDeposit = transactionHash => new Promise((resolve, reject) => {
+    logger.debug('Creating deposit for crypto payment made with transaction %s', transactionHash);
+    const request = {
+        instrument: 'blockchain',
+        chain: 'ethereum',
+        transactionHash
+    };
+    axios({
+        method: 'post',
+        url: SIMARD_CONFIG.DEPOSITS_URL,
+        data: request,
+        headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+    })
+
+    .then(response => {
+        logger.debug("Deposit created",response.data);
+        resolve(response.data);
+    })
+
+    .catch(error => {
+        logger.error("Deposit creation failed", error);
+        reject(error);
+    });
+});
+
+const createCryptoGuarantee = (amount, currency, transactionHash) => new Promise((resolve, reject) => {
+    logger.debug("Creating guarantee for %s %s",amount,currency);
+    const depositExpiration = addDays(new Date(), SIMARD_CONFIG.DEPOSIT_EXPIRY_DAYS)
+    const request = {
+        currency,
+        amount,
+        creditorOrgId: GLIDER_CONFIG.ORGID,
+        expiration: depositExpiration.toISOString(),
+        funding: {
+            type: 'blockchain',
+            chain: 'ethereum',
+            transactionHash
+        }
+    };
+    axios({
+        method: 'post',
+        url: SIMARD_CONFIG.GUARANTEES_URL,
+        data: request,
+        headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+    })
+
+    .then(response => {
+        logger.debug("Guarantee created",response.data);
+        resolve(response.data);
+    })
+
+    .catch(error => {
+        logger.error("Guarantee creation failed", error);
+        reject(error);
+    });
+
+});
+
 // Simulate a deposit - TEST ONLY
 function simulateDeposit(amount, currency) {
     return new Promise(function(resolve, reject) {
@@ -65,7 +123,6 @@ function simulateDeposit(amount, currency) {
             logger.error("Guarantee creation failed", error);
             reject(error);
         });
-        
     });
 }
 
@@ -82,6 +139,9 @@ function createHeaders(token) {
 
 
 module.exports = {
-   createGuarantee,simulateDeposit
+    createCryptoDeposit,
+    createGuarantee,
+    createCryptoGuarantee,
+    simulateDeposit
 }
 

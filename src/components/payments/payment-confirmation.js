@@ -4,6 +4,11 @@ import Spinner from "../common/spinner";
 import {getOrderStatus} from "../../utils/api-utils";
 import './payment-confirmation.scss';
 import Alert from 'react-bootstrap/Alert';
+import {
+    DEFAULT_NETWORK
+} from '../../config/default';
+import { strCenterEllipsis } from '../../utils/strings';
+
 
 
 const CONFIRMATION_STATUS={
@@ -185,11 +190,25 @@ export default function PaymentConfirmation({orderID}) {
                 break;
             case 'PAID':
                 iconStatus = 'success';
-                if(order.payment_details) {
+                if (order.payment_details && !order.payment_details.tx) {
                     const {card, receipt, status} = order.payment_details;
                     message = (
                         <small>
                             Your {card.brand} card **{card.last4} is {status.type}. <a href={receipt.url} target='_blank' rel="noopener noreferrer">(Receipt)</a>
+                        </small>
+                    );
+                } else if (order.payment_details && order.payment_details.tx) {
+                    const {
+                        hash
+                    } = order.payment_details.tx;
+                    message = (
+                        <small>
+                            Payment made with crypto transaction:&nbsp;
+                            <a
+                                href={`https://${DEFAULT_NETWORK}.etherscan.io/tx/${hash}`}
+                                target='_blanc'
+                                rel="noreferrer noopener"
+                            >{strCenterEllipsis(hash)}</a>
                         </small>
                     );
                 }
