@@ -42,7 +42,7 @@ global(.locationLookupPopover){
     max-width: 480px;
 }
 
-global(.bs-popover-bottom > .arrow){
+.bs-popover-bottom > .arrow{
     display: none !important;
 }
 

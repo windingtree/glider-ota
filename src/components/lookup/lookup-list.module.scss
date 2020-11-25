@@ -3,6 +3,7 @@
 .list {
   background-color: white;
   //border: 1px solid blue;
+  min-width: 400px;
 }
 
 .row {
@@ -11,6 +12,7 @@
   padding-top: 15px;
   padding-bottom: 15px;
   cursor: pointer;
+
 }
 
 .row:hover {
