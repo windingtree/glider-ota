@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const ERRORS={
     REQUEST_TIMEOUT:500,
     INVALID_METHOD:'INVALID_METHOD',
@@ -76,5 +78,52 @@ function getRawBodyFromRequest(request) {
     });
 }
 
+/**
+ * Quickly check an Axios response from a Hotel search query.
+ * See if response contains data property, and check that key properties are defined.
+ *
+ * @param response
+ *
+ * @returns {boolean} True is all is OK. False if something is missing.
+ */
+function dirtyAggregatorResponseValidator(response) {
+    if (!response || !response.data) {
+        return false
+    }
+    const data = response.data
+    if (
+        !data.pricePlans ||
+        !data.offers ||
+        !data.passengers
+    ) {
+        return false
+    }
+    return true
+}
+/**
+ * Combines 2 Axios responses from Hotel search queries. Only combine if both
+ * responses are potentially populated with data.
+ *
+ * @param response1
+ * @param response2
+ *
+ * @returns {response} The merged response.
+ */
+function mergeAggregatorResponse(response1, response2) {
+    const isValidResponse1 = dirtyAggregatorResponseValidator(response1)
+    const isValidResponse2 = dirtyAggregatorResponseValidator(response2)
+    if (!isValidResponse1 && !isValidResponse2) {
+        throw new Error('No valid responses.')
+    }
+    if (!isValidResponse1) return response2
+    if (!isValidResponse2) return response1
+    const propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers', 'itineraries']
+    let response = { data: {} }
+    propsToMerge.forEach((prop) => {
+        response.data[prop] = {}
+        _.merge(response.data[prop], response1.data[prop], response2.data[prop])
+    })
+    return response
+}
 
-module.exports={ERRORS,createErrorResponse,sendErrorResponse,getRawBodyFromRequest, GliderError}
+module.exports={ERRORS,createErrorResponse,mergeAggregatorResponse,sendErrorResponse,getRawBodyFromRequest, GliderError}
