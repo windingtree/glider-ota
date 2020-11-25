@@ -51,9 +51,7 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
         return (
             <Row>
                 <Alert variant='warning' className={style.passengerWarning}>
-                    We are sorry, we do not support bookings with infants right now!
-                    We invite you to make a booking without infants and then
-                    call the Air Canada service center to add the infant ticket.
+                    We are sorry, we do not support flight bookings with infants online right now!
                 </Alert>
             </Row>
         );

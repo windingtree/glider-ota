@@ -124,19 +124,16 @@ const SearchFailed = () => {
 
 const WarningNoResults = () => {
      return (
-        <Alert variant="warning">
+        <Alert variant="warning"  className={'pt-2'}>
         <Alert.Heading>
             Sorry, we could not find any flights
             <span role='img' aria-label='sorry'> 😢</span>
         </Alert.Heading>
         <p>
-            Glider has been launched with our amazing partner <b><a href='https://aircanada.com' target="_blank" rel="noreferrer noopener">Air Canada</a></b>,
-            so for now we have only results flying to, from or over Canada 🇨🇦! Why not going there?
+            There may be no flights available for the requested origin, destination and travel dates.<br/>
         </p>
-        <hr />
         <p className="mb-0">
-            We are working with other partners, and more options will quickly
-            become available, stay tuned! <span role='img' aria-label='wink'>😉</span>
+            We are working hard to integrate with other partners, and more options will quickly become available, stay tuned!
         </p>
         </Alert>
      );
