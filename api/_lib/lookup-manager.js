@@ -40,8 +40,10 @@ const Airports = mongoose.model('airports', mongoose.Schema({
     airport_iata_code: String,
     type: String,
     country_name: String,
-    timezone: String
-}), 'airports');
+    timezone: String,
+    pagerank: Number,
+    belongs_to_metropolitan:{type: Boolean, default: false}
+}), 'airportscurated');
 
 
 const isQueryLongerOrEqualThan = (query, length) => {
@@ -73,14 +75,14 @@ const searchAirports = async (query, orderBy) => {
 const printResults = (message, airports) => {
     console.log(message)
     airports.forEach(airport=>{
-        console.log(`\t${airport.airport_name} [iata=${airport.airport_iata_code} city=${airport.city_code} type=${airport.type}] [${airport.weight}]`)
+        console.log(`\t${airport.airport_name} [iata=${airport.airport_iata_code} city=${airport.city_code} type=${airport.type}] [W:${airport.weight}] [W:${airport.weight}] [RANK:${airport.pagerank}]`)
     })
 }
 
 const searchByExactAirportCode = async (airportCode) => {
     if (!isQueryLongerOrEqualThan(airportCode, SEARCH_CONFIG.BY_AIRPORT_CODE.MIN_QUERY_LENGTH))
         return [];
-    let results = await searchAirports({'airport_iata_code': {'$regex': `^${airportCode}`, '$options': 'i'}});
+    let results = await searchAirports({'airport_iata_code': {'$regex': `^${airportCode}`, '$options': 'i'}},{pagerank:-1,city_name:1 });
     results = decorateRecordWithWeight(results, SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
     printResults(`searchByExactAirportCode(${airportCode})==>${results.length}`, results);
     return results;
@@ -88,7 +90,7 @@ const searchByExactAirportCode = async (airportCode) => {
 const searchByCityName = async (cityName) => {
     if (!isQueryLongerOrEqualThan(cityName, SEARCH_CONFIG.BY_CITY_NAME.MIN_QUERY_LENGTH))
         return [];
-    let results = await searchAirports({'city_name': {'$regex': `^${cityName}`, '$options': 'i'}});
+    let results = await searchAirports({'city_name': {'$regex': `^${cityName}`, '$options': 'i'}},{pagerank:-1,city_name:1 });
     results = decorateRecordWithWeight(results, SEARCH_CONFIG.BY_CITY_NAME.WEIGHT);
     printResults(`searchByCityName(${cityName})==>${results.length}`, results);
     return results;
@@ -96,7 +98,7 @@ const searchByCityName = async (cityName) => {
 const searchByCityCode = async (cityCode) => {
     if (!isQueryLongerOrEqualThan(cityCode, SEARCH_CONFIG.BY_CITY_CODE.MIN_QUERY_LENGTH))
         return [];
-    let results = await searchAirports({'city_code': {'$regex': `^${cityCode}`, '$options': 'i'}});
+    let results = await searchAirports({'city_code': {'$regex': `^${cityCode}`, '$options': 'i'}},{pagerank:-1,city_name:1 });
     results =  decorateRecordWithWeight(results, SEARCH_CONFIG.BY_CITY_CODE.WEIGHT);
     printResults(`searchByCityCode(${cityCode})==>${results.length}`, results);
     return results;
@@ -105,11 +107,53 @@ const searchByCityCode = async (cityCode) => {
 const searchByAirportName = async (airportName) => {
     if (!isQueryLongerOrEqualThan(airportName, SEARCH_CONFIG.BY_AIRPORT_NAME.MIN_QUERY_LENGTH))
         return [];
-    let results = await searchAirports({'airport_name': {'$regex': `^${airportName}`, '$options': 'i'}});
+    let results = await searchAirports({'airport_name': {'$regex': `^${airportName}`, '$options': 'i'}},{pagerank:-1,city_name:1 });
     results =  decorateRecordWithWeight(results, SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
     printResults(`searchByAirportName(${airportName})==>${results.length}`, results);
     return results;
 }
+
+const multipleComparators = (comparators) =>{
+    const compare=(A,B)=>{
+        for(let comparator of comparators){
+            let result = comparator(A,B);
+            if(result != 0)
+                return result;
+        }
+        return 0;
+    }
+    return compare;
+}
+const byPageRankComparator = (A, B) => {
+    let rankA=Number(A.pagerank);
+    let rankB=Number(B.pagerank);
+    if(isNaN(rankA))
+        rankA=0;
+    if(isNaN(rankB))
+        rankB=0;
+    return rankB-rankA;
+}
+
+
+const byWeightComparator = (A, B) => {
+    let weightA = A.weight || 0;
+    let weightB = B.weight || 0;
+    return weightB - weightA;
+}
+const byTypeComparator = (A, B) => {
+    let typeA=A.type || 'AIRPORT';
+    let typeB=B.type || 'AIRPORT';
+    if(typeA !== typeB){
+        return typeB.localeCompare(typeA)
+    }
+}
+const byAirportNameComparator = (A, B) => {
+    let nameA = A.airport_name || '';
+    let nameB = B.airport_name || '';
+    return nameA.localeCompare(nameB)
+}
+
+
 
 const sortResults = (results) => {
     const comparator = (A, B) => {
@@ -136,10 +180,15 @@ const removeDupes = (airports) => {
     return uniques;
 }
 const findAllAirportsOfCity = async (cityCode) => {
-    let results = await searchAirports({'city_code': cityCode});
+    let results = await searchAirports({type:'AIRPORT',city_code: cityCode}, {pagerank:-1,city_name:1 });
     return results;
 }
-
+const getMetropolitanArea = async (cityCode) => {
+    let results = await searchAirports({type:'METROPOLITAN',city_code: cityCode});
+    if(results && results.length>0)
+        return results[0];
+    return undefined;
+}
 
 // { "city_name" : "New York", "city_code" : "NYC", "country_code" : "US", "airport_name" : "Newark Liberty Intl", "airport_iata_code" : "EWR", "type" : "AIRPORT", "country_name" : "United States", "timezone" : "America/New_York" }
 // { "city_name" : "New York", "city_code" : "NYC", "country_code" : "US", "airport_name" : "Stewart International", "airport_iata_code" : "SWF", "type" : "AIRPORT", "country_name" : "United States", "timezone" : "America/New_York" }
@@ -154,6 +203,7 @@ const airportLookup = async (name) => {
         return [];
     }
 
+    //this should be optimized to avoid multiple calls - use one or two queries instead
     const promises = [
         searchByExactAirportCode(name),
         searchByCityCode(name),
@@ -166,38 +216,41 @@ const airportLookup = async (name) => {
             records.push(airport)
         })
     })
-    records = sortResults(records);
+
+    records = records.sort(multipleComparators([byPageRankComparator]));
+
     records = removeDupes(records);
-    const MAX_LEN = 20;
+    const MAX_LEN = 5;
     if (records.length > MAX_LEN) {
         records = records.splice(0, MAX_LEN)
     }
-    const finalResults = [];
-    const airportCodesFound = {};
-
+    let finalResults = [];
 
     //check if we have metro area - if so, find airports that belong to that city
     for (let airport of records) {
-
-        let iataCode = airport.airport_iata_code;
-        if (!iataCode in airportCodesFound) {
-            //code was not yet earlier - add that to results
-            airportCodesFound[iataCode] = 1;
-            finalResults.push(airport);
-
-            if (airport.type === 'METROPOLITAN') {
-                let airports = await findAllAirportsOfCity(airport.city_code);
-                airports = sortResults(airports)
-                finalResults.push(...airports)
-                airports.forEach(rec => {
-                    airportCodesFound[rec.airport_iata_code] = 1;
-                })
+        let {city_code, airport_name, airport_iata_code, type, belongs_to_metropolitan} = airport
+            if (type === 'AIRPORT')
+            {
+                if(belongs_to_metropolitan) {   //if airport belongs to metro, find metro and all cities that belong to it, add to results
+                    let metro = await getMetropolitanArea(city_code);
+                    if (metro) {
+                        finalResults.push(metro)
+                        let airports = await findAllAirportsOfCity(metro.city_code);
+                        finalResults.push(...airports)
+                    }
+                }else {
+                    //city does not belong to metro
+                    finalResults.push(airport)
+                }
             }
-        }
-
+            if (type === 'METROPOLITAN') {  //it's metro area - add all cities that belong to it
+                finalResults.push(airport)
+                let airports = await findAllAirportsOfCity(city_code);
+                finalResults.push(...airports)
+            }
     }
-
-    return records;
+    finalResults = removeDupes(finalResults);
+    return finalResults;
 }
 
 module.exports = {
