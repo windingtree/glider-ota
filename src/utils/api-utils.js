@@ -126,8 +126,6 @@ export async function getOrderStatus(confirmedOfferId){
   return fetchPost('/api/order/status',{offerId:confirmedOfferId});
 }
 
-
-
 export function executionTimeCheck(taskName, callback) {
   let start = Date.now();
   try {

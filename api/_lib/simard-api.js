@@ -41,12 +41,13 @@ function createGuarantee(amount, currency) {
     });
 }
 
-const createCryptoDeposit = transactionHash => new Promise((resolve, reject) => {
+const createCryptoDeposit = (transactionHash, quoteId) => new Promise((resolve, reject) => {
     logger.debug('Creating deposit for crypto payment made with transaction %s', transactionHash);
     const request = {
         instrument: 'blockchain',
         chain: 'ethereum',
-        transactionHash
+        transactionHash,
+        quoteId
     };
     axios({
         method: 'post',
@@ -136,9 +137,25 @@ function createHeaders(token) {
     }
 }
 
+const createQuote = async (sourceCurrency, targetCurrency, targetAmount) => {
+    const quoteUrl = SIMARD_CONFIG.QUOTE_URL;
+    const response = await axios({
+        method: 'post',
+        url: quoteUrl,
+        data: {
+            sourceCurrency,
+            targetCurrency,
+            targetAmount
+        },
+        headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+    });
+    return response.data;
+};
+
 
 
 module.exports = {
+    createQuote,
     createCryptoDeposit,
     createGuarantee,
     createCryptoGuarantee,
