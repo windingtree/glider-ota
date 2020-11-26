@@ -41,14 +41,14 @@ export class HotelSearchResultsFilterHelper {
     getCheapestHotelOffer(accommodationId, offers) {
         let minPrice = Number.MAX_SAFE_INTEGER;
         let minOffer = undefined;
-
         Object.keys(offers).forEach(offerId => {
             let offer = offers[offerId];
-            if (parseInt(offer.price.public) < minPrice)
+            if (parseInt(offer.price.public) < minPrice){
+                minPrice = offer.price.public;
                 minOffer = offer;
+            }
         })
         return minOffer;
-
     }
 
     applyOfferFilters(offers, filters) {
