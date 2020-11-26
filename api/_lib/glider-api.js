@@ -200,12 +200,10 @@ function createFulfilmentRequest(orderItems, passengers, guaranteeId) {
     }
 }
 
-
 module.exports = {
     createWithOffer,
     searchOffers,
     fulfill,
     reprice,
     seatmap,
-}
-
+};

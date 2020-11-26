@@ -1,5 +1,10 @@
 const axios = require('axios').default;
-const {createPaymentIntent, convertPriceToMinorUnits,convertPriceToMajorUnits,PAYMENT_TYPES} = require('../_lib/stripe-api');
+const {
+    createPaymentIntent,
+    convertPriceToMinorUnits,
+    convertPriceToMajorUnits,
+    PAYMENT_TYPES
+} = require('../_lib/stripe-api');
 const {createLogger} = require('../_lib/logger')
 const {ShoppingCart,CART_ITEMKEYS} = require('../_lib/shopping-cart');
 const {decorate} = require('../_lib/decorators');
@@ -7,7 +12,9 @@ const {storeConfirmedOffer} = require('../_lib/mongo-dao');
 const logger = createLogger('/checkout')
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const {validateCheckoutPayload} = require('../_lib/validators')
-const { CRYPTO_CONFIG } = require('../_lib/config');
+const {
+    createQuote
+} = require('../_lib/simard-api');
 
 const checkoutCard = async (req, res) => {
     let payload = req.body;
@@ -45,17 +52,15 @@ const checkoutCard = async (req, res) => {
 };
 
 const convertCurrencyToUSD = async (currency, amount) => {
-    if (currency === 'USD' || currency === 'usd') {
-        return amount;
-    }
-    const response = await axios.get(
-        `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currency}&to_currency=USD&apikey=${CRYPTO_CONFIG.EXCHANGE_RATE_KEY}`
-    );
-    const rate = response.data['Realtime Currency Exchange Rate']['9. Ask Price'];
-    return {
-        rate,
-        amount: Number((Number(amount) * Number(rate)).toFixed(2))
-    };
+    // if (currency === 'USD' || currency === 'usd') {
+    //     return amount;
+    // }
+    // const response = await axios.get(
+    //     `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currency}&to_currency=USD&apikey=${CRYPTO_CONFIG.EXCHANGE_RATE_KEY}`
+    // );
+    // const rate = response.data['Realtime Currency Exchange Rate']['9. Ask Price'];
+
+    return createQuote('USD', currency, amount);
 };
 
 const checkoutCrypto = async (req, res) => {
@@ -90,26 +95,32 @@ const checkoutCrypto = async (req, res) => {
         currency
     } = confirmedOffer.offer.price;
 
-    // @todo Use the Simard for fetching rate
     const {
+        quoteId,
         rate,
-        amount
+        sourceAmount,
+        sourceCurrency,
+        targetAmount,
+        targetCurrency
     } = await convertCurrencyToUSD(currency, publicPrice);
+    logger.info(`Quote created: quoteId=${quoteId}; from ${targetAmount}${targetCurrency} to ${sourceAmount}${sourceCurrency} with rate: ${rate}`);
 
     await storeConfirmedOffer(
         confirmedOffer,
         passengers,
         {
-            originalAmount: publicPrice,
-            originalCurrency: currency,
-            exchangeRate: rate,
-            amount
+            quoteId,
+            rate,
+            sourceAmount,
+            sourceCurrency,
+            targetAmount,
+            targetCurrency
         }
     );
 
     return {
         offer: confirmedOffer,
-        amount
+        amount: sourceAmount
     };
 };
 

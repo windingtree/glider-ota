@@ -32,7 +32,7 @@ const GLIDER_CONFIG =
         SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
         REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
         FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
-        ORGID: getConfigKey('GLIDER_ORGID'),
+        ORGID: getConfigKey('GLIDER_ORGID')
     };
 
 const ORGID = {
@@ -50,6 +50,7 @@ const SIMARD_CONFIG =
         SIMULATE_DEPOSIT_URL: SIMARD_BASEURL + "/balances/simulateDeposit",
         ORGID: getConfigKey('SIMARD_ORGID') || "0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171",
         DEPOSIT_EXPIRY_DAYS: 14,
+        QUOTE_URL: `${SIMARD_BASEURL}/quotes`
     };
 
 
@@ -94,8 +95,7 @@ const SENDGRID_CONFIG =
 
 const CRYPTO_CONFIG = {
     DEFAULT_NETWORK: getConfigKey('DEFAULT_NETWORK'),
-    INFURA_ENDPOINT: getConfigKey('INFURA_ENDPOINT'),
-    EXCHANGE_RATE_KEY: getConfigKey('CURRENCY_EXCHANGE_RATE')
+    INFURA_ENDPOINT: getConfigKey('INFURA_ENDPOINT')
 };
 
 module.exports = {

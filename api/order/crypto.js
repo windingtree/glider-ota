@@ -73,7 +73,7 @@ const createPassengers = passengers => {
     return passengersRequest;
 };
 
-const fulfillOrder = async (confirmedOfferId, tx) => {
+const fulfillOrder = async (confirmedOfferId, tx, quoteId) => {
     logger.debug('Starting fulfillment process for confirmedOfferId:%s and transactionHash:%s', confirmedOfferId, tx.hash);
 
     let document = await findConfirmedOffer(confirmedOfferId);
@@ -85,7 +85,7 @@ const fulfillOrder = async (confirmedOfferId, tx) => {
 
     let settlement;
     try {
-        settlement = await createCryptoDeposit(tx.hash);
+        settlement = await createCryptoDeposit(tx.hash, quoteId);
         logger.info('Deposit created, settlement:%s', settlement.settlementId);
     } catch (error) {
         logger.error('Deposit error:%s', error);
@@ -174,10 +174,11 @@ const processCryptoOrder = async (
     {
         tx,
         receipt,
-        payment
+        payment,
+        quoteId
     }
 ) => {
-    logger.debug(`Update payment status, status:%s, confirmedOfferId:%s, transactionHash`, PAYMENT_STATUSES.PAID, confirmedOfferId, tx.hash);
+    logger.debug(`Update payment status, status:%s, confirmedOfferId:%s, transactionHash:%s`, PAYMENT_STATUSES.PAID, confirmedOfferId, tx.hash);
 
     // Update the Payment Status in DB
     await updatePaymentStatus(
@@ -186,7 +187,8 @@ const processCryptoOrder = async (
         {// payment_details
             tx,
             receipt,
-            payment
+            payment,
+            quoteId
         },
         `Crypto payment`,// comment
         receipt// transaction_details
@@ -195,7 +197,7 @@ const processCryptoOrder = async (
     let confirmation;
 
     try {
-        confirmation = await fulfillOrder(confirmedOfferId, tx);
+        confirmation = await fulfillOrder(confirmedOfferId, tx, quoteId);
     } catch (error) {
         logger.error(`Failed to fulfill order:`, error);
         throw error;
@@ -292,7 +294,7 @@ const validatePaymentTransaction = async (confirmedOfferId, transactionHash) => 
     } else if (exchangeQuote) {
         const amount = web3.utils.fromWei(payment.amountOut, 'picoether');// USDC uses picoether: 1000000
 
-        if (String(amount) !== String(exchangeQuote.amount)) {
+        if (String(amount) !== String(exchangeQuote.sourceAmount)) {
             logger.error(`Payment amount has a wrong value`, payment.amountOut);
             throw new Error(`Payment amount has a wrong value ${payment.amountOut}`);
         }
@@ -301,7 +303,8 @@ const validatePaymentTransaction = async (confirmedOfferId, transactionHash) => 
     return {
         tx,
         receipt,
-        payment
+        payment,
+        quoteId: exchangeQuote.quoteId
     };
 };
 
@@ -314,7 +317,8 @@ const cryptoOrderController = async (request, response) => {
     const {
         tx,
         receipt,
-        payment
+        payment,
+        quoteId
     } = await validatePaymentTransaction(confirmedOfferId, transactionHash);
 
     // Send error response
@@ -339,7 +343,8 @@ const cryptoOrderController = async (request, response) => {
             {
                 tx,
                 receipt,
-                payment
+                payment,
+                quoteId
             }
         );
         logger.info('Confirmation:', confirmation)
