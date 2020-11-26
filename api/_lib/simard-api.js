@@ -41,13 +41,13 @@ function createGuarantee(amount, currency) {
     });
 }
 
-const createCryptoDeposit = (transactionHash, quoteId) => new Promise((resolve, reject) => {
+const createCryptoDeposit = (transactionHash, quote) => new Promise((resolve, reject) => {
     logger.debug('Creating deposit for crypto payment made with transaction %s', transactionHash);
     const request = {
         instrument: 'blockchain',
         chain: 'ethereum',
         transactionHash,
-        quoteId
+        quoteId: quote ? quote.quoteId : undefined
     };
     axios({
         method: 'post',
