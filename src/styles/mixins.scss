@@ -35,7 +35,29 @@ mixins re-used in multiple other scripts
   }
 }
 
+@mixin media-max-sm {
+  @media (max-width: $glider-break-sm) {
+    @content;
+  }
+}
 
+@mixin media-max-md {
+  @media (max-width: $glider-break-md) {
+    @content;
+  }
+}
+
+@mixin media-max-lg {
+  @media (max-width: $glider-break-lg) {
+    @content;
+  }
+}
+
+@mixin media-max-xl {
+  @media (max-width: $glider-break-xl) {
+    @content;
+  }
+}
 
 
 //text 12px (regular 150%)
@@ -44,6 +66,22 @@ mixins re-used in multiple other scripts
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
+  line-height: 150%;
+}
+//text 14px (regular 150%)
+@mixin _glider-font-text14 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 150%;
+}
+//text 16px
+@mixin _glider-font-text16 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
   line-height: 150%;
 }
 //caps 12px medium

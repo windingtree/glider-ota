@@ -1,0 +1,166 @@
+[
+    {
+        "isEncrypted": false,
+        "_id": "5faefbdc6b16c08b9e8a63d1",
+        "key": "GLIDER_ORGID",
+        "comment": "",
+        "profile": "staging",
+        "value": "0x94bf5a57b850a35b4d1d7b59f663ce3a8a76fd9928ef2067cc772fc97fb0ad75",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.505Z",
+        "updatedAt": "2020-11-13T21:34:20.505Z"
+    },
+    {
+        "isEncrypted": false,
+        "_id": "5faefbdc6b16c08b9e8a63d3",
+        "key": "SENDGRID_FROM_EMAIL_ADDR",
+        "comment": "",
+        "profile": "staging",
+        "value": "noreply@em5199.glider.travel",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.506Z",
+        "updatedAt": "2020-11-13T21:34:20.506Z"
+    },
+    {
+        "isEncrypted": false,
+        "_id": "5faefbdc6b16c08b9e8a63d5",
+        "key": "ENABLE_ROOMS_SEARCH",
+        "comment": "",
+        "profile": "staging",
+        "value": "yes",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.506Z",
+        "updatedAt": "2020-11-13T21:34:20.506Z"
+    },
+    {
+        "isEncrypted": false,
+        "_id": "5faefbdc6b16c08b9e8a63d7",
+        "key": "ROOMS_SEARCH_OFFERS_URL",
+        "comment": "",
+        "profile": "staging",
+        "value": "https://staging.rooms.windingtree.com/api/v1/offers/search",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.507Z",
+        "updatedAt": "2020-11-13T21:34:20.507Z"
+    },
+    {
+        "isEncrypted": false,
+        "_id": "5faefbdc6b16c08b9e8a63d9",
+        "key": "GLIDER_BASEURL",
+        "comment": "",
+        "profile": "staging",
+        "value": "https://staging.b2b.glider.travel/api/v1",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.507Z",
+        "updatedAt": "2020-11-13T21:34:20.507Z"
+    },
+    {
+        "isEncrypted": true,
+        "_id": "5faefbdc6b16c08b9e8a63db",
+        "key": "ELASTIC_URL",
+        "comment": "",
+        "profile": "staging",
+        "value": "b9bc06a9aff39eb86d5faef405f3d5c19a6e9de94052a869887334bdaecb90c8507caebec088b436391bd6540c4a629c020e21ff656e691d4fc4f1dbcdc4517e7a36549d33ebfb01ae2f9a6ee656a41295c7c5f8f8aa",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.507Z",
+        "updatedAt": "2020-11-13T21:34:20.507Z"
+    },
+    {
+        "isEncrypted": false,
+        "_id": "5faefbdc6b16c08b9e8a63dd",
+        "key": "REDIS_HOST",
+        "comment": "",
+        "profile": "staging",
+        "value": "redis-14563.c78.eu-west-1-2.ec2.cloud.redislabs.com",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.508Z",
+        "updatedAt": "2020-11-13T21:34:20.508Z"
+    },
+    {
+        "isEncrypted": true,
+        "_id": "5faefbdc6b16c08b9e8a63df",
+        "key": "REDIS_PASSWORD",
+        "comment": "",
+        "profile": "staging",
+        "value": "b6bc2aad9ba183dd176994e366e3968e8a28f1df6f2edd43887a2484afd59acc",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.508Z",
+        "updatedAt": "2020-11-13T21:34:20.508Z"
+    },
+    {
+        "isEncrypted": false,
+        "_id": "5faefbdc6b16c08b9e8a63e1",
+        "key": "REDIS_PORT",
+        "comment": "",
+        "profile": "staging",
+        "value": "14563",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.508Z",
+        "updatedAt": "2020-11-13T21:34:20.508Z"
+    },
+    {
+        "isEncrypted": true,
+        "_id": "5faefbdc6b16c08b9e8a63e3",
+        "key": "SENDGRID_API_KEY",
+        "comment": "",
+        "profile": "staging",
+        "value": "828f5c8d8cfae8fc11699ed67ab98c949377fe815677f6518d3340a5d9f499e1574fb49cfed1aa1f0939b450134e18de0b734791274e5e5d4b99f7c789f2680a0f6a459969",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.509Z",
+        "updatedAt": "2020-11-13T21:34:20.509Z"
+    },
+    {
+        "isEncrypted": true,
+        "_id": "5faefbdc6b16c08b9e8a63e5",
+        "key": "STRIPE_PUBLISHABLE_KEY",
+        "comment": "",
+        "profile": "staging",
+        "value": "a1a32dadb9bac5c86277aaf05fe0ed9eb76ddeef6a2ba056a97a0ba98db597d0323e8397c0a8b61e253a",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.509Z",
+        "updatedAt": "2020-11-13T21:34:20.509Z"
+    },
+    {
+        "isEncrypted": true,
+        "_id": "5faefbdc6b16c08b9e8a63e7",
+        "key": "STRIPE_SECRET_KEY",
+        "comment": "",
+        "profile": "staging",
+        "value": "a2a32dadb9bac5c85058a7c960cdc7be905fe6f1727aa76bbd251582aac18be2323eacb6fca4b2247919",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.509Z",
+        "updatedAt": "2020-11-13T21:34:20.509Z"
+    },
+    {
+        "isEncrypted": true,
+        "_id": "5faefbdc6b16c08b9e8a63e9",
+        "key": "STRIPE_WEBHOOK_SECRET",
+        "comment": "",
+        "profile": "staging",
+        "value": "a6a001bcbf96d2cf684d85b079c795b0ba5ddff77373a060be2844a0b9b6aff67241a58ec395",
+        "__v": 0,
+        "createdAt": "2020-11-13T21:34:20.509Z",
+        "updatedAt": "2020-11-13T21:34:20.509Z"
+    },
+    {
+        "isEncrypted": false,
+        "_id": "5fbc40f3c17e6706aaff5949",
+        "profile": "staging",
+        "key": "DEFAULT_NETWORK",
+        "value": "ropsten"
+    },
+    {
+        "isEncrypted": false,
+        "_id": "5fbc41a9c17e6706aaff594a",
+        "profile": "staging",
+        "key": "INFURA_ENDPOINT",
+        "value": "https://ropsten.infura.io/v3/7f4515daf11f4719bc7be70a3b286f46"
+    },
+    {
+        "isEncrypted": false,
+        "_id": "5fbc41cdc17e6706aaff594b",
+        "profile": "staging",
+        "key": "CURRENCY_EXCHANGE_RATE",
+        "value": "J6XILAD6P0PWU7B0"
+    }
+]
