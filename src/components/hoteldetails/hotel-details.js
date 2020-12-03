@@ -32,7 +32,7 @@ export default function HotelDetails({hotel, searchResults}) {
             offer:offer
         }, true);
         results.then((response) => {
-            console.debug("Selected offer successfully added to a shopping cart", response);
+            console.log("Selected offer successfully added to a shopping cart", response);
         }).catch(err => {
             console.error("Failed to add selecteed offer to a shopping cart", err);
             //TODO - add proper error handling (show user a message)
@@ -92,7 +92,7 @@ export default function HotelDetails({hotel, searchResults}) {
     function onProceedCryptoButtonClick(){
         storePassengerDetails(passengerDetails)
             .then(response => {
-                console.debug("Successfully saved pax details", response);
+                console.debug("Successfully saved pax details", response, selectedOffer);
                 let url=`/crypto/${selectedOffer.offerId}`;
                 history.push(url, { passengers: passengerDetails });
             })

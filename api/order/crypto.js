@@ -73,7 +73,7 @@ const createPassengers = passengers => {
     return passengersRequest;
 };
 
-const fulfillOrder = async (confirmedOfferId, tx, quoteId) => {
+const fulfillOrder = async (confirmedOfferId, tx, quote) => {
     logger.debug('Starting fulfillment process for confirmedOfferId:%s and transactionHash:%s', confirmedOfferId, tx.hash);
 
     let document = await findConfirmedOffer(confirmedOfferId);
@@ -85,7 +85,7 @@ const fulfillOrder = async (confirmedOfferId, tx, quoteId) => {
 
     let settlement;
     try {
-        settlement = await createCryptoDeposit(tx.hash, quoteId);
+        settlement = await createCryptoDeposit(tx.hash, quote);
         logger.info('Deposit created, settlement:%s', settlement.settlementId);
     } catch (error) {
         logger.error('Deposit error:%s', error);
@@ -175,7 +175,7 @@ const processCryptoOrder = async (
         tx,
         receipt,
         payment,
-        quoteId
+        quote
     }
 ) => {
     logger.debug(`Update payment status, status:%s, confirmedOfferId:%s, transactionHash:%s`, PAYMENT_STATUSES.PAID, confirmedOfferId, tx.hash);
@@ -188,7 +188,7 @@ const processCryptoOrder = async (
             tx,
             receipt,
             payment,
-            quoteId
+            quote
         },
         `Crypto payment`,// comment
         receipt// transaction_details
@@ -197,7 +197,7 @@ const processCryptoOrder = async (
     let confirmation;
 
     try {
-        confirmation = await fulfillOrder(confirmedOfferId, tx, quoteId);
+        confirmation = await fulfillOrder(confirmedOfferId, tx, quote);
     } catch (error) {
         logger.error(`Failed to fulfill order:`, error);
         throw error;
@@ -304,7 +304,7 @@ const validatePaymentTransaction = async (confirmedOfferId, transactionHash) => 
         tx,
         receipt,
         payment,
-        quoteId: exchangeQuote.quoteId
+        quote: exchangeQuote
     };
 };
 
@@ -318,7 +318,7 @@ const cryptoOrderController = async (request, response) => {
         tx,
         receipt,
         payment,
-        quoteId
+        quote
     } = await validatePaymentTransaction(confirmedOfferId, transactionHash);
 
     // Send error response
@@ -344,7 +344,7 @@ const cryptoOrderController = async (request, response) => {
                 tx,
                 receipt,
                 payment,
-                quoteId
+                quote
             }
         );
         logger.info('Confirmation:', confirmation)
