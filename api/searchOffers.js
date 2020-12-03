@@ -4,6 +4,8 @@ const {validateSearchCriteriaPayload} = require('./_lib/validators')
 const searchOffersController = async (req, res) => {
   //validate if payload is OK
   validateSearchCriteriaPayload(req.body);
+
+
   // Call glider API to get offers
   let offerResult = await searchOffers(req.body);
   res.json(offerResult);

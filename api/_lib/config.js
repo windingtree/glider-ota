@@ -37,6 +37,8 @@ const GLIDER_CONFIG =
 
 const ORGID = {
     OTA_ORGID: getConfigKey('OTA_ORGID'),
+    OTA_PRIVATE_KEY: getConfigKey('OTA_PRIVATE_KEY').replace(/\\n/g, '\n'),
+    GRAPH_URL:getConfigKey('GRAPH_URL')
 }
 
 const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL') || `https://${activeProfile}.api.simard.io/api/v1`;

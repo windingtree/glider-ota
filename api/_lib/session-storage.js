@@ -202,8 +202,20 @@ class SessionStorage {
 
 }
 
+const storeInRedis = async (key, value, ttl) => {
+    await getClient().multi().set(key, value).expire(key, ttl).exec(function (err, replies) {
+        if(err){
+            logger.error("Redis error %s",err);
+        }
+    });
+}
+const retrieveFromRedis = async (key) => {
+    return await getClient().get(key);
+}
+
+
 module.exports = {
-    SessionStorage, getClient
+    SessionStorage, getClient, storeInRedis, retrieveFromRedis
 }
 
 

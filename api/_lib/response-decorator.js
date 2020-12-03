@@ -14,7 +14,7 @@ function enrichResponseWithDictionaryData(results){
     results['metadata']={
         uuid:v4(),
         timestamp:new Date(),
-        numberOfOffers:Object.keys(results.offers).length
+        numberOfOffers:results.offers?Object.keys(results.offers).length:0
     }
 }
 
