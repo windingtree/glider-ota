@@ -1,0 +1,9 @@
+@import 'src/styles/mixins';
+
+.testThemes{
+  color: var(--glider-color-primary);
+  background-color: var(--glider-color-body-background);
+}
+.themeSwitch{
+  color: var(--theme-color);
+}

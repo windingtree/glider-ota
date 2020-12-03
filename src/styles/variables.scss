@@ -2,10 +2,12 @@
 variables.scss
 variable definitions
  */
+
 $glider-color-primary: #7161D6;
 $glider-color-body-background: #F3F4F6;
-$glider-color-primary-background: #ffffff;
-$glider-color-hover: #F1FCFF;
+$glider-color-primary-background: #000000;
+$glider-color-primary-background-hover: aliceblue;
+
 $glider-color-text: #202020;
 $glider-color-text-background: #BBBBBB;
 $glider-color-text-labels: white;
@@ -42,4 +44,21 @@ $grid-breakpoints: (
         md: $glider-break-md,
         lg: $glider-break-lg,
         xl: $glider-break-xl
-) ;
+);
+
+
+:root {
+  --theme-color: #FF0000;
+  --glider-color-primary: #{$glider-color-primary};
+  --glider-color-body-background: #{$glider-color-body-background};
+  --glider-color-primary-background: #{$glider-color-primary-background};
+  --glider-color-primary-background-hover: #{$glider-color-primary-background-hover};
+  --glider-color-text: #{$glider-color-text};
+  --glider-color-text-background: #{$glider-color-text-background};
+  --glider-color-text-labels: #{$glider-color-text-labels};
+  --glider-font-family-base:#{$glider-font-family-base};
+}
+/*@if $theme == "default" {
+  @import './theme';
+}*/
+

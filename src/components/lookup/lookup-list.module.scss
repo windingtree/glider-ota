@@ -16,7 +16,7 @@
 }
 
 .row:hover {
-  background-color: aliceblue;
+  background-color: $glider-color-primary-background-hover;
 }
 
 .indent {
@@ -24,7 +24,7 @@
   display: inline-block;
 }
 .highlighted {
-  background-color: aliceblue;
+  background-color: $glider-color-primary-background-hover;
 }
 
 .primaryText {

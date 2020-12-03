@@ -1,0 +1,11 @@
+{
+  "--theme-color": "#FFFF00",
+  "--glider-color-primary": "#000000",
+  "--glider-color-body-background": "#ffffff",
+  "--glider-color-primary-background": "#ffffff",
+  "--glider-color-primary-background-hover": "aliceblue",
+  "--glider-color-text": "aliceblue",
+  "--glider-color-text-background": "#BBBBBB",
+  "--glider-color-text-labels": "white",
+  "--glider-font-family-base": "'Poppins', sans-serif"
+}
