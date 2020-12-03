@@ -14,42 +14,6 @@ function createHeaders(token) {
     }
 }
 
-/*
-axios.interceptors.request.use(request => {
-    console.log('Axios request', JSON.stringify(request.data))
-    return request
-})
-
-axios.interceptors.response.use(response => {
-    console.log('Axios response:', response)
-    return response
-})
-*/
-
-//helper to detect which endpoints failed
-const search = async (url, criteria, token) => {
-
-    let results;
-    try {
-        results = await axios({
-            method: 'post',
-            url: url,
-            data: criteria,
-            headers: createHeaders(token)
-        })
-        if (results && results.data && results.data.offers) {
-            console.log(`Received ${Object.keys(results.data.offers).length} offers from ${url}`)
-        } else {
-            console.warn(`No data received from ${url}`);
-        }
-    } catch (err) {
-        console.log(`Exception while searching ${url}, error:${err}`);
-        throw err;
-    }
-    return results;
-}
-
-
 /**
  * Search for offers using Glider API
  * @param criteria - request to be passed to /searchOffers API
