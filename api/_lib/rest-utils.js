@@ -19,6 +19,7 @@ class GliderError extends Error {
     }
 }
 
+    const propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers', 'itineraries']
 
 /**
  * Utility to be used to create an error response from API call
@@ -77,7 +78,6 @@ function getRawBodyFromRequest(request) {
         })
     });
 }
-
 /**
  * Quickly check an Axios response from a Hotel search query.
  * See if response contains data property, and check that key properties are defined.

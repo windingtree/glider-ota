@@ -29,6 +29,7 @@
     "esm": "^3.2.25",
     "handlebars": "^4.7.6",
     "immutability-helper": "^3.0.2",
+    "jose": "^3.2.0",
     "jquery": "^3.5.1",
     "linkifyjs": "^2.1.9",
     "localstorage-cache": "^1.0.1",

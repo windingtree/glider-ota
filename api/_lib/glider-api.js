@@ -4,7 +4,9 @@ const axios = require('axios').default;
 const {GLIDER_CONFIG} = require('./config');
 const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission} = require('./response-decorator');
-const {createErrorResponse, mergeAggregatorResponse, ERRORS} = require('./rest-utils');
+const {createErrorResponse,mergeAggregatorResponse, ERRORS} = require ('./rest-utils');
+const OrgId= require('./orgId');
+const SEARCH_TIMEOUT=1000*20;
 
 function createHeaders(token) {
     return {
@@ -22,6 +24,86 @@ function createHeaders(token) {
 async function searchOffers(criteria) {
     let response;
     if (criteria.itinerary)
+        setDepartureDatesToNoonUTC(criteria)
+    logger.debug(`Search criteria:${JSON.stringify(criteria)}`);
+
+    let availableAPIsURLs = await OrgId.getEndpoints(criteria);
+    //add aggregator
+    availableAPIsURLs.push(
+        {
+            serviceEndpoint:GLIDER_CONFIG.SEARCH_OFFERS_URL,
+            jwt:GLIDER_CONFIG.GLIDER_TOKEN
+        }
+    )
+
+    try {
+        const searchPromises = availableAPIsURLs.map(endpoint=>{
+            const {serviceEndpoint, jwt} = endpoint;
+            return searchOffersUsingEndpoint(criteria,serviceEndpoint,jwt,SEARCH_TIMEOUT)
+        })
+        const allSearchResults = await Promise.all(searchPromises.map(p => p.catch(e => e)));
+        let validResults = allSearchResults.filter(result => (!(result instanceof Error)));
+
+        if (validResults.length === 0) {
+            throw new Error('No results.')
+        } else{
+            response = mergeAggregatorResponse(validResults)
+        }
+
+    }catch(err){
+        logger.error("Error ",err)
+        return createErrorResponse(400,ERRORS.INVALID_SERVER_RESPONSE,err.message,criteria);
+    }
+    let searchResults = [];
+    if(response && response.data) {
+        searchResults = response.data;
+        enrichResponseWithDictionaryData(searchResults)
+    }else{
+        logger.info("Response from /searchOffers API was empty, search criteria:", criteria)
+    }
+    return searchResults;
+}
+
+async function searchOffersUsingEndpoint (criteria, url, token, timeout) {
+    let response = await axios({
+            method: 'post',
+            url: url,
+            data: criteria,
+            headers: createHeaders(token),
+            timeout:timeout
+        });
+    return response;
+}
+
+
+
+//helper to detect which endpoints failed
+const search = async (url, criteria, token) => {
+
+    let results;
+    try {
+        results = await axios({
+            method: 'post',
+            url: url,
+            data: criteria,
+            headers: createHeaders(token)
+        })
+        if (results && results.data && results.data.offers) {
+            console.log(`Received ${Object.keys(results.data.offers).length} offers from ${url}`)
+        } else {
+            console.warn(`No data received from ${url}`);
+        }
+    } catch (err) {
+        console.log(`Exception while searching ${url}, error:${err}`);
+        throw err;
+    }
+    return results;
+}
+
+
+async function searchOffersOld(criteria) {
+    let response;
+    if(criteria.itinerary)
         setDepartureDatesToNoonUTC(criteria)
     logger.debug(`Search criteria:${JSON.stringify(criteria)}`);
     try {
