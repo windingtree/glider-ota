@@ -107,7 +107,6 @@ async function createWithOffer(criteria, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint).CREATE_WITH_OFFER_URL;
     console.log('Creating order with URL:',url, 'JWT:',jwt)
-    console.log('JWT:',jwt)
 
     let response = await axios({
         method: 'post',
@@ -126,8 +125,7 @@ async function createWithOffer(criteria, endpoint) {
 async function seatmap(offerId, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint,offerId).SEATMAP_URL;
-    console.log('Creating order with URL:',url, 'JWT:',jwt)
-    console.log('JWT:',jwt)
+    console.log('Retrieve seatmap with URL:',url, 'JWT:',jwt)
 
 
     let urlWithOfferId = urlTemplate.replace("{offerId}", offerId);
@@ -147,14 +145,15 @@ async function seatmap(offerId, endpoint) {
  * @param offerId - offerID to be repriced
  * @returns {Promise<any>} response from Glider
  */
-async function reprice(offerId, options) {
-    let urlTemplate = GLIDER_CONFIG.REPRICE_OFFER_URL;
-    let urlWithOfferId = urlTemplate.replace("{offerId}", offerId);
-    logger.debug("Reprice URL:[%s], options=%s", urlWithOfferId, JSON.stringify(options));
+async function reprice(offerId, options, endpoint) {
+    const {serviceEndpoint, jwt} = endpoint;
+    let url = urlFactory(serviceEndpoint,offerId).REPRICE_OFFER_URL;
+    console.log('Reprice using URL:',url, 'JWT:',jwt)
+
     let response = await axios({
         method: 'post',
-        url: urlWithOfferId,
-        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN),
+        url: url,
+        headers: createHeaders(jwt),
         data: options ? options : [],
     });
     let repriceResponse = {};

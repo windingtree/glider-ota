@@ -3,6 +3,7 @@ const {createLogger} = require('../_lib/logger')
 const {decorate} = require('../_lib/decorators');
 const {ShoppingCart,CART_ITEMKEYS} = require('../_lib/shopping-cart');
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
+const {getOfferMetadata} = require("../_lib/model/offerMetadata")
 const logger = createLogger('/offerSummary')
 
 /**
@@ -24,7 +25,14 @@ const offerRepriceController = async (req, res) => {
         return;
     }
     try{
-        let confirmedOffer = await reprice(offer.offerId, seatOptions);
+
+        let offerMetadata = await getOfferMetadata(offer.offerId);
+        if (!offerMetadata) {
+            logger.error(`Offer metadata not found, offerId=${offer.offerId}`);
+            throw new Error(`Offer metadata not found, offerId=${offer.offerId}`);
+        }
+
+        let confirmedOffer = await reprice(offer.offerId, seatOptions,offerMetadata);
         await shoppingCart.addItemToCart(CART_ITEMKEYS.CONFIRMED_OFFER,confirmedOffer);
         res.json(confirmedOffer);
     }catch(error){
