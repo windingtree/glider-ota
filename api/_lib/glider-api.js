@@ -7,7 +7,7 @@ const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission} = require('./response-decorator');
 const {createErrorResponse,mergeAggregatorResponse, ERRORS} = require ('./rest-utils');
 const OrgId= require('./orgId');
-const SEARCH_TIMEOUT=1000*20;
+const SEARCH_TIMEOUT=1000*40;
 
 function createHeaders(token) {
     return {
@@ -42,7 +42,12 @@ async function searchOffers(criteria) {
         if (validResults.length === 0) {
             throw new Error('No results.')
         } else{
-            response = mergeAggregatorResponse(validResults)
+            let propsToMerge;
+            if(criteria.accommodation)
+                propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers']
+            if(criteria.itinerary)
+                propsToMerge = ['pricePlans', 'offers', 'passengers', 'itineraries']
+            response = mergeAggregatorResponse(validResults, propsToMerge)
         }
 
     }catch(err){
@@ -79,7 +84,6 @@ async function searchOffersUsingEndpoint (criteria, endpoint, timeout) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint).SEARCH_OFFERS_URL;
     console.log('Searching with URL:',url, 'JWT:',jwt)
-    console.log('JWT:',jwt)
 
     let response = await axios({
             method: 'post',
@@ -119,14 +123,19 @@ async function createWithOffer(criteria, endpoint) {
  * @param offerId - offerId(s) for which the seatmaps are requested
  * @returns {Promise<any>} response from Glider
  */
-async function seatmap(offerId) {
-    let urlTemplate = GLIDER_CONFIG.SEATMAP_URL;
+async function seatmap(offerId, endpoint) {
+    const {serviceEndpoint, jwt} = endpoint;
+    let url = urlFactory(serviceEndpoint,offerId).SEATMAP_URL;
+    console.log('Creating order with URL:',url, 'JWT:',jwt)
+    console.log('JWT:',jwt)
+
+
     let urlWithOfferId = urlTemplate.replace("{offerId}", offerId);
     logger.debug("Seatmap URL:[%s]", urlWithOfferId);
     let response = await axios({
         method: 'get',
-        url: urlWithOfferId,
-        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
+        url: url,
+        headers: createHeaders(jwt)
     });
     logger.debug("Seatmap response", response.data);
     return response.data;
@@ -198,9 +207,9 @@ const urlFactory = (baseUrl, param) => {
     return {
         SEARCH_OFFERS_URL: baseUrl + "/offers/search",
         CREATE_WITH_OFFER_URL: baseUrl + "/orders/createWithOffer",
-        SEATMAP_URL: baseUrl + "/offers/{offerId}/seatmap",
-        REPRICE_OFFER_URL: baseUrl + "/offers/{offerId}/price",
-        FULFILL_URL: baseUrl + "/orders/{orderId}/fulfill",
+        SEATMAP_URL: baseUrl + `/offers/${param}/seatmap`,
+        REPRICE_OFFER_URL: baseUrl + `/offers/${param}/price`,
+        FULFILL_URL: baseUrl + `/orders/${param}/fulfill`,
     }
 }
 

@@ -72,7 +72,8 @@ const getEndpoints = async (searchCriteria) =>{
         endpoints.push(
             {
                 serviceEndpoint:GLIDER_CONFIG.BASE_URL,
-                id:GLIDER_CONFIG.ORGID
+                id:GLIDER_CONFIG.ORGID,
+                jwt: GLIDER_CONFIG.GLIDER_TOKEN
             }
         )
     }

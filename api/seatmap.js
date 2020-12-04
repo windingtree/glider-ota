@@ -1,6 +1,7 @@
 const { ShoppingCart, CART_ITEMKEYS } = require('./_lib/shopping-cart');
 const { seatmap } = require('./_lib/glider-api');
 const { decorate } = require('./_lib/decorators');
+const { getOfferMetadata } = require('./_lib/model/offerMetadata');
 
 // Controller for the seatmap request
 const seatmapController = async (req, res) => {
@@ -24,7 +25,15 @@ const seatmapController = async (req, res) => {
 
     // Get the seatmap using the offer ID
     try {
-        const seatmapResult = await seatmap(offer.offerId);
+        let offerMetadata = await getOfferMetadata(offer.offerId);
+        if (!offerMetadata) {
+            logger.error(`Offer metadata not found, offerId=${offer.offerId}`);
+            throw new Error(`Offer metadata not found, offerId=${offer.offerId}`);
+        }
+
+
+
+        const seatmapResult = await seatmap(offer.offerId, offerMetadata);
         return res.status(200).json(seatmapResult);
     } catch (error) {
         switch(error.response && error.response.status) {
