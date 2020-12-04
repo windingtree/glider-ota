@@ -19,6 +19,7 @@ class GliderError extends Error {
     }
 }
 
+    const propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers', 'itineraries']
 
 /**
  * Utility to be used to create an error response from API call
@@ -77,7 +78,6 @@ function getRawBodyFromRequest(request) {
         })
     });
 }
-
 /**
  * Quickly check an Axios response from a Hotel search query.
  * See if response contains data property, and check that key properties are defined.
@@ -87,43 +87,39 @@ function getRawBodyFromRequest(request) {
  * @returns {boolean} True is all is OK. False if something is missing.
  */
 function dirtyAggregatorResponseValidator(response) {
-    if (!response || !response.data) {
+    if (!response || !response.data || (typeof response.data !== 'object')) {
         return false
     }
-    const data = response.data
-    if (
-        !data.pricePlans ||
-        !data.offers ||
-        !data.passengers
-    ) {
-        return false
-    }
-    return true
+    return true;
 }
 /**
- * Combines 2 Axios responses from Hotel search queries. Only combine if both
+ * Combines multiple Axios responses from Hotel/Flight search queries. Only combine if both
  * responses are potentially populated with data.
  *
- * @param response1
- * @param response2
+ * @param responses
+ * @param propsToMerge
  *
  * @returns {response} The merged response.
  */
-function mergeAggregatorResponse(response1, response2) {
-    const isValidResponse1 = dirtyAggregatorResponseValidator(response1)
-    const isValidResponse2 = dirtyAggregatorResponseValidator(response2)
-    if (!isValidResponse1 && !isValidResponse2) {
-      throw new Error('No valid responses.');
-    }
-    if (!isValidResponse1) return response2
-    if (!isValidResponse2) return response1
+function mergeAggregatorResponse(responsesToMerge) {
+    const response = { data: {} };
+    if(!responsesToMerge)
+        return response;
+
     const propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers', 'itineraries']
-    let response = { data: {} }
-    propsToMerge.forEach((prop) => {
-        response.data[prop] = {}
-        _.merge(response.data[prop], response1.data[prop], response2.data[prop])
+
+    responsesToMerge.forEach(responseToMerge=>{
+        let isValid = dirtyAggregatorResponseValidator(responseToMerge);
+        if(!isValid)
+            console.log('Not valid:');
+        if(isValid){
+            propsToMerge.forEach((prop) => {
+                response.data[prop] = {}
+                _.merge(response.data[prop], responseToMerge.data[prop])
+            })
+        }
     })
-    return response
+    return response;
 }
 
 module.exports={ERRORS,createErrorResponse,mergeAggregatorResponse,sendErrorResponse,getRawBodyFromRequest, GliderError}

@@ -3,6 +3,7 @@ const { decorate } = require('../_lib/decorators');
 const { createLogger } = require('../_lib/logger');
 const { sendBookingConfirmations } = require('../_lib/email-confirmations');
 const { createWithOffer } = require('../_lib/glider-api');
+const {getOfferMetadata} = require('../_lib/model/offerMetadata');
 const {
     createCryptoDeposit,
     createCryptoGuarantee
@@ -82,7 +83,12 @@ const fulfillOrder = async (confirmedOfferId, tx, quote) => {
         logger.error(`Offer not found, confirmedOfferId=${confirmedOfferId}`);
         throw new Error(`Could not find offer ${confirmedOfferId} in the database`);
     }
-
+    //retrieve endpoint details (url, jwt) for this offer
+    let offerMetadata = await getOfferMetadata(confirmedOfferId);
+    if (!offerMetadata) {
+        logger.error(`Offer metadata not found, confirmedOfferId=${confirmedOfferId}`);
+        throw new Error(`Could not find offer ${confirmedOfferId} metadata in the database`);
+    }
     let settlement;
     try {
         settlement = await createCryptoDeposit(tx.hash, quote);
@@ -140,7 +146,7 @@ const fulfillOrder = async (confirmedOfferId, tx, quote) => {
     let confirmation;
     try {
         // Handle the order creation success
-        confirmation = await createWithOffer(orderRequest);
+        confirmation = await createWithOffer(orderRequest, offerMetadata);
         logger.info('Order created:', confirmation);
     } catch (error) {
         // Override Error with Glider message

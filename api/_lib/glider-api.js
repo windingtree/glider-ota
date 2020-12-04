@@ -2,9 +2,12 @@ const {createLogger} = require('./logger');
 const _ = require('lodash');
 const axios = require('axios').default;
 const {GLIDER_CONFIG} = require('./config');
+const {storeOffersMetadata} = require('./model/offerMetadata');
 const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission} = require('./response-decorator');
-const {createErrorResponse, mergeAggregatorResponse, ERRORS} = require('./rest-utils');
+const {createErrorResponse,mergeAggregatorResponse, ERRORS} = require ('./rest-utils');
+const OrgId= require('./orgId');
+const SEARCH_TIMEOUT=1000*20;
 
 function createHeaders(token) {
     return {
@@ -13,42 +16,6 @@ function createHeaders(token) {
         'Content-Type': 'application/json'
     }
 }
-
-/*
-axios.interceptors.request.use(request => {
-    console.log('Axios request', JSON.stringify(request.data))
-    return request
-})
-
-axios.interceptors.response.use(response => {
-    console.log('Axios response:', response)
-    return response
-})
-*/
-
-//helper to detect which endpoints failed
-const search = async (url, criteria, token) => {
-
-    let results;
-    try {
-        results = await axios({
-            method: 'post',
-            url: url,
-            data: criteria,
-            headers: createHeaders(token)
-        })
-        if (results && results.data && results.data.offers) {
-            console.log(`Received ${Object.keys(results.data.offers).length} offers from ${url}`)
-        } else {
-            console.warn(`No data received from ${url}`);
-        }
-    } catch (err) {
-        console.log(`Exception while searching ${url}, error:${err}`);
-        throw err;
-    }
-    return results;
-}
-
 
 /**
  * Search for offers using Glider API
@@ -60,49 +27,71 @@ async function searchOffers(criteria) {
     if (criteria.itinerary)
         setDepartureDatesToNoonUTC(criteria)
     logger.debug(`Search criteria:${JSON.stringify(criteria)}`);
+
+    let availableAPIsURLs = await OrgId.getEndpoints(criteria);
+
     try {
-        let promises = []
-        if (criteria.accommodation) {
-            //search for hotels
-            console.log(`GLIDER_CONFIG.ENABLE_ROOMS_SEARCH = ${GLIDER_CONFIG.ENABLE_ROOMS_SEARCH}`)
-            console.log(`GLIDER_CONFIG.ROOMS_SEARCH_OFFERS_URL = ${GLIDER_CONFIG.ROOMS_SEARCH_OFFERS_URL}`)
-            console.log(`GLIDER_CONFIG.ROOMS_TOKEN = ${GLIDER_CONFIG.ROOMS_TOKEN}`)
-            if (GLIDER_CONFIG.ENABLE_ROOMS_SEARCH !== 'yes') {
-                promises.push(search(GLIDER_CONFIG.SEARCH_OFFERS_URL, criteria, GLIDER_CONFIG.GLIDER_TOKEN));
-            } else {
-                // promises.push(search(GLIDER_CONFIG.SEARCH_OFFERS_URL, criteria, GLIDER_CONFIG.GLIDER_TOKEN));
-                promises.push(search(GLIDER_CONFIG.ROOMS_SEARCH_OFFERS_URL, criteria, GLIDER_CONFIG.ROOMS_TOKEN));
-            }
-        }
-        if (criteria.itinerary) {
-            //search for flights
-            promises.push(search(GLIDER_CONFIG.SEARCH_OFFERS_URL, criteria, GLIDER_CONFIG.GLIDER_TOKEN));
-        }
+        const searchPromises = availableAPIsURLs.map(endpoint=>{
+            return searchOffersUsingEndpoint(criteria,endpoint,SEARCH_TIMEOUT);
+        })
+        const allSearchResults = await Promise.all(searchPromises.map(p => p.catch(e => e)));
+        let validResults = allSearchResults.filter(result => (!(result instanceof Error)));
+        await storeOfferToOrgIdMapping(validResults)
 
-
-        const results = await Promise.all(promises.map(p => p.catch(e => e)))
-        const validResults = results.filter(result => !(result instanceof Error))
 
         if (validResults.length === 0) {
             throw new Error('No results.')
-        } else if (validResults.length === 1) {
-            response = validResults[0]
-        } else {
-            response = mergeAggregatorResponse(validResults[0], validResults[1])
+        } else{
+            response = mergeAggregatorResponse(validResults)
         }
-    } catch (err) {
-        logger.error("Error ", err)
-        return createErrorResponse(400, ERRORS.INVALID_SERVER_RESPONSE, err.message, criteria);
+
+    }catch(err){
+        logger.error("Error ",err)
+        return createErrorResponse(400,ERRORS.INVALID_SERVER_RESPONSE,err.message,criteria);
     }
     let searchResults = [];
-    if (response && response.data) {
+    if(response && response.data) {
         searchResults = response.data;
         enrichResponseWithDictionaryData(searchResults)
-    } else {
+    }else{
         logger.info("Response from /searchOffers API was empty, search criteria:", criteria)
     }
     return searchResults;
 }
+
+const storeOfferToOrgIdMapping = async (validResults) => {
+    let offersMetadata = [];
+    validResults.forEach(result => {
+        let {endpoint, data} = result;
+        let offers = data.offers;
+        Object.keys(offers).forEach(offerId=>{
+            let offerMetadata = {
+                endpoint:endpoint,
+                offerId:offerId
+            }
+            offersMetadata.push(offerMetadata)
+        })
+    })
+    await storeOffersMetadata(offersMetadata);
+}
+
+async function searchOffersUsingEndpoint (criteria, endpoint, timeout) {
+    const {serviceEndpoint, jwt} = endpoint;
+    let url = urlFactory(serviceEndpoint).SEARCH_OFFERS_URL;
+    console.log('Searching with URL:',url, 'JWT:',jwt)
+    console.log('JWT:',jwt)
+
+    let response = await axios({
+            method: 'post',
+            url: url,
+            data: criteria,
+            headers: createHeaders(jwt),
+            timeout:timeout
+        });
+    response.endpoint=endpoint; //store this so that we know from which endpoint results arrived
+    return response;
+}
+
 
 
 /**
@@ -110,12 +99,17 @@ async function searchOffers(criteria) {
  * @param criteria- request to be passed to /createWithOffer API
  * @returns {Promise<any>} response from Glider
  */
-async function createWithOffer(criteria) {
+async function createWithOffer(criteria, endpoint) {
+    const {serviceEndpoint, jwt} = endpoint;
+    let url = urlFactory(serviceEndpoint).CREATE_WITH_OFFER_URL;
+    console.log('Creating order with URL:',url, 'JWT:',jwt)
+    console.log('JWT:',jwt)
+
     let response = await axios({
         method: 'post',
-        url: GLIDER_CONFIG.CREATE_WITH_OFFER_URL,
+        url: url,
         data: criteria,
-        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
+        headers: createHeaders(jwt)
     });
     return response.data;
 }
@@ -197,6 +191,16 @@ function createFulfilmentRequest(orderItems, passengers, guaranteeId) {
         orderItems: orderItems,
         passengerReferences: passengerReferences,
         guaranteeId: guaranteeId
+    }
+}
+
+const urlFactory = (baseUrl, param) => {
+    return {
+        SEARCH_OFFERS_URL: baseUrl + "/offers/search",
+        CREATE_WITH_OFFER_URL: baseUrl + "/orders/createWithOffer",
+        SEATMAP_URL: baseUrl + "/offers/{offerId}/seatmap",
+        REPRICE_OFFER_URL: baseUrl + "/offers/{offerId}/price",
+        FULFILL_URL: baseUrl + "/orders/{orderId}/fulfill",
     }
 }
 

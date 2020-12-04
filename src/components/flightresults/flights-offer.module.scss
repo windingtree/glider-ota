@@ -2,7 +2,7 @@
 
 
 .flightsearchoffercontainer{
-    background: #FFFFFF;
+    background: $glider-color-primary-background;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     padding: 40px 40px;
@@ -10,7 +10,7 @@
 }
 
 .flightsearchoffercontainer:hover {
-    background-color: aliceblue;
+    background-color: $glider-color-primary-background-hover;
 }
 
 

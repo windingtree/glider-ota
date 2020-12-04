@@ -40,3 +40,5 @@ yarn.json
 .vercel
 
 .vscode
+/api/profiles/active/*
+

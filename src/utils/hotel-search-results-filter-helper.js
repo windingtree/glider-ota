@@ -28,6 +28,7 @@ export class HotelSearchResultsFilterHelper {
             if (this.applyHotelFilters(hotel, filters)) {
                 //if hotel passed - then find the cheapest offer for that hotel (so that it can be displayed in search results)
                 let cheapestOffer = this.getCheapestHotelOffer(hotel.accommodationId, offers);
+                console.log(`Cheapest offer for accommodation:${hotel.accommodationId} is:`, cheapestOffer)
                 result.push({
                     bestoffer: cheapestOffer,
                     hotel: hotel
@@ -41,8 +42,11 @@ export class HotelSearchResultsFilterHelper {
     getCheapestHotelOffer(accommodationId, offers) {
         let minPrice = Number.MAX_SAFE_INTEGER;
         let minOffer = undefined;
-        Object.keys(offers).forEach(offerId => {
-            let offer = offers[offerId];
+
+        let accommodationOffers = this.getOffersOfAccommodationOnly(accommodationId,offers)
+        //
+        Object.keys(accommodationOffers).forEach(offerId => {
+            let offer = accommodationOffers[offerId];
             if (parseInt(offer.price.public) < minPrice){
                 minPrice = offer.price.public;
                 minOffer = offer;
@@ -111,7 +115,21 @@ export class HotelSearchResultsFilterHelper {
 
         return result;
     }
-
+    getOffersOfAccommodationOnly(accommodationId, allOffers){
+        let filteredOffers = {};
+        Object.keys(allOffers).forEach(offerId => {
+            let offer =  allOffers[offerId];
+            if(offer.pricePlansReferences){
+                Object.keys(offer.pricePlansReferences).forEach(pricePlanRefId=>{
+                    let pricePlanReference=offer.pricePlansReferences[pricePlanRefId];
+                    if(pricePlanReference && pricePlanReference.accommodation === accommodationId){
+                        filteredOffers[offerId] = offer;
+                    }
+                })
+            }
+        })
+        return filteredOffers;
+    }
 
 }
 

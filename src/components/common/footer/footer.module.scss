@@ -5,7 +5,7 @@ footer.modules.scss
  */
 
 .footer {
-  background-color: #ffffff;
+  background-color: $glider-color-primary-background;
   padding-top: 90px;
   padding-bottom: 90px;
   margin:auto;
@@ -20,7 +20,7 @@ footer.modules.scss
 
 .footerNavLink {
   //@include _glider-font-text16;
-  //color: $glider-color-text;
+  color: $glider-color-text;
   margin-bottom: 10px;
   margin-top: 10px;
 }
@@ -52,6 +52,7 @@ footer.modules.scss
   align-items: center;
   margin-top: 30px;
   padding: 15px;
+  color: $glider-color-text;
 }
 
 .footerLogo{

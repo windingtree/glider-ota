@@ -7,6 +7,7 @@ const KEYS = {
     OFFERS: 'OFFERS',
     ORDER: 'ORDER',
     CONFIRMED_OFFER: 'CONFIRMED_OFFER',
+    OFFERID_META: 'OFFERID_META',
 }
 
 // Hold the Redis Client with lazy loading
@@ -189,7 +190,23 @@ class SessionStorage {
 */
     }
 
+    /**
+     * Stores offer-ordIg mapping (needed to know to which provider we should make a call later on to create an order)
+     * @param order
+     */
+    storeOfferIdMetaData(data) {
+        this.storeInSession(KEYS.OFFERID_META, data);
+    }
 
+    /**
+     * Retrieve order from session
+     * @param orderId
+     * @returns {Promise<*>}
+     */
+    retrieveOfferMetaData() {
+        let key = KEYS.OFFERID_META;
+        return this.retrieveFromSession(key);
+    }
 
 
     _printKeys(match) {
@@ -202,8 +219,20 @@ class SessionStorage {
 
 }
 
+const storeInRedis = async (key, value, ttl) => {
+    await getClient().multi().set(key, value).expire(key, ttl).exec(function (err, replies) {
+        if(err){
+            logger.error("Redis error %s",err);
+        }
+    });
+}
+const retrieveFromRedis = async (key) => {
+    return await getClient().get(key);
+}
+
+
 module.exports = {
-    SessionStorage, getClient
+    SessionStorage, getClient, storeInRedis, retrieveFromRedis
 }
 
 

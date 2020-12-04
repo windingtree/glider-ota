@@ -1,9 +1,11 @@
 @import 'src/styles/mixins';
 
 .list {
-  background-color: white;
   //border: 1px solid blue;
   min-width: 400px;
+  color: $glider-color-inputfields-text;
+  background-color: $glider-color-inputfields-background;
+
 }
 
 .row {
@@ -16,7 +18,8 @@
 }
 
 .row:hover {
-  background-color: aliceblue;
+  background-color: $glider-color-inputfields-background-hover;
+
 }
 
 .indent {
@@ -24,7 +27,7 @@
   display: inline-block;
 }
 .highlighted {
-  background-color: aliceblue;
+  background-color: $glider-color-inputfields-background-hover;
 }
 
 .primaryText {
