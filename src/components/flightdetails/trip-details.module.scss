@@ -142,4 +142,5 @@
 .layoverText{
     @include _glider-font-text16;
     padding-bottom: 20px;
+    color: $glider-color-text;
 }

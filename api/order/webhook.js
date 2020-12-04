@@ -5,6 +5,8 @@ const {getRawBodyFromRequest} = require('../_lib/rest-utils');
 const {createWithOffer} = require('../_lib/glider-api');
 const {createGuarantee} = require('../_lib/simard-api');
 const {sendBookingConfirmations} = require('../_lib/email-confirmations');
+const {getOfferMetadata} = require('../_lib/model/offerMetadata');
+
 const {STRIPE_CONFIG} = require('../_lib/config');
 const {
     updateOrderStatus,
@@ -265,9 +267,16 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
     // Retrieve offer details
     logger.debug("#1 Retrieve offerDetails from DB");
     let document = await findConfirmedOffer(confirmedOfferId)
+
     if (!document) {
         logger.error(`Offer not found, confirmedOfferId=${confirmedOfferId}`);
         throw new Error(`Could not find offer ${confirmedOfferId} in the database`);
+    }
+    //retrieve endpoint details (url, jwt) for this offer
+    let offerMetadata = await getOfferMetadata(confirmedOfferId);
+    if (!offerMetadata) {
+        logger.error(`Offer metadata not found, confirmedOfferId=${confirmedOfferId}`);
+        throw new Error(`Could not find offer ${confirmedOfferId} metadata in the database`);
     }
 
     // Check if fulfillment is already processed or in progress
@@ -308,7 +317,7 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
     let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers);
     let confirmation;
     try {
-        confirmation = await createWithOffer(orderRequest);
+        confirmation = await createWithOffer(orderRequest, offerMetadata);
         logger.info("Order created");
         // Handle the order creation success
 

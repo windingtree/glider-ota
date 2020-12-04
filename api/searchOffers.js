@@ -8,6 +8,7 @@ const searchOffersController = async (req, res) => {
 
   // Call glider API to get offers
   let offerResult = await searchOffers(req.body);
+  delete offerResult.itineraries
   res.json(offerResult);
 }
 

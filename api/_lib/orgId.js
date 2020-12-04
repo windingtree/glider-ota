@@ -1,23 +1,8 @@
-const {createLogger} = require('./logger');
 const _ = require('lodash');
-const {ORGID} = require('./config');
+const {ORGID,GLIDER_CONFIG, ROOMS_CONFIG} = require('./config');
 const axios = require('axios');
-const { JWK, JWT } = require('jose');
-// const logger = createLogger('orgid');
-// const {storeInRedis,retrieveFromRedis} = require('./session-storage');
-// const CACHED_ENDPOINTS_TTL_IN_SEC=60*60*24; //available API endpoints for a given route will be 24 hrs
-ORGID.OTA_ORGID = "0xf94c83b1da7bc36989b6a4f25e51ce66dd0fcd88bae1e8486495bbc03e767229"
-/*
-const storeInCache = (origin, destination, endpoints) =>{
+import { JWK, JWT } from 'jose'
 
-}
-
-const getFlightsEndpointsWithJWTs = async (origin, destination) =>{
-
-    storeInRedis(redisKey,JSON.stringify(endpointsWithJWTs),CACHED_ENDPOINTS_TTL_IN_SEC);
-    return endpointsWithJWTs;
-}
-*/
 
 /**
  * Create JWT token for a given orgId
@@ -25,7 +10,7 @@ const getFlightsEndpointsWithJWTs = async (origin, destination) =>{
  * @returns {Promise<string>}
  */
 const createTokenForProvider = async (orgId) => {
-    return await createToken(ORGID.OTA_ORGID,orgId,'24 hrs',ORGID.OTA_PRIVATE_KEY,'test');
+    return await createToken(ORGID.OTA_ORGID,orgId,'2hr',ORGID.OTA_PRIVATE_KEY,'api');
 }
 
 let GRAPH_URL = 'https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten';
@@ -58,33 +43,68 @@ const runGraphQuery = async (query) => {
  * @returns {Promise<[]>}
  */
 const getEndpoints = async (searchCriteria) =>{
-    let organisations=[];
+    let endpoints=[];
 
-    //if it's a flight search - check for available flights providers/endpoints
+
+    if(ORGID.ENABLE_P2P_DISCOVERY==="yes") {
+        let organisations = [];
+
+        //if it's a flight search - check for available flights providers/endpoints
+        if (searchCriteria.itinerary) {
+            let flightOrganisations = await _getActiveAirlines('AAA', 'BBB');//dummy O&D, it's not used yet
+            organisations = [...organisations, ...flightOrganisations];
+        }
+
+        //if it's a hotel search - check for available hotels providers/endpoints
+        if (searchCriteria.accommodation) {
+            //hotel search
+            const hotelOrgs = await _getActiveHotels(10, 10);//dummy lat&lon, it's not used yet
+            organisations = [...organisations, ...hotelOrgs];
+        }
+        //extract only list of URL+DID from the list
+        endpoints = extractEndpoints(organisations);
+    }
+
+
+    //apart from discovery from graph, we need to add fixed endpoints (rooms, aggregator)
     if(searchCriteria.itinerary){
-        let flightOrganisations=await _getActiveAirlines('AAA','BBB');//dummy O&D, it's not used yet
-        organisations = [...organisations, ... flightOrganisations];
+        //add aggregator
+        endpoints.push(
+            {
+                serviceEndpoint:GLIDER_CONFIG.BASE_URL,
+                id:GLIDER_CONFIG.ORGID
+            }
+        )
     }
 
-    //if it's a hotel search - check for available hotels providers/endpoints
     if(searchCriteria.accommodation){
-        //hotel search
-        const hotelOrgs=await _getActiveHotels(10,10);//dummy lat&lon, it's not used yet
-        organisations = [...organisations, ... hotelOrgs];
+        //add rooms
+        if(ROOMS_CONFIG.ENABLE_ROOMS_SEARCH === "yes") {
+            endpoints.push(
+                {
+                    serviceEndpoint: ROOMS_CONFIG.BASE_URL,
+                    id: ROOMS_CONFIG.ROOMS_ORGID,
+                    jwt: ROOMS_CONFIG.ROOMS_TOKEN
+                }
+            )
+        }
     }
-    //extract only list of URL+DID from the list
-    let endpoints = extractEndpoints(organisations);
+
 
     //for each record (URL+DID), generate JWT
     if(!isArrayEmpty(endpoints)) {
         for (const endpoint of endpoints) {
+            let did = `did:orgid:${endpoint.id}`;
             try {
-                endpoint.jwt = await createTokenForProvider(endpoint.did)
+                if(!endpoint.jwt)
+                    endpoint.jwt = await createTokenForProvider(did)
             }catch(err){
-                console.error(err)
+                console.error(`Error while creating JWT for did=${did}, endpoint:${endpoint.serviceEndpoint}`,err);
+                throw (err);
             }
         }
     }
+
     console.log('Discovered API endpoints:', endpoints)
     return endpoints;
 }
@@ -138,7 +158,7 @@ const extractEndpoints = (organisations) => {
     organisations.forEach(org => {
         const {organization: {id,did, service}} = org;
         service.forEach(svc => {
-            endpoints.push({id:id, did:did, serviceEndpoint:svc.serviceEndpoint})
+            endpoints.push({id:id, serviceEndpoint:svc.serviceEndpoint})
         })
     });
     return endpoints;
@@ -217,6 +237,8 @@ const _getActiveAirlines = async (origin, destination) => {
 
 
 const createToken = async (issuer, audience, expiresIn, privateKey, fragment) => {
+    let issuerDid=`did:orgid:${issuer}`;
+
     const priv = JWK.asKey(privateKey,{alg:'ES256K',use: 'sig'});
     return JWT.sign(
         {
@@ -224,7 +246,7 @@ const createToken = async (issuer, audience, expiresIn, privateKey, fragment) =>
         priv,
         {
             audience: audience,
-            ...(issuer ? { issuer: `${issuer}${fragment ? '#' + fragment : ''}` } : {}),
+            issuer: `${issuerDid}${fragment ? '#' + fragment : ''}`,
             expiresIn: expiresIn,
             kid: false,
             header: { typ: 'JWT' }

@@ -150,7 +150,7 @@ const parseDeeplinkParams = (location) =>{
     let dptr =  parse(params.departureDate,'yyyyMMdd',new Date());
     let ret =  parse(params.returnDate,'yyyyMMdd',new Date());
     return {
-        origin: parseJSONWithDefault(params.origin,''),
+        origin: parseJSONWithDefault(params.origin,'LHR'),
         destination: parseJSONWithDefault(params.destination,''),
         departureDate: isValid(dptr)?dptr:undefined,
         returnDate: isValid(ret)?ret:undefined,

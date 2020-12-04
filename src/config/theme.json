@@ -1,0 +1,8 @@
+{
+  "flights.origin": "LHR",
+  "flights.destination": "LHR",
+  "flights.departure_offset_days": "7",
+  "flights.stay_duration_days": "10",
+  "flights.stay_duration_days": "10",
+  "hotels.destination": "Frankfurt"
+}

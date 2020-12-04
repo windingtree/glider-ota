@@ -1,18 +1,25 @@
+@import 'src/styles/theme';
 /**
 variables.scss
 variable definitions
  */
+/*
 
-$glider-color-primary: #7161D6;
-$glider-color-body-background: #F3F4F6;
-$glider-color-primary-background: #000000;
-$glider-color-primary-background-hover: aliceblue;
+$glider-color-primary: yellow;
+$glider-color-body-background: #555555;
+$glider-color-primary-background: #555555;
+$glider-color-primary-background-hover: #444444;
 
-$glider-color-text: #202020;
-$glider-color-text-background: #BBBBBB;
+$glider-color-text: #dcdcdc;
+$glider-color-text-background: #555555;
 $glider-color-text-labels: white;
 $glider-font-family-base:'Poppins', sans-serif;
 
+$glider-color-inputfields-background: pink;
+$glider-color-inputfields-background-hover: blue;
+$glider-color-inputfields-text: red;
+$glider-color-inputfields-text-secondary: yellow;
+*/
 
 
 //BREAKPOINTS

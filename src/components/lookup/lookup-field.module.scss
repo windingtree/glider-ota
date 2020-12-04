@@ -2,22 +2,26 @@
 
 .lookup{
     border: 1px solid $glider-color-text-background;
+    color: $glider-color-inputfields-text;
+    background-color: $glider-color-inputfields-background;
     box-sizing: border-box;
     border-radius: 8px;
     height: 68px;
-    background: #FFFFFF;
     @include _glider-font-regular18;
 }
 
 .inputField{
     height:100%;
     width:80%;
-    color: $glider-color-text;
+    color: $glider-color-inputfields-text;
+    background-color: $glider-color-inputfields-background;
     display: inline;
     border: 0px;
 }
 .inputField:focus{
     box-shadow:none;
+    color: $glider-color-inputfields-text;
+    background-color: $glider-color-inputfields-background;
 
 }
 
@@ -25,7 +29,8 @@
     color: $glider-color-text-background;
 }
 .code{
-    color: $glider-color-text-background;
+    color: $glider-color-inputfields-text-secondary;
+    background-color: $glider-color-inputfields-background;
     text-align: right;
     display: inline-block;
     width: 20%;
