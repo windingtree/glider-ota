@@ -27,11 +27,11 @@ const GLIDER_CONFIG =
     {
         BASE_URL:GLIDER_BASEURL,
         GLIDER_TOKEN: getConfigKey('GLIDER_JWT'),
-        SEARCH_OFFERS_URL: GLIDER_BASEURL + "/offers/search",
-        CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
-        SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
-        REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
-        FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
+        // SEARCH_OFFERS_URL: GLIDER_BASEURL + "/offers/search",
+        // CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
+        // SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
+        // REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
+        // FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
         ORGID: getConfigKey('GLIDER_ORGID')
     };
 
@@ -39,15 +39,14 @@ const ROOMS_BASEURL = getConfigKey('ROOMS_BASEURL');
 const ROOMS_CONFIG =
     {
         BASE_URL:ROOMS_BASEURL,
-        SEARCH_OFFERS_URL: ROOMS_BASEURL + "/offers/search",
+        // SEARCH_OFFERS_URL: ROOMS_BASEURL + "/offers/search",
         ENABLE_ROOMS_SEARCH: getConfigKey('ENABLE_ROOMS_SEARCH'),
-        ROOMS_SEARCH_OFFERS_URL: getConfigKey('ROOMS_SEARCH_OFFERS_URL'),
         ROOMS_ORGID: getConfigKey('ROOMS_ORGID'),
         ROOMS_TOKEN: getConfigKey('ROOMS_TOKEN'),
-        CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
-        SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
-        REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
-        FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
+        // CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
+        // SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
+        // REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
+        // FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
     };
 
 const ORGID = {
