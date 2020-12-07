@@ -22,6 +22,10 @@ $glider-color-inputfields-text-secondary: yellow;
 */
 
 
+$glider-primary-buttons-border: 0px solid $glider-color-primary;
+$glider-primary-inactive-color:white;
+$glider-primary-inactive-buttons-border:1px solid $glider-primary-inactive-color;
+
 //BREAKPOINTS
 
 // Small devices (landscape phones, 640px and up)

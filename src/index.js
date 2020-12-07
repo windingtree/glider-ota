@@ -25,7 +25,7 @@ import FlightPassengersPage from "./pages/flight-passengers-page";
 import FlightSummaryPage from "./pages/flight-summary-page";
 import PaymentPage from "./pages/payment-page";
 import PaymentCryptoPage from "./pages/payment-crypto-page";
-
+import DCLandingPage from './dc/landing-page'
 
 function Dispatcher() {
     return (
@@ -51,6 +51,8 @@ function Dispatcher() {
                         {/*Hotels flow*/}
                         <Route path="/hotels/" component={HotelsSearchPage}/>
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
+                        <Route path="/dc/" component={DCLandingPage}/>
+
 
                         <Route path="/" component={HomePage} />
                     </Switch>

@@ -1,0 +1,15 @@
+@import '../../../styles/mixins';
+
+.selectorBtn{
+  @include _glider-font-text24medium;
+  padding-left: 10px;
+}
+
+.active{
+  color: $glider-color-primary;
+  border-bottom: 2px solid $glider-color-primary;
+}
+
+.inactive{
+  color: $glider-color-text-background;
+}
