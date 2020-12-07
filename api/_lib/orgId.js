@@ -13,7 +13,6 @@ const createTokenForProvider = async (orgId) => {
     return await createToken(ORGID.OTA_ORGID,orgId,'2hr',ORGID.OTA_PRIVATE_KEY,'api');
 }
 
-let GRAPH_URL = 'https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten';
 
 /**
  * Run a query on thegraph.com API with a query provided as a parameter.
@@ -25,13 +24,12 @@ const runGraphQuery = async (query) => {
     let body = {query: query};
 
     try {
-        let response = await axios.post(GRAPH_URL, body, {
+        let response = await axios.post(ORGID.P2P_GRAPH_URL, body, {
             headers: {'Content-Type': 'application/graphql'}
         });
         if (response && response.data && response.data.data)
             results = response.data.data;
     } catch (err) {
-        console.error(err)
         throw new Error(`Cannot retrieve API endpoints from OrgId:${err}`);
     }
     return results;
@@ -46,7 +44,7 @@ const getEndpoints = async (searchCriteria) =>{
     let endpoints=[];
 
 
-    if(ORGID.ENABLE_P2P_DISCOVERY==="yes") {
+    if(ORGID.P2P_ENABLE_DISCOVERY) {
         let organisations = [];
 
         //if it's a flight search - check for available flights providers/endpoints
@@ -67,20 +65,19 @@ const getEndpoints = async (searchCriteria) =>{
 
 
     //apart from discovery from graph, we need to add fixed endpoints (rooms, aggregator)
-    if(searchCriteria.itinerary){
-        //add aggregator
+    //add aggregator - if it's configured to be hardcoded (vs P2P discovery)
+    if(GLIDER_CONFIG.GLIDER_FIXED_USAGE) {
         endpoints.push(
             {
-                serviceEndpoint:GLIDER_CONFIG.BASE_URL,
-                id:GLIDER_CONFIG.ORGID,
+                serviceEndpoint: GLIDER_CONFIG.BASE_URL,
+                id: GLIDER_CONFIG.ORGID,
                 jwt: GLIDER_CONFIG.GLIDER_TOKEN
             }
         )
     }
-
     if(searchCriteria.accommodation){
-        //add rooms
-        if(ROOMS_CONFIG.ENABLE_ROOMS_SEARCH === "yes") {
+        //add rooms - if enabled
+        if(ROOMS_CONFIG.ENABLE_ROOMS_SEARCH) {
             endpoints.push(
                 {
                     serviceEndpoint: ROOMS_CONFIG.BASE_URL,
