@@ -1,0 +1,78 @@
+@import '../../../../styles/mixins';
+
+.lookup{
+    border: 1px solid $glider-color-text-background;
+    color: $glider-color-inputfields-text;
+    background-color: $glider-color-inputfields-background;
+    box-sizing: border-box;
+    border-radius: 8px;
+    height: 40px;
+    @include _glider-font-regular18;
+}
+
+/*
+.paxSelector {
+    height: 40px;
+    box-sizing: border-box;
+    border: 1px solid $glider-color-text-background;
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin: 0px 4px;
+}
+
+*/
+
+.inputField{
+    width:80%;
+    color: $glider-color-inputfields-text;
+    background-color: $glider-color-inputfields-background;
+    display: inline;
+    border: 0px;
+    box-sizing: border-box;
+    //border: 1px solid $glider-color-text-background;
+    border-radius: 8px;
+    margin: 0px 4px;
+
+}
+.inputField:focus{
+    box-shadow:none;
+    color: $glider-color-inputfields-text;
+    background-color: $glider-color-inputfields-background;
+
+}
+
+.inputField::placeholder {
+    color: $glider-color-text-background;
+}
+.code{
+    color: $glider-color-inputfields-text-secondary;
+    background-color: $glider-color-inputfields-background;
+    text-align: right;
+    width: 20%;
+    padding-right: 16px;
+}
+
+
+
+global(.locationLookupPopover){
+    background: #FFFFFF;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0px 0px 5px 5px;
+    width: 100%;
+    max-width: 480px;
+}
+
+.bs-popover-bottom > .arrow{
+    display: none !important;
+}
+
+.pseudoFocus{
+    border: 1px solid $glider-color-primary;
+    border-radius: 8px;
+}
+
+
+.label{
+    color: $glider-color-text-labels;
+    font-size: 14px;
+}

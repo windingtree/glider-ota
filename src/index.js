@@ -25,7 +25,7 @@ import FlightPassengersPage from "./pages/flight-passengers-page";
 import FlightSummaryPage from "./pages/flight-summary-page";
 import PaymentPage from "./pages/payment-page";
 import PaymentCryptoPage from "./pages/payment-crypto-page";
-import DCLandingPage from './dc/landing-page'
+import DCLandingPage from './dc/pages/landing-page'
 
 function Dispatcher() {
     return (

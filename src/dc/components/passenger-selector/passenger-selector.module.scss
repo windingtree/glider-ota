@@ -1,0 +1,109 @@
+@import '../../../styles/mixins';
+
+.paxSelector {
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid $glider-color-text-background;
+  background-color: $glider-color-inputfields-background;
+  border-radius: 8px;
+  margin: 0px 4px;
+}
+
+
+.paxSelectorDropdown {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  border: 0px;
+  box-sizing: border-box;
+  @include _glider-font-regular18;
+  color: $glider-color-inputfields-text;
+  background-color: $glider-color-inputfields-background;
+
+}
+
+.paxSelectorContainer {
+  width: 280px;
+  color: $glider-color-inputfields-text;
+  background-color: $glider-color-inputfields-background;
+
+}
+
+
+.paxSelectorRow {
+  padding-bottom: 20px;
+}
+
+.paxSelectorTitle {
+  @include _glider-font-text12;
+  color: $glider-color-text;
+}
+
+.paxSelectorSubtitle {
+  @include _glider-font-text12;
+  color: $glider-color-text-background;
+}
+
+.paxSelectorButtons {
+  //text-align: end;
+  display: flex;
+  justify-content: center;
+  color: $glider-color-text;
+}
+:global(.pax-btn-circle) {
+  border-radius: 50%;
+  width:22px;
+  height:22px;
+  padding:0px;
+  margin:0px;
+  border:0px;
+  line-height: 1;
+}
+:global(.pax-btn-increase) {
+  color: #fff;
+  background-color: $glider-color-primary;
+  border-color: $glider-color-primary;
+}
+:global(.pax-btn-decrease) {
+  color: #fff;
+  background-color: #BBBBBB;
+  border-color: #BBBBBB;
+}
+
+.paxSelectorPaxCount {
+  @include _glider-font-text12;
+  color: $glider-color-text;
+  padding-left: 12px;
+  padding-right: 12px;
+  width: 32px;
+  padding-top: 2px;
+  text-align: center;
+}
+
+.divider{
+  border-top: 1px solid #BBBBBB;
+}
+
+.radio{
+   margin-top: -1px;
+   vertical-align: middle;
+   margin-right: 10px;
+ }
+.radioLabel{
+  @include _glider-font-text12;
+  font-size: 13px;
+  color: $glider-color-text;
+  padding-top: 13px;
+}
+
+
+.passengerWarning {
+  @include _glider-font-text12;
+  font-size: 12px;
+  margin: 5px;
+  padding: 10px;
+}
+.label{
+  color: $glider-color-text-labels;
+  font-size: 14px;
+}

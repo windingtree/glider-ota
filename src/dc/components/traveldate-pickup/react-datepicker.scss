@@ -1,0 +1,24 @@
+@import '../../../styles/mixins';
+
+.react-datepicker__header {
+    text-align: center;
+    background-color: $glider-color-inputfields-background;
+    border-bottom: 0px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding-top: 8px;
+    position: relative;
+
+}
+
+.react-datepicker__day--selected {
+    background: #7161D6;
+
+}
+
+.react-datepicker__triangle{
+    display: none;
+}
+.react-datepicker-wrapper {
+    display: block;
+}
