@@ -1,15 +1,17 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Row, Col} from 'react-bootstrap'
-import TravelDatepickup from '../traveldate-pickup/travel-datepickup'
+// import TravelDatepickup from '../traveldate-pickup/travel-datepickup'
+import DatePickup from '../traveldate-pickup/date-pickup'
 import style from './search-form.module.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
 import {CityLookup} from "../lookup/city-lookup";
+import {searchCriteriaChangedAction} from "../../../redux/sagas/hotels";
+import {connect} from "react-redux";
 
 
-export default function HotelSearchForm(props){
+export function HotelSearchForm(props){
   // Destructure properties
   const {
-    initOrigin,
     initiDest,
     initDepartureDate,
     initReturnDate,
@@ -17,14 +19,13 @@ export default function HotelSearchForm(props){
     initChildren,
     initInfants,
     onSearchButtonClick,
-    locationsSource,
-    oneWayAllowed,
     maxPassengers,
-    showLabels
+    showLabels,
+    searchCriteriaChanged
+
   } = props;
 
 
-  const [origin, setOrigin] = useState(initOrigin);
   const [destination, setDestination] = useState(initiDest);
   const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
   const [returnDate, setReturnDate] = useState(initReturnDate?initReturnDate:undefined);
@@ -41,8 +42,7 @@ export default function HotelSearchForm(props){
       adults:adults,
       children:children,
       infants:infants,
-      isValid:validate(),
-      locationsSource:locationsSource
+      isValid:validate()
     };
   }
 
@@ -82,6 +82,21 @@ export default function HotelSearchForm(props){
     return (adults>0);
   }
 
+
+  //subscribe for search criteria changes so that we notify others once form is valid
+  useEffect(() => {
+    if(searchCriteriaChanged){
+      let searchCriteria=serializeSearchForm();
+      let isSearchFormValid = searchCriteria.isValid;
+      //fire action to notify others about search criteria and bool flag with the result of validation
+      searchCriteriaChanged(searchCriteria, isSearchFormValid);
+    }else{
+      console.warn('searchCriteriaChanged is not defined!')
+    }
+  }, [destination, departureDate, returnDate, adults, children, infants]) // <-- here put the parameter to listen
+
+
+
   function validate(){
     let destinationValid =  isDestinationValid();
     let departureDateValid = isDepartureDateValid();
@@ -90,32 +105,32 @@ export default function HotelSearchForm(props){
     return destinationValid && departureDateValid && returnDateValid && paxSelectionValid;
   }
 
-  function serializeSearchForm(){
-    return {
-      origin: origin,
-      destination: destination,
-      departureDate: departureDate,
-      returnDate: returnDate,
-      adults:adults,
-      children:children,
-      infants:infants,
-      isValid:validate(),
-      locationsSource:'hotels'
-    };
-  }
-
-  const isValid=validate();
-
     return (<>
 
           <div className={style.searchFormContainer}>
             <Row >
               <Col xs={12} md={3} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='Where to?' localstorageKey={'destination'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label='Who?'/></Col>
-              <Col xs={12} md={3} className={style.formElem}><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} startPlaceholder='Check in' endPlaceholder='Check out' label='When' localstorageKey={'traveldates'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><DatePickup onDateChanged={setDepartureDate} initialDate={departureDate} placeholder='Check in' label='When' localstorageKey={'traveldates'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><DatePickup onDateChanged={setReturnDate} initialDate={returnDate} placeholder='Check out' label='When' localstorageKey={'traveldates'}/></Col>
             </Row>
           </div>
         </>
     )
 
 }
+
+
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    searchCriteriaChanged: (searchCriteria, isSearchFormValid) => {
+      console.log('mapDispatchToProps, searchCriteriaChanged:',searchCriteria, isSearchFormValid)
+      dispatch(searchCriteriaChangedAction(searchCriteria, isSearchFormValid))
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(HotelSearchForm);

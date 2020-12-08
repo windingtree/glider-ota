@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {Button, Row, Col} from 'react-bootstrap'
-import TravelDatepickup from '../traveldate-pickup/travel-datepickup'
+import DateRangePickup from '../traveldate-pickup/date-range-pickup'
 import style from './search-form.module.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
-import {config} from '../../../config/default'
 import {AirportLookup} from "../lookup/airport-lookup";
 
 
@@ -109,7 +108,7 @@ export function FlightsSearchForm(props){
             <Row >
               <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin' label='Where from?' localstorageKey={'origin'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='Where to?' localstorageKey={'destination'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><TravelDatepickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When?' localstorageKey={'traveldates'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When?' localstorageKey={'traveldates'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label='Who?'/></Col>
             </Row>
           </div>

@@ -6,18 +6,24 @@ import {PriceFilter} from "./price-filter";
 import {BaggageFilter} from "./baggage-filter";
 import {AirlinesFilter} from "./airlines-filter";
 import {FILTERS} from "./filters-utils";
+import {
+    flightFiltersSelector, applyFilterAction, searchResultsSelector
+} from "../../../redux/sagas/flights";
+import {connect} from "react-redux";
 
-export default function Filters({searchResults, onFiltersChanged}) {
+export function Filters({searchResults, onFiltersChanged}) {
     const [filterStates, setFilterStates] = useState({})
-
 
     function filterChanged(filterId, filterState) {
         let newFilterStates = Object.assign({}, filterStates);
         newFilterStates[filterId] = filterState;
         setFilterStates(newFilterStates)
         console.log(`Filters - filter ${filterId} was changed, list of filters:${JSON.stringify(newFilterStates)}`);
-
-        onFiltersChanged(newFilterStates);
+        if (onFiltersChanged) {
+            onFiltersChanged(newFilterStates);
+        } else {
+            console.warn("onFiltersChanged is not defined!")
+        }
     }
 
 
@@ -34,5 +40,16 @@ export default function Filters({searchResults, onFiltersChanged}) {
     )
 }
 
+const mapStateToProps = state => ({
+    filters: flightFiltersSelector(state),
+    searchResults:searchResultsSelector(state)
+});
 
-
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFiltersChanged: (filters) => {
+            dispatch(applyFilterAction(filters))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Filters);

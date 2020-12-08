@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {Form} from 'react-bootstrap'
-import style from './travel-datepickup.module.scss'
+import style from './date-range-pickup.module.scss'
 import {format} from "date-fns";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./react-datepicker.scss";
 
-export default function TravelDatepickup({
+export default function DateRangePickup({
                                              initialStart,
                                              initialEnd,
                                              onStartDateChanged,

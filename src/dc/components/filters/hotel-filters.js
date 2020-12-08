@@ -5,8 +5,10 @@ import {FILTERS} from "./filters-utils";
 import {HotelRatingFilter} from "./hotel-rating-filter";
 import {NightPriceFilter} from "./night-price-filter";
 import {AmenitiesFilter} from "./amenities-filter";
+import {applyFilterAction, hotelsFiltersSelector, searchResultsSelector} from "../../../redux/sagas/hotels";
+import {connect} from "react-redux";
 
-export default function HotelFilters({searchResults, onFiltersChanged}) {
+export function HotelFilters({searchResults, onFiltersChanged}) {
     const [filterStates, setFilterStates] = useState({})
 
     function filterChanged(filterId, filterState) {
@@ -28,3 +30,16 @@ export default function HotelFilters({searchResults, onFiltersChanged}) {
     )
 }
 
+const mapStateToProps = state => ({
+    filters: hotelsFiltersSelector(state),
+    searchResults:searchResultsSelector(state)
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFiltersChanged: (filters) => {
+            dispatch(applyFilterAction(filters))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(HotelFilters);

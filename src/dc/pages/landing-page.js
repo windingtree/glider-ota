@@ -1,22 +1,25 @@
 import React, {useState} from 'react';
-import Header  from '../../components/common/header/header';
-import Footer from '../../components/common/footer/footer';
 import {Container, Row, Col, Button} from 'react-bootstrap';
 import style from './landing-page.module.scss'
 
 import SearchModeSelector from "../components/search-form/search-mode-selector";
-import FlightsSearchResults from "../components/flightresults/flights-search-results";
-import FlightsSearchForm from "../components/search-form/flight-search-form";
+import  FlightsShoppingComponent from "./flights-shopping-component"
+import HotelsShoppingComponent from "./hotels-shopping-component"
+import {SEARCH_TYPE} from "../components/search-form/search-mode-selector"
 
 
 export default function DCLandingPage() {
+    const [searchType,setSearchType] = useState(SEARCH_TYPE.FLIGHTS);
+
+
+
 
     return (
         <>
             <div>
-                <SearchModeSelector/>
-                <FlightsSearchForm/>
-                <FlightsSearchResults/>
+                <SearchModeSelector selectedMode={searchType} onToggle={setSearchType}/>
+                {searchType === SEARCH_TYPE.FLIGHTS && (<FlightsShoppingComponent/>)}
+                {searchType === SEARCH_TYPE.HOTELS && (<HotelsShoppingComponent/>)}
                 <div className='root-container-searchpage'>
                     <Row>
                         <Col xs={0} md={3} xl={2} className='d-none d-md-block'>

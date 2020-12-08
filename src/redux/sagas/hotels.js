@@ -1,15 +1,15 @@
 import { createSelector } from 'reselect';
 
 import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
-import dummyResults from "../../data/sample_response_unprocessed2.json"
-export const moduleName = 'flights';
+import dummyResults from "../../data/sample_response_hotels1.json"
+export const moduleName = 'hotels';
 
-const FLIGHTS_SEARCH_CRITERIA_CHANGED = `${moduleName}/FLIGHTS_SEARCH_CRITERIA_CHANGED`;
-const SEARCH_FOR_FLIGHTS = `${moduleName}/SEARCH_FOR_FLIGHTS`;
+const HOTELS_SEARCH_CRITERIA_CHANGED = `${moduleName}/HOTELS_SEARCH_CRITERIA_CHANGED`;
+const SEARCH_FOR_HOTELS = `${moduleName}/SEARCH_FOR_HOTELS`;
 const SEARCH_COMPLETED = `${moduleName}/SEARCH_COMPLETED`;
 const SEARCH_FAILED = `${moduleName}/SEARCH_FAILED`;
-const APPLY_FLIGHTS_FILTER = `${moduleName}/APPLY_FLIGHTS_FILTER`;
-const CLEAR_FLIGHTS_FILTER = `${moduleName}/CLEAR_FLIGHTS_FILTER`;
+const APPLY_HOTELS_FILTER = `${moduleName}/APPLY_HOTELS_FILTER`;
+const CLEAR_HOTELS_FILTER = `${moduleName}/CLEAR_HOTELS_FILTER`;
 
 
 const initialState = {
@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
     } = action;
     console.log('Reducer, action:',action)
     switch (type) {
-        case SEARCH_FOR_FLIGHTS:
+        case SEARCH_FOR_HOTELS:
             return Object.assign({}, state, {
                 searchInProgress:true
             });
@@ -45,15 +45,15 @@ export default (state = initialState, action) => {
                 searchResults: null,
                 error:error
             });
-        case APPLY_FLIGHTS_FILTER:
+        case APPLY_HOTELS_FILTER:
             return Object.assign({}, state, {
                 filters: payload.filters
             });
-        case CLEAR_FLIGHTS_FILTER:
+        case CLEAR_HOTELS_FILTER:
             return Object.assign({}, state, {
                 filters: null
             });
-        case FLIGHTS_SEARCH_CRITERIA_CHANGED:
+        case HOTELS_SEARCH_CRITERIA_CHANGED:
             return Object.assign({}, state, {
                 searchCriteria: payload.searchCriteria,
                 isSearchFormValid:payload.isSearchFormValid,
@@ -66,11 +66,10 @@ export default (state = initialState, action) => {
 // Actions
 
 //search button clicked - trigger offers search action
-export const searchForFlightsAction = () => {
+export const searchForHotelsAction = () => {
     console.log('Searching')
-
     return {
-        type: SEARCH_FOR_FLIGHTS
+        type: SEARCH_FOR_HOTELS
     }
 };
 
@@ -84,17 +83,17 @@ export const searchFailedAction = error => ({
     error
     });
 export const applyFilterAction = filters => ({
-    type: APPLY_FLIGHTS_FILTER,
+    type: APPLY_HOTELS_FILTER,
     payload: {
         filters:filters
     }
 });
 export const clearFilterAction = () => ({
-    type: CLEAR_FLIGHTS_FILTER
+    type: CLEAR_HOTELS_FILTER
 });
 
 export const searchCriteriaChangedAction = (searchCriteria, isSearchFormValid) => ({
-    type: FLIGHTS_SEARCH_CRITERIA_CHANGED,
+    type: HOTELS_SEARCH_CRITERIA_CHANGED,
     payload: {
         searchCriteria:searchCriteria,
         isSearchFormValid:isSearchFormValid
@@ -105,7 +104,7 @@ export const searchCriteriaChangedAction = (searchCriteria, isSearchFormValid) =
 
 const stateSelector = state => state[moduleName];
 
-export const flightFiltersSelector = createSelector(
+export const hotelsFiltersSelector = createSelector(
     stateSelector,
     ({ filters }) => filters
 );
@@ -139,12 +138,12 @@ const delayCall = (ms) => new Promise(res => setTimeout(res, ms))
 
 //saga
 
-function* searchForFlightsSaga() {
-    console.log('*searchForFlightsSaga')
+function* searchForHotelsSaga() {
+    console.log('*searchForHotelsSaga')
     try {
         // yield put(searchForFlightsAction());
         const searchCriteria = yield select(searchCriteriaSelector);
-        console.log('*searchForFlightsSaga searchCriteria:',searchCriteria)
+        console.log('*searchForHotelsSaga searchCriteria:',searchCriteria)
         yield delayCall(1000);
         yield put(searchCompletedAction(dummyResults));
     } catch (error) {
@@ -156,6 +155,6 @@ function* searchForFlightsSaga() {
 // Main saga
 export const saga = function*() {
     yield all([
-        takeEvery(SEARCH_FOR_FLIGHTS, searchForFlightsSaga)
+        takeEvery(SEARCH_FOR_HOTELS, searchForHotelsSaga)
     ]);
 };

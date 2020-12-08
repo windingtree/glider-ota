@@ -1,16 +1,11 @@
 import { createSelector } from 'reselect';
 
 import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
-import dummyResults from "../../data/sample_response_unprocessed2.json"
-export const moduleName = 'flights';
+export const moduleName = 'cart';
 
-const FLIGHTS_SEARCH_CRITERIA_CHANGED = `${moduleName}/FLIGHTS_SEARCH_CRITERIA_CHANGED`;
-const SEARCH_FOR_FLIGHTS = `${moduleName}/SEARCH_FOR_FLIGHTS`;
-const SEARCH_COMPLETED = `${moduleName}/SEARCH_COMPLETED`;
-const SEARCH_FAILED = `${moduleName}/SEARCH_FAILED`;
-const APPLY_FLIGHTS_FILTER = `${moduleName}/APPLY_FLIGHTS_FILTER`;
-const CLEAR_FLIGHTS_FILTER = `${moduleName}/CLEAR_FLIGHTS_FILTER`;
-
+const ADD_FLIGHT_TO_CART = `${moduleName}/ADD_FLIGHT_TO_CART`;
+const ADD_HOTEL_TO_CART = `${moduleName}/ADD_HOTEL_TO_CART`;
+const DELETE_ITEM_FROM_CART = `${moduleName}/DELETE_ITEM_FROM_CART`;
 
 const initialState = {
     filters: null,
