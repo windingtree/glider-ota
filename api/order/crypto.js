@@ -181,7 +181,7 @@ const processCryptoOrder = async (
         tx,
         receipt,
         payment,
-        quote
+        quoteId
     }
 ) => {
     logger.debug(`Update payment status, status:%s, confirmedOfferId:%s, transactionHash:%s`, PAYMENT_STATUSES.PAID, confirmedOfferId, tx.hash);
@@ -194,7 +194,7 @@ const processCryptoOrder = async (
             tx,
             receipt,
             payment,
-            quote
+            quoteId
         },
         `Crypto payment`,// comment
         receipt// transaction_details
@@ -203,7 +203,7 @@ const processCryptoOrder = async (
     let confirmation;
 
     try {
-        confirmation = await fulfillOrder(confirmedOfferId, tx, quote);
+        confirmation = await fulfillOrder(confirmedOfferId, tx, quoteId);
     } catch (error) {
         logger.error(`Failed to fulfill order:`, error);
         throw error;
@@ -289,28 +289,26 @@ const validatePaymentTransaction = async (confirmedOfferId, transactionHash) => 
         throw new Error(`Payment has wrong confirmed offerId ${payment.attachment}`);
     }
 
+    const amount = web3.utils.fromWei(payment.amountOut, 'picoether');// USDC uses picoether: 1000000
     const {
         currency
     } = document.confirmedOffer.offer.price;
     const exchangeQuote = document.exchangeQuote;
+    const offerCurrency = String(currency).toLowerCase();
 
-    if (String(currency).toLowerCase() !== 'usd' && !exchangeQuote) {
-        logger.error(`The offer not enabled for payment with crypto`, confirmedOfferId);
+    if (exchangeQuote && amount !== String(exchangeQuote.sourceAmount)) {
+        logger.error(`Payment amount has a wrong value: %s`, payment.amountOut);
+        throw new Error(`Payment amount has a wrong value ${payment.amountOut}`);
+    } else if (offerCurrency !== 'usd') {
+        logger.error(`The offer not enabled for payment with crypto: %s`, confirmedOfferId);
         throw new Error(`The offer not enabled for payment with crypto ${confirmedOfferId}`);
-    } else if (exchangeQuote) {
-        const amount = web3.utils.fromWei(payment.amountOut, 'picoether');// USDC uses picoether: 1000000
-
-        if (String(amount) !== String(exchangeQuote.sourceAmount)) {
-            logger.error(`Payment amount has a wrong value`, payment.amountOut);
-            throw new Error(`Payment amount has a wrong value ${payment.amountOut}`);
-        }
     }
 
     return {
         tx,
         receipt,
         payment,
-        quote: exchangeQuote
+        quoteId: exchangeQuote ? exchangeQuote.quoteId : undefined
     };
 };
 
@@ -324,7 +322,7 @@ const cryptoOrderController = async (request, response) => {
         tx,
         receipt,
         payment,
-        quote
+        quoteId
     } = await validatePaymentTransaction(confirmedOfferId, transactionHash);
 
     // Send error response
@@ -350,7 +348,7 @@ const cryptoOrderController = async (request, response) => {
                 tx,
                 receipt,
                 payment,
-                quote
+                quoteId
             }
         );
         logger.info('Confirmation:', confirmation)
