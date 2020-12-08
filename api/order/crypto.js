@@ -299,7 +299,7 @@ const validatePaymentTransaction = async (confirmedOfferId, transactionHash) => 
     if (exchangeQuote && amount !== String(exchangeQuote.sourceAmount)) {
         logger.error(`Payment amount has a wrong value: %s`, payment.amountOut);
         throw new Error(`Payment amount has a wrong value ${payment.amountOut}`);
-    } else if (offerCurrency !== 'usd') {
+    } else if ((!exchangeQuote || !exchangeQuote.quoteId) && offerCurrency !== 'usd') {
         logger.error(`The offer not enabled for payment with crypto: %s`, confirmedOfferId);
         throw new Error(`The offer not enabled for payment with crypto ${confirmedOfferId}`);
     }
