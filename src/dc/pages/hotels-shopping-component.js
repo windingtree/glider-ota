@@ -4,6 +4,7 @@ import HotelFilters from "../components/filters/hotel-filters";
 import HotelsSearchResults from "../components/hotelresults/hotels-search-results";
 import {Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
+import ShoppingCart from "../components/shoppingcart/shopping-cart";
 
 export default function HotelsShoppingComponent() {
     return (
@@ -19,7 +20,7 @@ export default function HotelsShoppingComponent() {
                     <HotelsSearchResults/>
                 </Col>
                 <Col xs={0} sm={3} md={3} xl={3}>
-                    shopping cart
+                    <ShoppingCart/>
                 </Col>
             </Row>
 

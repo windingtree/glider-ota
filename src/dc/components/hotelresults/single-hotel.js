@@ -1,17 +1,23 @@
-import React from 'react'
+import React,{useState} from 'react'
 import style from './single-hotel.module.scss'
 import {Container, Row, Col, Image, Button } from 'react-bootstrap'
 import default_hotel_image from "../../../assets/default_hotel_image.png";
+import HotelDetails from "../hoteldetails/hotel-details"
 
-
-export default function SingleHotel({hotel, bestoffer, handleClick}){
+export default function SingleHotel({hotel, bestoffer, handleClick, searchResults}){
+    const [showRooms, setShowRooms] = useState(false)
     const image=(hotel.media!==undefined && hotel.media.length>0)?hotel.media[0].url:default_hotel_image;
     let bestPrice;
     if(bestoffer && bestoffer.price)    //if there is no availability for a hotel (e.g. all rooms booked), there won't be any offer but we still want to show the hotel
         bestPrice = bestoffer.price;
+    console.log('Best price:',bestPrice)
+    const toggleShowRooms = () => {
+        setShowRooms(!showRooms)
+    }
+
+
     return(
         <Container  className={style.container}>
-        {/*<Container  className="hotel-search-offer__container d-flex flex-row flex-wrap p-3">*/}
             <Row >
             <Col xs={12} md={3} className={style.imagecontainer}><Image className={style.image} height={140}  src={image} /></Col>
             <Col>
@@ -26,11 +32,21 @@ export default function SingleHotel({hotel, bestoffer, handleClick}){
                             {!bestPrice && <HotelFullyBooked/>}
                         </Col>
                     </Row>
+                    <Row>
+                        <Button className="w-100" variant="outline-primary" size="lg" onClick={toggleShowRooms}>show rooms</Button>
+                    </Row>
                 </Container>
             </Col>
             </Row>
+
+            {showRooms && <HotelDetails hotel={hotel} searchResults={searchResults}/>}
+
         </Container>)
 }
+
+
+
+
 
 const HotelPrice = ({price}) => {
     return (<div className={style.price}>

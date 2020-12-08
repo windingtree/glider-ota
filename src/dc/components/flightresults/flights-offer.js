@@ -4,9 +4,23 @@ import {Container, Row, Col, Button} from 'react-bootstrap'
 import {format, parseISO} from "date-fns";
 import OfferUtils from '../../../utils/offer-utils'
 import _ from 'lodash'
+import {
+    errorSelector,addFlightToCartAction
+} from "../../../redux/sagas/cart";
+import {connect} from "react-redux";
 
 
-export function Offer({itineraries = [], price, offerId, onOfferDisplay}) {
+export function Offer({offer, itineraries = [], price, offerId, onOfferDisplay, onAddOfferToCart}) {
+
+    const addOfferToCart = () =>{
+        if(onAddOfferToCart)
+        {
+            onAddOfferToCart(offer)
+        }else{
+            console.warn('onAddOfferToCart is not defined!')
+        }
+    }
+
     return (
         <Container fluid={true} className={style.flightsearchoffercontainer}>
             <Row>
@@ -19,6 +33,10 @@ export function Offer({itineraries = [], price, offerId, onOfferDisplay}) {
                     <Button variant="outline-primary pricebtn" size="lg" onClick={() => {
                         onOfferDisplay(offerId)
                     }}>{price.public} {price.currency}</Button>
+                    <Button variant="outline-primary" size="md" onClick={() => {
+                        addOfferToCart()
+                    }}>Add</Button>
+
                 </Col>
             </Row>
         </Container>
@@ -119,3 +137,11 @@ function ItineraryAncillaries({pricePlan}) {
 }
 
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onAddOfferToCart: (offer) => {
+            dispatch(addFlightToCartAction(offer))
+        }
+    }
+}
+export default connect(null, mapDispatchToProps)(Offer);

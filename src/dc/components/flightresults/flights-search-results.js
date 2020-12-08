@@ -7,7 +7,7 @@ import {
     FlightSearchResultsFilterHelper
 } from "../../../utils/flight-search-results-filter-helper"
 import ResultsPaginator from "../../../components/common/pagination/results-paginator";
-import {Offer} from "./flights-offer";
+import Offer from "./flights-offer";
 import SearchButton from "../search-form/search-button";
 
 import { connect } from 'react-redux';
@@ -80,10 +80,10 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
                 {
                     trips.map(tripInfo => {
                         let offer = tripInfo.bestoffer;
-                        let offerId = offer.offerId;
                         let itineraries = tripInfo.itineraries;
+                        let offerId = offer.offerId;
                         let price = offer.price;
-                        return (<Offer itineraries={itineraries}
+                        return (<Offer offer={offer} itineraries={itineraries}
                                        offerId={offerId}
                                        price={price}
                                        key={offerId}

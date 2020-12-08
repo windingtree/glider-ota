@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
-import dummyResults from "../../data/sample_response_hotels1.json"
+import dummyResults from "../../dc/data/sample_response_hotels_bogota.json"
 export const moduleName = 'hotels';
 
 const HOTELS_SEARCH_CRITERIA_CHANGED = `${moduleName}/HOTELS_SEARCH_CRITERIA_CHANGED`;

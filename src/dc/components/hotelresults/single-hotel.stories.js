@@ -9,9 +9,9 @@ let hotel = sample.accommodations["erevmax.07119"]
 let offer = sample.offers["7ed6503f-70b6-408d-a60e-a5c04a1f0161"]
 
 export default {
-  title: 'Hotels/Search/SingleHotel',
+  title: 'DC/Search results/SingleHotel',
   component: SingleHotel
 };
 
 
-export const Default = () => (<SingleHotel hotel={hotel} bestoffer={offer} handleClick={action("handleClick")}/> );
+export const Default = () => (<SingleHotel hotel={hotel} bestoffer={offer} handleClick={action("handleClick")} searchResults={sample}/> );

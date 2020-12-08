@@ -1,0 +1,58 @@
+@import '../../../styles/mixins';
+
+.offerWrapper {
+}
+
+.offerContainer {
+  width: 280px;
+
+  @include glider-media-small_576 {
+    width: 560px;
+  }
+  @include glider-media-medium_768 {
+    width: 560px;
+  }
+  @include glider-media-large_992 {
+    width: 830px;
+  }
+  @include glider-media-xlarge_1600 {
+    min-width: 1760px;
+  }
+}
+
+.mainImageContainer {
+  height: 158px;
+  @include glider-media-small_576 {
+  }
+  @include glider-media-medium_768 {
+  }
+  @include glider-media-large_992 {
+
+  }
+  @include glider-media-xlarge_1600 {
+    height: 262px;
+  }
+
+}
+
+.mainImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+
+}
+
+.roomImage {
+  max-width: 180px
+}
+.hotelPrice {
+  @include _glider-font-h2;
+  padding-bottom: 30px;
+}
+
+.hotelPriceButton {
+  text-align: right;
+}
+
+
+

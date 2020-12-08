@@ -15,10 +15,12 @@ import {connect} from "react-redux";
 import Spinner from "../../../components/common/spinner";
 import SearchButton from "../search-form/search-button";
 
-export function HotelsSearchResults({searchResults, onHotelSelected, onSearchClicked, isSearchFormValid, filters, searchInProgress, error}) {
+export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFormValid, filters, searchInProgress, error}) {
 
     console.log('Hotel search results:',searchResults)
+    const onHotelSelected = () =>{
 
+    }
     if (searchResults === undefined) {
         return (<>No hotels found</>)
     }
@@ -40,7 +42,7 @@ export function HotelsSearchResults({searchResults, onHotelSelected, onSearchCli
     return (
         <>
             <SearchButton disabled={!isSearchFormValid} onSearchButtonClicked={onSearchButtonClicked}/>
-            <Spinner enabled={searchInProgress}/>
+            <Spinner enabled={searchInProgress===true}/>
             {error && (<div>ERROR OCCURED</div>)}
 
             <div className='pt-5'/>
@@ -50,7 +52,7 @@ export function HotelsSearchResults({searchResults, onHotelSelected, onSearchCli
                     _.map(results, (result, id) => {
                         let hotel = result.hotel;
                         let bestoffer = result.bestoffer;
-                        return (<SingleHotel hotel={hotel} bestoffer={bestoffer} key={id} handleClick={onHotelSelected}/>)
+                        return (<SingleHotel hotel={hotel} bestoffer={bestoffer} key={id} handleClick={onHotelSelected} searchResults={searchResults}/>)
                     })
                 }
             </Row>

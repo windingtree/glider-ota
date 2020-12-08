@@ -5,15 +5,14 @@ export const moduleName = 'cart';
 
 const ADD_FLIGHT_TO_CART = `${moduleName}/ADD_FLIGHT_TO_CART`;
 const ADD_HOTEL_TO_CART = `${moduleName}/ADD_HOTEL_TO_CART`;
-const DELETE_ITEM_FROM_CART = `${moduleName}/DELETE_ITEM_FROM_CART`;
+const DELETE_FLIGHT_FROM_CART = `${moduleName}/DELETE_FLIGHT_FROM_CART`;
+const DELETE_HOTEL_FROM_CART = `${moduleName}/DELETE_HOTEL_FROM_CART`;
+const BOOK = `${moduleName}/BOOK`;
 
 const initialState = {
-    filters: null,
-    searchCriteria: null,
-    searchResults: null,
-    searchInProgress:false,
+    flightOffer: null,
+    hotelOffer: null,
     error:null,
-    isSearchFormValid:false
 };
 
 // reducer
@@ -25,34 +24,24 @@ export default (state = initialState, action) => {
     } = action;
     console.log('Reducer, action:',action)
     switch (type) {
-        case SEARCH_FOR_FLIGHTS:
+        case ADD_FLIGHT_TO_CART:
             return Object.assign({}, state, {
-                searchInProgress:true
+                flightOffer:payload.offer
             });
-        case SEARCH_COMPLETED:
+        case ADD_HOTEL_TO_CART:
             return Object.assign({}, state, {
-                searchInProgress:false,
-                searchResults: payload.searchResults
+                hotelOffer:payload.offer
             });
-        case SEARCH_FAILED:
+        case DELETE_FLIGHT_FROM_CART:
             return Object.assign({}, state, {
-                searchInProgress:false,
-                searchResults: null,
-                error:error
+                flightOffer:null
             });
-        case APPLY_FLIGHTS_FILTER:
+        case DELETE_HOTEL_FROM_CART:
             return Object.assign({}, state, {
-                filters: payload.filters
+                hotelOffer: null
             });
-        case CLEAR_FLIGHTS_FILTER:
-            return Object.assign({}, state, {
-                filters: null
-            });
-        case FLIGHTS_SEARCH_CRITERIA_CHANGED:
-            return Object.assign({}, state, {
-                searchCriteria: payload.searchCriteria,
-                isSearchFormValid:payload.isSearchFormValid,
-            });
+        case BOOK:
+            return state;
         default:
             return state
     }
@@ -60,64 +49,54 @@ export default (state = initialState, action) => {
 
 // Actions
 
-//search button clicked - trigger offers search action
-export const searchForFlightsAction = () => {
-    console.log('Searching')
-
+export const addFlightToCartAction = (offer) => {
+    console.log('addFlightToCartAction')
     return {
-        type: SEARCH_FOR_FLIGHTS
+        type: ADD_FLIGHT_TO_CART,
+        payload: {
+            offer:offer
+        }
     }
 };
 
-export const searchCompletedAction = results => ({
-    type: SEARCH_COMPLETED,
-    payload: {
-        searchResults:results
-    }});
-export const searchFailedAction = error => ({
-    type: SEARCH_FAILED,
-    error
-    });
-export const applyFilterAction = filters => ({
-    type: APPLY_FLIGHTS_FILTER,
-    payload: {
-        filters:filters
+export const addHotelToCartAction = (offer) => {
+    return {
+        type: ADD_HOTEL_TO_CART,
+        payload: {
+            offer:offer
+        }
     }
-});
-export const clearFilterAction = () => ({
-    type: CLEAR_FLIGHTS_FILTER
-});
+};
+export const deleteFlightFromCart = () => {
+    return {
+        type: DELETE_FLIGHT_FROM_CART
+    }
+};
+export const deleteHotelFromCart = () => {
+    return {
+        type: DELETE_HOTEL_FROM_CART
+    }
+};
 
-export const searchCriteriaChangedAction = (searchCriteria, isSearchFormValid) => ({
-    type: FLIGHTS_SEARCH_CRITERIA_CHANGED,
-    payload: {
-        searchCriteria:searchCriteria,
-        isSearchFormValid:isSearchFormValid
+export const bookAction = () => {
+    console.log('bookAction')
+    return {
+        type: BOOK
     }
-});
+};
 
 // Selectors
 
 const stateSelector = state => state[moduleName];
 
-export const flightFiltersSelector = createSelector(
+export const flightOfferSelector = createSelector(
     stateSelector,
-    ({ filters }) => filters
+    ({ flightOffer }) => flightOffer
 );
 
-export const searchCriteriaSelector = createSelector(
+export const hotelOfferSelector = createSelector(
     stateSelector,
-    ({ searchCriteria }) => searchCriteria
-);
-
-export const searchResultsSelector = createSelector(
-    stateSelector,
-    ({ searchResults }) => searchResults
-);
-
-export const isSearchInProgressSelector = createSelector(
-    stateSelector,
-    ({ searchInProgress }) => searchInProgress
+    ({ hotelOffer }) => hotelOffer
 );
 
 export const errorSelector = createSelector(
@@ -125,32 +104,4 @@ export const errorSelector = createSelector(
     ({ error }) => error
 );
 
-export const isSearchFormValidSelector = createSelector(
-    stateSelector,
-    ({ isSearchFormValid }) => isSearchFormValid
-);
 
-const delayCall = (ms) => new Promise(res => setTimeout(res, ms))
-
-//saga
-
-function* searchForFlightsSaga() {
-    console.log('*searchForFlightsSaga')
-    try {
-        // yield put(searchForFlightsAction());
-        const searchCriteria = yield select(searchCriteriaSelector);
-        console.log('*searchForFlightsSaga searchCriteria:',searchCriteria)
-        yield delayCall(1000);
-        yield put(searchCompletedAction(dummyResults));
-    } catch (error) {
-        yield put(searchFailedAction(error))
-    }
-}
-
-
-// Main saga
-export const saga = function*() {
-    yield all([
-        takeEvery(SEARCH_FOR_FLIGHTS, searchForFlightsSaga)
-    ]);
-};
