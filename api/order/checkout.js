@@ -90,13 +90,12 @@ const checkoutCrypto = async (req, res) => {
         return;
     }
 
-    await storeConfirmedOffer(confirmedOffer, passengers);
-
     const {
         public: publicPrice,
         currency
     } = confirmedOffer.offer.price;
     let amount = publicPrice;
+    let exchangeQuote;
 
     const isNonUsd = String(currency).toLowerCase() !== 'usd';
 
@@ -111,7 +110,33 @@ const checkoutCrypto = async (req, res) => {
         } = await convertCurrencyToUSD(currency, publicPrice);
         amount = sourceAmount;
         logger.info(`Quote created: quoteId=${quoteId}; from ${targetAmount}${targetCurrency} to ${sourceAmount}${sourceCurrency} with rate: ${rate}`);
+
+        exchangeQuote = {
+            quoteId,
+            rate,
+            sourceAmount,
+            sourceCurrency,
+            targetAmount,
+            targetCurrency
+        };
+    } else {
+
+        // conversion disabled
+        exchangeQuote = {
+            quoteId: null,
+            rate: 1,
+            sourceAmount: publicPrice,
+            sourceCurrency: 'USD',
+            targetAmount: publicPrice,
+            targetCurrency: 'USD'
+        };
     }
+
+    await storeConfirmedOffer(
+        confirmedOffer,
+        passengers,
+        exchangeQuote
+    );
 
     return {
         offer: confirmedOffer,
