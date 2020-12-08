@@ -1,0 +1,82 @@
+@import 'src/styles/mixins';
+
+
+.flightsearchoffercontainer{
+    background: $glider-color-primary-background;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 40px 40px;
+    margin-bottom: 20px;
+}
+
+.flightsearchoffercontainer:hover {
+    background-color: $glider-color-primary-background-hover;
+}
+
+
+.offerhighlightitineraryrow{
+    min-height: 80px;
+}
+
+
+.offerhighlightcolumn{
+    min-width: 295px;
+    //padding-left: 20px;
+}
+
+
+
+
+//itinerary display component
+
+.itinTimes{
+    @include _glider-font-h2;
+    color:$glider-color-text;
+    padding-bottom: 5px;
+}
+.itinDptrdate{
+    @include _glider-font-regular18;
+    color:$glider-color-text-background;
+    text-transform: uppercase;
+}
+
+.itinDuration{
+    @include _glider-font-regular18;
+    color:$glider-color-text;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+}
+
+.itinAirports{
+    @include _glider-font-regular18;
+    color:$glider-color-text-background;
+    text-transform: uppercase;
+    text-decoration-line: underline;
+}
+
+.itinRow{
+    padding-bottom: 38px;
+}
+
+.itinStopCount{
+    @include _glider-font-regular18;
+    color:$glider-color-text;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+}
+
+.itinStopDetails{
+    @include _glider-font-regular18;
+    color:$glider-color-text-background;
+    text-transform: uppercase;
+    text-decoration-line: underline;
+}
+
+.itinCarrierLogo{
+    margin-right: 20px;
+    height:30px;
+}
+
+:global(.pricebtn){
+    width:100%;
+}

@@ -27,6 +27,9 @@ import PaymentPage from "./pages/payment-page";
 import PaymentCryptoPage from "./pages/payment-crypto-page";
 import DCLandingPage from './dc/pages/landing-page'
 
+import DCFlightsSearchPage from "./dc/pages/flights-search-page"
+
+
 function Dispatcher() {
     return (
         <Provider store={store}>
@@ -51,6 +54,7 @@ function Dispatcher() {
                         {/*Hotels flow*/}
                         <Route path="/hotels/" component={HotelsSearchPage}/>
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
+                        <Route path="/dc/flights/" component={DCFlightsSearchPage}/>
                         <Route path="/dc/" component={DCLandingPage}/>
 
 

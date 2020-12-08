@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Button, Row, Col} from 'react-bootstrap'
 import TravelDatepickup from '../traveldate-pickup/travel-datepickup'
 import style from './search-form.module.scss'
@@ -7,7 +7,13 @@ import {config} from '../../../config/default'
 import {AirportLookup} from "../lookup/airport-lookup";
 
 
-export default function FlightsSearchForm(props){
+import { connect } from 'react-redux';
+import {
+  searchCriteriaChangedAction
+} from '../../../redux/sagas/flights';
+
+
+export function FlightsSearchForm(props){
   // Destructure properties
   const {
     initOrigin,
@@ -19,8 +25,8 @@ export default function FlightsSearchForm(props){
     initInfants,
     onSearchButtonClick,
     locationsSource,
-    oneWayAllowed = true,
-    maxPassengers
+    maxPassengers,
+    searchCriteriaChanged
   } = props;
 
 
@@ -46,11 +52,6 @@ export default function FlightsSearchForm(props){
     };
   }
 
-  function searchButtonClick () {
-    const searchCriteria = serializeSearchForm();
-    if(onSearchButtonClick)
-      onSearchButtonClick(searchCriteria)
-  }
 
   function isOriginValid(){
     return origin!==undefined;
@@ -62,54 +63,45 @@ export default function FlightsSearchForm(props){
   function isDepartureDateValid(){
     return departureDate!==undefined
   }
-  function isReturnDateValid(){
-    if (returnDate!==undefined) {
-      return departureDate!==undefined && returnDate >= departureDate;
-    } else{
-      return false
+
+
+  //subscribe for search criteria changes so that we notify others once form is valid
+  useEffect(() => {
+    if(searchCriteriaChanged){
+      let searchCriteria=serializeSearchForm();
+      let isSearchFormValid = searchCriteria.isValid;
+      //fire action to notify others about search criteria and bool flag with the result of validation
+      searchCriteriaChanged(searchCriteria, isSearchFormValid);
+    }else{
+      console.warn('searchCriteriaChanged is not defined!')
     }
-  }
+  }, [origin, destination, departureDate, returnDate, adults, children, infants]) // <-- here put the parameter to listen
 
   function isPaxSelectionValid(){
     // Check if maximum is not exceeded
     if(maxPassengers && (adults + infants + children) > maxPassengers) {
       return false;
     }
-
     //@fixme: Infants are not yet supported by AC
     if(infants > 0) {
       return false;
     }
-
     // Check if infants do not exceed adults (since they seat on laps)
     if(infants > adults) {
       return false;
     }
-
     // Otherwise just ensure we have adults (minor-only not supported)
     return (adults>0);
-  }
-  function serializeSearchForm(){
-    return {
-      origin: origin,
-      destination: destination,
-      departureDate: departureDate,
-      returnDate: returnDate,
-      adults:adults,
-      children:children,
-      infants:infants,
-      isValid:validate(),
-      locationsSource:'flights'
-    };
   }
 
   function validate(){
     let originValid = isOriginValid();
     let destinationValid =  isDestinationValid();
     let departureDateValid = isDepartureDateValid();
-    let returnDateValid = isReturnDateValid() || oneWayAllowed;
     let paxSelectionValid = isPaxSelectionValid();
-    return originValid && destinationValid && departureDateValid && returnDateValid && paxSelectionValid;
+    let result = originValid && destinationValid && departureDateValid && paxSelectionValid;
+    console.log('Validate form:',result, `${originValid} ${destinationValid} ${departureDateValid} ${paxSelectionValid}`)
+    return result;
   }
 
     return (<>
@@ -128,3 +120,17 @@ export default function FlightsSearchForm(props){
 
 
 
+
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    searchCriteriaChanged: (searchCriteria, isSearchFormValid) => {
+      console.log('mapDispatchToProps, searchCriteriaChanged:',searchCriteria, isSearchFormValid)
+      dispatch(searchCriteriaChangedAction(searchCriteria, isSearchFormValid))
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(FlightsSearchForm);

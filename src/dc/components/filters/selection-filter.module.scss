@@ -1,0 +1,30 @@
+@import 'src/styles/mixins';
+
+
+.filter {
+  @include _glider-font-regular18;
+  color: $glider-color-text;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 35px;
+  margin-bottom: 20px;
+  @include glider-media-medium_768{
+    //padding: 80px;
+  }
+}
+
+.filterTitle {
+  text-transform: uppercase;
+  padding-bottom: 40px;
+}
+.filterContainer {
+
+}
+
+
+.filterCheckbox {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  //margin-bottom: 10px;
+}
