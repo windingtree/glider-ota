@@ -223,7 +223,7 @@ async function processPaymentSuccess(confirmedOfferId, webhookEvent) {
 const getErrorMessage = (error) => {
     let message;
     if (error.response && error.response.data && error.response.data.message) {
-        message = `Glider: ${error.response.data.message}`;
+        message = `Supplier: ${error.response.data.message}`;
     } else {
         message = error.message;
     }
@@ -299,7 +299,7 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
     // Request a guarantee to Simard
     let guarantee;
     try {
-        guarantee = await createGuarantee(price.public, price.currency)
+        guarantee = await createGuarantee(price.public, price.currency, offerMetadata.id)
 
     }catch(error){
         logger.error("Guarantee could not be created, simard error:%s", error);
@@ -323,9 +323,9 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
 
         // Handle the error creation error
     } catch (error) {
-        // Override Error with Glider message
+        // Override Error with supplier message
         if (error.response && error.response.data && error.response.data.message) {
-            error.message = `Glider B2B: ${error.response.data.message}`;
+            error.message = `Supplier: ${error.response.data.message}`;
         }
         logger.error("Failure in response from /createWithOffer: %s, will try to cancel the payment", error.message);
         //if fulfilment fails - try to cancel payment
