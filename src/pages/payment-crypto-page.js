@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'react-bootstrap';
 import Header from '../components/common/header/header';
@@ -18,6 +18,40 @@ import {
 } from '../redux/sagas/web3';
 import { createPaymentIntent } from "../../src/utils/api-utils";
 
+const CountDown = props => {
+    const {
+        value,
+        onCountDown
+    } = props;
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        setCount(value);
+    }, [value]);
+
+    useEffect(() => {
+        let timeout;
+        if (count > 0) {
+            timeout = setTimeout(() => {
+                setCount(c => {
+                    const nextCount = c - 1;
+                    if (nextCount === 0) {
+                        onCountDown();
+                    }
+                    return c - 1;
+                });
+            }, 1000);
+        }
+
+        return () => clearTimeout(timeout);
+    }, [count, onCountDown]);
+
+    return (
+        <div className={styles.countDown}>
+            {count}
+        </div>
+    );
+};
 
 const CryptoPaymentPage = props => {
     const {
@@ -33,13 +67,9 @@ const CryptoPaymentPage = props => {
     const [deadline, setDeadline] = useState(0);
     const [offer, setOffer] = useState(null);
     const [amountUSD, setAmountUSD] = useState(0);
+    const [countDown, setCountDown] = useState(0);
 
-    const handlePaymentSuccess = confirmedOfferId => {
-        const url=`/confirmation/${confirmedOfferId}`;
-        history.push(url);
-    }
-
-    useEffect(()=>{
+    const createIntent = useCallback(() => {
         setOfferLoading(true);
         createPaymentIntent(confirmedOfferId, 'crypto')
             .then(data => {
@@ -48,23 +78,55 @@ const CryptoPaymentPage = props => {
                 setOffer(data.offer.offer);
                 setAmountUSD(data.amount);
                 setOfferLoading(false);
+                setCountDown(120);
             })
             .catch(err => {
                 setError(err);
                 setOfferLoading(false);
             });
-    },[confirmedOfferId])
+    }, [confirmedOfferId]);
+
+    useEffect(()=>{
+        createIntent();
+    }, [createIntent]);
+
+    const handleOnCountDown = () => {
+        setCountDown(0);
+        createIntent();
+    }
+
+    const handlePaymentStart = () => {
+        setCountDown(0);
+    };
+
+    const handlePaymentSuccess = confirmedOfferId => {
+        const url=`/confirmation/${confirmedOfferId}`;
+        history.push(url);
+    }
+
+    const handlePaymentReset = () => {
+        setCountDown(0);
+        createIntent();
+    };
 
     return (
         <div>
             <Header violet={true}/>
             <div className='root-container-subpages'>
+                {offer &&
+                    <h1 className={styles.cryptoTitle}>
+                        {countDown > 0 &&
+                            <CountDown
+                                value={countDown}
+                                onCountDown={handleOnCountDown}
+                            />
+                        }
+                        Pay {offer.price.public} {offer.price.currency} with Crypto
+                    </h1>
+                }
                 <Spinner enabled={isOfferLoading}/>
-                {(!isOfferLoading && !error && offer) &&
+                {offer &&
                     <>
-                        <h1 className={styles.cryptoTitle}>
-                            Pay {offer.price.public} {offer.price.currency} with Crypto
-                        </h1>
                         <WalletAddress />
                         <Row className={styles.mb10}>
                             <Col>
@@ -82,6 +144,8 @@ const CryptoPaymentPage = props => {
                                 usdValue={amountUSD}
                                 confirmedOfferId={confirmedOfferId}
                                 deadline={deadline}
+                                onPaymentReset={() => handlePaymentReset()}
+                                onPaymentStart={() => handlePaymentStart()}
                                 onPaymentSuccess={() => handlePaymentSuccess(confirmedOfferId)}
                             />
                         }
