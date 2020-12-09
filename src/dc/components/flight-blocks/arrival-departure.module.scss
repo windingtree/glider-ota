@@ -1,4 +1,4 @@
-@import 'src/styles/mixins';
+@import '../../../styles/mixins';
 
 //ArrivalDeparture component
 .adDate{
@@ -28,31 +28,4 @@
 
 .adDetails{
   display: inline-block;
-}
-
-
-//FlightDuration component
-
-.fdBox{
-}
-.fdIcon{
-  padding-right: 12px;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.fdDetails{
-  display: inline-block;
-}
-
-
-.fdDuration{
-  @include g-font($g-fontsize-m,$g-color-darkgrey,$g-fontweight-bold)
-}
-.fdType{
-  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal)
-}
-
-.fdCarriers{
-  @include g-font($g-fontsize-m,$g-color-darkgrey,$g-fontweight-normal)
 }

@@ -3,19 +3,11 @@ import {
     action
 } from '@storybook/addon-actions';
 
-import {ArrivalDeparture, ADTYPES} from "./flight-info-components"
-import {FlightDuration, FDTYPES} from "./flight-info-components"
+import {FlightDuration, FDTYPES} from "./flight-duration"
 export default {
-    title: 'DC/flight components',
-    component:ArrivalDeparture
+    title: 'DC/flight blocks/flight duration',
+    component:FlightDuration
 };
-
-let date = new Date();
-
-export const Arrival = () => (<ArrivalDeparture cityCode={'LHR'} cityName={'London'} date={date} adType={ADTYPES.ARRIVAL}/>);
-export const Departure = () => (<ArrivalDeparture cityCode={'LHR'} cityName={'London'} date={date} adType={ADTYPES.DEPARTURE}/>);
-export const UnknownType = () => (<ArrivalDeparture cityCode={'LHR'} cityName={'London'} date={date} adType={ADTYPES.NONE}/>);
-export const NonSpecifiedType = () => (<ArrivalDeparture cityCode={'LHR'} cityName={'London'} date={date}/>);
 
 
 let startOfTripDate=new Date(2021, 2, 10, 10, 19, 50);

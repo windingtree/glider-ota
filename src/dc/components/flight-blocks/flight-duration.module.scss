@@ -1,0 +1,29 @@
+@import '../../../styles/mixins';
+
+//FlightDuration component
+
+.fdBox{
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.fdIcon{
+  padding-right: 12px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.fdDetails{
+  display: inline-block;
+}
+
+
+.fdDuration{
+  @include g-font($g-fontsize-m,$g-color-black,$g-fontweight-bold)
+}
+.fdType{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal)
+}
+
+.fdCarriers{
+  @include g-font($g-fontsize-m,$g-color-darkgrey,$g-fontweight-normal)
+}

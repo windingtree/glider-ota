@@ -1,5 +1,5 @@
 
-import {parseISO,differenceInHours,differenceInMinutes} from "date-fns";
+import {parseISO, differenceInHours, differenceInMinutes, format} from "date-fns";
 import airportToCityMap from "../data/airport-city-map";
 
 
@@ -162,3 +162,26 @@ export function iataToAirportName(iata){
 }
 
 
+
+
+
+/**
+ * Format date (param) to a string using specified format.
+ *
+ * @param date Date object or string (if it's string - function will try to parse date)
+ * @param formatString
+ * @returns {string}
+ */
+export function safeDateFormat(date, formatString) {
+  let result = '';
+  try{
+    let dateObj = date;
+    if(typeof date === 'string'){
+      dateObj=parseISO(date);
+    }
+    result = format(dateObj, formatString);
+  }catch(err){
+    console.warn()
+  }
+  return result;
+}
