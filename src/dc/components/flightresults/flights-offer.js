@@ -8,7 +8,7 @@ import {
     errorSelector,addFlightToCartAction
 } from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
-
+import { FaPlaneDeparture } from "react-icons/fa";
 
 export function Offer({offer, itineraries = [], price, offerId, onOfferDisplay, onAddOfferToCart}) {
 
@@ -72,8 +72,8 @@ export function Itinerary({itinerary}) {
         <Container fluid={true}>
             <Row>
                 <Col xs={12} md={4} className={style.itinRow}>
+                    <div className={style.itinDptrdate}><FaPlaneDeparture/><span className={'ml-3'}>{format(startOfTrip, 'dd MMM, EE')}</span></div>
                     <div className={style.itinTimes}>{format(startOfTrip, 'HH:mm')} - {format(endOfTrip, 'HH:mm')}</div>
-                    <div className={style.itinDptrdate}>{format(startOfTrip, 'dd MMM, EE')}</div>
                 </Col>
                 <Col xs={12} md={4} className={style.itinRow}>
                     <Row noGutters={true}>

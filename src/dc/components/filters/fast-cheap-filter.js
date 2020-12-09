@@ -21,12 +21,12 @@ export function FastCheapFilter({defaultValue = VALUE_PRICE, onToggle}) {
             <Row className={style.fastCheapFilterContainer} noGutters={true}>
                 <Col xs={6}>
                     <Button className={style.fastCheapFilterToggleBtnCheapest}
-                            variant={value === VALUE_PRICE ? "primary" : "outline-primary"} size="lg"
+                            variant={value === VALUE_PRICE ? "primary" : "outline-primary"}
                             onClick={onPriceClick}>Cheapest</Button>
                 </Col>
                 <Col xs={6}>
                     <Button className={style.fastCheapFilterToggleBtnFastest}
-                            variant={value === VALUE_DURATION ? "primary" : "outline-primary"} size="lg"
+                            variant={value === VALUE_DURATION ? "primary" : "outline-primary"}
                             onClick={onDurationClick}>Fastest</Button>
                 </Col>
             </Row>

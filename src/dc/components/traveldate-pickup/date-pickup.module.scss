@@ -13,5 +13,6 @@
 
 .label{
   color: $glider-color-text-labels;
-  font-size: 14px;
+  font-size: $glider-font-size-xs;
+  margin-left: 5px;
 }

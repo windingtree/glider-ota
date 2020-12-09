@@ -109,7 +109,7 @@ export function HotelSearchForm(props){
 
           <div className={style.searchFormContainer}>
             <Row >
-              <Col xs={12} md={3} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='Where to?' localstorageKey={'destination'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='To' localstorageKey={'destination'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label='Who?'/></Col>
               <Col xs={12} md={3} className={style.formElem}><DatePickup onDateChanged={setDepartureDate} initialDate={departureDate} placeholder='Check in' label='When' localstorageKey={'traveldates'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><DatePickup onDateChanged={setReturnDate} initialDate={returnDate} placeholder='Check out' label='When' localstorageKey={'traveldates'}/></Col>

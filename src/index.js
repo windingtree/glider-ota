@@ -26,6 +26,8 @@ import FlightSummaryPage from "./pages/flight-summary-page";
 import PaymentPage from "./pages/payment-page";
 import PaymentCryptoPage from "./pages/payment-crypto-page";
 import DCLandingPage from './dc/pages/landing-page'
+import DCTravellerInfoPage from './dc/pages/traveller-info-page'
+import DCFlightOptionsPage from './dc/pages/flight-options-page'
 
 function Dispatcher() {
     return (
@@ -51,7 +53,8 @@ function Dispatcher() {
                         {/*Hotels flow*/}
                         <Route path="/hotels/" component={HotelsSearchPage}/>
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
-                        {/*<Route path="/dc/flights/" component={DCFlightsSearchPage}/>*/}
+                        {<Route path="/dc/step1/" component={DCTravellerInfoPage}/>}
+                        {<Route path="/dc/step2/" component={DCFlightOptionsPage}/>}
                         <Route path="/dc/" component={DCLandingPage}/>
 
 

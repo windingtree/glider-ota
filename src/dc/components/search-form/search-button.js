@@ -7,7 +7,7 @@ export default function SearchButton({disabled,onSearchButtonClicked}) {
             <div className={style.searchButtonContainer}>
                 <Row>
                     <Col xs={12} className='d-flex'>
-                        <Button className={style.searchButton} variant="primary" size="lg" disabled={disabled} onClick={onSearchButtonClicked}>Search</Button>
+                        <Button className={style.searchButton} variant="primary"  disabled={disabled} onClick={onSearchButtonClicked}>Search</Button>
                     </Col>
                 </Row>
             </div>

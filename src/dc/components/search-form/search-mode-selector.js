@@ -13,7 +13,7 @@ export default function SearchModeSelector({selectedMode = SEARCH_TYPE.FLIGHTS, 
     const onFlightClick = () => {onToggle(SEARCH_TYPE.FLIGHTS);}
     const onHotelClick = ()  => {onToggle(SEARCH_TYPE.HOTELS);}
     return (
-        <div>
+        <div className={style.container}>
                 <SelectorButton onToggle={onFlightClick} isActive={selectedMode===SEARCH_TYPE.FLIGHTS} icon={<FaPlaneDeparture/>} text={'Flights'}/>
                 <SelectorButton onToggle={onHotelClick} isActive={selectedMode===SEARCH_TYPE.HOTELS} icon={<FaBed/>} text={'Hotels'}/>
         </div>)

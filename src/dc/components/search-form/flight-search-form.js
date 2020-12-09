@@ -106,10 +106,10 @@ export function FlightsSearchForm(props){
     return (<>
           <div className={style.searchFormContainer}>
             <Row >
-              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin' label='Where from?' localstorageKey={'origin'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='Where to?' localstorageKey={'destination'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When?' localstorageKey={'traveldates'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label='Who?'/></Col>
+              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin' label='From' localstorageKey={'origin'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='To' localstorageKey={'destination'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When' localstorageKey={'traveldates'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label='Who'/></Col>
             </Row>
           </div>
 

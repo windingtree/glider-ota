@@ -74,5 +74,6 @@ global(.locationLookupPopover){
 
 .label{
     color: $glider-color-text-labels;
-    font-size: 14px;
+    margin-left: 1px;
+    font-size: $glider-font-size-xs;
 }

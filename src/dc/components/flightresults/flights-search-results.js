@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import {config} from "../../../config/default";
 import style from './flights-search-results.module.scss'
 import {Button, Col, Container, Row} from 'react-bootstrap'
-import {FastCheapFilter} from "../../../components/filters/fast-cheap-filter";
+import {FastCheapFilter} from "../../components/filters/fast-cheap-filter";
 import {
     FlightSearchResultsFilterHelper
 } from "../../../utils/flight-search-results-filter-helper"
-import ResultsPaginator from "../../../components/common/pagination/results-paginator";
+import ResultsPaginator from "../../components/common/pagination/results-paginator";
 import Offer from "./flights-offer";
 import SearchButton from "../search-form/search-button";
 
@@ -72,7 +72,7 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
             <SearchButton disabled={!isSearchFormValid} onSearchButtonClicked={onSearchButtonClicked}/>
             <Spinner enabled={searchInProgress}/>
             {error && (<div>ERRRORS OCCURED</div>)}
-            <FastCheapFilter defaultValue={sortType} onToggle={setSortType}/>
+            {/*<FastCheapFilter defaultValue={sortType} onToggle={setSortType}/>*/}
             <Container fluid={true} className={style.flightssearchresultscontainer}>
             <div className='pt-3'>
 

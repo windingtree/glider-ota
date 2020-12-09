@@ -7,7 +7,7 @@ import {Offer,Itinerary} from "./flights-offer"
 
 
 export default {
-  title: 'Flights/search results/single offer',
+  title: 'DC/Flights/search results/single offer',
   component: Offer,
 };
 

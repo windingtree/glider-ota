@@ -30,14 +30,13 @@
 //itinerary display component
 
 .itinTimes{
-    @include _glider-font-h2;
+    @include g-font($g-fontsize-m,$g-color-black);
     color:$glider-color-text;
     padding-bottom: 5px;
 }
 .itinDptrdate{
-    @include _glider-font-regular18;
+    @include _glider-font-text16;
     color:$glider-color-text-background;
-    text-transform: uppercase;
 }
 
 .itinDuration{

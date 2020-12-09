@@ -1,7 +1,14 @@
 @import '../../../styles/mixins';
 
+.container{
+  border-bottom: 1px solid $glider-color-text-background;
+  margin-bottom: 20px;
+  margin-top: 25px;
+}
+
 .selectorBtn{
   @include _glider-font-text24medium;
+  font-size: $glider-font-size-xxl;
   padding-left: 10px;
 }
 
