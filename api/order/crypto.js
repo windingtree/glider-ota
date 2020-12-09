@@ -114,7 +114,7 @@ const fulfillOrder = async (confirmedOfferId, tx, quote) => {
     // Request a guarantee to Simard
     let guarantee;
     try {
-        guarantee = await createCryptoGuarantee(price.public, price.currency, tx.hash);
+        guarantee = await createCryptoGuarantee(price.public, price.currency, tx.hash, offerMetadata.id);
         logger.info('Guarantee created, guaranteeId:%s', guarantee.guaranteeId);
     } catch (error) {
         logger.error('Guarantee could not be created, simard error:%s', error);
