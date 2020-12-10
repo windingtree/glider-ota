@@ -1,0 +1,32 @@
+@import '../../../styles/mixins';
+
+.amenity{
+  @include g-font($g-fontsize-xs,$g-color-darkgrey,$g-fontweight-normal);
+  border-radius: 8px;
+  border: 1px solid $g-color-darkgrey;
+  display: inline-block;
+  text-align: center;
+  padding: 3px;
+  margin: 3px;
+}
+
+.amenitiesTitle{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+}
+
+.amenitiesToggle:before {
+  font-family: 'Inter';
+  content: "\e114";
+  float: right;
+  transition: all 0.5s;
+}
+
+.amenitiesToggle{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+}
+.amenitiesToggle:active{
+  text-decoration: none;
+}
+.amenitiesToggle:hover{
+  text-decoration: none;
+}

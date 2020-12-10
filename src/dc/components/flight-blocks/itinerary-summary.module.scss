@@ -1,0 +1,7 @@
+@import '../../../styles/mixins';
+
+.arrivalNextDayWarning{
+  @include g-font($g-fontsize-m,$g-color-warning,$g-fontweight-normal);
+  padding-left: 30px;
+  padding-bottom: 12px;
+}

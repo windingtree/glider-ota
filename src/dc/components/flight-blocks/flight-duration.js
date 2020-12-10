@@ -36,31 +36,55 @@ const formatFlightDuration = (startOfTripDate, endOfTripDate) => {
     return durationString
 }
 
+const getUniqueCarrierNames = (segments) => {
+    let uniqCarrierNames = [];
+    try {
+        let nonUniqueCarrierNames = segments.map(({operator}) => operator.airline_name);
+        uniqCarrierNames = new Set(nonUniqueCarrierNames);
+        uniqCarrierNames = [...uniqCarrierNames]
+    }catch(err){
+        console.warn(`Cannot extract list of carriers from segments, err:${err}`);
+    }
+    return uniqCarrierNames;
+}
+
+const getStopoverAirports = (segments) => {
+    let stopovers = [];
+    try {
+        let destinationAirports = segments.map(({destination}) => destination.iataCode);
+        if(destinationAirports.length>1)
+            stopovers=destinationAirports.splice(0,destinationAirports.length-1)
+    }catch(err){
+        console.warn(`Cannot extract list of stopovers, err:${err}`);
+    }
+    return stopovers;
+}
+
+
 /**
  * Render information about flight duration, type of flight (direct or connecting) and carriers
  * @param startOfTripDate
  * @param endOfTripDate
- * @param fdType
+ * @param stopoverAirports
  * @param carrierNames
  * @returns {JSX.Element}
  * @constructor
  */
-export const FlightDuration = ({startOfTripDate, endOfTripDate, fdType = FDTYPES.DIRECT, carrierNames=[]}) => {
+export const FlightDuration = ({startOfTripDate, endOfTripDate, segments = []}) => {
     let durationStr = formatFlightDuration(startOfTripDate, endOfTripDate);
-    let nonUniqueCarrierNames = Array.isArray(carrierNames)?carrierNames:[];
-
-    let uniqCarrierNames = new Set(nonUniqueCarrierNames);
-    uniqCarrierNames = [...uniqCarrierNames]
+    segments = segments || [];
+    let stopoverAirports = getStopoverAirports(segments);
+    let carriers = getUniqueCarrierNames(segments);
 
     let type = 'Direct';
-    if(fdType === FDTYPES.CONNECTING)
-        type = 'Connecting';
+    if(stopoverAirports.length>0)
+        type = `${stopoverAirports.length} stop (${stopoverAirports.join(',')})`
 
     return (
         <div className={style.fdBox}>
             <div className={style.fdIcon}><FaLongArrowAltDown/></div>
             <div className={style.fdDetails}>
-                <span className={style.fdDuration}>{durationStr}</span> <span className={style.fdType}>{type}</span> <span className={style.fdCarriers}>{uniqCarrierNames.join(', ')}</span>
+                <span className={style.fdDuration}>{durationStr}</span> <span className={style.fdConnectionInfo}>{type}</span> <span className={style.fdCarriers}>{carriers.join(', ')}</span>
             </div>
         </div>
     )

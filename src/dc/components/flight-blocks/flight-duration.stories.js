@@ -3,20 +3,21 @@ import {
     action
 } from '@storybook/addon-actions';
 
-import {FlightDuration, FDTYPES} from "./flight-duration"
+import {FlightDuration} from "./flight-duration"
+import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
+import searchResults from "../storybook-utils/mock-data/flight_search_BOGMIA.json";
 export default {
     title: 'DC/flight blocks/flight duration',
     component:FlightDuration
 };
 
 
-let startOfTripDate=new Date(2021, 2, 10, 10, 19, 50);
-let endOfTripDate=new Date(2021, 2, 10, 18, 49, 50);
 
-let startOfTripStr='2021-05-06T10:19:19.155Z';
-let endOfTripStr='2021-05-06T18:49:49.155Z';
+let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
+let offerId="c136af56-faad-401c-87dd-f753b49face7";
+let itineraries = searchResultsWrapper.getOfferItineraries(offerId)
+let firstItinerary = itineraries[0];
+let firstSegment = firstItinerary.segments[0]
+let lastSegment = firstItinerary.segments[firstItinerary.segments.length-1];
 
-
-
-export const Duration = () => (<FlightDuration startOfTripDate={startOfTripDate} endOfTripDate={endOfTripDate} carrierNames={['British airways','Swiss']} duration={'13h 30 min'} fdType={FDTYPES.DIRECT}/>);
-export const Duration2 = () => (<FlightDuration startOfTripDate={startOfTripStr} endOfTripDate={endOfTripStr} carrierNames={['British airways','Swiss']} duration={'13h 30 min'} fdType={FDTYPES.DIRECT}/>);
+export const Duration = () => (<FlightDuration startOfTripDate={firstSegment.departureTime} endOfTripDate={lastSegment.arrivalTime}  segments={firstItinerary.segments}/>);
