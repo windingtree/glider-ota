@@ -203,22 +203,35 @@ export const getAmountIn = async (web3, usdValue, coinAddress) => {
 // Approve amount of tokens
 export const approveToken = (web3, tokenAddress, ownerAddress, spenderAddress, amount, gasPrice) => {
     const token = createErc20Contract(web3, tokenAddress);
+    console.log('Approve token', [
+        tokenAddress,
+        ownerAddress,
+        spenderAddress,
+        amount
+    ]);
     return new Promise((resolve, reject) => {
         token.methods['approve(address,uint256)'](
             spenderAddress,
             amount
-        ).send(
-            {
-                from: ownerAddress,
-                ...(gasPrice ? { gasPrice } : {})
-            },
-            (error, hash) => {
-                if (error) {
-                    return reject(error);
-                }
-                resolve(hash);
+        )
+        .send({
+            from: ownerAddress,
+            ...(gasPrice ? { gasPrice } : {})
+        })
+        .on('confirmation', (number, receipt) => {
+            console.log(number, receipt);
+            if (receipt.status && number >= 0) {
+                resolve(receipt);
             }
-        );
+        })
+        .on('error', error => {
+            console.log(error);
+            if (error.message.match(/^Transaction has been/g)) {
+                reject(new Error('Transaction has been reverted by the EVM'));
+            } else {
+                reject(error);
+            }
+        });
     });
 };
 
@@ -249,18 +262,25 @@ export const payWithToken = (
         deadline,
         attachment,
         GLIDER_ORGID
-    ).send(
-        {
-            from,
-            ...(gasPrice ? { gasPrice } : {})
-        },
-        (error, hash) => {
-            if (error) {
-                return reject(error);
-            }
-            resolve(hash);
+    )
+    .send({
+        from,
+        ...(gasPrice ? { gasPrice } : {})
+    })
+    .on('confirmation', (number, receipt) => {
+        console.log(number, receipt);
+        if (receipt.status && number >= 2) {
+            resolve(receipt);
         }
-    );
+    })
+    .on('error', error => {
+        console.log(error);
+        if (error.message.match(/^Transaction has been/g)) {
+            reject(new Error('Transaction has been reverted by the EVM'));
+        } else {
+            reject(error);
+        }
+    });
 });
 
 // uint256 amountOut,
@@ -293,19 +313,26 @@ export const payWithETH = (
         deadline,
         attachment,
         GLIDER_ORGID
-    ).send(
-        {
-            value: amountIn,
-            from,
-            ...(gasPrice ? { gasPrice } : {})
-        },
-        (error, hash) => {
-            if (error) {
-                return reject(error);
-            }
-            resolve(hash);
+    )
+    .send({
+        value: amountIn,
+        from,
+        ...(gasPrice ? { gasPrice } : {})
+    })
+    .on('confirmation', (number, receipt) => {
+        console.log(number, receipt);
+        if (receipt.status && number >= 2) {
+            resolve(receipt);
         }
-    );
+    })
+    .on('error', error => {
+        console.log(error);
+        if (error.message.match(/^Transaction has been/g)) {
+            reject(new Error('Transaction has been reverted by the EVM'));
+        } else {
+            reject(error);
+        }
+    });
 });
 
 // Build ether transfer transaction object
@@ -331,4 +358,19 @@ export const sendEth = (web3, from, to, value, gasPrice) => {
         )
     });
 };
+
+// not worked on Infura (((
+export const getRevertReason = async (web3, txHash) => {
+    const tx = await web3.eth.getTransaction(txHash);
+    var result = await web3.eth.call(tx, tx.blockNumber);
+    result = result.startsWith('0x') ? result : `0x${result}`;
+
+    if (result && result.substr(138)) {
+        const reason = web3.utils.toAscii(result.substr(138))
+        console.log('Revert reason:', reason);
+        return reason;
+    } else {
+        console.log('Cannot get reason - No return value')
+    }
+}
 

@@ -14,7 +14,7 @@ import {
 } from '../../utils/web3-utils';
 
 const defaultWeb3 = new Web3(INFURA_ENDPOINT);
-const portis = new Portis(PORTIS_ID, DEFAULT_NETWORK);
+let portis;
 
 export const moduleName = 'web3';
 const SIGN_IN_REQUEST = `${moduleName}/SIGN_IN_REQUEST`;
@@ -309,6 +309,7 @@ function* signInSaga({ provider }) {
     try {
         switch (provider) {
             case 'portis':
+                portis = new Portis(PORTIS_ID, DEFAULT_NETWORK);
                 yield subscribePortisSaga();
                 break;
             case 'metamask':

@@ -125,20 +125,35 @@ function updateOne(collection, criteria, doc) {
  * @returns {Promise<*>}
  */
 
-function storeConfirmedOffer(offer, passengers, exchangeQuote){
-    let object={
-        offerId:offer.offerId,
-        confirmedOffer:offer,
-        passengers:passengers,
-        order_status:ORDER_STATUSES.NEW,
-        payment_status:PAYMENT_STATUSES.NOT_PAID,
+async function storeConfirmedOffer(offer, passengers, exchangeQuote){
+    let object = {
+        offerId: offer.offerId,
+        confirmedOffer: offer,
+        passengers: passengers,
+        order_status: ORDER_STATUSES.NEW,
+        payment_status: PAYMENT_STATUSES.NOT_PAID,
         exchangeQuote,
         createDate: new Date(),
-        transactions:[createTransactionEntry('New order created', {order_status:ORDER_STATUSES.NEW,
-            payment_status:PAYMENT_STATUSES.NOT_PAID})]
+        transactions: [createTransactionEntry('New order created', {
+            order_status: ORDER_STATUSES.NEW,
+            payment_status: PAYMENT_STATUSES.NOT_PAID
+        })]
     };
-    logger.info("Storing confirmed offer, offerId:%s, order_status:%s, payment_status:%s",object.offerId,object.order_status,object.payment_status)
-    return insert('orders',object);
+    const storedOffer = await findConfirmedOffer(offer.offerId);
+
+    if (storedOffer) {
+        let updates = {
+            $set: object,
+            $currentDate: {
+                lastModifyDateTime: { $type: "timestamp" }
+            }
+        }
+        logger.info("Updating stored confirmed offer, offerId:%s, order_status:%s, payment_status:%s",object.offerId,object.order_status,object.payment_status)
+        return updateOne('orders', { offerId: offer.offerId }, updates);
+    } else {
+        logger.info("Storing confirmed offer, offerId:%s, order_status:%s, payment_status:%s",object.offerId,object.order_status,object.payment_status)
+        return insert('orders',object);
+    }
 }
 
 

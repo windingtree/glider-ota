@@ -29,7 +29,13 @@ const checkoutCard = async (req, res) => {
 
     if (confirmedOffer == null) {
         logger.warn("Cannot find requested confirmedOffer in session storage, SessionID: %s", sessionID)
-        sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Cannot find offer",req.body);
+        sendErrorResponse(
+            res,
+            400,
+            ERRORS.INVALID_INPUT,
+            `The offer ${confirmedOfferId} not found or expired`,
+            req.body
+        );
         return;
     }
     if (confirmedOffer.offerId !== confirmedOfferId) {
@@ -80,7 +86,13 @@ const checkoutCrypto = async (req, res) => {
 
     if (confirmedOffer == null) {
         logger.warn("Cannot find requested confirmedOffer in session storage, SessionID: %s", sessionID)
-        sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Cannot find offer",req.body);
+        sendErrorResponse(
+            res,
+            400,
+            ERRORS.INVALID_INPUT,
+            `The offer ${confirmedOfferId} not found or expired`,
+            req.body
+        );
         return;
     }
 
