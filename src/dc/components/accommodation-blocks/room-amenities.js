@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
-import style from "./hotel-amenities.module.scss"
+import style from "./room-amenities.module.scss"
 import {ExpandCollapseToggle} from "../common-blocks/expand-collapse-toggle"
+
 const Amenity = ({amenity}) => {
     return (
         <div className={style.amenity}>{amenity}</div>
@@ -16,7 +17,7 @@ const Amenities = ({amenities = []}) => {
     </>)
 }
 
-export const HotelAmenities = ({amenities, defaultExpanded = false}) => {
+export const RoomAmenities = ({amenities, defaultExpanded = false}) => {
     const [expanded, setExpanded] = useState(defaultExpanded)
 
     return (

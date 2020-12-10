@@ -9,14 +9,22 @@ const countryCodeToCountry = (isoCode) => {
         return result.country;
     return null;
 }
-export const HotelAddress = ({streetAddress, locality, postalCode, country, premise}) => {
+export const HotelAddress = ({address, streetAddress, locality, postalCode, country, premise}) => {
+    if(address){
+        streetAddress = address.streetAddress;
+        locality = address.locality;
+        postalCode = address.country;
+        premise = address.premise;
+        country = address.country;
+    }
+
     let cityWithPostal = `${postalCode} ${_.startCase(locality)}`;
     let countryName = countryCodeToCountry(country);
     countryName = countryName || country;
-    let address = [streetAddress, cityWithPostal, countryName, premise].map(a=>_.startCase(_.lowerCase(a))).join(', ');
+    let addressStr = [streetAddress, cityWithPostal, countryName, premise].map(a=>_.startCase(_.lowerCase(a))).join(', ');
 
     return (
-        <div className={style.hotelAddress}>{address}</div>
+        <div className={style.hotelAddress}>{addressStr}</div>
     )
 }
 

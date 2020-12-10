@@ -19,7 +19,7 @@ export const ImageGallery = ({images}) => {
     };
 
     const onThumbnailClicked = (slide) => {
-        console.log('Cliced', slide)
+        console.log('Clicked', slide)
     }
     const onArrows = (slide) => {
         console.log('onArrows', slide)
@@ -34,7 +34,7 @@ export const ImageGallery = ({images}) => {
     const renderSlides = () => {
         return getImages().map( slide => (
             <SplideSlide key={ slide.src } >
-                <img src={ slide.src } alt={ slide.alt } />
+                <img src={ slide.src } alt={ slide.alt } className={style.slideImage} />
             </SplideSlide>
         ) );
     };

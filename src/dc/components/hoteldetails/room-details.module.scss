@@ -1,24 +1,40 @@
 @import '../../../styles/mixins';
 
-
-.roomContainer {
-        background:$glider-color-primary-background;
-        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        padding: 20px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-
 .roomName {
-    @include _glider-font-h2;
-    color: $glider-color-text;
+    @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+  padding-top: 1rem;
+}
+
+.roomDisclaimer {
+    @include g-font($g-fontsize-xs,$g-color-darkgrey,$g-fontweight-normal);
+}
+.roomConditions {
+    @include g-font($g-fontsize-xs,$g-color-green,$g-fontweight-normal);
+}
+.roomPrice {
+    @include g-font($g-fontsize-xxl,$g-color-primary,$g-fontweight-medium);
+}
+
+.roomPriceDisclaimer {
+    @include g-font($g-fontsize-xs,$g-color-lightgrey,$g-fontweight-normal);
 }
 
 
 
-.pricePlanName{
+.roomContainer {
+        //background:$glider-color-primary-background;
+        //box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        //border-radius: 5px;
+        //padding: 20px;
+        margin-top: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px dotted $g-color-lightgrey;
+    }
+
+
+
+
+/*.pricePlanName{
     @include _glider-font-text24medium;
     color:$glider-color-text;
     padding-bottom: 40px;
@@ -32,8 +48,8 @@
 .amenitiesItem{
     @include _glider-font-text16;
     color:$glider-color-text-background;
-}
-
+}*/
+/*
 .penaltyRefundable{
     @include _glider-font-text18;
     color:$glider-color-text;
@@ -48,14 +64,17 @@
     padding-bottom: 10px;
     padding-top: 10px;
 
-}
+}*/
 
+/*
 .roomOccupancy{
     @include _glider-font-text18;
     color:$glider-color-text;
     padding-bottom: 10px;
     padding-top: 10px;
 }
+*/
+/*
 
 .mainImageContainer {
     height: 140px;
@@ -81,3 +100,4 @@
 
     }
 }
+*/
