@@ -1,0 +1,19 @@
+@import 'src/styles/mixins';
+
+
+.cartContainer{
+  background: $glider-color-primary-background;
+  border-radius: 8px;
+}
+
+.cartHeader{
+  @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal)
+}
+
+.subtotalItem{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal)
+}
+
+.totalItem{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal)
+}

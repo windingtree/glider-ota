@@ -4,12 +4,14 @@ import {Row, Col, Image} from 'react-bootstrap'
 import _ from 'lodash'
 import Room from "./room-details"
 import {HotelLeadingImage} from "../accommodation-blocks/hotel-leading-image";
-
+import {ExpandCollapseToggle} from "../common-blocks/expand-collapse-toggle"
 
 import {HotelAddress} from "../accommodation-blocks/hotel-address"
 
 export default function HotelDetails({hotel, searchResults}) {
+    console.log('Display hotel details',hotel)
     const [selectedOffer,setSelectedOffer] = useState()
+    const [roomsExpanded,setRoomsExpanded] = useState(true)
     const offers = searchResults.offers;
     const pricePlans = searchResults.pricePlans;
     const hotelPricePlansWithOffers = getHotelPricePlansWithOffers(hotel, offers, pricePlans);
@@ -23,17 +25,23 @@ export default function HotelDetails({hotel, searchResults}) {
                         <div className={style.hotelName}>{hotelName}</div>
                         {hotelAddress && <HotelAddress address={hotelAddress}/>}
                         {hotelDescription && <div className={style.hotelDescription}>{hotelDescription}</div>}
-                        <div>
-                            {
-                                _.map(rooms, (room, roomId) => {
-                                    const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
-                                    return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers}  selectedOffer={selectedOffer}/>)
-                                })
-                            }
-                        </div>
+                        {roomsExpanded === true?'Hide rooms':'Show rooms'}
+                        <ExpandCollapseToggle expanded={roomsExpanded} onToggle={setRoomsExpanded}/>
+                        {roomsExpanded && displayRooms(rooms,hotelPricePlansWithOffers,selectedOffer)}
                     </Col>
                 </Row>
         )
+}
+
+const displayRooms = (rooms, hotelPricePlansWithOffers, selectedOffer) =>{
+    return(<div>
+        {
+            _.map(rooms, (room, roomId) => {
+                const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
+                return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers}  selectedOffer={selectedOffer}/>)
+            })
+        }
+    </div>)
 }
 
 

@@ -11,9 +11,9 @@
 .roomConditions {
     @include g-font($g-fontsize-xs,$g-color-green,$g-fontweight-normal);
 }
-.roomPrice {
+/*.roomPrice {
     @include g-font($g-fontsize-xxl,$g-color-primary,$g-fontweight-medium);
-}
+}*/
 
 .roomPriceDisclaimer {
     @include g-font($g-fontsize-xs,$g-color-lightgrey,$g-fontweight-normal);

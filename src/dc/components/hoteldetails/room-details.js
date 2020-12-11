@@ -7,6 +7,7 @@ import _ from 'lodash'
 
 import {ImageGallery} from "../accommodation-blocks/hotel-images"
 import {RoomAmenities} from "../accommodation-blocks/room-amenities"
+import {AddToTrip} from "../common-blocks/add-to-trip-button"
 
 import {
     errorSelector,addHotelToCartAction
@@ -68,11 +69,11 @@ export function Room({room, roomPricePlansWithOffers, selectedOffer, onAddOfferT
 
 export function RoomPricePlan({offer, pricePlan, selectedOffer, onAddOfferToCart}) {
     let price = offer.price;
-    /*let isThisSelectedOffer = false;
+    let isThisSelectedOffer = false;
     if(selectedOffer){
         if(selectedOffer.offerId === offer.offerId)
             isThisSelectedOffer=true;
-    }*/
+    }
     let {name,penalties} = pricePlan||{}
 
     const onAddPricePlanToCart = () =>{
@@ -86,12 +87,8 @@ export function RoomPricePlan({offer, pricePlan, selectedOffer, onAddOfferToCart
 
     return (<div>
             <PlanPenalties penalties={penalties}/>
-        <Row>
-            <Col>
-                <RoomPrice amount={price.public} currency={price.currency}/>
-            </Col>
-            <Col className={'alig'}><Button onClick={onAddPricePlanToCart} >Add to trip</Button></Col>
-        </Row>
+            <AddToTrip priceAmount={price.public} priceCurrency={price.currency} isAlreadyAdded={isThisSelectedOffer} onAdd={onAddPricePlanToCart}/>
+            <div className={style.roomPriceDisclaimer}>includes all taxes and charges</div>
     </div>)
 }
 

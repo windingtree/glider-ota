@@ -9,6 +9,9 @@ import {
 } from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
 import { FaPlaneDeparture } from "react-icons/fa";
+import {JourneySummary} from "../flight-blocks/journey-summary"
+import {AddToTrip} from "../common-blocks/add-to-trip-button"
+import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
 
 export function Offer({offer, itineraries = [], price, offerId, onOfferDisplay, onAddOfferToCart}) {
 
@@ -22,24 +25,11 @@ export function Offer({offer, itineraries = [], price, offerId, onOfferDisplay, 
     }
 
     return (
-        <Container fluid={true} className={style.flightsearchoffercontainer}>
-            <Row>
-                {itineraries.length > 0 && (<Itinerary itinerary={itineraries[0]}/>)}
-                {itineraries.length > 1 && (<Itinerary itinerary={itineraries[1]}/>)}
-                {itineraries.length > 3 && (<Itinerary itinerary={itineraries[2]}/>)}
-            </Row>
-            <Row className='flex-row-reverse'>
-                <Col xs={12} md={4}>
-                    <Button variant="outline-primary pricebtn" size="lg" onClick={() => {
-                        onOfferDisplay(offerId)
-                    }}>{price.public} {price.currency}</Button>
-                    <Button variant="outline-primary" size="md" onClick={() => {
-                        addOfferToCart()
-                    }}>Add</Button>
-
-                </Col>
-            </Row>
-        </Container>
+        <div  className={style.flightsearchoffercontainer}>
+                <JourneySummary itineraries={itineraries}/>
+                <HorizontalDottedLine/>
+                <AddToTrip isAlreadyAdded={false} priceCurrency={price.currency} priceAmount={price.public} onAdd={addOfferToCart}/>
+        </div>
     )
 }
 

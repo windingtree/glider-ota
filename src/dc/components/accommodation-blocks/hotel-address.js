@@ -4,9 +4,14 @@ import lookup from 'country-code-lookup';
 import _ from 'lodash';
 
 const countryCodeToCountry = (isoCode) => {
-    let result = lookup.byIso(isoCode);
-    if(result)
-        return result.country;
+    let result = null;
+    try {
+        result = lookup.byIso(isoCode);
+        if (result)
+            return result.country;
+    }catch(err){
+        console.warn(`Cannot determine country name for coutry code:${isoCode}`);
+    }
     return null;
 }
 export const HotelAddress = ({address, streetAddress, locality, postalCode, country, premise}) => {

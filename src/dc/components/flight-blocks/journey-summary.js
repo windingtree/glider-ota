@@ -1,12 +1,13 @@
 import React from 'react';
-import style from './journey-summary.module.scss'
 import {ItinerarySummary} from "./itinerary-summary"
 import OfferUtils from '../../../utils/offer-utils'
-
+import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
 
 const NightsAtDestination = ({nights, cityName}) => {
-    return (<div className={style.separator}><span className={style.stayDurationText}> {nights} nights in {cityName}</span></div>);
+    let text = `${nights} nights in ${cityName}`;
+    return (<HorizontalDottedLine text={text}/>);
 }
+
 
 
 export const JourneySummary = ({itineraries}) => {
@@ -23,17 +24,16 @@ export const JourneySummary = ({itineraries}) => {
     try {
         lengthOfStay = OfferUtils.calculateStayBetweenTripsInBusinessDays(outboundItinerary,returnItinerary)
         cityName = OfferUtils.getItineraryDepartureCityName(returnItinerary);
-        console.log('lengthOfStay=',lengthOfStay,', city=',cityName)
     }catch(err){
         console.log(`Failed to calculate length of stay, err:${err}`);
     }
 
     return (
-        <>
+        <div>
             <ItinerarySummary itinerary={outboundItinerary}/>
             {(cityName && lengthOfStay>0) && (<NightsAtDestination cityName={cityName} nights={lengthOfStay}/>)}
             <ItinerarySummary itinerary={returnItinerary}/>
-        </>
+        </div>
     )
 }
 

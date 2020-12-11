@@ -1,0 +1,24 @@
+@import '../../../styles/mixins';
+
+.horizontalLineText{
+  @include g-font($g-fontsize-m,$g-color-darkgrey,$g-fontweight-bold);
+}
+
+.horizontalLine {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.horizontalLine::before, .horizontalLine::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px dotted $g-color-darkgrey;
+}
+.horizontalLine::before {
+  //margin-right: .25em;
+}
+.horizontalLine::after {
+  //margin-left: .25em;
+}

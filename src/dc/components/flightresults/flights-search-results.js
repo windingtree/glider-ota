@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {config} from "../../../config/default";
 import style from './flights-search-results.module.scss'
 import {Button, Col, Container, Row} from 'react-bootstrap'
-import {FastCheapFilter} from "../../components/filters/fast-cheap-filter";
+// import {FastCheapFilter} from "../../components/filters/fast-cheap-filter";
 import {
     FlightSearchResultsFilterHelper
 } from "../../../utils/flight-search-results-filter-helper"
@@ -73,10 +73,7 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
             <Spinner enabled={searchInProgress}/>
             {error && (<div>ERRRORS OCCURED</div>)}
             {/*<FastCheapFilter defaultValue={sortType} onToggle={setSortType}/>*/}
-            <Container fluid={true} className={style.flightssearchresultscontainer}>
-            <div className='pt-3'>
-
-                <div className='pt-5'/>
+            <Container className={style.flightssearchresultscontainer}>
                 {
                     trips.map(tripInfo => {
                         let offer = tripInfo.bestoffer;
@@ -93,7 +90,6 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
                 }
                 <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE}
                                   onActivePageChange={onActivePageChange} totalRecords={totalResultsCount}/>
-            </div>
         </Container></>
     )
 

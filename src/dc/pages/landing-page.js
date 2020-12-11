@@ -10,10 +10,9 @@ import {SEARCH_TYPE} from "../components/search-form/search-mode-selector"
 
 export default function DCLandingPage() {
     const [searchType,setSearchType] = useState(SEARCH_TYPE.FLIGHTS);
-
     return (
-        <>
-            <div >
+            <div className={style.outerPageWrapper}>
+            <div className={style.innerPageWrapper}>
                 <SearchModeSelector selectedMode={searchType} onToggle={setSearchType}/>
                 {searchType === SEARCH_TYPE.FLIGHTS && (<FlightsShoppingComponent/>)}
                 {searchType === SEARCH_TYPE.HOTELS && (<HotelsShoppingComponent/>)}
@@ -26,8 +25,6 @@ export default function DCLandingPage() {
                         </Col>
                     </Row>
                 </div>
-                {/*<Footer/>*/}
-
             </div>
-        </>)
+            </div>)
 }

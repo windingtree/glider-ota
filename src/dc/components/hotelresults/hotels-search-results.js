@@ -3,6 +3,8 @@ import style from './hotel-search-results.module.scss'
 import {Container, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import SingleHotel from "./single-hotel";
+import HotelDetails from "../hoteldetails/hotel-details"
+
 import {HotelSearchResultsFilterHelper} from "../../../utils/hotel-search-results-filter-helper";
 import {
     errorSelector,
@@ -52,7 +54,8 @@ export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFor
                     _.map(results, (result, id) => {
                         let hotel = result.hotel;
                         let bestoffer = result.bestoffer;
-                        return (<SingleHotel hotel={hotel} bestoffer={bestoffer} key={id} handleClick={onHotelSelected} searchResults={searchResults}/>)
+                        // return (<SingleHotel hotel={hotel} bestoffer={bestoffer} key={id} handleClick={onHotelSelected} searchResults={searchResults}/>)
+                        return (<HotelDetails searchResults={searchResults} hotel={hotel}/>)
                     })
                 }
             </Row>
