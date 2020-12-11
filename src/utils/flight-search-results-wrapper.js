@@ -101,6 +101,7 @@ export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
      */
     _getOfferItinerariesIds(offerId){
         let offer = this.getOffer(offerId);
+        console.log('_getOfferItinerariesIds, offerId:',offerId, 'offers:')
         let pricePlansReferences = offer.pricePlansReferences;
         let offerItinIds = [];
         Object.keys(pricePlansReferences).forEach(pricePlanId=> {

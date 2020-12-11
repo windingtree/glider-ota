@@ -4,6 +4,7 @@
 .cartContainer{
   background: $glider-color-primary-background;
   border-radius: 8px;
+  padding: 20px;
 }
 
 .cartHeader{
@@ -16,4 +17,18 @@
 
 .totalItem{
   @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal)
+}
+
+.hotelItemHotelImage{
+    width: 100%;
+    height: 100%;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.hotelItemHotelName {
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal)
+}
+.hotelItemRoomName {
+  @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-normal)
 }

@@ -2,13 +2,17 @@ import React, {useState} from 'react'
 import style from './hotel-details.module.scss'
 import {Row, Col, Image} from 'react-bootstrap'
 import _ from 'lodash'
-import Room from "./room-details"
+import {Room} from "./room-details"
 import {HotelLeadingImage} from "../accommodation-blocks/hotel-leading-image";
 import {ExpandCollapseToggle} from "../common-blocks/expand-collapse-toggle"
 
 import {HotelAddress} from "../accommodation-blocks/hotel-address"
+import {addHotelToCartAction} from "../../../redux/sagas/cart";
+import {connect} from "react-redux";
 
-export default function HotelDetails({hotel, searchResults}) {
+
+
+export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
     console.log('Display hotel details',hotel)
     const [selectedOffer,setSelectedOffer] = useState()
     const [roomsExpanded,setRoomsExpanded] = useState(true)
@@ -18,6 +22,26 @@ export default function HotelDetails({hotel, searchResults}) {
     const {name:hotelName, description:hotelDescription, media:hotelImages, roomTypes:rooms} = hotel;
     const hotelAddress = _.get(hotel, 'contactInformation.address');
     const hotelLeadingImageUrl =  getLeadingHotelImageUrl(hotel);
+
+    const handleAddOfferToCart = ({offerId, price, room}) =>{
+
+
+        if(onAddOfferToCart) {
+            const hotelCartItem = {
+                offerId:offerId,
+                price:price,
+                room: room,
+                hotel: hotel
+            }
+            console.log('handleAddOfferToCart:',hotelCartItem)
+            onAddOfferToCart(hotelCartItem)
+        }
+        else {
+            console.warn('onAddOfferToCart is not defined!');
+        }
+    }
+
+
     return (
                 <Row className={style.hotelContainer}>
                     <Col>
@@ -27,18 +51,18 @@ export default function HotelDetails({hotel, searchResults}) {
                         {hotelDescription && <div className={style.hotelDescription}>{hotelDescription}</div>}
                         {roomsExpanded === true?'Hide rooms':'Show rooms'}
                         <ExpandCollapseToggle expanded={roomsExpanded} onToggle={setRoomsExpanded}/>
-                        {roomsExpanded && displayRooms(rooms,hotelPricePlansWithOffers,selectedOffer)}
+                        {roomsExpanded && displayRooms(rooms,hotelPricePlansWithOffers,selectedOffer, handleAddOfferToCart)}
                     </Col>
                 </Row>
         )
 }
 
-const displayRooms = (rooms, hotelPricePlansWithOffers, selectedOffer) =>{
+const displayRooms = (rooms, hotelPricePlansWithOffers, selectedOffer, onAddOfferToCart) =>{
     return(<div>
         {
             _.map(rooms, (room, roomId) => {
                 const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
-                return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers}  selectedOffer={selectedOffer}/>)
+                return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers}  selectedOffer={selectedOffer} onAddOfferToCart={onAddOfferToCart}/>)
             })
         }
     </div>)
@@ -88,5 +112,19 @@ const getLeadingHotelImageUrl = (hotel) => {
     return null;
 }
 
+
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onAddOfferToCart: (offer) => {
+            dispatch(addHotelToCartAction(offer))
+        }
+    }
+}
+
+
+
+export default connect(null, mapDispatchToProps)(HotelDetails);
 
 

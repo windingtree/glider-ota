@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
-import dummyResults from "../../data/sample_response_unprocessed2.json"
+import dummyResults from "../../dc/components/storybook-utils/mock-data/flight_search_BOGMIA.json"
 export const moduleName = 'flights';
 
 const FLIGHTS_SEARCH_CRITERIA_CHANGED = `${moduleName}/FLIGHTS_SEARCH_CRITERIA_CHANGED`;

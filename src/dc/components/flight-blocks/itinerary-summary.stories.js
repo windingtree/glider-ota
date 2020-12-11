@@ -12,16 +12,18 @@ export default {
     component:ItinerarySummary
 };
 
-let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
+
 
 export const ItineraryWith1Stop = () => {
-    let offerId="473b8a2a-65db-48f5-87b0-9626f61ad65d";
+    let offerId="42ad23de-fdf5-4bf2-8d85-9c6ad7f3539e";
+    let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId)
     let firstItinerary = itineraries[0];
     return (<ItinerarySummary  itinerary={firstItinerary}/>);
 }
 export const ItineraryWith2Stops = () => {
-    let offerId="c136af56-faad-401c-87dd-f753b49face7";
+    let offerId="99f15eff-bc26-458a-a5bc-c37411cb7238";
+    let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
     let itineraries = searchResultsWrapper.getOfferItineraries(offerId)
     let firstItinerary = itineraries[0];
     return (<ItinerarySummary  itinerary={firstItinerary}/>);

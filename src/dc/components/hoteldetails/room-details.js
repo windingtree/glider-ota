@@ -9,16 +9,11 @@ import {ImageGallery} from "../accommodation-blocks/hotel-images"
 import {RoomAmenities} from "../accommodation-blocks/room-amenities"
 import {AddToTrip} from "../common-blocks/add-to-trip-button"
 
-import {
-    errorSelector,addHotelToCartAction
-} from "../../../redux/sagas/cart";
-import {connect} from "react-redux";
 
 
 export function Room({room, roomPricePlansWithOffers, selectedOffer, onAddOfferToCart}) {
 
     const roomImages = room.media;
-
 
     return (
         <div className={style.roomContainer}>
@@ -78,7 +73,13 @@ export function RoomPricePlan({offer, pricePlan, selectedOffer, onAddOfferToCart
 
     const onAddPricePlanToCart = () =>{
         if(onAddOfferToCart){
-            onAddOfferToCart(selectedOffer)
+            let hotelCartItem = {
+                offer: offer,
+                price:price,
+                offerId:offer.offerId,
+                room: offer.room
+            }
+            onAddOfferToCart(hotelCartItem)
         }else{
             console.warn('onAddOfferToCart is not defined!');
         }
@@ -133,17 +134,3 @@ export function RoomPricePlan({offer, pricePlan, selectedOffer, onAddOfferToCart
         }
     </>)
 }
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onAddOfferToCart: (offer) => {
-            dispatch(addHotelToCartAction(offer))
-        }
-    }
-}
-
-
-
-export default connect(null, mapDispatchToProps)(Room);
-
-

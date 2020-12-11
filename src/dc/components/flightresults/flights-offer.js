@@ -18,7 +18,13 @@ export function Offer({offer, itineraries = [], price, offerId, onOfferDisplay, 
     const addOfferToCart = () =>{
         if(onAddOfferToCart)
         {
-            onAddOfferToCart(offer)
+            let flightCartItem = {
+                offer: offer,
+                itineraries: itineraries,
+                price: price,
+                offerId:offer.offerId
+            }
+            onAddOfferToCart(flightCartItem)
         }else{
             console.warn('onAddOfferToCart is not defined!')
         }
