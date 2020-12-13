@@ -37,14 +37,12 @@ export default function PaxDetails({shoppingCart, currentStep, passengers, onDat
             <>
                 <div>
                     <Button onClick={restoreCart}>Restore</Button>
-                    <h2 className={style.header}>Passengers for reservation</h2>
+                    <h2 className={style.header}>Traveller Info</h2>
                     <div className={style.note}>
-                        Enter your personal details as indicated in the travel document you are flying on. Use Latin
-                        letters.
+                        Enter your personal details as indicated in the travel documents (passport, visa, ID cart) you will be traveling with.
+                        <br/>Use Latin letters.
                     </div>
-                    <div className={style.warning}>The number and type of passengers for this
-                        airline can only be changed with a new search
-                    </div>
+
                 </div>
                 <div className='paxdetails'>
                     {

@@ -1,12 +1,13 @@
 import React, {useState,useEffect} from 'react';
-import PaxDetails from "../components/passengers/pax-details";
-import {storePassengerDetails,retrievePassengerDetails} from "../../utils/api-utils"
+import PaxDetails from "./pax-details";
+import {storePassengerDetails,retrievePassengerDetails} from "../../../utils/api-utils"
 import Alert from 'react-bootstrap/Alert';
-import Spinner from "../components/common/spinner";
-import DevConLayout from "../components/layout/devcon-layout";
-import {cartContentsSelector,currentStepSelector} from "../../redux/sagas/booking";
-import {restoreCartFromServerAction} from "../../redux/sagas/cart";
+import Spinner from "../common/spinner";
+import DevConLayout from "../layout/devcon-layout";
+import {cartContentsSelector,currentStepSelector} from "../../../redux/sagas/booking";
+import {restoreCartFromServerAction} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
+import {Button} from "react-bootstrap";
 
 
 export function DCFlightPassengersPage({shoppingCart}) {
@@ -136,7 +137,15 @@ export function DCFlightPassengersPage({shoppingCart}) {
                     />
                     {highlightInvalidFields && PassengerInvalidAlert()}
                     {isLoading && loadingSpinner()}
+                    <NextPageButton onClick={savePassengerDetailsAndProceed} disabled={passengerDetailsValid===false}/>
         </DevConLayout>
+    )
+}
+
+const NextPageButton=({disabled,onClick}) => {
+    return (<>
+            <Button className={'btn-block'} variant="primary"  disabled={disabled} onClick={onClick}>Proceed</Button>
+        </>
     )
 }
 

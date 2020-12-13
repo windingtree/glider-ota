@@ -27,8 +27,9 @@ import PaymentPage from "./pages/payment-page";
 import PaymentCryptoPage from "./pages/payment-crypto-page";
 import DCLandingPage from './dc/pages/landing-page'
 import DCTravellerInfoPage from './dc/pages/traveller-info-page'
-import DCFlightOptionsPage from './dc/pages/flight-options-page'
-import DCFlightPassengersPage from './dc/pages/flight-passengers-page'
+import AncillariesSelection from './dc/components/ancillaries/ancillaries-page'
+import DCFlightPassengersPage from './dc/pages/pax-details-page'
+import DCAncillariesPage from './dc/pages/ancillaries-page'
 
 function Dispatcher() {
     return (
@@ -55,8 +56,9 @@ function Dispatcher() {
                         <Route path="/hotels/" component={HotelsSearchPage}/>
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
                         {<Route path="/dc/pax/" component={DCFlightPassengersPage}/>}
-                        {<Route path="/dc/step1/" component={DCTravellerInfoPage}/>}
-                        {<Route path="/dc/step2/" component={DCFlightOptionsPage}/>}
+                        {<Route path="/dc/ancillaries/" component={DCAncillariesPage}/>}
+                        {/*{<Route path="/dc/step1/" component={DCTravellerInfoPage}/>}*/}
+                        {/*{<Route path="/dc/step2/" component={DCFlightOptionsPage}/>}*/}
                         <Route path="/dc/" component={DCLandingPage}/>
 
 

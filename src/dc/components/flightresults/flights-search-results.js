@@ -12,7 +12,7 @@ import SearchButton from "../search-form/search-button";
 
 import { connect } from 'react-redux';
 import {
-searchForFlightsAction,flightSearchCriteriaSelector,flightFiltersSelector, isFlightSearchInProgressSelector, isFlightSearchFormValidSelector, flightSearchResultsSelector, flightsErrorSelector} from '../../../redux/sagas/flights';
+searchForFlightsAction,flightSearchCriteriaSelector,flightFiltersSelector, isFlightSearchInProgressSelector, isFlightSearchFormValidSelector, flightSearchResultsSelector, flightsErrorSelector} from '../../../redux/sagas/shopping';
 import Spinner from "../../../components/common/spinner";
 
 

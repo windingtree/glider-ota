@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
-import DevConLayout from "../components/layout/devcon-layout"
-import FlightPassengersPage from "./flight-passengers-page"
+import BookingFlowLayout from "../components/layout/booking-flow-layout"
+import FlightPassengersPage from "../components/passengers/flight-passengers-page"
+
+
 export default function DCPaxDetailsPage() {
-    return (<DevConLayout>
+    return (<BookingFlowLayout>
         Pax details
         <FlightPassengersPage/>
-    </DevConLayout>)
+    </BookingFlowLayout>)
 }
+
+

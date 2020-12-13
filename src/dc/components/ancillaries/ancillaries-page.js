@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import {Col, Row} from "react-bootstrap";
-import TripRates from "../components/flightdetails/flight-rates";
+import TripRates from "./fare-families/flight-rates";
 import {withRouter} from 'react-router'
-import {FlightSearchResultsWrapper} from "../../utils/flight-search-results-wrapper";
-import TotalPriceButton from "../components/common/totalprice/total-price";
-import {storeSelectedOffer} from "../../utils/api-utils";
+import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
+import TotalPriceButton from "../common/totalprice/total-price";
+import {storeSelectedOffer} from "../../../utils/api-utils";
 import _ from 'lodash';
 import Button from "react-bootstrap/Button";
 
 
-export default function DCFlightOptionsPage({offerId, searchResults}) {
+export default function AncillariesSelection({offerId, searchResults}) {
     let history = useHistory();
     let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
     let tripRates = searchResultsWrapper.generateTripRatesData(offerId);

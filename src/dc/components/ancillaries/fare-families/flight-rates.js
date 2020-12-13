@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import style from "./flight-rates.module.scss"
-import {ItineraryDetails} from "./trip-details";
-import FareFamilyHelper from "../../../utils/fare-family-helper";
+import {ItineraryDetails} from "../../flightdetails/trip-details";
+import FareFamilyHelper from "../../../../utils/fare-family-helper";
+import {AncillarySelectableItem} from "../../common-blocks/ancillary-selectable-item"
+import {Form} from "react-bootstrap";
 
 
 /**
@@ -71,7 +73,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
         <ItineraryDetails itinerary={itinerary} key={itineraryId}/>
         <div className='py-5'/>
         <div className={style.ratesHeader}>Select a fare below</div>
-        <div className='d-flex flex-row flex-wrap'>
+        <div >
                 {
                     itineraryPricePlans.map(({pricePlanId,lowestPrice}) => {
                         let pricePlan = pricePlans[pricePlanId];
@@ -98,7 +100,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                             offerId = priceOffset.offerId;
                         }
                         return (
-                            <FareFamilyBenefits key={offerId} amenities={pricePlan.amenities} price={priceDifference} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}}/>
+                            <FareFamilyWthBenefits key={offerId} amenities={pricePlan.amenities} price={priceDifference} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}}/>
                         )
 
                     })
@@ -132,12 +134,8 @@ const Amenity = ({text,type, isSelected})=>{
  * @returns {*}
  * @constructor
  */
-export function FareFamilyBenefits({familyName, price, isSelected, amenities=[], onClick}) {
-    let styleName = style.priceplanContainer;
-    if(isSelected)
-        styleName = style.priceplanContainerSelected;
-
-    let fare='';
+export function FareFamilyWthBenefits({familyName, price, isSelected, amenities=[], onClick}) {
+    let fare;
     if(price && price.public){
         fare = Math.round(price.public) + " "+ price.currency;
         if(price.public>0)
@@ -146,18 +144,9 @@ export function FareFamilyBenefits({familyName, price, isSelected, amenities=[],
             fare = "";
         }
     }
-    function handleClick(){
-        onClick();
-    }
-    let key=0;
+
     return (
-        <div className={styleName} onClick={handleClick}>
-            <div className={style.ratesPlanName}>{familyName}</div>
-            <div className={style.ratesPlanPrice}>{fare}</div>
-            {
-                amenities.map((record) =><Amenity key={key++} text={record} type={record.type} isSelected={isSelected}/>)
-            }
-        </div>
+        <AncillarySelectableItem name={familyName} items={amenities} isSelected={isSelected} isDisabled={false} onSelect={onClick} price={fare}/>
     )
 }
 

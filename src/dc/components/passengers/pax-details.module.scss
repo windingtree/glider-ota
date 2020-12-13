@@ -1,8 +1,7 @@
 @import 'src/styles/mixins';
 
 .header{
-  @include _glider-font-h2;
-  color: $glider-color-text;
+  @include g-font($g-fontsize-xl, $g-color-black, $g-fontweight-bold);
   padding-bottom: 40px;
   padding-top: 60px;
 }

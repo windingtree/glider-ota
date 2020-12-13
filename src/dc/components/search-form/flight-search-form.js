@@ -9,7 +9,7 @@ import {AirportLookup} from "../lookup/airport-lookup";
 import { connect } from 'react-redux';
 import {
   flightSearchCriteriaChangedAction
-} from '../../../redux/sagas/flights';
+} from '../../../redux/sagas/shopping';
 
 
 export function FlightsSearchForm(props){

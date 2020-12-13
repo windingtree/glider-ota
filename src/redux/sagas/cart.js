@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
 import dummyResults from "../../dc/components/storybook-utils/mock-data/flight_search_BOGMIA.json";
-import {searchCompletedAction, flightSearchCriteriaSelector, searchFailedAction} from "./flights";
+import {searchCompletedAction, flightSearchCriteriaSelector, searchFailedAction} from "./shopping";
 import {storeItemInCart, retrieveItemFromCart} from "../../utils/api-utils"
 export const moduleName = 'cart';
 

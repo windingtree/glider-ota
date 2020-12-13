@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect';
 
 import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
-import dummyResults from "../../dc/components/storybook-utils/mock-data/flight_search_BOGMIA.json"
+import dummyFlightResults from "../../dc/components/storybook-utils/mock-data/flight_search_BOGMIA.json"
+import dummyHotelResults from "../../dc/components/storybook-utils/mock-data/hotel_search_OSLO.json"
+
 export const moduleName = 'flights';
 
 const FLIGHTS_SEARCH_CRITERIA_CHANGED = `${moduleName}/FLIGHTS_SEARCH_CRITERIA_CHANGED`;
@@ -266,7 +268,7 @@ function* searchForFlightsSaga() {
         const searchCriteria = yield select(flightSearchCriteriaSelector);
         console.log('*searchForFlightsSaga searchCriteria:',searchCriteria)
         yield delayCall(1000);
-        yield put(flightSearchCompletedAction(dummyResults));
+        yield put(flightSearchCompletedAction(dummyFlightResults));
     } catch (error) {
         yield put(flightSearchFailedAction(error))
     }
@@ -279,7 +281,7 @@ function* searchForHotelsSaga() {
         const searchCriteria = yield select(hotelSearchCriteriaSelector);
         console.log('*searchForHotelsSaga searchCriteria:',searchCriteria)
         yield delayCall(1000);
-        yield put(hotelSearchCompletedAction(dummyResults));
+        yield put(hotelSearchCompletedAction(dummyHotelResults));
     } catch (error) {
         yield put(hotelSearchFailedAction(error))
     }
