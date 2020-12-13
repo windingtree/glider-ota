@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import style from './hotel-details.module.scss'
-import {Row, Col, Image} from 'react-bootstrap'
+import {Row, Col, Image, Container} from 'react-bootstrap'
 import _ from 'lodash'
 import {Room} from "./room-details"
 import {HotelLeadingImage} from "../accommodation-blocks/hotel-leading-image";
@@ -27,14 +27,7 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
 
 
         if(onAddOfferToCart) {
-            const hotelCartItem = {
-                offerId:offerId,
-                price:price,
-                room: room,
-                hotel: hotel
-            }
-            console.log('handleAddOfferToCart:',hotelCartItem)
-            onAddOfferToCart(hotelCartItem)
+             onAddOfferToCart(offerId, room, hotel, price)
         }
         else {
             console.warn('onAddOfferToCart is not defined!');
@@ -43,7 +36,7 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
 
 
     return (
-                <Row className={style.hotelContainer}>
+                <Container><Row className={style.hotelContainer}>
                     <Col>
                         {hotelLeadingImageUrl && <HotelLeadingImage url={hotelLeadingImageUrl}/>}
                         <div className={style.hotelName}>{hotelName}</div>
@@ -54,6 +47,7 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
                         {roomsExpanded && displayRooms(rooms,hotelPricePlansWithOffers,selectedOffer, handleAddOfferToCart)}
                     </Col>
                 </Row>
+                </Container>
         )
 }
 
@@ -117,8 +111,8 @@ const getLeadingHotelImageUrl = (hotel) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAddOfferToCart: (offer) => {
-            dispatch(addHotelToCartAction(offer))
+        onAddOfferToCart: (offerId, room, hotel, price) => {
+            dispatch(addHotelToCartAction(offerId, room, hotel, price))
         }
     }
 }

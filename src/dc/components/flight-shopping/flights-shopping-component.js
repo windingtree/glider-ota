@@ -1,8 +1,8 @@
 import React from 'react';
-import FlightsSearchForm from '../components/search-form/flight-search-form'
-import Filters from "../components/filters/filters";
-import FlightsSearchResults from "../components/flightresults/flights-search-results";
-import ShoppingCart from "../components/shoppingcart/shopping-cart";
+import FlightsSearchForm from '../search-form/flight-search-form'
+import Filters from "../filters/filters";
+import FlightsSearchResults from "../flightresults/flights-search-results";
+import ShoppingCart from "../shopping-cart/shopping-cart";
 import {Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 
@@ -12,7 +12,7 @@ export default function FlightsShoppingComponent() {
             <Row>
                 <FlightsSearchForm/>
             </Row>
-            <Row>
+            <Row >
                 <Col xs={0} sm={0} md={3} xl={0} className='d-none d-md-block'>
                     <Filters/>
                 </Col>

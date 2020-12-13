@@ -2,10 +2,11 @@ import React from 'react'
 import _ from 'lodash'
 import style from "./pax-details.module.scss"
 import SinglePaxDetails from "./single-pax-details";
+import {Button} from "react-bootstrap";
 
-export default function PaxDetails({passengers, onDataChange, highlightInvalidFields}) {
+export default function PaxDetails({shoppingCart, currentStep, passengers, onDataChange, highlightInvalidFields, restoreCart}) {
     // const [passengersList,setPassengersList] = useState(passengers);
-
+    console.log(`PaxDetails, currentStep:${currentStep}, shoppingCart:`, shoppingCart)
     function onPassengerDataChanged(paxId, passengerRecord, isValid) {
         console.log('onPassengerDataChanged')
         let paxListCopy = Object.assign([],passengers)
@@ -35,6 +36,7 @@ export default function PaxDetails({passengers, onDataChange, highlightInvalidFi
         return (
             <>
                 <div>
+                    <Button onClick={restoreCart}>Restore</Button>
                     <h2 className={style.header}>Passengers for reservation</h2>
                     <div className={style.note}>
                         Enter your personal details as indicated in the travel document you are flying on. Use Latin

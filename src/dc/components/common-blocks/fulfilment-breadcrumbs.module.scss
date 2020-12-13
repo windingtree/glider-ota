@@ -1,0 +1,22 @@
+@import '../../../styles/mixins';
+
+.breadCrumb{
+  @include g-font($g-fontsize-xxl, $g-color-darkgrey, $g-fontweight-normal)
+}
+
+.breadCrumb > ol{
+  background-color: revert;
+}
+.breadCrumb :global(li.active){
+  @include g-font($g-fontsize-xxl, $g-color-black, $g-fontweight-bold)
+}
+
+.breadCrumb :global(.breadcrumb-item) + :global(.breadcrumb-item::before) {
+   content: "→";
+  height:20px;
+  transform: scale(2);
+  position: relative;
+  top:-15px;
+  padding-left: 20px;
+  padding-right: 20px;
+ }

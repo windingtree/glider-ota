@@ -10,15 +10,16 @@ const SEARCH_COMPLETED = `${moduleName}/SEARCH_COMPLETED`;
 const SEARCH_FAILED = `${moduleName}/SEARCH_FAILED`;
 const APPLY_FLIGHTS_FILTER = `${moduleName}/APPLY_FLIGHTS_FILTER`;
 const CLEAR_FLIGHTS_FILTER = `${moduleName}/CLEAR_FLIGHTS_FILTER`;
+const ERROR = `${moduleName}/ERROR`;
 
 
 const initialState = {
-    filters: null,
-    searchCriteria: null,
-    searchResults: null,
-    searchInProgress:false,
-    error:null,
-    isSearchFormValid:false
+    flightFilters: null,
+    flightSearchCriteria: null,
+    flightSearchResults: null,
+    flightSearchInProgress:false,
+    flightError:null,
+    flightSearchFormValid:false
 };
 
 // reducer
@@ -28,35 +29,39 @@ export default (state = initialState, action) => {
         payload,
         error
     } = action;
-    console.log('Reducer, action:',action)
+    console.log(`Reducer:${moduleName}, action:`,action)
     switch (type) {
         case SEARCH_FOR_FLIGHTS:
             return Object.assign({}, state, {
-                searchInProgress:true
+                flightSearchInProgress:true
             });
         case SEARCH_COMPLETED:
             return Object.assign({}, state, {
-                searchInProgress:false,
-                searchResults: payload.searchResults
+                flightSearchInProgress:false,
+                flightSearchResults: payload.flightSearchResults
             });
         case SEARCH_FAILED:
             return Object.assign({}, state, {
-                searchInProgress:false,
-                searchResults: null,
-                error:error
+                flightSearchInProgress:false,
+                flightSearchResults: null,
+                flightError:error
             });
         case APPLY_FLIGHTS_FILTER:
             return Object.assign({}, state, {
-                filters: payload.filters
+                flightFilters: payload.flightFilters
             });
         case CLEAR_FLIGHTS_FILTER:
             return Object.assign({}, state, {
-                filters: null
+                flightFilters: null
             });
         case FLIGHTS_SEARCH_CRITERIA_CHANGED:
             return Object.assign({}, state, {
-                searchCriteria: payload.searchCriteria,
-                isSearchFormValid:payload.isSearchFormValid,
+                flightSearchCriteria: payload.flightSearchCriteria,
+                flightSearchFormValid:payload.flightSearchFormValid,
+            });
+        case ERROR:
+            return Object.assign({}, state, {
+                flightError: error
             });
         default:
             return state
@@ -74,65 +79,69 @@ export const searchForFlightsAction = () => {
     }
 };
 
-export const searchCompletedAction = results => ({
+export const flightSearchCompletedAction = results => ({
     type: SEARCH_COMPLETED,
     payload: {
-        searchResults:results
+        flightSearchResults:results
     }});
-export const searchFailedAction = error => ({
+export const flightSearchFailedAction = error => ({
     type: SEARCH_FAILED,
-    error
+    error: error
     });
-export const applyFilterAction = filters => ({
+export const applyFlightFilterAction = filters => ({
     type: APPLY_FLIGHTS_FILTER,
     payload: {
-        filters:filters
+        flightFilters:filters
     }
 });
-export const clearFilterAction = () => ({
+export const clearFlightFilterAction = () => ({
     type: CLEAR_FLIGHTS_FILTER
 });
 
-export const searchCriteriaChangedAction = (searchCriteria, isSearchFormValid) => ({
+export const flightSearchCriteriaChangedAction = (searchCriteria, isSearchFormValid) => ({
     type: FLIGHTS_SEARCH_CRITERIA_CHANGED,
     payload: {
-        searchCriteria:searchCriteria,
-        isSearchFormValid:isSearchFormValid
+        flightSearchCriteria:searchCriteria,
+        flightSearchFormValid:isSearchFormValid
     }
 });
+export const errorAction= error => ({
+    type: ERROR,
+    error: error
+});
+
 
 // Selectors
-
 const stateSelector = state => state[moduleName];
 
 export const flightFiltersSelector = createSelector(
     stateSelector,
-    ({ filters }) => filters
+    ({ flightFilters }) => flightFilters
 );
 
-export const searchCriteriaSelector = createSelector(
+export const flightSearchCriteriaSelector = createSelector(
     stateSelector,
-    ({ searchCriteria }) => searchCriteria
+    ({ flightSearchCriteria }) => flightSearchCriteria
 );
 
-export const searchResultsSelector = createSelector(
+export const flightSearchResultsSelector = createSelector(
     stateSelector,
-    ({ searchResults }) => searchResults
+    ({ flightSearchResults }) => flightSearchResults
 );
 
-export const isSearchInProgressSelector = createSelector(
+export const isFlightSearchInProgressSelector = createSelector(
     stateSelector,
-    ({ searchInProgress }) => searchInProgress
+    ({ flightSearchInProgress }) => flightSearchInProgress
 );
 
-export const errorSelector = createSelector(
+export const flightsErrorSelector = createSelector(
     stateSelector,
-    ({ error }) => error
+    ({ flightsError }) => flightsError
 );
 
-export const isSearchFormValidSelector = createSelector(
+export const isFlightSearchFormValidSelector = createSelector(
     stateSelector,
-    ({ isSearchFormValid }) => isSearchFormValid
+    ({ flightSearchFormValid }) => flightSearchFormValid
 );
 
 const delayCall = (ms) => new Promise(res => setTimeout(res, ms))
@@ -143,12 +152,12 @@ function* searchForFlightsSaga() {
     console.log('*searchForFlightsSaga')
     try {
         // yield put(searchForFlightsAction());
-        const searchCriteria = yield select(searchCriteriaSelector);
+        const searchCriteria = yield select(flightSearchCriteriaSelector);
         console.log('*searchForFlightsSaga searchCriteria:',searchCriteria)
         yield delayCall(1000);
-        yield put(searchCompletedAction(dummyResults));
+        yield put(flightSearchCompletedAction(dummyResults));
     } catch (error) {
-        yield put(searchFailedAction(error))
+        yield put(flightSearchFailedAction(error))
     }
 }
 

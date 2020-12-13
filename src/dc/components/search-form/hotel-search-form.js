@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import {Button, Row, Col} from 'react-bootstrap'
+import {Button, Row, Col, Container} from 'react-bootstrap'
 // import TravelDatepickup from '../traveldate-pickup/travel-datepickup'
 import DatePickup from '../traveldate-pickup/date-pickup'
 import style from './search-form.module.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
 import {CityLookup} from "../lookup/city-lookup";
-import {searchCriteriaChangedAction} from "../../../redux/sagas/hotels";
+import {hotelSearchCriteriaChangedAction} from "../../../redux/sagas/hotels";
 import {connect} from "react-redux";
+import DateRangePickup from "../traveldate-pickup/date-range-pickup";
 
 
 export function HotelSearchForm(props){
@@ -107,14 +108,15 @@ export function HotelSearchForm(props){
 
     return (<>
 
-          <div className={style.searchFormContainer}>
+          <Container fluid={true}>
             <Row >
               <Col xs={12} md={3} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='To' localstorageKey={'destination'}/></Col>
+              <Col xs={12} md={6} className={style.formElem}>
+                <DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When' localstorageKey={'traveldates'}/>
+              </Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label='Who?'/></Col>
-              <Col xs={12} md={3} className={style.formElem}><DatePickup onDateChanged={setDepartureDate} initialDate={departureDate} placeholder='Check in' label='When' localstorageKey={'traveldates'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><DatePickup onDateChanged={setReturnDate} initialDate={returnDate} placeholder='Check out' label='When' localstorageKey={'traveldates'}/></Col>
             </Row>
-          </div>
+          </Container>
         </>
     )
 
@@ -129,7 +131,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     searchCriteriaChanged: (searchCriteria, isSearchFormValid) => {
       console.log('mapDispatchToProps, searchCriteriaChanged:',searchCriteria, isSearchFormValid)
-      dispatch(searchCriteriaChangedAction(searchCriteria, isSearchFormValid))
+      dispatch(hotelSearchCriteriaChangedAction(searchCriteria, isSearchFormValid))
     }
   }
 }

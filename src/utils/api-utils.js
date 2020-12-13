@@ -96,6 +96,23 @@ export async function addSeats(selectedSeats){
   return fetchPost('/api/cart/seats', selectedSeats);
 }
 
+///////////////// GENERIC CART STORAGE //////////////////////
+export async function retrieveItemFromCart(key) {
+  let query={
+    key:key
+  }
+  return fetchGet('/api/cart/cart', query);
+};
+
+export async function storeItemInCart(key,item){
+  let payload = {
+    key:key,
+    item: item
+  }
+  return fetchPost('/api/cart/cart',payload );
+}
+
+
 ///////////////// REPRICE //////////////////////
 
 export async function repriceShoppingCartContents(){
@@ -135,3 +152,12 @@ export function executionTimeCheck(taskName, callback) {
     console.log(`Task:${taskName}, Execution time:${end - start}ms`);
   }
 }
+
+
+
+///////////////// OFFER DETAILS //////////////////////
+//this retrieves basic data about offerID (e.g. passengers object returned with search results)
+export async function getOffer(offerId){
+  return fetchGet('/api/offer/offer',{offerId:offerId});
+}
+

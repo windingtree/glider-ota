@@ -13,12 +13,12 @@ const CLEAR_HOTELS_FILTER = `${moduleName}/CLEAR_HOTELS_FILTER`;
 
 
 const initialState = {
-    filters: null,
-    searchCriteria: null,
-    searchResults: null,
-    searchInProgress:false,
-    error:null,
-    isSearchFormValid:false
+    hotelFilters: null,
+    hotelSearchCriteria: null,
+    hotelSearchResults: null,
+    hotelSearchInProgress:false,
+    hotelError:null,
+    isHotelSearchFormValid:false
 };
 
 // reducer
@@ -28,35 +28,35 @@ export default (state = initialState, action) => {
         payload,
         error
     } = action;
-    console.log('Reducer, action:',action)
+    console.log(`Reducer:${moduleName}, action:`,action)
     switch (type) {
         case SEARCH_FOR_HOTELS:
             return Object.assign({}, state, {
-                searchInProgress:true
+                hotelSearchInProgress:true
             });
         case SEARCH_COMPLETED:
             return Object.assign({}, state, {
-                searchInProgress:false,
-                searchResults: payload.searchResults
+                hotelSearchInProgress:false,
+                hotelSearchResults: payload.hotelSearchResults
             });
         case SEARCH_FAILED:
             return Object.assign({}, state, {
-                searchInProgress:false,
-                searchResults: null,
+                hotelSearchInProgress:false,
+                hotelSearchResults: null,
                 error:error
             });
         case APPLY_HOTELS_FILTER:
             return Object.assign({}, state, {
-                filters: payload.filters
+                hotelFilters: payload.hotelFilters
             });
         case CLEAR_HOTELS_FILTER:
             return Object.assign({}, state, {
-                filters: null
+                hotelFilters: null
             });
         case HOTELS_SEARCH_CRITERIA_CHANGED:
             return Object.assign({}, state, {
-                searchCriteria: payload.searchCriteria,
-                isSearchFormValid:payload.isSearchFormValid,
+                hotelSearchCriteria: payload.hotelSearchCriteria,
+                isHotelSearchFormValid:payload.isHotelSearchFormValid,
             });
         default:
             return state
@@ -73,30 +73,30 @@ export const searchForHotelsAction = () => {
     }
 };
 
-export const searchCompletedAction = results => ({
+export const hotelSearchCompletedAction = results => ({
     type: SEARCH_COMPLETED,
     payload: {
-        searchResults:results
+        hotelSearchResults:results
     }});
-export const searchFailedAction = error => ({
+export const hotelSearchFailedAction = error => ({
     type: SEARCH_FAILED,
     error
     });
-export const applyFilterAction = filters => ({
+export const applyHotelFilterAction = filters => ({
     type: APPLY_HOTELS_FILTER,
     payload: {
-        filters:filters
+        hotelFilters:filters
     }
 });
-export const clearFilterAction = () => ({
+export const clearHotelsFilterAction = () => ({
     type: CLEAR_HOTELS_FILTER
 });
 
-export const searchCriteriaChangedAction = (searchCriteria, isSearchFormValid) => ({
+export const hotelSearchCriteriaChangedAction = (searchCriteria, isHotelSearchFormValid) => ({
     type: HOTELS_SEARCH_CRITERIA_CHANGED,
     payload: {
-        searchCriteria:searchCriteria,
-        isSearchFormValid:isSearchFormValid
+        hotelSearchCriteria:searchCriteria,
+        isHotelSearchFormValid:isHotelSearchFormValid
     }
 });
 
@@ -106,32 +106,32 @@ const stateSelector = state => state[moduleName];
 
 export const hotelsFiltersSelector = createSelector(
     stateSelector,
-    ({ filters }) => filters
+    ({ hotelFilters }) => hotelFilters
 );
 
-export const searchCriteriaSelector = createSelector(
+export const hotelSearchCriteriaSelector = createSelector(
     stateSelector,
-    ({ searchCriteria }) => searchCriteria
+    ({ hotelSearchCriteria }) => hotelSearchCriteria
 );
 
-export const searchResultsSelector = createSelector(
+export const hotelSearchResultsSelector = createSelector(
     stateSelector,
-    ({ searchResults }) => searchResults
+    ({ hotelSearchResults }) => hotelSearchResults
 );
 
-export const isSearchInProgressSelector = createSelector(
+export const isHotelSearchInProgressSelector = createSelector(
     stateSelector,
-    ({ searchInProgress }) => searchInProgress
+    ({ hotelSearchInProgress }) => hotelSearchInProgress
 );
 
-export const errorSelector = createSelector(
+export const hotelErrorSelector = createSelector(
     stateSelector,
-    ({ error }) => error
+    ({ hotelError }) => hotelError
 );
 
-export const isSearchFormValidSelector = createSelector(
+export const isHotelSearchFormValidSelector = createSelector(
     stateSelector,
-    ({ isSearchFormValid }) => isSearchFormValid
+    ({ isHotelSearchFormValid }) => isHotelSearchFormValid
 );
 
 const delayCall = (ms) => new Promise(res => setTimeout(res, ms))
@@ -142,12 +142,12 @@ function* searchForHotelsSaga() {
     console.log('*searchForHotelsSaga')
     try {
         // yield put(searchForFlightsAction());
-        const searchCriteria = yield select(searchCriteriaSelector);
+        const searchCriteria = yield select(hotelSearchCriteriaSelector);
         console.log('*searchForHotelsSaga searchCriteria:',searchCriteria)
         yield delayCall(1000);
-        yield put(searchCompletedAction(dummyResults));
+        yield put(hotelSearchCompletedAction(dummyResults));
     } catch (error) {
-        yield put(searchFailedAction(error))
+        yield put(hotelSearchFailedAction(error))
     }
 }
 

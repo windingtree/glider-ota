@@ -4,7 +4,7 @@ import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
 import {Col, Container, Image, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import classNames from 'classnames/bind';
-import {bookAction, errorSelector, flightOfferSelector, hotelOfferSelector} from "../../../redux/sagas/cart";
+import {bookAction, storeCartOnServerAction,restoreCartFromServerAction, errorSelector, flightOfferSelector, hotelOfferSelector} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
 import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
@@ -12,15 +12,22 @@ import {FlightDuration} from "../flight-blocks/flight-duration";
 import OfferUtils, {safeDateFormat} from "../../../utils/offer-utils";
 import {FaBed} from "react-icons/fa";
 import {LodgingInfo} from "../accommodation-blocks/lodging-info";
+import {Link} from "react-router-dom";
 
 
 let cx = classNames.bind(style);
 
-const SubTotal = ({title,price, currency}) =>{
+const SubTotal = ({title,price, priceAmount, currency}) =>{
     let cls=cx({
         subtotalItem:true,
         'float-right':true,
     })
+
+    if(price) {
+        priceAmount = price.public;
+        currency = price.currency;
+    }
+
     return (
         <div className={'pt-2 pb-2'}>
             <Row >
@@ -28,17 +35,21 @@ const SubTotal = ({title,price, currency}) =>{
                     <div className={style.subtotalItem}>{title}</div>
                 </Col>
                 <Col >
-                    <div className={cls}>{price}{currency}</div>
+                    <div className={cls}>{priceAmount}{currency}</div>
                 </Col>
             </Row>
         </div>)
 }
 
-const Total = ({title,price, currency}) =>{
+const Total = ({title,price, priceAmount, currency}) =>{
     let cls=cx({
         totalItem:true,
         'float-right':true,
     })
+    if(price) {
+        priceAmount = price.public;
+        currency = price.currency;
+    }
     return (
         <div  className={'pt-2 pb-2'}>
             <Row >
@@ -46,7 +57,7 @@ const Total = ({title,price, currency}) =>{
                     <div className={style.totalItem}>{title}</div>
                 </Col>
                 <Col >
-                    <div className={cls}>{price}{currency}</div>
+                    <div className={cls}>{priceAmount}{currency}</div>
                 </Col>
             </Row>
         </div>)
@@ -121,7 +132,7 @@ const HotelOfferCartItem = ({hotelOffer}) => {
     </>)
 }
 
-export const ShoppingCart = ({flightOffer, hotelOffer, onBook}) =>{
+export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer, storeOnServer}) =>{
 
     const onBookHandler = (e) => {
         e.preventDefault();
@@ -132,11 +143,33 @@ export const ShoppingCart = ({flightOffer, hotelOffer, onBook}) =>{
             console.warn('onBook is not defined!')
         }
     }
+    const onRestoreFromServer = (e) => {
+        e.preventDefault();
+        restoreFromServer();
+    }
+    const onStoreOnServer = (e) => {
+        e.preventDefault();
+        storeOnServer();
+    }
+
+
     let bookButtonClassnames=cx({
         btn:true,
         'btn-primary':true,
         'btn-block':true
     })
+
+    const hotelPrice = hotelOffer?hotelOffer.price:null;
+    const flightPrice = flightOffer?flightOffer.price:null;
+    const totalPrice = calculateTotalPrice(hotelPrice,flightPrice)
+
+    let cartIsEmpty = (!flightOffer && !hotelOffer)
+
+    if(cartIsEmpty)
+        return (<>
+            <a href={"#"}  onClick={onStoreOnServer}>Store on server</a>
+            <a href={"#"}  onClick={onRestoreFromServer}>Restore from server</a>
+        </>)
 
     return (
         <div className={style.cartContainer}>
@@ -145,18 +178,40 @@ export const ShoppingCart = ({flightOffer, hotelOffer, onBook}) =>{
             {flightOffer && <FlightOfferCartItem flightOffer={flightOffer}/>}
             {hotelOffer && <HotelOfferCartItem hotelOffer={hotelOffer}/> }
             <HorizontalDottedLine/>
-            <SubTotal price={123} currency={"$"} title={"Flights:"}/>
-            <SubTotal price={123} currency={"$"} title={"Hotels:"}/>
-            <Total price={123} currency={"$"} title={"Total:"}/>
+            {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/>}
+            {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/>}
+            {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
             <div className={'pt-2'}/>
+            <Link to={'/dc/pax'}>Book</Link>
+            <a href={"#"}  onClick={onStoreOnServer}>Store on server</a>
+            <a href={"#"}  onClick={onRestoreFromServer}>Restore from server</a>
             <a href={"#"} className={bookButtonClassnames} onClick={onBookHandler}>Book</a>
         </div>
 
     )
 }
 
+//TODO - handle different currencies
+const calculateTotalPrice = (hotelPrice, flightPrice) => {
+    let currency;
 
+    let hotelAmount = 0;
+    if(hotelPrice){
+        hotelAmount = hotelPrice.public
+        currency = hotelPrice.currency;
+    }
+    let flightAmount = 0;
+    if(flightPrice){
+        flightPrice = flightPrice.public;
+        currency = flightPrice.currency;
+    }
 
+    let total = Number(hotelAmount) + Number(flightAmount);
+    return {
+        public:total,
+        currency:currency
+    };
+}
 
 const mapStateToProps = state => ({
     flightOffer: flightOfferSelector(state),
@@ -167,7 +222,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onBook: (offer) => {
+        storeOnServer: () => {
+            dispatch(storeCartOnServerAction())
+        },
+        restoreFromServer: () => {
+            dispatch(restoreCartFromServerAction())
+        },
+        onStore: () => {
             dispatch(bookAction())
         }
     }

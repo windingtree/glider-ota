@@ -12,9 +12,7 @@ import SearchButton from "../search-form/search-button";
 
 import { connect } from 'react-redux';
 import {
-searchForFlightsAction,searchCriteriaSelector,
-    isSearchInProgressSelector,applyFilterAction,clearFilterAction,flightFiltersSelector,searchResultsSelector, isSearchFormValidSelector, errorSelector
-} from '../../../redux/sagas/flights';
+searchForFlightsAction,flightSearchCriteriaSelector,flightFiltersSelector, isFlightSearchInProgressSelector, isFlightSearchFormValidSelector, flightSearchResultsSelector, flightsErrorSelector} from '../../../redux/sagas/flights';
 import Spinner from "../../../components/common/spinner";
 
 
@@ -24,7 +22,7 @@ const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;
 export function FlightsSearchResults({searchResults,filters, isSearchFormValid, onOfferDisplay, onSearchClicked, searchInProgress, error}) {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortType, setSortType] = useState('PRICE');
-
+    console.log('isSearchFormValid:',isSearchFormValid)
     //called when user clicked on a specific offer
     function handleOfferDisplay(offerId) {
         if(onOfferDisplay) {
@@ -72,8 +70,8 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
             <SearchButton disabled={!isSearchFormValid} onSearchButtonClicked={onSearchButtonClicked}/>
             <Spinner enabled={searchInProgress}/>
             {error && (<div>ERRRORS OCCURED</div>)}
+            <div className='pt-5'/>
             {/*<FastCheapFilter defaultValue={sortType} onToggle={setSortType}/>*/}
-            <Container className={style.flightssearchresultscontainer}>
                 {
                     trips.map(tripInfo => {
                         let offer = tripInfo.bestoffer;
@@ -90,7 +88,7 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
                 }
                 <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE}
                                   onActivePageChange={onActivePageChange} totalRecords={totalResultsCount}/>
-        </Container></>
+        </>
     )
 
 }
@@ -98,11 +96,11 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
 
 const mapStateToProps = state => ({
     filters: flightFiltersSelector(state),
-    searchCriteria: searchCriteriaSelector(state),
-    searchInProgress: isSearchInProgressSelector(state),
-    searchResults: searchResultsSelector(state),
-    isSearchFormValid: isSearchFormValidSelector(state),
-    error:errorSelector(state)
+    searchCriteria: flightSearchCriteriaSelector(state),
+    searchInProgress: isFlightSearchInProgressSelector(state),
+    searchResults: flightSearchResultsSelector(state),
+    isSearchFormValid: isFlightSearchFormValidSelector(state),
+    error:flightsErrorSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => {

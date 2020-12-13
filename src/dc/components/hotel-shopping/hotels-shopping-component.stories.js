@@ -2,7 +2,7 @@ import React from 'react';
 
 import HotelsShoppingComponent from "./hotels-shopping-component";
 
-import {ProviderWrapper} from "../redux-stories-helper"
+import {ProviderWrapper} from "../../redux-stories-helper"
 import {addDecorator} from "@storybook/react";
 addDecorator(story =>  <ProviderWrapper>{story()}</ProviderWrapper>)
 

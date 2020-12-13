@@ -7,7 +7,7 @@ import {BaggageFilter} from "./baggage-filter";
 import {AirlinesFilter} from "./airlines-filter";
 import {FILTERS} from "./filters-utils";
 import {
-    flightFiltersSelector, applyFilterAction, searchResultsSelector
+    flightFiltersSelector, applyFlightFilterAction, flightSearchResultsSelector
 } from "../../../redux/sagas/flights";
 import {connect} from "react-redux";
 
@@ -42,13 +42,13 @@ export function Filters({searchResults, onFiltersChanged}) {
 
 const mapStateToProps = state => ({
     filters: flightFiltersSelector(state),
-    searchResults:searchResultsSelector(state)
+    searchResults:flightSearchResultsSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onFiltersChanged: (filters) => {
-            dispatch(applyFilterAction(filters))
+            dispatch(applyFlightFilterAction(filters))
         }
     }
 }

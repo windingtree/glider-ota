@@ -20,8 +20,6 @@ export const ADTYPES = {
  * @constructor
  */
 export const ArrivalDeparture = ({cityName, cityCode, date, adType = ADTYPES.NONE}) => {
-    console.log('Date:',date)
-    console.log('Date typeof:',typeof date)
     const renderIcon = () => {
         if (adType === ADTYPES.ARRIVAL)
             return (<FaPlaneArrival/>)

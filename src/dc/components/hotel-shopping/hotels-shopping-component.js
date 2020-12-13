@@ -1,10 +1,10 @@
 import React from 'react';
-import HotelSearchForm from '../components/search-form/hotel-search-form'
-import HotelFilters from "../components/filters/hotel-filters";
-import HotelsSearchResults from "../components/hotelresults/hotels-search-results";
+import HotelSearchForm from '../search-form/hotel-search-form'
+import HotelFilters from "../filters/hotel-filters";
+import HotelsSearchResults from "../hotelresults/hotels-search-results";
 import {Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
-import ShoppingCart from "../components/shoppingcart/shopping-cart";
+import ShoppingCart from "../shopping-cart/shopping-cart";
 
 export default function HotelsShoppingComponent() {
     return (

@@ -18,13 +18,7 @@ export function Offer({offer, itineraries = [], price, offerId, onOfferDisplay, 
     const addOfferToCart = () =>{
         if(onAddOfferToCart)
         {
-            let flightCartItem = {
-                offer: offer,
-                itineraries: itineraries,
-                price: price,
-                offerId:offer.offerId
-            }
-            onAddOfferToCart(flightCartItem)
+            onAddOfferToCart(offer.offerId, offer, price, itineraries)
         }else{
             console.warn('onAddOfferToCart is not defined!')
         }
@@ -135,9 +129,10 @@ function ItineraryAncillaries({pricePlan}) {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAddOfferToCart: (offer) => {
-            dispatch(addFlightToCartAction(offer))
+        onAddOfferToCart: (offerId, offer, price, itineraries) => {
+            dispatch(addFlightToCartAction(offerId, offer, price, itineraries))
         }
     }
 }
+
 export default connect(null, mapDispatchToProps)(Offer);

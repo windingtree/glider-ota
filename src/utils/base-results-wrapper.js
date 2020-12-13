@@ -31,7 +31,6 @@ export class BaseSearchResultsWrapper {
      */
     getOffer(offerId){
         let offer = this.offers[offerId];
-        console.warn('getOffer,offerId:',offerId, 'Result:', offer)
         if(!offer) {
             console.warn(`SearchResultsWrapper - requested offer was not found!`,offerId)
             return null;

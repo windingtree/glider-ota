@@ -7,11 +7,11 @@ import HotelDetails from "../hoteldetails/hotel-details"
 
 import {HotelSearchResultsFilterHelper} from "../../../utils/hotel-search-results-filter-helper";
 import {
-    errorSelector,
-    hotelsFiltersSelector, isSearchFormValidSelector,
-    isSearchInProgressSelector,
-    searchCriteriaSelector, searchForHotelsAction,
-    searchResultsSelector
+    hotelErrorSelector,
+    hotelsFiltersSelector, isHotelSearchFormValidSelector,
+    isHotelSearchInProgressSelector,
+    hotelSearchCriteriaSelector, searchForHotelsAction,
+    hotelSearchResultsSelector
 } from "../../../redux/sagas/hotels";
 import {connect} from "react-redux";
 import Spinner from "../../../components/common/spinner";
@@ -47,9 +47,8 @@ export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFor
             <Spinner enabled={searchInProgress===true}/>
             {error && (<div>ERROR OCCURED</div>)}
 
-            <div className='pt-5'/>
-            <Container fluid={true} className={style.flightssearchresultscontainer}>
-            <Row className={style.hotelsSearchResultsWrapper}>
+            <div className='pt-3'/>
+            {/*<Row className={style.hotelsSearchResultsWrapper}>*/}
                 {
                     _.map(results, (result, id) => {
                         let hotel = result.hotel;
@@ -58,8 +57,7 @@ export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFor
                         return (<HotelDetails searchResults={searchResults} hotel={hotel}/>)
                     })
                 }
-            </Row>
-            </Container>
+            {/*</Row>*/}
         </>
     )
 
@@ -69,11 +67,11 @@ export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFor
 
 const mapStateToProps = state => ({
     filters: hotelsFiltersSelector(state),
-    searchCriteria: searchCriteriaSelector(state),
-    searchInProgress: isSearchInProgressSelector(state),
-    searchResults: searchResultsSelector(state),
-    isSearchFormValid: isSearchFormValidSelector(state),
-    error:errorSelector(state)
+    searchCriteria: hotelSearchCriteriaSelector(state),
+    searchInProgress: isHotelSearchInProgressSelector(state),
+    searchResults: hotelSearchResultsSelector(state),
+    isSearchFormValid: isHotelSearchFormValidSelector(state),
+    error:hotelErrorSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => {
