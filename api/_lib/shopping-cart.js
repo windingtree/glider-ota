@@ -4,12 +4,18 @@ const {SessionStorage} = require('./session-storage');
 const {assertParameterNotEmpty} = require('./utils')
 const _ = require('lodash');
 
+// Possible items in the cart
 const CART_ITEMKEYS = {
     OFFER : 'offer',
     PASSENGERS : 'passengers',
     SEATS : 'seats',
     ANCILLARIES : 'ancillaries',
     CONFIRMED_OFFER : 'confirmed-offer',
+};
+
+// Possible cart preferences
+const CART_USER_PREFERENCES_KEYS = {
+    CURRENCY : 'currency',
 };
 
 
@@ -102,6 +108,40 @@ class ShoppingCart {
         return record.item;
     }
 
+    /**
+     * Retrieves a preference from the cart
+     * @param userPreferenceKey
+     * @returns {Promise<*>} Cart contents after operation
+     */
+    async getUserPreference(userPreferenceKey){
+        let cart = await this.getCart();
+        let record = cart.userPreferences[userPreferenceKey];
+        if(record == null)
+            return null;
+        return record.item;
+    }
+
+   /**
+     * Set a preference from the cart
+     * @param userPreferenceKey
+     * @param value The value to set
+     * @returns {Promise<*>} Cart contents after operation
+     */
+    async setUserPreference(userPreferenceKey, value){
+        let cart = await this.getCart();
+        cart.userPreferences[userPreferenceKey] = value;
+        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,cart);
+        return cart;
+    }
+
+   /**
+     * Unset a preference from the cart
+     * @param userPreferenceKey
+     * @returns {Promise<*>} Cart contents after operation
+     */
+    async unsetUserPreference(userPreferenceKey){
+        return this.setUserPreference(userPreferenceKey, undefined)
+    }
 
 
     _calculateTotalPrice(cart){
@@ -113,15 +153,17 @@ class ShoppingCart {
 
     _initializeCartRecord(){
         return {
-            totalPrice:0,
-            items:{
-            }
+            totalPrice: 0,
+            items: {},
+            userPreferences: {},
         }
     }
 }
 
 module.exports = {
-    ShoppingCart,CART_ITEMKEYS
+    ShoppingCart,
+    CART_ITEMKEYS,
+    CART_USER_PREFERENCES_KEYS,
 }
 
 
