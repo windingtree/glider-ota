@@ -4,36 +4,45 @@ import {storePassengerDetails,retrievePassengerDetails} from "../../../utils/api
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner";
 import DevConLayout from "../layout/devcon-layout";
-import {cartContentsSelector,currentStepSelector} from "../../../redux/sagas/booking";
-import {restoreCartFromServerAction} from "../../../redux/sagas/cart";
+import {flightOfferSelector, hotelOfferSelector, restoreCartFromServerAction} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
 import {Button} from "react-bootstrap";
+import {useHistory} from "react-router-dom";
+
+import {
+    isFlightSearchInProgressSelector,
+    isHotelSearchInProgressSelector,
+    flightSearchResultsSelector,
+    hotelSearchResultsSelector,
+    requestSearchResultsRestoreFromCache
+} from "../../../redux/sagas/shopping";
 
 
-export function DCFlightPassengersPage({shoppingCart}) {
+export function DCFlightPassengersPage({flightSearchResults,hotelSearchResults, onRestoreSearchResults, refreshInProgress}) {
     const [passengerDetails, setPassengerDetails] = useState();
     const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
     const [highlightInvalidFields, setHighlightInvalidFields] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    let history = useHistory();
 
     function onPaxDetailsChange(paxData, allPassengersDetailsAreValid){
         setPassengerDetails(paxData)
         setPassengerDetailsValid(allPassengersDetailsAreValid)
     }
 
-    console.log('DCFlightPassengersPage, shopping cart:',shoppingCart)
+    console.log('DCFlightPassengersPage')
     //Populate form with either passengers from session (if e.g. user refreshed page or clicked back) or initialize with number of passengers (and types) specified in a search form
     useEffect(()=>{
-        console.log('useEffect, sshoppingCart',shoppingCart)
-        if(!shoppingCart || (!shoppingCart.flightOffer && shoppingCart.hotelOffer)){
-            console.log('Shopping cart is empty, restoring')
-            restoreCartFromServerAction().then(data=>{
-                console.log('Cart restored, data:', data)
-            })
+        if(!flightSearchResults && !hotelSearchResults){
+            console.log('No shopping results - refresh first')
+            onRestoreSearchResults();
+            return
+        }else{
+            console.log('we have shopping results - initialize passengers')
         }
 
 
-        let passengers = passengerDetails || createInitialPassengersFromSearch();
+        let passengers = passengerDetails || createInitialPassengersFromSearch(flightSearchResults,hotelSearchResults);
         let response=retrievePassengerDetails();
         response.then(result=> {
             if(Array.isArray(result)) {
@@ -60,11 +69,12 @@ export function DCFlightPassengersPage({shoppingCart}) {
         }).finally(()=>{
             setPassengerDetails(passengers);
         })
-    },[]);
+    },[flightSearchResults,hotelSearchResults]);
 
-    function redirectToSeatmap(){
-        let url='/flights/seatmap/';
-        // history.push(url, {passengers: passengerDetails});
+    function redirectToNextStep(){
+        let url='/dc/ancillaries';
+        history.push(url);
+
     }
 
     function savePassengerDetailsAndProceed() {
@@ -72,7 +82,7 @@ export function DCFlightPassengersPage({shoppingCart}) {
         let results = storePassengerDetails(passengerDetails);
             results.then((response) => {
                 // console.debug("Successfully saved pax details", response);
-                redirectToSeatmap();
+                redirectToNextStep();
          }).catch(err => {
              console.error("Failed to store passenger details", err);
              setHighlightInvalidFields(true);
@@ -104,21 +114,26 @@ export function DCFlightPassengersPage({shoppingCart}) {
 
     }
 
+    // Display a loading spinner
+    const syncInProgressSpinner = () => {
+        return (
+            <div>
+                <Spinner enabled={true}/>
+                <span>Please wait</span>
+            </div>
+        );
+
+    }
+
+
     /**
      * if initial search was for e.g. 2 adults and 1 child, we need to initialize passenger form with 2 adults and 1 child.
      * This function does that (based on search form criteria)
      * @returns {[]}
      */
-    function createInitialPassengersFromSearch()
+    function createInitialPassengersFromSearch(flightSearchResults,hotelSearchResults)
     {
-        // let searchResults = retrieveSearchResultsFromLocalStorage();
-        let searchResults={
-            passengers:{
-                'PAX1':{
-                    type:'ADT'
-                }
-            }
-        }
+        let searchResults = flightSearchResults?flightSearchResults:hotelSearchResults;
         let paxData = searchResults.passengers;
         let passengers = Object.keys(paxData).map(paxId => {
             return {
@@ -130,6 +145,8 @@ export function DCFlightPassengersPage({shoppingCart}) {
     }
     return (
         <DevConLayout>
+            <Button onClick={onRestoreSearchResults}>Restore search results</Button>
+            {refreshInProgress && syncInProgressSpinner()}
                     <PaxDetails
                         passengers={passengerDetails}
                         onDataChange={onPaxDetailsChange}
@@ -152,9 +169,9 @@ const NextPageButton=({disabled,onClick}) => {
 
 
 const mapStateToProps = state => ({
-    shoppingCart:cartContentsSelector(state),
-    currentStep: currentStepSelector(state),
-    // error: errorSelector(state)
+    flightSearchResults:flightSearchResultsSelector(state),
+    hotelSearchResults:hotelOfferSelector(state),
+    refreshInProgress:(isFlightSearchInProgressSelector(state)===true || isHotelSearchInProgressSelector(state)===true)
 });
 
 
@@ -162,6 +179,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         restoreCart: (offer) => {
             dispatch(restoreCartFromServerAction())
+        },
+        onRestoreSearchResults: () =>{
+            dispatch(requestSearchResultsRestoreFromCache());
         }
     }
 }

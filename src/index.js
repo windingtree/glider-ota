@@ -30,6 +30,7 @@ import DCTravellerInfoPage from './dc/pages/traveller-info-page'
 import AncillariesSelection from './dc/components/ancillaries/ancillaries-page'
 import DCFlightPassengersPage from './dc/pages/pax-details-page'
 import DCAncillariesPage from './dc/pages/ancillaries-page'
+import DCSeatSelectionPage from './dc/pages/seat-selection-page'
 
 function Dispatcher() {
     return (
@@ -57,6 +58,7 @@ function Dispatcher() {
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
                         {<Route path="/dc/pax/" component={DCFlightPassengersPage}/>}
                         {<Route path="/dc/ancillaries/" component={DCAncillariesPage}/>}
+                        {<Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>}
                         {/*{<Route path="/dc/step1/" component={DCTravellerInfoPage}/>}*/}
                         {/*{<Route path="/dc/step2/" component={DCFlightOptionsPage}/>}*/}
                         <Route path="/dc/" component={DCLandingPage}/>

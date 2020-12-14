@@ -161,3 +161,13 @@ export async function getOffer(offerId){
   return fetchGet('/api/offer/offer',{offerId:offerId});
 }
 
+
+
+///////////////// SERVER SIDE CACHE //////////////////////
+
+export async function getCachedSearchResults(type) {
+  if (type !== 'flights' && type !== 'hotels') {
+    throw new Error('Invalid type');
+  }
+  return fetchGet('/api/cache/results', {type: type});
+}

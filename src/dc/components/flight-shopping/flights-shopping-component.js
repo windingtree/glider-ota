@@ -17,6 +17,7 @@ export default function FlightsShoppingComponent() {
                     <Filters/>
                 </Col>
                 <Col xs={12} sm={9} md={6} xl={6}>
+
                     <FlightsSearchResults/>
                 </Col>
                 <Col xs={0} sm={3} md={3} xl={3}>

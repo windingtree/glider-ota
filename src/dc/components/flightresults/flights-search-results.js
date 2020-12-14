@@ -12,14 +12,22 @@ import SearchButton from "../search-form/search-button";
 
 import { connect } from 'react-redux';
 import {
-searchForFlightsAction,flightSearchCriteriaSelector,flightFiltersSelector, isFlightSearchInProgressSelector, isFlightSearchFormValidSelector, flightSearchResultsSelector, flightsErrorSelector} from '../../../redux/sagas/shopping';
+    searchForFlightsAction,
+    flightSearchCriteriaSelector,
+    flightFiltersSelector,
+    isFlightSearchInProgressSelector,
+    isFlightSearchFormValidSelector,
+    flightSearchResultsSelector,
+    flightsErrorSelector,
+    requestSearchResultsRestoreFromCache
+} from '../../../redux/sagas/shopping';
 import Spinner from "../../../components/common/spinner";
 
 
 const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;
 
 //Component to display flight search results
-export function FlightsSearchResults({searchResults,filters, isSearchFormValid, onOfferDisplay, onSearchClicked, searchInProgress, error}) {
+export function FlightsSearchResults({searchResults,filters, isSearchFormValid, onOfferDisplay, onSearchClicked, searchInProgress, error, onRestoreFromCache}) {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortType, setSortType] = useState('PRICE');
     console.log('isSearchFormValid:',isSearchFormValid)
@@ -67,6 +75,8 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
         trips = limitSearchResultsToCurrentPage(trips);
     }
     return (<>
+            <a href={"#"}  onClick={onRestoreFromCache}>Restore search results</a><br/>
+
             <SearchButton disabled={!isSearchFormValid} onSearchButtonClicked={onSearchButtonClicked}/>
             <Spinner enabled={searchInProgress}/>
             {error && (<div>ERRRORS OCCURED</div>)}
@@ -110,6 +120,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onOfferDisplay: () => {
             dispatch(searchForFlightsAction())
+        },
+        onRestoreFromCache:()=>{
+            dispatch(requestSearchResultsRestoreFromCache())
         }
     }
 }

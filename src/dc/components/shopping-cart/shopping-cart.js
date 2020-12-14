@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './shopping-cart.module.scss'
 import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
-import {Col, Container, Image, Row} from 'react-bootstrap'
+import {Button, Col, Container, Image, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import classNames from 'classnames/bind';
 import {bookAction, storeCartOnServerAction,restoreCartFromServerAction, errorSelector, flightOfferSelector, hotelOfferSelector} from "../../../redux/sagas/cart";
@@ -165,11 +165,21 @@ export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer
 
     let cartIsEmpty = (!flightOffer && !hotelOffer)
 
+    const links = () =>{
+        return (<div>
+            <Link to={'/dc/pax'}>Book</Link><br/>
+            <Link to={'/dc/ancillaries'}>Ancillaries</Link><br/>
+            <Link to={'/dc/seatmap'}>Seatmap</Link><br/>
+            <Link to={'/dc/pricing'}>pricing</Link><br/>
+            <a href={"#"}  onClick={onStoreOnServer}>Store on server</a><br/><br/>
+            <a href={"#"}  onClick={onRestoreFromServer}>Restore from server</a><br/>
+
+        </div>)
+    }
+
     if(cartIsEmpty)
-        return (<>
-            <a href={"#"}  onClick={onStoreOnServer}>Store on server</a>
-            <a href={"#"}  onClick={onRestoreFromServer}>Restore from server</a>
-        </>)
+        return (<>{links()}</>)
+
 
     return (
         <div className={style.cartContainer}>
@@ -182,10 +192,8 @@ export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer
             {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/>}
             {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
             <div className={'pt-2'}/>
-            <Link to={'/dc/pax'}>Book</Link>
-            <a href={"#"}  onClick={onStoreOnServer}>Store on server</a>
-            <a href={"#"}  onClick={onRestoreFromServer}>Restore from server</a>
             <a href={"#"} className={bookButtonClassnames} onClick={onBookHandler}>Book</a>
+            {links()}
         </div>
 
     )

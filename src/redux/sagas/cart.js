@@ -2,10 +2,13 @@ import { createSelector } from 'reselect';
 
 import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
 import dummyResults from "../../dc/components/storybook-utils/mock-data/flight_search_BOGMIA.json";
-import {searchCompletedAction, flightSearchCriteriaSelector, searchFailedAction} from "./shopping";
+import {
+    shoppingStateSelector
+} from "./shopping";
 import {storeItemInCart, retrieveItemFromCart} from "../../utils/api-utils"
 export const moduleName = 'cart';
 
+//cart related actions
 const ADD_FLIGHT_TO_CART = `${moduleName}/ADD_FLIGHT_TO_CART`;
 const ADD_HOTEL_TO_CART = `${moduleName}/ADD_HOTEL_TO_CART`;
 const DELETE_FLIGHT_FROM_CART = `${moduleName}/DELETE_FLIGHT_FROM_CART`;
@@ -16,12 +19,21 @@ const RESTORE_CART_FROM_SERVER = `${moduleName}/RESTORE_CART_FROM_SERVER`;
 const RESTORE = `${moduleName}/RESTORE`;
 const ERROR = `${moduleName}/ERROR`;
 
+//booking flow related actions
+const RETRIEVE_PASSENGER_DETAILS = `${moduleName}/RETRIEVE_PASSENGER_DETAILS`;
+const STORE_PASSENGER_DETAILS = `${moduleName}/STORE_PASSENGER_DETAILS`;
+const SELECT_FLIGHT_OFFER = `${moduleName}/SELECT_OFFER`;
+
+
+
 const initialState = {
     flightOffer: null,
     hotelOffer: null,
     error:null,
     paxSearchCriteria:null,
-    isCartSynced:false
+    isCartSynced:false,
+
+    passengers:null
 };
 
 // reducer
@@ -65,6 +77,12 @@ export default (state = initialState, action) => {
             });
         case BOOK:
             return state;
+
+        case RETRIEVE_PASSENGER_DETAILS:
+            return Object.assign({}, state, {
+                passengers: payload.passengers
+            });
+
         default:
             return state
     }
@@ -173,6 +191,12 @@ export const storeToSyncSelector = createSelector(
     ({flightOffer, hotelOffer}) => {
         return {flightOffer:flightOffer, hotelOffer:hotelOffer}
     }
+);
+
+
+export const flightResultsSelector = createSelector(
+    shoppingStateSelector,
+    ({flightSearchResults}) => flightSearchResults
 );
 
 

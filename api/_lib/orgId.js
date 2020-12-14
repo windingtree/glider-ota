@@ -67,15 +67,14 @@ const getEndpoints = async (searchCriteria) =>{
 
 
     //apart from discovery from graph, we need to add fixed endpoints (rooms, aggregator)
-    if(searchCriteria.itinerary){
-        //add aggregator
-        endpoints.push(
-            {
-                serviceEndpoint:GLIDER_CONFIG.BASE_URL,
-                id:GLIDER_CONFIG.ORGID
-            }
-        )
-    }
+    //add aggregator
+    endpoints.push(
+        {
+            serviceEndpoint:GLIDER_CONFIG.BASE_URL,
+            id:GLIDER_CONFIG.ORGID,
+            jwt:GLIDER_CONFIG.GLIDER_TOKEN
+        }
+    )
 
     if(searchCriteria.accommodation){
         //add rooms

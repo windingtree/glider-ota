@@ -36,7 +36,7 @@ export default function PaxDetails({shoppingCart, currentStep, passengers, onDat
         return (
             <>
                 <div>
-                    <Button onClick={restoreCart}>Restore</Button>
+                    <Button onClick={restoreCart}>Restore cart</Button>
                     <h2 className={style.header}>Traveller Info</h2>
                     <div className={style.note}>
                         Enter your personal details as indicated in the travel documents (passport, visa, ID cart) you will be traveling with.

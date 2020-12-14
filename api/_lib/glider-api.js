@@ -7,7 +7,7 @@ const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission} = require('./response-decorator');
 const {createErrorResponse,mergeAggregatorResponse, ERRORS} = require ('./rest-utils');
 const OrgId= require('./orgId');
-const SEARCH_TIMEOUT=1000*20;
+const SEARCH_TIMEOUT=1000*50;
 
 function createHeaders(token) {
     return {
@@ -64,10 +64,12 @@ const storeOfferToOrgIdMapping = async (validResults) => {
     validResults.forEach(result => {
         let {endpoint, data} = result;
         let offers = data.offers;
+        let passengers = data.passengers;
         Object.keys(offers).forEach(offerId=>{
             let offerMetadata = {
                 endpoint:endpoint,
-                offerId:offerId
+                offerId:offerId,
+                passengers:passengers
             }
             offersMetadata.push(offerMetadata)
         })

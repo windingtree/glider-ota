@@ -1,37 +1,48 @@
 import React, {useState, useEffect} from 'react';
-import {useHistory} from "react-router-dom";
 import {Col, Row} from "react-bootstrap";
 import TripRates from "./fare-families/flight-rates";
-import {withRouter} from 'react-router'
+
+import {useHistory} from "react-router-dom";
 import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
-import TotalPriceButton from "../common/totalprice/total-price";
 import {storeSelectedOffer} from "../../../utils/api-utils";
 import _ from 'lodash';
 import Button from "react-bootstrap/Button";
+import {addFlightToCartAction, flightOfferSelector, flightResultsSelector} from "../../../redux/sagas/cart";
+import {connect} from "react-redux";
 
 
-export default function AncillariesSelection({offerId, searchResults}) {
+export  function AncillariesSelection({offerId, searchResults, setSelectedOffer}) {
     let history = useHistory();
-    let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
-    let tripRates = searchResultsWrapper.generateTripRatesData(offerId);
-    const passengers = history.location.state && history.location.state.passengers;
+    console.log(`AncillariesSelection, offerId:${offerId}, searchResults:`,searchResults)
+    let searchResultsWrapper;
+    let tripRates;
+    let selectedOffer;
 
-    let selectedOffer = tripRates.offers[offerId]
-    if(history.location.state && !history.location.state.baselineFare){
-        //it's the first load of 'fare families' page - we need to store fare selected by the user on the search result page in order to display incremental amount to be paid for each fare family
-        history.location.state.baselineFare=selectedOffer.price;
+    if(searchResults){
+        searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
+        tripRates = searchResultsWrapper.generateTripRatesData(offerId);
+        selectedOffer = tripRates.offers[offerId]
     }
+
+
     function onBackButtonClick() {
-        let url='/dc/step1';
+        let url='/dc/pax';
         history.push(url);
     }
     function onProceedButtonClick() {
-        let url='/dc/step3';
+        let url='/dc/seatmap';
         history.push(url);
     }
 
     function handleOfferChange(offerId){
+        if(!searchResultsWrapper)
+            return;
+
         let offer=searchResultsWrapper.getOffer(offerId);
+        // offerId,offer,price,itineraries
+        let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+        let price = offer.price;
+        setSelectedOffer(offerId,offer,price,itineraries);
         let results = storeSelectedOffer(offer);
         results.then((response) => {
         }).catch(err => {
@@ -45,11 +56,16 @@ export default function AncillariesSelection({offerId, searchResults}) {
     useEffect(()=>{
         handleOfferChange(offerId)
     },[])
+
+    if(!searchResults){
+        return (<></>)
+    }
+
     return (
         <>
             <div>
                 <div className='root-container-subpages'>
-                    {/*for outbound and return display fare families (let user choose)*/}
+
                     <FareFamilies
                         tripRates={tripRates}
                         selectedOffer={selectedOffer}  onSelectedOfferChange={handleOfferChange}/>
@@ -65,16 +81,15 @@ export default function AncillariesSelection({offerId, searchResults}) {
 export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) {
     const [currentOffer] = useState(selectedOffer)
     let history = useHistory();
-    const passengers = _.get(history,'location.state.passengers');
     let baselineFare = _.get(history,'location.state.baselineFare');
     function handleSelectedOfferChange(offerId) {
-        displayOffer(offerId);
+        // displayOffer(offerId);
         onSelectedOfferChange(offerId)
     }
 
     function displayOffer(offerId){
         let url='/flights/farefamilies/'+offerId;
-        history.push(url, { passengers: passengers,baselineFare:baselineFare});
+        history.push(url, { baselineFare:baselineFare});
     }
     let itineraries = tripRates.itineraries;
     return (
@@ -105,4 +120,20 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
 }
 
 
-FareFamilies = withRouter(FareFamilies)
+const mapStateToProps = state => ({
+    searchResults:flightResultsSelector(state),
+    offerId: flightOfferSelector(state)?flightOfferSelector(state).offerId:undefined,
+});
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setSelectedOffer: (offerId,offer,price,itineraries) =>{
+            dispatch(addFlightToCartAction(offerId,offer,price,itineraries));
+        }
+    }
+}
+
+// FareFamilies = withRouter(FareFamilies)
+
+export default connect(mapStateToProps, mapDispatchToProps)(AncillariesSelection);

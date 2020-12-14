@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import style from "./flight-rates.module.scss"
 import {ItineraryDetails} from "../../flightdetails/trip-details";
+import {ItinerarySummary} from "../../flight-blocks/itinerary-summary";
 import FareFamilyHelper from "../../../../utils/fare-family-helper";
 import {AncillarySelectableItem} from "../../common-blocks/ancillary-selectable-item"
+
 import {Form} from "react-bootstrap";
 
 
@@ -70,9 +72,11 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
 
 
     return (<>
-        <ItineraryDetails itinerary={itinerary} key={itineraryId}/>
-        <div className='py-5'/>
-        <div className={style.ratesHeader}>Select a fare below</div>
+        {/*<ItineraryDetails itinerary={itinerary} key={itineraryId}/>*/}
+        <div className={style.itineraryContainer}>
+            <ItinerarySummary itinerary={itinerary}/>
+        </div>
+        <div className={style.ratesHeader}>Fare family</div>
         <div >
                 {
                     itineraryPricePlans.map(({pricePlanId,lowestPrice}) => {
@@ -106,6 +110,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                     })
                 }
         </div>
+        <div className='py-5'/>
     </>)
 }
 
@@ -144,9 +149,9 @@ export function FareFamilyWthBenefits({familyName, price, isSelected, amenities=
             fare = "";
         }
     }
-
+    let name = `${familyName}, isSelected:${isSelected}`
     return (
-        <AncillarySelectableItem name={familyName} items={amenities} isSelected={isSelected} isDisabled={false} onSelect={onClick} price={fare}/>
+        <AncillarySelectableItem name={name} items={amenities} isSelected={isSelected} isDisabled={false} onSelect={onClick} price={fare}/>
     )
 }
 

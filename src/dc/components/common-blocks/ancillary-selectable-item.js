@@ -7,7 +7,8 @@ export const AncillarySelectableItem = ({id, name, price, description, items, is
     items = items || [];
 
     const onChange = (e) => {
-        setSelected(true)
+        console.log('onChange, was:',selected)
+        setSelected(!selected)
         if(onSelect) {
             onSelect(id);
         }else{
@@ -16,9 +17,9 @@ export const AncillarySelectableItem = ({id, name, price, description, items, is
     }
 
     return (
-        <div className={style.ancillaryContainer} onClick={onSelect}>
+        <div className={style.ancillaryContainer} onClick={onChange}>
             <Row>
-            <Col sm={6}>{name && <Form.Check type={'radio'} label={name} className={style.ancillaryName} checked={selected} onChange={onChange} disabled={isDisabled}/>}</Col>
+            <Col sm={6}>{name && <Form.Check type={'radio'} label={name} className={style.ancillaryName} checked={selected===true} onChange={onChange} disabled={isDisabled} onClick={onChange}/>}</Col>
             <Col sm={4} className={style.ancillaryDescription}>{description}</Col>
             <Col sm={2} className={style.ancillaryPrice}>{price}</Col>
             </Row>

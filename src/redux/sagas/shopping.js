@@ -3,6 +3,11 @@ import { createSelector } from 'reselect';
 import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
 import dummyFlightResults from "../../dc/components/storybook-utils/mock-data/flight_search_BOGMIA.json"
 import dummyHotelResults from "../../dc/components/storybook-utils/mock-data/hotel_search_OSLO.json"
+import {findFlights, findHotels} from "../../utils/search";
+import {getCachedSearchResults} from "../../utils/api-utils";
+import {config} from "../../config/default";
+import {uiEvent} from "../../utils/events";
+import SearchCriteriaBuilder from "../../utils/search-criteria-builder";
 
 export const moduleName = 'flights';
 
@@ -20,6 +25,8 @@ const HOTEL_SEARCH_COMPLETED = `${moduleName}/SEARCH_COMPLETED`;
 const HOTEL_SEARCH_FAILED = `${moduleName}/SEARCH_FAILED`;
 const APPLY_HOTELS_FILTER = `${moduleName}/APPLY_HOTELS_FILTER`;
 const CLEAR_HOTELS_FILTER = `${moduleName}/CLEAR_HOTELS_FILTER`;
+
+const REQUEST_RESTORE_RESULTS_FROM_CACHE = `${moduleName}/RESTORE_RESULTS_FROM_CACHE`;
 
 
 const initialState = {
@@ -104,6 +111,11 @@ export default (state = initialState, action) => {
                 hotelSearchCriteria: payload.hotelSearchCriteria,
                 isHotelSearchFormValid:payload.isHotelSearchFormValid,
             });
+        case REQUEST_RESTORE_RESULTS_FROM_CACHE:
+            return Object.assign({}, state, {
+                flightSearchInProgress: true,
+                hotelSearchInProgress: true
+            });
 
         default:
             return state
@@ -126,6 +138,7 @@ export const flightSearchCompletedAction = results => ({
     payload: {
         flightSearchResults:results
     }});
+
 export const flightSearchFailedAction = error => ({
     type: FLIGHT_SEARCH_FAILED,
     error: error
@@ -189,75 +202,148 @@ export const hotelSearchCriteriaChangedAction = (searchCriteria, isHotelSearchFo
 });
 
 
+export const requestSearchResultsRestoreFromCache = () => ({
+    type: REQUEST_RESTORE_RESULTS_FROM_CACHE
+});
+
+
 
 // Selectors
-const stateSelector = state => state[moduleName];
+export const shoppingStateSelector = state => state[moduleName];
 
 export const flightFiltersSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ flightFilters }) => flightFilters
 );
 
 export const flightSearchCriteriaSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ flightSearchCriteria }) => flightSearchCriteria
 );
 
 export const flightSearchResultsSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ flightSearchResults }) => flightSearchResults
 );
 
 export const isFlightSearchInProgressSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ flightSearchInProgress }) => flightSearchInProgress
 );
 
 export const flightsErrorSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ flightsError }) => flightsError
 );
 
 export const isFlightSearchFormValidSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ flightSearchFormValid }) => flightSearchFormValid
 );
 
 
 
 export const hotelsFiltersSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ hotelFilters }) => hotelFilters
 );
 
 export const hotelSearchCriteriaSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ hotelSearchCriteria }) => hotelSearchCriteria
 );
 
 export const hotelSearchResultsSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ hotelSearchResults }) => hotelSearchResults
 );
 
 export const isHotelSearchInProgressSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ hotelSearchInProgress }) => hotelSearchInProgress
 );
 
 export const hotelErrorSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ hotelError }) => hotelError
 );
 
 export const isHotelSearchFormValidSelector = createSelector(
-    stateSelector,
+    shoppingStateSelector,
     ({ isHotelSearchFormValid }) => isHotelSearchFormValid
 );
 
 
 
 const delayCall = (ms) => new Promise(res => setTimeout(res, ms))
+
+
+
+
+export async function searchForFlightsWithCriteria(criteria){
+    return searchForFlights(criteria.origin.code, criteria.destination.code, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
+}
+
+export async function searchForFlights(originCode, destinationCode, departureDate, returnDate, adults, children, infants){
+    let searchRequest;
+    // if(!config.OFFLINE_MODE) { //no need to fill search criteria in OFFLINE_MODE
+    searchRequest = buildFlightsSearchCriteria(originCode, destinationCode, departureDate, returnDate, adults, children, infants);
+    // }
+    return findFlights(searchRequest);
+}
+
+
+export async function searchForHotels(criteria){
+
+    let searchRequest;
+
+    if(!config.OFFLINE_MODE) { //no need to fill search criteria in OFFLINE_MODE
+        searchRequest = buildHotelsSearchCriteria(criteria.destination.latitude, criteria.destination.longitude, criteria.departureDate, criteria.returnDate, criteria.adults, criteria.children, criteria.infants);
+    }
+    return findHotels(searchRequest);
+}
+
+
+
+
+export function buildFlightsSearchCriteria(origin,destination,departureDate,returnDate, adults,children,infants) {
+    uiEvent(`flight search params RAW origin=[${origin}] destination=[${destination}}] departureDate=[${departureDate}}] returnDate=[${returnDate}}] adults=[${adults}}] children=[${children}}] infants=[${infants}}]`);
+    const criteriaBuilder = new SearchCriteriaBuilder();
+    // TODO - handle search from city/railstation and different pax types
+    criteriaBuilder
+        .withTransportDepartureFromLocation(origin)
+        .withTransportDepartureDate(departureDate)
+        .withTransportReturnFromLocation(destination)
+
+        .withPassengers(adults,children,infants);
+    if(returnDate!==undefined)
+        criteriaBuilder.withTransportReturnDate(returnDate);
+
+    const searchCriteria = criteriaBuilder.build();
+
+    uiEvent('flight search criteria',searchCriteria);
+    return searchCriteria;
+}
+
+
+
+export function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, adults,children,infants) {
+    const criteriaBuilder = new SearchCriteriaBuilder();
+    let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,10)
+    const searchCriteria = criteriaBuilder
+        .withAccommodationLocation(boundingBoxForSelectedLocation,'rectangle')
+        .withAccommodationArrivalDate(arrivalDate)
+        .withAccommodationReturnDate(returnDate)
+        .withPassengers(adults,children,infants)
+        .build();
+    uiEvent(`hotel search params RAW latitude=[${latitude}] longitude=[${longitude}}] arrivalDate=[${arrivalDate}}] returnDate=[${returnDate}}] adults=[${adults}}] children=[${children}}] infants=[${infants}}]`);
+    uiEvent('hotel search criteria',searchCriteria);
+    return searchCriteria;
+}
+
+
+const searchForFlightsAsync = (searchCriteria) => {
+}
 
 //saga
 
@@ -267,8 +353,12 @@ function* searchForFlightsSaga() {
         // yield put(searchForFlightsAction());
         const searchCriteria = yield select(flightSearchCriteriaSelector);
         console.log('*searchForFlightsSaga searchCriteria:',searchCriteria)
-        yield delayCall(1000);
-        yield put(flightSearchCompletedAction(dummyFlightResults));
+        const {origin:{code:originCode}, destination:{code:destinationCode}, departureDate, returnDate, adults, children, infants} = searchCriteria;
+        let searchRequest = buildFlightsSearchCriteria(originCode, destinationCode, departureDate, returnDate, adults, children, infants);
+        console.log('*searchForFlightsSaga searchRequest:',searchRequest)
+        let results = yield call(findFlights,searchRequest);
+        // yield delayC/**/all(1000);
+        yield put(flightSearchCompletedAction(results));
     } catch (error) {
         yield put(flightSearchFailedAction(error))
     }
@@ -288,10 +378,41 @@ function* searchForHotelsSaga() {
 }
 
 
+
+function* restoreSearchResultsFromCache() {
+    console.log('*restoreSearchResultsFromCache')
+    try {
+        // yield put(searchForFlightsAction());
+        const flightSearchResults = yield call(getCachedSearchResults,'flights');
+        console.log('*restoreSearchResultsFromCache - flight search results retrieved:',flightSearchResults)
+        if(flightSearchResults){
+            yield put(flightSearchCompletedAction(flightSearchResults.data));
+        }
+    } catch (error) {
+        console.log('*restoreCartFromServerSideSaga failed, error:',error)
+        yield put(flightSearchFailedAction(error))
+        yield put(errorAction(error))
+    }
+    try {
+        // yield put(searchForFlightsAction());
+        const hotelSearchResults = yield call(getCachedSearchResults,'hotels');
+        console.log('*restoreSearchResultsFromCache - hotel search results retrieved:',hotelSearchResults)
+        if(hotelSearchResults){
+            yield put(hotelSearchCompletedAction(hotelSearchResults.data));
+        }
+    } catch (error) {
+        console.log('*restoreCartFromServerSideSaga failed, error:',error)
+        yield put(hotelSearchFailedAction(error))
+        yield put(errorAction(error))
+    }
+}
+
+
 // Main saga
 export const saga = function*() {
     yield all([
         takeEvery(SEARCH_FOR_FLIGHTS, searchForFlightsSaga),
-        takeEvery(SEARCH_FOR_HOTELS, searchForHotelsSaga)
+        takeEvery(SEARCH_FOR_HOTELS, searchForHotelsSaga),
+        takeEvery(REQUEST_RESTORE_RESULTS_FROM_CACHE, restoreSearchResultsFromCache)
     ]);
 };

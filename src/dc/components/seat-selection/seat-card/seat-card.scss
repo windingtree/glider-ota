@@ -1,0 +1,102 @@
+@import '../../../../styles/variables.scss';
+
+// Define elements of a seat
+.seat-card {
+    position: relative;
+    background: #FFFFFF;
+
+    /* Active element */
+    box-sizing: border-box;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    width: 100%;
+    height: 100%;
+    align-self: center;
+    align-content: left;
+    justify-items: center;
+    align-items: stretch;
+    margin-bottom: 20px;
+
+    // Active state
+    &-active {
+        @extend .seat-card;
+        border: 2px solid $glider-color-primary;
+    }
+
+    // Inactive state
+    &-inactive {
+        @extend .seat-card;
+        border: 1px solid #BBBBBB;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        flex: none;
+        order: 0;
+        margin: 0px 0px;
+        text-align: left;
+        width: 100%;
+        height: 100%;
+    }
+
+    span, Button {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: normal;
+        color: #202020;
+        font-size: 13px;
+        line-height: 115%;
+        text-align: left;
+    }
+
+    // Seat Name
+    .name {
+        /* text */
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 120%;
+        //margin: 14px 0px;
+    }
+
+    // Price of the seat
+    .price {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 120%;
+        margin: 14px 0px 12px 0px;
+        color: #7161D6;
+    }
+
+    // Remove button
+    .remove {
+        position: absolute;
+        margin: 16px 20px;
+        right: 0%;
+        top: 0%;
+        //width: 50px;
+        text-align: right;
+        color: #7161D6;
+    }
+
+    .remove:disabled {
+        color: #202020;
+        opacity: 1;
+    }
+
+    // Passenger Type
+    .type {
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 110%;
+        margin: 12px 0px 4px 0px;
+    }
+}
+
+
+
