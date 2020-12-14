@@ -170,7 +170,7 @@ export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer
             <Link to={'/dc/pax'}>Book</Link><br/>
             <Link to={'/dc/ancillaries'}>Ancillaries</Link><br/>
             <Link to={'/dc/seatmap'}>Seatmap</Link><br/>
-            <Link to={'/dc/pricing'}>pricing</Link><br/>
+            <Link to={'/dc/summary'}>pricing</Link><br/>
             <a href={"#"}  onClick={onStoreOnServer}>Store on server</a><br/><br/>
             <a href={"#"}  onClick={onRestoreFromServer}>Restore from server</a><br/>
 

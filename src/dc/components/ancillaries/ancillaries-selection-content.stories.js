@@ -1,5 +1,5 @@
 import React from 'react';
-import AncillariesSelection from "./ancillaries-page";
+import AncillariesSelection from "./ancillaries-selection-content";
 import dummySearchResults from "../../data/sample_response_flights.json"
 import {
     action

@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
 import BookingFlowLayout from "../components/layout/booking-flow-layout"
-import AncillariesSelectionContent from "../components/ancillaries/ancillaries-selection-content"
+import SummaryContent from "../components/payment/summary-content"
 import {BookingFlowBreadcrumb, STEPS} from "./booking-flow-breadcrumb";
 
 
-export default function DCAncillariesPage() {
-    let breadcrumb = <BookingFlowBreadcrumb currentStepId={STEPS.FLIGHT_DETAILS}/>
-
+export default function DCPaymentSummaryPage() {
+    let breadcrumb = <BookingFlowBreadcrumb currentStepId={STEPS.PAYMENT}/>
     return (<BookingFlowLayout breadcrumb={breadcrumb}>
-        <AncillariesSelectionContent/>
+        <SummaryContent/>
     </BookingFlowLayout>)
 }
 

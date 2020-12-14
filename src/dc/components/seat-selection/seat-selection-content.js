@@ -2,17 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {useHistory} from "react-router-dom";
 import Spinner from "../../components/common/spinner";
 import SeatMap from './seatmap';
-import {
-    retrieveOfferFromLocalStorage,
-    retrieveSegmentFromLocalStorage,
-    retrieveFlightFromLocalStorage,
-} from "../utils/local-storage-cache";
+
 import {
     retrieveSeatmap,
     addSeats,
     retrievePassengerDetails
 } from '../../../utils/api-utils';
-import './flight-seatmap-page.scss';
+import './seat-selection-content.scss';
 import {
     addFlightToCartAction,
     flightOfferSelector,
@@ -20,7 +16,6 @@ import {
     hotelOfferSelector
 } from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
-import {AncillariesSelection} from "../ancillaries/ancillaries-page";
 import {
     flightSearchResultsSelector,
     isFlightSearchInProgressSelector,
@@ -29,9 +24,13 @@ import {
 
 
 // SeatMap page rendering
-export function SeatSelection({offerId, searchResults, refreshInProgress}) {
+export function SeatSelectionContent({offerId, searchResults, refreshInProgress}) {
     let history = useHistory();
-    let offer = retrieveOfferFromLocalStorage(offerId);
+    let offer;
+    if(searchResults && offerId){
+        console.log('SeatSelection - offer retrieved')
+        offer = searchResults.offers[offerId];
+    }else console.log('SeatSelection - offer cannot be retrieved, offerId',offerId)
 
     // States of the component
     const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +41,7 @@ export function SeatSelection({offerId, searchResults, refreshInProgress}) {
     const [totalPrice, setTotalPrice] = useState(offer?Number(offer.price.public):0);
     const [passengersMap, setPassengersMap] = useState();
     // Create required variables from history
-
+    console.log('passengersMap:',passengersMap)
     const passengers = passengersMap && passengersMap.map(passenger => {
         return {
             id: passenger.id,
@@ -66,6 +65,7 @@ export function SeatSelection({offerId, searchResults, refreshInProgress}) {
             //passenger data not yet loaded - load it here
             setIsLoadingPassengers(true);
             retrievePassengerDetails().then(result => {
+                console.log('Retrieved passengers',result)
                 setPassengersMap(result);
                 // Handle error
             }).catch(error => {
@@ -114,7 +114,7 @@ export function SeatSelection({offerId, searchResults, refreshInProgress}) {
 
     // Proceed to summary
     const proceedToSummary = () => {
-        let url='/flights/summary/'+ offerId
+        let url='/dc/summary/'
         history.push(url);
     };
 
@@ -177,13 +177,37 @@ export function SeatSelection({offerId, searchResults, refreshInProgress}) {
         handleNext(seatOptions.concat(seats));
     };
 
+    const getSegment = (segmentId) =>{
+        if(
+            searchResults &&
+            searchResults.itineraries &&
+            searchResults.itineraries.segments
+        ) {
+            return searchResults.itineraries.segments[segmentId]
+        }
+        console.warn("Segment not found in search results, segmentID:", segmentId);
+    }
+
+    const getFlight = (flightId) => {
+        if(
+            searchResults &&
+            searchResults.itineraries &&
+            searchResults.itineraries.combinations
+        ) {
+            return searchResults.itineraries.combinations[flightId]
+        }
+        console.warn("Flight not found in search results, flightId:", flightId);
+    }
+
+
+
     // Get the details of a segment
     const getSeatMapSegment = (segmentKey) => {
         // Get the list of flights from the offer
         const flightKeys = Object.keys(offer.pricePlansReferences).reduce((f, pricePlanKey) => {
             return f.concat(offer.pricePlansReferences[pricePlanKey].flights);
         }, []);
-        const flights = flightKeys.map(flightKey => retrieveFlightFromLocalStorage(flightKey));
+        const flights = flightKeys.map(flightKey => getFlight(flightKey));
 
         // Retrieve current flight
         let currentFlight = flights.find(flight => flight.includes(segmentKey));
@@ -202,7 +226,7 @@ export function SeatSelection({offerId, searchResults, refreshInProgress}) {
         }
 
         // Retrieve segments associated with current flight
-        const currentFlightSegments = currentFlight.map(segmentId => retrieveSegmentFromLocalStorage(segmentId));
+        const currentFlightSegments = currentFlight.map(segmentId => getSegment(segmentId));
 
         // Retrieve stops
         const iataStops = currentFlightSegments.reduce((acc, segment) => {
@@ -317,4 +341,4 @@ const mapDispatchToProps = (dispatch) => {
 
 // FareFamilies = withRouter(FareFamilies)
 
-export default connect(mapStateToProps, mapDispatchToProps)(SeatSelection);
+export default connect(mapStateToProps, mapDispatchToProps)(SeatSelectionContent);

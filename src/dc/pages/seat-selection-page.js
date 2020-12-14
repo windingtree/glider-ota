@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import BookingFlowLayout from "../components/layout/booking-flow-layout"
-import SeatSelection from "../components/seat-selection/flight-seatmap-page"
+import SeatSelectionContent from "../components/seat-selection/seat-selection-content"
+import {BookingFlowBreadcrumb, STEPS} from "./booking-flow-breadcrumb";
 
 
 export default function DCSeatSelectionPage() {
-    return (<BookingFlowLayout>
-        <DCSeatSelectionPage/>
+    let breadcrumb = <BookingFlowBreadcrumb currentStepId={STEPS.SEAT_SELECTION}/>
+
+    return (<BookingFlowLayout breadcrumb={breadcrumb}>>
+        <SeatSelectionContent/>
     </BookingFlowLayout>)
 }
 

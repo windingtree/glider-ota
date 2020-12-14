@@ -18,7 +18,7 @@ import {
 } from "../../../redux/sagas/shopping";
 
 
-export function DCFlightPassengersPage({flightSearchResults,hotelSearchResults, onRestoreSearchResults, refreshInProgress}) {
+export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRestoreSearchResults, refreshInProgress}) {
     const [passengerDetails, setPassengerDetails] = useState();
     const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
     const [highlightInvalidFields, setHighlightInvalidFields] = useState(false);
@@ -185,4 +185,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(DCFlightPassengersPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PaxDetailsContent);

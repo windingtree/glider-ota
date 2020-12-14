@@ -1,14 +1,21 @@
 import React, {useState,useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import {Button} from "react-bootstrap";
-import PaxSummary from "../components/passengers/pax-summary";
-import {repriceShoppingCartContents, retrievePassengerDetails} from "../../utils/api-utils";
-import TotalPriceButton from "../components/common/totalprice/total-price";
-import PaymentSummary from "../components/payment/payment-summary";
-import {RouteOverview} from "../components/flightdetails/trip-details";
-import {FlightSearchResultsWrapper} from "../../utils/flight-search-results-wrapper";
+import PaxSummary from "../passengers/pax-summary";
+import {repriceShoppingCartContents, retrievePassengerDetails} from "../../../utils/api-utils";
+import TotalPriceButton from "../common/totalprice/total-price";
+import PaymentSummary from "./payment-summary";
+import {RouteOverview} from "../flightdetails/trip-details";
+import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
 import Alert from 'react-bootstrap/Alert';
-import Spinner from "../components/common/spinner"
+import Spinner from "../common/spinner"
+import {addFlightToCartAction, flightOfferSelector, flightResultsSelector} from "../../../redux/sagas/cart";
+import {connect} from "react-redux";
+import {
+    isFlightSearchInProgressSelector,
+    isHotelSearchInProgressSelector,
+    requestSearchResultsRestoreFromCache
+} from "../../../redux/sagas/shopping";
 
 
 function RenderPleaseWait(){
@@ -23,15 +30,13 @@ function RenderPleaseWait(){
 }
 
 
-export default function DCSummaryPage({searchResults, offerId}) {
+export function SummaryContent({searchResults, offerId, onRestoreSearchResults}) {
     let history = useHistory();
     const [passengerDetails, setPassengerDetails] = useState();
     const [confirmedOffer, setConfirmedOffer] = useState();
     const [loadInProgress, setLoadInProgress] = useState(false);
     const [pricingFailed, setPricingFailed] = useState(false);
     // let offerId = match.params.offerId;
-    let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
-    let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
 
     // let offer = retrieveOfferFromLocalStorage(offerId);
 
@@ -99,15 +104,31 @@ export default function DCSummaryPage({searchResults, offerId}) {
 
     //Populate summary with passengers details from session
     useEffect(()=>{
+        if(!searchResults){
+            onRestoreSearchResults();
+        }
+        if(!passengerDetails) {
+            loadPassengerDetailsFromServer();
+        }
+
         repriceItemsInCart();
-        loadPassengerDetailsFromServer();
-    },[])
+
+    },[searchResults,passengerDetails])
+
+
+    let itineraries;
+    if(searchResults) {
+        let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
+        itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+    }
 
     return (
+
+
         <>
             <div>
                 <div className='root-container-subpages'>
-                    <RouteOverview itineraries={itineraries}/>
+                    {itineraries && <RouteOverview itineraries={itineraries}/>}
                     {loadInProgress && <RenderPleaseWait/>}
                     {pricingFailed && PricingErrorAlert()}
                     {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}
@@ -129,3 +150,27 @@ export default function DCSummaryPage({searchResults, offerId}) {
     )
 }
 
+
+
+const mapStateToProps = state => ({
+    searchResults:flightResultsSelector(state),
+    offerId: flightOfferSelector(state)?flightOfferSelector(state).offerId:undefined,
+    refreshInProgress:(isFlightSearchInProgressSelector(state)===true || isHotelSearchInProgressSelector(state)===true)
+
+});
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setSelectedOffer: (offerId,offer,price,itineraries) =>{
+            dispatch(addFlightToCartAction(offerId,offer,price,itineraries));
+        },
+        onRestoreSearchResults: () =>{
+            dispatch(requestSearchResultsRestoreFromCache());
+        }
+    }
+}
+
+// FareFamilies = withRouter(FareFamilies)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SummaryContent);

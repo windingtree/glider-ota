@@ -11,7 +11,7 @@ import {addFlightToCartAction, flightOfferSelector, flightResultsSelector} from 
 import {connect} from "react-redux";
 
 
-export  function AncillariesSelection({offerId, searchResults, setSelectedOffer}) {
+export  function AncillariesSelectionContent({offerId, searchResults, setSelectedOffer}) {
     let history = useHistory();
     console.log(`AncillariesSelection, offerId:${offerId}, searchResults:`,searchResults)
     let searchResultsWrapper;
@@ -136,4 +136,4 @@ const mapDispatchToProps = (dispatch) => {
 
 // FareFamilies = withRouter(FareFamilies)
 
-export default connect(mapStateToProps, mapDispatchToProps)(AncillariesSelection);
+export default connect(mapStateToProps, mapDispatchToProps)(AncillariesSelectionContent);

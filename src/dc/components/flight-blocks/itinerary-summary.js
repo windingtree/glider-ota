@@ -11,7 +11,7 @@ const isSameDayArrival = (depDate,arrDate) => {
         let dep = ensureDateObj(depDate);   //in case date is string - parse it first
         let arr = ensureDateObj(arrDate);   //in case date is string - parse it first
         sameDay = (dep.getDay() === arr.getDay());
-        console.log(`isSameDayArrival ${dep.getDay()} ${arr.getDay()} sameday:${sameDay}`)
+        // console.log(`isSameDayArrival ${dep.getDay()} ${arr.getDay()} sameday:${sameDay}`)
     }catch(err){
         console.log(`Cannot determine if departure&arrival on the same date, dep:${depDate}, arr:${arrDate}, error:${err}`);
     }
