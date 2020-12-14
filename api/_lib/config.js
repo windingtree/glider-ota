@@ -58,7 +58,9 @@ const SIMARD_CONFIG =
         SIMULATE_DEPOSIT_URL: SIMARD_BASEURL + "/balances/simulateDeposit",
         ORGID: getConfigKey('SIMARD_ORGID') || "0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171",
         DEPOSIT_EXPIRY_DAYS: 14,
-        QUOTE_URL: `${SIMARD_BASEURL}/quotes`
+        QUOTE_URL: `${SIMARD_BASEURL}/quotes`,
+        SWAP_URL: `${SIMARD_BASEURL}/balances/swap`,
+        RATE_URL: `${SIMARD_BASEURL}/rates`,
     };
 
 

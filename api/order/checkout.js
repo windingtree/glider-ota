@@ -1,4 +1,3 @@
-const axios = require('axios').default;
 const {
     createPaymentIntent,
     convertPriceToMinorUnits,
@@ -13,7 +12,7 @@ const logger = createLogger('/checkout')
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
 const {validateCheckoutPayload} = require('../_lib/validators')
 const {
-    createQuote
+    createQuoteAsync
 } = require('../_lib/simard-api');
 
 const checkoutCard = async (req, res) => {
@@ -58,15 +57,7 @@ const checkoutCard = async (req, res) => {
 };
 
 const convertCurrencyToUSD = async (currency, amount) => {
-    // if (currency === 'USD' || currency === 'usd') {
-    //     return amount;
-    // }
-    // const response = await axios.get(
-    //     `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${currency}&to_currency=USD&apikey=${CRYPTO_CONFIG.EXCHANGE_RATE_KEY}`
-    // );
-    // const rate = response.data['Realtime Currency Exchange Rate']['9. Ask Price'];
-
-    return createQuote('USD', currency, amount);
+    return createQuoteAsync('USD', currency, amount);
 };
 
 const checkoutCrypto = async (req, res) => {
