@@ -155,7 +155,9 @@ class ShoppingCart {
         return {
             totalPrice: 0,
             items: {},
-            userPreferences: {},
+            userPreferences: {
+                currency: 'USD',
+            },
         }
     }
 }
