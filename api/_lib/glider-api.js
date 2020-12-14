@@ -68,7 +68,7 @@ const storeOfferToOrgIdMapping = async (validResults) => {
     let offersMetadata = [];
     validResults.forEach(result => {
         let {endpoint, data} = result;
-        let offers = data.offers;
+        let {offers,passengers} = data;
         Object.keys(offers).forEach(offerId=>{
             let offerMetadata = {
                 endpoint:endpoint,

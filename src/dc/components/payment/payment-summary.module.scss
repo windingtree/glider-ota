@@ -7,17 +7,17 @@
 }
 
 .itemTitle{
-  @include _glider-font-text18;
+  @include g-font($glider-font-size-xl,$g-color-black,$g-fontweight-normal);
   padding-bottom: 22px;
   padding-top: 40px;
 }
 
 .itemName{
-  @include _glider-font-text16;
+  @include g-font($glider-font-size-l,$g-color-black,$g-fontweight-light);
   padding-bottom: 8px;
 }
 .itemPrice{
-  @include _glider-font-text18;
+  @include g-font($glider-font-size-xl,$g-color-black,$g-fontweight-normal);
   border-bottom:1px solid #BBBBBB;
   padding-bottom: 8px;
   margin-bottom: 12px;

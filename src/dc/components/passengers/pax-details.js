@@ -5,10 +5,8 @@ import SinglePaxDetails from "./single-pax-details";
 import {Button} from "react-bootstrap";
 
 export default function PaxDetails({shoppingCart, currentStep, passengers, onDataChange, highlightInvalidFields, restoreCart}) {
-    // const [passengersList,setPassengersList] = useState(passengers);
     console.log(`PaxDetails, currentStep:${currentStep}, shoppingCart:`, shoppingCart)
     function onPassengerDataChanged(paxId, passengerRecord, isValid) {
-        console.log('onPassengerDataChanged')
         let paxListCopy = Object.assign([],passengers)
         let idx = findPaxIndex(paxListCopy,paxId);
         passengerRecord.isValid=isValid;
@@ -20,8 +18,6 @@ export default function PaxDetails({shoppingCart, currentStep, passengers, onDat
         let allPaxValid = paxListCopy.reduce((valid, pax) =>{
             return valid && pax.isValid;
         }, true);
-        console.log("new passenger details:",passengerRecord);
-
         // setPassengersList(paxListCopy)
         onDataChange(paxListCopy, allPaxValid)
     }

@@ -6,7 +6,7 @@ import Spinner from "../common/spinner";
 import DevConLayout from "../layout/devcon-layout";
 import {flightOfferSelector, hotelOfferSelector, restoreCartFromServerAction} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
-import {Button} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 
 import {
@@ -33,6 +33,7 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
     console.log('DCFlightPassengersPage')
     //Populate form with either passengers from session (if e.g. user refreshed page or clicked back) or initialize with number of passengers (and types) specified in a search form
     useEffect(()=>{
+        console.log('DCFlightPassengersPage - useEffect')
         if(!flightSearchResults && !hotelSearchResults){
             console.log('No shopping results - refresh first')
             onRestoreSearchResults();
@@ -41,13 +42,13 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
             console.log('we have shopping results - initialize passengers')
         }
 
-
+        console.log('DCFlightPassengersPage - useEffect - retrieve passenger details')
         let passengers = passengerDetails || createInitialPassengersFromSearch(flightSearchResults,hotelSearchResults);
         let response=retrievePassengerDetails();
         response.then(result=> {
             if(Array.isArray(result)) {
                 // Index passengers to ease the update
-                let indexedPassengers = passengerDetails.reduce((acc, passenger) => {
+                let indexedPassengers = passengers.reduce((acc, passenger) => {
                     acc[passenger.id] = passenger;
                     return acc;
                 }, {});
@@ -67,21 +68,24 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
             console.error("Failed to load passenger details", err);
             //TODO - add proper error handling (show user a message)
         }).finally(()=>{
+            console.log('DCFlightPassengersPage - useEffect finally passengers:', passengerDetails)
             setPassengerDetails(passengers);
         })
     },[flightSearchResults,hotelSearchResults]);
 
+    function redirectToPrevStep(){
+        let url='/dc/';
+        history.push(url);
+    }
     function redirectToNextStep(){
         let url='/dc/ancillaries';
         history.push(url);
-
     }
 
     function savePassengerDetailsAndProceed() {
         setIsLoading(true);
         let results = storePassengerDetails(passengerDetails);
             results.then((response) => {
-                // console.debug("Successfully saved pax details", response);
                 redirectToNextStep();
          }).catch(err => {
              console.error("Failed to store passenger details", err);
@@ -154,11 +158,31 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
                     />
                     {highlightInvalidFields && PassengerInvalidAlert()}
                     {isLoading && loadingSpinner()}
-                    <NextPageButton onClick={savePassengerDetailsAndProceed} disabled={passengerDetailsValid===false}/>
+                    <NaviButtons prevEnabled={true} nextEnabled={passengerDetailsValid} onPrev={redirectToPrevStep} onNext={savePassengerDetailsAndProceed}/>
         </DevConLayout>
     )
 }
 
+const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
+    return(
+        <Row>
+            <Col sm={4}>
+                <Button className={'btn-block'} variant="outline-primary"  disabled={prevEnabled===false} onClick={onPrev}>Back</Button>
+            </Col>
+            <Col sm={4}>
+            </Col>
+            <Col sm={4}>
+                <Button className={'btn-block'} variant="primary"  disabled={nextEnabled===false} onClick={onNext}>Proceed</Button>
+            </Col>
+        </Row>
+    )
+}
+const PrevPageButton=({disabled,onClick}) => {
+    return (<>
+            <Button className={'btn-block'} variant="outline-primary"  disabled={disabled} onClick={onClick}>Back</Button>
+        </>
+    )
+}
 const NextPageButton=({disabled,onClick}) => {
     return (<>
             <Button className={'btn-block'} variant="primary"  disabled={disabled} onClick={onClick}>Proceed</Button>

@@ -11,11 +11,13 @@ import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner"
 import {addFlightToCartAction, flightOfferSelector, flightResultsSelector} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
+import style from "./summary-content.module.scss"
 import {
     isFlightSearchInProgressSelector,
     isHotelSearchInProgressSelector,
     requestSearchResultsRestoreFromCache
 } from "../../../redux/sagas/shopping";
+import {JourneySummary} from "../flight-blocks/journey-summary";
 
 
 function RenderPleaseWait(){
@@ -42,12 +44,12 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
 
 
     function onProceedButtonClick(){
-        let url='/payment/'+confirmedOffer.offerId;
+        let url='/dc/payment/'+confirmedOffer.offerId;
         history.push(url, { passengers: passengerDetails });
     }
 
     function onProceedCryptoButtonClick(){
-        let url=`/crypto/${confirmedOffer.offerId}`;
+        let url=`/dc/crypto/${confirmedOffer.offerId}`;
         history.push(url, { passengers: passengerDetails });
     }
 
@@ -128,7 +130,7 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
         <>
             <div>
                 <div className='root-container-subpages'>
-                    {itineraries && <RouteOverview itineraries={itineraries}/>}
+                    {itineraries &&         (<div className={style.itineraryContainer}><JourneySummary itineraries={itineraries}/></div>)}
                     {loadInProgress && <RenderPleaseWait/>}
                     {pricingFailed && PricingErrorAlert()}
                     {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}

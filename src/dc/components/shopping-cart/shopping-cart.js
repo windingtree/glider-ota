@@ -1,19 +1,17 @@
 import React from 'react'
 import style from './shopping-cart.module.scss'
 import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
-import {Button, Col, Container, Image, Row} from 'react-bootstrap'
+import {Col, Image, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import classNames from 'classnames/bind';
 import {bookAction, storeCartOnServerAction,restoreCartFromServerAction, errorSelector, flightOfferSelector, hotelOfferSelector} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
-import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
-import {FlightDuration} from "../flight-blocks/flight-duration";
 import OfferUtils, {safeDateFormat} from "../../../utils/offer-utils";
-import {FaBed} from "react-icons/fa";
 import {LodgingInfo} from "../accommodation-blocks/lodging-info";
 import {Link} from "react-router-dom";
-
+import {config} from "../../../config/default"
+import {useHistory} from "react-router-dom";
 
 let cx = classNames.bind(style);
 
@@ -91,17 +89,13 @@ const FlightOfferCartItem = ({flightOffer}) =>{
     )
 }
 
-const getHotelCityNameFromAddress = (hotel) => {
-    const city = _.get(hotel,'contactInformation.address.locality');
-    return city;
-}
 const HotelOfferCartItem = ({hotelOffer}) => {
     if(!hotelOffer)
         return (<></>);
 
     const {offerId, hotel, room, price, checkInDate, checkOutDate} = hotelOffer;
 
-    const cityName = getHotelCityNameFromAddress(hotel);
+    const cityName = _.get(hotel,'contactInformation.address.locality');
 
     const renderRoomInfo = (room) => {
         if(!room || !room.name)
@@ -132,17 +126,17 @@ const HotelOfferCartItem = ({hotelOffer}) => {
     </>)
 }
 
-export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer, storeOnServer}) =>{
+export const ShoppingCart = ({flightOffer, hotelOffer, restoreFromServer, storeOnServer}) =>{
+    let history = useHistory();
 
-    const onBookHandler = (e) => {
+
+    //redirect to booking flow (pax details page)
+    const onProceedToBook = (e) => {
         e.preventDefault();
-        if(onBook) {
-            onBook()
-        }
-        else{
-            console.warn('onBook is not defined!')
-        }
+        let url='/dc/pax';
+        history.push(url);
     }
+
     const onRestoreFromServer = (e) => {
         e.preventDefault();
         restoreFromServer();
@@ -178,7 +172,7 @@ export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer
     }
 
     if(cartIsEmpty)
-        return (<>{links()}</>)
+        return (<>{config.DEV_MODE && links()}</>)
 
 
     return (
@@ -192,8 +186,8 @@ export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer
             {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/>}
             {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
             <div className={'pt-2'}/>
-            <a href={"#"} className={bookButtonClassnames} onClick={onBookHandler}>Book</a>
-            {links()}
+            <a href={"#"} className={bookButtonClassnames} onClick={onProceedToBook}>Book</a>
+            {config.DEV_MODE && links()}
         </div>
 
     )
