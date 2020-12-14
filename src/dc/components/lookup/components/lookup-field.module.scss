@@ -23,7 +23,7 @@
 */
 
 .inputField{
-    width:80%;
+    width:70%;
     color: $glider-color-inputfields-text;
     background-color: $glider-color-inputfields-background;
     display: inline;
@@ -31,7 +31,8 @@
     box-sizing: border-box;
     //border: 1px solid $glider-color-text-background;
     border-radius: 8px;
-    margin: 0px 4px;
+    margin: 0px 0px;
+    padding-right: 5px;
 
 }
 .inputField:focus{
@@ -48,8 +49,8 @@
     color: $glider-color-inputfields-text-secondary;
     background-color: $glider-color-inputfields-background;
     text-align: right;
-    width: 20%;
-    padding-right: 16px;
+    width: 10%;
+    padding-right: 5px;
 }
 
 

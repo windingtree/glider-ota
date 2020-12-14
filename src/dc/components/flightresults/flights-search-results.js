@@ -1,8 +1,6 @@
 import React, {useState} from 'react'
 import {config} from "../../../config/default";
 import style from './flights-search-results.module.scss'
-import {Button, Col, Container, Row} from 'react-bootstrap'
-// import {FastCheapFilter} from "../../components/filters/fast-cheap-filter";
 import {
     FlightSearchResultsFilterHelper
 } from "../../../utils/flight-search-results-filter-helper"
@@ -75,8 +73,6 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
         trips = limitSearchResultsToCurrentPage(trips);
     }
     return (<>
-            <a href={"#"}  onClick={onRestoreFromCache}>Restore search results</a><br/>
-
             <SearchButton disabled={!isSearchFormValid} onSearchButtonClicked={onSearchButtonClicked}/>
             <Spinner enabled={searchInProgress}/>
             {error && (<div>ERRRORS OCCURED</div>)}
@@ -121,9 +117,6 @@ const mapDispatchToProps = (dispatch) => {
         onOfferDisplay: () => {
             dispatch(searchForFlightsAction())
         },
-        onRestoreFromCache:()=>{
-            dispatch(requestSearchResultsRestoreFromCache())
-        }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FlightsSearchResults);

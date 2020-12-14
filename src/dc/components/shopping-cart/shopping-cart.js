@@ -12,6 +12,8 @@ import {LodgingInfo} from "../accommodation-blocks/lodging-info";
 import {Link} from "react-router-dom";
 import {config} from "../../../config/default"
 import {useHistory} from "react-router-dom";
+import {requestSearchResultsRestoreFromCache} from "../../../redux/sagas/shopping";
+
 
 let cx = classNames.bind(style);
 
@@ -126,7 +128,7 @@ const HotelOfferCartItem = ({hotelOffer}) => {
     </>)
 }
 
-export const ShoppingCart = ({flightOffer, hotelOffer, restoreFromServer, storeOnServer}) =>{
+export const ShoppingCart = ({flightOffer, hotelOffer, restoreFromServer, storeOnServer, onRestoreFromCache}) =>{
     let history = useHistory();
 
 
@@ -160,13 +162,15 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreFromServer, storeO
     let cartIsEmpty = (!flightOffer && !hotelOffer)
 
     const links = () =>{
-        return (<div>
-            <Link to={'/dc/pax'}>Book</Link><br/>
+        return (<div className={style.debugLinks}>
+            <Link to={'/dc/pax'}>Pax details</Link><br/>
             <Link to={'/dc/ancillaries'}>Ancillaries</Link><br/>
             <Link to={'/dc/seatmap'}>Seatmap</Link><br/>
-            <Link to={'/dc/summary'}>pricing</Link><br/>
-            <a href={"#"}  onClick={onStoreOnServer}>Store on server</a><br/><br/>
-            <a href={"#"}  onClick={onRestoreFromServer}>Restore from server</a><br/>
+            <Link to={'/dc/summary'}>Pricing</Link><br/>
+            <a href={"#"}  onClick={onStoreOnServer}>Store cart on server</a><br/><br/>
+            <a href={"#"}  onClick={onRestoreFromServer}>Restore cart from server</a><br/>
+            <a href={"#"}  onClick={onStoreOnServer}>Restore search results from server</a><br/><br/>
+            <a href={"#"}  onClick={onRestoreFromCache}>Restore search results</a><br/>
 
         </div>)
     }
@@ -232,7 +236,11 @@ const mapDispatchToProps = (dispatch) => {
         },
         onStore: () => {
             dispatch(bookAction())
+        },
+        onRestoreFromCache:()=>{
+            dispatch(requestSearchResultsRestoreFromCache())
         }
+
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ShoppingCart);

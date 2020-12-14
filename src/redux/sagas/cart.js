@@ -217,9 +217,7 @@ function* storeCartOnServerSideSaga() {
     try {
         // yield put(searchForFlightsAction());
         const data = yield select(storeToSyncSelector);
-        console.log('*storeCartOnServerSideSaga data to sync:',data)
         yield call(storeCartOnServerSide, data);
-        console.log('*storeCartOnServerSideSaga sync completed')
     } catch (error) {
         console.log('*storeCartOnServerSideSaga failed, error:',error)
         yield put(errorAction(error))
@@ -229,9 +227,7 @@ function* storeCartOnServerSideSaga() {
 function* restoreCartFromServerSideSaga() {
     console.log('*restoreCartFromServerSideSaga')
     try {
-        // yield put(searchForFlightsAction());
         const data = yield call(restoreCartFromServerSide);
-        console.log('*restoreCartFromServerSideSaga data retrieved:',data)
         if(data){
             // yield restoreCartAction(data);
             const {flightOffer, hotelOffer} = data;
@@ -253,12 +249,4 @@ export const saga = function*() {
     ]);
 };
 
-let a = {
-    offerId: "42ad23de-fdf5-4bf2-8d85-9c6ad7f3539e",
-    passengers: {
-        F1A28DBA: {
-            type: "ADT"
-        }
-    }
 
-}

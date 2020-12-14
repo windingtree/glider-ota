@@ -13,8 +13,8 @@ import {
     web3ProviderType,
     openPortis,
     signInError
-} from '../redux/sagas/web3';
-import { createPaymentIntent } from "../../src/utils/api-utils";
+} from '../../redux/sagas/web3';
+import { createPaymentIntent } from "../../../src/utils/api-utils";
 import {BookingFlowBreadcrumb, STEPS} from "./booking-flow-breadcrumb";
 import BookingFlowLayout from "../components/layout/booking-flow-layout";
 

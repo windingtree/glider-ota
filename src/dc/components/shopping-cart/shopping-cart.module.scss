@@ -32,3 +32,9 @@
 .hotelItemRoomName {
   @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-normal)
 }
+
+
+
+.debugLinks{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+}
