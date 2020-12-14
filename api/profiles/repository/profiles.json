@@ -40,6 +40,14 @@
     ]
   },
   {
+    "key": "ROOMS_ORGID",
+    "comment": "",
+    "profiles": [
+      {"profile": "staging", "value": "0x08b490a10b9fcf5649083c4fcdda83d2d5146be21f8456c35b5efd2e20e94140"},
+      {"profile": "production", "value": "0xd40bb7a98edbc6ccfe699c835b4160e7b0f070ba4c58b0de2ec1055a8d712a5d"}
+    ]
+  },
+  {
     "key": "GLIDER_BASEURL", "comment": "",
     "profiles": [
       {"profile": "staging", "value": "https://staging.b2b.glider.travel/api/v1"},

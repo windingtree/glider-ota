@@ -74,7 +74,7 @@ const createPassengers = passengers => {
     return passengersRequest;
 };
 
-const fulfillOrder = async (confirmedOfferId, tx, quoteId) => {
+const fulfillOrder = async (confirmedOfferId, tx, quote) => {
     logger.debug('Starting fulfillment process for confirmedOfferId:%s and transactionHash:%s', confirmedOfferId, tx.hash);
 
     let document = await findConfirmedOffer(confirmedOfferId);
@@ -91,7 +91,7 @@ const fulfillOrder = async (confirmedOfferId, tx, quoteId) => {
     }
     let settlement;
     try {
-        settlement = await createCryptoDeposit(tx.hash, quoteId);
+        settlement = await createCryptoDeposit(tx.hash, quote);
         logger.info('Deposit created, settlement:%s', settlement.settlementId);
     } catch (error) {
         logger.error('Deposit error:%s', error);
@@ -114,7 +114,7 @@ const fulfillOrder = async (confirmedOfferId, tx, quoteId) => {
     // Request a guarantee to Simard
     let guarantee;
     try {
-        guarantee = await createCryptoGuarantee(price.public, price.currency, tx.hash);
+        guarantee = await createCryptoGuarantee(price.public, price.currency, tx.hash, offerMetadata.id);
         logger.info('Guarantee created, guaranteeId:%s', guarantee.guaranteeId);
     } catch (error) {
         logger.error('Guarantee could not be created, simard error:%s', error);
@@ -289,28 +289,26 @@ const validatePaymentTransaction = async (confirmedOfferId, transactionHash) => 
         throw new Error(`Payment has wrong confirmed offerId ${payment.attachment}`);
     }
 
+    const amount = web3.utils.fromWei(payment.amountOut, 'picoether');// USDC uses picoether: 1000000
     const {
         currency
     } = document.confirmedOffer.offer.price;
     const exchangeQuote = document.exchangeQuote;
+    const offerCurrency = String(currency).toLowerCase();
 
-    if (String(currency).toLowerCase() !== 'usd' && !exchangeQuote) {
-        logger.error(`The offer not enabled for payment with crypto`, confirmedOfferId);
+    if (exchangeQuote && amount !== String(exchangeQuote.sourceAmount)) {
+        logger.error(`Payment amount has a wrong value: %s`, payment.amountOut);
+        throw new Error(`Payment amount has a wrong value ${payment.amountOut}`);
+    } else if ((!exchangeQuote || !exchangeQuote.quoteId) && offerCurrency !== 'usd') {
+        logger.error(`The offer not enabled for payment with crypto: %s`, confirmedOfferId);
         throw new Error(`The offer not enabled for payment with crypto ${confirmedOfferId}`);
-    } else if (exchangeQuote) {
-        const amount = web3.utils.fromWei(payment.amountOut, 'picoether');// USDC uses picoether: 1000000
-
-        if (String(amount) !== String(exchangeQuote.sourceAmount)) {
-            logger.error(`Payment amount has a wrong value`, payment.amountOut);
-            throw new Error(`Payment amount has a wrong value ${payment.amountOut}`);
-        }
     }
 
     return {
         tx,
         receipt,
         payment,
-        quoteId: exchangeQuote.quoteId
+        quoteId: exchangeQuote ? exchangeQuote.quoteId : undefined
     };
 };
 

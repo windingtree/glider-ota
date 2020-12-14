@@ -7,7 +7,7 @@ const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission} = require('./response-decorator');
 const {createErrorResponse,mergeAggregatorResponse, ERRORS} = require ('./rest-utils');
 const OrgId= require('./orgId');
-const SEARCH_TIMEOUT=1000*50;
+const SEARCH_TIMEOUT=1000*40;
 
 function createHeaders(token) {
     return {
@@ -42,7 +42,12 @@ async function searchOffers(criteria) {
         if (validResults.length === 0) {
             throw new Error('No results.')
         } else{
-            response = mergeAggregatorResponse(validResults)
+            let propsToMerge;
+            if(criteria.accommodation)
+                propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers']
+            if(criteria.itinerary)
+                propsToMerge = ['pricePlans', 'offers', 'passengers', 'itineraries']
+            response = mergeAggregatorResponse(validResults, propsToMerge)
         }
 
     }catch(err){
@@ -64,7 +69,6 @@ const storeOfferToOrgIdMapping = async (validResults) => {
     validResults.forEach(result => {
         let {endpoint, data} = result;
         let offers = data.offers;
-        let passengers = data.passengers;
         Object.keys(offers).forEach(offerId=>{
             let offerMetadata = {
                 endpoint:endpoint,
@@ -121,14 +125,18 @@ async function createWithOffer(criteria, endpoint) {
  * @param offerId - offerId(s) for which the seatmaps are requested
  * @returns {Promise<any>} response from Glider
  */
-async function seatmap(offerId) {
-    let urlTemplate = GLIDER_CONFIG.SEATMAP_URL;
+async function seatmap(offerId, endpoint) {
+    const {serviceEndpoint, jwt} = endpoint;
+    let url = urlFactory(serviceEndpoint,offerId).SEATMAP_URL;
+    console.log('Retrieve seatmap with URL:',url, 'JWT:',jwt)
+
+
     let urlWithOfferId = urlTemplate.replace("{offerId}", offerId);
     logger.debug("Seatmap URL:[%s]", urlWithOfferId);
     let response = await axios({
         method: 'get',
-        url: urlWithOfferId,
-        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN)
+        url: url,
+        headers: createHeaders(jwt)
     });
     logger.debug("Seatmap response", response.data);
     return response.data;
@@ -140,14 +148,15 @@ async function seatmap(offerId) {
  * @param offerId - offerID to be repriced
  * @returns {Promise<any>} response from Glider
  */
-async function reprice(offerId, options) {
-    let urlTemplate = GLIDER_CONFIG.REPRICE_OFFER_URL;
-    let urlWithOfferId = urlTemplate.replace("{offerId}", offerId);
-    logger.debug("Reprice URL:[%s], options=%s", urlWithOfferId, JSON.stringify(options));
+async function reprice(offerId, options, endpoint) {
+    const {serviceEndpoint, jwt} = endpoint;
+    let url = urlFactory(serviceEndpoint,offerId).REPRICE_OFFER_URL;
+    console.log('Reprice using URL:',url, 'JWT:',jwt)
+
     let response = await axios({
         method: 'post',
-        url: urlWithOfferId,
-        headers: createHeaders(GLIDER_CONFIG.GLIDER_TOKEN),
+        url: url,
+        headers: createHeaders(jwt),
         data: options ? options : [],
     });
     let repriceResponse = {};
@@ -200,9 +209,9 @@ const urlFactory = (baseUrl, param) => {
     return {
         SEARCH_OFFERS_URL: baseUrl + "/offers/search",
         CREATE_WITH_OFFER_URL: baseUrl + "/orders/createWithOffer",
-        SEATMAP_URL: baseUrl + "/offers/{offerId}/seatmap",
-        REPRICE_OFFER_URL: baseUrl + "/offers/{offerId}/price",
-        FULFILL_URL: baseUrl + "/orders/{orderId}/fulfill",
+        SEATMAP_URL: baseUrl + `/offers/${param}/seatmap`,
+        REPRICE_OFFER_URL: baseUrl + `/offers/${param}/price`,
+        FULFILL_URL: baseUrl + `/orders/${param}/fulfill`,
     }
 }
 

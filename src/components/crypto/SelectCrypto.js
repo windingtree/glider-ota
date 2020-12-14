@@ -1,3 +1,4 @@
+import Web3 from 'web3';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Button, Spinner as RoundSpinner, Alert } from 'react-bootstrap';
@@ -35,6 +36,8 @@ import {
 } from '../../redux/sagas/tx';
 import CopyText from './CopyText';
 
+const toBN = Web3.utils.toBN;
+
 const CryptoCard = props => {
     const {
         coin,
@@ -45,15 +48,14 @@ const CryptoCard = props => {
         onSelected,
         onError,
         onProcessing,
+        onPaymentStart,
         onPayment,
         web3,
         walletAddress,
-        minedTx,
-        txRegister
+        disabled
     } = props;
     const [selected, setSelected] = useState(false);
-    const [coinUnlockHash, setCoinUnlockHash] = useState(null);
-    const [coinPayProcessingHash, setPayProcessingHash] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
         if (
@@ -65,18 +67,15 @@ const CryptoCard = props => {
         }
     }, [coin, selectedCoin]);
 
-    useEffect(() => {
-        if (minedTx[coinUnlockHash]) {
-            setCoinUnlockHash(false);
-            onProcessing(false);
-        }
-        if (minedTx[coinPayProcessingHash]) {
-            const hash = coinPayProcessingHash;
-            onPayment(hash);
-        }
-    }, [coinUnlockHash, coinPayProcessingHash, minedTx, onPayment, onProcessing]);
+    const handleProcessing = processing => {
+        setIsProcessing(processing);
+        onProcessing(processing);
+    };
 
     const handleCardClick = () => {
+        if (disabled) {
+            return;
+        }
         if (!coin.insufficientLiquidity) {
             setSelected(!selected);
             onSelected(coin);
@@ -84,35 +83,42 @@ const CryptoCard = props => {
     };
 
     const handleApprove = async coin => {
+        if (disabled) {
+            return;
+        }
         try {
-            setCoinUnlockHash(true);
-            onProcessing(true);
-            const hash = await approveToken(
+            handleProcessing(true);
+            await approveToken(
                 web3,
                 coin.address,
                 walletAddress,
                 PAYMENT_MANAGER_ADDRESS,
                 coin.rawAmount
             );
-            txRegister(hash);
-            setCoinUnlockHash(hash);
+            handleProcessing(false);
         } catch (error) {
             console.log(error);
             onError(error);
-            setCoinUnlockHash(null);
-            onProcessing(false);
+            handleProcessing(false);
         }
     };
 
     const handlePay = async coin => {
+        if (disabled) {
+            return;
+        }
         try {
-            setPayProcessingHash(true);
-            onProcessing(true);
+            handleProcessing(true);
             const stableCoinValue = await getStableCoinValue(web3, value);
-            let hash;
+
+            onPaymentStart(coin);
+
+            // throw new Error('TEST ERROR');
+
+            let paymentReceipt;
 
             if (coin.ether) {
-                hash = await payWithETH(
+                paymentReceipt = await payWithETH(
                     web3,
                     stableCoinValue,
                     coin.rawAmount,
@@ -121,7 +127,7 @@ const CryptoCard = props => {
                     walletAddress
                 );
             } else {
-                hash = await payWithToken(
+                paymentReceipt = await payWithToken(
                     web3,
                     stableCoinValue,
                     coin.rawAmount,
@@ -132,13 +138,12 @@ const CryptoCard = props => {
                 );
             }
 
-            txRegister(hash);
-            setPayProcessingHash(hash);
+            handleProcessing(false);
+            onPayment(paymentReceipt);
         } catch (error) {
             console.log(error);
             onError(error);
-            setPayProcessingHash(null);
-            onProcessing(false);
+            handleProcessing(false);
         }
     };
 
@@ -252,10 +257,10 @@ const CryptoCard = props => {
                                         className={styles.xsBlock}
                                         size='sm'
                                         onClick={() => handleApprove(coin)}
-                                        disabled={coinUnlockHash}
+                                        disabled={isProcessing}
                                     >
                                         Unlock
-                                        {coinUnlockHash &&
+                                        {isProcessing &&
                                             <RoundSpinner
                                                 className={styles.buttonSpinner}
                                                 animation="border"
@@ -271,10 +276,10 @@ const CryptoCard = props => {
                                         className={styles.xsBlock}
                                         size="sm"
                                         onClick={() => handlePay(coin)}
-                                        disabled={!selectedCoin || coinPayProcessingHash}
+                                        disabled={!selectedCoin || isProcessing}
                                     >
                                         Pay
-                                        {coinPayProcessingHash &&
+                                        {isProcessing &&
                                             <RoundSpinner
                                                 className={styles.buttonSpinner}
                                                 animation="border"
@@ -306,9 +311,14 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
     let list = JSON.parse(JSON.stringify(tokens));
     let isActive = true;
 
-    const fetchAmount = async (coinAddress, coinDecimals, usdValue) => {
+    const fetchAmount = async (coinAddress, coinDecimals, usdValue, withSlippage = true) => {
         try {
-            const amount = await getAmountIn(web3, usdValue, coinAddress);
+            // Get Uniswap estimation
+            let amount = await getAmountIn(web3, usdValue, coinAddress);
+            // Add Slippage tolerance 1%
+            if (withSlippage) {
+                amount = toBN(amount).add(toBN(amount).div(toBN(100))).toString();
+            }
             return [
                 parseTokenValue(web3, amount, coinDecimals, true, 6),
                 amount
@@ -350,7 +360,8 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
                         const amounts = await fetchAmount(
                             coin.address,
                             coin.decimals,
-                            usdValue
+                            usdValue,
+                            !coin.ether
                         );
 
                         amount = amounts[0];
@@ -384,7 +395,7 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
             console.log('Poller start!');
             while (isActive) {
                 updateTokensList(list);
-                await new Promise(resolve => setTimeout(resolve, 3000)); // Pause for 3 sec
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Pause for 3 sec
             };
         } catch (error) {
             console.log(error);
@@ -406,7 +417,10 @@ const SelectCrypto = props => {
         usdValue,
         confirmedOfferId,
         deadline,
+        onPaymentReset,
+        onPaymentStart,
         onPaymentSuccess,
+        onPaymentError,
         minedTx,
         txErrors,
         txRegister,
@@ -437,25 +451,28 @@ const SelectCrypto = props => {
 
     const handleErrorsDismiss = () => {
         setError(null);
+        onPaymentReset();
     };
 
     const handleTxErrorsDismiss = () => {
         invalidateTxErrors();
     };
 
-    const showPaymentSuccess = hash => {
-        setPaymentHash(hash);
+    const showPaymentSuccess = receipt => {
+        setPaymentHash(receipt.transactionHash);
         setOrderProcessing(true);
         // Create an order
-        createCryptoOrder(confirmedOfferId, hash)
+        createCryptoOrder(confirmedOfferId, receipt.transactionHash)
             .then(data => {
                 setOrder(data);
                 setOrderProcessing(false);
+                onPaymentSuccess();
             })
             .catch(error => {
                 console.log(error);
                 setError(error);
                 setOrderProcessing(false);
+                onPaymentError(error);
             });
     };
 
@@ -465,8 +482,11 @@ const SelectCrypto = props => {
 
     return (
         <>
-            {!paymentHash &&
+            {(!error && !paymentHash) &&
                 <>
+                    <p>
+                        Your final paid amount might change depending on real-time conversion rate. The transaction will be reverted if the price increases by more than 1%
+                    </p>
                     <h2 className={styles.selectorTitle}>{title}</h2>
                     <Spinner
                         enabled={tokesLoading && tokensDetails.length === 0}
@@ -483,11 +503,13 @@ const SelectCrypto = props => {
                                 onSelected={setSelectedCoin}
                                 onError={setError}
                                 onProcessing={setIsProcessing}
+                                onPaymentStart={onPaymentStart}
                                 onPayment={showPaymentSuccess}
                                 web3={web3}
                                 walletAddress={walletAddress}
                                 minedTx={minedTx}
                                 txRegister={txRegister}
+                                disabled={isProcessing}
                             />
                         ))
                     }
@@ -514,7 +536,7 @@ const SelectCrypto = props => {
                             />
                         </>
                     }
-                    {order &&
+                    {/* {order &&
                         <Button
                             className={styles.xsBlock}
                             size='lg'
@@ -522,7 +544,7 @@ const SelectCrypto = props => {
                         >
                             Continue
                         </Button>
-                    }
+                    } */}
                 </div>
             }
             {error &&
@@ -535,6 +557,9 @@ const SelectCrypto = props => {
                     <p>
                         {error.message}
                     </p>
+                    <Button size='sm' onClick={handleErrorsDismiss}>
+                        Back to Payment
+                    </Button>
                 </Alert>
             }
             {Object.keys(txErrors).length > 0 &&

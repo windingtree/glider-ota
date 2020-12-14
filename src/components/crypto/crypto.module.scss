@@ -22,7 +22,7 @@
 .selectorTitle {
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 150%;
     display: flex;
     align-items: center;
@@ -176,4 +176,16 @@
 
 .errorMessage {
     color: red;
+}
+
+.countDown {
+    display: block;
+    border-radius: 50%;
+    border: 1px solid #7161D6;
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
+    min-width: 38px;
+    height: 38px;
+    margin-right: 10px;
 }

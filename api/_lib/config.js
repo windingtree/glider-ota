@@ -27,34 +27,24 @@ const GLIDER_CONFIG =
     {
         BASE_URL:GLIDER_BASEURL,
         GLIDER_TOKEN: getConfigKey('GLIDER_JWT'),
-        SEARCH_OFFERS_URL: GLIDER_BASEURL + "/offers/search",
-        CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
-        SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
-        REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
-        FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
-        ORGID: getConfigKey('GLIDER_ORGID')
+        ORGID: getConfigKey('GLIDER_ORGID'),
+        GLIDER_FIXED_USAGE:(getConfigKey('GLIDER_FIXED_USAGE',"yes")==="yes"),
     };
 
 const ROOMS_BASEURL = getConfigKey('ROOMS_BASEURL');
 const ROOMS_CONFIG =
     {
         BASE_URL:ROOMS_BASEURL,
-        SEARCH_OFFERS_URL: ROOMS_BASEURL + "/offers/search",
-        ENABLE_ROOMS_SEARCH: getConfigKey('ENABLE_ROOMS_SEARCH'),
-        ROOMS_SEARCH_OFFERS_URL: getConfigKey('ROOMS_SEARCH_OFFERS_URL'),
+        ENABLE_ROOMS_SEARCH: (getConfigKey('ENABLE_ROOMS_SEARCH',"yes")==="yes"),
         ROOMS_ORGID: getConfigKey('ROOMS_ORGID'),
         ROOMS_TOKEN: getConfigKey('ROOMS_TOKEN'),
-        CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
-        SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
-        REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
-        FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
     };
 
 const ORGID = {
     OTA_ORGID: getConfigKey('OTA_ORGID'),
-    OTA_PRIVATE_KEY: getConfigKey('OTA_PRIVATE_KEY').replace(/\\n/g, '\n'),
-    GRAPH_URL:getConfigKey('GRAPH_URL'),
-    ENABLE_P2P_DISCOVERY:getConfigKey('ENABLE_P2P_DISCOVERY',false)
+    OTA_PRIVATE_KEY: getConfigKey('OTA_PRIVATE_KEY'),
+    P2P_GRAPH_URL:getConfigKey('P2P_GRAPH_URL','https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten'),
+    P2P_ENABLE_DISCOVERY:(getConfigKey('P2P_ENABLE_DISCOVERY',"no")==="yes")
 }
 
 const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL') || `https://${activeProfile}.api.simard.io/api/v1`;
@@ -74,7 +64,7 @@ const SIMARD_CONFIG =
 
 const REDIS_CONFIG =
     {
-        REDIS_PORT: (getConfigKey('REDIS_PORT') && parseInt(getConfigKey('REDIS_PORT'))) || 14563,
+        REDIS_PORT: getConfigKey('REDIS_PORT',14563),
         REDIS_HOST: getConfigKey('REDIS_HOST'),
         REDIS_PASSWORD: getConfigKey('REDIS_PASSWORD'),
         SESSION_TTL_IN_SECS: 60 * 60,
@@ -91,7 +81,7 @@ const STRIPE_CONFIG =
         PUBLISHABLE_KEY: getConfigKey('STRIPE_PUBLISHABLE_KEY'),
         SECRET_KEY: getConfigKey('STRIPE_SECRET_KEY'),
         WEBHOOK_SECRET: getConfigKey('STRIPE_WEBHOOK_SECRET'),
-        BYPASS_WEBHOOK_SIGNATURE_CHECK: (getConfigKey('STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK') === "yes"),
+        BYPASS_WEBHOOK_SIGNATURE_CHECK: (getConfigKey('STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK',"no") === "yes"),
     };
 const ELASTIC_CONFIG =
     {
@@ -101,14 +91,14 @@ const ELASTIC_CONFIG =
 const GENERIC_CONFIG =
     {
         ENVIRONMENT: activeProfile,
-        ENABLE_HEALHCHECK: (getConfigKey('HEALTHCHECK_ENABLE') === "yes"),
-        DEVELOPMENT_MODE: (getConfigKey('DEVELOPMENT_MODE') === "yes")
+        ENABLE_HEALHCHECK: (getConfigKey('HEALTHCHECK_ENABLE','no') === "yes"),
+        DEVELOPMENT_MODE: (getConfigKey('DEVELOPMENT_MODE','no') === "yes")
     };
 const SENDGRID_CONFIG =
     {
         SENDGRID_API_KEY: getConfigKey('SENDGRID_API_KEY'),
-        FROM_EMAIL_ADDR: getConfigKey('SENDGRID_FROM_EMAIL_ADDR') || 'noreply@glider.travel',
-        TEMPLATE_ID: getConfigKey('SENDGRID_TEMPLATE_ID') || 'd-199fb2f410334d1296b0176e0435c4a7',
+        FROM_EMAIL_ADDR: getConfigKey('SENDGRID_FROM_EMAIL_ADDR', 'noreply@glider.travel'),
+        TEMPLATE_ID: getConfigKey('SENDGRID_TEMPLATE_ID','d-199fb2f410334d1296b0176e0435c4a7'),
     };
 
 const CRYPTO_CONFIG = {

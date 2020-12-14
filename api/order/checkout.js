@@ -29,7 +29,13 @@ const checkoutCard = async (req, res) => {
 
     if (confirmedOffer == null) {
         logger.warn("Cannot find requested confirmedOffer in session storage, SessionID: %s", sessionID)
-        sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Cannot find offer",req.body);
+        sendErrorResponse(
+            res,
+            400,
+            ERRORS.INVALID_INPUT,
+            `The offer ${confirmedOfferId} not found or expired`,
+            req.body
+        );
         return;
     }
     if (confirmedOffer.offerId !== confirmedOfferId) {
@@ -80,7 +86,13 @@ const checkoutCrypto = async (req, res) => {
 
     if (confirmedOffer == null) {
         logger.warn("Cannot find requested confirmedOffer in session storage, SessionID: %s", sessionID)
-        sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Cannot find offer",req.body);
+        sendErrorResponse(
+            res,
+            400,
+            ERRORS.INVALID_INPUT,
+            `The offer ${confirmedOfferId} not found or expired`,
+            req.body
+        );
         return;
     }
 
@@ -94,33 +106,53 @@ const checkoutCrypto = async (req, res) => {
         public: publicPrice,
         currency
     } = confirmedOffer.offer.price;
+    let amount = publicPrice;
+    let exchangeQuote;
 
-    const {
-        quoteId,
-        rate,
-        sourceAmount,
-        sourceCurrency,
-        targetAmount,
-        targetCurrency
-    } = await convertCurrencyToUSD(currency, publicPrice);
-    logger.info(`Quote created: quoteId=${quoteId}; from ${targetAmount}${targetCurrency} to ${sourceAmount}${sourceCurrency} with rate: ${rate}`);
+    const isNonUsd = String(currency).toLowerCase() !== 'usd';
 
-    await storeConfirmedOffer(
-        confirmedOffer,
-        passengers,
-        {
+    if (isNonUsd) {
+        const {
             quoteId,
             rate,
             sourceAmount,
             sourceCurrency,
             targetAmount,
             targetCurrency
-        }
+        } = await convertCurrencyToUSD(currency, publicPrice);
+        amount = sourceAmount;
+        logger.info(`Quote created: quoteId=${quoteId}; from ${targetAmount}${targetCurrency} to ${sourceAmount}${sourceCurrency} with rate: ${rate}`);
+
+        exchangeQuote = {
+            quoteId,
+            rate,
+            sourceAmount,
+            sourceCurrency,
+            targetAmount,
+            targetCurrency
+        };
+    } else {
+
+        // conversion disabled
+        exchangeQuote = {
+            quoteId: null,
+            rate: 1,
+            sourceAmount: publicPrice,
+            sourceCurrency: 'USD',
+            targetAmount: publicPrice,
+            targetCurrency: 'USD'
+        };
+    }
+
+    await storeConfirmedOffer(
+        confirmedOffer,
+        passengers,
+        exchangeQuote
     );
 
     return {
         offer: confirmedOffer,
-        amount: sourceAmount
+        amount
     };
 };
 

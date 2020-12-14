@@ -101,12 +101,12 @@ function dirtyAggregatorResponseValidator(response) {
  *
  * @returns {response} The merged response.
  */
-function mergeAggregatorResponse(responsesToMerge) {
+function mergeAggregatorResponse(responsesToMerge, propsToMerge) {
     const response = { data: {} };
     if(!responsesToMerge)
         return response;
 
-    const propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers', 'itineraries']
+    // const propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers', 'itineraries']
 
     responsesToMerge.forEach(responseToMerge=>{
         let isValid = dirtyAggregatorResponseValidator(responseToMerge);
