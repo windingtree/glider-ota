@@ -98,6 +98,24 @@ paths:
             application/json:
               schema:
                 type: object
+  /api/cart/userPreferences:
+    post:
+      summary: Store user preferences
+      operationId: addUserPreferences
+      requestBody:
+        description: Store user preferences
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartUserPreferences"
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
   /api/order/checkout:
     post:
       summary: Checkout - start payment process
@@ -167,6 +185,15 @@ components:
           minItems: 1
           items:
             $ref: "wt-aggregator.yaml#/components/schemas/Passenger"
+    CartUserPreferences:
+      description: User preferences for the shopping
+      required:
+        - "currency"
+      properties:
+        currency:
+          description: Payment currency
+          type: string
+          pattern: "^[A-Z]{3}$"
     CheckoutParameters:
       description: Payment details
       required: ["type","confirmedOfferId"]
@@ -188,7 +215,7 @@ components:
         transactionHash:
           type: string
           description: Hash of the transaction
-          example: 0x769b0b56f749b71d2e42acf570c67ec0d770c32336d1d542b0c74caca8c5c619
+          example: "0x769b0b56f749b71d2e42acf570c67ec0d770c32336d1d542b0c74caca8c5c619"
 
 #    Airports:
 #      description: List of airports

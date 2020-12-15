@@ -10,7 +10,7 @@ const shoppingCartController = async (req, res) => {
     let cartItemKey=req.body.key;
     if(method === 'POST') {
 
-        let cart =  await shoppingCart.addItemToCart(cartItemKey,req.body.item,0);
+        let cart =  await shoppingCart.addItemToCart(cartItemKey,req.body.item);
         res.json(cart)
     }
     else if(method === 'GET') {

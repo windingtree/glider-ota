@@ -49,6 +49,17 @@ const validateCartOfferPayload = (payload) => {
 const validateCartPassengersPayload = (payload) => {
     return _validate(payload, '#/components/schemas/CartItemPassengers');
 };
+
+/**
+ * Validates if a request made to /cart/userPreferences is valid.
+ * @param payload
+ * @return true if payload is valid, false otherwise
+ */
+const validateCartUserPreferencesPayload = (payload) => {
+    return _validate(payload, '#/components/schemas/CartUserPreferences');
+};
+
+
 /**
  * Validates if a request made to /checkout is valid.
  * @param payload
@@ -59,9 +70,11 @@ const validateCheckoutPayload = (payload) => {
 };
 
 
+
 module.exports = {
     validateSearchCriteriaPayload: validateSearchCriteriaPayload,
     validateCartOfferPayload: validateCartOfferPayload,
     validateCartPassengersPayload: validateCartPassengersPayload,
-    validateCheckoutPayload: validateCheckoutPayload
+    validateCheckoutPayload: validateCheckoutPayload,
+    validateCartUserPreferencesPayload: validateCartUserPreferencesPayload,
 };

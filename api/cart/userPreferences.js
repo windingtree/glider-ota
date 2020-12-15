@@ -1,30 +1,29 @@
-const {ShoppingCart,CART_ITEMKEYS} = require('../_lib/shopping-cart');
-const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
+const {ShoppingCart, CART_USER_PREFERENCES_KEYS} = require('../_lib/shopping-cart');
+const {sendErrorResponse, ERRORS} = require("../_lib/rest-utils")
 const logger = require('../_lib/logger').createLogger('/cart1')
 const {decorate} = require('../_lib/decorators');
-const {validateCartOfferPayload} = require('../_lib/validators')
+const {validateCartUserPreferencesPayload} = require('../_lib/validators')
 
 const shoppingCartController = async (req, res) => {
     let sessionID = req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let method = req.method;
-    let cartItemKey=CART_ITEMKEYS.OFFER;
+    let cartUserPreferenceKey=CART_USER_PREFERENCES_KEYS.CURRENCY;
+
+    // Handle creation of user preferences
     if(method === 'POST') {
         //validate if payload is OK
-        validateCartOfferPayload(req.body);
-        let offer = req.body.offer;
-        // if(!validateOffer(res,offer))
-        //     return;
-
-        await shoppingCart.addItemToCart(cartItemKey, offer);
+        validateCartUserPreferencesPayload(req.body);
+        let currency = req.body.currency;
+        await shoppingCart.setUserPreference(cartUserPreferenceKey, currency);
         res.json({result:"OK"})
     }
     else if(method === 'GET') {
-        let offer = await shoppingCart.getItemFromCart(cartItemKey);
-        res.json(offer);
+        let currency = await shoppingCart.getUserPreference(cartUserPreferenceKey);        
+        res.json({currency: currency});
     }
     else if(method === 'DELETE') {
-        await shoppingCart.removeItemFromCart(cartItemKey);
+        await shoppingCart.unsetUserPreference(cartUserPreferenceKey)
         res.json({result:"OK"})
     }else{
         logger.warn("Unsupported method:%s",req.method);
@@ -33,7 +32,6 @@ const shoppingCartController = async (req, res) => {
     }
 
 }
-
 
 
 module.exports = decorate(shoppingCartController);

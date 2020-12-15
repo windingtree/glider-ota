@@ -5,6 +5,17 @@ const {SIMARD_CONFIG} = require('./config');
 const logger = createLogger('simard-api');
 
 /**
+ * Helper to create HTTP Headers
+ */
+function createHeaders(token) {
+    return {
+        'Authorization': 'Bearer ' + token,
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+}
+
+/**
  * Creates guarantee in Simard for a given amount of money.
  * Guarantee is needed to fulfill an order
  * @param amount
@@ -128,16 +139,35 @@ function simulateDeposit(amount, currency) {
 }
 
 
+/**
+ * Swap balances between currencies
+ * @param quotes A list of quoteId created using the quote API
+ * @returns {Promise<any>} response from /balances/swap Simard API
+ */
+function balanceSwap(quotes) {
+    return new Promise(function(resolve, reject) {
+        axios({
+            method: 'post',
+            url: SIMARD_CONFIG.SWAP_URL,
+            data: {quotes: quotes},
+            headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+        })
 
-function createHeaders(token) {
-    return {
-        'Authorization': 'Bearer ' + token,
-        'accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
+        .then(response => {
+            logger.debug("Swap completed", response.data);
+            resolve(response.data);
+        })
+
+        .catch(error => {
+            logger.error("Swap failed", error);
+            reject(error);
+        });
+
+    });
 }
 
-const createQuote = async (sourceCurrency, targetCurrency, targetAmount) => {
+/* Create a confirmed quote with Simard Pay */
+const createQuoteAsync = async (sourceCurrency, targetCurrency, targetAmount) => {
     const quoteUrl = SIMARD_CONFIG.QUOTE_URL;
     const response = await axios({
         method: 'post',
@@ -152,13 +182,29 @@ const createQuote = async (sourceCurrency, targetCurrency, targetAmount) => {
     return response.data;
 };
 
+/* Get informative rate with Simard Pay */
+const getRateAsync = async (sourceCurrency, targetCurrency) => {
+    const rateUrl = SIMARD_CONFIG.RATE_URL;
+    const response = await axios({
+        method: 'get',
+        url: rateUrl,
+        params: {
+            source: sourceCurrency,
+            target: targetCurrency,
+        },
+        headers: createHeaders(SIMARD_CONFIG.SIMARD_TOKEN)
+    });
+    return response.data;
+};
 
 
 module.exports = {
-    createQuote,
     createCryptoDeposit,
     createGuarantee,
     createCryptoGuarantee,
-    simulateDeposit
+    simulateDeposit,
+    balanceSwap,
+    createQuoteAsync,
+    getRateAsync,
 }
 

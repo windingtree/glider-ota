@@ -70,7 +70,7 @@ const genericCartPostController = async (req,res) =>{
         return;
     }
     //TODO add payload validation
-    await shoppingCart.addItemToCart(type,cartItem,cartItem.price);
+    await shoppingCart.addItemToCart(type, cartItem, cartItem.price);
     res.json({result:"OK", item: cartItem})
 }
 const genericCartGetController = async (req,res,cartItemKey, cartItem, itemPrice) =>{
