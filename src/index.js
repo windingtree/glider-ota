@@ -24,9 +24,18 @@ import FlightFareFamiliesPage from "./pages/flight-farefamilies-page";
 import FlightPassengersPage from "./pages/flight-passengers-page";
 import FlightSummaryPage from "./pages/flight-summary-page";
 import PaymentPage from "./pages/payment-page";
+
 import PaymentCryptoPage from "./pages/payment-crypto-page";
-
-
+import DCLandingPage from './dc/pages/landing-page'
+import DCTravellerInfoPage from './dc/pages/traveller-info-page'
+import AncillariesSelection from './dc/components/ancillaries/ancillaries-selection-content'
+import DCFlightPassengersPage from './dc/pages/pax-details-page'
+import DCAncillariesPage from './dc/pages/ancillaries-page'
+import DCSeatSelectionPage from './dc/pages/seat-selection-page'
+import DCPaymentSummaryPage from './dc/pages/payment-summary-page'
+import DCPaymentPage from "./dc/pages/payment-page";
+import DCPaymentCryptoPage from "./dc/pages/payment-crypto-page";
+import DCConfirmationPage from "./dc/pages/confirmation-page";
 function Dispatcher() {
     return (
         <Provider store={store}>
@@ -51,6 +60,15 @@ function Dispatcher() {
                         {/*Hotels flow*/}
                         <Route path="/hotels/" component={HotelsSearchPage}/>
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
+                        {<Route path="/dc/pax/" component={DCFlightPassengersPage}/>}
+                        {<Route path="/dc/ancillaries/" component={DCAncillariesPage}/>}
+                        {<Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>}
+                        {<Route path="/dc/summary/" component={DCPaymentSummaryPage}/>}
+                        <Route path="/dc/payment/:confirmedOfferId" component={DCPaymentPage}/>
+                        <Route path="/dc/crypto/:confirmedOfferId" component={DCPaymentCryptoPage}/>
+                        <Route path="/dc/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
+                        <Route path="/dc/" component={DCLandingPage}/>
+
 
                         <Route path="/" component={HomePage} />
                     </Switch>

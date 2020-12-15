@@ -1,0 +1,16 @@
+@import '../../../styles/mixins';
+
+.inputField {
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid $glider-color-inputfields-border;
+  background-color: $glider-color-inputfields-background;
+  border-radius: 8px;
+  margin: 0px 4px;
+  text-align: center;
+}
+
+.label{
+  @include g-font($g-fontsize-xs,$glider-color-text-labels,$g-fontweight-normal);
+  margin-left: 1px;
+}

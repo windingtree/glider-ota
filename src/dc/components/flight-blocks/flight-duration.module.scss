@@ -1,0 +1,33 @@
+@import '../../../styles/mixins';
+
+//FlightDuration component
+
+.fdBox{
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.fdIcon{
+  padding-right: 12px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.fdDetails{
+  display: inline-block;
+}
+
+
+.fdDuration{
+  @include g-font($g-fontsize-m,$g-color-black,$g-fontweight-bold);
+  background: linear-gradient(263.92deg, #E0E2FB -19.67%, #F0FFFE 120.19%);
+  border-radius: 8px;
+  padding: 0px 8px;
+}
+.fdConnectionInfo{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+  padding-left: 10px;
+}
+
+.fdCarriers{
+  @include g-font($g-fontsize-m,$g-color-darkgrey,$g-fontweight-normal);
+}

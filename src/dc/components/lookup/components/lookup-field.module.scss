@@ -1,0 +1,67 @@
+@import '../../../../styles/mixins';
+
+.lookup{
+    border: 1px solid $glider-color-inputfields-border;
+    color: $g-color-black;
+    background-color: $glider-color-inputfields-background;
+    box-sizing: border-box;
+    border-radius: 8px;
+    //height: 40px;
+
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+    margin: 0px 4px;
+}
+
+.inputField{
+    width:70%;
+    @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
+    background-color: $glider-color-inputfields-background;
+    display: inline;
+    border: 0px;
+    box-sizing: border-box;
+    //border: 1px solid $glider-color-text-background;
+    border-radius: 8px;
+    padding-right: 5px;
+
+}
+.inputField:focus{
+    box-shadow:none;
+    color: $glider-color-inputfields-text;
+    background-color: $glider-color-inputfields-background;
+
+}
+
+.inputField::placeholder {
+    color: $glider-color-text-background;
+}
+.code{
+    background-color: $glider-color-inputfields-background;
+    @include g-font($g-fontsize-xl,$g-color-lightgrey,$g-fontweight-normal);
+    text-align: right;
+    width: 10%;
+    padding-right: 5px;
+}
+
+
+
+global(.locationLookupPopover){
+    background: #FFFFFF;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0px 0px 5px 5px;
+    width: 100%;
+    max-width: 480px;
+    border:1px solid red;;
+}
+
+.pseudoFocus{
+    border: 1px solid $glider-color-primary;
+}
+
+.label{
+    @include g-font($g-fontsize-xs,$glider-color-text-labels,$g-fontweight-normal);
+    margin-left: 1px;
+}

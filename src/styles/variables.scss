@@ -1,4 +1,5 @@
 @import 'src/styles/theme';
+
 /**
 variables.scss
 variable definitions
@@ -21,6 +22,17 @@ $glider-color-inputfields-text: red;
 $glider-color-inputfields-text-secondary: yellow;
 */
 
+
+$glider-primary-buttons-border: 0px solid $glider-color-primary;
+$glider-primary-inactive-color:white;
+$glider-primary-inactive-buttons-border:1px solid $glider-primary-inactive-color;
+
+
+$glider-font-size-xs:12px;
+$glider-font-size-m:14px;
+$glider-font-size-l:16px;
+$glider-font-size-xl:18px;
+$glider-font-size-xxl:22px;
 
 //BREAKPOINTS
 

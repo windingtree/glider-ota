@@ -16,7 +16,7 @@ const logger = createLogger('/offerSummary')
 const offerRepriceController = async (req, res) => {
     let sessionID=req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
-    let offer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.OFFER);
+    let offer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.TRANSPORTATION_OFFER);
     let seatOptions = await shoppingCart.getItemFromCart(CART_ITEMKEYS.SEATS);
 
     if (offer == null || offer.offerId === undefined) {

@@ -1,0 +1,2817 @@
+{
+  "accommodations": {
+    "WVSTO535": {
+      "name": "THE KINGS GARDEN",
+      "type": "hotel",
+      "description": "",
+      "rating": "4",
+      "contactInformation": {
+        "phoneNumbers": [
+          "46-8-4406650"
+        ],
+        "emails": [],
+        "address": {
+          "streetAddress": "VASTRA TRADGARDSGATAN 11B",
+          "locality": "STOCKHOLM",
+          "postalCode": "111 53",
+          "country": "SE"
+        }
+      },
+      "location": {
+        "coordinates": {
+          "latitude": 59.3313,
+          "longitude": 18.06928
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "",
+        "checkoutTime": ""
+      },
+      "otherPolicies": [],
+      "media": [
+        {
+          "type": "MISSING",
+          "width": "MISSING",
+          "height": "MISSING",
+          "url": "http://pdt.multimediarepository.testing.amadeus.com/cmr/retrieve/hotel/42D9546C85684281B357E8DF452FD713"
+        }
+      ],
+      "roomTypes": {
+        "S5CZC2RRP3": {
+          "name": "Standard room, 1 x single bed",
+          "description": "Best Available Rate incl breakfast and WiFi\nSINGLE ROOM WITH 105 OR 120 CM BED 11SQM CITY\nBEST AVAILALE RATE INCL BREAKFAST AND TAXES GYM",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "Z99S5EL3P4": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Best Available Rate incl breakfast and WiFi\nSMALL DOUBLE WITH 140 OR 160 CM BED 13SQM\nBEST AVAILALE RATE INCL BREAKFAST AND TAXES GYM",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "DTDN2WXUQT": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Best Available Rate incl breakfast and WiFi\nDOUBLE ROOM WITH 160 OR 180 CM BED APPROX 18SQM\nBEST AVAILALE RATE INCL BREAKFAST AND TAXES GYM",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "1IYDIQVPY1": {
+          "name": "1 x queen-size bed",
+          "description": "Best Available Rate incl breakfast and WiFi\nQUEEN SUPERIOR 180CM BED EN SUITE SHOWER 25SQM\nBEST AVAILALE RATE INCL BREAKFAST AND TAXES GYM",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "8DAY6FC7IH": {
+          "name": "1 x king-size bed",
+          "description": "Best Available Rate incl breakfast and WiFi\nKING SUPERIOR DE LUXE 35SQM EN SUITE SHOWER\nBEST AVAILALE RATE INCL BREAKFAST AND TAXES GYM",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "BVA4JD1WN7": {
+          "name": "Standard room, 1 x queen-size bed",
+          "description": "Best Available Rate incl breakfast and WiFi\nSMALL JUNIORSUITE WITH QUEEN BED AND A BEDABLE\nBEST AVAILALE RATE INCL BREAKFAST AND TAXES GYM",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "WVSTOFRE": {
+      "name": "FREYS HOTEL",
+      "type": "hotel",
+      "description": "",
+      "rating": "4",
+      "contactInformation": {
+        "phoneNumbers": [
+          "46-8-50621300"
+        ],
+        "emails": [],
+        "address": {
+          "streetAddress": "BRYGGARGATAN 12",
+          "locality": "STOCKHOLM",
+          "postalCode": "101 31",
+          "country": "SE"
+        }
+      },
+      "location": {
+        "coordinates": {
+          "latitude": 59.33283,
+          "longitude": 18.05873
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "",
+        "checkoutTime": ""
+      },
+      "otherPolicies": [],
+      "media": [
+        {
+          "type": "MISSING",
+          "width": "MISSING",
+          "height": "MISSING",
+          "url": "http://uat.multimediarepository.testing.amadeus.com/cmr/retrieve/hotel/A7AA247E16B44F52B75FE4B406F0150E"
+        }
+      ],
+      "roomTypes": {
+        "QOP42NVDDT": {
+          "name": "Standard room, 1 x single bed",
+          "description": "7 days cancellation policy, 10% discount\n1 SGL BED WORK CORNER SOFA BED FOR 2ND PAX MINI\nBAR RATE 10PCT DISC INCL. BREAKFAST FREE WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "EL6OJS3BF2": {
+          "name": "Standard room, 2 x single bed",
+          "description": "7 days cancellation policy, 10% discount\n2 SGL BEDS WORK CORNER MINI BAR FULL SIZE\nBAR RATE 10PCT DISC INCL. BREAKFAST FREE WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "SRXJBWCCTZ": {
+          "name": "Standard room, 1 x double bed",
+          "description": "7 days cancellation policy, 10% discount\n1 DBL BED 160 cm WORK CORNER MINI BAR FULL SIZE\nBAR RATE 10PCT DISC INCL. BREAKFAST FREE WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "JJNP35CYZP": {
+          "name": "Standard room, 2 x twin bed",
+          "description": "7 days cancellation policy, 10% discount\n2 TWN BEDS WDN FL BATH ROBE SLIPPERS WORK DESK\nBAR RATE 10PCT DISC INCL. BREAKFAST FREE WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "7DRU2Q2L2Y": {
+          "name": "Standard room, 2 x twin bed",
+          "description": "7 days cancellation policy, 10% discount\n2 TWN BEDS WDN FL BATH ROBE SLIPPERS WORK DESK\nBAR RATE 10PCT DISC INCL. BREAKFAST FREE WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "NA519GDLT6": {
+          "name": "Standard room, 2 x twin bed",
+          "description": "7 days cancellation policy, 10% discount\n2 TWN BEDS WDN FL BATH ROBE SLIPPERS WORK DESK\nBAR RATE 10PCT DISC INCL. BREAKFAST FREE WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "KS5OX99AN8": {
+          "name": "1 x double bed",
+          "description": "7 days cancellation policy, 10% discount\nDBL BDR SEP LIVING RM BALCONY KITCHENETTE M WDN\nBAR RATE 10PCT DISC INCL. BREAKFAST FREE WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "FBM6L4D35V": {
+          "name": "Standard room, 1 x single bed",
+          "description": "Standard rate, 1 day cancellation policy\n1 SGL BED WORK CORNER SOFA BED FOR 2ND PAX MINI\nRAC RATE INCL BREAKFAST FREE WIFI LATEST CXL,",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "1956AVN3GW": {
+          "name": "Standard room, 2 x single bed",
+          "description": "Standard rate, 1 day cancellation policy\n2 SGL BEDS WORK CORNER MINI BAR FULL SIZE\nRAC RATE INCL BREAKFAST FREE WIFI LATEST CXL,",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "Q14V52KECO": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Standard rate, 1 day cancellation policy\n1 DBL BED 160 cm WORK CORNER MINI BAR FULL SIZE\nRAC RATE INCL BREAKFAST FREE WIFI LATEST CXL,",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "37ZPUK973E": {
+          "name": "Standard room, 2 x twin bed",
+          "description": "Standard rate, 1 day cancellation policy\n2 TWN BEDS WDN FL BATH ROBE SLIPPERS WORK DESK\nRAC RATE INCL BREAKFAST FREE WIFI LATEST CXL,",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "25NNBDIYXZ": {
+          "name": "Standard room, 2 x twin bed",
+          "description": "Standard rate, 1 day cancellation policy\n2 TWN BEDS WDN FL BATH ROBE SLIPPERS WORK DESK\nRAC RATE INCL BREAKFAST FREE WIFI LATEST CXL,",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "UNGZI1HJV9": {
+          "name": "Standard room, 2 x twin bed",
+          "description": "Standard rate, 1 day cancellation policy\n2 TWN BEDS WDN FL BATH ROBE SLIPPERS WORK DESK\nRAC RATE INCL BREAKFAST FREE WIFI LATEST CXL,",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "7YGM3AMCHP": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Standard rate, 1 day cancellation policy\nDBL BDR SEP LIVING RM BALCONY KITCHENETTE M WDN\nRAC RATE INCL BREAKFAST FREE WIFI LATEST CXL,",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "WVSTOSTO": {
+      "name": "STORY HOTEL RIDDARGATAN",
+      "type": "hotel",
+      "description": "The Story Hotel:  At the very heart of Stockholm. \r\rCity Center location with quiet side street comfort.\r\rExtremely comfortable beds and the most original rooms. Completely newly renovated property, located near all sights, shops, events, offices, restaurants and bars.\r\rNo-nonsense, but full-service. \r\rSelf-check-in and checkout, allowing our hosts to focus all their attention on the guest. \r\rFree wireless Internet throughout the hotel. \r\r24-hour room service.\r\rStory Bar & Restaurant is the lively meeting point for business or cocktails.\r\rOriginal art and prints available online.\r\r\r\rAll rates include breakfast buffet!",
+      "rating": "4",
+      "contactInformation": {
+        "phoneNumbers": [
+          "46-8-54503940"
+        ],
+        "emails": [],
+        "address": {
+          "streetAddress": "RIDDARGATAN 6",
+          "locality": "STOCKHOLM",
+          "postalCode": "11 435",
+          "country": "SE"
+        }
+      },
+      "location": {
+        "coordinates": {
+          "latitude": 59.33482,
+          "longitude": 18.07496
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "",
+        "checkoutTime": ""
+      },
+      "otherPolicies": [],
+      "media": [
+        {
+          "type": "MISSING",
+          "width": "MISSING",
+          "height": "MISSING",
+          "url": "http://uat.multimediarepository.testing.amadeus.com/cmr/retrieve/hotel/1C66D0131E0348E7B96C0DAC2DB3F369"
+        }
+      ],
+      "roomTypes": {
+        "7ZUAN64LK1": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Corporate Incl Breakfast\nSMALL DOUBLE ROOM 11 SQM 32 SMART TV 140 CM BED\nRate incl Breakfast and WIFI Rate incl BF WiFi",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "0VOGAMHRLD": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Corporate Incl Breakfast\nSMALL DOUBLE ROOM 15 SQM 48 SMART TV 160 CM\nRate incl Breakfast and WIFI Rate incl BF WiFi",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "0SRGEV70N4": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Corporate Incl Breakfast\nDOUBLE ROOM 16 SQM BATHTUB GLASS WALL TO BATH\nRate incl Breakfast and WIFI Rate incl BF WiFi",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "6UK0L76P87": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "Corporate Incl Breakfast\nMEDIUM ROOM KING 21 SQM JENSEN BED 48 SMART TV\nRate incl Breakfast and WIFI Rate incl BF WiFi",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "692U5CW33I": {
+          "name": "Standard room",
+          "description": "Corporate Incl Breakfast\nMEDIUM ROOM WITH BALCONY 48 SMART TV 180 CM\nRate incl Breakfast and WIFI Rate incl BF WiFi",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "W3QNZLIM1M": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "Corporate Incl Breakfast\nLARGE ROOM 25 SQM JENSEN BED KING 48 SMART TV\nRate incl Breakfast and WIFI Rate incl BF WiFi",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "R7GB8HYU6M": {
+          "name": "2 x twin bed",
+          "description": "Corporate Incl Breakfast\nLILY DAM SUITE 54 SQM 2 BALCONIES LIVING ROOM\nRate incl Breakfast and WIFI Rate incl BF WiFi",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "1CV3MHFZKI": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Best available rate\nSMALL DOUBLE ROOM 11 SQM 32 SMART TV 140 CM BED\nBest Available Rate incl Breakfast and WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "HG1NJH8IJA": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Best available rate\nSMALL DOUBLE ROOM 15 SQM 48 SMART TV 160 CM\nBest Available Rate incl Breakfast and WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "4QH0HPIFK4": {
+          "name": "Standard room, 1 x double bed",
+          "description": "Best available rate\nDOUBLE ROOM 16 SQM BATHTUB GLASS WALL TO BATH\nBest Available Rate incl Breakfast and WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "I1XT5ZAKYU": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "Best available rate\nMEDIUM ROOM KING 21 SQM JENSEN BED 48 SMART TV\nBest Available Rate incl Breakfast and WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "JVQ0JAX7SH": {
+          "name": "Standard room",
+          "description": "Best available rate\nMEDIUM ROOM WITH BALCONY 48 SMART TV 180 CM\nBest Available Rate incl Breakfast and WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "HW7FWP4UK4": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "Best available rate\nLARGE ROOM 25 SQM JENSEN BED KING 48 SMART TV\nBest Available Rate incl Breakfast and WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "Z2MWWRV6RA": {
+          "name": "2 x twin bed",
+          "description": "Best available rate\nLILY DAM SUITE 54 SQM 2 BALCONIES LIVING ROOM\nBest Available Rate incl Breakfast and WIFI",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "HQ57R4HOC9": {
+          "name": "Standard room, 1 x double bed",
+          "description": "GDS non-refundable rate\nSMALL DOUBLE ROOM 11 SQM 32 SMART TV 140 CM BED\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "59LDOIITC2": {
+          "name": "Standard room, 1 x double bed",
+          "description": "GDS non-refundable rate\nSMALL DOUBLE ROOM 15 SQM 48 SMART TV 160 CM\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "DR5Z3H6FNY": {
+          "name": "Standard room, 1 x double bed",
+          "description": "GDS non-refundable rate\nDOUBLE ROOM 16 SQM BATHTUB GLASS WALL TO BATH\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "P4OASVF9K7": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "GDS non-refundable rate\nMEDIUM ROOM KING 21 SQM JENSEN BED 48 SMART TV\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "J5G4Y52GEV": {
+          "name": "Standard room",
+          "description": "GDS non-refundable rate\nMEDIUM ROOM WITH BALCONY 48 SMART TV 180 CM\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "Z724N61TL4": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "GDS non-refundable rate\nLARGE ROOM 25 SQM JENSEN BED KING 48 SMART TV\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "7QPW0HRVQR": {
+          "name": "2 x twin bed",
+          "description": "GDS non-refundable rate\nLILY DAM SUITE 54 SQM 2 BALCONIES LIVING ROOM\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "WVSTOSTU": {
+      "name": "HOTEL DROTTNING KRISTINA STUREPLAN",
+      "type": "hotel",
+      "description": "Staying at our hotel is an experience beyond the ordinary, the rooms and interiors are unique. With only 101 rooms Hotel Stureplan offers an exceptional level of personal service. Our concierge will open doors for you all over town when it comes to restaurants and nightclubs and any type of excursions you wish to take part in while visiting Stockholm.\r\rRoom categories range from Cabin Rooms to Suites and executive floor, Stureplan Living. All rooms have bathrobes, minibar, free wireless internet access, safe, 24 hrs room service, tea & coffee facilities.\r\rWelcome to a hotel where excellent service is the minimum standard.",
+      "rating": "4",
+      "contactInformation": {
+        "phoneNumbers": [
+          "46-8-4406650"
+        ],
+        "emails": [],
+        "address": {
+          "streetAddress": "BIRGER JARLSGATAN 24",
+          "locality": "STOCKHOLM",
+          "postalCode": "11434",
+          "country": "SE"
+        }
+      },
+      "location": {
+        "coordinates": {
+          "latitude": 59.3368,
+          "longitude": 18.07139
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "",
+        "checkoutTime": ""
+      },
+      "otherPolicies": [],
+      "media": [
+        {
+          "type": "MISSING",
+          "width": "MISSING",
+          "height": "MISSING",
+          "url": "http://uat.multimediarepository.testing.amadeus.com/cmr/retrieve/hotel/AE01D9F42C954D87830B5179966D279D"
+        }
+      ],
+      "roomTypes": {
+        "IPXFABKCSE": {
+          "name": "Standard room, 1 x single bed",
+          "description": "Advanced Purchase 10%\nPETIT NEST ROOM FEATHERTOP BED EXCLUSIVE LINEN\nIncludes Breakfast VAT WiFi Gym ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "N7LQR8CSIX": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "Advanced Purchase 10%\nNEST ROOM FEATHERTOP BED EXCLUSIVE LINEN WIFI\nIncludes Breakfast VAT WiFi Gym ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "WP3L1JI9V9": {
+          "name": "Standard room, 1 x queen-size bed",
+          "description": "Advanced Purchase 10%\nSTANDARD QUEEN ROOM FEATHERTOP BED AVAIL\nIncludes Breakfast VAT WiFi Gym ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "0DEDSOPSHX": {
+          "name": "Superior room, 1 x king-size bed",
+          "description": "Advanced Purchase 10%\nSUPERIOR KING ROOM FEATHERTOP BED EXCLUSIVE\nIncludes Breakfast VAT WiFi Gym ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "6K48AVWM3U": {
+          "name": "Deluxe room, 2 x king-size bed",
+          "description": "Advanced Purchase 10%\nDELUXE KING ROOM FEATHERTOP BED EXCLUSIVE LINEN\nIncludes Breakfast VAT WiFi Gym ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "ZZKI1L2JUX": {
+          "name": "1 x king-size bed",
+          "description": "Advanced Purchase 10%\nJUNIOR SUITE FEATHERTOP BED EXCLUSIVE LINEN\nIncludes Breakfast VAT WiFi Gym ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "8BQNOZRTRO": {
+          "name": "Standard room, 1 x single bed",
+          "description": "Daily rate\nPETIT NEST ROOM FEATHERTOP BED EXCLUSIVE LINEN\nBED AND BREAKFAST. NO SMOKING. FREE WIFI. ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "6E9Q2J1YM4": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "Daily rate\nNEST ROOM FEATHERTOP BED EXCLUSIVE LINEN WIFI\nBED AND BREAKFAST. NO SMOKING. FREE WIFI. ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "T14TKLU2KP": {
+          "name": "Standard room, 1 x queen-size bed",
+          "description": "Daily rate\nSTANDARD QUEEN ROOM FEATHERTOP BED AVAIL\nBED AND BREAKFAST. NO SMOKING. FREE WIFI. ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "FTG5W4KNEC": {
+          "name": "Superior room, 1 x king-size bed",
+          "description": "Daily rate\nSUPERIOR KING ROOM FEATHERTOP BED EXCLUSIVE\nBED AND BREAKFAST. NO SMOKING. FREE WIFI. ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "SK61R80SMM": {
+          "name": "Deluxe room, 2 x king-size bed",
+          "description": "Daily rate\nDELUXE KING ROOM FEATHERTOP BED EXCLUSIVE LINEN\nBED AND BREAKFAST. NO SMOKING. FREE WIFI. ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "XV4HO42JM2": {
+          "name": "1 x king-size bed",
+          "description": "Daily rate\nJUNIOR SUITE FEATHERTOP BED EXCLUSIVE LINEN\nBED AND BREAKFAST. NO SMOKING. FREE WIFI. ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "WVSTO421": {
+      "name": "STORY HOTEL SIGNALFABRIKEN",
+      "type": "hotel",
+      "description": "",
+      "rating": "3",
+      "contactInformation": {
+        "phoneNumbers": [
+          "46-8-55809500"
+        ],
+        "emails": [],
+        "address": {
+          "streetAddress": "SUNDBYBERGSTORG 1",
+          "locality": "SUNDBYBERG",
+          "postalCode": "172 67",
+          "country": "SE"
+        }
+      },
+      "location": {
+        "coordinates": {
+          "latitude": 59.33767,
+          "longitude": 18.07964
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "",
+        "checkoutTime": ""
+      },
+      "otherPolicies": [],
+      "media": [
+        {
+          "type": "MISSING",
+          "width": "MISSING",
+          "height": "MISSING",
+          "url": "http://pdt.multimediarepository.testing.amadeus.com/cmr/retrieve/hotel/6D876623934341B48448FD841D5CADFD"
+        }
+      ],
+      "roomTypes": {
+        "O1V4M7O7BI": {
+          "name": "Standard room, 1 x queen-size bed",
+          "description": "Best Available Rate\nDOUBLE ROOM 16 SQM QUEEN BED FREE WIFI TV SAFE\nBEST AVAILABLE RATE INCL BF amp; WIFI Rate incl BF",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "Z3J54AT42F": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "Best Available Rate\nMEDIUM ROOM KING BED 18 SQM FREE WIFI TV SAFE\nBEST AVAILABLE RATE INCL BF amp; WIFI Rate incl BF",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "7ZBRWFVYEH": {
+          "name": "Standard room, 1 x twin bed",
+          "description": "Best Available Rate\nMEDIUM ROOM TWIN 18 SQM FREE WIFI TV SAFE\nBEST AVAILABLE RATE INCL BF amp; WIFI Rate incl BF",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "HIYS2K07RR": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "Best Available Rate\nLARGE ROOM KING BED 25 SQM FREE WIFI TV SAFE\nBEST AVAILABLE RATE INCL BF amp; WIFI Rate incl BF",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "PQU8BEI4YL": {
+          "name": "Standard room, 1 x queen-size bed",
+          "description": "GDS non-refundable rate\nDOUBLE ROOM 16 SQM QUEEN BED FREE WIFI TV SAFE\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "0L0RCX6NB1": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "GDS non-refundable rate\nMEDIUM ROOM KING BED 18 SQM FREE WIFI TV SAFE\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "KSJIL2J19Q": {
+          "name": "Standard room, 1 x twin bed",
+          "description": "GDS non-refundable rate\nMEDIUM ROOM TWIN 18 SQM FREE WIFI TV SAFE\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "SYX2N8W5TU": {
+          "name": "Standard room, 1 x king-size bed",
+          "description": "GDS non-refundable rate\nLARGE ROOM KING BED 25 SQM FREE WIFI TV SAFE\nGDS non-refundable rate Breakfast buffet VAT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "WVSTOBIZ": {
+      "name": "BIZ APARTMENT",
+      "type": "hotel",
+      "description": "",
+      "rating": "4",
+      "contactInformation": {
+        "phoneNumbers": [
+          "46-8-57855300"
+        ],
+        "emails": [],
+        "address": {
+          "streetAddress": "SEHLSTEDTSGATAN 4",
+          "locality": "STOCKHOLM",
+          "postalCode": "11528",
+          "country": "SE"
+        }
+      },
+      "location": {
+        "coordinates": {
+          "latitude": 59.34232,
+          "longitude": 18.06239
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "",
+        "checkoutTime": ""
+      },
+      "otherPolicies": [],
+      "media": [
+        {
+          "type": "MISSING",
+          "width": "MISSING",
+          "height": "MISSING",
+          "url": "http://pdt.multimediarepository.testing.amadeus.com/cmr/retrieve/hotel/73485C3EC1D443C0BDCFC8D950C9DAE9"
+        }
+      ],
+      "roomTypes": {
+        "6TGNKS06WB": {
+          "name": "1 x single bed",
+          "description": "Non refundable -10% ex. breakfast\n1 STD APT 1 SGL BD W KTH \nNRF ex BRF -10% ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "NGKNFLPY2Y": {
+          "name": "1 x single bed",
+          "description": "Non Refundable -10% inc. breakfast\n1 STD APT 1 SGL BD W KTH \nCITY STAY INCLUDES BREAKFAST ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "OACLCZA8L3": {
+          "name": "1 x twin bed",
+          "description": "Non refundable -10% ex. breakfast\n1 STD APT W QUEEN OR TWIN BD KTH \nNRF ex BRF -10% ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "I7WYAW7A23": {
+          "name": "1 x twin bed",
+          "description": "Non Refundable -10% inc. breakfast\n1 STD APT W QUEEN OR TWIN BD KTH \nCITY STAY INCLUDES BREAKFAST ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "2QZMDENICP": {
+          "name": "1 x twin bed",
+          "description": "Non refundable -10% ex. breakfast\n1 STD LAR APT QUEEN OR TWIN BD 1 BD SOFA W KTH \nNRF ex BRF -10% ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "GHZ82R8SF9": {
+          "name": "1 x twin bed",
+          "description": "Non Refundable -10% inc. breakfast\n1 STD LAR APT QUEEN OR TWIN BD 1 BD SOFA W KTH \nCITY STAY INCLUDES BREAKFAST ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "VXG7WR3JHM": {
+          "name": "Superior room, 1 x twin bed",
+          "description": "Non refundable -10% ex. breakfast\n1 BDR SUP APT 1 QUEEN OR TWIN BD W KTH \nNRF ex BRF -10% ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "2JC1L5G838": {
+          "name": "Superior room, 1 x twin bed",
+          "description": "Non Refundable -10% inc. breakfast\n1 BDR SUP APT 1 QUEEN OR TWIN BD W KTH \nCITY STAY INCLUDES BREAKFAST ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "XZPC783V0I": {
+          "name": "2 x twin bed",
+          "description": "Non refundable -10% ex. breakfast\n1 BDR APT QUEEN OR TWIN BD 1 BD SOFA W KTH \nNRF ex BRF -10% ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "4CG1JS8NRP": {
+          "name": "2 x twin bed",
+          "description": "Non Refundable -10% inc. breakfast\n1 BDR APT QUEEN OR TWIN BD 1 BD SOFA W KTH \nCITY STAY INCLUDES BREAKFAST ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "9TP1UAMQJP": {
+          "name": "1 x single bed",
+          "description": "Best Available Rate excl. breakfast\n1 STD APT 1 SGL BD W KTH \nBAR EXC. BRF 10 PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "FW449BSS79": {
+          "name": "1 x single bed",
+          "description": "Best Available Rate inc. breakfast\n1 STD APT 1 SGL BD W KTH \nCITY STAY INCLUDES BREAKFAST 10PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "BRL78KFW76": {
+          "name": "1 x twin bed",
+          "description": "Best Available Rate inc. breakfast\n1 STD APT W QUEEN OR TWIN BD KTH \nCITY STAY INCLUDES BREAKFAST 10PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "2WZRD9HFG0": {
+          "name": "1 x twin bed",
+          "description": "Best Available Rate excl. breakfast\n1 STD APT W QUEEN OR TWIN BD KTH \nBAR EXC. BRF 10 PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "4VD8FM0OUN": {
+          "name": "1 x twin bed",
+          "description": "Best Available Rate excl. breakfast\n1 STD LAR APT QUEEN OR TWIN BD 1 BD SOFA W KTH \nBAR EXC. BRF 10 PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "X5UYS3I7F6": {
+          "name": "1 x twin bed",
+          "description": "Best Available Rate inc. breakfast\n1 STD LAR APT QUEEN OR TWIN BD 1 BD SOFA W KTH \nCITY STAY INCLUDES BREAKFAST 10PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "DHISOWI6BY": {
+          "name": "Superior room, 1 x twin bed",
+          "description": "Best Available Rate inc. breakfast\n1 BDR SUP APT 1 QUEEN OR TWIN BD W KTH \nCITY STAY INCLUDES BREAKFAST 10PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "6W9ZKO1KCW": {
+          "name": "Superior room, 1 x twin bed",
+          "description": "Best Available Rate excl. breakfast\n1 BDR SUP APT 1 QUEEN OR TWIN BD W KTH \nBAR EXC. BRF 10 PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "NPHI3A1MHG": {
+          "name": "2 x twin bed",
+          "description": "Best Available Rate inc. breakfast\n1 BDR APT QUEEN OR TWIN BD 1 BD SOFA W KTH \nCITY STAY INCLUDES BREAKFAST 10PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "8BEQ32M18Y": {
+          "name": "2 x twin bed",
+          "description": "Best Available Rate excl. breakfast\n1 BDR APT QUEEN OR TWIN BD 1 BD SOFA W KTH \nBAR EXC. BRF 10 PCT COMMISSION ",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "ZVA8UUDWV5": {
+          "name": "1 x single bed",
+          "description": "Government rate\n1 STD APT 1 SGL BD W KTH \nGOVERMENT RATE INCL BRFST*FREE WIFI*10DCT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "SIV9GYZH0H": {
+          "name": "1 x twin bed",
+          "description": "Government rate\n1 STD APT W QUEEN OR TWIN BD KTH \nGOVERMENT RATE INCL BRFST*FREE WIFI*10DCT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "Y88CZBU1T3": {
+          "name": "1 x twin bed",
+          "description": "Government rate\n1 STD LAR APT QUEEN OR TWIN BD 1 BD SOFA W KTH \nGOVERMENT RATE INCL BRFST*FREE WIFI*10DCT",
+          "amenities": [],
+          "maximumOccupancy": {
+            "adults": 1
+          },
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "EREVMAX.07119": {
+      "name": "Comfort Hotel Xpress Stockholm Central",
+      "type": "hotel",
+      "description": "The Comfort Hotel Xpress Stockholm Central enjoys a fabulous location right next to Stockholm Central Station. The citys amazing range of restaurants, shops, museums and nightclubs are all within easy reach! This is a cash-free hotel. The Comfort Hotel Xpress Stockholm Central is located within Stockholms World Trade Center, with a direct link to Stockholm Central Station. Stockholms amazing restaurants, shopping, night clubs and sights are all within easy walking distance. If you arrive by car, you can easily park in the parking garage right next door to the hotel.",
+      "location": {
+        "coordinates": {
+          "latitude": "59.33309777",
+          "longitude": "18.05437602"
+        }
+      },
+      "rating": "3",
+      "contactInformation": {
+        "phoneNumbers": [
+          "46 46 8 566 222 00"
+        ],
+        "emails": [
+          "xpress.stockholmcentral@choice.se"
+        ],
+        "address": {
+          "streetAddress": "Kungsbron 1",
+          "premise": "WTC",
+          "locality": "Stockholm",
+          "postalCode": "111 22",
+          "country": "SE"
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {
+        "Legal": "",
+        "Others": "The Comfort Hotel Xpress Stockholm Central is a cash-free hotel. Credit Cards accepted:",
+        "child_policy": "Children up-to 9 years can stay free with existing bed.",
+        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
+        "smoking_policy": "A non smoking hotel",
+        "parking_shuttle": "NIf you arrive by car, we recommend that you park in the garage located in the same building as Comfort Hotel Xpress Stockholm Central. The price is SEK 280 per day, every day of the week.",
+        "pet_policy": "At Comfort Hotel Xpress Stockholm Central we also welcome your four-legged friends. For SEK 250 extra per visit they can stay with you at the hotel. Guide dogs are of course welcome at no extra charge. But remember to tell us when you make your reservation, so that we can find a suitable room for you and your dog"
+      },
+      "media": [
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "683",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/110997074.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "662",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/110998049.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "677",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/161752398.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "678",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/161752404.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "683",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/1.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "678",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/2.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "662",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/3.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "672",
+          "url": "https://s3.amazonaws.com/images.hotels/images/07119/4.jpg"
+        }
+      ],
+      "roomTypes": {
+        "ND": {
+          "name": "Standard, queen bed",
+          "description": "Standard  Double",
+          "amenities": [
+            "Hairdryer",
+            "Large work area",
+            "Shower"
+          ],
+          "size": {
+            "value": "12",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND3.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND4.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36929/ND5.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "Accessible rooms provided on request subject to availability"
+          }
+        },
+        "ND1": {
+          "name": "Superior, twin bed/ king size",
+          "description": "Superior Double",
+          "amenities": [
+            "Hairdryer",
+            "Large work area",
+            "Shower"
+          ],
+          "size": {
+            "value": "20",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_3.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36930/ND1_4.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "All rooms are Accessible rooms"
+          }
+        },
+        "NMD": {
+          "name": "Moderate, No window",
+          "description": "Modrate Double",
+          "amenities": [
+            "Hairdryer",
+            "Large work area",
+            "Shower"
+          ],
+          "size": {
+            "value": "12",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD3.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD4.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "985",
+              "height": "549",
+              "url": "https://s3.amazonaws.com/images.hotels/images/07119/36931/NMD5.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "Accessible rooms provided on request subject to availability"
+          }
+        }
+      }
+    }
+  },
+  "pricePlans": {
+    "S5CZC2RRP3": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "Z99S5EL3P4": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "DTDN2WXUQT": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "1IYDIQVPY1": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "8DAY6FC7IH": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "BVA4JD1WN7": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "QOP42NVDDT": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "EL6OJS3BF2": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "SRXJBWCCTZ": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "JJNP35CYZP": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "7DRU2Q2L2Y": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "NA519GDLT6": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "KS5OX99AN8": {
+      "penalties": []
+    },
+    "FBM6L4D35V": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "1956AVN3GW": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "Q14V52KECO": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "37ZPUK973E": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "25NNBDIYXZ": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "UNGZI1HJV9": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "7YGM3AMCHP": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "7ZUAN64LK1": {
+      "name": "Corporate Rates",
+      "penalties": []
+    },
+    "0VOGAMHRLD": {
+      "name": "Corporate Rates",
+      "penalties": []
+    },
+    "0SRGEV70N4": {
+      "name": "Corporate Rates",
+      "penalties": []
+    },
+    "6UK0L76P87": {
+      "name": "Corporate Rates",
+      "penalties": []
+    },
+    "692U5CW33I": {
+      "name": "Corporate Rates",
+      "penalties": []
+    },
+    "W3QNZLIM1M": {
+      "name": "Corporate Rates",
+      "penalties": []
+    },
+    "R7GB8HYU6M": {
+      "name": "Corporate Rates",
+      "penalties": []
+    },
+    "1CV3MHFZKI": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "HG1NJH8IJA": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "4QH0HPIFK4": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "I1XT5ZAKYU": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "JVQ0JAX7SH": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "HW7FWP4UK4": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "Z2MWWRV6RA": {
+      "name": "SUITE",
+      "penalties": []
+    },
+    "HQ57R4HOC9": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "59LDOIITC2": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "DR5Z3H6FNY": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "P4OASVF9K7": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "J5G4Y52GEV": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "Z724N61TL4": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "7QPW0HRVQR": {
+      "name": "SUITE",
+      "penalties": []
+    },
+    "IPXFABKCSE": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "N7LQR8CSIX": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "WP3L1JI9V9": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "0DEDSOPSHX": {
+      "name": "SUPERIOR_ROOM",
+      "penalties": []
+    },
+    "6K48AVWM3U": {
+      "name": "DELUXE_ROOM",
+      "penalties": []
+    },
+    "ZZKI1L2JUX": {
+      "name": "SUITE",
+      "penalties": []
+    },
+    "8BQNOZRTRO": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "6E9Q2J1YM4": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "T14TKLU2KP": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "FTG5W4KNEC": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "SK61R80SMM": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "XV4HO42JM2": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "O1V4M7O7BI": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "Z3J54AT42F": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "7ZBRWFVYEH": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "HIYS2K07RR": {
+      "name": "Standard RAC Rates",
+      "penalties": []
+    },
+    "PQU8BEI4YL": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "0L0RCX6NB1": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "KSJIL2J19Q": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "SYX2N8W5TU": {
+      "name": "STANDARD_ROOM",
+      "penalties": []
+    },
+    "6TGNKS06WB": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "NGKNFLPY2Y": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "OACLCZA8L3": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "I7WYAW7A23": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "2QZMDENICP": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "GHZ82R8SF9": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "VXG7WR3JHM": {
+      "name": "SUPERIOR_ROOM",
+      "penalties": []
+    },
+    "2JC1L5G838": {
+      "name": "SUPERIOR_ROOM",
+      "penalties": []
+    },
+    "XZPC783V0I": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "4CG1JS8NRP": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "9TP1UAMQJP": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "FW449BSS79": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "BRL78KFW76": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "2WZRD9HFG0": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "4VD8FM0OUN": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "X5UYS3I7F6": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "DHISOWI6BY": {
+      "name": "SUPERIOR_ROOM",
+      "penalties": []
+    },
+    "6W9ZKO1KCW": {
+      "name": "SUPERIOR_ROOM",
+      "penalties": []
+    },
+    "NPHI3A1MHG": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "8BEQ32M18Y": {
+      "name": "RESIDENTIAL_APPARTMENT",
+      "penalties": []
+    },
+    "ZVA8UUDWV5": {
+      "name": "Government Rates",
+      "penalties": []
+    },
+    "SIV9GYZH0H": {
+      "name": "Government Rates",
+      "penalties": []
+    },
+    "Y88CZBU1T3": {
+      "name": "Government Rates",
+      "penalties": []
+    },
+    "BAR": {
+      "name": "Winding Tree BAR",
+      "penalties": {
+        "refund": {
+          "refundable": true
+        }
+      }
+    }
+  },
+  "offers": {
+    "S5CZC2RRP3": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO535",
+          "roomType": "S5CZC2RRP3"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3549,
+        "taxes": 0
+      }
+    },
+    "Z99S5EL3P4": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO535",
+          "roomType": "Z99S5EL3P4"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3969,
+        "taxes": 0
+      }
+    },
+    "DTDN2WXUQT": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO535",
+          "roomType": "DTDN2WXUQT"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4389,
+        "taxes": 0
+      }
+    },
+    "1IYDIQVPY1": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO535",
+          "roomType": "1IYDIQVPY1"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 6069,
+        "taxes": 0
+      }
+    },
+    "8DAY6FC7IH": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO535",
+          "roomType": "8DAY6FC7IH"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 8169,
+        "taxes": 0
+      }
+    },
+    "BVA4JD1WN7": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO535",
+          "roomType": "BVA4JD1WN7"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 7119,
+        "taxes": 0
+      }
+    },
+    "QOP42NVDDT": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "QOP42NVDDT"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2079,
+        "taxes": 0
+      }
+    },
+    "EL6OJS3BF2": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "EL6OJS3BF2"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2646,
+        "taxes": 0
+      }
+    },
+    "SRXJBWCCTZ": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "SRXJBWCCTZ"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2646,
+        "taxes": 0
+      }
+    },
+    "JJNP35CYZP": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "JJNP35CYZP"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3213,
+        "taxes": 0
+      }
+    },
+    "7DRU2Q2L2Y": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "7DRU2Q2L2Y"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3591,
+        "taxes": 0
+      }
+    },
+    "NA519GDLT6": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "NA519GDLT6"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4158,
+        "taxes": 0
+      }
+    },
+    "KS5OX99AN8": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "KS5OX99AN8"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 5859,
+        "taxes": 0
+      }
+    },
+    "FBM6L4D35V": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "FBM6L4D35V"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2310,
+        "taxes": 0
+      }
+    },
+    "1956AVN3GW": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "1956AVN3GW"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2940,
+        "taxes": 0
+      }
+    },
+    "Q14V52KECO": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "Q14V52KECO"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2940,
+        "taxes": 0
+      }
+    },
+    "37ZPUK973E": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "37ZPUK973E"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3570,
+        "taxes": 0
+      }
+    },
+    "25NNBDIYXZ": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "25NNBDIYXZ"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3990,
+        "taxes": 0
+      }
+    },
+    "UNGZI1HJV9": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "UNGZI1HJV9"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4620,
+        "taxes": 0
+      }
+    },
+    "7YGM3AMCHP": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOFRE",
+          "roomType": "7YGM3AMCHP"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 6510,
+        "taxes": 0
+      }
+    },
+    "7ZUAN64LK1": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "7ZUAN64LK1"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3288.6,
+        "taxes": 0
+      }
+    },
+    "0VOGAMHRLD": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "0VOGAMHRLD"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3666.6,
+        "taxes": 0
+      }
+    },
+    "0SRGEV70N4": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "0SRGEV70N4"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4044.6,
+        "taxes": 0
+      }
+    },
+    "6UK0L76P87": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "6UK0L76P87"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4044.6,
+        "taxes": 0
+      }
+    },
+    "692U5CW33I": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "692U5CW33I"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4422.6,
+        "taxes": 0
+      }
+    },
+    "W3QNZLIM1M": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "W3QNZLIM1M"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4422.6,
+        "taxes": 0
+      }
+    },
+    "R7GB8HYU6M": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "R7GB8HYU6M"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 7068.6,
+        "taxes": 0
+      }
+    },
+    "1CV3MHFZKI": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "1CV3MHFZKI"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3654,
+        "taxes": 0
+      }
+    },
+    "HG1NJH8IJA": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "HG1NJH8IJA"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4074,
+        "taxes": 0
+      }
+    },
+    "4QH0HPIFK4": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "4QH0HPIFK4"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4494,
+        "taxes": 0
+      }
+    },
+    "I1XT5ZAKYU": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "I1XT5ZAKYU"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4494,
+        "taxes": 0
+      }
+    },
+    "JVQ0JAX7SH": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "JVQ0JAX7SH"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4914,
+        "taxes": 0
+      }
+    },
+    "HW7FWP4UK4": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "HW7FWP4UK4"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4914,
+        "taxes": 0
+      }
+    },
+    "Z2MWWRV6RA": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "Z2MWWRV6RA"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 7854,
+        "taxes": 0
+      }
+    },
+    "HQ57R4HOC9": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "HQ57R4HOC9"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3288.6,
+        "taxes": 0
+      }
+    },
+    "59LDOIITC2": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "59LDOIITC2"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3666.6,
+        "taxes": 0
+      }
+    },
+    "DR5Z3H6FNY": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "DR5Z3H6FNY"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4044.6,
+        "taxes": 0
+      }
+    },
+    "P4OASVF9K7": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "P4OASVF9K7"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4044.6,
+        "taxes": 0
+      }
+    },
+    "J5G4Y52GEV": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "J5G4Y52GEV"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4422.6,
+        "taxes": 0
+      }
+    },
+    "Z724N61TL4": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "Z724N61TL4"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4422.6,
+        "taxes": 0
+      }
+    },
+    "7QPW0HRVQR": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTO",
+          "roomType": "7QPW0HRVQR"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 7068.6,
+        "taxes": 0
+      }
+    },
+    "IPXFABKCSE": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "IPXFABKCSE"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4233.6,
+        "taxes": 0
+      }
+    },
+    "N7LQR8CSIX": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "N7LQR8CSIX"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4517.1,
+        "taxes": 0
+      }
+    },
+    "WP3L1JI9V9": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "WP3L1JI9V9"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 5084.1,
+        "taxes": 0
+      }
+    },
+    "0DEDSOPSHX": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "0DEDSOPSHX"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 5651.1,
+        "taxes": 0
+      }
+    },
+    "6K48AVWM3U": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "6K48AVWM3U"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 6312.6,
+        "taxes": 0
+      }
+    },
+    "ZZKI1L2JUX": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "ZZKI1L2JUX"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 7257.6,
+        "taxes": 0
+      }
+    },
+    "8BQNOZRTRO": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "8BQNOZRTRO"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 4704,
+        "taxes": 0
+      }
+    },
+    "6E9Q2J1YM4": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "6E9Q2J1YM4"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 5019,
+        "taxes": 0
+      }
+    },
+    "T14TKLU2KP": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "T14TKLU2KP"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 5649,
+        "taxes": 0
+      }
+    },
+    "FTG5W4KNEC": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "FTG5W4KNEC"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 6279,
+        "taxes": 0
+      }
+    },
+    "SK61R80SMM": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "SK61R80SMM"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 7014,
+        "taxes": 0
+      }
+    },
+    "XV4HO42JM2": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOSTU",
+          "roomType": "XV4HO42JM2"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 8064,
+        "taxes": 0
+      }
+    },
+    "O1V4M7O7BI": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO421",
+          "roomType": "O1V4M7O7BI"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2373,
+        "taxes": 0
+      }
+    },
+    "Z3J54AT42F": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO421",
+          "roomType": "Z3J54AT42F"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2793,
+        "taxes": 0
+      }
+    },
+    "7ZBRWFVYEH": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO421",
+          "roomType": "7ZBRWFVYEH"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2793,
+        "taxes": 0
+      }
+    },
+    "HIYS2K07RR": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO421",
+          "roomType": "HIYS2K07RR"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3213,
+        "taxes": 0
+      }
+    },
+    "PQU8BEI4YL": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO421",
+          "roomType": "PQU8BEI4YL"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2135.7,
+        "taxes": 0
+      }
+    },
+    "0L0RCX6NB1": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO421",
+          "roomType": "0L0RCX6NB1"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2513.7,
+        "taxes": 0
+      }
+    },
+    "KSJIL2J19Q": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO421",
+          "roomType": "KSJIL2J19Q"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2513.7,
+        "taxes": 0
+      }
+    },
+    "SYX2N8W5TU": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTO421",
+          "roomType": "SYX2N8W5TU"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2891.7,
+        "taxes": 0
+      }
+    },
+    "6TGNKS06WB": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "6TGNKS06WB"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 1786.05,
+        "taxes": 0
+      }
+    },
+    "NGKNFLPY2Y": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "NGKNFLPY2Y"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 1975.05,
+        "taxes": 0
+      }
+    },
+    "OACLCZA8L3": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "OACLCZA8L3"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2069.55,
+        "taxes": 0
+      }
+    },
+    "I7WYAW7A23": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "I7WYAW7A23"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2258.55,
+        "taxes": 0
+      }
+    },
+    "2QZMDENICP": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "2QZMDENICP"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2353.05,
+        "taxes": 0
+      }
+    },
+    "GHZ82R8SF9": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "GHZ82R8SF9"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2542.05,
+        "taxes": 0
+      }
+    },
+    "VXG7WR3JHM": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "VXG7WR3JHM"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2825.55,
+        "taxes": 0
+      }
+    },
+    "2JC1L5G838": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "2JC1L5G838"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3014.55,
+        "taxes": 0
+      }
+    },
+    "XZPC783V0I": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "XZPC783V0I"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2636.55,
+        "taxes": 0
+      }
+    },
+    "4CG1JS8NRP": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "4CG1JS8NRP"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2825.55,
+        "taxes": 0
+      }
+    },
+    "9TP1UAMQJP": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "9TP1UAMQJP"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 1984.5,
+        "taxes": 0
+      }
+    },
+    "FW449BSS79": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "FW449BSS79"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2194.5,
+        "taxes": 0
+      }
+    },
+    "BRL78KFW76": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "BRL78KFW76"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2509.5,
+        "taxes": 0
+      }
+    },
+    "2WZRD9HFG0": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "2WZRD9HFG0"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2299.5,
+        "taxes": 0
+      }
+    },
+    "4VD8FM0OUN": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "4VD8FM0OUN"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2614.5,
+        "taxes": 0
+      }
+    },
+    "X5UYS3I7F6": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "X5UYS3I7F6"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2824.5,
+        "taxes": 0
+      }
+    },
+    "DHISOWI6BY": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "DHISOWI6BY"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3349.5,
+        "taxes": 0
+      }
+    },
+    "6W9ZKO1KCW": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "6W9ZKO1KCW"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3139.5,
+        "taxes": 0
+      }
+    },
+    "NPHI3A1MHG": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "NPHI3A1MHG"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 3139.5,
+        "taxes": 0
+      }
+    },
+    "8BEQ32M18Y": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "8BEQ32M18Y"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2929.5,
+        "taxes": 0
+      }
+    },
+    "ZVA8UUDWV5": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "ZVA8UUDWV5"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 1975.05,
+        "taxes": 0
+      }
+    },
+    "SIV9GYZH0H": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "SIV9GYZH0H"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2258.55,
+        "taxes": 0
+      }
+    },
+    "Y88CZBU1T3": {
+      "pricePlansReferences": {
+        "id": {
+          "accommodation": "WVSTOBIZ",
+          "roomType": "Y88CZBU1T3"
+        }
+      },
+      "price": {
+        "currency": "SEK",
+        "public": 2542.05,
+        "taxes": 0
+      }
+    },
+    "23206d5b-dc76-4643-8d41-608d3e6e2b71": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "EREVMAX.07119",
+          "roomType": "ND"
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": 177.03,
+        "taxes": 0
+      }
+    },
+    "d8296561-50ff-474e-8b96-bf3d9c826dd1": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "EREVMAX.07119",
+          "roomType": "ND1"
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": 202.61,
+        "taxes": 0
+      }
+    },
+    "a6af452d-aaa9-46d8-98a8-2ac849b3bc55": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "EREVMAX.07119",
+          "roomType": "NMD"
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": 141.21,
+        "taxes": 0
+      }
+    }
+  },
+  "passengers": {
+    "PAX1": {
+      "type": "ADT"
+    }
+  },
+  "metadata": {
+    "uuid": "f09cc37d-0e47-4423-9c49-29455729dc27",
+    "timestamp": "2020-12-09T17:15:12.087Z",
+    "numberOfOffers": 87
+  }
+}

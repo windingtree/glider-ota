@@ -1,0 +1,177 @@
+{
+  "accommodations": {
+    "EREVMAX.04393": {
+      "name": "Clarion Hotel The Hub",
+      "type": "hotel",
+      "description": "Clarion Hotel The Hub offers an organic breakfast buffet, free WiFi and free sauna, steam bath and swimming pool access. Clarion Hotel The Hub is a certified environmental-friendly hotel with its own urban garden Grow Hub. All rooms have air-conditioning, cable TV and a tea/coffee maker. Scandinavian inspired dishes and sustainable food can be enjoyed under the high glass roof of the à la carte Restaurant Norda on the top floor, with a concept by the famed chef Marcus Samuelsson. In summer, the terrace is a nice place for afternoon coffee or evening cocktails. Clarion Hotel The Hub has 24 meeting rooms with a capacity of up to 1850 people, including 10 boardrooms and a VIP room of 80 square metres. A 180 square metres gym is also available.",
+      "location": {
+        "coordinates": {
+          "latitude": "59.91207189",
+          "longitude": "10.75123385"
+        }
+      },
+      "rating": "4",
+      "contactInformation": {
+        "phoneNumbers": [
+          "47 47 950 65 554"
+        ],
+        "emails": [
+          "cl.thehub@choice.no"
+        ],
+        "address": {
+          "streetAddress": "Biskop Gunnerus Gate 3",
+          "premise": "Karl Johans Gate",
+          "locality": "Oslo",
+          "postalCode": "0155",
+          "country": "NO"
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {
+        "Legal": "",
+        "child_policy": "Children of any age are welcome. Children aged 18 years and above are considered adults at this property.",
+        "Others Not Allowed": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
+        "Terms & Condition": "Guests are required to show a photo identification and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
+        "smoking_policy": "Non smoking throughout.",
+        "parking_shuttle": "NOnsite free parking.",
+        "pet_policy": "Pets not allowed."
+      },
+      "media": [
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "564",
+          "url": "https://s3.amazonaws.com/images.hotels/images/04393/ClarionHotelTheHub1.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "667",
+          "url": "https://s3.amazonaws.com/images.hotels/images/04393/ClarionHotelTheHub2.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "683",
+          "url": "https://s3.amazonaws.com/images.hotels/images/04393/ClarionHotelTheHub3.jpg"
+        },
+        {
+          "type": "photo",
+          "width": "1024",
+          "height": "683",
+          "url": "https://s3.amazonaws.com/images.hotels/images/04393/ClarionHotelTheHub4.jpg"
+        }
+      ],
+      "roomTypes": {
+        "ND": {
+          "name": "Standard Room",
+          "description": "Our standard double rooms (from 19 sqm) feature a double bed (160cm) or two single beds (2x105cm).",
+          "amenities": [],
+          "size": {
+            "value": "19",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [
+            {
+              "type": "photo",
+              "width": "1024",
+              "height": "683",
+              "url": "https://s3.amazonaws.com/images.hotels/images/04393/37227/Standard1.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "1024",
+              "height": "682",
+              "url": "https://s3.amazonaws.com/images.hotels/images/04393/37227/Standard2.jpg"
+            },
+            {
+              "type": "photo",
+              "width": "1024",
+              "height": "655",
+              "url": "https://s3.amazonaws.com/images.hotels/images/04393/37227/Standard3.jpg"
+            }
+          ],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "Accessible rooms provided on request subject to availability"
+          }
+        },
+        "ND1": {
+          "name": "Superior  Room",
+          "description": "Our superior double rooms are nice and spacious and feature a double bed (160cm) with luxury duvets and pillows.",
+          "amenities": [
+            "Newspaper"
+          ],
+          "size": {
+            "value": "24",
+            "_unit_": "Sq.M."
+          },
+          "maximumOccupancy": {
+            "adults": "2",
+            "childs": "1"
+          },
+          "media": [],
+          "policies": {
+            "smoking_policy": "non-Smoking",
+            "accessibility_policy": "Accessible rooms provided on request subject to availability"
+          }
+        }
+      }
+    }
+  },
+  "pricePlans": {
+    "BAR": {
+      "name": "Winding Tree BAR",
+      "penalties": {
+        "refund": {
+          "refundable": false
+        }
+      }
+    }
+  },
+  "offers": {
+    "323a28d9-fd99-40bc-8efc-c18e32980c86": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "EREVMAX.04393",
+          "roomType": "ND"
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": 171.93,
+        "taxes": 0
+      }
+    },
+    "b8bda515-de72-4798-946c-f20e8f93b217": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "EREVMAX.04393",
+          "roomType": "ND1"
+        }
+      },
+      "price": {
+        "currency": "EUR",
+        "public": 201.57,
+        "taxes": 0
+      }
+    }
+  },
+  "passengers": {
+    "PAX1": {
+      "type": "ADT"
+    }
+  },
+  "metadata": {
+    "uuid": "43b4b888-7fcc-4571-8289-5c8a7ee53401",
+    "timestamp": "2020-12-11T08:43:34.092Z",
+    "numberOfOffers": 2
+  }
+}

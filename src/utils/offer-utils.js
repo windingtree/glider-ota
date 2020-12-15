@@ -1,5 +1,5 @@
 
-import {parseISO,differenceInHours,differenceInMinutes} from "date-fns";
+import {parseISO, differenceInHours, differenceInMinutes, differenceInBusinessDays, format} from "date-fns";
 import airportToCityMap from "../data/airport-city-map";
 
 
@@ -30,6 +30,12 @@ export default class OfferUtils {
     const arrival = parseISO(prevSegment.arrivalTimeUtc);
     const departure = parseISO(nextSegment.departureTimeUtc);
     return  differenceInMinutes(departure, arrival);
+  }
+  static calculateStayBetweenTripsInBusinessDays (outboundItinerary, returnItinerary) {
+    let arrivalToDestination = OfferUtils.getItineraryArrivalDate(outboundItinerary)
+    let departureFromDestination = OfferUtils.getItineraryDepartureDate(returnItinerary)
+
+    return differenceInBusinessDays(departureFromDestination,arrivalToDestination)
   }
 
   static getOutboundItinerary (combination) {
@@ -121,7 +127,7 @@ export default class OfferUtils {
     return iataToAirportName(lastSegment.destination.iataCode);
   }
   static getItineraryDepartureAirportCode(itinerary){
-    let firstSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
+    let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
     return firstSegment.origin.iataCode;
   }
   static getItineraryArrivalAirportCode(itinerary){
@@ -162,3 +168,44 @@ export function iataToAirportName(iata){
 }
 
 
+
+
+
+/**
+ * Format date (param) to a string using specified format.
+ *
+ * @param date Date object or string (if it's string - function will try to parse date)
+ * @param formatString
+ * @returns {string}
+ */
+export function safeDateFormat(date, formatString) {
+  let result = '';
+  try{
+    let dateObj = date;
+    if(typeof date === 'string'){
+      dateObj=parseISO(date);
+    }
+    result = format(dateObj, formatString);
+  }catch(err){
+    console.warn()
+  }
+  return result;
+}
+
+/**
+ * Convert date from str to Date (or do nothing if it's already date)
+ * @param date
+ * @returns {Date|*}
+ */
+export function ensureDateObj(date) {
+  if(typeof date === 'string'){
+    return parseISO(date);
+  }
+  return date;
+
+}
+
+export function isSameDay(date1, date2) {
+  let d1=ensureDateObj(date1);
+  let d2=ensureDateObj(date2);
+}

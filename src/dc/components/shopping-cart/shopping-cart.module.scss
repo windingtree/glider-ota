@@ -1,0 +1,61 @@
+@import 'src/styles/mixins';
+
+
+.cartContainer{
+  background: $glider-color-primary-background;
+  border-radius: 8px;
+}
+
+.cartHeader{
+  @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
+  padding: 20px 20px 0 20px;
+}
+
+.subtotalItem{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal)
+}
+
+.totalItem{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal)
+}
+
+.hotelItemHotelImage{
+    width: 100%;
+    height: 100%;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.hotelItemHotelName {
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal)
+}
+.hotelItemRoomName {
+  @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-normal)
+}
+
+.flightOfferWrapper {
+  padding: 0 20px 0 20px;
+}
+
+.flightOfferBottomWrapper {
+  padding: 0 20px 20px 20px;
+}
+
+.bookHotelLink {
+  text-align: center;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  color: #543CE2;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+
+.debugLinks{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+}

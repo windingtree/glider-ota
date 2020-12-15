@@ -1,0 +1,25 @@
+@import 'src/styles/mixins';
+
+.header{
+  @include g-font($g-fontsize-xl, $g-color-black, $g-fontweight-bold);
+  padding-bottom: 40px;
+  padding-top: 60px;
+}
+
+.note{
+  @include _glider-font-text18;
+  color: $glider-color-text;
+  padding-bottom: 40px;
+}
+
+.footnote{
+  @include _glider-font-text16;
+  color: $glider-color-text;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.warning{
+  @include _glider-font-filtercategories13;
+  color: $glider-color-text;
+}

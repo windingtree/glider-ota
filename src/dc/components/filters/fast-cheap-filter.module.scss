@@ -1,0 +1,28 @@
+@import 'src/styles/mixins';
+
+
+
+/*toggle buttons on top of the main page to select search type (flights or hotelresults)*/
+.fastCheapFilterContainer{
+  width:100%;
+  margin: auto;
+}
+
+
+.fastCheapFilterToggle {
+  width:100%;
+  margin: auto;
+  padding-top: 20px;
+  @include glider-media-medium_768 {
+    width: 620px;
+  }
+}
+
+.fastCheapFilterToggleBtnCheapest {
+  display: block;
+  width: 100%;
+}
+.fastCheapFilterToggleBtnFastest {
+  display: block;
+  width: 100%;
+}

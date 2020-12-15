@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import LookupField from "./lookup-field";
 import {fetchGet} from "../../utils/api-utils";
 
-
 export function AirportLookup({initialLocation, onSelectedLocationChange, placeHolder, label, localstorageKey}) {
     const [searchResults, setSearchResults] = useState([]);
 

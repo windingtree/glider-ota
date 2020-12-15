@@ -68,11 +68,12 @@ const storeOfferToOrgIdMapping = async (validResults) => {
     let offersMetadata = [];
     validResults.forEach(result => {
         let {endpoint, data} = result;
-        let offers = data.offers;
+        let {offers,passengers} = data;
         Object.keys(offers).forEach(offerId=>{
             let offerMetadata = {
                 endpoint:endpoint,
-                offerId:offerId
+                offerId:offerId,
+                passengers:passengers
             }
             offersMetadata.push(offerMetadata)
         })
@@ -84,6 +85,7 @@ async function searchOffersUsingEndpoint (criteria, endpoint, timeout) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint).SEARCH_OFFERS_URL;
     console.log('Searching with URL:',url, 'JWT:',jwt)
+    console.log('JWT:',jwt)
 
     let response = await axios({
             method: 'post',
@@ -107,6 +109,7 @@ async function createWithOffer(criteria, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint).CREATE_WITH_OFFER_URL;
     console.log('Creating order with URL:',url, 'JWT:',jwt)
+    console.log('JWT:',jwt)
 
     let response = await axios({
         method: 'post',
@@ -126,10 +129,6 @@ async function seatmap(offerId, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint,offerId).SEATMAP_URL;
     console.log('Retrieve seatmap with URL:',url, 'JWT:',jwt)
-
-
-    let urlWithOfferId = urlTemplate.replace("{offerId}", offerId);
-    logger.debug("Seatmap URL:[%s]", urlWithOfferId);
     let response = await axios({
         method: 'get',
         url: url,

@@ -1,0 +1,31 @@
+@import '../../../styles/mixins';
+
+.addButtonActive{
+  @include g-font($g-fontsize-l,$g-color-primary,$g-fontweight-normal);
+}
+
+.addButtonInactive{
+  @include g-font($g-fontsize-l,$g-color-darkgrey,$g-fontweight-normal);
+  pointer-events: none;
+}
+
+.priceActive{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal);
+}
+.priceInactive{
+  @include g-font($g-fontsize-xl,$g-color-darkgrey,$g-fontweight-normal);
+}
+
+.priceRow {
+  padding-bottom: 1rem;
+}
+
+.priceWrapper {
+  padding-left: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.addButtonWrapper {
+  padding-right: 40px;
+}

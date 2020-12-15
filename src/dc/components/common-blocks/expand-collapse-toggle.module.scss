@@ -1,0 +1,20 @@
+@import '../../../styles/mixins';
+
+.toggle{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+}
+.toggle:active{
+  text-decoration: none;
+}
+.toggle:hover{
+  text-decoration: none;
+}
+
+.bigred{
+  font-size: 50px;
+  color:red;
+}
+.bigred:active{
+  color:red;
+  text-decoration: none;
+}

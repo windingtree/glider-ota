@@ -13,6 +13,7 @@ const createTokenForProvider = async (orgId) => {
     return await createToken(ORGID.OTA_ORGID,orgId,'2hr',ORGID.OTA_PRIVATE_KEY,'api');
 }
 
+let GRAPH_URL = 'https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten';
 
 /**
  * Run a query on thegraph.com API with a query provided as a parameter.
