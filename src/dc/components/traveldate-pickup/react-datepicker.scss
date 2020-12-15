@@ -10,7 +10,7 @@
     border-top-right-radius: 0;
     padding-top: 8px;
     position: relative;
-    //@include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal, $g-lineheight-20);
+    @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal, $g-lineheight-20);
     font-family: $g-fontfamily;
     //font-size: 16px;
     //line-height: 20px;

@@ -18,7 +18,7 @@ import {
     flightSearchResultsSelector,
     flightsErrorSelector,
     requestSearchResultsRestoreFromCache, isStoreInitialized
-} from '../../../redux/sagas/shopping';
+} from '../../../redux/sagas/shopping-flow-store';
 import Spinner from "../../../components/common/spinner";
 
 

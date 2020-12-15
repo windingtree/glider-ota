@@ -4,23 +4,29 @@ import TripRates from "./fare-families/flight-rates";
 
 import {useHistory} from "react-router-dom";
 import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
-import {storeSelectedOffer} from "../../../utils/api-utils";
 import _ from 'lodash';
 import Button from "react-bootstrap/Button";
-import {addFlightToCartAction, flightOfferSelector, flightResultsSelector} from "../../../redux/sagas/cart";
+import {
+    addFlightToCartAction,
+    flightOfferSelector, isShoppingCartUpdateInProgress,
+    requestCartRestoreFromServer
+} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
-import DevConLayout from "../layout/devcon-layout";
-import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
+import {
+    flightSearchResultsSelector, isShoppingResultsRestoreInProgressSelector,
+    requestSearchResultsRestoreFromCache
+} from "../../../redux/sagas/shopping-flow-store";
+import Spinner from "../common/spinner";
 
 
-export  function AncillariesSelectionContent({offerId, searchResults, setSelectedOffer}) {
+export  function AncillariesSelectionContent({offerId, flightSearchResults, setSelectedOffer, restoreCartFromServer, restoreSearchResultsFromCache, workInProgress}) {
     let history = useHistory();
     let searchResultsWrapper;
     let tripRates;
     let selectedOffer;
-
-    if(searchResults){
-        searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
+    console.log('AncillariesSelectionContent, offerId',offerId, 'flightSearchResults is null?',(!flightSearchResults), ' workInProgress=',workInProgress)
+    if(flightSearchResults){
+        searchResultsWrapper = new FlightSearchResultsWrapper(flightSearchResults);
         tripRates = searchResultsWrapper.generateTripRatesData(offerId);
         selectedOffer = tripRates.offers[offerId]
     }
@@ -34,39 +40,59 @@ export  function AncillariesSelectionContent({offerId, searchResults, setSelecte
         let url='/dc/seatmap';
         history.push(url);
     }
+    const syncInProgressSpinner = () => {
+        return (
+            <div>
+                <Spinner enabled={true}/>
+                <span>Please wait</span>
+            </div>
+        );
+
+    }
 
     function handleOfferChange(offerId){
-        if(!searchResultsWrapper)
-            return;
+        setSelectedOffer(offerId);
+        // if(!searchResultsWrapper)
+        //     return;
 
-        let offer=searchResultsWrapper.getOffer(offerId);
+        // let offer=searchResultsWrapper.getOffer(offerId);
         // offerId,offer,price,itineraries
-        let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
-        let price = offer.price;
-        setSelectedOffer(offerId,offer,price,itineraries);
-        let results = storeSelectedOffer(offer);
+        setSelectedOffer(offerId);
+        /*let results = storeSelectedOffer(offer);    //FIXME - unnecessary since it's already in shopping cart
         results.then((response) => {
         }).catch(err => {
             console.error("Failed to add selecteed offer to a shopping cart", err);
             //TODO - add proper error handling (show user a message)
-        })
+        })*/
     }
 
 
-    //store initially selected offerID in cart
+/*    //store initially selected offerID in cart
     useEffect(()=>{
         handleOfferChange(offerId)
+    },[])*/
+
+
+    useEffect(()=>{
+        if(!offerId){
+            restoreCartFromServer();
+        }
+        if(!flightSearchResults){
+            restoreSearchResultsFromCache();
+        }
     },[])
 
-    if(!searchResults){
-        return (<></>)
+    if(!flightSearchResults){
+        return (<>
+            {workInProgress===true && syncInProgressSpinner()}
+        </>)
     }
 
     return (
         <>
             <div>
                 <div className='root-container-subpages'>
-
+                    {workInProgress===true && syncInProgressSpinner()}
                     <FareFamilies
                         tripRates={tripRates}
                         selectedOffer={selectedOffer}  onSelectedOfferChange={handleOfferChange}/>
@@ -134,15 +160,22 @@ const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
 
 
 const mapStateToProps = state => ({
-    searchResults:flightResultsSelector(state),
+    flightSearchResults:flightSearchResultsSelector(state),
     offerId: flightOfferSelector(state)?flightOfferSelector(state).offerId:undefined,
+    workInProgress: isShoppingResultsRestoreInProgressSelector(state) || isShoppingCartUpdateInProgress(state)
 });
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setSelectedOffer: (offerId,offer,price,itineraries) =>{
-            dispatch(addFlightToCartAction(offerId,offer,price,itineraries));
+        setSelectedOffer: (offerId) =>{
+            dispatch(addFlightToCartAction(offerId));
+        },
+        restoreCartFromServer: () => {
+            dispatch(requestCartRestoreFromServer())
+        },
+        restoreSearchResultsFromCache: ()=>{
+            dispatch(requestSearchResultsRestoreFromCache())
         }
     }
 }
