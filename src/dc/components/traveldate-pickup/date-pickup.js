@@ -20,7 +20,7 @@ export default function DatePickup({initialDate,onDateChanged,placeholder = 'Dep
         }
     };
 
-    const inputElem = (<CustomInput date={startDate}/>)
+    const inputElem = (<CustomInput date={startDate} placeholderText="Click to select a date" />)
 
     return (
         <>
@@ -39,14 +39,20 @@ export default function DatePickup({initialDate,onDateChanged,placeholder = 'Dep
 };
 
 
-const CustomInput = ({value, date, onClick}) => {
-    let textToDisplay='';
+const CustomInput = ({value, date, onClick, placeholderText}) => {
+    let textToDisplay='1';
     if(date)
         textToDisplay = formatDate(date);
 
     return (
         <>
-          <Form.Control type="text" placeholder="" onFocus={onClick} value={textToDisplay} className={style.inputField}/>
+            <Form.Control
+                type="text"
+                placeholder={placeholderText}
+                onFocus={onClick}
+                value={textToDisplay}
+                className={style.inputField}
+            />
         </>
     )
 };
