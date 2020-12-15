@@ -164,9 +164,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setSelectedOffer: (offerId,offer,price,itineraries) =>{
-            dispatch(addFlightToCartAction(offerId,offer,price,itineraries));
-        },
         onRestoreSearchResults: () =>{
             dispatch(requestSearchResultsRestoreFromCache());
         }

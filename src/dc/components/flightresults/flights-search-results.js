@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {config} from "../../../config/default";
 import style from './flights-search-results.module.scss'
 import {
@@ -17,7 +17,7 @@ import {
     isFlightSearchFormValidSelector,
     flightSearchResultsSelector,
     flightsErrorSelector,
-    requestSearchResultsRestoreFromCache
+    requestSearchResultsRestoreFromCache, isStoreInitialized
 } from '../../../redux/sagas/shopping';
 import Spinner from "../../../components/common/spinner";
 
@@ -25,10 +25,17 @@ import Spinner from "../../../components/common/spinner";
 const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;
 
 //Component to display flight search results
-export function FlightsSearchResults({searchResults,filters, isSearchFormValid, onOfferDisplay, onSearchClicked, searchInProgress, error, onRestoreFromCache}) {
+export function FlightsSearchResults({searchResults,filters, isSearchFormValid, onOfferDisplay, onSearchClicked, searchInProgress, error, onRestoreFromCache, isStoreInitialized, onRestoreResultsFromCache}) {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortType, setSortType] = useState('PRICE');
-    console.log('isSearchFormValid:',isSearchFormValid)
+
+    useEffect(()=>{
+        if(!isStoreInitialized)
+            onRestoreResultsFromCache();
+    },[])
+
+
+
     //called when user clicked on a specific offer
     function handleOfferDisplay(offerId) {
         if(onOfferDisplay) {
@@ -62,6 +69,7 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
             endIdx = totalCount;
         return records.slice(startIdx, endIdx)
     }
+
 
     let trips = [];
     let totalResultsCount=0;
@@ -106,6 +114,7 @@ const mapStateToProps = state => ({
     searchInProgress: isFlightSearchInProgressSelector(state),
     searchResults: flightSearchResultsSelector(state),
     isSearchFormValid: isFlightSearchFormValidSelector(state),
+    isStoreInitialized: isStoreInitialized(state),
     error:flightsErrorSelector(state)
 });
 
@@ -116,6 +125,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onOfferDisplay: () => {
             dispatch(searchForFlightsAction())
+        },
+        onRestoreResultsFromCache: () => {
+            dispatch(requestSearchResultsRestoreFromCache())
         },
     }
 }

@@ -1,11 +1,14 @@
 import { createSelector } from 'reselect';
-
-import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
-import dummyResults from "../../dc/components/storybook-utils/mock-data/flight_search_BOGMIA.json";
+import { all, call, put, takeEvery, select} from 'redux-saga/effects';
 import {
     shoppingStateSelector
 } from "./shopping";
-import {storeItemInCart, retrieveItemFromCart} from "../../utils/api-utils"
+import {storeItemInCart, retrieveItemFromCart, storeOfferId, retrieveCart} from "../../utils/api-utils"
+
+/**
+ * Shopping cart & booking flow store
+ */
+
 export const moduleName = 'cart';
 
 //cart related actions
@@ -31,8 +34,7 @@ const initialState = {
     hotelOffer: null,
     error:null,
     paxSearchCriteria:null,
-    isCartSynced:false,
-
+    isUpdateInProgress:false,
     passengers:null
 };
 
@@ -51,29 +53,25 @@ export default (state = initialState, action) => {
             });
         case ADD_FLIGHT_TO_CART:
             return Object.assign({}, state, {
-                flightOffer:payload.flightOffer,
-                isCartSynced:false,
+                isUpdateInProgress: true
             });
         case ADD_HOTEL_TO_CART:
             return Object.assign({}, state, {
-                hotelOffer:payload.hotelOffer,
-                isCartSynced:false,
+                isUpdateInProgress: true
             });
         case DELETE_FLIGHT_FROM_CART:
             return Object.assign({}, state, {
-                flightOffer:null,
-                isCartSynced:false,
+                isUpdateInProgress: true
             });
         case DELETE_HOTEL_FROM_CART:
             return Object.assign({}, state, {
-                hotelOffer: null,
-                isCartSynced:false,
+                isUpdateInProgress: true
             });
         case RESTORE:
             return Object.assign({}, state, {
                 flightOffer: payload.flightOffer,
                 hotelOffer: payload.hotelOffer,
-                isCartSynced:true
+                isUpdateInProgress: false,
             });
         case BOOK:
             return state;
@@ -90,29 +88,29 @@ export default (state = initialState, action) => {
 
 // Actions
 
-export const addFlightToCartAction = (offerId, offer, price, itineraries) => {
-    console.log('addFlightToCartAction')
+export const addFlightToCartAction = (offerId) => {
     const flightOffer = {
-        offerId:offerId, offer:offer, price:price, itineraries:itineraries
+        offerId:offerId
     }
     return {
         type: ADD_FLIGHT_TO_CART,
         payload: {
+            offerId:offerId,
+            type:'TRANSPORTATION_OFFER',
             flightOffer:flightOffer
         }
     }
 };
 
-export const addHotelToCartAction = (offerId, room, hotel, price) => {
+export const addHotelToCartAction = (offerId) => {
     const hotelOffer = {
-        offerId:offerId,
-        price:price,
-        room: room,
-        hotel: hotel
+        offerId:offerId
     }
     return {
         type: ADD_HOTEL_TO_CART,
         payload: {
+            offerId:offerId,
+            type:'ACCOMMODATION_OFFER',
             hotelOffer:hotelOffer
         }
     }
@@ -129,7 +127,6 @@ export const deleteHotelFromCart = () => {
 };
 
 export const bookAction = () => {
-    console.log('bookAction')
     return {
         type: BOOK
     }
@@ -137,21 +134,18 @@ export const bookAction = () => {
 
 
 export const storeCartOnServerAction = () => {
-    console.log('storeCartOnServerAction')
     return {
         type: STORE_CART_ON_SERVER
     }
 };
 
 export const restoreCartFromServerAction = () => {
-    console.log('restoreCartFromServerAction')
     return {
         type: RESTORE_CART_FROM_SERVER
     }
 };
 
 export const restoreCartAction = (flightOffer, hotelOffer) => {
-    console.log('restoreCart')
     return {
         type: RESTORE,
         payload: {
@@ -199,6 +193,11 @@ export const flightResultsSelector = createSelector(
     ({flightSearchResults}) => flightSearchResults
 );
 
+export const isUpdateInProgressSelector = createSelector(
+    shoppingStateSelector,
+    ({isUpdateInProgress}) => isUpdateInProgress
+);
+
 
 //logic to store/retrieve cart to/from server side
 const storeCartOnServerSide = async (itemsInCart) => {
@@ -213,7 +212,6 @@ const restoreCartFromServerSide = async () => {
 //saga
 
 function* storeCartOnServerSideSaga() {
-    console.log('*storeCartOnServerSideSaga')
     try {
         // yield put(searchForFlightsAction());
         const data = yield select(storeToSyncSelector);
@@ -227,16 +225,42 @@ function* storeCartOnServerSideSaga() {
 function* restoreCartFromServerSideSaga() {
     console.log('*restoreCartFromServerSideSaga')
     try {
-        const data = yield call(restoreCartFromServerSide);
-        if(data){
-            // yield restoreCartAction(data);
-            const {flightOffer, hotelOffer} = data;
-            yield put(restoreCartAction(flightOffer, hotelOffer))
+        const itemsInCart = yield call(retrieveCart);
+        console.log('Response from itemsInCart:',itemsInCart)
+        let flightOffer=null;
+        let hotelOffer=null;
+        if(itemsInCart && itemsInCart.items){
+            let items = itemsInCart.items;
+            flightOffer = items['TRANSPORTATION_OFFER'] ? items['TRANSPORTATION_OFFER'].item:null;
+            hotelOffer = items['ACCOMMODATION_OFFER'] ? items['ACCOMMODATION_OFFER'].item:null;
         }
+        yield put(restoreCartAction(flightOffer, hotelOffer))
 
     } catch (error) {
         console.log('*restoreCartFromServerSideSaga failed, error:',error)
         yield put(errorAction(error))
+    }
+}
+
+function* addOfferIdToCart({payload}) {
+    console.log('*addOfferIdToCart, payload=',payload)
+    try {
+        const {offerId, type} = payload;
+        const data = yield call(storeOfferId, offerId, type );
+        console.log('Response from add to cart:',data)
+        const itemsInCart = yield call(retrieveCart);
+        console.log('Response from itemsInCart:',itemsInCart)
+        let flightOffer=null;
+        let hotelOffer=null;
+        if(itemsInCart && itemsInCart.items){
+            let items = itemsInCart.items;
+             flightOffer = items['TRANSPORTATION_OFFER'] ? items['TRANSPORTATION_OFFER'].item:null;
+             hotelOffer = items['ACCOMMODATION_OFFER'] ? items['ACCOMMODATION_OFFER'].item:null;
+        }
+        yield put(restoreCartAction(flightOffer, hotelOffer))
+    } catch (error) {
+        console.log('*restoreCartFromServerSideSaga failed, error:',error)
+        // yield put(errorAction(error))
     }
 }
 
@@ -245,6 +269,8 @@ function* restoreCartFromServerSideSaga() {
 export const saga = function*() {
     yield all([
         takeEvery(STORE_CART_ON_SERVER, storeCartOnServerSideSaga),
+        takeEvery(ADD_FLIGHT_TO_CART, addOfferIdToCart),
+        takeEvery(ADD_HOTEL_TO_CART, addOfferIdToCart),
         takeEvery(RESTORE_CART_FROM_SERVER, restoreCartFromServerSideSaga)
     ]);
 };

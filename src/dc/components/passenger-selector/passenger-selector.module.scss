@@ -3,7 +3,7 @@
 .paxSelector {
   height: 40px;
   box-sizing: border-box;
-  border: 1px solid $glider-color-text-background;
+  border: 1px solid $glider-color-inputfields-border;
   background-color: $glider-color-inputfields-background;
   border-radius: 8px;
   margin: 0px 4px;
@@ -14,7 +14,8 @@
   width: 100%;
   height: 100%;
   border-radius: 5px;
-  border: 0px;
+  text-align: left;
+  padding-left: 20px;
   box-sizing: border-box;
   @include _glider-font-regular18;
   color: $glider-color-inputfields-text;
@@ -105,7 +106,6 @@
 }
 
 .label{
-  color: $glider-color-text-labels;
+  @include g-font($g-fontsize-xs,$glider-color-text-labels,$g-fontweight-normal);
   margin-left: 1px;
-  font-size: $glider-font-size-xs;
 }

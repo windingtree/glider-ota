@@ -4,7 +4,14 @@ import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
 import {Col, Image, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import classNames from 'classnames/bind';
-import {bookAction, storeCartOnServerAction,restoreCartFromServerAction, errorSelector, flightOfferSelector, hotelOfferSelector} from "../../../redux/sagas/cart";
+import {
+    bookAction,
+    restoreCartFromServerAction,
+    errorSelector,
+    flightOfferSelector,
+    hotelOfferSelector,
+    isUpdateInProgressSelector
+} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
 import OfferUtils, {safeDateFormat} from "../../../utils/offer-utils";
@@ -13,6 +20,7 @@ import {Link} from "react-router-dom";
 import {config} from "../../../config/default"
 import {useHistory} from "react-router-dom";
 import {requestSearchResultsRestoreFromCache} from "../../../redux/sagas/shopping";
+import Spinner from "../common/spinner";
 
 
 let cx = classNames.bind(style);
@@ -128,10 +136,10 @@ const HotelOfferCartItem = ({hotelOffer}) => {
     </>)
 }
 
-export const ShoppingCart = ({flightOffer, hotelOffer, restoreFromServer, storeOnServer, onRestoreFromCache}) =>{
+export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isUpdateInProgress}) =>{
     let history = useHistory();
 
-
+    console.log('Shopping cart refreshed')
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
         e.preventDefault();
@@ -139,15 +147,14 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreFromServer, storeO
         history.push(url);
     }
 
-    const onRestoreFromServer = (e) => {
+    const onRestoreCartFromServer = (e) => {
         e.preventDefault();
-        restoreFromServer();
+        restoreCartFromServer();
     }
-    const onStoreOnServer = (e) => {
+    const onRestoreSearchResultsFromCache = (e) => {
         e.preventDefault();
-        storeOnServer();
+        restoreSearchResultsFromCache();
     }
-
 
     let bookButtonClassnames=cx({
         btn:true,
@@ -167,21 +174,20 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreFromServer, storeO
             <Link to={'/dc/ancillaries'}>Ancillaries</Link><br/>
             <Link to={'/dc/seatmap'}>Seatmap</Link><br/>
             <Link to={'/dc/summary'}>Pricing</Link><br/>
-            <a href={"#"}  onClick={onStoreOnServer}>Store cart on server</a><br/><br/>
-            <a href={"#"}  onClick={onRestoreFromServer}>Restore cart from server</a><br/>
-            <a href={"#"}  onClick={onStoreOnServer}>Restore search results from server</a><br/><br/>
-            <a href={"#"}  onClick={onRestoreFromCache}>Restore search results</a><br/>
+            <a href={"#"}  onClick={onRestoreCartFromServer}>Restore cart from server</a><br/>
+            <a href={"#"}  onClick={onRestoreSearchResultsFromCache}>Restore search from server</a><br/>
 
         </div>)
     }
 
     if(cartIsEmpty)
-        return (<>{config.DEV_MODE && links()}</>)
+        return (<>{config.DEV_MODE && links()}<Spinner enabled={isUpdateInProgress===true}/></>)
 
 
     return (
         <div className={style.cartContainer}>
             <div className={style.cartHeader}>Your trip so far</div>
+            <Spinner enabled={isUpdateInProgress===true}/>UPDATE:{isUpdateInProgress===true}
             <HorizontalDottedLine/>
             {flightOffer && <FlightOfferCartItem flightOffer={flightOffer}/>}
             {hotelOffer && <HotelOfferCartItem hotelOffer={hotelOffer}/> }
@@ -222,22 +228,20 @@ const calculateTotalPrice = (hotelPrice, flightPrice) => {
 const mapStateToProps = state => ({
     flightOffer: flightOfferSelector(state),
     hotelOffer: hotelOfferSelector(state),
-    error: errorSelector(state)
+    error: errorSelector(state),
+    isUpdateInProgress:isUpdateInProgressSelector(state)
 });
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        storeOnServer: () => {
-            dispatch(storeCartOnServerAction())
-        },
-        restoreFromServer: () => {
+        restoreCartFromServer: () => {
             dispatch(restoreCartFromServerAction())
         },
         onStore: () => {
             dispatch(bookAction())
         },
-        onRestoreFromCache:()=>{
+        restoreSearchResultsFromCache: ()=>{
             dispatch(requestSearchResultsRestoreFromCache())
         }
 

@@ -31,7 +31,7 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
             }else{
                 primaryName=rec.city_name + " " + rec.airport_name;
             }
-            secondaryName=rec.country_name;
+            secondaryName=rec.country_code;
             if(rec.type === 'METROPOLITAN'){
                 lastMetropolitan=rec;
             }

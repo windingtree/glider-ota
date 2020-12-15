@@ -2,6 +2,8 @@ import React, {useEffect, useRef, useState} from 'react'
 import {Col, Container, Row} from 'react-bootstrap'
 import style from './lookup-list.module.scss'
 import PropTypes from 'prop-types'
+import classNames from "classnames/bind";
+let cx = classNames.bind(style);
 
 export default function LookupList({locations=[], onLocationSelected}){
     const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -30,18 +32,24 @@ export default function LookupList({locations=[], onLocationSelected}){
     }
 
     const renderSingleRow = (rec, rowIndex)=>{
-        let rowClassNames=[style.row];
-        if(rowIndex === highlightedIndex)
-            rowClassNames.push(style.highlighted);
+        let rowClassNames=cx({
+            row:true,
+            highlighted:(rowIndex === highlightedIndex)
+        })
+        let primaryColClassNames=cx({primaryText:true})
+        let primaryTextClassNames=cx({primaryTextSpan:true, indented:rec.indent === true})
+        let codeColClassNames=cx({codeText:true})
+        let secondaryTextClassNames=cx({secondaryText:true})
+
         return (
             <Row noGutters={true} className={rowClassNames} key={createKey(rec.code,rowIndex)} onClick={event => selected(rowIndex)}>
-                <Col xs={9}  className={style.primaryText}>
+                <Col xs={10} className={primaryColClassNames}>
                     {rec.indent===true?(<span className={style.indent}></span>):('')}
                     {rec.icon?(<span className={`icon${rec.icon}`}></span>):('')}
-                    <span className={style.primaryTextSpan}>{rec.primary}</span>
-                    <span className={style.secondaryText}>{rec.secondary}</span>
+                    <span className={primaryTextClassNames}>{rec.primary}</span>
+                    <span className={secondaryTextClassNames}>{rec.secondary}</span>
                 </Col>
-                <Col xs={3} className={style.codeText}>{rec.code}</Col>
+                <Col xs={2} className={codeColClassNames}>{rec.code}</Col>
             </Row>
         )
     }

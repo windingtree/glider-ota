@@ -3,10 +3,14 @@ import {Overlay, Popover,  Form} from 'react-bootstrap'
 import {Dropdown, Container} from 'react-bootstrap'
 import LookupList from "./lookup-list";
 import style from './lookup-field.module.scss'
-export const LOCATION_SOURCE={
+
+import classNames from "classnames/bind";
+let cx = classNames.bind(style);
+
+/*export const LOCATION_SOURCE={
     AIRPORTS:'airports',
     CITIES:'cities'
-}
+}*/
 
 const SEARCH_TIMEOUT_MILLIS=100;
 
@@ -80,9 +84,18 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
         event.target.select();
     };
 
-        return (
+    let elementClassnames=cx({
+        lookup:true,
+        pseudoFocus:focus
+    })
+    let popoverClassnames=cx({
+        locationLookupPopover:true,
+        pseudoFocus:focus
+    })
+
+    return (
             <>{label && <div className={style.label}>{label}</div>}
-            <div className={focus?[style.lookup,style.pseudoFocus].join(' '):style.lookup}>
+            <div className={elementClassnames}>
                 <Form.Control
                     type="text"
                     value={value}
@@ -96,7 +109,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
                     show={focus && selectedLocation===undefined && locations.length > 0}
                     target={target}
                     placement="bottom-start">
-                    <Popover id="popover-contained" className={focus?['locationLookupPopover',style.pseudoFocus].join(' '):'locationLookupPopover'}>
+                    <Popover id="popover-contained" className={popoverClassnames}>
                             <LookupList locations={locations} onLocationSelected={handleLocationSelected} key={1}/>
 
                     </Popover>

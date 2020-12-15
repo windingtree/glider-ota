@@ -16,9 +16,8 @@ const searchOffersController = async (req, res) => {
     await storeHotelSearchResults(sessionID, offerResult)
   }
   if(criteria.itinerary){
-    await storeFlightSearchResults(sessionID, Object.assign(offerResult,{source:'storeFlightSearchResults'}))
+    await storeFlightSearchResults(sessionID,offerResult)
   }
-
 
   res.json(offerResult);
 

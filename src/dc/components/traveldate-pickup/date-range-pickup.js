@@ -6,6 +6,7 @@ import {format} from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./react-datepicker.scss";
+import {CustomCalendarContainer} from "./calendar-container"
 
 export default function DateRangePickup({
                                              initialStart,
@@ -40,6 +41,7 @@ export default function DateRangePickup({
             minDate={new Date()}
             monthsShown={2}
             customInput={inputElem}
+            calendarContainer={CustomCalendarContainer}
             selectsRange
         />
         </>

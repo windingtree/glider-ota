@@ -159,6 +159,7 @@ mixins re-used in multiple other scripts
   font-size: $glider-font-size-xl;
   //line-height: 110%;
 }
+$g-fontfamily: 'Inter',sans-serif;
 
 $g-fontsize-xs:12px;
 $g-fontsize-m:14px;
@@ -178,9 +179,10 @@ $g-fontweight-normal:500;
 $g-fontweight-medium:600;
 $g-fontweight-bold:700;
 
+$g-lineheight-20:20px;
 
 @mixin g-font($size: false, $colour: false, $weight: false,  $lh: false) {
-  font-family: 'Inter',sans-serif;
+  font-family: $g-fontfamily;
   @if $size { font-size: $size; }
   @if $colour { color: $colour; }
   @if $weight { font-weight: $weight; }

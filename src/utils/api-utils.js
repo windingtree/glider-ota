@@ -87,6 +87,16 @@ export async function storeSelectedAccommodation(selectedOffer){
   return fetchPost('/api/cart/accommodation',{offer:selectedOffer});
 }
 
+//server side cart
+export async function storeOfferId(offerId, type){
+  return fetchPost('/api/cart/cartv2',{type:type,offerId:offerId});
+}
+export async function retrieveCart(){
+  return fetchGet('/api/cart/cartv2');
+}
+
+
+
 ///////////////// SEATMAP //////////////////////
 export async function retrieveSeatmap() {
   return fetchGet('/api/seatmap', {});
