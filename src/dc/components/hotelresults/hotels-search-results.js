@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import style from './hotel-search-results.module.scss'
 import {Container, Row} from 'react-bootstrap'
 import _ from 'lodash'
@@ -16,9 +16,10 @@ import {
 import {connect} from "react-redux";
 import Spinner from "../../../components/common/spinner";
 import SearchButton from "../search-form/search-button";
+import ResultsPaginator, {limitSearchResultsToCurrentPage, ITEMS_PER_PAGE} from "../common/pagination/results-paginator";
 
 export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFormValid, filters, searchInProgress, error}) {
-
+    const [currentPage, setCurrentPage] = useState(1);
     console.log('Hotel search results:',searchResults)
     const onHotelSelected = () =>{
 
@@ -36,11 +37,28 @@ export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFor
         }
     }
 
+
     let results=[];
+    let totalResultsCount=0;
     if(searchResults) {
         const helper = new HotelSearchResultsFilterHelper(searchResults);
         results = helper.generateSearchResults(filters);
+        totalResultsCount = results.length;
+        results = limitSearchResultsToCurrentPage(results, currentPage);
     }
+
+    //display search results paginator only if there are more than ITEMS_PER_PAGE results
+    const displayResultsPaginator = () =>{
+
+        if(totalResultsCount < ITEMS_PER_PAGE)
+            return (<></>)
+
+        return (
+            <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE} onActivePageChange={setCurrentPage} totalRecords={totalResultsCount}/>
+        )
+    }
+
+
     return (
         <>
             <SearchButton disabled={!isSearchFormValid} onSearchButtonClicked={onSearchButtonClicked}/>
@@ -58,6 +76,7 @@ export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFor
                     })
                 }
             {/*</Row>*/}
+            {displayResultsPaginator()}
         </>
     )
 
