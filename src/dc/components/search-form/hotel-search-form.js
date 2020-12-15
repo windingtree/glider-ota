@@ -129,7 +129,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     searchCriteriaChanged: (searchCriteria, isSearchFormValid) => {
-      console.log('mapDispatchToProps, searchCriteriaChanged:',searchCriteria, isSearchFormValid)
       dispatch(hotelSearchCriteriaChangedAction(searchCriteria, isSearchFormValid))
     }
   }

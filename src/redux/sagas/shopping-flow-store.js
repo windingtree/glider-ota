@@ -126,7 +126,7 @@ export default (state = initialState, action) => {
         case RESTORE_RESULTS_FROM_CACHE_COMPLETED:
             return Object.assign({}, state, {
                 isStoreInitialized:true,
-                isRestoreInProgress:true,
+                isRestoreInProgress:false,
                 hotelSearchResults: payload.hotelSearchResults,
                 flightSearchResults: payload.flightSearchResults
             });
@@ -238,6 +238,8 @@ export const searchResultsRestoredFromCache = (flightSearchResults, hotelSearchR
         }
     }
 }
+
+
 // Selectors
 export const shoppingFlowStateSelector = state => state[moduleName];
 
@@ -302,13 +304,14 @@ export const isHotelSearchFormValidSelector = createSelector(
     ({ isHotelSearchFormValid }) => isHotelSearchFormValid
 );
 
+
 export const isShoppingFlowStoreInitialized = createSelector(
     shoppingFlowStateSelector,
     ({ isStoreInitialized }) => isStoreInitialized
 );
 export const isShoppingResultsRestoreInProgressSelector = createSelector(
     shoppingFlowStateSelector,
-    ({ isRestoreInProgressSelector }) => isRestoreInProgressSelector
+    ({ isRestoreInProgress }) => isRestoreInProgress
 );
 
 
@@ -375,7 +378,7 @@ function* restoreSearchResultsFromCache() {
     let hotelSearchResults;
     try {
         flightSearchResults = yield call(getCachedSearchResults,'flights');
-        yield put(flightSearchCompletedAction(flightSearchResults?flightSearchResults.data:null));
+        // yield put(flightSearchCompletedAction(flightSearchResults?flightSearchResults.data:null));
     } catch (error) {
         //no resuls in cache will also throw error - we can ignore it
     }
@@ -383,10 +386,14 @@ function* restoreSearchResultsFromCache() {
     //restore hotel search results
     try {
         hotelSearchResults = yield call(getCachedSearchResults,'hotels');
-        yield put(hotelSearchCompletedAction(hotelSearchResults?hotelSearchResults.data:null));
+        // yield put(hotelSearchCompletedAction(hotelSearchResults?hotelSearchResults.data:null));
     } catch (error) {
         //no results in cache will also throw error - we can ignore it
     }
+    yield put(searchResultsRestoredFromCache(
+        flightSearchResults?flightSearchResults.data:null,
+        hotelSearchResults?hotelSearchResults.data:null
+        ));
 }
 
 

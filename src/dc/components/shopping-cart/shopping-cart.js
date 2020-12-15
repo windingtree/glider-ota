@@ -140,7 +140,6 @@ const HotelOfferCartItem = ({hotelOffer}) => {
 export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress}) =>{
     let history = useHistory();
 
-    console.log(`Shopping cart refreshed,isShoppingCartUpdateInProgress=${isShoppingCartUpdateInProgress}`)
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
         e.preventDefault();

@@ -100,7 +100,6 @@ export function FlightsSearchForm(props){
     let departureDateValid = isDepartureDateValid();
     let paxSelectionValid = isPaxSelectionValid();
     let result = originValid && destinationValid && departureDateValid && paxSelectionValid;
-    console.log('Validate form:',result, `${originValid} ${destinationValid} ${departureDateValid} ${paxSelectionValid}`)
     return result;
   }
 
@@ -135,7 +134,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     searchCriteriaChanged: (searchCriteria, isSearchFormValid) => {
-      console.log('mapDispatchToProps, searchCriteriaChanged:',searchCriteria, isSearchFormValid)
       dispatch(flightSearchCriteriaChangedAction(searchCriteria, isSearchFormValid))
     }
   }
