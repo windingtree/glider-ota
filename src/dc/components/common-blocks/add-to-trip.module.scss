@@ -15,3 +15,17 @@
 .priceInactive{
   @include g-font($g-fontsize-xl,$g-color-darkgrey,$g-fontweight-normal);
 }
+
+.priceRow {
+  padding-bottom: 1rem;
+}
+
+.priceWrapper {
+  padding-left: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.addButtonWrapper {
+  padding-right: 40px;
+}

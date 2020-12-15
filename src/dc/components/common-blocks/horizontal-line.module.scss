@@ -2,6 +2,7 @@
 
 .horizontalLineText{
   @include g-font($g-fontsize-m,$g-color-darkgrey,$g-fontweight-bold);
+  padding: 0 6px 0 6px;
 }
 
 .horizontalLine {
@@ -13,8 +14,14 @@
 }
 .horizontalLine::before, .horizontalLine::after {
   content: '';
+  height: 1px;
   flex: 1;
-  border-bottom: 1px dotted $g-color-darkgrey;
+  // border-bottom: 1px dotted $g-color-darkgrey;
+
+  background-image: linear-gradient(to right, #C7C7C7 0%, #C7C7C7 (100%/1.5), transparent (100%/3));
+  background-position: 0 bottom;
+  background-size: (5 + px) 1px;
+  background-repeat: repeat-x;
 }
 .horizontalLine::before {
   //margin-right: .25em;
