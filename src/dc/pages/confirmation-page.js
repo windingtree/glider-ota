@@ -1,6 +1,6 @@
 import React from 'react';
 import PaymentConfirmation from "../components/payments/payment-confirmation";
-import {BookingFlowBreadcrumb, STEPS} from "./booking-flow-breadcrumb";
+import BookingFlowBreadcrumb, {STEPS} from "../components/common-blocks/breadcrumbs"
 import BookingFlowLayout from "../components/layout/booking-flow-layout";
 
 

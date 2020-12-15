@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import PaymentForm from "../components/payments/checkout-form";
 import BookingFlowLayout from "../components/layout/booking-flow-layout";
-import {BookingFlowBreadcrumb, STEPS} from "./booking-flow-breadcrumb";
+import BookingFlowBreadcrumb, {STEPS} from "../components/common-blocks/breadcrumbs"
 
 
 export default function PaymentPage({match}) {

@@ -129,10 +129,6 @@ async function seatmap(offerId, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint,offerId).SEATMAP_URL;
     console.log('Retrieve seatmap with URL:',url, 'JWT:',jwt)
-
-
-    let urlWithOfferId = urlTemplate.replace("{offerId}", offerId);
-    logger.debug("Seatmap URL:[%s]", urlWithOfferId);
     let response = await axios({
         method: 'get',
         url: url,
