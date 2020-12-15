@@ -184,7 +184,7 @@ export default function PaymentConfirmation({orderID}) {
                 iconStatus = 'pending';
                 message = (
                     <small>
-                        We have not yet received confirmation of your payment
+                        Your payment is being processed
                     </small>
                 );
                 break;
@@ -225,7 +225,7 @@ export default function PaymentConfirmation({orderID}) {
                 iconStatus = 'failed';
                 message = (
                     <small>
-                        Your payment was refunded
+                        Your payment has been reversed
                     </small>
                 );
                 break;
@@ -304,9 +304,9 @@ export default function PaymentConfirmation({orderID}) {
                 iconStatus = 'failed';
                 message = (
                     <small>
-                        We could not create your booking due to an error.
-                        This may be due to changed availability or increased price.
-                        Please try again later.
+                        We could not create your booking due to an error from the supplier.
+                        This might be due to a change in availability or a price increase.
+                        Please try again later
                     </small>
                 );
                 break;
@@ -314,7 +314,7 @@ export default function PaymentConfirmation({orderID}) {
                 iconStatus = 'undefined';
                 message = (
                     <small>
-                        The status of your booking is being retrieved from the server
+                        Your booking is being created with the travel supplier
                     </small>
                 );
                 break;
