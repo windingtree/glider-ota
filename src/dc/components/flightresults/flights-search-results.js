@@ -20,6 +20,7 @@ import {
     requestSearchResultsRestoreFromCache, isShoppingFlowStoreInitialized
 } from '../../../redux/sagas/shopping-flow-store';
 import Spinner from "../../../components/common/spinner";
+import Alert from "react-bootstrap/Alert";
 
 
 const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;
@@ -107,6 +108,19 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
 
 }
 
+const WarningNoResults = () => {
+    return (
+        <Alert variant="warning" className={'pt-2'}>
+            <Alert.Heading>
+                Sorry, we could not find any flights
+                <span role='img' aria-label='sorry'> 😢</span>
+            </Alert.Heading>
+            <p>
+                There may be no flights available for the requested origin, destination and travel dates.<br/>
+            </p>
+        </Alert>
+    );
+};
 
 const mapStateToProps = state => ({
     filters: flightFiltersSelector(state),
