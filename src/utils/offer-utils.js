@@ -127,7 +127,7 @@ export default class OfferUtils {
     return iataToAirportName(lastSegment.destination.iataCode);
   }
   static getItineraryDepartureAirportCode(itinerary){
-    let firstSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
+    let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
     return firstSegment.origin.iataCode;
   }
   static getItineraryArrivalAirportCode(itinerary){

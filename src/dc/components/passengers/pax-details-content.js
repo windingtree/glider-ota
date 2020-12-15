@@ -50,6 +50,7 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
 
         //initialize passengers
         let passengers = passengerDetails || createInitialPassengersFromSearch(flightSearchResults,hotelSearchResults);
+        setIsLoading(true);
         let response=retrievePassengerDetails();
         response.then(result=> {
             if(Array.isArray(result)) {
@@ -75,6 +76,7 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
             //TODO - add proper error handling (show user a message)
         }).finally(()=>{
             console.log('DCFlightPassengersPage - useEffect finally passengers:', passengerDetails)
+            setIsLoading(false);
             setPassengerDetails(passengers);
         })
     },[flightSearchResults,hotelSearchResults]);
@@ -118,22 +120,12 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
         return (
             <div>
                 <Spinner enabled={true}/>
-                <span>We are validating the passenger details</span>
+                <span>Please wait...</span>
             </div>
         );
 
     }
 
-    // Display a loading spinner
-    const syncInProgressSpinner = () => {
-        return (
-            <div>
-                <Spinner enabled={true}/>
-                <span>Please wait</span>
-            </div>
-        );
-
-    }
 
 
     /**
@@ -155,7 +147,6 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
     }
     return (
         <DevConLayout>
-            {refreshInProgress && syncInProgressSpinner()}
             {/*<ItinerarySummary itinerary={itinerary}/>*/}
                     <PaxDetails
                         passengers={passengerDetails}
@@ -163,14 +154,15 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
                         highlightInvalidFields={highlightInvalidFields}
                     />
                     {highlightInvalidFields && PassengerInvalidAlert()}
-                    {isLoading && loadingSpinner()}
+                    {(isLoading||refreshInProgress) && loadingSpinner()}
                     <NaviButtons prevEnabled={true} nextEnabled={passengerDetailsValid} onPrev={redirectToPrevStep} onNext={savePassengerDetailsAndProceed}/>
         </DevConLayout>
     )
 }
 
 const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
-    return(
+    return(<>
+            <div className={'pt-3'}></div>
         <Row>
             <Col sm={4}>
                 <Button className={'btn-block'} variant="outline-primary"  disabled={prevEnabled===false} onClick={onPrev}>Back</Button>
@@ -180,23 +172,9 @@ const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
             <Col sm={4}>
                 <Button className={'btn-block'} variant="primary"  disabled={nextEnabled===false} onClick={onNext}>Proceed</Button>
             </Col>
-        </Row>
+        </Row></>
     )
 }
-const PrevPageButton=({disabled,onClick}) => {
-    return (<>
-            <Button className={'btn-block'} variant="outline-primary"  disabled={disabled} onClick={onClick}>Back</Button>
-        </>
-    )
-}
-const NextPageButton=({disabled,onClick}) => {
-    return (<>
-            <Button className={'btn-block'} variant="primary"  disabled={disabled} onClick={onClick}>Proceed</Button>
-        </>
-    )
-}
-
-
 
 const mapStateToProps = state => ({
     flightSearchResults:flightSearchResultsSelector(state),

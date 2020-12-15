@@ -121,12 +121,13 @@ class SessionStorage {
         let ttl=REDIS_CONFIG.SESSION_TTL_IN_SECS;
         value=JSON.stringify(value);
         logger.debug("storeInSession(%s) start",key)
-        await getClient().multi().set(key, value).expire(key, ttl).exec(function (err, replies) {
+        await getClient().set(key, value);
+        /*.expire(key, ttl).exec(function (err, replies) {
             logger.debug("storeInSession(%s) completed",key)
             if(err){
                 logger.error("Redis error %s",err);
             }
-        });
+        });*/
     }
 
 

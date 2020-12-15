@@ -100,7 +100,7 @@ const CryptoPaymentPage = props => {
     };
 
     const handlePaymentSuccess = confirmedOfferId => {
-        const url=`/confirmation/${confirmedOfferId}`;
+        const url=`/dc/confirmation/${confirmedOfferId}`;
         history.push(url);
     }
 
