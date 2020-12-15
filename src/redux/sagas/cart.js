@@ -198,6 +198,11 @@ export const isUpdateInProgressSelector = createSelector(
     ({isUpdateInProgress}) => isUpdateInProgress
 );
 
+export const isShoppingResultsRestoreInProgressSelector = createSelector(
+    shoppingStateSelector,
+    ({isRestoreInProgressSelector}) => isRestoreInProgressSelector
+);
+
 
 //logic to store/retrieve cart to/from server side
 const storeCartOnServerSide = async (itemsInCart) => {

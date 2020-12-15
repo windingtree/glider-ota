@@ -47,7 +47,8 @@ const initialState = {
     hotelError:null,
     isHotelSearchFormValid:false,
 
-    isStoreInitialized: false
+    isStoreInitialized: false,
+    isRestoreInProgress: false
 };
 
 // reducer
@@ -60,16 +61,18 @@ export default (state = initialState, action) => {
     switch (type) {
         case SEARCH_FOR_FLIGHTS:
             return Object.assign({}, state, {
-                flightSearchInProgress:true
+                flightSearchInProgress:true,
             });
         case FLIGHT_SEARCH_COMPLETED:
             return Object.assign({}, state, {
                 flightSearchInProgress:false,
+                isRestoreInProgress:false,
                 flightSearchResults: payload.flightSearchResults
             });
         case FLIGHT_SEARCH_FAILED:
             return Object.assign({}, state, {
                 flightSearchInProgress:false,
+                isRestoreInProgress:false,
                 flightSearchResults: null,
                 flightError:error
             });
@@ -88,17 +91,20 @@ export default (state = initialState, action) => {
             });
         case SEARCH_FOR_HOTELS:
             return Object.assign({}, state, {
-                hotelSearchInProgress:true
+                hotelSearchInProgress:true,
+                isRestoreInProgress:false,
             });
         case HOTEL_SEARCH_COMPLETED:
             return Object.assign({}, state, {
                 hotelSearchInProgress:false,
+                isRestoreInProgress:false,
                 hotelSearchResults: payload.hotelSearchResults
             });
         case HOTEL_SEARCH_FAILED:
             return Object.assign({}, state, {
                 hotelSearchInProgress:false,
                 hotelSearchResults: null,
+                isRestoreInProgress:false,
                 error:error
             });
         case APPLY_HOTELS_FILTER:
@@ -118,6 +124,7 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 // flightSearchInProgress: true,
                 isStoreInitialized:true,
+                isRestoreInProgress:true,
                 // hotelSearchInProgress: true
             });
         default:
@@ -286,7 +293,10 @@ export const isStoreInitialized = createSelector(
     shoppingStateSelector,
     ({ isStoreInitialized }) => isStoreInitialized
 );
-
+export const isRestoreInProgressSelector = createSelector(
+    shoppingStateSelector,
+    ({ isRestoreInProgressSelector }) => isRestoreInProgressSelector
+);
 
 
 export function buildFlightsSearchCriteria(origin,destination,departureDate,returnDate, adults,children,infants) {

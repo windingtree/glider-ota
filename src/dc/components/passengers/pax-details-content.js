@@ -4,18 +4,21 @@ import {storePassengerDetails,retrievePassengerDetails} from "../../../utils/api
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner";
 import DevConLayout from "../layout/devcon-layout";
-import {flightOfferSelector, hotelOfferSelector, restoreCartFromServerAction} from "../../../redux/sagas/cart";
+import {
+    flightOfferSelector,
+    hotelOfferSelector,
+    isShoppingResultsRestoreInProgressSelector,
+    restoreCartFromServerAction
+} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
 import {Button, Col, Row} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 
 import {
-    isFlightSearchInProgressSelector,
-    isHotelSearchInProgressSelector,
     flightSearchResultsSelector,
-    hotelSearchResultsSelector,
-    requestSearchResultsRestoreFromCache
+    requestSearchResultsRestoreFromCache, isRestoreInProgressSelector
 } from "../../../redux/sagas/shopping";
+import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
 
 
 export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRestoreSearchResults, refreshInProgress}) {
@@ -24,25 +27,24 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
     const [highlightInvalidFields, setHighlightInvalidFields] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     let history = useHistory();
-
+    console.log('PaxDetailsContent refreshed,refreshInProgress=',refreshInProgress)
     function onPaxDetailsChange(paxData, allPassengersDetailsAreValid){
         setPassengerDetails(paxData)
         setPassengerDetailsValid(allPassengersDetailsAreValid)
     }
 
-    console.log('DCFlightPassengersPage')
     //Populate form with either passengers from session (if e.g. user refreshed page or clicked back) or initialize with number of passengers (and types) specified in a search form
     useEffect(()=>{
-        console.log('DCFlightPassengersPage - useEffect')
+
         if(!flightSearchResults && !hotelSearchResults){
-            console.log('No shopping results - refresh first')
+            //no search results in store - probably page was refreshed, try to restore search results from cache
             onRestoreSearchResults();
             return
         }else{
             console.log('we have shopping results - initialize passengers')
         }
 
-        console.log('DCFlightPassengersPage - useEffect - retrieve passenger details')
+        //initialize passengers
         let passengers = passengerDetails || createInitialPassengersFromSearch(flightSearchResults,hotelSearchResults);
         let response=retrievePassengerDetails();
         response.then(result=> {
@@ -149,8 +151,8 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
     }
     return (
         <DevConLayout>
-            <Button onClick={onRestoreSearchResults}>Restore search results</Button>
             {refreshInProgress && syncInProgressSpinner()}
+            {/*<ItinerarySummary itinerary={itinerary}/>*/}
                     <PaxDetails
                         passengers={passengerDetails}
                         onDataChange={onPaxDetailsChange}
@@ -195,7 +197,7 @@ const NextPageButton=({disabled,onClick}) => {
 const mapStateToProps = state => ({
     flightSearchResults:flightSearchResultsSelector(state),
     hotelSearchResults:hotelOfferSelector(state),
-    refreshInProgress:(isFlightSearchInProgressSelector(state)===true || isHotelSearchInProgressSelector(state)===true)
+    refreshInProgress:isShoppingResultsRestoreInProgressSelector(state)
 });
 
 

@@ -109,15 +109,18 @@ class ShoppingCart {
 
     _calculateTotalPrice(cart){
         //FIXME - replace below with a logic to calculate price with currency codes, etc...
-    /*    cart.totalPrice = 0;
+        cart.totalPrice.public = 0;
         _.each(cart.items, (record, key)=>{
-            cart.totalPrice+=record.price;
-        });*/
+            cart.totalPrice.public+=record.price.public;
+        });
     }
 
     _initializeCartRecord(){
         return {
-            totalPrice:0,
+            totalPrice:{
+                public:0,
+                currency:'EUR'
+            },
             items:{
             }
         }

@@ -1,12 +1,7 @@
 const path = require('path');
 
 const profiles = require('@windingtree/config-profiles');
-
 const activeProfile = process.env.ACTIVE_PROFILE || 'staging';
-console.log('Active profile:', activeProfile)
-console.log('__filename:',__filename);
-console.log('__dirname:',__dirname);
-console.log('process.cwd():',process.cwd());
 profiles.init({
     baseFolder: path.join(process.cwd(),'api/profiles'),
         dbUrl: profiles.getEnvironmentEntry(activeProfile, 'MONGO_URL'),

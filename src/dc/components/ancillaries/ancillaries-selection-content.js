@@ -10,11 +10,11 @@ import Button from "react-bootstrap/Button";
 import {addFlightToCartAction, flightOfferSelector, flightResultsSelector} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
 import DevConLayout from "../layout/devcon-layout";
+import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
 
 
 export  function AncillariesSelectionContent({offerId, searchResults, setSelectedOffer}) {
     let history = useHistory();
-    console.log(`AncillariesSelection, offerId:${offerId}, searchResults:`,searchResults)
     let searchResultsWrapper;
     let tripRates;
     let selectedOffer;

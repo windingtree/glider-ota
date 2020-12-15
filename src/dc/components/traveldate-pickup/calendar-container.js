@@ -8,8 +8,8 @@ export const CustomCalendarContainer = ({ className, children }) => {
         <div className={style.calendarContainer}>
 
             <CalendarContainer className={className}>
-                <div className={style.roundTrip}> <Form.Check type={'checkbox'} label={'Round trip'}/></div>
-                <div style={{ position: "relative",border:"1px solid red" }}>{children}</div>
+                {/*<div className={style.roundTrip}> <Form.Check type={'checkbox'} label={'Round trip'}/></div>*/}
+                <div style={{ position: "relative"}}>{children}</div>
             </CalendarContainer>
         </div>
     );

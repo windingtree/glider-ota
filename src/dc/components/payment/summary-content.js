@@ -119,7 +119,9 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
 
 
     let itineraries;
-    if(searchResults) {
+    if(searchResults && offerId) {
+        console.log('Search offerId:',offerId)
+        console.log('Search results:',searchResults)
         let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
         itineraries = searchResultsWrapper.getOfferItineraries(offerId);
     }

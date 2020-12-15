@@ -45,8 +45,11 @@ function setCookie(res, name, value, maxAge) {
         delete options.httpOnly;
         delete options.secure;
     }
-    if (maxAge !== undefined)
+    if (maxAge !== undefined) {
         options['maxAge'] = maxAge;
+    }else{
+        options[''] = 0;
+    }
 
     res.setHeader('Set-Cookie', cookie.serialize(name, value, options));
 }

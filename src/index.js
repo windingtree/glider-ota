@@ -67,8 +67,6 @@ function Dispatcher() {
                         <Route path="/dc/payment/:confirmedOfferId" component={DCPaymentPage}/>
                         <Route path="/dc/crypto/:confirmedOfferId" component={DCPaymentCryptoPage}/>
                         <Route path="/dc/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
-                        {/*{<Route path="/dc/step1/" component={DCTravellerInfoPage}/>}*/}
-                        {/*{<Route path="/dc/step2/" component={DCFlightOptionsPage}/>}*/}
                         <Route path="/dc/" component={DCLandingPage}/>
 
 
