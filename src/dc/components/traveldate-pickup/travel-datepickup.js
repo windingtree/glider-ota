@@ -27,13 +27,13 @@ export default function TravelDatepickup({
         onEndDateChanged(end)
     };
 
-    const inputElem = (<CustomInput endDate={endDate} startDate={startDate} placeholderText="Click to select a date"/>)
+    const inputElem = (<CustomInput endDate={endDate} startDate={startDate} placeholderText="Select dates"/>)
 
     return (
         <>
             {label && <div className={style.label}>{label}</div>}
         <DatePicker
-            placeholderText="Click to select a date"
+            placeholderText="Select dates"
             selected={startDate}
             onChange={onChange}
             startDate={startDate}
