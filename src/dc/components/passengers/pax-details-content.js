@@ -7,17 +7,16 @@ import DevConLayout from "../layout/devcon-layout";
 import {
     flightOfferSelector,
     hotelOfferSelector,
-    isShoppingResultsRestoreInProgressSelector,
-    restoreCartFromServerAction
-} from "../../../redux/sagas/cart";
+    requestCartRestoreFromServer
+} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {Button, Col, Row} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 
 import {
     flightSearchResultsSelector,
-    requestSearchResultsRestoreFromCache, isRestoreInProgressSelector
-} from "../../../redux/sagas/shopping";
+    requestSearchResultsRestoreFromCache, isShoppingResultsRestoreInProgressSelector
+} from "../../../redux/sagas/shopping-flow-store";
 import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
 
 
@@ -204,7 +203,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
     return {
         restoreCart: (offer) => {
-            dispatch(restoreCartFromServerAction())
+            dispatch(requestCartRestoreFromServer())
         },
         onRestoreSearchResults: () =>{
             dispatch(requestSearchResultsRestoreFromCache());

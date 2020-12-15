@@ -9,14 +9,15 @@ import {RouteOverview} from "../flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner"
-import {addFlightToCartAction, flightOfferSelector, flightResultsSelector} from "../../../redux/sagas/cart";
+import {flightOfferSelector} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import style from "./summary-content.module.scss"
 import {
+    flightSearchResultsSelector,
     isFlightSearchInProgressSelector,
     isHotelSearchInProgressSelector,
     requestSearchResultsRestoreFromCache
-} from "../../../redux/sagas/shopping";
+} from "../../../redux/sagas/shopping-flow-store";
 import {JourneySummary} from "../flight-blocks/journey-summary";
 
 
@@ -157,7 +158,7 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
 
 
 const mapStateToProps = state => ({
-    searchResults:flightResultsSelector(state),
+    searchResults:flightSearchResultsSelector(state),
     offerId: flightOfferSelector(state)?flightOfferSelector(state).offerId:undefined,
     refreshInProgress:(isFlightSearchInProgressSelector(state)===true || isHotelSearchInProgressSelector(state)===true)
 

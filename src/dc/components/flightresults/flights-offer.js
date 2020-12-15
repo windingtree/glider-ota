@@ -6,7 +6,7 @@ import OfferUtils from '../../../utils/offer-utils'
 import _ from 'lodash'
 import {
     errorSelector,addFlightToCartAction
-} from "../../../redux/sagas/cart";
+} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import { FaPlaneDeparture } from "react-icons/fa";
 import {JourneySummary} from "../flight-blocks/journey-summary"

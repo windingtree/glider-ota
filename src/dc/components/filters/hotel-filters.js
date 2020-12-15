@@ -5,7 +5,7 @@ import {FILTERS} from "./filters-utils";
 import {HotelRatingFilter} from "./hotel-rating-filter";
 import {NightPriceFilter} from "./night-price-filter";
 import {AmenitiesFilter} from "./amenities-filter";
-import {applyHotelFilterAction, hotelsFiltersSelector, hotelSearchResultsSelector} from "../../../redux/sagas/shopping";
+import {applyHotelFilterAction, hotelsFiltersSelector, hotelSearchResultsSelector} from "../../../redux/sagas/shopping-flow-store";
 import {connect} from "react-redux";
 
 export function HotelFilters({searchResults, onFiltersChanged}) {

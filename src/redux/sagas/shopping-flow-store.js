@@ -30,6 +30,7 @@ const APPLY_HOTELS_FILTER = `${moduleName}/APPLY_HOTELS_FILTER`;
 const CLEAR_HOTELS_FILTER = `${moduleName}/CLEAR_HOTELS_FILTER`;
 
 const REQUEST_RESTORE_RESULTS_FROM_CACHE = `${moduleName}/RESTORE_RESULTS_FROM_CACHE`;
+const RESTORE_RESULTS_FROM_CACHE_COMPLETED = `${moduleName}/RESTORE_RESULTS_FROM_CACHE_COMPLETED`;
 
 
 const initialState = {
@@ -66,13 +67,11 @@ export default (state = initialState, action) => {
         case FLIGHT_SEARCH_COMPLETED:
             return Object.assign({}, state, {
                 flightSearchInProgress:false,
-                isRestoreInProgress:false,
                 flightSearchResults: payload.flightSearchResults
             });
         case FLIGHT_SEARCH_FAILED:
             return Object.assign({}, state, {
                 flightSearchInProgress:false,
-                isRestoreInProgress:false,
                 flightSearchResults: null,
                 flightError:error
             });
@@ -92,19 +91,16 @@ export default (state = initialState, action) => {
         case SEARCH_FOR_HOTELS:
             return Object.assign({}, state, {
                 hotelSearchInProgress:true,
-                isRestoreInProgress:false,
             });
         case HOTEL_SEARCH_COMPLETED:
             return Object.assign({}, state, {
                 hotelSearchInProgress:false,
-                isRestoreInProgress:false,
                 hotelSearchResults: payload.hotelSearchResults
             });
         case HOTEL_SEARCH_FAILED:
             return Object.assign({}, state, {
                 hotelSearchInProgress:false,
                 hotelSearchResults: null,
-                isRestoreInProgress:false,
                 error:error
             });
         case APPLY_HOTELS_FILTER:
@@ -122,11 +118,17 @@ export default (state = initialState, action) => {
             });
         case REQUEST_RESTORE_RESULTS_FROM_CACHE:
             return Object.assign({}, state, {
-                // flightSearchInProgress: true,
                 isStoreInitialized:true,
                 isRestoreInProgress:true,
-                // hotelSearchInProgress: true
             });
+        case RESTORE_RESULTS_FROM_CACHE_COMPLETED:
+            return Object.assign({}, state, {
+                isStoreInitialized:true,
+                isRestoreInProgress:true,
+                hotelSearchResults: payload.hotelSearchResults,
+                flightSearchResults: payload.flightSearchResults
+            });
+
         default:
             return state
     }
@@ -219,82 +221,90 @@ export const hotelSearchCriteriaChangedAction = (searchCriteria, isHotelSearchFo
         isHotelSearchFormValid:isHotelSearchFormValid
     }
 });
-//restore search results from server side cache
+//request restore search results from server side cache
 export const requestSearchResultsRestoreFromCache = () => ({
     type: REQUEST_RESTORE_RESULTS_FROM_CACHE
 });
 
+//populate restored search results (from cache) into store
+export const searchResultsRestoredFromCache = (flightSearchResults, hotelSearchResults) => ({
+    type: RESTORE_RESULTS_FROM_CACHE_COMPLETED,
+    payload: {
+        flightSearchResults:flightSearchResults,
+        hotelSearchResults:hotelSearchResults
+    }
+});
 
 // Selectors
-export const shoppingStateSelector = state => state[moduleName];
+export const shoppingFlowStateSelector = state => state[moduleName];
 
 export const flightFiltersSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ flightFilters }) => flightFilters
 );
 
 export const flightSearchCriteriaSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ flightSearchCriteria }) => flightSearchCriteria
 );
 
 export const flightSearchResultsSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ flightSearchResults }) => flightSearchResults
 );
 
 export const isFlightSearchInProgressSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ flightSearchInProgress }) => flightSearchInProgress
 );
 
 export const flightsErrorSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ flightsError }) => flightsError
 );
 
 export const isFlightSearchFormValidSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ flightSearchFormValid }) => flightSearchFormValid
 );
 
 
 export const hotelsFiltersSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ hotelFilters }) => hotelFilters
 );
 
 export const hotelSearchCriteriaSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ hotelSearchCriteria }) => hotelSearchCriteria
 );
 
 export const hotelSearchResultsSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ hotelSearchResults }) => hotelSearchResults
 );
 
 export const isHotelSearchInProgressSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ hotelSearchInProgress }) => hotelSearchInProgress
 );
 
 export const hotelErrorSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ hotelError }) => hotelError
 );
 
 export const isHotelSearchFormValidSelector = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ isHotelSearchFormValid }) => isHotelSearchFormValid
 );
 
 export const isStoreInitialized = createSelector(
-    shoppingStateSelector,
+    shoppingFlowStateSelector,
     ({ isStoreInitialized }) => isStoreInitialized
 );
-export const isRestoreInProgressSelector = createSelector(
-    shoppingStateSelector,
+export const isShoppingResultsRestoreInProgressSelector = createSelector(
+    shoppingFlowStateSelector,
     ({ isRestoreInProgressSelector }) => isRestoreInProgressSelector
 );
 
@@ -306,8 +316,9 @@ export function buildFlightsSearchCriteria(origin,destination,departureDate,retu
         .withTransportDepartureDate(departureDate)
         .withTransportReturnFromLocation(destination)
         .withPassengers(adults,children,infants);
-    if(returnDate!==undefined)
+    if(returnDate) {
         criteriaBuilder.withTransportReturnDate(returnDate);
+    }
     const searchCriteria = criteriaBuilder.build();
     return searchCriteria;
 }
@@ -356,23 +367,23 @@ function* searchForHotelsSaga() {
 function* restoreSearchResultsFromCache() {
     //TODO - make it parallel iso sequential
     //restore flight search results
+    let flightSearchResults;
+    let hotelSearchResults;
     try {
-        const flightSearchResults = yield call(getCachedSearchResults,'flights');
+        flightSearchResults = yield call(getCachedSearchResults,'flights');
         yield put(flightSearchCompletedAction(flightSearchResults?flightSearchResults.data:null));
     } catch (error) {
-        // console.warn('Failed to restore flight search results from cache, error:',error);
-        // yield put(flightSearchFailedAction(error))
+        //no resuls in cache will also throw error - we can ignore it
     }
 
     //restore hotel search results
     try {
-        const hotelSearchResults = yield call(getCachedSearchResults,'hotels');
-        yield put(hotelSearchCompletedAction(hotelSearchResults?hotelSearchResults.data:null));
+        hotelSearchResults = yield call(getCachedSearchResults,'hotels');
+
     } catch (error) {
-        //
-        // console.warn('Failed to restore hotel search results from cache, error:',error);
-        // yield put(hotelSearchFailedAction(error))
+        //no results in cache will also throw error - we can ignore it
     }
+    put(searchResultsRestoredFromCache(flightSearchResults,hotelSearchResults));;
 }
 
 

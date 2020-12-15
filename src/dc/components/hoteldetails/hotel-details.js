@@ -7,7 +7,7 @@ import {HotelLeadingImage} from "../accommodation-blocks/hotel-leading-image";
 import {ExpandCollapseToggle} from "../common-blocks/expand-collapse-toggle"
 
 import {HotelAddress} from "../accommodation-blocks/hotel-address"
-import {addHotelToCartAction} from "../../../redux/sagas/cart";
+import {addHotelToCartAction} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 
 

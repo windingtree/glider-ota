@@ -12,7 +12,7 @@ import {
     isHotelSearchInProgressSelector,
     hotelSearchCriteriaSelector, searchForHotelsAction,
     hotelSearchResultsSelector
-} from "../../../redux/sagas/shopping";
+} from "../../../redux/sagas/shopping-flow-store";
 import {connect} from "react-redux";
 import Spinner from "../../../components/common/spinner";
 import SearchButton from "../search-form/search-button";

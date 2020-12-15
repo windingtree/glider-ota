@@ -20,7 +20,7 @@
   @include _glider-font-regular18;
   color: $glider-color-inputfields-text;
   background-color: $glider-color-inputfields-background;
-
+  border:1px solid $glider-color-inputfields-border;
 }
 
 .paxSelectorContainer {

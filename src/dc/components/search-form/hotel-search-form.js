@@ -4,7 +4,7 @@ import DatePickup from '../traveldate-pickup/date-pickup'
 import style from './hotel-search-form.module.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
 import {CityLookup} from "../lookup/city-lookup";
-import {hotelSearchCriteriaChangedAction} from "../../../redux/sagas/shopping";
+import {hotelSearchCriteriaChangedAction} from "../../../redux/sagas/shopping-flow-store";
 import {connect} from "react-redux";
 import DateRangePickup from "../traveldate-pickup/date-range-pickup";
 

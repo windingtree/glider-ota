@@ -9,7 +9,7 @@ import {AirportLookup} from "../lookup/airport-lookup";
 import { connect } from 'react-redux';
 import {
   flightSearchCriteriaChangedAction
-} from '../../../redux/sagas/shopping';
+} from '../../../redux/sagas/shopping-flow-store';
 import {CalendarContainer} from "react-datepicker";
 
 
