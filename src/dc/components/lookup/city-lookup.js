@@ -21,7 +21,6 @@ export function CityLookup({initialLocation, onSelectedLocationChange, placeHold
             return {
                 primary: rec.city_name,
                 secondary: rec.country_name,
-                code: rec.country_code,
                 latitude:rec.latitude,
                 longitude:rec.longitude
             }
