@@ -229,14 +229,15 @@ export const requestSearchResultsRestoreFromCache = () => ({
 });
 
 //populate restored search results (from cache) into store
-export const searchResultsRestoredFromCache = (flightSearchResults, hotelSearchResults) => ({
-    type: RESTORE_RESULTS_FROM_CACHE_COMPLETED,
-    payload: {
-        flightSearchResults:flightSearchResults,
-        hotelSearchResults:hotelSearchResults
+export const searchResultsRestoredFromCache = (flightSearchResults, hotelSearchResults) => {
+    return {
+        type: RESTORE_RESULTS_FROM_CACHE_COMPLETED,
+        payload: {
+            flightSearchResults: flightSearchResults,
+            hotelSearchResults: hotelSearchResults
+        }
     }
-});
-
+}
 // Selectors
 export const shoppingFlowStateSelector = state => state[moduleName];
 
@@ -367,6 +368,7 @@ function* searchForHotelsSaga() {
 }
 //retrieve search results (flights & hotels) from server side cache (redis)
 function* restoreSearchResultsFromCache() {
+    console.log('Restore search results')
     //TODO - make it parallel iso sequential
     //restore flight search results
     let flightSearchResults;
@@ -381,11 +383,10 @@ function* restoreSearchResultsFromCache() {
     //restore hotel search results
     try {
         hotelSearchResults = yield call(getCachedSearchResults,'hotels');
-
+        yield put(hotelSearchCompletedAction(hotelSearchResults?hotelSearchResults.data:null));
     } catch (error) {
         //no results in cache will also throw error - we can ignore it
     }
-    put(searchResultsRestoredFromCache(flightSearchResults,hotelSearchResults));;
 }
 
 

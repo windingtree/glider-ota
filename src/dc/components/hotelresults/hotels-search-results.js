@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import style from './hotel-search-results.module.scss'
 import {Container, Row} from 'react-bootstrap'
 import _ from 'lodash'
@@ -11,19 +11,23 @@ import {
     hotelsFiltersSelector, isHotelSearchFormValidSelector,
     isHotelSearchInProgressSelector,
     hotelSearchCriteriaSelector, searchForHotelsAction,
-    hotelSearchResultsSelector
+    hotelSearchResultsSelector, requestSearchResultsRestoreFromCache, isShoppingFlowStoreInitialized
 } from "../../../redux/sagas/shopping-flow-store";
 import {connect} from "react-redux";
 import Spinner from "../../../components/common/spinner";
 import SearchButton from "../search-form/search-button";
-import ResultsPaginator, {limitSearchResultsToCurrentPage, ITEMS_PER_PAGE} from "../common/pagination/results-paginator";
-
-export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFormValid, filters, searchInProgress, error}) {
+import ResultsPaginator, {limitSearchResultsToCurrentPage} from "../common/pagination/results-paginator";
+const ITEMS_PER_PAGE=2;
+export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFormValid, filters, searchInProgress, isStoreInitialized, onRestoreResultsFromCache, error}) {
     const [currentPage, setCurrentPage] = useState(1);
-    console.log('Hotel search results:',searchResults)
-    const onHotelSelected = () =>{
 
-    }
+    useEffect(()=>{
+        console.log(`HotelsSearchResults, isStoreInitialized=${isStoreInitialized}`)
+
+        if(!isStoreInitialized)
+            onRestoreResultsFromCache();
+    },[])
+
     if (searchResults === undefined) {
         return (<>No hotels found</>)
     }
@@ -37,14 +41,13 @@ export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFor
         }
     }
 
-
     let results=[];
     let totalResultsCount=0;
     if(searchResults) {
         const helper = new HotelSearchResultsFilterHelper(searchResults);
         results = helper.generateSearchResults(filters);
         totalResultsCount = results.length;
-        results = limitSearchResultsToCurrentPage(results, currentPage);
+        results = limitSearchResultsToCurrentPage(results, currentPage,ITEMS_PER_PAGE);
     }
 
     //display search results paginator only if there are more than ITEMS_PER_PAGE results
@@ -52,7 +55,6 @@ export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFor
 
         if(totalResultsCount < ITEMS_PER_PAGE)
             return (<></>)
-
         return (
             <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE} onActivePageChange={setCurrentPage} totalRecords={totalResultsCount}/>
         )
@@ -90,6 +92,7 @@ const mapStateToProps = state => ({
     searchInProgress: isHotelSearchInProgressSelector(state),
     searchResults: hotelSearchResultsSelector(state),
     isSearchFormValid: isHotelSearchFormValidSelector(state),
+    isStoreInitialized: isShoppingFlowStoreInitialized(state),
     error:hotelErrorSelector(state)
 });
 
@@ -97,7 +100,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSearchClicked: () => {
             dispatch(searchForHotelsAction())
-        }
+        },
+        onRestoreResultsFromCache: () => {
+            dispatch(requestSearchResultsRestoreFromCache())
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(HotelsSearchResults);

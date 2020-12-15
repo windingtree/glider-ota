@@ -10,7 +10,6 @@ export default function ResultsPaginator({activePage, recordsPerPage, totalRecor
         onActivePageChange(page)
     }
 
-    console.log(`ResultsPaginator, activePage=${activePage}, recordsPerPage=${recordsPerPage}, totalRecords=${totalRecords}`)
     return (
             <div className={style.paginatorContainer}>
                 <Pagination
@@ -34,6 +33,5 @@ export function limitSearchResultsToCurrentPage(records, currentPage, itemsPerPa
     let endIdx = currentPage * itemsPerPage;
     if (endIdx >= totalCount)
         endIdx = totalCount;
-    console.log(`limitSearchResultsToCurrentPage, currentPage=${currentPage}, itemsPerPage=${itemsPerPage}, totalCount=${totalCount}, startIdx=${startIdx}, endIdx=${endIdx}`)
     return records.slice(startIdx, endIdx)
 }

@@ -13,7 +13,6 @@ export class HotelSearchResultsFilterHelper {
      * @returns {[]}
      */
     generateSearchResults(filters = {}) {
-        console.log("generateSearchResults, filters:", filters)
         let result = [];
         let hotels = this.searchResultsWrapper.getAllAccommodations();
         let offers = this.searchResultsWrapper.getAllOffers();
@@ -28,7 +27,6 @@ export class HotelSearchResultsFilterHelper {
             if (this.applyHotelFilters(hotel, filters)) {
                 //if hotel passed - then find the cheapest offer for that hotel (so that it can be displayed in search results)
                 let cheapestOffer = this.getCheapestHotelOffer(hotel.accommodationId, offers);
-                console.log(`Cheapest offer for accommodation:${hotel.accommodationId} is:`, cheapestOffer)
                 result.push({
                     bestoffer: cheapestOffer,
                     hotel: hotel

@@ -29,6 +29,7 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
     const [sortType, setSortType] = useState('PRICE');
 
     useEffect(()=>{
+        console.log(`FlightsSearchResults, isStoreInitialized=${isStoreInitialized}`)
         if(!isStoreInitialized)
             onRestoreResultsFromCache();
     },[])
@@ -64,13 +65,12 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
         const filterHelper = new FlightSearchResultsFilterHelper(searchResults);
         trips = filterHelper.generateSearchResults(sortType, filters)
         totalResultsCount = trips.length;
-        trips = limitSearchResultsToCurrentPage(trips, currentPage);
+        trips = limitSearchResultsToCurrentPage(trips, currentPage, ITEMS_PER_PAGE);
     }
 
 
     //display search results paginator only if there are more than ITEMS_PER_PAGE results
     const displayResultsPaginator = () =>{
-        console.log(`totalResultsCount=${totalResultsCount}, ITEMS_PER_PAGE=${ITEMS_PER_PAGE}`)
         if(totalResultsCount < ITEMS_PER_PAGE)
             return (<></>)
 
