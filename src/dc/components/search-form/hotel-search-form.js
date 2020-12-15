@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Row, Col, Container} from 'react-bootstrap'
 import DatePickup from '../traveldate-pickup/date-pickup'
+import {addDays} from "date-fns";
 import style from './hotel-search-form.module.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
 import {CityLookup} from "../lookup/city-lookup";
@@ -86,6 +87,13 @@ export function HotelSearchForm(props){
   //subscribe for search criteria changes so that we notify others once form is valid
   useEffect(() => {
     if(searchCriteriaChanged){
+      console.log('searchCriteriaChanged')
+      console.log(`departureDate = ${departureDate}`)
+      console.log(`returnDate = ${returnDate}`)
+      if (departureDate && !returnDate) {
+        setReturnDate(addDays(departureDate, 1))
+      }
+
       let searchCriteria=serializeSearchForm();
       let isSearchFormValid = searchCriteria.isValid;
       //fire action to notify others about search criteria and bool flag with the result of validation

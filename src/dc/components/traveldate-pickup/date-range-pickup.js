@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Form} from 'react-bootstrap'
 import style from './date-range-pickup.module.scss'
-import {format} from "date-fns";
+import {format, addDays} from "date-fns";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,10 +22,16 @@ export default function DateRangePickup({
     const [endDate, setEndDate] = useState(initialEnd);
     const onChange = dates => {
         const [start, end] = dates;
+
         setStartDate(start);
-        setEndDate(end);
         onStartDateChanged(start);
-        onEndDateChanged(end)
+
+        if (start && !end) {
+            setEndDate(addDays(start, 1))
+        } else {
+            setEndDate(end);
+            onEndDateChanged(end);
+        }
     };
 
     const inputElem = (<CustomInput endDate={endDate} startDate={startDate} placeholderText="Click to select a date"/>)
@@ -38,7 +44,6 @@ export default function DateRangePickup({
             selected={startDate}
             onChange={onChange}
             startDate={startDate}
-            endDate={endDate}
             minDate={new Date()}
             monthsShown={2}
             customInput={inputElem}
