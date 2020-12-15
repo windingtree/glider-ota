@@ -161,7 +161,8 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
 }
 
 const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
-    return(
+    return(<>
+            <div className={'pt-3'}></div>
         <Row>
             <Col sm={4}>
                 <Button className={'btn-block'} variant="outline-primary"  disabled={prevEnabled===false} onClick={onPrev}>Back</Button>
@@ -171,23 +172,9 @@ const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
             <Col sm={4}>
                 <Button className={'btn-block'} variant="primary"  disabled={nextEnabled===false} onClick={onNext}>Proceed</Button>
             </Col>
-        </Row>
+        </Row></>
     )
 }
-const PrevPageButton=({disabled,onClick}) => {
-    return (<>
-            <Button className={'btn-block'} variant="outline-primary"  disabled={disabled} onClick={onClick}>Back</Button>
-        </>
-    )
-}
-const NextPageButton=({disabled,onClick}) => {
-    return (<>
-            <Button className={'btn-block'} variant="primary"  disabled={disabled} onClick={onClick}>Proceed</Button>
-        </>
-    )
-}
-
-
 
 const mapStateToProps = state => ({
     flightSearchResults:flightSearchResultsSelector(state),
