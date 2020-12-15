@@ -1,20 +1,33 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import LookupField from "./components/lookup-field";
 import {fetchGet} from "../../../utils/api-utils";
 
 export function AirportLookup({initialLocation, onSelectedLocationChange, placeHolder, label, localstorageKey}) {
     const [searchResults, setSearchResults] = useState([]);
+    const [queryPromise, setQueryPromise] = useState(null);
+
+    useEffect(() => {
+        let queryProcess = queryPromise;
+        if (queryProcess && typeof queryProcess.then === 'function') {
+            queryProcess
+                .then(response => {
+                    let airports = convertResponse(response.results);
+                    setSearchResults(airports);
+                })
+                .catch(error => console.log('Failed to search for airports', error));
+        }
+        return () => {
+            queryProcess = undefined;
+        };
+    }, [queryPromise]);
 
     async function onQueryEntered(searchQuery) {
-        let results = fetchGet('/api/lookup/airportSearch2', {searchquery: searchQuery});
-        results.then((response) => {
-            let airports = convertResponse(response.results);
-            setSearchResults(airports);
-        }).catch(err => {
-            console.error("Failed to search for airports", err)
-        })
+        setQueryPromise(
+            fetchGet('/api/lookup/airportSearch2', {
+                searchquery: searchQuery
+            })
+        );
     }
-
 
     function convertResponse(airports) {
         let lastMetropolitan;
