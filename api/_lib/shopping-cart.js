@@ -140,7 +140,11 @@ class ShoppingCart {
      * @returns {Promise<*>} Cart contents after operation
      */
     async unsetUserPreference(userPreferenceKey){
-        return this.setUserPreference(userPreferenceKey, undefined)
+        let defaultValue = undefined;
+        if(userPreferenceKey === CART_USER_PREFERENCES_KEYS.CURRENCY) {
+            defaultValue = 'USD'
+        }
+        return this.setUserPreference(userPreferenceKey, defaultValue);
     }
 
 
