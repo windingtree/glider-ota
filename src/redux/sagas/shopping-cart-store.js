@@ -73,6 +73,7 @@ export default (state = initialState, action) => {
                 flightOffer: payload.flightOffer,
                 hotelOffer: payload.hotelOffer,
                 isUpdateInProgress: false,
+                isShoppingCartInitialized:true
             });
         case REQUEST_RESTORE_CART_FROM_SERVER:
             return Object.assign({}, state, {
@@ -198,7 +199,10 @@ export const isShoppingCartUpdateInProgress = createSelector(
     ({isUpdateInProgress}) => isUpdateInProgress
 );
 
-
+export const isShoppingCartInitializedSelector = createSelector(
+    shoppingCartStateSelector,
+    ({ isShoppingCartInitialized }) => isShoppingCartInitialized
+);
 
 //logic to store/retrieve cart to/from server side
 const storeCartOnServerSide = async (itemsInCart) => {

@@ -6,7 +6,7 @@ import Spinner from "../common/spinner";
 import DevConLayout from "../layout/devcon-layout";
 import {
     flightOfferSelector,
-    hotelOfferSelector,
+    hotelOfferSelector, isShoppingCartInitializedSelector,
     requestCartRestoreFromServer
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
@@ -15,18 +15,17 @@ import {useHistory} from "react-router-dom";
 
 import {
     flightSearchResultsSelector,
-    requestSearchResultsRestoreFromCache, isShoppingResultsRestoreInProgressSelector
+    requestSearchResultsRestoreFromCache, isShoppingResultsRestoreInProgressSelector, isShoppingFlowStoreInitialized
 } from "../../../redux/sagas/shopping-flow-store";
-import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
 
 
-export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRestoreSearchResults, refreshInProgress}) {
+export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRestoreSearchResults,onRestoreShoppingCart, refreshInProgress, isShoppingFlowStoreInitialized, isShoppingCartStoreInitialized, areStoresInitialized}) {
     const [passengerDetails, setPassengerDetails] = useState();
     const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
     const [highlightInvalidFields, setHighlightInvalidFields] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     let history = useHistory();
-    console.log('PaxDetailsContent refreshed,refreshInProgress=',refreshInProgress)
+    console.log(`PaxDetailsContent refreshed,refreshInProgress=${refreshInProgress}, ${isShoppingFlowStoreInitialized}, ${isShoppingCartStoreInitialized},${areStoresInitialized}`);
     function onPaxDetailsChange(paxData, allPassengersDetailsAreValid){
         setPassengerDetails(paxData)
         setPassengerDetailsValid(allPassengersDetailsAreValid)
@@ -35,12 +34,18 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
     //Populate form with either passengers from session (if e.g. user refreshed page or clicked back) or initialize with number of passengers (and types) specified in a search form
     useEffect(()=>{
 
-        if(!flightSearchResults && !hotelSearchResults){
+        if(!isShoppingFlowStoreInitialized){
+            console.log('Initialize shopping flow')
             //no search results in store - probably page was refreshed, try to restore search results from cache
             onRestoreSearchResults();
             return
         }else{
             console.log('we have shopping results - initialize passengers')
+        }
+
+        if(!isShoppingCartStoreInitialized){
+            console.log('Initialize shopping cart')
+            onRestoreShoppingCart();
         }
 
         //initialize passengers
@@ -196,17 +201,19 @@ const NextPageButton=({disabled,onClick}) => {
 const mapStateToProps = state => ({
     flightSearchResults:flightSearchResultsSelector(state),
     hotelSearchResults:hotelOfferSelector(state),
-    refreshInProgress:isShoppingResultsRestoreInProgressSelector(state)
+    refreshInProgress:isShoppingResultsRestoreInProgressSelector(state),
+    isShoppingFlowStoreInitialized: isShoppingFlowStoreInitialized(state),
+    isShoppingCartStoreInitialized: isShoppingCartInitializedSelector(state)
 });
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        restoreCart: (offer) => {
-            dispatch(requestCartRestoreFromServer())
-        },
         onRestoreSearchResults: () =>{
             dispatch(requestSearchResultsRestoreFromCache());
+        },
+        onRestoreShoppingCart: () =>{
+            dispatch(requestCartRestoreFromServer());
         }
     }
 }

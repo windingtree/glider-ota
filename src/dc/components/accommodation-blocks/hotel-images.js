@@ -16,6 +16,7 @@ export const ImageGallery = ({images}) => {
         focus       : 'center',
         isNavigation: true,
         updateOnMove: true,
+        arrow: false
     };
 
     const onThumbnailClicked = (slide) => {

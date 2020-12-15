@@ -17,7 +17,7 @@ import {
     isFlightSearchFormValidSelector,
     flightSearchResultsSelector,
     flightsErrorSelector,
-    requestSearchResultsRestoreFromCache, isStoreInitialized
+    requestSearchResultsRestoreFromCache, isShoppingFlowStoreInitialized
 } from '../../../redux/sagas/shopping-flow-store';
 import Spinner from "../../../components/common/spinner";
 
@@ -114,7 +114,7 @@ const mapStateToProps = state => ({
     searchInProgress: isFlightSearchInProgressSelector(state),
     searchResults: flightSearchResultsSelector(state),
     isSearchFormValid: isFlightSearchFormValidSelector(state),
-    isStoreInitialized: isStoreInitialized(state),
+    isStoreInitialized: isShoppingFlowStoreInitialized(state),
     error:flightsErrorSelector(state)
 });
 

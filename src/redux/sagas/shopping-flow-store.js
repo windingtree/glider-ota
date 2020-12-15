@@ -299,7 +299,7 @@ export const isHotelSearchFormValidSelector = createSelector(
     ({ isHotelSearchFormValid }) => isHotelSearchFormValid
 );
 
-export const isStoreInitialized = createSelector(
+export const isShoppingFlowStoreInitialized = createSelector(
     shoppingFlowStateSelector,
     ({ isStoreInitialized }) => isStoreInitialized
 );
