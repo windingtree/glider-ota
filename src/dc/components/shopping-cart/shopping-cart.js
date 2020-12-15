@@ -73,7 +73,7 @@ const Total = ({title,price, priceAmount, currency}) =>{
 }
 
 
-const FlightOfferCartItem = ({flightOffer}) =>{
+const FlightOfferCartItem = ({flightOffer, displayOutbound=true, displayInbound=true}) =>{
     if(!flightOffer)
         return (<></>)
 
@@ -94,8 +94,8 @@ const FlightOfferCartItem = ({flightOffer}) =>{
 
     return (
         <>
-            {outboundItinerary && renderItineraryStart(outboundItinerary)}
-            {returnItinerary && renderItineraryStart(returnItinerary)}
+            {outboundItinerary && displayOutbound && renderItineraryStart(outboundItinerary)}
+            {returnItinerary && displayInbound && renderItineraryStart(returnItinerary)}
         </>
     )
 }
@@ -191,13 +191,18 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
             <HorizontalDottedLine/>
             {flightOffer &&
                 <div className={style.flightOfferWrapper}>
-                    <FlightOfferCartItem flightOffer={flightOffer}/>
+                    <FlightOfferCartItem flightOffer={flightOffer}  displayOutbound={true} displayInbound={true}/>
                 </div>
             }
             {hotelOffer &&
                 <div className={style.flightOfferWrapper}>
                     <HotelOfferCartItem hotelOffer={hotelOffer}/>
                 </div>
+            }
+            {flightOffer &&
+            <div className={style.flightOfferWrapper}>
+                <FlightOfferCartItem flightOffer={flightOffer}  displayOutbound={false} displayInbound={true}/>
+            </div>
             }
             <HorizontalDottedLine/>
             <div className={style.flightOfferBottomWrapper}>
