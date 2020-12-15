@@ -28,7 +28,7 @@ export default function DateRangePickup({
         onEndDateChanged(end)
     };
 
-    const inputElem = (<CustomInput endDate={endDate} startDate={startDate}/>)
+    const inputElem = (<CustomInput endDate={endDate} startDate={startDate} placeholderText="Click to select a date"/>)
 
     return (
         <>
@@ -50,7 +50,7 @@ export default function DateRangePickup({
 };
 
 
-const CustomInput = ({value, onClick, startDate, endDate}) => {
+const CustomInput = ({value, onClick, startDate, endDate, placeholderText}) => {
     let dates = [];
     if(startDate)
         dates.push(formatDate(startDate));
@@ -64,7 +64,13 @@ const CustomInput = ({value, onClick, startDate, endDate}) => {
         textToDisplay=dates[0];
     return (
         <>
-          <Form.Control type="text" placeholder="" onFocus={onClick} value={textToDisplay} className={style.inputField}/>
+            <Form.Control
+                type="text"
+                placeholder={placeholderText}
+                onFocus={onClick}
+                value={textToDisplay}
+                className={style.inputField}
+            />
         </>
     )
 };

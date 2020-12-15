@@ -1,4 +1,5 @@
 import {FlightSearchResultsWrapper} from "../../src/utils/flight-search-results-wrapper";
+import {HotelSearchResultsWrapper} from "../../src/utils/hotel-search-results-wrapper";
 
 const {ShoppingCart,CART_ITEMKEYS} = require('../_lib/shopping-cart');
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
@@ -97,12 +98,23 @@ const flightOfferCartItemCreator = async (offerId, searchResults) => {
 }
 
 const hotelOfferCartItemCreator = async (offerId, searchResults) => {
+    let searchResultsWrapper = new HotelSearchResultsWrapper(searchResults);
+
     let offer = searchResults.offers[offerId];
+
+    let planRefId = Object.keys(offer.pricePlansReferences)[0];
+    let pricePlanRef = offer.pricePlansReferences[planRefId];
+    let accommodation = pricePlanRef.accommodation;
+    let roomType = pricePlanRef.roomType;
+    let hotel = searchResultsWrapper.getAccommodation(accommodation);
+    let room = hotel.roomTypes[roomType]
     let price = offer.price;
     let cartItem = {
         offerId:offerId,
         offer:offer,
-        price:price
+        price:price,
+        hotel:hotel,
+        room:room
     }
     return cartItem;
 }

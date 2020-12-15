@@ -19,6 +19,12 @@ export function HotelFilters({searchResults, onFiltersChanged}) {
         onFiltersChanged(newFilterStates);
     }
 
+    //don't show filters if there are no results
+    if(!searchResults){
+        return (<></>)
+    }
+
+
     return (
         <>
             <div className="filters-container d-flex flex-column flex-fill" >

@@ -1,41 +1,37 @@
-const { getFlightSearchResults,getHotelSearchResults } = require('../_lib/cache');
-const { sendErrorResponse, ERRORS } = require("../_lib/rest-utils");
+const {getFlightSearchResults, getHotelSearchResults} = require('../_lib/cache');
+const {sendErrorResponse, ERRORS} = require("../_lib/rest-utils");
 const logger = require('../_lib/logger').createLogger('/cart1');
-const { decorate } = require('../_lib/decorators');
+const {decorate} = require('../_lib/decorators');
 const {ShoppingCart} = require('../_lib/shopping-cart');
 
 const cachedResultsController = async (req, res) => {
     let sessionID = req.sessionID;
     let method = req.method;
     let shoppingCart = new ShoppingCart(sessionID);
-    if(method !== 'GET') {
+    if (method !== 'GET') {
         logger.warn("Unsupported method:%s", req.method);
         sendErrorResponse(res, 400, ERRORS.INVALID_METHOD, "Unsupported request method");
         return;
     }
     let type = (req.query.type || '').toLowerCase();
     let data;
-    let data1;
-        try{
-            if(type === 'flights') {
-                data = await getFlightSearchResults(sessionID);
-                data1 = await shoppingCart.getItemFromCart('flightSearchResults')
-            }
-            else if(type === 'hotels') {
-                data = await getHotelSearchResults(sessionID);
-                data1 = await shoppingCart.getItemFromCart('hotelSearchResults')
-            }
-        }catch(err){
-            logger.warn("Failed to retrieve cached search results, sessionID:%s", sessionID);
-            sendErrorResponse(res, 400, ERRORS.INTERNAL_SERVER_ERROR, "Could not retrieve cached results");
-            return;
+    try {
+        if (type === 'flights') {
+            data = await getFlightSearchResults(sessionID);
+        } else if (type === 'hotels') {
+            data = await getHotelSearchResults(sessionID);
         }
-    if(!data){
+    } catch (err) {
+        logger.warn("Failed to retrieve cached search results, sessionID:%s", sessionID);
+        sendErrorResponse(res, 400, ERRORS.INTERNAL_SERVER_ERROR, "Could not retrieve cached results");
+        return;
+    }
+    if (!data) {
         logger.warn("Cached search results not found - probably expired, sessionID:%s", sessionID);
         sendErrorResponse(res, 400, ERRORS.INVALID_INPUT, "Search results not found");
         return;
     }
-    res.json({data:data, data1:data1})
+    res.json({data: data})
 }
 
 module.exports = decorate(cachedResultsController);

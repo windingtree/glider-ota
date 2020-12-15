@@ -26,6 +26,10 @@ export function Filters({searchResults, onFiltersChanged}) {
         }
     }
 
+    //don't show filters if there are no results
+    if(!searchResults){
+        return (<></>)
+    }
 
     return (
         <>

@@ -37,14 +37,14 @@ export const AddToTrip = ({priceAmount, priceCurrency, isAlreadyAdded, onAdd}) =
 
     return (
         <div>
-            <Row >
-                <Col >
+            <Row className={style.priceRow}>
+                <Col className={style.priceWrapper}>
                     <div className={priceClassnames}>{priceAmount} {priceCurrency}</div>
                 </Col>
-                <Col >
+                <Col className={style.addButtonWrapper}>
                     <a href="#" className={buttonClassnames} onClick={handleButtonClick}>
-                    {(isAlreadyAdded===true) && alreadyAdded()}
-                    {(isAlreadyAdded===false) && notYetAdded()}
+                        {(isAlreadyAdded===true) && alreadyAdded()}
+                        {(isAlreadyAdded===false) && notYetAdded()}
                     </a>
                 </Col>
             </Row>

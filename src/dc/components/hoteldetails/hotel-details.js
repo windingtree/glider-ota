@@ -15,7 +15,7 @@ import {connect} from "react-redux";
 export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
     console.log('Display hotel details',hotel)
     const [selectedOffer,setSelectedOffer] = useState()
-    const [roomsExpanded,setRoomsExpanded] = useState(true)
+    const [roomsExpanded,setRoomsExpanded] = useState(false)
     const offers = searchResults.offers;
     const pricePlans = searchResults.pricePlans;
     const hotelPricePlansWithOffers = getHotelPricePlansWithOffers(hotel, offers, pricePlans);
@@ -68,7 +68,6 @@ function getHotelPricePlansWithOffers(hotel, offers, pricePlans){
     let roomTypes = hotel.roomTypes;
     let accommodationId = hotel.accommodationId;
     _.map(offers,(offer,offerId)=>{
-        console.log("OfferID",offerId," = ",offer)
         _.map(offer.pricePlansReferences,(ppRef,ppRefId)=>{
             if(ppRef.accommodation === accommodationId){
                 hotelOffers.push({

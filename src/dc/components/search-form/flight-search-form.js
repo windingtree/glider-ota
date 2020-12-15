@@ -100,7 +100,6 @@ export function FlightsSearchForm(props){
     let departureDateValid = isDepartureDateValid();
     let paxSelectionValid = isPaxSelectionValid();
     let result = originValid && destinationValid && departureDateValid && paxSelectionValid;
-    console.log('Validate form:',result, `${originValid} ${destinationValid} ${departureDateValid} ${paxSelectionValid}`)
     return result;
   }
 
@@ -112,11 +111,13 @@ export function FlightsSearchForm(props){
               <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} startPlaceholder={'Departure'} endPlaceholder={'Return'} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When' localstorageKey={'traveldates'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label='Who'/></Col>
             </Row>
+{/*
             <Row>
               <Col xs={12} md={3} className={style.formElem}>
                 <div className={style.roundTripCheckbox}> <Form.Check ><Form.Check.Input type={'checkbox'}  bsPrefix={style.roundTripCheckbox}/><Form.Check.Label bsPrefix={style.roundTripCheckboxLabel}>Round trip</Form.Check.Label></Form.Check></div>
               </Col>
             </Row>
+*/}
           </Container>
 
         </>
@@ -133,7 +134,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     searchCriteriaChanged: (searchCriteria, isSearchFormValid) => {
-      console.log('mapDispatchToProps, searchCriteriaChanged:',searchCriteria, isSearchFormValid)
       dispatch(flightSearchCriteriaChangedAction(searchCriteria, isSearchFormValid))
     }
   }
