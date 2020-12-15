@@ -7,7 +7,6 @@ const {ShoppingCart} = require('../_lib/shopping-cart');
 const cachedResultsController = async (req, res) => {
     let sessionID = req.sessionID;
     let method = req.method;
-    let shoppingCart = new ShoppingCart(sessionID);
     if (method !== 'GET') {
         logger.warn("Unsupported method:%s", req.method);
         sendErrorResponse(res, 400, ERRORS.INVALID_METHOD, "Unsupported request method");
@@ -27,8 +26,8 @@ const cachedResultsController = async (req, res) => {
         return;
     }
     if (!data) {
-        logger.warn("Cached search results not found - probably expired, sessionID:%s", sessionID);
-        sendErrorResponse(res, 400, ERRORS.INVALID_INPUT, "Search results not found");
+        //no data cached - normal case if it's initial load
+        res.json({})
         return;
     }
     res.json({data: data})

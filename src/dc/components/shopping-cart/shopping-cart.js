@@ -73,7 +73,7 @@ const Total = ({title,price, priceAmount, currency}) =>{
 }
 
 
-const FlightOfferCartItem = ({flightOffer, hotelOffer}) =>{
+const FlightOfferCartItem = ({flightOffer, hotelOffer, displayOutbound=true, displayInbound=true}) =>{
     let history = useHistory();
     if(!flightOffer)
         return (<></>)
@@ -104,13 +104,13 @@ const FlightOfferCartItem = ({flightOffer, hotelOffer}) =>{
 
     return (
         <>
-            {outboundItinerary && renderItineraryStart(outboundItinerary)}
+            {outboundItinerary && displayOutbound && renderItineraryStart(outboundItinerary)}
             {!hotelOffer &&
                 <div className={style.bookHotelLink} onClick={() => handleBookHotel(outboundItinerary, returnItinerary)}>
                     Book a hotel in {OfferUtils.getItineraryArrivalCityName(outboundItinerary)}
                 </div>
             }
-            {returnItinerary && renderItineraryStart(returnItinerary)}
+            {returnItinerary && displayInbound &&  renderItineraryStart(returnItinerary)}
         </>
     )
 }
@@ -209,6 +209,8 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
                     <FlightOfferCartItem
                         flightOffer={flightOffer}
                         hotelOffer={hotelOffer}
+                        displayOutbound={true}
+                        displayInbound={false}
                     />
                 </div>
             }
@@ -216,6 +218,11 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
                 <div className={style.flightOfferWrapper}>
                     <HotelOfferCartItem hotelOffer={hotelOffer}/>
                 </div>
+            }
+            {flightOffer &&
+            <div className={style.flightOfferWrapper}>
+                <FlightOfferCartItem flightOffer={flightOffer}  displayOutbound={false} displayInbound={true}/>
+            </div>
             }
             <HorizontalDottedLine/>
             <div className={style.flightOfferBottomWrapper}>

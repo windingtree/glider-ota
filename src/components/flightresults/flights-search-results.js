@@ -22,7 +22,7 @@ export default function FlightsSearchResults({searchResults, onOfferDisplay, fil
     }
 
     if (searchResults === undefined) {
-        return (<>Nothing was found</>)
+        return (<></>)
     }
 
     function onActivePageChange(page) {
