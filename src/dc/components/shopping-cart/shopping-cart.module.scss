@@ -4,11 +4,11 @@
 .cartContainer{
   background: $glider-color-primary-background;
   border-radius: 8px;
-  padding: 20px;
 }
 
 .cartHeader{
-  @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal)
+  @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
+  padding: 20px 20px 0 20px;
 }
 
 .subtotalItem{
@@ -31,6 +31,14 @@
 }
 .hotelItemRoomName {
   @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-normal)
+}
+
+.flightOfferWrapper {
+  padding: 0 20px 0 20px;
+}
+
+.flightOfferBottomWrapper {
+  padding: 0 20px 20px 20px;
 }
 
 

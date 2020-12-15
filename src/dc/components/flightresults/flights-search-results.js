@@ -29,7 +29,6 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
     const [sortType, setSortType] = useState('PRICE');
 
     useEffect(()=>{
-        console.log(`FlightsSearchResults, isStoreInitialized=${isStoreInitialized}`)
         if(!isStoreInitialized)
             onRestoreResultsFromCache();
     },[])

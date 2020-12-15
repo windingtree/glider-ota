@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
         payload,
         error
     } = action;
-    console.log(`Reducer:${moduleName}, action:`,action)
+    // console.log(`Reducer:${moduleName}, action:`,action)
     switch (type) {
         case ERROR:
             return Object.assign({}, state, {

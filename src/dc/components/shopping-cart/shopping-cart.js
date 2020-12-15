@@ -140,7 +140,6 @@ const HotelOfferCartItem = ({hotelOffer}) => {
 export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress}) =>{
     let history = useHistory();
 
-    console.log(`Shopping cart refreshed,isShoppingCartUpdateInProgress=${isShoppingCartUpdateInProgress}`)
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
         e.preventDefault();
@@ -190,14 +189,24 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
             <div className={style.cartHeader}>Your trip so far</div>
             <Spinner enabled={isShoppingCartUpdateInProgress===true}/>
             <HorizontalDottedLine/>
-            {flightOffer && <FlightOfferCartItem flightOffer={flightOffer}/>}
-            {hotelOffer && <HotelOfferCartItem hotelOffer={hotelOffer}/> }
+            {flightOffer &&
+                <div className={style.flightOfferWrapper}>
+                    <FlightOfferCartItem flightOffer={flightOffer}/>
+                </div>
+            }
+            {hotelOffer &&
+                <div className={style.flightOfferWrapper}>
+                    <HotelOfferCartItem hotelOffer={hotelOffer}/>
+                </div>
+            }
             <HorizontalDottedLine/>
-            {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/>}
-            {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/>}
-            {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
-            <div className={'pt-2'}/>
-            <a href={"#"} className={bookButtonClassnames} onClick={onProceedToBook}>Book</a>
+            <div className={style.flightOfferBottomWrapper}>
+                {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/> }
+                {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/> }
+                {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
+                <div className={'pt-2'}/>
+                <a href={"#"} className={bookButtonClassnames} onClick={onProceedToBook}>Book</a>
+            </div>
             {config.DEV_MODE && links()}
         </div>
 
