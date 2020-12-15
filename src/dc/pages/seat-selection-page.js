@@ -7,7 +7,7 @@ import {BookingFlowBreadcrumb, STEPS} from "./booking-flow-breadcrumb";
 export default function DCSeatSelectionPage() {
     let breadcrumb = <BookingFlowBreadcrumb currentStepId={STEPS.SEAT_SELECTION}/>
 
-    return (<BookingFlowLayout breadcrumb={breadcrumb}>>
+    return (<BookingFlowLayout breadcrumb={breadcrumb}>
         <SeatSelectionContent/>
     </BookingFlowLayout>)
 }

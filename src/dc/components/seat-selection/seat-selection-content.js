@@ -313,7 +313,6 @@ export function SeatSelectionContent({offerId, searchResults, refreshInProgress}
                     {loadingSpinner()}
                     {currentSeatmap()}
                 </div>
-
             </div>
         </>
     );

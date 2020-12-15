@@ -86,7 +86,11 @@ const FlightOfferCartItem = ({flightOffer}) =>{
     let returnItinerary = itineraries.length>1?itineraries[1]:null;
 
     const renderItineraryStart = (itinerary) =>{
+        console.log('Itinerary:',itinerary)
+        let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
+        console.log('First seg:',firstSegment)
         let cityName = OfferUtils.getItineraryDepartureAirportName(itinerary)
+        console.log('cityName:',cityName)
         let cityCode = OfferUtils.getItineraryDepartureAirportCode(itinerary);
         let departureTime = OfferUtils.getItineraryDepartureDate(itinerary)
         return (<ArrivalDeparture adType={ADTYPES.DEPARTURE} date={departureTime} cityCode={cityCode} cityName={cityName}/>)
