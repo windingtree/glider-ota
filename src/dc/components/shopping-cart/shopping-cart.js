@@ -73,13 +73,14 @@ const Total = ({title,price, priceAmount, currency}) =>{
 }
 
 
-const FlightOfferCartItem = ({flightOffer}) =>{
+const FlightOfferCartItem = ({flightOffer, hotelOffer}) =>{
+    let history = useHistory();
     if(!flightOffer)
         return (<></>)
 
     const {itineraries} = flightOffer;
 
-    if(!Array.isArray(itineraries) || itineraries.length==0)
+    if(!Array.isArray(itineraries) || itineraries.length===0)
         return (<></>)
 
     let outboundItinerary = itineraries.length>0?itineraries[0]:null;
@@ -92,9 +93,23 @@ const FlightOfferCartItem = ({flightOffer}) =>{
         return (<ArrivalDeparture adType={ADTYPES.DEPARTURE} date={departureTime} cityCode={cityCode} cityName={cityName}/>)
     }
 
+    const handleBookHotel = (outboundItinerary, returnItinerary) => {
+        history.push('/dc', {
+            searchType: 'HOTELS',
+            city: OfferUtils.getItineraryArrivalCityName(outboundItinerary),
+            dateIn: OfferUtils.getItineraryArrivalDate(outboundItinerary),
+            dateOut: returnItinerary ? OfferUtils.getItineraryDepartureDate(returnItinerary) : undefined
+        });
+    };
+
     return (
         <>
             {outboundItinerary && renderItineraryStart(outboundItinerary)}
+            {!hotelOffer &&
+                <div className={style.bookHotelLink} onClick={() => handleBookHotel(outboundItinerary, returnItinerary)}>
+                    Book a hotel in {OfferUtils.getItineraryArrivalCityName(outboundItinerary)}
+                </div>
+            }
             {returnItinerary && renderItineraryStart(returnItinerary)}
         </>
     )
@@ -191,7 +206,10 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
             <HorizontalDottedLine/>
             {flightOffer &&
                 <div className={style.flightOfferWrapper}>
-                    <FlightOfferCartItem flightOffer={flightOffer}/>
+                    <FlightOfferCartItem
+                        flightOffer={flightOffer}
+                        hotelOffer={hotelOffer}
+                    />
                 </div>
             }
             {hotelOffer &&

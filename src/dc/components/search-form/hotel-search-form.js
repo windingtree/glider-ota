@@ -23,7 +23,6 @@ export function HotelSearchForm(props){
     maxPassengers,
     showLabels,
     searchCriteriaChanged
-
   } = props;
 
 
@@ -117,7 +116,15 @@ export function HotelSearchForm(props){
 
           <Container fluid={true}>
             <Row >
-              <Col xs={12} md={3} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='Destination/Hotel' localstorageKey={'destination'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}>
+                <CityLookup
+                  initialLocation={initiDest}
+                  onSelectedLocationChange={setDestination}
+                  placeHolder='Destination'
+                  label='Destination/Hotel'
+                  localstorageKey={'destination'}
+                />
+              </Col>
               <Col xs={12} md={6} className={style.formElem}>
                 <DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When' localstorageKey={'traveldates'}/>
               </Col>

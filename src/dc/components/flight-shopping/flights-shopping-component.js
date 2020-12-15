@@ -6,11 +6,11 @@ import ShoppingCart from "../shopping-cart/shopping-cart";
 import {Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 
-export default function FlightsShoppingComponent() {
+export default function FlightsShoppingComponent(props) {
     return (
         <div>
             <Row>
-                <FlightsSearchForm/>
+                <FlightsSearchForm {...props}/>
             </Row>
             <Row >
                 <Col xs={0} sm={0} md={3} xl={0} className='d-none d-md-block'>

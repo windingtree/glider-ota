@@ -6,11 +6,11 @@ import {Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import ShoppingCart from "../shopping-cart/shopping-cart";
 
-export default function HotelsShoppingComponent() {
+export default function HotelsShoppingComponent(props) {
     return (
         <div>
             <Row>
-                <HotelSearchForm/>
+                <HotelSearchForm {...props}/>
             </Row>
             <Row>
                 <Col xs={0} sm={0} md={3} xl={0} className='d-none d-md-block'>
