@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import style from './hotel-search-results.module.scss'
-import {Container, Row} from 'react-bootstrap'
 import _ from 'lodash'
-import SingleHotel from "./single-hotel";
 import HotelDetails from "../hoteldetails/hotel-details"
 
 import {HotelSearchResultsFilterHelper} from "../../../utils/hotel-search-results-filter-helper";
@@ -16,8 +14,8 @@ import {
 import {connect} from "react-redux";
 import Spinner from "../../../components/common/spinner";
 import SearchButton from "../search-form/search-button";
-import ResultsPaginator, {limitSearchResultsToCurrentPage} from "../common/pagination/results-paginator";
-const ITEMS_PER_PAGE=2;
+import ResultsPaginator, {limitSearchResultsToCurrentPage, ITEMS_PER_PAGE} from "../common/pagination/results-paginator";
+
 export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFormValid, filters, searchInProgress, isStoreInitialized, onRestoreResultsFromCache, error}) {
     const [currentPage, setCurrentPage] = useState(1);
 
