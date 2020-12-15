@@ -120,10 +120,7 @@ class ShoppingCart {
      */
     async getUserPreference(userPreferenceKey){
         let cart = await this.getCart();
-        let record = cart.userPreferences[userPreferenceKey];
-        if(record == null)
-            return null;
-        return record.item;
+        return cart.userPreferences[userPreferenceKey];
     }
 
    /**

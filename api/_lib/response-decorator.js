@@ -131,5 +131,10 @@ function _roundToTwoDecimals(number){
     return Math.round( number * 100 + Number.EPSILON ) / 100
 }
 module.exports={
-    enrichResponseWithDictionaryData,enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames,replaceUTCTimeWithLocalAirportTime: convertUTCtoLocalAirportTime, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission
+    enrichResponseWithDictionaryData,
+    enrichAirportCodesWithAirportDetails,
+    enrichOperatingCarrierWithAirlineNames,
+    replaceUTCTimeWithLocalAirportTime: convertUTCtoLocalAirportTime,
+    setDepartureDatesToNoonUTC,
+    increaseConfirmedPriceWithStripeCommission
 }
