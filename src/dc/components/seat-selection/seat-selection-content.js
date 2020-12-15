@@ -12,15 +12,14 @@ import './seat-selection-content.scss';
 import {
     addFlightToCartAction,
     flightOfferSelector,
-    flightResultsSelector,
     hotelOfferSelector
-} from "../../../redux/sagas/cart";
+} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {
     flightSearchResultsSelector,
     isFlightSearchInProgressSelector,
     isHotelSearchInProgressSelector, requestSearchResultsRestoreFromCache
-} from "../../../redux/sagas/shopping";
+} from "../../../redux/sagas/shopping-flow-store";
 
 
 // SeatMap page rendering
@@ -314,7 +313,6 @@ export function SeatSelectionContent({offerId, searchResults, refreshInProgress}
                     {loadingSpinner()}
                     {currentSeatmap()}
                 </div>
-
             </div>
         </>
     );
@@ -322,7 +320,7 @@ export function SeatSelectionContent({offerId, searchResults, refreshInProgress}
 
 
 const mapStateToProps = state => ({
-    searchResults:flightResultsSelector(state),
+    searchResults:flightSearchResultsSelector(state),
     offerId: flightOfferSelector(state)?flightOfferSelector(state).offerId:undefined,
     refreshInProgress:(isFlightSearchInProgressSelector(state)===true || isHotelSearchInProgressSelector(state)===true)
 });

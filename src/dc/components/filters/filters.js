@@ -8,7 +8,7 @@ import {AirlinesFilter} from "./airlines-filter";
 import {FILTERS} from "./filters-utils";
 import {
     flightFiltersSelector, applyFlightFilterAction, flightSearchResultsSelector
-} from "../../../redux/sagas/shopping";
+} from "../../../redux/sagas/shopping-flow-store";
 import {connect} from "react-redux";
 
 export function Filters({searchResults, onFiltersChanged}) {

@@ -6,12 +6,11 @@ import _ from 'lodash'
 import classNames from 'classnames/bind';
 import {
     bookAction,
-    restoreCartFromServerAction,
+    requestCartRestoreFromServer,
     errorSelector,
     flightOfferSelector,
-    hotelOfferSelector,
-    isUpdateInProgressSelector
-} from "../../../redux/sagas/cart";
+    hotelOfferSelector, isShoppingCartUpdateInProgress
+} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
 import OfferUtils, {safeDateFormat} from "../../../utils/offer-utils";
@@ -19,7 +18,9 @@ import {LodgingInfo} from "../accommodation-blocks/lodging-info";
 import {Link} from "react-router-dom";
 import {config} from "../../../config/default"
 import {useHistory} from "react-router-dom";
-import {requestSearchResultsRestoreFromCache} from "../../../redux/sagas/shopping";
+import {
+    requestSearchResultsRestoreFromCache
+} from "../../../redux/sagas/shopping-flow-store";
 import Spinner from "../common/spinner";
 
 
@@ -85,7 +86,11 @@ const FlightOfferCartItem = ({flightOffer}) =>{
     let returnItinerary = itineraries.length>1?itineraries[1]:null;
 
     const renderItineraryStart = (itinerary) =>{
+        console.log('Itinerary:',itinerary)
+        let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
+        console.log('First seg:',firstSegment)
         let cityName = OfferUtils.getItineraryDepartureAirportName(itinerary)
+        console.log('cityName:',cityName)
         let cityCode = OfferUtils.getItineraryDepartureAirportCode(itinerary);
         let departureTime = OfferUtils.getItineraryDepartureDate(itinerary)
         return (<ArrivalDeparture adType={ADTYPES.DEPARTURE} date={departureTime} cityCode={cityCode} cityName={cityName}/>)
@@ -136,10 +141,10 @@ const HotelOfferCartItem = ({hotelOffer}) => {
     </>)
 }
 
-export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isUpdateInProgress}) =>{
+export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress}) =>{
     let history = useHistory();
 
-    console.log('Shopping cart refreshed')
+    console.log(`Shopping cart refreshed,isShoppingCartUpdateInProgress=${isShoppingCartUpdateInProgress}`)
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
         e.preventDefault();
@@ -181,13 +186,13 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
     }
 
     if(cartIsEmpty)
-        return (<>{config.DEV_MODE && links()}<Spinner enabled={isUpdateInProgress===true}/></>)
+        return (<>{config.DEV_MODE && links()}<Spinner enabled={isShoppingCartUpdateInProgress===true}/></>)
 
 
     return (
         <div className={style.cartContainer}>
             <div className={style.cartHeader}>Your trip so far</div>
-            <Spinner enabled={isUpdateInProgress===true}/>UPDATE:{isUpdateInProgress===true}
+            <Spinner enabled={isShoppingCartUpdateInProgress===true}/>
             <HorizontalDottedLine/>
             {flightOffer && <FlightOfferCartItem flightOffer={flightOffer}/>}
             {hotelOffer && <HotelOfferCartItem hotelOffer={hotelOffer}/> }
@@ -229,21 +234,23 @@ const mapStateToProps = state => ({
     flightOffer: flightOfferSelector(state),
     hotelOffer: hotelOfferSelector(state),
     error: errorSelector(state),
-    isUpdateInProgress:isUpdateInProgressSelector(state)
+    isShoppingCartUpdateInProgress:isShoppingCartUpdateInProgress(state),
+
 });
+
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
         restoreCartFromServer: () => {
-            dispatch(restoreCartFromServerAction())
+            dispatch(requestCartRestoreFromServer())
+        },
+        restoreSearchResultsFromCache: ()=>{
+            dispatch(requestSearchResultsRestoreFromCache())
         },
         onStore: () => {
             dispatch(bookAction())
         },
-        restoreSearchResultsFromCache: ()=>{
-            dispatch(requestSearchResultsRestoreFromCache())
-        }
 
     }
 }

@@ -79,9 +79,11 @@ export async function storeSelectedOffer(selectedOffer){
   return fetchPost('/api/cart/offer',{offer:selectedOffer});
 }
 
+/*
 export async function retrieveSelectedOffer(){
   return fetchGet('/api/cart/offer',{});
 }
+*/
 
 export async function storeSelectedAccommodation(selectedOffer){
   return fetchPost('/api/cart/accommodation',{offer:selectedOffer});
