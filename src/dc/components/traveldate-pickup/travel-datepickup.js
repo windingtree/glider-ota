@@ -33,6 +33,7 @@ export default function TravelDatepickup({
         <>
             {label && <div className={style.label}>{label}</div>}
         <DatePicker
+            placeholderText="Click to select a date"
             selected={startDate}
             onChange={onChange}
             startDate={startDate}

@@ -34,6 +34,7 @@ export default function DateRangePickup({
         <>
             {label && <div className={style.label}>{label}</div>}
         <DatePicker
+            placeholderText="Click to select a date"
             selected={startDate}
             onChange={onChange}
             startDate={startDate}

@@ -26,6 +26,7 @@ export default function DatePickup({initialDate,onDateChanged,placeholder = 'Dep
         <>
             {label && <div className={style.label}>{label}</div>}
         <DatePicker
+            placeholderText="Click to select a date"
             selected={startDate}
             onChange={onChange}
             minDate={new Date()}
