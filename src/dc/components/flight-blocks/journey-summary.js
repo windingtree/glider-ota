@@ -14,7 +14,7 @@ const NightsAtDestination = ({nights, cityName}) => {
 export const JourneySummary = ({itineraries}) => {
     const isOneWay = (itineraries.length == 1);
     if(isOneWay)
-        return (<ItinerarySummary itinerary={itineraries[0]}/>)
+        return (<div className={style.itinerarySummaryWrapper}><ItinerarySummary itinerary={itineraries[0]}/></div>)
 
     let outboundItinerary = itineraries[0];
     let returnItinerary = itineraries[1];
