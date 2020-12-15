@@ -191,7 +191,7 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
             <HorizontalDottedLine/>
             {flightOffer &&
                 <div className={style.flightOfferWrapper}>
-                    <FlightOfferCartItem flightOffer={flightOffer}  displayOutbound={true} displayInbound={true}/>
+                    <FlightOfferCartItem flightOffer={flightOffer}  displayOutbound={true} displayInbound={false}/>
                 </div>
             }
             {hotelOffer &&
