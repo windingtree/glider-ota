@@ -20,13 +20,13 @@ export default function DatePickup({initialDate,onDateChanged,placeholder = 'Dep
         }
     };
 
-    const inputElem = (<CustomInput date={startDate} placeholderText="Click to select a date" />)
+    const inputElem = (<CustomInput date={startDate} placeholderText="Select dates" />)
 
     return (
         <>
             {label && <div className={style.label}>{label}</div>}
         <DatePicker
-            placeholderText="Click to select a date"
+            placeholderText="Select dates"
             selected={startDate}
             onChange={onChange}
             minDate={new Date()}
