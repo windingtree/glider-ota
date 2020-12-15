@@ -15,7 +15,7 @@ import {
     signInError
 } from '../../redux/sagas/web3';
 import { createPaymentIntent } from "../../../src/utils/api-utils";
-import {BookingFlowBreadcrumb, STEPS} from "./booking-flow-breadcrumb";
+import BookingFlowBreadcrumb, {STEPS} from "../components/common-blocks/breadcrumbs"
 import BookingFlowLayout from "../components/layout/booking-flow-layout";
 
 const CountDown = props => {

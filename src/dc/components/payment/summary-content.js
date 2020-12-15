@@ -9,13 +9,17 @@ import {RouteOverview} from "../flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner"
-import {flightOfferSelector} from "../../../redux/sagas/shopping-cart-store";
+import {
+    flightOfferSelector,
+    isShoppingCartInitializedSelector,
+    requestCartRestoreFromServer
+} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import style from "./summary-content.module.scss"
 import {
     flightSearchResultsSelector,
     isFlightSearchInProgressSelector,
-    isHotelSearchInProgressSelector,
+    isHotelSearchInProgressSelector, isShoppingFlowStoreInitialized, isShoppingResultsRestoreInProgressSelector,
     requestSearchResultsRestoreFromCache
 } from "../../../redux/sagas/shopping-flow-store";
 import {JourneySummary} from "../flight-blocks/journey-summary";
@@ -33,7 +37,7 @@ function RenderPleaseWait(){
 }
 
 
-export function SummaryContent({searchResults, offerId, onRestoreSearchResults}) {
+export function SummaryContent({searchResults, offerId, onRestoreSearchResults, onRestoreShoppingCart,refreshInProgress,isShoppingCartStoreInitialized, isShoppingFlowStoreInitialized}) {
     let history = useHistory();
     const [passengerDetails, setPassengerDetails] = useState();
     const [confirmedOffer, setConfirmedOffer] = useState();
@@ -107,11 +111,18 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
 
     //Populate summary with passengers details from session
     useEffect(()=>{
-        if(!searchResults){
+        if(!isShoppingFlowStoreInitialized){
+            console.log('Initialize shopping flow')
+            //no search results in store - probably page was refreshed, try to restore search results from cache
             onRestoreSearchResults();
+            return
+        }else{
+            console.log('we have shopping results - initialize passengers')
         }
-        if(!passengerDetails) {
-            loadPassengerDetailsFromServer();
+
+        if(!isShoppingCartStoreInitialized){
+            console.log('Initialize shopping cart')
+            onRestoreShoppingCart();
         }
 
         repriceItemsInCart();
@@ -134,7 +145,7 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
             <div>
                 <div className='root-container-subpages'>
                     {itineraries &&         (<div className={style.itineraryContainer}><JourneySummary itineraries={itineraries}/></div>)}
-                    {loadInProgress && <RenderPleaseWait/>}
+                    {(loadInProgress||refreshInProgress) && <RenderPleaseWait/>}
                     {pricingFailed && PricingErrorAlert()}
                     {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}
                     {confirmedOffer &&
@@ -160,7 +171,9 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
 const mapStateToProps = state => ({
     searchResults:flightSearchResultsSelector(state),
     offerId: flightOfferSelector(state)?flightOfferSelector(state).offerId:undefined,
-    refreshInProgress:(isFlightSearchInProgressSelector(state)===true || isHotelSearchInProgressSelector(state)===true)
+    refreshInProgress:isShoppingResultsRestoreInProgressSelector(state),
+    isShoppingFlowStoreInitialized: isShoppingFlowStoreInitialized(state),
+    isShoppingCartStoreInitialized: isShoppingCartInitializedSelector(state)
 
 });
 
@@ -169,7 +182,11 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onRestoreSearchResults: () =>{
             dispatch(requestSearchResultsRestoreFromCache());
+        },
+        onRestoreShoppingCart: () =>{
+            dispatch(requestCartRestoreFromServer());
         }
+
     }
 }
 

@@ -40,7 +40,11 @@ export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
         let itineraries = offerItinIds.map((itinId)=>{return this.getItinerary(itinId);})
 
         //put itins in order (departure date of first segment)
-        this.sortItinerariesInDepartureTimeAscendingOrder(itineraries);
+        try {
+            this.sortItinerariesInDepartureTimeAscendingOrder(itineraries);
+        }catch (err){
+            console.log('error while sorting itins',itineraries)
+        }
         return itineraries;
     }
 
