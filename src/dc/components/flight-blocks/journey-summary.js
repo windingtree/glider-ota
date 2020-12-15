@@ -2,6 +2,7 @@ import React from 'react';
 import {ItinerarySummary} from "./itinerary-summary"
 import OfferUtils from '../../../utils/offer-utils'
 import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
+import style from './journey-summary.module.scss'
 
 const NightsAtDestination = ({nights, cityName}) => {
     let text = `${nights} nights in ${cityName}`;
@@ -29,11 +30,15 @@ export const JourneySummary = ({itineraries}) => {
     }
 
     return (
-        <div>
-            <ItinerarySummary itinerary={outboundItinerary}/>
+        <>
+            <div className={style.itinerarySummaryWrapper}>
+                <ItinerarySummary itinerary={outboundItinerary}/>
+            </div>
             {(cityName && lengthOfStay>0) && (<NightsAtDestination cityName={cityName} nights={lengthOfStay}/>)}
-            <ItinerarySummary itinerary={returnItinerary}/>
-        </div>
+            <div className={style.itinerarySummaryWrapperReturn}>
+                <ItinerarySummary itinerary={returnItinerary}/>
+            </div>
+        </>
     )
 }
 
