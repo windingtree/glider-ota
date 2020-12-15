@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import {Button, Row, Col, Container} from 'react-bootstrap'
+import {Button, Row, Col, Container, Form} from 'react-bootstrap'
 import DateRangePickup from '../traveldate-pickup/date-range-pickup'
-import style from './search-form.module.scss'
+import style from './flight-search-form.module.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
 import {AirportLookup} from "../lookup/airport-lookup";
 
@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import {
   flightSearchCriteriaChangedAction
 } from '../../../redux/sagas/shopping';
+import {CalendarContainer} from "react-datepicker";
 
 
 export function FlightsSearchForm(props){
@@ -106,10 +107,15 @@ export function FlightsSearchForm(props){
     return (<>
           <Container fluid={true}>
             <Row >
-              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Origin' label='From' localstorageKey={'origin'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='To' localstorageKey={'destination'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When' localstorageKey={'traveldates'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Where from' label='From' localstorageKey={'origin'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Where to' label='To' localstorageKey={'destination'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} startPlaceholder={'Departure'} endPlaceholder={'Return'} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When' localstorageKey={'traveldates'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label='Who'/></Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={3} className={style.formElem}>
+                <div className={style.roundTripCheckbox}> <Form.Check ><Form.Check.Input type={'checkbox'}  bsPrefix={style.roundTripCheckbox}/><Form.Check.Label bsPrefix={style.roundTripCheckboxLabel}>Round trip</Form.Check.Label></Form.Check></div>
+              </Col>
             </Row>
           </Container>
 

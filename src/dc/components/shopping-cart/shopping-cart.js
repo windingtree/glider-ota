@@ -1,18 +1,26 @@
 import React from 'react'
 import style from './shopping-cart.module.scss'
 import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
-import {Button, Col, Container, Image, Row} from 'react-bootstrap'
+import {Col, Image, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import classNames from 'classnames/bind';
-import {bookAction, storeCartOnServerAction,restoreCartFromServerAction, errorSelector, flightOfferSelector, hotelOfferSelector} from "../../../redux/sagas/cart";
+import {
+    bookAction,
+    restoreCartFromServerAction,
+    errorSelector,
+    flightOfferSelector,
+    hotelOfferSelector,
+    isUpdateInProgressSelector
+} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
-import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
-import {FlightDuration} from "../flight-blocks/flight-duration";
 import OfferUtils, {safeDateFormat} from "../../../utils/offer-utils";
-import {FaBed} from "react-icons/fa";
 import {LodgingInfo} from "../accommodation-blocks/lodging-info";
 import {Link} from "react-router-dom";
+import {config} from "../../../config/default"
+import {useHistory} from "react-router-dom";
+import {requestSearchResultsRestoreFromCache} from "../../../redux/sagas/shopping";
+import Spinner from "../common/spinner";
 
 
 let cx = classNames.bind(style);
@@ -91,17 +99,13 @@ const FlightOfferCartItem = ({flightOffer}) =>{
     )
 }
 
-const getHotelCityNameFromAddress = (hotel) => {
-    const city = _.get(hotel,'contactInformation.address.locality');
-    return city;
-}
 const HotelOfferCartItem = ({hotelOffer}) => {
     if(!hotelOffer)
         return (<></>);
 
     const {offerId, hotel, room, price, checkInDate, checkOutDate} = hotelOffer;
 
-    const cityName = getHotelCityNameFromAddress(hotel);
+    const cityName = _.get(hotel,'contactInformation.address.locality');
 
     const renderRoomInfo = (room) => {
         if(!room || !room.name)
@@ -132,26 +136,25 @@ const HotelOfferCartItem = ({hotelOffer}) => {
     </>)
 }
 
-export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer, storeOnServer}) =>{
+export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isUpdateInProgress}) =>{
+    let history = useHistory();
 
-    const onBookHandler = (e) => {
+    console.log('Shopping cart refreshed')
+    //redirect to booking flow (pax details page)
+    const onProceedToBook = (e) => {
         e.preventDefault();
-        if(onBook) {
-            onBook()
-        }
-        else{
-            console.warn('onBook is not defined!')
-        }
-    }
-    const onRestoreFromServer = (e) => {
-        e.preventDefault();
-        restoreFromServer();
-    }
-    const onStoreOnServer = (e) => {
-        e.preventDefault();
-        storeOnServer();
+        let url='/dc/pax';
+        history.push(url);
     }
 
+    const onRestoreCartFromServer = (e) => {
+        e.preventDefault();
+        restoreCartFromServer();
+    }
+    const onRestoreSearchResultsFromCache = (e) => {
+        e.preventDefault();
+        restoreSearchResultsFromCache();
+    }
 
     let bookButtonClassnames=cx({
         btn:true,
@@ -166,24 +169,25 @@ export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer
     let cartIsEmpty = (!flightOffer && !hotelOffer)
 
     const links = () =>{
-        return (<div>
-            <Link to={'/dc/pax'}>Book</Link><br/>
+        return (<div className={style.debugLinks}>
+            <Link to={'/dc/pax'}>Pax details</Link><br/>
             <Link to={'/dc/ancillaries'}>Ancillaries</Link><br/>
             <Link to={'/dc/seatmap'}>Seatmap</Link><br/>
-            <Link to={'/dc/summary'}>pricing</Link><br/>
-            <a href={"#"}  onClick={onStoreOnServer}>Store on server</a><br/><br/>
-            <a href={"#"}  onClick={onRestoreFromServer}>Restore from server</a><br/>
+            <Link to={'/dc/summary'}>Pricing</Link><br/>
+            <a href={"#"}  onClick={onRestoreCartFromServer}>Restore cart from server</a><br/>
+            <a href={"#"}  onClick={onRestoreSearchResultsFromCache}>Restore search from server</a><br/>
 
         </div>)
     }
 
     if(cartIsEmpty)
-        return (<>{links()}</>)
+        return (<>{config.DEV_MODE && links()}<Spinner enabled={isUpdateInProgress===true}/></>)
 
 
     return (
         <div className={style.cartContainer}>
             <div className={style.cartHeader}>Your trip so far</div>
+            <Spinner enabled={isUpdateInProgress===true}/>UPDATE:{isUpdateInProgress===true}
             <HorizontalDottedLine/>
             {flightOffer && <FlightOfferCartItem flightOffer={flightOffer}/>}
             {hotelOffer && <HotelOfferCartItem hotelOffer={hotelOffer}/> }
@@ -192,8 +196,8 @@ export const ShoppingCart = ({flightOffer, hotelOffer, onBook, restoreFromServer
             {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/>}
             {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
             <div className={'pt-2'}/>
-            <a href={"#"} className={bookButtonClassnames} onClick={onBookHandler}>Book</a>
-            {links()}
+            <a href={"#"} className={bookButtonClassnames} onClick={onProceedToBook}>Book</a>
+            {config.DEV_MODE && links()}
         </div>
 
     )
@@ -224,21 +228,23 @@ const calculateTotalPrice = (hotelPrice, flightPrice) => {
 const mapStateToProps = state => ({
     flightOffer: flightOfferSelector(state),
     hotelOffer: hotelOfferSelector(state),
-    error: errorSelector(state)
+    error: errorSelector(state),
+    isUpdateInProgress:isUpdateInProgressSelector(state)
 });
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        storeOnServer: () => {
-            dispatch(storeCartOnServerAction())
-        },
-        restoreFromServer: () => {
+        restoreCartFromServer: () => {
             dispatch(restoreCartFromServerAction())
         },
         onStore: () => {
             dispatch(bookAction())
+        },
+        restoreSearchResultsFromCache: ()=>{
+            dispatch(requestSearchResultsRestoreFromCache())
         }
+
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ShoppingCart);

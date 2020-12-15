@@ -9,11 +9,12 @@ import _ from 'lodash';
 import Button from "react-bootstrap/Button";
 import {addFlightToCartAction, flightOfferSelector, flightResultsSelector} from "../../../redux/sagas/cart";
 import {connect} from "react-redux";
+import DevConLayout from "../layout/devcon-layout";
+import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
 
 
 export  function AncillariesSelectionContent({offerId, searchResults, setSelectedOffer}) {
     let history = useHistory();
-    console.log(`AncillariesSelection, offerId:${offerId}, searchResults:`,searchResults)
     let searchResultsWrapper;
     let tripRates;
     let selectedOffer;
@@ -70,8 +71,8 @@ export  function AncillariesSelectionContent({offerId, searchResults, setSelecte
                         tripRates={tripRates}
                         selectedOffer={selectedOffer}  onSelectedOfferChange={handleOfferChange}/>
                     {/*<TotalPriceButton price={selectedOffer.price} proceedButtonTitle="Proceed" onProceedClicked={onProceedButtonClick}/>*/}
-                    <Button onClick={onBackButtonClick}>Back</Button>
-                    <Button onClick={onProceedButtonClick}>Proceed to booking</Button>
+                    <NaviButtons prevEnabled={true} nextEnabled={true} onPrev={onBackButtonClick} onNext={onProceedButtonClick}/>
+
                 </div>
             </div>
         </>
@@ -87,10 +88,7 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
         onSelectedOfferChange(offerId)
     }
 
-    function displayOffer(offerId){
-        let url='/flights/farefamilies/'+offerId;
-        history.push(url, { baselineFare:baselineFare});
-    }
+
     let itineraries = tripRates.itineraries;
     return (
         <>
@@ -116,6 +114,21 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
 
             </div>
         </>
+    )
+}
+
+const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
+    return(
+        <Row>
+            <Col sm={4}>
+                <Button className={'btn-block'} variant="outline-primary"  disabled={prevEnabled===false} onClick={onPrev}>Back</Button>
+            </Col>
+            <Col sm={4}>
+            </Col>
+            <Col sm={4}>
+                <Button className={'btn-block'} variant="primary"  disabled={nextEnabled===false} onClick={onNext}>Proceed</Button>
+            </Col>
+        </Row>
     )
 }
 

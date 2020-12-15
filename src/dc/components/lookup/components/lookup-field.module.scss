@@ -1,37 +1,31 @@
 @import '../../../../styles/mixins';
 
 .lookup{
-    border: 1px solid $glider-color-text-background;
-    color: $glider-color-inputfields-text;
+    border: 1px solid $glider-color-inputfields-border;
+    color: $g-color-black;
     background-color: $glider-color-inputfields-background;
     box-sizing: border-box;
     border-radius: 8px;
-    height: 40px;
-    @include _glider-font-regular18;
-}
+    //height: 40px;
 
-/*
-.paxSelector {
-    height: 40px;
-    box-sizing: border-box;
-    border: 1px solid $glider-color-text-background;
-    background-color: #ffffff;
-    border-radius: 8px;
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
     margin: 0px 4px;
 }
 
-*/
-
 .inputField{
-    width:80%;
-    color: $glider-color-inputfields-text;
+    width:70%;
+    @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
     background-color: $glider-color-inputfields-background;
     display: inline;
     border: 0px;
     box-sizing: border-box;
     //border: 1px solid $glider-color-text-background;
     border-radius: 8px;
-    margin: 0px 4px;
+    padding-right: 5px;
 
 }
 .inputField:focus{
@@ -45,11 +39,11 @@
     color: $glider-color-text-background;
 }
 .code{
-    color: $glider-color-inputfields-text-secondary;
     background-color: $glider-color-inputfields-background;
+    @include g-font($g-fontsize-xl,$g-color-lightgrey,$g-fontweight-normal);
     text-align: right;
-    width: 20%;
-    padding-right: 16px;
+    width: 10%;
+    padding-right: 5px;
 }
 
 
@@ -60,20 +54,14 @@ global(.locationLookupPopover){
     border-radius: 0px 0px 5px 5px;
     width: 100%;
     max-width: 480px;
-}
-
-.bs-popover-bottom > .arrow{
-    display: none !important;
+    border:1px solid red;;
 }
 
 .pseudoFocus{
     border: 1px solid $glider-color-primary;
-    border-radius: 8px;
 }
 
-
 .label{
-    color: $glider-color-text-labels;
+    @include g-font($g-fontsize-xs,$glider-color-text-labels,$g-fontweight-normal);
     margin-left: 1px;
-    font-size: $glider-font-size-xs;
 }

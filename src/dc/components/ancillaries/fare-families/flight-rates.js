@@ -149,7 +149,7 @@ export function FareFamilyWthBenefits({familyName, price, isSelected, amenities=
             fare = "";
         }
     }
-    let name = `${familyName}, isSelected:${isSelected}`
+    let name = `${familyName}`
     return (
         <AncillarySelectableItem name={name} items={amenities} isSelected={isSelected} isDisabled={false} onSelect={onClick} price={fare}/>
     )

@@ -35,8 +35,8 @@
     "key": "ROOMS_TOKEN",
     "comment": "",
     "profiles": [
-      {"profile": "staging", "value": "https://staging.rooms.windingtree.com/api/v1/offers/search"},
-      {"profile": "production", "value": "https://"}
+      {"profile": "staging", "value": "b4b138e9b991f0fe6e74b5cc61a5f0909e58edd05a5ff267837438b6bef992a94c65b297d5b0f73232359302692f3fe3537c7ba71c5a2a521febf1cee8f40b1e037f41bd1ad1aa2789089351d17ce333a7e99596a6cc8475809a75d82abcc3bbd4a75e7a10c8255b88911e46a01c9c70c9122675ce5654b97a1fd0723a75c354b4e68db9905e7cfd9b49d7e3310be19cb3a023042cce6018be3b08eb0fbc9d2bc565390d212b27cbc90cd82326fd7691e3133163be09873daccffabb7c6920be5bf735920885df98dde0180007b39a77f5941bbe63f5a1fff9a0067cafbb22b3d349199c6b374af3fad54cea84f5636a64333dbe624c4636bd791495355af5e777ce9dfaed192c574cc927ed004e6c4925db5522ad99f9aba88ab49c0cca368ec450829e3db935b609bc032cd0c62888de6a985f07c19640702a82424d684a203a7b858c1d05d7a62b964ce477b67aea191f369f145a3e18b0568271df7a20b381f2a85e42aa2f82393c338278df567c9e8966d0d1b0dfc966ccd84166aa26d8cd8e1c46e64ef2f05720431190e2b99c20f68a55366246bb3c8a8b2e55","isEncrypted": "true"},
+      {"profile": "production", "value": "https://","isEncrypted": "true"}
     ]
   },
   {

@@ -11,6 +11,9 @@ const CART_ITEMKEYS = {
     SEATS : 'seats',
     ANCILLARIES : 'ancillaries',
     CONFIRMED_OFFER : 'confirmed-offer',
+    TRANSPORTATION_OFFER : 'TRANSPORTATION_OFFER',
+    ACCOMMODATION_OFFER : 'ACCOMMODATION_OFFER',
+    INSURANCE_OFFER : 'insurance_offer'
 };
 
 // Possible cart preferences
@@ -149,15 +152,19 @@ class ShoppingCart {
 
 
     _calculateTotalPrice(cart){
-        cart.totalPrice = 0;
+        //FIXME - replace below with a logic to calculate price with currency codes, etc...
+        cart.totalPrice.public = 0;
         _.each(cart.items, (record, key)=>{
-            cart.totalPrice+=record.price;
+            cart.totalPrice.public+=record.price.public;
         });
     }
 
     _initializeCartRecord(){
         return {
-            totalPrice: 0,
+            totalPrice: {
+                public:0,
+                currency:'EUR'
+            },
             items: {},
             userPreferences: {
                 currency: 'USD',

@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Row, Col, Container} from 'react-bootstrap'
-// import TravelDatepickup from '../traveldate-pickup/travel-datepickup'
 import DatePickup from '../traveldate-pickup/date-pickup'
-import style from './search-form.module.scss'
+import style from './hotel-search-form.module.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
 import {CityLookup} from "../lookup/city-lookup";
 import {hotelSearchCriteriaChangedAction} from "../../../redux/sagas/shopping";
@@ -110,11 +109,11 @@ export function HotelSearchForm(props){
 
           <Container fluid={true}>
             <Row >
-              <Col xs={12} md={3} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='To' localstorageKey={'destination'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><CityLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Destination' label='Destination/Hotel' localstorageKey={'destination'}/></Col>
               <Col xs={12} md={6} className={style.formElem}>
                 <DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When' localstorageKey={'traveldates'}/>
               </Col>
-              <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label='Who?'/></Col>
+              <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label='Who'/></Col>
             </Row>
           </Container>
         </>

@@ -39,7 +39,7 @@ export const AddToTrip = ({priceAmount, priceCurrency, isAlreadyAdded, onAdd}) =
         <div>
             <Row >
                 <Col >
-                    <div className={priceClassnames}> Price:{priceAmount} {priceCurrency}</div>
+                    <div className={priceClassnames}>{priceAmount} {priceCurrency}</div>
                 </Col>
                 <Col >
                     <a href="#" className={buttonClassnames} onClick={handleButtonClick}>

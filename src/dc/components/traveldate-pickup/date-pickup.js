@@ -6,6 +6,8 @@ import {format} from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./react-datepicker.scss";
+import {CustomCalendarContainer} from "./calendar-container"
+
 
 export default function DatePickup({initialDate,onDateChanged,placeholder = 'Departure',label,localstorageKey}) {
     const [startDate, setStartDate] = useState(initialDate);
@@ -29,6 +31,7 @@ export default function DatePickup({initialDate,onDateChanged,placeholder = 'Dep
             minDate={new Date()}
             monthsShown={2}
             customInput={inputElem}
+            calendarContainer={CustomCalendarContainer}
         />
         </>
     );

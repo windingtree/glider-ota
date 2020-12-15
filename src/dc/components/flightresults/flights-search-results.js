@@ -1,8 +1,6 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {config} from "../../../config/default";
 import style from './flights-search-results.module.scss'
-import {Button, Col, Container, Row} from 'react-bootstrap'
-// import {FastCheapFilter} from "../../components/filters/fast-cheap-filter";
 import {
     FlightSearchResultsFilterHelper
 } from "../../../utils/flight-search-results-filter-helper"
@@ -19,7 +17,7 @@ import {
     isFlightSearchFormValidSelector,
     flightSearchResultsSelector,
     flightsErrorSelector,
-    requestSearchResultsRestoreFromCache
+    requestSearchResultsRestoreFromCache, isStoreInitialized
 } from '../../../redux/sagas/shopping';
 import Spinner from "../../../components/common/spinner";
 
@@ -27,10 +25,17 @@ import Spinner from "../../../components/common/spinner";
 const ITEMS_PER_PAGE = config.FLIGHTS_PER_PAGE;
 
 //Component to display flight search results
-export function FlightsSearchResults({searchResults,filters, isSearchFormValid, onOfferDisplay, onSearchClicked, searchInProgress, error, onRestoreFromCache}) {
+export function FlightsSearchResults({searchResults,filters, isSearchFormValid, onOfferDisplay, onSearchClicked, searchInProgress, error, onRestoreFromCache, isStoreInitialized, onRestoreResultsFromCache}) {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortType, setSortType] = useState('PRICE');
-    console.log('isSearchFormValid:',isSearchFormValid)
+
+    useEffect(()=>{
+        if(!isStoreInitialized)
+            onRestoreResultsFromCache();
+    },[])
+
+
+
     //called when user clicked on a specific offer
     function handleOfferDisplay(offerId) {
         if(onOfferDisplay) {
@@ -65,6 +70,7 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
         return records.slice(startIdx, endIdx)
     }
 
+
     let trips = [];
     let totalResultsCount=0;
     //only use helpers when there are search results present (initially it may be null/empty)
@@ -75,8 +81,6 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
         trips = limitSearchResultsToCurrentPage(trips);
     }
     return (<>
-            <a href={"#"}  onClick={onRestoreFromCache}>Restore search results</a><br/>
-
             <SearchButton disabled={!isSearchFormValid} onSearchButtonClicked={onSearchButtonClicked}/>
             <Spinner enabled={searchInProgress}/>
             {error && (<div>ERRRORS OCCURED</div>)}
@@ -110,6 +114,7 @@ const mapStateToProps = state => ({
     searchInProgress: isFlightSearchInProgressSelector(state),
     searchResults: flightSearchResultsSelector(state),
     isSearchFormValid: isFlightSearchFormValidSelector(state),
+    isStoreInitialized: isStoreInitialized(state),
     error:flightsErrorSelector(state)
 });
 
@@ -121,9 +126,9 @@ const mapDispatchToProps = (dispatch) => {
         onOfferDisplay: () => {
             dispatch(searchForFlightsAction())
         },
-        onRestoreFromCache:()=>{
+        onRestoreResultsFromCache: () => {
             dispatch(requestSearchResultsRestoreFromCache())
-        }
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FlightsSearchResults);

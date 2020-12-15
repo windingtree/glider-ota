@@ -64,3 +64,9 @@
         padding-left: 10px;
     }
 }
+
+.roundTripCheckbox{
+}
+.roundTripCheckboxLabel{
+    @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-light);
+}
