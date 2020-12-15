@@ -41,6 +41,7 @@ export function SeatSelectionContent({offerId, searchResults, refreshInProgress}
     const [passengersMap, setPassengersMap] = useState();
     // Create required variables from history
     console.log('passengersMap:',passengersMap)
+
     const passengers = passengersMap && passengersMap.map(passenger => {
         return {
             id: passenger.id,
