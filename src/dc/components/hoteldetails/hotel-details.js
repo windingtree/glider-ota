@@ -68,7 +68,6 @@ function getHotelPricePlansWithOffers(hotel, offers, pricePlans){
     let roomTypes = hotel.roomTypes;
     let accommodationId = hotel.accommodationId;
     _.map(offers,(offer,offerId)=>{
-        console.log("OfferID",offerId," = ",offer)
         _.map(offer.pricePlansReferences,(ppRef,ppRefId)=>{
             if(ppRef.accommodation === accommodationId){
                 hotelOffers.push({

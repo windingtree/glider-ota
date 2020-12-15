@@ -63,6 +63,7 @@ export default (state = initialState, action) => {
         case SEARCH_FOR_FLIGHTS:
             return Object.assign({}, state, {
                 flightSearchInProgress:true,
+                flightSearchResults:null        //remove old search results
             });
         case FLIGHT_SEARCH_COMPLETED:
             return Object.assign({}, state, {
@@ -91,6 +92,7 @@ export default (state = initialState, action) => {
         case SEARCH_FOR_HOTELS:
             return Object.assign({}, state, {
                 hotelSearchInProgress:true,
+                hotelSearchResults:null        //remove old search results
             });
         case HOTEL_SEARCH_COMPLETED:
             return Object.assign({}, state, {
