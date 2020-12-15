@@ -12,7 +12,7 @@ export default function PaymentPage({match}) {
     const cardholderName = firstPassenger && `${firstPassenger.civility?firstPassenger.civility:''} ${firstPassenger.firstName} ${firstPassenger.lastName}`;
 
     function onPaymentSuccess(){
-        let url='/confirmation/'+confirmedOfferId;
+        let url='/dc/confirmation/'+confirmedOfferId;
         history.push(url);
     }
     function onPaymentFailure(){
