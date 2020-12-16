@@ -11,10 +11,11 @@ import {storeSearchResultsInCache,checkSearchResultsInCache} from "./local-stora
  * @returns {Promise<any|Response>}
  */
 export async function findFlights(criteria) {
-    let results = checkSearchResultsInCache(criteria)
+    let results;
+    /*let results = checkSearchResultsInCache(criteria)
     if(results) {
         // console.debug("Using search results from cache")
-    }else{
+    }else{*/
         // console.debug("Search results not found in cache")
         if (config.OFFLINE_MODE) {
             console.warn("OFFLINE_MODE = true. Using search results from static file!!!");
@@ -38,18 +39,21 @@ export async function findFlights(criteria) {
             let end=Date.now();
             uiEvent(`find flights execution time:${end-start}ms`)
         }
-        storeSearchResultsInCache(criteria,results);
+        // storeSearchResultsInCache(criteria,results);
         results = extendResponse(results);
-    }
+    // }
     return results;
 }
 
 
 export async function findHotels(criteria) {
+    let results ;
+/*
     let results = checkSearchResultsInCache(criteria)
     if(results) {
         // console.log("Using search results from cache")
     }else{
+*/
         // console.log("Search results not found in cache")
         if (config.OFFLINE_MODE) {
             console.warn("OFFLINE_MODE = true. Using search results from static file!!!");
@@ -71,9 +75,9 @@ export async function findHotels(criteria) {
             results = await fetch(config.SEARCH_OFFERS_URL, requestInfo);
             results = await results.json();
         }
-    }
-    storeSearchResultsInCache(criteria,results);
-    results = extendResponse(results);
+    // }
+    // storeSearchResultsInCache(criteria,results);
+    // results = extendResponse(results);
     return results;
 }
 

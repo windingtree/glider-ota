@@ -371,7 +371,6 @@ function* searchForHotelsSaga() {
 }
 //retrieve search results (flights & hotels) from server side cache (redis)
 function* restoreSearchResultsFromCache() {
-    console.log('Restore search results')
     //TODO - make it parallel iso sequential
     //restore flight search results
     let flightSearchResults;

@@ -18,7 +18,6 @@ const getModel = async () =>{
 const storeOffersMetadata = (offersMeta) => {
     return Promise.all(
         offersMeta.map(offer => {
-            console.log('offer:', offer)
             return storeOfferMetadata(offer.offerId,offer.endpoint)
         })
     );

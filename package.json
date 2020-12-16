@@ -16,7 +16,7 @@
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
     "@uniswap/v2-periphery": "1.1.0-beta.0",
-    "@windingtree/config-profiles": "^1.0.8",
+    "@windingtree/config-profiles": "^1.0.11",
     "@windingtree/payment-manager": "0.3.2",
     "ajv": "^6.12.4",
     "async-redis": "^1.1.7",

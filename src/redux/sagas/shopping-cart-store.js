@@ -275,7 +275,7 @@ function* addOfferIdToCart({payload}) {
         yield put(cartRestorecFromServer(flightOffer, hotelOffer))
     } catch (error) {
         console.log('*restoreCartFromServerSideSaga failed, error:',error)
-        // yield put(errorAction(error))
+        yield put(cartUpdateFailedAction(error))
     }
 }
 

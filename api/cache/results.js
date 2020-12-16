@@ -21,6 +21,7 @@ const cachedResultsController = async (req, res) => {
             data = await getHotelSearchResults(sessionID);
         }
     } catch (err) {
+        console.error(err)
         logger.warn("Failed to retrieve cached search results, sessionID:%s", sessionID);
         sendErrorResponse(res, 400, ERRORS.INTERNAL_SERVER_ERROR, "Could not retrieve cached results");
         return;
