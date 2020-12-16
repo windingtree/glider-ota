@@ -63,7 +63,7 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
                         {hotelAddress && <HotelAddress address={hotelAddress}/>}
                         {hotelDescription && <div className={style.hotelDescription}>{hotelDescription}</div>}
                         <Row>
-                            <Col>{lowestPrice && <span>{lowestPrice.public} {lowestPrice.currency}</span>}</Col>
+                            <Col>{lowestPrice && <div className={style.hotelLowestPrice}>From {lowestPrice.public} {lowestPrice.currency}</div>}</Col>
                             <Col ><ExpandCollapseToggleV2 expanded={roomsExpanded} collapsedText={'Show rooms'} expandedText={'Hide rooms'} onToggle={setRoomsExpanded} customClassName={style.showHideRoomsToggle}/></Col>
                         </Row>
 
