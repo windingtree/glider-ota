@@ -213,7 +213,7 @@ class ShoppingCart {
 
                 // Otherwise quote the currency exchange
                 else {
-                    //logger.debug(`_updateTotalPrice: Different currency, quoting | ${JSON.stringify(record)}`);
+                    logger.debug(`_updateTotalPrice: Different currency, quoting | ${JSON.stringify(record)}`);
 
                     // Create a quote if not already quoted
                     if((record.quote === undefined) || (record.quote.currency !== cart.totalPrice.currency)) {

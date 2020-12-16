@@ -9,7 +9,7 @@ import {
     requestCartRestoreFromServer,
     errorSelector,
     flightOfferSelector,
-    hotelOfferSelector, isShoppingCartUpdateInProgress
+    hotelOfferSelector, isShoppingCartUpdateInProgress, deleteFlightFromCart, totalPriceSelector
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
@@ -22,6 +22,7 @@ import {
     requestSearchResultsRestoreFromCache
 } from "../../../redux/sagas/shopping-flow-store";
 import Spinner from "../common/spinner";
+import Container from "react-bootstrap/Container";
 
 
 let cx = classNames.bind(style);
@@ -259,28 +260,6 @@ export const ShoppingCart = (props) =>{
         </div>
 
     )
-}
-
-//TODO - handle different currencies
-const calculateTotalPrice = (hotelPrice, flightPrice) => {
-    let currency;
-
-    let hotelAmount = 0;
-    if(hotelPrice){
-        hotelAmount = hotelPrice.public
-        currency = hotelPrice.currency;
-    }
-    let flightAmount = 0;
-    if(flightPrice){
-        flightAmount = flightPrice.public;
-        currency = flightPrice.currency;
-    }
-
-    let total = Number(hotelAmount) + Number(flightAmount);
-    return {
-        public:total,
-        currency:currency
-    };
 }
 
 const mapStateToProps = state => ({
