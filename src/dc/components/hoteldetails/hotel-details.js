@@ -6,9 +6,11 @@ import {Room} from "./room-details"
 import {HotelLeadingImage} from "../accommodation-blocks/hotel-leading-image";
 import {ExpandCollapseToggle, ExpandCollapseToggleV2} from "../common-blocks/expand-collapse-toggle"
 
-import {HotelAddress} from "../accommodation-blocks/hotel-address"
+import {HotelAddress} from "../accommodation-blocks/hotel-address";
+import {HotelVenueDistance} from "../accommodation-blocks/hotel-venue-distance"
 import {addHotelToCartAction} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
+
 
 
 
@@ -21,6 +23,7 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
     const hotelPricePlansWithOffers = getHotelPricePlansWithOffers(hotel, offers, pricePlans);
     const {name:hotelName, description:hotelDescription, media:hotelImages, roomTypes:rooms} = hotel;
     const hotelAddress = _.get(hotel, 'contactInformation.address');
+    const hotelCoordinates = _.get(hotel, 'location.coordinates');
     const hotelLeadingImageUrl =  getLeadingHotelImageUrl(hotel);
 
     const handleAddOfferToCart = ({offerId, price, room}) =>{
@@ -47,31 +50,31 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
         }
         if(minPrice === Number.MAX_SAFE_INTEGER) {
             return null
-        }else{
+        } else {
             return minOffer.price;
-
+        }
     }
 
-}
     let lowestPrice = findLowestHotelPrice();
 
     return (
-                <Container><Row className={style.hotelContainer}>
-                    <Col>
-                        {hotelLeadingImageUrl && <HotelLeadingImage url={hotelLeadingImageUrl}/>}
-                        <div className={style.hotelName}>{hotelName}</div>
-                        {hotelAddress && <HotelAddress address={hotelAddress}/>}
-                        {hotelDescription && <div className={style.hotelDescription}>{hotelDescription}</div>}
-                        <Row>
-                            <Col>{lowestPrice && <div className={style.hotelLowestPrice}>From {lowestPrice.public} {lowestPrice.currency}</div>}</Col>
-                            <Col ><ExpandCollapseToggleV2 expanded={roomsExpanded} collapsedText={'Show rooms'} expandedText={'Hide rooms'} onToggle={setRoomsExpanded} customClassName={style.showHideRoomsToggle}/></Col>
-                        </Row>
-
-                        {roomsExpanded && displayRooms(rooms,hotelPricePlansWithOffers,selectedOffer, handleAddOfferToCart)}
-                    </Col>
+        <Container><Row className={style.hotelContainer}>
+            <Col>
+                {hotelLeadingImageUrl && <HotelLeadingImage url={hotelLeadingImageUrl}/>}
+                <div className={style.hotelName}>{hotelName}</div>
+                {hotelAddress && <HotelAddress address={hotelAddress}/>}
+                {hotelCoordinates && <HotelVenueDistance hotelLatitude={hotelCoordinates.latitude} hotelLongitude={hotelCoordinates.longitude}/>}
+                {hotelDescription && <div className={style.hotelDescription}>{hotelDescription}</div>}
+                <Row>
+                    <Col>{lowestPrice && <div className={style.hotelLowestPrice}>From {lowestPrice.public} {lowestPrice.currency}</div>}</Col>
+                    <Col ><ExpandCollapseToggleV2 expanded={roomsExpanded} collapsedText={'Show rooms'} expandedText={'Hide rooms'} onToggle={setRoomsExpanded} customClassName={style.showHideRoomsToggle}/></Col>
                 </Row>
-                </Container>
-        )
+
+                {roomsExpanded && displayRooms(rooms,hotelPricePlansWithOffers,selectedOffer, handleAddOfferToCart)}
+            </Col>
+        </Row>
+        </Container>
+    )
 }
 
 const displayRooms = (rooms, hotelPricePlansWithOffers, selectedOffer, onAddOfferToCart) =>{
