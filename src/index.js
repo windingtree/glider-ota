@@ -36,6 +36,7 @@ import DCPaymentSummaryPage from './dc/pages/payment-summary-page'
 import DCPaymentPage from "./dc/pages/payment-page";
 import DCPaymentCryptoPage from "./dc/pages/payment-crypto-page";
 import DCConfirmationPage from "./dc/pages/confirmation-page";
+import DCPayComponent from './dc/components/common/payment/payment-selector';
 function Dispatcher() {
     return (
         <Provider store={store}>
@@ -60,12 +61,13 @@ function Dispatcher() {
                         {/*Hotels flow*/}
                         <Route path="/hotels/" component={HotelsSearchPage}/>
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
+                        <Route path="/dc/pay/" component={DCPayComponent} />
                         {<Route path="/dc/pax/" component={DCFlightPassengersPage}/>}
                         {<Route path="/dc/ancillaries/" component={DCAncillariesPage}/>}
                         {<Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>}
                         {<Route path="/dc/summary/" component={DCPaymentSummaryPage}/>}
-                        <Route path="/dc/payment/:confirmedOfferId" component={DCPaymentPage}/>
-                        <Route path="/dc/crypto/:confirmedOfferId" component={DCPaymentCryptoPage}/>
+                        {/* <Route path="/dc/payment/:confirmedOfferId" component={DCPaymentPage}/>
+                        <Route path="/dc/crypto/:confirmedOfferId" component={DCPaymentCryptoPage}/> */}
                         <Route path="/dc/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
                         <Route path="/dc/" component={DCLandingPage}/>
 

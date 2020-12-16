@@ -5,10 +5,13 @@ import BookingFlowLayout from "../components/layout/booking-flow-layout";
 import BookingFlowBreadcrumb, {STEPS} from "../components/common-blocks/breadcrumbs"
 
 
-export default function PaymentPage({match}) {
-    let history = useHistory();
-    let confirmedOfferId = match.params.confirmedOfferId;
-    const firstPassenger = history.location.state.passengers && history.location.state.passengers[0];
+export default function PaymentPage(props) {
+    const history = useHistory();
+    const {
+        confirmedOfferId,
+        passengers
+    } = props;
+    const firstPassenger = passengers && passengers[0];
     const cardholderName = firstPassenger && `${firstPassenger.civility?firstPassenger.civility:''} ${firstPassenger.firstName} ${firstPassenger.lastName}`;
 
     function onPaymentSuccess(){
