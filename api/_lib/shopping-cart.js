@@ -4,7 +4,6 @@ const {SessionStorage} = require('./session-storage');
 const {assertParameterNotEmpty} = require('./utils')
 const _ = require('lodash');
 const { createQuoteAsync, getRateAsync } = require('./simard-api');
-const { FaTruckMonster } = require('react-icons/fa');
 
 // Possible items in the cart
 const CART_ITEMKEYS = {
@@ -40,6 +39,25 @@ class ShoppingCart {
         this.sessionID = sessionID;
         this.sessionStorage = new SessionStorage(sessionID);
         this.exchangeRates = {};
+        this._cart = undefined;
+    }
+
+    /**
+     * Returns shopping cart content.
+     * Object: {
+     *     totalPrice,
+     *     items:{}
+     * }
+     * @returns {Promise<*>} Cart contents after operation
+     */
+    async getCart(){
+        if(this._cart === undefined) {
+            this._cart = await this.sessionStorage.retrieveFromSession(SESSION_STORAGE_KEY);
+        }
+        if(this._cart === null) {
+            this._cart = this._initializeCartRecord();
+        }
+        return this._cart;
     }
 
     /**
@@ -61,31 +79,14 @@ class ShoppingCart {
             price: price, // public & currency in supplier currency
             quote: undefined, // will be set if user currency is different than supplier
         }
-        let cart = await this.sessionStorage.retrieveFromSession(SESSION_STORAGE_KEY);
-        if (cart === null) {
-            cart = this._initializeCartRecord();
-        }
+        let cart = await this.getCart();
         cart.items[cartKey] = record;
-        cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,cart);
-        return cart;
+        this._cart = await this._updateTotalPrice(cart);
+        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+        return this._cart;
     }
 
-    /**
-     * Returns shopping cart content.
-     * Object: {
-     *     totalPrice,
-     *     items:{}
-     * }
-     * @returns {Promise<*>} Cart contents after operation
-     */
-    async getCart(){
-        let cart = await this.sessionStorage.retrieveFromSession(SESSION_STORAGE_KEY);
-        if (cart === null) {
-            cart = this._initializeCartRecord();
-        }
-        return cart;
-    }
+
 
     /**
      * Removes item from cart
@@ -96,10 +97,11 @@ class ShoppingCart {
         let cart = await this.getCart();
         if (cart.items[cartKey] !== undefined) {
             delete cart.items[cartKey];
+            this._cart = await this._updateTotalPrice(cart);
+            await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
         }
-        cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,cart);
-        return cart;
+        
+        return this._cart;
     }
 
     /**
@@ -134,9 +136,9 @@ class ShoppingCart {
     async setUserPreference(userPreferenceKey, value){
         let cart = await this.getCart();
         cart.userPreferences[userPreferenceKey] = value;
-        cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,cart);
-        return cart;
+        this._cart = await this._updateTotalPrice(cart);
+        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+        return this._cart;
     }
 
    /**
@@ -185,7 +187,7 @@ class ShoppingCart {
 
     // Update the total price in the cart
     async _updateTotalPrice(cart) {
-        logger.debug("Updating Cart total price");
+        //logger.debug("Updating Cart total price");
 
         // Update the currency to the user preference
         cart.totalPrice.currency = cart.userPreferences.currency;
@@ -199,25 +201,25 @@ class ShoppingCart {
             let itemKey = Object.keys(cart.items)[i];
             let record = cart.items[itemKey];
 
-            logger.debug(`_updateTotalPrice: Processing ${itemKey} | ${JSON.stringify(record.price)}`);
+            //logger.debug(`_updateTotalPrice: Processing ${itemKey} | ${JSON.stringify(record.price)}`);
             if(record.price) {
                 let itemPrice = 0;
 
                 // If currencies are the same price is already calculated
                 if(record.price.currency === cart.totalPrice.currency) {
-                    logger.debug(`_updateTotalPrice: Same currency, no quoting`);
+                    //logger.debug(`_updateTotalPrice: Same currency, no quoting`);
                     itemPrice = record.price.public;
                 }
 
                 // Otherwise quote the currency exchange
                 else {
-                    logger.debug(`_updateTotalPrice: Different currency, quoting | ${JSON.stringify(record)}`);
+                    //logger.debug(`_updateTotalPrice: Different currency, quoting | ${JSON.stringify(record)}`);
 
                     // Create a quote if not already quoted
                     if((record.quote === undefined) || (record.quote.currency !== cart.totalPrice.currency)) {
-                        logger.debug(`_updateTotalPrice: Quote does not exist, creating`);
+                        //logger.debug(`_updateTotalPrice: Quote does not exist, creating`);
                         let quote = await createQuoteAsync(cart.totalPrice.currency, record.price.currency, record.price.public);
-                        logger.debug(`_updateTotalPrice: Quote created: ${JSON.stringify(quote)}`);
+                        //logger.debug(`_updateTotalPrice: Quote created: ${JSON.stringify(quote)}`);
                         cart.items[itemKey].quote = {
                             currency: quote.sourceCurrency,
                             amount: Number(quote.sourceAmount),
@@ -232,10 +234,7 @@ class ShoppingCart {
                 // Increment total
                 cart.totalPrice.public += itemPrice;
             }
-
-
         }
-
         return cart;
     }
 
