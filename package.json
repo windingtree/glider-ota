@@ -30,6 +30,7 @@
     "date-fns": "^2.10.0",
     "date-fns-tz": "^1.0.10",
     "esm": "^3.2.25",
+    "geopoint": "^1.0.1",
     "handlebars": "^4.7.6",
     "immutability-helper": "^3.0.2",
     "jose": "^2.0.3",

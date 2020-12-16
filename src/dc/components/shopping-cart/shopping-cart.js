@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './shopping-cart.module.scss'
 import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
-import {Col, Container, Image, Row} from 'react-bootstrap'
+import {Col, Image, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import classNames from 'classnames/bind';
 import {
@@ -9,7 +9,7 @@ import {
     requestCartRestoreFromServer,
     errorSelector,
     flightOfferSelector,
-    hotelOfferSelector, isShoppingCartUpdateInProgress, deleteFlightFromCart, totalPriceSelector
+    hotelOfferSelector, isShoppingCartUpdateInProgress
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
@@ -272,7 +272,7 @@ const calculateTotalPrice = (hotelPrice, flightPrice) => {
     }
     let flightAmount = 0;
     if(flightPrice){
-        flightPrice = flightPrice.public;
+        flightAmount = flightPrice.public;
         currency = flightPrice.currency;
     }
 

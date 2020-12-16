@@ -74,6 +74,10 @@
   padding-bottom: 1rem;
 }
 
+.hotelLowestPrice{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal);
+}
+
 .showHideRoomsToggle{
   @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal);
   float: right!important;
