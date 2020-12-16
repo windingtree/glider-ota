@@ -20,12 +20,11 @@ const BOOK = `${moduleName}/BOOK`;
 const STORE_CART_ON_SERVER = `${moduleName}/STORE_CART_ON_SERVER`;
 const REQUEST_RESTORE_CART_FROM_SERVER = `${moduleName}/REQUEST_RESTORE_CART_FROM_SERVER`;
 const CART_RESTORED_FROM_SERVER = `${moduleName}/CART_RESTORED_FROM_SERVER`;
+const CART_ACTION_FAILED = `${moduleName}/CART_ACTION_FAILED`;
 const ERROR = `${moduleName}/ERROR`;
 
 //booking flow related actions
 const RETRIEVE_PASSENGER_DETAILS = `${moduleName}/RETRIEVE_PASSENGER_DETAILS`;
-const STORE_PASSENGER_DETAILS = `${moduleName}/STORE_PASSENGER_DETAILS`;
-const SELECT_FLIGHT_OFFER = `${moduleName}/SELECT_OFFER`;
 
 
 
@@ -78,6 +77,11 @@ export default (state = initialState, action) => {
         case REQUEST_RESTORE_CART_FROM_SERVER:
             return Object.assign({}, state, {
                 isUpdateInProgress: true,
+            });
+        case CART_ACTION_FAILED:
+            return Object.assign({}, state, {
+                isUpdateInProgress: false,
+                error:error
             });
         case BOOK:
             return state;
@@ -158,6 +162,12 @@ export const cartRestorecFromServer = (flightOffer, hotelOffer) => {
             flightOffer:flightOffer,
             hotelOffer: hotelOffer
         }
+    }
+};
+export const cartUpdateFailedAction = (error) => {
+    return {
+        type: CART_ACTION_FAILED,
+        error:error
     }
 };
 
@@ -243,7 +253,7 @@ function* restoreCartFromServerSideSaga() {
 
     } catch (error) {
         console.log('*restoreCartFromServerSideSaga failed, error:',error)
-        yield put(errorAction(error))
+        yield put(cartUpdateFailedAction(error))
     }
 }
 

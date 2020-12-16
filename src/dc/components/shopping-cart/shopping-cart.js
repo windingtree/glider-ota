@@ -75,6 +75,7 @@ const Total = ({title,price, priceAmount, currency}) =>{
 
 const BookHotelBtn = ({ flightOffer }) => {
     let history = useHistory();
+    console.log('BookHotelBtn - flightOffer = ',flightOffer)
     const {itineraries} = flightOffer;
     let outboundItinerary = itineraries.length>0?itineraries[0]:null;
     let returnItinerary = itineraries.length>1?itineraries[1]:null;
@@ -90,7 +91,7 @@ const BookHotelBtn = ({ flightOffer }) => {
 
     return (
         <div className={style.bookHotelLink} onClick={() => handleBookHotel(outboundItinerary, returnItinerary)}>
-            Book a hotel in {OfferUtils.getItineraryDepartureCityName(returnItinerary)}
+            Book a hotel in {OfferUtils.getItineraryArrivalCityName(outboundItinerary)}
         </div>
     );
 };
@@ -160,7 +161,7 @@ const HotelOfferCartItem = ({hotelOffer}) => {
     </>)
 }
 
-export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress}) =>{
+export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress, error}) =>{
     let history = useHistory();
 
     //redirect to booking flow (pax details page)
@@ -203,6 +204,10 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
         </div>)
     }
 
+    const displayError = (error) =>{
+        return (<div >Error</div>)
+    }
+
     if(cartIsEmpty)
         return (<>{config.DEV_MODE && links()}<Spinner enabled={isShoppingCartUpdateInProgress===true}/></>)
 
@@ -226,7 +231,7 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
                     <HotelOfferCartItem hotelOffer={hotelOffer}/>
                 </div>
             }
-            {!hotelOffer &&
+            {!hotelOffer && flightOffer &&
                 <BookHotelBtn
                     flightOffer={flightOffer}
                 />
@@ -245,6 +250,7 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
                 {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/> }
                 {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
                 <div className={'pt-2'}/>
+                {error & displayError()}
                 <a href={"#"} className={bookButtonClassnames} onClick={onProceedToBook}>Book</a>
             </div>
             {config.DEV_MODE && links()}

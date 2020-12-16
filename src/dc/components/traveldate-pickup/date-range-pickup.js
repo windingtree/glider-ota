@@ -86,7 +86,8 @@ const CustomInput = ({value, onClick, startDate, endDate, placeholderText}) => {
 
     return (
         <>
-            <input type="text"
+            <Form.Control
+                type="text"
                 placeholder={placeholderText}
                 onFocus={onClick}
                 value={textToDisplay} onChange={onChangeHandler}

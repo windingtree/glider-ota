@@ -115,7 +115,7 @@ export default class OfferUtils {
     return iataToCityName(firstSegment.origin.iataCode);
   }
   static getItineraryArrivalCityName(itinerary){
-    let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
+    let lastSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
     return iataToCityName(lastSegment.destination.iataCode);
   }
   static getItineraryDepartureAirportName(itinerary){
@@ -123,7 +123,7 @@ export default class OfferUtils {
     return iataToAirportName(firstSegment.origin.iataCode);
   }
   static getItineraryArrivalAirportName(itinerary){
-    let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
+    let lastSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
     return iataToAirportName(lastSegment.destination.iataCode);
   }
   static getItineraryDepartureAirportCode(itinerary){
