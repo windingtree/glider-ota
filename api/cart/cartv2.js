@@ -73,7 +73,7 @@ const genericCartPostController = async (req,res) =>{
     await shoppingCart.addItemToCart(type, cartItem, cartItem.price);
     
     // Override price with quoted price
-    if(cartItem.quote) {
+    if(cartItem.quote !== undefined) {
         cartItem.price = {
             currency: cartItem.quote.currency,
             public: cartItem.quote.amount,
@@ -89,17 +89,21 @@ const genericCartGetController = async (req,res,cartItemKey, cartItem, itemPrice
     let cart = await shoppingCart.getCart();
 
     // Override prices with quoted prices
-    for(let i=0; i<Object.keys(cart.items).length; i++) {
-        let itemKey = Object.keys(cart.items)[i];
-        if(cart.items[itemKey].quote !== undefined) {
+    let cartKeys = Object.keys(cart.items);
+    for(let i=0; i<cartKeys.length; i++) {
+        let itemKey = cartKeys[i];
+        let quote = cart.items[itemKey].quote;
+        if(quote !== undefined) {
             cart.items[itemKey].price = {
-                currency: cart.items[itemKey].quote.currency,
-                public: cart.items[itemKey].quote.amount,
+                currency: quote.currency,
+                public: quote.amount,
             };
             delete(cart.items[itemKey].quote);
         } else {
-            delete(cart.items[itemKey].price.commission);
-            delete(cart.items[itemKey].price.taxes);
+            if(cart.items[itemKey].price) {
+                delete(cart.items[itemKey].price.commission);
+                delete(cart.items[itemKey].price.taxes);
+            }
         }
     }
 
