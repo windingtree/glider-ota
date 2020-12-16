@@ -12,7 +12,7 @@ export const LodgingInfo = ({checkInDate, checkOutDate, cityName}) => {
             <div className={style.adDetails}>
                 <div className={style.adDate}>
                     {checkInDate && safeDateFormat(checkInDate, 'dd MMM')}
-                    {checkInDate && checkInDate && ('-')}
+                    {checkInDate && checkOutDate && ('-')}
                     {checkOutDate && safeDateFormat(checkOutDate, 'dd MMM')} </div>
                 <div className={style.adCityName}>{cityName}</div>
             </div>

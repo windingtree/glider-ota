@@ -249,7 +249,7 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
                 {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/> }
                 {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
                 <div className={'pt-2'}/>
-                {error & displayError()}
+                {error && displayError()}
                 <a href={"#"} className={bookButtonClassnames} onClick={onProceedToBook}>Book</a>
             </div>
             {config.DEV_MODE && links()}
@@ -269,7 +269,7 @@ const calculateTotalPrice = (hotelPrice, flightPrice) => {
     }
     let flightAmount = 0;
     if(flightPrice){
-        flightPrice = flightPrice.public;
+        flightAmount = flightPrice.public;
         currency = flightPrice.currency;
     }
 
