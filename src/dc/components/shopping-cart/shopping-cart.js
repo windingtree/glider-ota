@@ -44,13 +44,13 @@ const SubTotal = ({title,price, priceAmount, currency}) =>{
                     <div className={style.subtotalItem}>{title}</div>
                 </Col>
                 <Col >
-                    <div className={cls}>{priceAmount}{currency}</div>
+                    <div className={cls}>{priceAmount} {currency}</div>
                 </Col>
             </Row>
         </div>)
 }
 
-const Total = ({title,price, priceAmount, currency}) =>{
+const Total = ({title, price, priceAmount, currency}) =>{
     let cls=cx({
         totalItem:true,
         'float-right':true,
@@ -66,7 +66,7 @@ const Total = ({title,price, priceAmount, currency}) =>{
                     <div className={style.totalItem}>{title}</div>
                 </Col>
                 <Col >
-                    <div className={cls}>{priceAmount}{currency}</div>
+                    <div className={cls}>{priceAmount} {currency}</div>
                 </Col>
             </Row>
         </div>)

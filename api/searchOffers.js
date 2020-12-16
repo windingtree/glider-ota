@@ -2,8 +2,7 @@ const {searchOffers} = require('./_lib/glider-api');
 const {storeHotelSearchResults, storeFlightSearchResults} = require('./_lib/cache');
 const {decorate} = require('./_lib/decorators');
 const {validateSearchCriteriaPayload} = require('./_lib/validators');
-const {ShoppingCart, CART_USER_PREFERENCES_KEYS} = require('./_lib/shopping-cart');
-const {getRateAsync} = require('./_lib/simard-api');
+const {ShoppingCart} = require('./_lib/shopping-cart');
 
 
 const searchOffersController = async (req, res) => {
@@ -25,35 +24,11 @@ const searchOffersController = async (req, res) => {
 
   // Convert prices in user preferred currency
   const shoppingCart = new ShoppingCart(sessionID);
-  let userCurrency = await shoppingCart.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
-  let exchangeRates = {};
   for(let i=0; i<Object.keys(offerResult.offers).length; i++) {
     // Retrieve offer details
     let offerId = Object.keys(offerResult.offers)[i];
-    let offerPrice = offerResult.offers[offerId].price;
-
-    // If the supplier price is already in the user currency, continue
-    if(offerPrice.currency === userCurrency) {
-      continue;
-    }
-
-    // Retrieve the exchange rate
-    let rateKey = `${userCurrency}${offerPrice.currency}`;
-    let exchangeRate = exchangeRates[rateKey];
-    if(exchangeRate === undefined) {
-      let rateResponse = await getRateAsync(offerPrice.currency, userCurrency);
-      exchangeRate = Number(rateResponse.rate);
-      exchangeRates[rateKey] = exchangeRate;
-    }
-
-    // Update offer price and currency
-    let convertedPrice = {
-      currency: userCurrency,
-      public: Number(offerPrice.public * exchangeRate).toFixed(2),
-      exchangeRate: exchangeRate,
-    }
+    let convertedPrice = await shoppingCart.estimatePriceInUserPreferredCurrency(offerResult.offers[offerId].price);
     offerResult.offers[offerId].price = convertedPrice;
-
   }
 
   res.json(offerResult);
