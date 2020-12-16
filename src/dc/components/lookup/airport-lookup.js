@@ -1,33 +1,37 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import LookupField from "./components/lookup-field";
 import {fetchGet} from "../../../utils/api-utils";
 
 export function AirportLookup({initialLocation, onSelectedLocationChange, placeHolder, label, localstorageKey}) {
     const [searchResults, setSearchResults] = useState([]);
-    const [queryPromise, setQueryPromise] = useState(null);
-
-    useEffect(() => {
-        let queryProcess = queryPromise;
-        if (queryProcess && typeof queryProcess.then === 'function') {
-            queryProcess
-                .then(response => {
-                    let airports = convertResponse(response.results);
-                    setSearchResults(airports);
-                })
-                .catch(error => console.log('Failed to search for airports', error));
-        }
-        return () => {
-            queryProcess = undefined;
-        };
-    }, [queryPromise]);
+    const [defaultLocation, setDefaultLocation] = useState();
 
     async function onQueryEntered(searchQuery) {
-        setQueryPromise(
-            fetchGet('/api/lookup/airportSearch2', {
-                searchquery: searchQuery
-            })
-        );
+        let results = fetchGet('/api/lookup/airportSearch2', {searchquery: searchQuery});
+        results.then((response) => {
+            let airports = convertResponse(response.results);
+            setSearchResults(airports);
+        }).catch(err => {
+            console.error("Failed to search for airports", err)
+        })
     }
+    useEffect(()=>{
+        //if initial location is set - it will be iata code and it needs to be resolved into airport name/city/country
+        if(initialLocation){
+            let results = fetchGet('/api/lookup/airportByIata', {iata: initialLocation});
+            results.then((response) => {
+                let airportRecord=response.results;
+                let resolvedLocation= {
+                    primary: `${airportRecord.city_name} ${airportRecord.airport_name}`,
+                    secondary: airportRecord.country_code,
+                    code: airportRecord.airport_iata_code,
+                }
+                setDefaultLocation(resolvedLocation)
+            }).catch(err => {
+                console.error("Failed to search for airport by iata", err)
+            })
+        }
+    },[])
 
     function convertResponse(airports) {
         let lastMetropolitan;
@@ -58,7 +62,7 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
         })
     }
     return (
-        <LookupField initialLocation={initialLocation} onSelectedLocationChange={onSelectedLocationChange}
+        <LookupField initialLocation={defaultLocation} onSelectedLocationChange={onSelectedLocationChange}
                      placeHolder={placeHolder} onQueryEntered={onQueryEntered} locations={searchResults} label={label} localstorageKey={localstorageKey}/>
     )
 }

@@ -11,6 +11,7 @@ import {
   flightSearchCriteriaChangedAction
 } from '../../../redux/sagas/shopping-flow-store';
 import {CalendarContainer} from "react-datepicker";
+import {venueConfig} from "../venue-context/theme-context"
 
 
 export function FlightsSearchForm(props){
@@ -103,12 +104,17 @@ export function FlightsSearchForm(props){
     return result;
   }
 
+  let initialOrigin=initOrigin?initOrigin:venueConfig.originIata;
+  let initialDestination=initiDest?initiDest:venueConfig.destinationIata;
+  let initialDepartureDate=departureDate?departureDate:venueConfig.startDate;
+  let initialReturnDate=returnDate?returnDate:venueConfig.endDate;
+
     return (<>
           <Container fluid={true}>
             <Row >
-              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initOrigin} onSelectedLocationChange={setOrigin} placeHolder='Where from' label='From' localstorageKey={'origin'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initiDest} onSelectedLocationChange={setDestination} placeHolder='Where to' label='To' localstorageKey={'destination'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} startPlaceholder={'Departure'} endPlaceholder={'Return'} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When' localstorageKey={'traveldates'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initialOrigin} onSelectedLocationChange={setOrigin} placeHolder='Where from' label='From' localstorageKey={'origin'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initialDestination} onSelectedLocationChange={setDestination} placeHolder='Where to' label='To' localstorageKey={'destination-airport'}/></Col>
+              <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} startPlaceholder={'Departure'} endPlaceholder={'Return'} onEndDateChanged={setReturnDate} initialStart={initialDepartureDate} initialEnd={initialReturnDate} label='When' localstorageKey={'traveldates'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label='Who'/></Col>
             </Row>
 {/*

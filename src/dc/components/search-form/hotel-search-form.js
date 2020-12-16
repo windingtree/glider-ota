@@ -8,6 +8,7 @@ import {CityLookup} from "../lookup/city-lookup";
 import {hotelSearchCriteriaChangedAction} from "../../../redux/sagas/shopping-flow-store";
 import {connect} from "react-redux";
 import DateRangePickup from "../traveldate-pickup/date-range-pickup";
+import {venueConfig} from "../venue-context/theme-context";
 
 
 export function HotelSearchForm(props){
@@ -86,9 +87,6 @@ export function HotelSearchForm(props){
   //subscribe for search criteria changes so that we notify others once form is valid
   useEffect(() => {
     if(searchCriteriaChanged){
-      console.log('searchCriteriaChanged')
-      console.log(`departureDate = ${departureDate}`)
-      console.log(`returnDate = ${returnDate}`)
       if (departureDate && !returnDate) {
         setReturnDate(addDays(departureDate, 1))
       }
@@ -111,6 +109,10 @@ export function HotelSearchForm(props){
     let paxSelectionValid = isPaxSelectionValid();
     return destinationValid && departureDateValid && returnDateValid && paxSelectionValid;
   }
+  // let initialOrigin=initOrigin?initOrigin:venueConfig.originIata;
+  // let initialDestination=initiDest?initiDest:venueConfig.destinationIata;
+  let initialCheckInDate=departureDate?departureDate:venueConfig.startDate;
+  let initialCheckout=returnDate?returnDate:venueConfig.endDate;
 
     return (<>
 
@@ -122,11 +124,11 @@ export function HotelSearchForm(props){
                   onSelectedLocationChange={setDestination}
                   placeHolder='Destination'
                   label='Destination/Hotel'
-                  localstorageKey={'destination'}
+                  localstorageKey={'destination-city'}
                 />
               </Col>
               <Col xs={12} md={6} className={style.formElem}>
-                <DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={departureDate} initialEnd={returnDate} label='When' localstorageKey={'traveldates'}/>
+                <DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={initialCheckInDate} initialEnd={initialCheckout} label='When' localstorageKey={'traveldates'}/>
               </Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label='Who'/></Col>
             </Row>

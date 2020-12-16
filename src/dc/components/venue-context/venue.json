@@ -1,0 +1,9 @@
+{
+  "destinationIata": "BOG",
+  "destinationLocation": {
+    "latitude": "4.60971",
+    "longitude": "-74.08175"
+  },
+  "venueName": "DevCon",
+  "start_date": "2021-08-04"
+}

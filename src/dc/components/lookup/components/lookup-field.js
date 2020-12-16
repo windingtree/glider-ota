@@ -20,22 +20,30 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     const [selectedLocation, setSelectedLocation] = useState(initialLocation);
     const [searchQueryTimeout, setSearchQueryTimeout] = useState();
     const [focus,setFocus] = useState(false);
-
     useEscape(() => {setFocus(false)})
 
     useEffect(()=>{
+        let previouslySelectedLocation;
+        //check if there is previously saved search location
         if(localstorageKey) {
-            let storedValue = localStorage.getItem(`inputfield-${localstorageKey}`);
+            //there is - check if there was something saved in browser and use it
+            let storedValue = sessionStorage.getItem(`inputfield-${localstorageKey}`);
             if(storedValue){
                 try{
-                    let previouslySelectedLocation=JSON.parse(storedValue);
-                    handleLocationSelected(previouslySelectedLocation)
+                    previouslySelectedLocation=JSON.parse(storedValue);
                 }catch(err){
-                    console.log('Error:',err)
                 }
             }
         }
-    },[])
+        if(previouslySelectedLocation) {
+            handleLocationSelected(previouslySelectedLocation)
+        }
+        else if(initialLocation){
+            //alternatively use default location (e.g. venue)
+            handleLocationSelected(initialLocation)
+        }
+    },[initialLocation])
+
 
 
     function handleLocationSelected(location) {
@@ -43,7 +51,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
         setValue(location.primary);
         onSelectedLocationChange(location)
         if(localstorageKey) {
-            localStorage.setItem(`inputfield-${localstorageKey}`, JSON.stringify(location));
+            sessionStorage.setItem(`inputfield-${localstorageKey}`, JSON.stringify(location));
         }
 
     }
