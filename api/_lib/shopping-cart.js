@@ -3,7 +3,8 @@ const logger = createLogger('session-storage');
 const {SessionStorage} = require('./session-storage');
 const {assertParameterNotEmpty} = require('./utils')
 const _ = require('lodash');
-const { createQuoteAsync } = require('./simard-api');
+const { createQuoteAsync, getRateAsync } = require('./simard-api');
+const { FaTruckMonster } = require('react-icons/fa');
 
 // Possible items in the cart
 const CART_ITEMKEYS = {
@@ -38,6 +39,7 @@ class ShoppingCart {
         logger.debug("Shopping cart created for sessionID:%s",sessionID);
         this.sessionID = sessionID;
         this.sessionStorage = new SessionStorage(sessionID);
+        this.exchangeRates = {};
     }
 
     /**
@@ -150,6 +152,36 @@ class ShoppingCart {
         return this.setUserPreference(userPreferenceKey, defaultValue);
     }
 
+    // Convert a price record to the user preferred currency
+    async estimatePriceInUserPreferredCurrency(offerPrice) {
+        // Retrieve user's preferred currency
+        let userCurrency = await this.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
+      
+        // If the supplier price is already in the user currency return it
+        if(offerPrice.currency === userCurrency) {
+            return {
+                currency: userCurrency,
+                public: offerPrice.public,
+                isEstimated: false,
+            }
+        }
+      
+        // Retrieve the exchange rate
+        let rateKey = `${userCurrency}${offerPrice.currency}`;
+        let exchangeRate = this.exchangeRates[rateKey];
+        if(exchangeRate === undefined) {
+            let rateResponse = await getRateAsync(offerPrice.currency, userCurrency);
+            exchangeRate = Number(rateResponse.rate);
+            this.exchangeRates[rateKey] = exchangeRate;
+        }
+      
+          // Update offer price and currency
+        return {
+            currency: userCurrency,
+            public: Number(offerPrice.public * exchangeRate).toFixed(2),
+            isEstimated: true,
+        }
+    }
 
     // Update the total price in the cart
     async _updateTotalPrice(cart) {
@@ -219,6 +251,8 @@ class ShoppingCart {
             },
         }
     }
+
+
 }
 
 module.exports = {
