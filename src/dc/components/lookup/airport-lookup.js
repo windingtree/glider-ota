@@ -5,19 +5,31 @@ import {fetchGet} from "../../../utils/api-utils";
 export function AirportLookup({initialLocation, onSelectedLocationChange, placeHolder, label, localstorageKey}) {
     const [searchResults, setSearchResults] = useState([]);
     const [defaultLocation, setDefaultLocation] = useState();
+    const [isLoading, setLoading] = useState(false);
+    const [queryPromise, setQueryPromise] = useState(null);
 
-    async function onQueryEntered(searchQuery) {
-        let results = fetchGet('/api/lookup/airportSearch2', {searchquery: searchQuery});
-        results.then((response) => {
-            let airports = convertResponse(response.results);
-            setSearchResults(airports);
-        }).catch(err => {
-            console.error("Failed to search for airports", err)
-        })
-    }
+    useEffect(() => {
+        let queryProcess = queryPromise;
+        if (queryProcess && typeof queryProcess.then === 'function') {
+            queryProcess
+                .then(response => {
+                    let airports = convertResponse(response.results);
+                    setLoading(false);
+                    setSearchResults(airports);
+                })
+                .catch(error => {
+                    setLoading(false);
+                    console.log('Failed to search for airports', error);
+                });
+        }
+        return () => {
+            queryProcess = undefined;
+        };
+    }, [queryPromise]);
+
     useEffect(()=>{
         //if initial location is set - it will be iata code and it needs to be resolved into airport name/city/country
-        if(initialLocation){
+        if (initialLocation){
             let results = fetchGet('/api/lookup/airportByIata', {iata: initialLocation});
             results.then((response) => {
                 let airportRecord=response.results;
@@ -31,7 +43,16 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
                 console.error("Failed to search for airport by iata", err)
             })
         }
-    },[])
+    }, []);
+
+    async function onQueryEntered(searchQuery) {
+        setLoading(true);
+        setQueryPromise(
+            fetchGet('/api/lookup/airportSearch2', {
+                searchquery: searchQuery
+            })
+        );
+    }
 
     function convertResponse(airports) {
         let lastMetropolitan;
@@ -62,8 +83,16 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
         })
     }
     return (
-        <LookupField initialLocation={defaultLocation} onSelectedLocationChange={onSelectedLocationChange}
-                     placeHolder={placeHolder} onQueryEntered={onQueryEntered} locations={searchResults} label={label} localstorageKey={localstorageKey}/>
+        <LookupField
+            initialLocation={defaultLocation}
+            onSelectedLocationChange={onSelectedLocationChange}
+            placeHolder={placeHolder}
+            onQueryEntered={onQueryEntered}
+            locations={searchResults}
+            label={label}
+            localstorageKey={localstorageKey}
+            loading={isLoading}
+        />
     )
 }
 

@@ -8,12 +8,20 @@
     border-radius: 8px;
     //height: 40px;
 
-
-    flex: none;
     order: 1;
     align-self: stretch;
     flex-grow: 0;
     margin: 0px 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.loadingSpinner {
+    border-width: 0.1em;
+    flex-grow: 0;
+    margin-right: 10px;
 }
 
 .inputField{
@@ -42,8 +50,7 @@
     background-color: $glider-color-inputfields-background;
     @include g-font($g-fontsize-xl,$g-color-lightgrey,$g-fontweight-normal);
     text-align: right;
-    width: 10%;
-    padding-right: 5px;
+    margin-right: 10px;
 }
 
 

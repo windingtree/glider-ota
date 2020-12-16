@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import {Overlay, Popover,  Form} from 'react-bootstrap'
+import {Overlay, Popover,  Form, Spinner} from 'react-bootstrap'
 import {Dropdown, Container} from 'react-bootstrap'
 import LookupList from "./lookup-list";
 import style from './lookup-field.module.scss'
@@ -14,7 +14,17 @@ let cx = classNames.bind(style);
 
 const SEARCH_TIMEOUT_MILLIS=250;
 
-export default function LookupField({initialLocation,onSelectedLocationChange, placeHolder, onQueryEntered, locations=[], label, localstorageKey})  {
+export default function LookupField(props)  {
+    const {
+        initialLocation,
+        onSelectedLocationChange,
+        placeHolder,
+        onQueryEntered,
+        locations=[],
+        label,
+        localstorageKey,
+        loading=false
+    } = props;
     const [value, setValue] = useState(initialLocation!==undefined?initialLocation.primary:'');
     const [target, setTarget] = useState();
     const [selectedLocation, setSelectedLocation] = useState(initialLocation);
@@ -42,9 +52,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
             //alternatively use default location (e.g. venue)
             handleLocationSelected(initialLocation)
         }
-    },[initialLocation])
-
-
+    }, [initialLocation]);
 
     function handleLocationSelected(location) {
         setSelectedLocation(location);
@@ -53,7 +61,6 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
         if(localstorageKey) {
             sessionStorage.setItem(`inputfield-${localstorageKey}`, JSON.stringify(location));
         }
-
     }
 
     function clearSelectedLocation() {
@@ -108,7 +115,12 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
                     onFocus={handleOnFocus}
                     className={style.inputField} placeholder={placeHolder}>
                 </Form.Control>
-                <span className={style.code}>{selectedLocation && selectedLocation.code}</span>
+                {selectedLocation && selectedLocation.code &&
+                    <div className={style.code}>{selectedLocation.code}</div>
+                }
+                {loading &&
+                    <Spinner className={style.loadingSpinner} animation="border" size='sm' variant='primary' />
+                }
                 <Overlay
                     show={focus && selectedLocation===undefined && locations.length > 0}
                     target={target}
