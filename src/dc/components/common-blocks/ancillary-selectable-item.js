@@ -7,7 +7,8 @@ export const AncillarySelectableItem = ({id, name, price, description, items, is
     items = items || [];
 
     const onChange = (e) => {
-        console.log('onChange, was:',selected)
+        if(isDisabled)
+            return;
         setSelected(!selected)
         if(onSelect) {
             onSelect(id);

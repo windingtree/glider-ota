@@ -5,7 +5,6 @@ import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner";
 import DevConLayout from "../layout/devcon-layout";
 import {
-    flightOfferSelector,
     hotelOfferSelector, isShoppingCartInitializedSelector,
     requestCartRestoreFromServer
 } from "../../../redux/sagas/shopping-cart-store";

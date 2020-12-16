@@ -84,10 +84,28 @@ const genericCartDeleteController = async (req,res,cartItemKey, cartItem, itemPr
 }
 
 const flightOfferCartItemCreator = async (offerId, searchResults) => {
+    let offerIds = offerId.split(',');
     let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults)
-    let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
-    let offer = searchResults.offers[offerId];
-    let price = offer.price;
+
+    let itineraries;
+    let offer;
+    let price;
+    //dirty hack to deal with combined out&returned - FIXME
+    if(offerIds.length==1){
+        itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+        offer = searchResults.offers[offerId];
+        price = offer.price;
+    }else if(offerIds.length==2){
+        let outboundOfferId = offerIds[0];
+        let inboundOfferId = offerIds[1];
+        let outboundItineraries = searchResultsWrapper.getOfferItineraries(outboundOfferId);
+        let inboundItineraries = searchResultsWrapper.getOfferItineraries(inboundOfferId);
+        itineraries = [...outboundItineraries,...inboundItineraries];
+        offer = mergeRoundTripOffers(searchResults,outboundOfferId,inboundOfferId);
+        price = offer.price;
+    }else{
+        throw new Error("Open jaw offers are not supported");
+    }
     let cartItem = {
         offerId:offerId,
         offer:offer,
@@ -119,6 +137,48 @@ const hotelOfferCartItemCreator = async (offerId, searchResults) => {
     return cartItem;
 }
 
+
+
+const mergeRoundTripOffers = (searchResults, outboundOfferId, inboundOfferId) => {
+
+        // Retrieve details of both offers
+        let outboundOffer = searchResults.offers[outboundOfferId];
+        let inboundOffer = searchResults.offers[inboundOfferId];
+
+        // Get the plan key, there is exactly one since it was filtered above
+        let outboundPlanKey = Object.keys(outboundOffer.pricePlansReferences)[0];
+        let inboundPlanKey = Object.keys(inboundOffer.pricePlansReferences)[0];
+
+        let newPricePlansReferences = {};
+
+        // If keys are the same, the flight list contains the two flights
+        if(inboundPlanKey === outboundPlanKey) {
+            newPricePlansReferences[outboundPlanKey] = { flights: [
+                    outboundOffer.pricePlansReferences[outboundPlanKey].flights[0],
+                    inboundOffer.pricePlansReferences[inboundPlanKey].flights[0],
+                ]};
+        }
+
+        // Otherwise there is one key per pricePlan / flight
+        else {
+            newPricePlansReferences[outboundPlanKey] = outboundOffer.pricePlansReferences[outboundPlanKey];
+            newPricePlansReferences[inboundPlanKey] = inboundOffer.pricePlansReferences[inboundPlanKey];
+        }
+
+        // Return the merged offer
+        let mergedOffer = {
+            expiration: Date(inboundOffer.expiration) < Date(outboundOffer.expiration) ? inboundOffer.expiration : outboundOffer.expiration,
+            pricePlansReferences: newPricePlansReferences,
+            price: {
+                currency: inboundOffer.price.currency,
+                public: Number(Number(inboundOffer.price.public)+Number(outboundOffer.price.public)).toFixed(2),
+                taxes: Number(Number(inboundOffer.price.taxes)+Number(outboundOffer.price.taxes)).toFixed(2),
+            }
+        }
+
+
+    return mergedOffer;
+};
 
 module.exports = decorate(shoppingCartController);
 

@@ -5,7 +5,6 @@ import PaxSummary from "../passengers/pax-summary";
 import {repriceShoppingCartContents, retrievePassengerDetails} from "../../../utils/api-utils";
 import TotalPriceButton from "../common/totalprice/total-price";
 import PaymentSummary from "./payment-summary";
-import {RouteOverview} from "../flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner"
@@ -17,9 +16,7 @@ import {
 import {connect} from "react-redux";
 import style from "./summary-content.module.scss"
 import {
-    flightSearchResultsSelector,
-    isFlightSearchInProgressSelector,
-    isHotelSearchInProgressSelector, isShoppingFlowStoreInitialized, isShoppingResultsRestoreInProgressSelector,
+    flightSearchResultsSelector,isShoppingFlowStoreInitialized, isShoppingResultsRestoreInProgressSelector,
     requestSearchResultsRestoreFromCache
 } from "../../../redux/sagas/shopping-flow-store";
 import {JourneySummary} from "../flight-blocks/journey-summary";

@@ -70,6 +70,11 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
     let priceOffsets = fareFamilyHelper.getItineraryPricePlanOffsetPrices(selectedOffer.offerId,itineraryId);
     let selectedPricePlanId = selectedOffer.itinToPlanMap[itineraryId];
 
+    //if we only have one fare family - no need to ask user to select. We also need to disable 'deselection'
+    let disableFareFamilySelection = false;
+    if(itineraryPricePlans.length<=1) {
+        disableFareFamilySelection=true;
+    }
 
     return (<>
         {/*<ItineraryDetails itinerary={itinerary} key={itineraryId}/>*/}
@@ -84,6 +89,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                         let priceOffset = priceOffsets[pricePlanId];
                         let priceDifference = {};
                         let offerId = 'UNKNOWN';
+                        console.log('Price plan:',pricePlan)
                         if(priceOffset) {
                             if(baselineFare){   //baselineFare is the fare selected by user from search results page
                                 //if it is set - we should calculate the difference between that fare and given fare family
@@ -104,7 +110,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                             offerId = priceOffset.offerId;
                         }
                         return (
-                            <FareFamilyWthBenefits key={offerId} amenities={pricePlan.amenities} price={priceDifference} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}}/>
+                            <FareFamilyWthBenefits key={offerId} amenities={pricePlan.amenities} price={priceDifference} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}} fareFamilySelectionDisabled={disableFareFamilySelection}/>
                         )
 
                     })
@@ -139,7 +145,7 @@ const Amenity = ({text,type, isSelected})=>{
  * @returns {*}
  * @constructor
  */
-export function FareFamilyWthBenefits({familyName, price, isSelected, amenities=[], onClick}) {
+export function FareFamilyWthBenefits({familyName, price, isSelected, amenities=[], onClick, fareFamilySelectionDisabled}) {
     let fare;
     if(price && price.public){
         fare = Math.round(price.public) + " "+ price.currency;
@@ -149,9 +155,10 @@ export function FareFamilyWthBenefits({familyName, price, isSelected, amenities=
             fare = "";
         }
     }
+    console.log('Amenities:',amenities)
     let name = `${familyName}`
     return (
-        <AncillarySelectableItem name={name} items={amenities} isSelected={isSelected} isDisabled={false} onSelect={onClick} price={fare}/>
+        <AncillarySelectableItem name={name} items={amenities} isSelected={isSelected} isDisabled={fareFamilySelectionDisabled} onSelect={onClick} price={fare}/>
     )
 }
 

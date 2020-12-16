@@ -120,10 +120,10 @@ class SessionStorage {
         key = this._createKey(key);
         let ttl=REDIS_CONFIG.SESSION_TTL_IN_SECS;
         value=JSON.stringify(value);
-        logger.debug("storeInSession(%s) start",key)
+        logger.info("storeInSession(%s) start",key)
         await getClient().set(key, value);
-        /*.expire(key, ttl).exec(function (err, replies) {
-            logger.debug("storeInSession(%s) completed",key)
+        /*.exec(function (err, replies) {
+            logger.info("storeInSession(%s) completed",key)
             if(err){
                 logger.error("Redis error %s",err);
             }
@@ -139,11 +139,12 @@ class SessionStorage {
     async retrieveFromSession(key) {
         this.assertNotEmpty("key",key);
         key = this._createKey(key);
+        logger.info("retrieveFromSession(%s) start",key)
         let value = await getClient().get(key);
         if(value!==null){
             value = JSON.parse(value)
         }
-        logger.debug("retrieveFromSession(%s) completed",key,value)
+        logger.info("retrieveFromSession(%s) completed",key)
         return value;
     }
 
@@ -220,7 +221,7 @@ class SessionStorage {
 
 }
 
-const storeInRedis = async (key, value, ttl) => {
+/*const storeInRedis = async (key, value, ttl) => {
     await getClient().multi().set(key, value).expire(key, ttl).exec(function (err, replies) {
         if(err){
             logger.error("Redis error %s",err);
@@ -229,11 +230,11 @@ const storeInRedis = async (key, value, ttl) => {
 }
 const retrieveFromRedis = async (key) => {
     return await getClient().get(key);
-}
+}*/
 
 
 module.exports = {
-    SessionStorage, getClient, storeInRedis, retrieveFromRedis
+    SessionStorage, getClient/*, storeInRedis, retrieveFromRedis*/
 }
 
 
