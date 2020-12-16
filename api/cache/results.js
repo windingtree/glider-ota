@@ -6,6 +6,8 @@ const {ShoppingCart} = require('../_lib/shopping-cart');
 
 const cachedResultsController = async (req, res) => {
     let sessionID = req.sessionID;
+    const shoppingCart = new ShoppingCart(sessionID);
+
     let method = req.method;
     if (method !== 'GET') {
         logger.warn("Unsupported method:%s", req.method);
@@ -31,6 +33,15 @@ const cachedResultsController = async (req, res) => {
         res.json({})
         return;
     }
+
+    // convert prices to user currency
+    for(let i=0; i<Object.keys(data.offers).length; i++) {
+        // Retrieve offer details
+        let offerId = Object.keys(data.offers)[i];
+        let convertedPrice = await shoppingCart.estimatePriceInUserPreferredCurrency(data.offers[offerId].price);
+        data.offers[offerId].price = convertedPrice;
+    }
+    
     res.json({data: data})
 }
 

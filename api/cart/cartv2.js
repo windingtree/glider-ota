@@ -71,12 +71,42 @@ const genericCartPostController = async (req,res) =>{
     }
     //TODO add payload validation
     await shoppingCart.addItemToCart(type, cartItem, cartItem.price);
+    
+    // Override price with quoted price
+    if(cartItem.quote !== undefined) {
+        cartItem.price = {
+            currency: cartItem.quote.currency,
+            public: cartItem.quote.amount,
+        }
+    }
+
     res.json({result:"OK", item: cartItem})
 }
 const genericCartGetController = async (req,res,cartItemKey, cartItem, itemPrice) =>{
+    // Retrieve cart
     let sessionID = req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let cart = await shoppingCart.getCart();
+
+    // Override prices with quoted prices
+    let cartKeys = Object.keys(cart.items);
+    for(let i=0; i<cartKeys.length; i++) {
+        let itemKey = cartKeys[i];
+        let quote = cart.items[itemKey].quote;
+        if(quote !== undefined) {
+            cart.items[itemKey].price = {
+                currency: quote.currency,
+                public: quote.amount,
+            };
+            delete(cart.items[itemKey].quote);
+        } else {
+            if(cart.items[itemKey].price) {
+                delete(cart.items[itemKey].price.commission);
+                delete(cart.items[itemKey].price.taxes);
+            }
+        }
+    }
+
     res.json(cart);
 }
 const genericCartDeleteController = async (req,res,cartItemKey, cartItem, itemPrice) =>{
