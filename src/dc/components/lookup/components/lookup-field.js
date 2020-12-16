@@ -12,7 +12,7 @@ let cx = classNames.bind(style);
     CITIES:'cities'
 }*/
 
-const SEARCH_TIMEOUT_MILLIS=100;
+const SEARCH_TIMEOUT_MILLIS=250;
 
 export default function LookupField({initialLocation,onSelectedLocationChange, placeHolder, onQueryEntered, locations=[], label, localstorageKey})  {
     const [value, setValue] = useState(initialLocation!==undefined?initialLocation.primary:'');
@@ -65,11 +65,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     function handleOnChange(event) {
         const enteredText = event.target.value;
         clearSelectedLocation();
-        if(searchQueryTimeout!==undefined){
-            //check if there was already a timeout handler set previously - if so, cancel it (in case user entered text too fast)
-            clearTimeout(searchQueryTimeout);
-            setSearchQueryTimeout(undefined)
-        }
+        clearTimeout(searchQueryTimeout);
 
         setValue(enteredText);
         setTarget(event.target);

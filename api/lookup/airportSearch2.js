@@ -5,6 +5,7 @@ const lookup = require("../_lib/lookup-manager")
 const logger = createLogger('/lookup/airportSearch')
 const lookupController = async (req, res) => {
     let searchquery = req.query.searchquery;
+    const start = process.hrtime();
     if(!validateRequest(searchquery)){
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Invalid request parameter, searchquery="+searchquery,req.body);
         return;
@@ -17,6 +18,7 @@ const lookupController = async (req, res) => {
         logger.error("Got error while airport search, error:%s",error.message,error)
         sendErrorResponse(res,500,ERRORS.INTERNAL_SERVER_ERROR);
     }
+    console.log('Lookup time:', process.hrtime(start))
 };
 
 /*

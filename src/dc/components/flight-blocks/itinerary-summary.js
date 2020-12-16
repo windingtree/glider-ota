@@ -37,12 +37,14 @@ export const ItinerarySummary = ({itinerary}) => {
     let sameDayArrival=isSameDayArrival(departureTime,arrivalTime);
 
     return (
-        <div>
-            <ArrivalDeparture adType={ADTYPES.DEPARTURE} date={departureTime} cityCode={departureCityCode} cityName={departureCityName}/>
-            <FlightDuration startOfTripDate={departureTime} endOfTripDate={arrivalTime} segments={segments}/>
-            {!sameDayArrival && <DifferentDayArrival/>}
-            <ArrivalDeparture adType={ADTYPES.ARRIVAL} date={arrivalTime} cityCode={arrivalCityCode} cityName={arrivalCityName}/>
-        </div>
+        <>
+            <div className={style.itinerarySummaryWrapper}>
+                <ArrivalDeparture adType={ADTYPES.DEPARTURE} date={departureTime} cityCode={departureCityCode} cityName={departureCityName}/>
+                <FlightDuration startOfTripDate={departureTime} endOfTripDate={arrivalTime} segments={segments}/>
+                {!sameDayArrival && <DifferentDayArrival/>}
+                <ArrivalDeparture adType={ADTYPES.ARRIVAL} date={arrivalTime} cityCode={arrivalCityCode} cityName={arrivalCityName}/>
+            </div>
+        </>
     )
 }
 

@@ -79,6 +79,86 @@ const printResults = (message, airports) => {
     })
 }
 
+const searchAirportByString = async query => {
+    const dbQuery = [
+        {
+            $match: {
+                $or: [
+                    {
+                        'airport_iata_code': {
+                            '$regex': `^${query}`,
+                            '$options': 'i'
+                        }
+                    },
+                    {
+                        'city_name': {
+                            '$regex': `^${query}`,
+                            '$options': 'i'
+                        }
+                    },
+                    {
+                        'city_code': {
+                            '$regex': `^${query}`,
+                            '$options': 'i'
+                        }
+                    },
+                    {
+                        'airport_name': {
+                            '$regex': `^${query}`,
+                            '$options': 'i'
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $group: {
+                '_id': {
+                    'airport_iata_code': '$airport_iata_code',
+                    'type': '$type'
+                },
+                'city_name': {
+                    $first: '$city_name'
+                },
+                'city_code': {
+                    $first: '$city_code'
+                },
+                'country_code': {
+                    $first: '$country_code'
+                },
+                'airport_name': {
+                    $first: '$airport_name'
+                },
+                'country_name': {
+                    $first: '$country_name'
+                },
+                'timezone': {
+                    $first: '$timezone'
+                },
+            }
+        },
+        {
+            $project: {
+                '_id': 0,
+                'airport_iata_code': '$_id.airport_iata_code',
+                'type': '$_id.type',
+                'city_name': 1,
+                'city_code': 1,
+                'country_code': 1,
+                'airport_name': 1,
+                'country_name': 1,
+                'timezone': 1
+            }
+        },
+        {
+            $sort: {
+                'city_name': 1
+            }
+        }
+    ];
+    return Airports.aggregate(dbQuery);
+};
+
 const searchByExactAirportCode = async (airportCode) => {
     if (!isQueryLongerOrEqualThan(airportCode, SEARCH_CONFIG.BY_AIRPORT_CODE.MIN_QUERY_LENGTH))
         return [];
@@ -197,6 +277,12 @@ const getMetropolitanArea = async (cityCode) => {
 // { "city_name" : "New York", "city_code" : "NYC", "country_code" : "US", "airport_name" : "Metropolitan Area", "airport_iata_code" : "NYC", "type" : "METROPOLITAN", "country_name" : "United States" }
 // { "city_name" : "New York", "city_code" : "NYC", "country_code" : "US", "airport_name" : "Skyports SPB", "airport_iata_code" : "NYS", "type" : "AIRPORT", "country_name" : "United States" }
 
+const airportLookupNew = async query => {
+    if (!query || query.length < LOOKUP_CONFIG.MIN_QUERY_LENGTH) {
+        return [];
+    }
+    return searchAirportByString(query);
+};
 
 const airportLookup = async (name) => {
     if (!isQueryLongerOrEqualThan(name, LOOKUP_CONFIG.MIN_QUERY_LENGTH)) {

@@ -73,13 +73,36 @@ const Total = ({title,price, priceAmount, currency}) =>{
 }
 
 
+const BookHotelBtn = ({ flightOffer }) => {
+    let history = useHistory();
+    const {itineraries} = flightOffer;
+    let outboundItinerary = itineraries.length>0?itineraries[0]:null;
+    let returnItinerary = itineraries.length>1?itineraries[1]:null;
+
+    const handleBookHotel = (outboundItinerary, returnItinerary) => {
+        history.push('/dc', {
+            searchType: 'HOTELS',
+            city: OfferUtils.getItineraryArrivalCityName(outboundItinerary),
+            dateIn: OfferUtils.getItineraryArrivalDate(outboundItinerary),
+            dateOut: returnItinerary ? OfferUtils.getItineraryDepartureDate(returnItinerary) : undefined
+        });
+    };
+
+    return (
+        <div className={style.bookHotelLink} onClick={() => handleBookHotel(outboundItinerary, returnItinerary)}>
+            Book a hotel in {OfferUtils.getItineraryDepartureCityName(returnItinerary)}
+        </div>
+    );
+};
+
+
 const FlightOfferCartItem = ({flightOffer, displayOutbound=true, displayInbound=true}) =>{
     if(!flightOffer)
         return (<></>)
 
     const {itineraries} = flightOffer;
 
-    if(!Array.isArray(itineraries) || itineraries.length==0)
+    if(!Array.isArray(itineraries) || itineraries.length===0)
         return (<></>)
 
     let outboundItinerary = itineraries.length>0?itineraries[0]:null;
@@ -95,7 +118,7 @@ const FlightOfferCartItem = ({flightOffer, displayOutbound=true, displayInbound=
     return (
         <>
             {outboundItinerary && displayOutbound && renderItineraryStart(outboundItinerary)}
-            {returnItinerary && displayInbound && renderItineraryStart(returnItinerary)}
+            {returnItinerary && displayInbound &&  renderItineraryStart(returnItinerary)}
         </>
     )
 }
@@ -191,7 +214,11 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
             <HorizontalDottedLine/>
             {flightOffer &&
                 <div className={style.flightOfferWrapper}>
-                    <FlightOfferCartItem flightOffer={flightOffer}  displayOutbound={true} displayInbound={false}/>
+                    <FlightOfferCartItem
+                        flightOffer={flightOffer}
+                        displayOutbound={true}
+                        displayInbound={false}
+                    />
                 </div>
             }
             {hotelOffer &&
@@ -199,10 +226,18 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
                     <HotelOfferCartItem hotelOffer={hotelOffer}/>
                 </div>
             }
+            {!hotelOffer &&
+                <BookHotelBtn
+                    flightOffer={flightOffer}
+                />
+            }
             {flightOffer &&
-            <div className={style.flightOfferWrapper}>
-                <FlightOfferCartItem flightOffer={flightOffer}  displayOutbound={false} displayInbound={true}/>
-            </div>
+                <div className={style.flightOfferWrapper}>
+                    <FlightOfferCartItem
+                        flightOffer={flightOffer}
+                        displayOutbound={false}
+                        displayInbound={true}/>
+                </div>
             }
             <HorizontalDottedLine/>
             <div className={style.flightOfferBottomWrapper}>
