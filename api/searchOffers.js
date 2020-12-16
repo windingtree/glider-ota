@@ -41,7 +41,7 @@ const searchOffersController = async (req, res) => {
     let rateKey = `${userCurrency}${offerPrice.currency}`;
     let exchangeRate = exchangeRates[rateKey];
     if(exchangeRate === undefined) {
-      let rateResponse = await getRateAsync(userCurrency, offerPrice.currency);
+      let rateResponse = await getRateAsync(offerPrice.currency, userCurrency);
       exchangeRate = Number(rateResponse.rate);
       exchangeRates[rateKey] = exchangeRate;
     }
