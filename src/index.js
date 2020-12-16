@@ -64,6 +64,7 @@ function Dispatcher() {
                         {<Route path="/dc/ancillaries/" component={DCAncillariesPage}/>}
                         {<Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>}
                         {<Route path="/dc/summary/" component={DCPaymentSummaryPage}/>}
+                        {/*{<Route path="/dc/payment/" component={DCPaymentSummaryPage}/>}*/}
                         <Route path="/dc/payment/:confirmedOfferId" component={DCPaymentPage}/>
                         <Route path="/dc/crypto/:confirmedOfferId" component={DCPaymentCryptoPage}/>
                         <Route path="/dc/confirmation/:confirmedOfferId" component={ConfirmationPage}/>

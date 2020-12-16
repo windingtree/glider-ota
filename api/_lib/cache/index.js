@@ -17,7 +17,7 @@ const _storeWithKey = async (sessionId, key, results) => {
     try {
         let k = _createKey(key);
         await sessionStorage.storeInSession(k, results);
-        await sessionStorage.retrieveFromSession(k);
+        // await sessionStorage.retrieveFromSession(k);
     } catch (err) {
         logger.error(`Failed to store cache, key:${key}, sessionId:${sessionId}`, err)
     }

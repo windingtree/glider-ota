@@ -4,7 +4,7 @@ import {Row, Col, Image, Container} from 'react-bootstrap'
 import _ from 'lodash'
 import {Room} from "./room-details"
 import {HotelLeadingImage} from "../accommodation-blocks/hotel-leading-image";
-import {ExpandCollapseToggle} from "../common-blocks/expand-collapse-toggle"
+import {ExpandCollapseToggle, ExpandCollapseToggleV2} from "../common-blocks/expand-collapse-toggle"
 
 import {HotelAddress} from "../accommodation-blocks/hotel-address"
 import {addHotelToCartAction} from "../../../redux/sagas/shopping-cart-store";
@@ -34,6 +34,26 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
         }
     }
 
+    const findLowestHotelPrice = () => {
+        let minPrice = Number.MAX_SAFE_INTEGER;
+        let minOffer = undefined;
+        if (hotelPricePlansWithOffers) {
+            hotelPricePlansWithOffers.forEach(offer => {
+                if (parseInt(offer.price.public) < minPrice) {
+                    minPrice = offer.price.public;
+                    minOffer = offer;
+                }
+            })
+        }
+        if(minPrice === Number.MAX_SAFE_INTEGER) {
+            return null
+        }else{
+            return minOffer.price;
+
+    }
+
+}
+    let lowestPrice = findLowestHotelPrice();
 
     return (
                 <Container><Row className={style.hotelContainer}>
@@ -42,8 +62,11 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
                         <div className={style.hotelName}>{hotelName}</div>
                         {hotelAddress && <HotelAddress address={hotelAddress}/>}
                         {hotelDescription && <div className={style.hotelDescription}>{hotelDescription}</div>}
-                        {roomsExpanded === true?'Hide rooms':'Show rooms'}
-                        <ExpandCollapseToggle expanded={roomsExpanded} onToggle={setRoomsExpanded}/>
+                        <Row>
+                            <Col>{lowestPrice && <span>{lowestPrice.public} {lowestPrice.currency}</span>}</Col>
+                            <Col ><ExpandCollapseToggleV2 expanded={roomsExpanded} collapsedText={'Show rooms'} expandedText={'Hide rooms'} onToggle={setRoomsExpanded} customClassName={style.showHideRoomsToggle}/></Col>
+                        </Row>
+
                         {roomsExpanded && displayRooms(rooms,hotelPricePlansWithOffers,selectedOffer, handleAddOfferToCart)}
                     </Col>
                 </Row>

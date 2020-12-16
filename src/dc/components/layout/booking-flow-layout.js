@@ -6,7 +6,7 @@ export default function BookingFlowLayout({children, breadcrumb}) {
     return (
         <div className={style.outerPageWrapper}>
             <div className={style.innerPageWrapper}>
-                <div className={style.breadCrumbWrapper}>{breadcrumb}</div>
+                {breadcrumb && <div className={style.breadCrumbWrapper}>{breadcrumb}</div>}
                 <div className={style.contentWrapper}>{children}</div>
 
             </div>
