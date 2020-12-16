@@ -64,6 +64,32 @@ export async function fetchPost(url,payload){
   return result;
 }
 
+export async function deleteCall(url,payload){
+  let options = {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+  };
+  let response;
+  let result;
+  try {
+    response = await fetch(url, options);
+    result = await response.json();
+  }catch(error){
+    throw new ApiFetchException("Failed to retrieve data from server");
+  }
+  if(response.error || !response.ok){
+    const message = result.message || result.description || 'Error while fetching data from server';
+    throw new ApiFetchException(
+      message,
+      result
+    );
+  }
+  return result;
+}
+
 ///////////////// PASSENGERS //////////////////////
 
 export async function storePassengerDetails(passengers){
@@ -95,6 +121,9 @@ export async function storeOfferId(offerId, type){
 }
 export async function retrieveCart(){
   return fetchGet('/api/cart/cartv2');
+}
+export async function deleteItemInCart(types){
+  return deleteCall('/api/cart/cartv2', types);
 }
 
 

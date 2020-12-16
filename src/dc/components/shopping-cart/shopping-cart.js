@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './shopping-cart.module.scss'
 import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
-import {Col, Image, Row} from 'react-bootstrap'
+import {Col, Container, Image, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import classNames from 'classnames/bind';
 import {
@@ -9,7 +9,7 @@ import {
     requestCartRestoreFromServer,
     errorSelector,
     flightOfferSelector,
-    hotelOfferSelector, isShoppingCartUpdateInProgress
+    hotelOfferSelector, isShoppingCartUpdateInProgress, deleteFlightFromCart, totalPriceSelector
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
@@ -38,16 +38,16 @@ const SubTotal = ({title,price, priceAmount, currency}) =>{
     }
 
     return (
-        <div className={'pt-2 pb-2'}>
-            <Row >
-                <Col >
-                    <div className={style.subtotalItem}>{title}</div>
+        <Container fluid={true}>
+            <Row noGutters={true}>
+                <Col className={style.subtotalItem}>
+                    {title}
                 </Col>
-                <Col >
-                    <div className={cls}>{priceAmount} {currency}</div>
+                <Col className={cls}>
+                    {priceAmount} {currency}
                 </Col>
             </Row>
-        </div>)
+        </Container>)
 }
 
 const Total = ({title, price, priceAmount, currency}) =>{
@@ -60,16 +60,16 @@ const Total = ({title, price, priceAmount, currency}) =>{
         currency = price.currency;
     }
     return (
-        <div  className={'pt-2 pb-2'}>
-            <Row >
-                <Col >
-                    <div className={style.totalItem}>{title}</div>
+        <Container fluid={true}>
+            <Row noGutters={true}>
+                <Col className={style.totalItem}>
+                    {title}
                 </Col>
-                <Col >
-                    <div className={cls}>{priceAmount} {currency}</div>
+                <Col className={cls}>
+                   {priceAmount} {currency}
                 </Col>
             </Row>
-        </div>)
+        </Container>)
 }
 
 
@@ -161,7 +161,8 @@ const HotelOfferCartItem = ({hotelOffer}) => {
     </>)
 }
 
-export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress, error}) =>{
+export const ShoppingCart = (props) =>{
+    const {totalPrice, flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress, error, onClearCart} = props;
     let history = useHistory();
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
@@ -187,7 +188,7 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
 
     const hotelPrice = hotelOffer?hotelOffer.price:null;
     const flightPrice = flightOffer?flightOffer.price:null;
-    const totalPrice = calculateTotalPrice(hotelPrice,flightPrice)
+
 
     let cartIsEmpty = (!flightOffer && !hotelOffer)
 
@@ -199,12 +200,13 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
             <Link to={'/dc/summary'}>Pricing</Link><br/>
             <a href={"#"}  onClick={onRestoreCartFromServer}>Restore cart from server</a><br/>
             <a href={"#"}  onClick={onRestoreSearchResultsFromCache}>Restore search from server</a><br/>
+            <a href={"#"}  onClick={onClearCart}>Clear cart</a><br/>
 
         </div>)
     }
 
     const displayError = (error) =>{
-        return (<div >Error</div>)
+        return (<div>Error occurred</div>)
     }
 
     if(cartIsEmpty)
@@ -244,12 +246,13 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
                 </div>
             }
             <HorizontalDottedLine/>
-            <div className={style.flightOfferBottomWrapper}>
+            <div>
                 {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/> }
                 {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/> }
-                {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
-                <div className={'pt-2'}/>
-                {error & displayError()}
+                {totalPrice && totalPrice.public>0 && <Total price={totalPrice} title={"Total:"}/>}
+            </div>
+            <div className={'pt-2'}/>
+            <div className={style.flightOfferBottomWrapper}>
                 <a href={"#"} className={bookButtonClassnames} onClick={onProceedToBook}>Book</a>
             </div>
             {config.DEV_MODE && links()}
@@ -283,6 +286,7 @@ const calculateTotalPrice = (hotelPrice, flightPrice) => {
 const mapStateToProps = state => ({
     flightOffer: flightOfferSelector(state),
     hotelOffer: hotelOfferSelector(state),
+    totalPrice: totalPriceSelector(state),  //total price of items in cart
     error: errorSelector(state),
     isShoppingCartUpdateInProgress:isShoppingCartUpdateInProgress(state),
 
@@ -300,6 +304,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onStore: () => {
             dispatch(bookAction())
+        },
+        onClearCart: () => {
+            dispatch(deleteFlightFromCart())
         },
 
     }
