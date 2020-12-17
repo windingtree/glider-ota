@@ -15,8 +15,8 @@
             }
           },
           "price": {
-            "currency": "USD",
-            "public": 74.03,
+            "currency": "EUR",
+            "public": 50.03,
             "taxes": 0
           }
         },

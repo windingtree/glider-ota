@@ -269,9 +269,27 @@ function* restoreCartFromServerSideSaga() {
         let totalPrice=null;
         if(itemsInCart && itemsInCart.items){
             let items = itemsInCart.items;
-            flightOffer = items['TRANSPORTATION_OFFER'] ? items['TRANSPORTATION_OFFER'].item:null;
-            hotelOffer = items['ACCOMMODATION_OFFER'] ? items['ACCOMMODATION_OFFER'].item:null;
-            totalPrice = itemsInCart.totalPrice
+
+            // Retrieve flight offer
+            if(items['TRANSPORTATION_OFFER'] !== undefined) {
+                flightOffer = items['TRANSPORTATION_OFFER'].item;
+                if(items['TRANSPORTATION_OFFER'].price !== undefined) {
+                    flightOffer.price = items['TRANSPORTATION_OFFER'].price;
+                }
+            }
+
+            // Retrieve Hotel offer
+            if(items['ACCOMMODATION_OFFER'] !== undefined) {
+                hotelOffer = items['ACCOMMODATION_OFFER'].item;
+                if(items['ACCOMMODATION_OFFER'].price !== undefined) {
+                    hotelOffer.price = items['ACCOMMODATION_OFFER'].price;
+                }
+            }
+
+            // Retrieve Total price
+            totalPrice = itemsInCart.totalPrice;
+
+
         }
         yield put(cartRestorecFromServer(flightOffer, hotelOffer, totalPrice))
 
@@ -294,11 +312,26 @@ function* addOfferIdToCart({payload}) {
         let totalPrice=null;
         if(itemsInCart && itemsInCart.items){
             let items = itemsInCart.items;
-             flightOffer = items['TRANSPORTATION_OFFER'] ? items['TRANSPORTATION_OFFER'].item:null;
-             hotelOffer = items['ACCOMMODATION_OFFER'] ? items['ACCOMMODATION_OFFER'].item:null;
-            totalPrice = itemsInCart.totalPrice
+            // Retrieve flight offer
+            if(items['TRANSPORTATION_OFFER'] !== undefined) {
+                flightOffer = items['TRANSPORTATION_OFFER'].item;
+                if(items['TRANSPORTATION_OFFER'].price !== undefined) {
+                    flightOffer.price = items['TRANSPORTATION_OFFER'].price;
+                }
+            }
+
+            // Retrieve Hotel offer
+            if(items['ACCOMMODATION_OFFER'] !== undefined) {
+                hotelOffer = items['ACCOMMODATION_OFFER'].item;
+                if(items['ACCOMMODATION_OFFER'].price !== undefined) {
+                    hotelOffer.price = items['ACCOMMODATION_OFFER'].price;
+                }
+            }
+
+            // Retrieve Total price
+            totalPrice = itemsInCart.totalPrice;
         }
-        yield put(cartRestorecFromServer(flightOffer, hotelOffer,totalPrice))
+        yield put(cartRestorecFromServer(flightOffer, hotelOffer, totalPrice))
     } catch (error) {
         console.log('*restoreCartFromServerSideSaga failed, error:',error)
         yield put(cartUpdateFailedAction(error))

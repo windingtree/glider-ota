@@ -9,7 +9,7 @@ const {
 export const config = {
     SEARCH_OFFERS_URL: "/api/searchOffers",
     LOCATION_BOUNDING_BOX_IN_KM: 30,
-    DEV_MODE: true,
+    DEV_MODE: (process.env.REACT_APP_DEV_MODE === 'yes'),
     OFFLINE_MODE: false,
     FLIGHTS_PER_PAGE: 10,
     CACHE_SIZE_IN_KB: 2 * 1024, //in KB (2024KB = 2MB)
