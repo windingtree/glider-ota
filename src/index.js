@@ -33,9 +33,10 @@ import DCFlightPassengersPage from './dc/pages/pax-details-page'
 import DCAncillariesPage from './dc/pages/ancillaries-page'
 import DCSeatSelectionPage from './dc/pages/seat-selection-page'
 import DCPaymentSummaryPage from './dc/pages/payment-summary-page'
-import DCPaymentPage from "./dc/pages/payment-page";
-import DCPaymentCryptoPage from "./dc/pages/payment-crypto-page";
+// import DCPaymentPage from "./dc/components/payment/payment-cc";
+// import DCPaymentCryptoPage from "./dc/components/payment/payment-crypto";
 import DCConfirmationPage from "./dc/pages/confirmation-page";
+// import DCPayComponent from './dc/components/payment/payment-selector';
 function Dispatcher() {
     return (
         <Provider store={store}>
@@ -60,13 +61,13 @@ function Dispatcher() {
                         {/*Hotels flow*/}
                         <Route path="/hotels/" component={HotelsSearchPage}/>
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
+                        {/* <Route path="/dc/pay/" component={DCPayComponent} /> */}
                         {<Route path="/dc/pax/" component={DCFlightPassengersPage}/>}
                         {<Route path="/dc/ancillaries/" component={DCAncillariesPage}/>}
                         {<Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>}
                         {<Route path="/dc/summary/" component={DCPaymentSummaryPage}/>}
-                        {/*{<Route path="/dc/payment/" component={DCPaymentSummaryPage}/>}*/}
-                        <Route path="/dc/payment/:confirmedOfferId" component={DCPaymentPage}/>
-                        <Route path="/dc/crypto/:confirmedOfferId" component={DCPaymentCryptoPage}/>
+                        {/* <Route path="/dc/payment/:confirmedOfferId" component={DCPaymentPage}/>
+                        <Route path="/dc/crypto/:confirmedOfferId" component={DCPaymentCryptoPage}/> */}
                         <Route path="/dc/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
                         <Route path="/dc/" component={DCLandingPage}/>
 

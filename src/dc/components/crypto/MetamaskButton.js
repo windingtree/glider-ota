@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Button, Spinner } from 'react-bootstrap';
 import styles from './crypto.module.scss';
+import MetamaskIcon from '../../../assets/metamask.png';
 
 import {
     signInRequest,
@@ -19,6 +20,7 @@ const LOGOUT_TEXT = 'LogOut MetaMask';
 const MetamaskButton = props => {
     const {
         exclusive,
+        noLogout,
         signInRequest,
         logOutRequest,
         isSigningIn,
@@ -60,17 +62,24 @@ const MetamaskButton = props => {
         }
     };
 
-    if (exclusive && loggedIn && web3ProviderType !== 'metamask') {
+    if ((exclusive && loggedIn && web3ProviderType !== 'metamask') ||
+        (loggedIn && noLogout)) {
         return null;
     }
 
     return (
-        <Button
-            size="sm"
+        <button
             onClick={handleClick}
-            className={styles.buttonLabel}
+            className={styles.connectButton}
             disabled={isSigningIn || (loggedIn && web3ProviderType !== 'metamask')}
         >
+            <img
+                src={MetamaskIcon}
+                width='18px'
+                height='18px'
+                alt={'MetaMask'}
+                className={styles.iconLeft}
+            />
             <span>{buttonText}</span>
             {(isSigningIn && isStarted) &&
                 <Spinner
@@ -82,7 +91,7 @@ const MetamaskButton = props => {
                     aria-hidden="true"
                 />
             }
-        </Button>
+        </button>
     );
 };
 

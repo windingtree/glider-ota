@@ -41,9 +41,13 @@
   padding-left: 5px;
   padding-right: 5px;
 
-  h2 {
-    display: inline;
-  }
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  color: #42424F;
 
   col {
     margin-top: 10px;
@@ -56,7 +60,32 @@
 
 :local(.disclaimer) {
   margin-top: 20px;
-  margin-bottom: 100px;
-  padding-left: 5px;
-  padding-right: 5px;
+}
+
+// New styles
+
+.container {
+  margin-top: 20px;
+}
+
+.cardLabel {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 150%;
+  color: #202020;
+}
+
+.cardHolderInput {
+  align-self: stretch;
+  background: #FFFFFF;
+  border: 1px solid #BBBBBB;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.payButton {
+  background: #543CE2;
+  border-radius: 8px;
+  padding: 12px 24px;
 }

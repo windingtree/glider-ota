@@ -20,6 +20,7 @@ import {
     requestSearchResultsRestoreFromCache
 } from "../../../redux/sagas/shopping-flow-store";
 import {JourneySummary} from "../flight-blocks/journey-summary";
+import PaymentSelector from './payment-selector';
 import {HotelOfferSummary} from "../hoteldetails/hotel-offer-summary";
 import DevConLayout from "../layout/devcon-layout";
 
@@ -121,12 +122,11 @@ export function SummaryContent(props) {
             repriceItemsInCart();
         }
 
-    },[isShoppingCartStoreInitialized])
+    },[isShoppingCartStoreInitialized, onRestoreShoppingCart])
 
 
     const displayFlightSummary = () =>
     {
-        const {itineraries} = flightOffer;
         return (<><JourneySummary itineraries={flightOffer.itineraries}/><div className={'pb-1'}></div></>)
     }
     const displayHotelSummary = () =>
@@ -152,13 +152,17 @@ export function SummaryContent(props) {
                     {confirmedOffer &&
                     <>
                         <PaymentSummary offer = {confirmedOffer.offer}/>
-                        <TotalPriceButton
+                        <PaymentSelector
+                            confirmedOffer={confirmedOffer}
+                            passengers={passengerDetails}
+                        />
+                        {/* <TotalPriceButton
                             forPayment={true}
                             price={confirmedOffer.offer.price}
                             proceedButtonTitle="Pay with Card"
                             onProceedClicked={onProceedButtonClick}
                             onProceedCryptoClicked={onProceedCryptoButtonClick}
-                        />
+                        /> */}
                     </>
                     }
                 </div>

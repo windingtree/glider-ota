@@ -1,22 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Alert } from 'react-bootstrap';
+import { Row, Col, Alert, Spinner as RoundSpinner } from 'react-bootstrap';
 import { useHistory, useParams } from "react-router-dom";
-import SelectCrypto from '../components/crypto/SelectCrypto';
-import MetamaskButton from '../components/crypto/MetamaskButton';
-import PortisButton from '../components/crypto/PortisButton';
-import WalletAddress from '../components/crypto/WalletAddress';
-import styles from '../components/crypto/crypto.module.scss';
-import Spinner from "../components/common/spinner"
+import SelectCrypto from '../crypto/SelectCrypto';
+import MetamaskButton from '../crypto/MetamaskButton';
+// import PortisButton from '../crypto/PortisButton';
+import WalletAddress from '../crypto/WalletAddress';
+import styles from '../crypto/crypto.module.scss';
+import Spinner from "../common/spinner"
 import {
     walletAddress,
     web3ProviderType,
     openPortis,
     signInError
-} from '../../redux/sagas/web3';
-import { createPaymentIntent } from "../../../src/utils/api-utils";
-import BookingFlowBreadcrumb, {STEPS} from "../components/common-blocks/breadcrumbs"
-import BookingFlowLayout from "../components/layout/booking-flow-layout";
+} from '../../../redux/sagas/web3';
+import { createPaymentIntent } from "../../../utils/api-utils";
 
 const CountDown = props => {
     const {
@@ -48,19 +46,17 @@ const CountDown = props => {
 
     return (
         <div className={styles.countDown}>
-            {count}
+            <span>{count}</span>
         </div>
     );
 };
 
 const CryptoPaymentPage = props => {
     const {
+        confirmedOfferId,
         walletAddress,
         signInError
     } = props;
-    const {
-        confirmedOfferId
-    } = useParams();
     const history = useHistory();
     const [error, setError] = useState(null);
     const [isOfferLoading, setOfferLoading] = useState(false);
@@ -108,59 +104,65 @@ const CryptoPaymentPage = props => {
         setCountDown(0);
         createIntent();
     };
-    let breadcrumb = <BookingFlowBreadcrumb currentStepId={STEPS.PAYMENT}/>
 
     return (
-        <BookingFlowLayout breadcrumb={breadcrumb}>
-                {offer &&
-                    <h1 className={styles.cryptoTitle}>
-                        {countDown > 0 &&
-                            <CountDown
-                                value={countDown}
-                                onCountDown={handleOnCountDown}
-                            />
-                        }
-                        Pay {offer.price.public} {offer.price.currency} with Crypto
-                    </h1>
-                }
+        <div className={styles.payCryptoContainer}>
+            {!offer &&
                 <Spinner enabled={isOfferLoading}/>
-                {offer &&
-                    <>
-                        <WalletAddress />
-                        <Row className={styles.mb10}>
-                            <Col>
-                                <MetamaskButton exclusive />
-                            </Col>
-                        </Row>
-                        <Row className={styles.mb10}>
-                            <Col>
-                                <PortisButton exclusive />
-                            </Col>
-                        </Row>
-                        {walletAddress &&
-                            <SelectCrypto
-                                title='Select a token'
-                                usdValue={amountUSD}
-                                confirmedOfferId={confirmedOfferId}
-                                deadline={deadline}
-                                onPaymentReset={() => handlePaymentReset()}
-                                onPaymentStart={() => handlePaymentStart()}
-                                onPaymentSuccess={() => handlePaymentSuccess(confirmedOfferId)}
-                            />
-                        }
-                    </>
-                }
-                {signInError &&
-                    <Alert variant='warning'>
-                        {signInError.message}
-                    </Alert>
-                }
-                {error &&
-                    <Alert variant='warning'>
-                        {error.message}
-                    </Alert>
-                }
-        </BookingFlowLayout>
+            }
+            {offer &&
+                <>
+                    <Row className={styles.walletRow}>
+                        <Col>
+                            <WalletAddress />
+                            <MetamaskButton exclusive noLogout />
+                        </Col>
+                        <Col>
+                            <div className={styles.countDownWrapper}>
+                                {isOfferLoading &&
+                                    <div
+                                        className={styles.countDownSpinner}
+                                    />
+                                }
+                                {countDown > 0 &&
+                                    <CountDown
+                                        value={countDown}
+                                        onCountDown={handleOnCountDown}
+                                    />
+                                }
+                            </div>
+                        </Col>
+                    </Row>
+                    {/* <Row className={styles.mb10}>
+                        <Col>
+                            <PortisButton exclusive />
+                        </Col>
+                    </Row> */}
+                    {walletAddress &&
+                        <SelectCrypto
+                            title='Select a token'
+                            usdValue={amountUSD}
+                            confirmedOfferId={confirmedOfferId}
+                            deadline={deadline}
+                            onPaymentReset={() => handlePaymentReset()}
+                            onPaymentStart={() => handlePaymentStart()}
+                            onPaymentSuccess={() => handlePaymentSuccess(confirmedOfferId)}
+                            onPaymentError={setError}
+                        />
+                    }
+                </>
+            }
+            {signInError &&
+                <Alert variant='warning'>
+                    {signInError.message}
+                </Alert>
+            }
+            {error &&
+                <Alert variant='warning'>
+                    {error.message}
+                </Alert>
+            }
+        </div>
     );
 };
 
