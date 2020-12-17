@@ -8,7 +8,7 @@ import Alert from 'react-bootstrap/Alert';
 
 export default function FlightsShoppingComponent(props) {
     return (
-        <Container>
+        <Container fluid={true}>
             <Row>
                 <FlightsSearchForm {...props}/>
             </Row>
