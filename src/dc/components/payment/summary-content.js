@@ -132,7 +132,7 @@ export function SummaryContent(props) {
     const displayHotelSummary = () =>
     {
         const {room, hotel, price, offer} = hotelOffer;
-        return (<><HotelOfferSummary room={room} price={price} hotel={hotel} offer={offer}/><div className={'pb-1'}></div></>)
+        return (<><HotelOfferSummary room={room}  hotel={hotel} offer={offer}/><div className={'pb-1'}></div></>)
     }
 
 

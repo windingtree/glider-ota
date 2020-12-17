@@ -150,7 +150,7 @@ async function processWebhookEvent(event) {
             logger.debug('Payment was successful!')
             response = await processPaymentSuccessMulti(confirmedOfferId, event);
             // response = await processPaymentSuccess(confirmedOfferId, event);
-            break;
+            break;f267d068-8fbc-44d0-b9b5-52e91d8aeb06
         case 'payment_method.attached':
             //const paymentMethod = event.data.object;
             logger.debug('PaymentMethod was attached to a Customer!')
@@ -169,7 +169,7 @@ async function processPaymentSuccessMulti(confirmedOfferId, webhookEvent) {
     let masterOffer = await findConfirmedOffer(confirmedOfferId)
     let {orderType, masterOrderId, subOfferIDs} = masterOffer;
     let results = []
-    if(orderType === ORDER_TYPES){
+    if(orderType === ORDER_TYPES.SINGLE){
         try{
             results.push(processPaymentSuccess(confirmedOfferId,webhookEvent))
         }catch(err){

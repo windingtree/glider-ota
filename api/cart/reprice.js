@@ -38,6 +38,7 @@ const offerRepriceController = async (req, res) => {
 
             subOfferIDs.push(confirmedTransportationOffer.offerId); //store ID of confirmed flight offer in a list
             finalMasterOffer=confirmedTransportationOffer;
+            // confirmedTransportationOffer.offer.price.public=1;
             grandTotalPrice+=Number(confirmedTransportationOffer.offer.price.public);
         }
 
@@ -48,6 +49,7 @@ const offerRepriceController = async (req, res) => {
             subOfferIDs.push(accommodationOffer.offerId); //store ID of hotel offer in a list too
             if(!finalMasterOffer)
                 finalMasterOffer=accommodationOffer;
+            // accommodationOffer.offer.price.public=1;
             // subTotalPrices.push(accommodationOffer.offer.price);
             grandTotalPrice+=Number(accommodationOffer.offer.price.public);
         }
