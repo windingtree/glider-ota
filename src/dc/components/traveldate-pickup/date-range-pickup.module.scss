@@ -9,6 +9,11 @@
   border-radius: 8px;
   margin: 0px 4px;
   text-align: center;
+
+  &:focus {
+    box-shadow: none;
+    border: 1px solid $glider-color-primary;
+  }
 }
 
 .label{
