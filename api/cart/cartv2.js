@@ -86,22 +86,25 @@ const genericCartGetController = async (req,res,cartItemKey, cartItem, itemPrice
     let sessionID = req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let cart = await shoppingCart.getCart();
+    let opcIncreaseFactor = await shoppingCart.getOpcIncreaseFactor();
 
     // Override prices with quoted prices
     let cartKeys = Object.keys(cart.items);
     for(let i=0; i<cartKeys.length; i++) {
         let itemKey = cartKeys[i];
         let quote = cart.items[itemKey].quote;
+        
         if(quote !== undefined) {
             cart.items[itemKey].price = {
                 currency: quote.currency,
-                public: quote.amount,
+                public: Number(quote.amount * opcIncreaseFactor).toFixed(2),
             };
             delete(cart.items[itemKey].quote);
         } else {
             if(cart.items[itemKey].price) {
                 delete(cart.items[itemKey].price.commission);
                 delete(cart.items[itemKey].price.taxes);
+                cart.items[itemKey].price.public = Number(cart.items[itemKey].price.public * opcIncreaseFactor).toFixed(2);
             }
         }
     }

@@ -163,14 +163,19 @@ class ShoppingCart {
         return this.setUserPreference(userPreferenceKey, defaultValue);
     }
 
+    async getOpcIncreaseFactor() {
+        let cart = await this.getCart();
+        let paymentMethod = cart.userPreferences.paymentMethod;
+        return(1.0 + OPC_FEES[paymentMethod]);
+    }
+
 
 
     // Convert a price record to the user preferred currency
     async estimatePriceInUserPreferredCurrency(offerPrice) {
         // Retrieve user's preferred currency
         let userCurrency = await this.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
-        let paymentMethod = await this.getUserPreference(CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD);
-        let paymentMethodFeeIncrease = 1 + OPC_FEES[paymentMethod];
+        let paymentMethodFeeIncrease = await this.getOpcIncreaseFactor();
 
         // If the supplier price is already in the user currency return it
         if(offerPrice.currency === userCurrency) {
@@ -204,7 +209,7 @@ class ShoppingCart {
 
         // Update the currency to the user preference
         cart.totalPrice.currency = cart.userPreferences.currency;
-        let paymentMethodFeeIncrease = 1.0 + OPC_FEES[cart.userPreferences.paymentMethod];
+        let paymentMethodFeeIncrease = await this.getOpcIncreaseFactor();
 
         // Reset total price
         cart.totalPrice.public = 0;
