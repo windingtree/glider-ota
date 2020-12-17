@@ -176,7 +176,7 @@ class ShoppingCart {
         if(offerPrice.currency === userCurrency) {
             return {
                 currency: userCurrency,
-                public: offerPrice.public * paymentMethodFeeIncrease,
+                public: Number(offerPrice.public * paymentMethodFeeIncrease).toFixed(2),
                 isEstimated: false,
             }
         }
