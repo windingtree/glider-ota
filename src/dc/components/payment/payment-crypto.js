@@ -64,7 +64,7 @@ const CryptoPaymentPage = props => {
     const [offer, setOffer] = useState(null);
     const [amountUSD, setAmountUSD] = useState(0);
     const [countDown, setCountDown] = useState(0);
-
+    const [finalOfferId, setFinalOfferId] = useState(confirmedOfferId)
     const createIntent = useCallback(() => {
         setOfferLoading(true);
         createPaymentIntent(confirmedOfferId, 'crypto')
@@ -75,12 +75,14 @@ const CryptoPaymentPage = props => {
                 setAmountUSD(data.amount);
                 setOfferLoading(false);
                 setCountDown(120);
+                setFinalOfferId(data.offer.offerId)
+                console.log('retrieved final offer ID', data.offer.offerId)
             })
             .catch(err => {
                 setError(err);
                 setOfferLoading(false);
             });
-    }, [confirmedOfferId]);
+    }, [confirmedOfferId, finalOfferId]);
 
     useEffect(()=>{
         createIntent();
@@ -142,7 +144,7 @@ const CryptoPaymentPage = props => {
                         <SelectCrypto
                             title='Select a token'
                             usdValue={amountUSD}
-                            confirmedOfferId={confirmedOfferId}
+                            confirmedOfferId={finalOfferId}
                             deadline={deadline}
                             onPaymentReset={() => handlePaymentReset()}
                             onPaymentStart={() => handlePaymentStart()}

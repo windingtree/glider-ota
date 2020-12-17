@@ -24,6 +24,7 @@ export function Room({room, roomPricePlansWithOffers, selectedOffer, onAddOfferT
             <div className={'pt-4 pb-4'}>
                 <RoomAmenities amenities={room.amenities} defaultExpanded={true}/>
             </div>
+            <div>{room.desciption}</div>
             <div className='d-flex flex-row flex-wrap flex-fill'>
                 <div className='room-details__col2 d-flex flex-column flex-fill'>
                     {

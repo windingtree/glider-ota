@@ -17,7 +17,8 @@ const {
     updatePaymentStatus,
     findConfirmedOffer,
     ORDER_STATUSES,
-    PAYMENT_STATUSES
+    PAYMENT_STATUSES,
+    ORDER_TYPES
 } = require('../_lib/mongo-dao');
 const {
     PaymentManagerContract,
@@ -108,8 +109,8 @@ const fulfillOrder = async (confirmedOfferId, tx, quote) => {
 
     let passengers = document.passengers;
     let offerId = document.confirmedOffer.offerId;
-    let offer = document.confirmedOffer.offer;
-    let price = offer.price;
+    // let offer = document.confirmedOffer.offer;
+    let price = document.confirmedOffer.price;
 
     // Request a guarantee to Simard
     let guarantee;
@@ -174,6 +175,42 @@ const fulfillOrder = async (confirmedOfferId, tx, quote) => {
 
     return confirmation;
 };
+
+const processCryptoOrderMulti = async (
+    confirmedOfferId,
+    {
+        tx,
+        receipt,
+        payment,
+        quoteId
+    }
+) => {
+
+    let masterOffer = await findConfirmedOffer(confirmedOfferId)
+    let {orderType, masterOrderId, subOfferIDs} = masterOffer;
+    let results = []
+    if(orderType === ORDER_TYPES.SINGLE){
+        try{
+            results.push(await processCryptoOrder(confirmedOfferId,{tx,receipt,payment,quoteId}))
+        }catch(err){
+            console.log('error while processing', err)
+        }
+    }else{
+        if(!subOfferIDs){
+            //should not happen
+            throw new Error('Missing sub offers - cannot proceed')
+        }
+        for(let offerId of subOfferIDs){
+            console.log('Process success for offerId',offerId)
+            try {
+                results.push(await processCryptoOrder(offerId,{tx,receipt,payment,quoteId}));
+            }catch(err){
+                console.log('error while processing', err)
+            }
+        }
+    }
+    console.log('Results', results)
+}
 
 const processCryptoOrder = async (
     confirmedOfferId,
@@ -292,7 +329,7 @@ const validatePaymentTransaction = async (confirmedOfferId, transactionHash) => 
     const amount = web3.utils.fromWei(payment.amountOut, 'picoether');// USDC uses picoether: 1000000
     const {
         currency
-    } = document.confirmedOffer.offer.price;
+    } = document.confirmedOffer.price;
     const exchangeQuote = document.exchangeQuote;
     const offerCurrency = String(currency).toLowerCase();
 
@@ -342,7 +379,7 @@ const cryptoOrderController = async (request, response) => {
     }
 
     try {
-        const confirmation = await processCryptoOrder(
+        const confirmation = await processCryptoOrderMulti(
             confirmedOfferId,
             {
                 tx,

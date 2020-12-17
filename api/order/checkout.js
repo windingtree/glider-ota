@@ -40,7 +40,6 @@ const checkoutCard = async (req, res) => {
             return;
     }
 
-
 };
 
 
@@ -150,6 +149,7 @@ const rewritePassengers = (userProvided, searchPassengers) => {
         if(!webPax)
             throw new Error(`One of users from search criteria not found in data from web, paxID:${pax.id}`);
         let record = {
+            id:pax.id,
             "type": pax.type,
             "civility": webPax.civility,
             "lastnames": [webPax.lastName],
