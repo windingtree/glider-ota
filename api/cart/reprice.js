@@ -28,37 +28,40 @@ const offerRepriceController = async (req, res) => {
     }
     let subOfferIDs = [];
     let subTotalPrices = [];
-    let finalUmbrellaOffer;
-    let grandTotalPrice=0;
+    let finalMasterOffer;       //Master offer - may hold sub orders (flights, hotels, insurance)
+    let grandTotalPrice=0;      //total price to be paid for an entire(master) order
     try{
         let confirmedTransportationOffer;
         if(transportationOffer){
             confirmedTransportationOffer = await repriceTransportationOffer(transportationOffer, seatOptions)
             confirmedTransportationOffer.offer.price = await shoppingCart.estimatePriceInUserPreferredCurrency(confirmedTransportationOffer.offer.price);
+
             subOfferIDs.push(confirmedTransportationOffer.offerId); //store ID of confirmed flight offer in a list
-            finalUmbrellaOffer=confirmedTransportationOffer;
-            // subTotalPrices.push(confirmedTransportationOffer.offer.price);
+            finalMasterOffer=confirmedTransportationOffer;
             grandTotalPrice+=Number(confirmedTransportationOffer.offer.price.public);
         }
 
         if(accommodationOffer){
-            //for accomodation offer we should already have it in user pref currency but just in case it is not, try to convert
+            //for accommodation offer we should already have it in user pref currency but just in case it is not, try to convert
             accommodationOffer.price = await shoppingCart.estimatePriceInUserPreferredCurrency(accommodationOffer.price);
-            accommodationOffer
+
             subOfferIDs.push(accommodationOffer.offerId); //store ID of hotel offer in a list too
-            if(!finalUmbrellaOffer)
-                finalUmbrellaOffer=accommodationOffer;
+            if(!finalMasterOffer)
+                finalMasterOffer=accommodationOffer;
             // subTotalPrices.push(accommodationOffer.offer.price);
             grandTotalPrice+=Number(accommodationOffer.offer.price.public);
         }
-        finalUmbrellaOffer.subOfferIDs=subOfferIDs;
+        finalMasterOffer.subOfferIDs=subOfferIDs;
 
         let userCurrency = await shoppingCart.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
-        finalUmbrellaOffer.offer.price.currency=userCurrency;
-        finalUmbrellaOffer.offer.price.public=grandTotalPrice;
-
-        await shoppingCart.addItemToCart(CART_ITEMKEYS.CONFIRMED_OFFER,finalUmbrellaOffer);
-        res.json(finalUmbrellaOffer);
+        let totalPrice = {
+            currency:userCurrency,
+            public: grandTotalPrice
+        }
+        finalMasterOffer.offer.price=totalPrice;
+        finalMasterOffer.price=totalPrice;
+        await shoppingCart.addItemToCart(CART_ITEMKEYS.CONFIRMED_OFFER,finalMasterOffer);
+        res.json(finalMasterOffer);
     }catch(error){
         logger.error("Got error while call to /offers/price, error:%s",error.message,error)
         sendErrorResponse(res,500,ERRORS.INTERNAL_SERVER_ERROR);
@@ -71,8 +74,14 @@ const repriceTransportationOffer = async (transportationOffer, seatOptions) =>{
         logger.error(`Offer metadata not found, offerId=${transportationOffer.offerId}`);
         throw new Error(`Offer metadata not found, offerId=${transportationOffer.offerId}`);
     }
-    let confirmedTransportationOffer = await reprice(transportationOffer.offerId, seatOptions,offerMetadata);
-
+    let confirmedTransportationOffer
+    try {
+        confirmedTransportationOffer = await reprice(transportationOffer.offerId, seatOptions, offerMetadata);
+    }catch(err){
+        //REMOVE THIS - it's for testing only
+        console.error('Repricing failed - ignore for now')
+        confirmedTransportationOffer=transportationOffer;
+    }
 
     return confirmedTransportationOffer;
 }

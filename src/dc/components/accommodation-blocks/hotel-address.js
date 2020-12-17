@@ -4,13 +4,16 @@ import lookup from 'country-code-lookup';
 import _ from 'lodash';
 
 const countryCodeToCountry = (isoCode) => {
+    if(!isoCode) {
+        return null;
+    }
     let result = null;
     try {
         result = lookup.byIso(isoCode);
         if (result)
             return result.country;
     }catch(err){
-        console.warn(`Cannot determine country name for coutry code:${isoCode}`);
+        console.log(`Cannot determine country name for country code:${isoCode}`);
     }
     return null;
 }

@@ -4,6 +4,10 @@ const {createLogger} = require('./logger');
 const logger = createLogger('dao');
 const url = require('url');
 
+const ORDER_TYPES={
+    SINGLE:'SINGLE',
+    MASTER:'MASTER'
+}
 const ORDER_STATUSES={
     NEW:'NEW',
     FULFILLING:'FULFILLING',
@@ -125,7 +129,7 @@ function updateOne(collection, criteria, doc) {
  * @returns {Promise<*>}
  */
 
-async function storeConfirmedOffer(offer, passengers, exchangeQuote){
+async function storeConfirmedOffer(offer, passengers, exchangeQuote, orderType = ORDER_TYPES.SINGLE, subOfferIDs = [], masterOrderId){
     let object = {
         offerId: offer.offerId,
         confirmedOffer: offer,
@@ -133,6 +137,9 @@ async function storeConfirmedOffer(offer, passengers, exchangeQuote){
         order_status: ORDER_STATUSES.NEW,
         payment_status: PAYMENT_STATUSES.NOT_PAID,
         exchangeQuote,
+        orderType,
+        masterOrderId,
+        subOfferIDs,
         createDate: new Date(),
         transactions: [createTransactionEntry('New order created', {
             order_status: ORDER_STATUSES.NEW,
@@ -261,6 +268,7 @@ module.exports = {
     updatePaymentStatus,
     ORDER_STATUSES,
     PAYMENT_STATUSES,
+    ORDER_TYPES,
     insert,
     findOne,
     storeConfirmedOffer,

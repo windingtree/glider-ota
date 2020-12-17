@@ -35,9 +35,10 @@ export function HotelOfferSummary({hotel, room, offer, price}) {
                         <RoomAmenities amenities={amenities} defaultExpanded={false}/>
                     </Col>
                 </Row>
-                <div className={'pt-4 pb-4'}>
-                    {price && <div className={style.roomPrice}>{price.public} {price.currency}</div>}
-                </div>
+                {price &&
+                    <div className={'pt-4 pb-4'}>
+                        <div className={style.roomPrice}>{price.public} {price.currency}</div>
+                    </div>}
             </Container>
         )
     }

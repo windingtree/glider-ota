@@ -110,7 +110,9 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                             offerId = priceOffset.offerId;
                         }
                         return (
+                            <>
                             <FareFamilyWthBenefits key={offerId} amenities={pricePlan.amenities} price={priceDifference} familyName={pricePlan.name} isSelected={pricePlanId === selectedPricePlanId} onClick={() => { selectOffer(offerId)}} fareFamilySelectionDisabled={disableFareFamilySelection}/>
+                            </>
                         )
 
                     })

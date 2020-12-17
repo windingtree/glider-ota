@@ -13,7 +13,8 @@ const {
     updatePaymentStatus,
     findConfirmedOffer,
     ORDER_STATUSES,
-    PAYMENT_STATUSES
+    PAYMENT_STATUSES,
+    ORDER_TYPES
 } = require('../_lib/mongo-dao');
 const logger = createLogger("/webhook");
 
@@ -147,7 +148,8 @@ async function processWebhookEvent(event) {
         // case 'payment_intent.succeeded': //
         case 'charge.succeeded':
             logger.debug('Payment was successful!')
-            response = await processPaymentSuccess(confirmedOfferId, event);
+            response = await processPaymentSuccessMulti(confirmedOfferId, event);
+            // response = await processPaymentSuccess(confirmedOfferId, event);
             break;
         case 'payment_method.attached':
             //const paymentMethod = event.data.object;
@@ -162,6 +164,33 @@ async function processWebhookEvent(event) {
     return response;
 }
 
+
+async function processPaymentSuccessMulti(confirmedOfferId, webhookEvent) {
+    let masterOffer = await findConfirmedOffer(confirmedOfferId)
+    let {orderType, masterOrderId, subOfferIDs} = masterOffer;
+    let results = []
+    if(orderType === ORDER_TYPES){
+        try{
+            results.push(processPaymentSuccess(confirmedOfferId,webhookEvent))
+        }catch(err){
+            console.log('error while processing', err)
+        }
+    }else{
+        if(!subOfferIDs){
+            //should not happen
+            throw new Error('Missing sub offers - cannot proceed')
+        }
+        for(let offerId of subOfferIDs){
+            console.log('Process success for offerId',offerId)
+            try {
+                results.push(await processPaymentSuccess(offerId, webhookEvent));
+            }catch(err){
+                console.log('error while processing', err)
+            }
+        }
+    }
+    console.log('Results', results)
+}
 
 /**
  * * Perform necessary steps after receiving information that payment failed
@@ -266,7 +295,7 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
 
     // Retrieve offer details
     logger.debug("#1 Retrieve offerDetails from DB");
-    let document = await findConfirmedOffer(confirmedOfferId)
+    let document =  await findConfirmedOffer(confirmedOfferId)
 
     if (!document) {
         logger.error(`Offer not found, confirmedOfferId=${confirmedOfferId}`);
@@ -294,7 +323,7 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
     let passengers = document.passengers;
     let offerId = document.confirmedOffer.offerId;
     let offer = document.confirmedOffer.offer;
-    let price = offer.price;
+    let price = document.confirmedOffer.price;
 
     // Request a guarantee to Simard
     let guarantee;
