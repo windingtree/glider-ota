@@ -78,6 +78,11 @@ const BookHotelBtn = ({ flightOffer }) => {
     let history = useHistory();
     console.log('BookHotelBtn - flightOffer = ',flightOffer)
     const {itineraries} = flightOffer;
+
+    if(!Array.isArray(itineraries) || itineraries.length===0) {
+        return (<></>);
+    }
+
     let outboundItinerary = itineraries.length>0?itineraries[0]:null;
     let returnItinerary = itineraries.length>1?itineraries[1]:null;
 
