@@ -30,7 +30,7 @@ export const ExpandCollapseToggleV2 = ({customClassName, expandedText, collapsed
     }
 
     let classes={
-        toggle:true,
+        toggle:(customClassName===undefined),
         [customClassName]:(customClassName!==undefined)     //if customClassname is defined - append it to CSS
     }
 

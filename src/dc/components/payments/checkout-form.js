@@ -19,7 +19,7 @@ const stripePromise = getStripePublicKey().then(data => {
 
 export default function PaymentForm({confirmedOfferId, onPaymentSuccess, onPaymentFailure, cardholderName}) {
     return (
-        <Container>
+        <div className={style.container}>
             <Elements stripe={stripePromise}>
                 <CheckoutForm
                     onPaymentSuccess={onPaymentSuccess}
@@ -28,7 +28,7 @@ export default function PaymentForm({confirmedOfferId, onPaymentSuccess, onPayme
                     cardholderName={cardholderName}
                 />
             </Elements>
-        </Container>
+        </div>
     )
 }
 
@@ -135,12 +135,10 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
             <>
                 <Form validated={false}>
                     <Form.Row className={style.checkoutFormRow}>
-                        <h2>Payment</h2>
-                    </Form.Row>
-                    <Form.Row className={style.checkoutFormRow}>
                         <Col>
-                            <Form.Label className=''>Card holder</Form.Label>
+                            <Form.Label className={style.cardLabel}>Card holder</Form.Label>
                             <Form.Control
+                                className={style.cardHolderInput}
                                 type="text"
                                 id="name"
                                 name="name"
@@ -153,21 +151,25 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                     </Form.Row>
                     <Form.Row className={style.checkoutFormRow}>
                         <Col>
-                            <Form.Label className=''>Card details</Form.Label>
-                            <CardElement className="sr-input" options={CARD_OPTIONS}/>
+                            <Form.Label className={style.cardLabel}>Card details</Form.Label>
+                            <CardElement className={`sr-input ${style.cardHolderInput}`} options={CARD_OPTIONS}/>
                         </Col>
                     </Form.Row>
                     <div>
                         {error && <div className={style.errorMessage}>{error}</div>}
                     </div>
                     <Form.Row className={style.priceRow}>
-                            {amount !== 0 && <h2>Total Price {currency} {amount}</h2>}
+                            {!amount &&
+                                <span>&nbsp;</span>
+                            }
+                            {amount !== 0 &&
+                                <span>Total Price {currency} {amount}</span>
+                            }
                             <Button
-                                variant="primary"
-                                size="lg"
+                                className={style.payButton}
                                 disabled={processing || !clientSecret || !stripe}
                                 onClick={handleSubmit}>
-                                {processing ? "Processing...." : "Pay with Card"}
+                                {processing ? "Processing...." : "Pay with Credit Card"}
                             </Button>
                     </Form.Row>
                     <Form.Row>

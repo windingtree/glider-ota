@@ -20,7 +20,6 @@ import {
     requestSearchResultsRestoreFromCache
 } from "../../../redux/sagas/shopping-flow-store";
 import {JourneySummary} from "../flight-blocks/journey-summary";
-import PaymentSelector from './payment-selector';
 
 
 function RenderPleaseWait(){
@@ -35,7 +34,7 @@ function RenderPleaseWait(){
 }
 
 
-export function SummaryContent({searchResults, offerId, onRestoreSearchResults, onRestoreShoppingCart,refreshInProgress,isShoppingCartStoreInitialized, isShoppingFlowStoreInitialized}) {
+export function BookingSummaryContent({searchResults, offerId, onRestoreSearchResults, onRestoreShoppingCart,refreshInProgress,isShoppingCartStoreInitialized, isShoppingFlowStoreInitialized}) {
     let history = useHistory();
     const [passengerDetails, setPassengerDetails] = useState();
     const [confirmedOffer, setConfirmedOffer] = useState();
@@ -77,20 +76,6 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults, 
         })
     }
 
-    // Validate the price of the shopping cart
-    function repriceItemsInCart() {
-        setLoadInProgress(true);
-        setPricingFailed(false);
-        let response=repriceShoppingCartContents();
-        response.then(offer=>{
-            setConfirmedOffer(offer)
-        }).catch(err=>{
-            setPricingFailed(true);
-        }).finally(()=>{
-            setLoadInProgress(false)
-        });
-    }
-
     const PricingErrorAlert = () => (
         <Alert variant="danger">
             <Alert.Heading>We could not confirm your final price</Alert.Heading>
@@ -125,7 +110,7 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults, 
 
         repriceItemsInCart();
 
-    },[searchResults, passengerDetails])
+    },[searchResults,passengerDetails])
 
 
     let itineraries;
@@ -149,17 +134,13 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults, 
                     {confirmedOffer &&
                     <>
                         <PaymentSummary offer = {confirmedOffer.offer}/>
-                        <PaymentSelector
-                            confirmedOffer={confirmedOffer}
-                            passengers={passengerDetails}
-                        />
-                        {/* <TotalPriceButton
+                        <TotalPriceButton
                             forPayment={true}
                             price={confirmedOffer.offer.price}
                             proceedButtonTitle="Pay with Card"
                             onProceedClicked={onProceedButtonClick}
                             onProceedCryptoClicked={onProceedCryptoButtonClick}
-                        /> */}
+                        />
                     </>
                     }
                 </div>

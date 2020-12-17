@@ -14,7 +14,10 @@ import {useHistory} from "react-router-dom";
 
 import {
     flightSearchResultsSelector,
-    requestSearchResultsRestoreFromCache, isShoppingResultsRestoreInProgressSelector, isShoppingFlowStoreInitialized
+    requestSearchResultsRestoreFromCache,
+    isShoppingResultsRestoreInProgressSelector,
+    isShoppingFlowStoreInitialized,
+    hotelSearchResultsSelector
 } from "../../../redux/sagas/shopping-flow-store";
 
 
@@ -32,53 +35,63 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
 
     //Populate form with either passengers from session (if e.g. user refreshed page or clicked back) or initialize with number of passengers (and types) specified in a search form
     useEffect(()=>{
-
+        console.log(`PaxDetailsContent useEffect,refreshInProgress=${refreshInProgress}, ${isShoppingFlowStoreInitialized}, ${isShoppingCartStoreInitialized},${areStoresInitialized}`);
         if(!isShoppingFlowStoreInitialized){
             console.log('Initialize shopping flow')
             //no search results in store - probably page was refreshed, try to restore search results from cache
-            onRestoreSearchResults();
+            try{
+                onRestoreSearchResults();
+            }catch(err){
+                console.log('Restore from cache failed',err)
+            }
             return
-        }else{
-            console.log('we have shopping results - initialize passengers')
         }
 
         if(!isShoppingCartStoreInitialized){
             console.log('Initialize shopping cart')
-            onRestoreShoppingCart();
+            try {
+                onRestoreShoppingCart();
+            }catch(err){
+                console.log('Restore of cart failed', err)
+            }
         }
 
-        //initialize passengers
-        let passengers = passengerDetails || createInitialPassengersFromSearch(flightSearchResults,hotelSearchResults);
-        setIsLoading(true);
-        let response=retrievePassengerDetails();
-        response.then(result=> {
-            if(Array.isArray(result)) {
-                // Index passengers to ease the update
-                let indexedPassengers = passengers.reduce((acc, passenger) => {
-                    acc[passenger.id] = passenger;
-                    return acc;
-                }, {});
+        //only when we have cart and search results we can proceed with creating pax for
+        if(isShoppingCartStoreInitialized===true && isShoppingFlowStoreInitialized === true) {
+            console.log('Initialize isShoppingCartStoreInitialized && isShoppingFlowStoreInitialized = true, init passengers')
+            //initialize passengers
+            let passengers = passengerDetails || createInitialPassengersFromSearch(flightSearchResults, hotelSearchResults);
+            setIsLoading(true);
+            let response = retrievePassengerDetails();
+            response.then(result => {
+                if (Array.isArray(result)) {
+                    // Index passengers to ease the update
+                    let indexedPassengers = passengers.reduce((acc, passenger) => {
+                        acc[passenger.id] = passenger;
+                        return acc;
+                    }, {});
 
-                // Assign each received passenger to the passengers, if id matches.
-                result.forEach(pax => {
-                    if(indexedPassengers.hasOwnProperty(pax.id)) {
-                        indexedPassengers[pax.id] = pax;
-                    }
-                })
+                    // Assign each received passenger to the passengers, if id matches.
+                    result.forEach(pax => {
+                        if (indexedPassengers.hasOwnProperty(pax.id)) {
+                            indexedPassengers[pax.id] = pax;
+                        }
+                    })
 
-                // Update the value
-                passengers = Object.values(indexedPassengers);
+                    // Update the value
+                    passengers = Object.values(indexedPassengers);
 
-            }
-        }).catch(err=>{
-            console.error("Failed to load passenger details", err);
-            //TODO - add proper error handling (show user a message)
-        }).finally(()=>{
-            console.log('DCFlightPassengersPage - useEffect finally passengers:', passengerDetails)
-            setIsLoading(false);
-            setPassengerDetails(passengers);
-        })
-    },[flightSearchResults,hotelSearchResults]);
+                }
+            }).catch(err => {
+                console.error("Failed to load passenger details", err);
+                //TODO - add proper error handling (show user a message)
+            }).finally(() => {
+                console.log('DCFlightPassengersPage - useEffect finally passengers:', passengerDetails)
+                setIsLoading(false);
+                setPassengerDetails(passengers);
+            })
+        }
+    },[isShoppingCartStoreInitialized,isShoppingFlowStoreInitialized]);
 
     function redirectToPrevStep(){
         let url='/dc/';
@@ -86,6 +99,9 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
     }
     function redirectToNextStep(){
         let url='/dc/ancillaries';
+        if(!flightSearchResults){
+            url='/dc/summary';
+        }
         history.push(url);
     }
 
@@ -134,7 +150,10 @@ export function PaxDetailsContent({flightSearchResults,hotelSearchResults, onRes
      */
     function createInitialPassengersFromSearch(flightSearchResults,hotelSearchResults)
     {
+        console.log('createInitialPassengersFromSearch, flightSearchResults',flightSearchResults)
+        console.log('createInitialPassengersFromSearch, hotelSearchResults',hotelSearchResults)
         let searchResults = flightSearchResults?flightSearchResults:hotelSearchResults;
+        console.log('createInitialPassengersFromSearch, hotelSearchResults',hotelSearchResults)
         let paxData = searchResults.passengers;
         let passengers = Object.keys(paxData).map(paxId => {
             return {
@@ -177,7 +196,7 @@ const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
 
 const mapStateToProps = state => ({
     flightSearchResults:flightSearchResultsSelector(state),
-    hotelSearchResults:hotelOfferSelector(state),
+    hotelSearchResults:hotelSearchResultsSelector(state),
     refreshInProgress:isShoppingResultsRestoreInProgressSelector(state),
     isShoppingFlowStoreInitialized: isShoppingFlowStoreInitialized(state),
     isShoppingCartStoreInitialized: isShoppingCartInitializedSelector(state)

@@ -1,0 +1,5 @@
+@import '../../../styles/mixins';
+
+.hotelVenueDistance{
+  @include g-font($g-fontsize-xs,$g-color-primary,$g-fontweight-normal);
+}

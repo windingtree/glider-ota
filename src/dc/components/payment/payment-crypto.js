@@ -2,21 +2,21 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'react-bootstrap';
 import { useHistory, useParams } from "react-router-dom";
-import SelectCrypto from '../components/crypto/SelectCrypto';
-import MetamaskButton from '../components/crypto/MetamaskButton';
-import PortisButton from '../components/crypto/PortisButton';
-import WalletAddress from '../components/crypto/WalletAddress';
-import styles from '../components/crypto/crypto.module.scss';
-import Spinner from "../components/common/spinner"
+import SelectCrypto from '../crypto/SelectCrypto';
+import MetamaskButton from '../crypto/MetamaskButton';
+import PortisButton from '../crypto/PortisButton';
+import WalletAddress from '../crypto/WalletAddress';
+import styles from '../crypto/crypto.module.scss';
+import Spinner from "../common/spinner"
 import {
     walletAddress,
     web3ProviderType,
     openPortis,
     signInError
-} from '../../redux/sagas/web3';
-import { createPaymentIntent } from "../../../src/utils/api-utils";
-import BookingFlowBreadcrumb, {STEPS} from "../components/common-blocks/breadcrumbs"
-import BookingFlowLayout from "../components/layout/booking-flow-layout";
+} from '../../../redux/sagas/web3';
+import { createPaymentIntent } from "../../../utils/api-utils";
+import BookingFlowBreadcrumb, {STEPS} from "../common-blocks/breadcrumbs"
+import BookingFlowLayout from "../layout/booking-flow-layout";
 
 const CountDown = props => {
     const {

@@ -66,7 +66,7 @@ export const BookingFlowBreadcrumb = ({isFlightBooking, isHotelBooking, currentS
 
     return (<Breadcrumb className={style.breadCrumb} >
         {
-            itemsInBreadcrumb.map(item=> {
+            itemsInBreadcrumb.map((item, index)=> {
                     let {id, url, label} = item;
                     let isActive = (id === currentStepId);
                     if (id === currentStepId) {
@@ -74,9 +74,9 @@ export const BookingFlowBreadcrumb = ({isFlightBooking, isHotelBooking, currentS
                     }
                 let breadcrumb;
                     if (!currentStepAlreadyFound) {
-                        breadcrumb=<Breadcrumb.Item href={url} onClick={(e) => onClickHandler(e, id,url)}>{label}</Breadcrumb.Item>;
+                        breadcrumb=<Breadcrumb.Item key={index} href={url} onClick={(e) => onClickHandler(e, id,url)}>{label}</Breadcrumb.Item>;
                     } else {
-                        breadcrumb=<Breadcrumb.Item active={isActive} linkAs='text' >{label}</Breadcrumb.Item>;
+                        breadcrumb=<Breadcrumb.Item key={index} active={isActive} linkAs='text' >{label}</Breadcrumb.Item>;
                     }
                     return breadcrumb;
                 }

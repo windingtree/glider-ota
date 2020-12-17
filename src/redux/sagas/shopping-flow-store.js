@@ -119,7 +119,7 @@ export default (state = initialState, action) => {
             });
         case REQUEST_RESTORE_RESULTS_FROM_CACHE:
             return Object.assign({}, state, {
-                isStoreInitialized:true,
+                isStoreInitialized:false,
                 isRestoreInProgress:true,
             });
         case RESTORE_RESULTS_FROM_CACHE_COMPLETED:

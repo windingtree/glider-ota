@@ -33,10 +33,10 @@ import DCFlightPassengersPage from './dc/pages/pax-details-page'
 import DCAncillariesPage from './dc/pages/ancillaries-page'
 import DCSeatSelectionPage from './dc/pages/seat-selection-page'
 import DCPaymentSummaryPage from './dc/pages/payment-summary-page'
-import DCPaymentPage from "./dc/pages/payment-page";
-import DCPaymentCryptoPage from "./dc/pages/payment-crypto-page";
+// import DCPaymentPage from "./dc/components/payment/payment-cc";
+// import DCPaymentCryptoPage from "./dc/components/payment/payment-crypto";
 import DCConfirmationPage from "./dc/pages/confirmation-page";
-import DCPayComponent from './dc/components/common/payment/payment-selector';
+import DCPayComponent from './dc/components/payment/payment-selector';
 function Dispatcher() {
     return (
         <Provider store={store}>
