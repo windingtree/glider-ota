@@ -87,6 +87,12 @@ const BookHotelBtn = ({ flightOffer }) => {
     let returnItinerary = itineraries.length>1?itineraries[1]:null;
 
     const handleBookHotel = (outboundItinerary, returnItinerary) => {
+        console.log('Book hotel', {
+            searchType: 'HOTELS',
+            city: OfferUtils.getItineraryArrivalAirportCode(outboundItinerary),
+            dateIn: OfferUtils.getItineraryArrivalDate(outboundItinerary),
+            dateOut: returnItinerary ? OfferUtils.getItineraryDepartureDate(returnItinerary) : undefined
+        });
         history.push('/dc', {
             searchType: 'HOTELS',
             city: OfferUtils.getItineraryArrivalAirportCode(outboundItinerary),

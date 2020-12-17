@@ -17,7 +17,7 @@ export class BaseSearchResultsWrapper {
      */
     getAllOffers(){
         let offers={};
-        Object.keys(this.offers).forEach(offerId=>{
+        Object.keys(this.offers || {}).forEach(offerId=>{
             offers[offerId] = this.getOffer(offerId);
         });
         return offers;

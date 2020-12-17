@@ -21,6 +21,7 @@ export default function DCLandingPage({match}) {
     );
     useEffect(() => {
         if (customSearchType && customSearchType !== searchType) {
+            console.log('New search type', customSearchType);
             setSearchType(customSearchType);
         }
     }, [customSearchType]);
