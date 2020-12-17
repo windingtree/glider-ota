@@ -150,7 +150,7 @@ async function processWebhookEvent(event) {
             logger.debug('Payment was successful!')
             response = await processPaymentSuccessMulti(confirmedOfferId, event);
             // response = await processPaymentSuccess(confirmedOfferId, event);
-            break;f267d068-8fbc-44d0-b9b5-52e91d8aeb06
+            break;
         case 'payment_method.attached':
             //const paymentMethod = event.data.object;
             logger.debug('PaymentMethod was attached to a Customer!')
