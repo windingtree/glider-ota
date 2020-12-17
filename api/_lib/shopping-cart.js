@@ -14,12 +14,20 @@ const CART_ITEMKEYS = {
     CONFIRMED_OFFER : 'confirmed-offer',
     TRANSPORTATION_OFFER : 'TRANSPORTATION_OFFER',
     ACCOMMODATION_OFFER : 'ACCOMMODATION_OFFER',
-    INSURANCE_OFFER : 'insurance_offer'
+    INSURANCE_OFFER : 'INSURANCE_OFFER',
 };
 
 // Possible cart preferences
 const CART_USER_PREFERENCES_KEYS = {
     CURRENCY : 'currency',
+    PAYMENT_METHOD: 'paymentMethod',
+};
+
+// Possible fees per payment method
+const OPC_FEES = {
+    'card':   0.05,
+    'crypto': 0.02,
+    'lif':    0.01,
 };
 
 
@@ -86,8 +94,6 @@ class ShoppingCart {
         return this._cart;
     }
 
-
-
     /**
      * Removes item from cart
      * @param cartKey
@@ -149,21 +155,28 @@ class ShoppingCart {
     async unsetUserPreference(userPreferenceKey){
         let defaultValue = undefined;
         if(userPreferenceKey === CART_USER_PREFERENCES_KEYS.CURRENCY) {
-            defaultValue = 'USD'
+            defaultValue = 'USD';
+        }
+        if(userPreferenceKey === CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD) {
+            defaultValue = 'card';
         }
         return this.setUserPreference(userPreferenceKey, defaultValue);
     }
+
+
 
     // Convert a price record to the user preferred currency
     async estimatePriceInUserPreferredCurrency(offerPrice) {
         // Retrieve user's preferred currency
         let userCurrency = await this.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
+        let paymentMethod = await this.getUserPreference(CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD);
+        let paymentMethodFeeIncrease = 1 + OPC_FEES[paymentMethod];
 
         // If the supplier price is already in the user currency return it
         if(offerPrice.currency === userCurrency) {
             return {
                 currency: userCurrency,
-                public: offerPrice.public,
+                public: Number(offerPrice.public * paymentMethodFeeIncrease).toFixed(2),
                 isEstimated: false,
             }
         }
@@ -180,7 +193,7 @@ class ShoppingCart {
           // Update offer price and currency
         return {
             currency: userCurrency,
-            public: Number(offerPrice.public * exchangeRate).toFixed(2),
+            public: Number(offerPrice.public * exchangeRate * paymentMethodFeeIncrease).toFixed(2),
             isEstimated: true,
         }
     }
@@ -191,6 +204,7 @@ class ShoppingCart {
 
         // Update the currency to the user preference
         cart.totalPrice.currency = cart.userPreferences.currency;
+        let paymentMethodFeeIncrease = 1.0 + OPC_FEES[cart.userPreferences.paymentMethod];
 
         // Reset total price
         cart.totalPrice.public = 0;
@@ -232,10 +246,10 @@ class ShoppingCart {
                 }
 
                 // Increment total
-                cart.totalPrice.public += itemPrice;
+                cart.totalPrice.public += (itemPrice * paymentMethodFeeIncrease);
             }
         }
-        cart.totalPrice.public = (cart.totalPrice.public).toFixed(2)    //round to two digits
+        cart.totalPrice.public = cart.totalPrice.public.toFixed(2);    //round to two digits
         return cart;
     }
 
@@ -243,11 +257,12 @@ class ShoppingCart {
         return {
             totalPrice: {
                 public: 0,
-                currency: 'USD'
+                currency: 'USD',
             },
             items: {},
             userPreferences: {
                 currency: 'USD',
+                paymentMethod: 'card',
             },
         }
     }
