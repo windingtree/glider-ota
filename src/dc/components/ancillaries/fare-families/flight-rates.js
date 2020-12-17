@@ -118,9 +118,45 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onPricePlan
                     })
                 }
         </div>
+        <div className={style.ratesHeader}>Insurance <small>Provided by EKTA</small></div>
+        <div>
+            {insuranceOffer()}
+        </div>
         <div className='py-5'/>
     </>)
 }
+
+
+const insuranceOffer = () => {
+    let noinsurance = {
+        title:'No Insurance',
+        items:[],
+        price: '0 USD',
+        enabled:true
+    }
+    let standard = {
+        title:'Standard',
+        price: '+45 USD',
+        items:['Medical expenses (including COVID-19*)','Trip cancellation due to your illness (incl. COVID-19*)', 'Accident', 'Death','Assistance services'],
+        enabled:true
+    }
+
+    let extended = {
+        title:'Extender',
+        price: '+78 USD',
+        items:['Medical expenses (including COVID-19*)','Trip cancellation due to your illness (incl. COVID-19*)', 'Accident', 'Death','Assistance services','Lost baggage','Air travel insurance','Liability'],
+        enabled:true
+    }
+
+    return (
+        <>
+        <AncillarySelectableItem name={noinsurance.title} items={noinsurance.items} isSelected={true} isDisabled={false} price={noinsurance.price}/>
+        <AncillarySelectableItem name={standard.title} items={standard.items} isSelected={false} isDisabled={true} price={standard.price}/>
+        <AncillarySelectableItem name={extended.title} items={extended.items} isSelected={false} isDisabled={true} price={extended.price}/>
+        </>
+    )
+}
+
 
 
 
@@ -157,7 +193,12 @@ export function FareFamilyWthBenefits({familyName, price, isSelected, amenities=
             fare = "";
         }
     }
-
+    if(amenities){
+        amenities = amenities.map(item=>{
+            item = item.replace('[object Object]','2')
+            return item;
+        })
+    }
     let name = `${familyName}`
     return (
         <AncillarySelectableItem name={name} items={amenities} isSelected={isSelected} isDisabled={fareFamilySelectionDisabled} onSelect={onClick} price={fare}/>
