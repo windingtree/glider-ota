@@ -30,7 +30,7 @@ export const JourneySummary = ({itineraries}) => {
     }
 
     return (
-        <>
+        <div className={style.journeyContainer}>
             <div className={style.itinerarySummaryWrapper}>
                 <ItinerarySummary itinerary={outboundItinerary}/>
             </div>
@@ -38,7 +38,7 @@ export const JourneySummary = ({itineraries}) => {
             <div className={style.itinerarySummaryWrapperReturn}>
                 <ItinerarySummary itinerary={returnItinerary}/>
             </div>
-        </>
+        </div>
     )
 }
 

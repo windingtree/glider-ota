@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {CardElement, useStripe, useElements, Elements} from "@stripe/react-stripe-js";
-import {Button, Col, Container, Form} from "react-bootstrap";
+import {Button, Col, Container, Form } from "react-bootstrap";
 import Spinner from "../../components/common/spinner"
 import {loadStripe} from "@stripe/stripe-js";
 import {createPaymentIntent, getStripePublicKey} from "../../../utils/api-utils";
@@ -160,17 +160,21 @@ export function CheckoutForm({confirmedOfferId, onPaymentSuccess, onPaymentFailu
                     </div>
                     <Form.Row className={style.priceRow}>
                             {!amount &&
-                                <span>&nbsp;</span>
+                                <Spinner
+                                    enabled={true}
+                                />
                             }
                             {amount !== 0 &&
-                                <span>Total Price {currency} {amount}</span>
+                                <>
+                                    <span>Total Price {currency} {amount}</span>
+                                    <Button
+                                        className={style.payButton}
+                                        disabled={processing || !clientSecret || !stripe}
+                                        onClick={handleSubmit}>
+                                        {processing ? "Processing...." : "Pay with Credit Card"}
+                                    </Button>
+                                </>
                             }
-                            <Button
-                                className={style.payButton}
-                                disabled={processing || !clientSecret || !stripe}
-                                onClick={handleSubmit}>
-                                {processing ? "Processing...." : "Pay with Credit Card"}
-                            </Button>
                     </Form.Row>
                     <Form.Row>
                         <small className={style.disclaimer}>

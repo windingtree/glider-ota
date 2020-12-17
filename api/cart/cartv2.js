@@ -20,8 +20,7 @@ const shoppingCartController = async (req, res) => {
         await genericCartGetController(req,res);
     }
     if(method === 'DELETE') {
-        //delete item from cart
-        //TODO
+        await genericCartDeleteController(req,res);
     }
 
 
@@ -71,7 +70,7 @@ const genericCartPostController = async (req,res) =>{
     }
     //TODO add payload validation
     await shoppingCart.addItemToCart(type, cartItem, cartItem.price);
-    
+
     // Override price with quoted price
     if(cartItem.quote !== undefined) {
         cartItem.price = {
@@ -110,7 +109,25 @@ const genericCartGetController = async (req,res,cartItemKey, cartItem, itemPrice
     res.json(cart);
 }
 const genericCartDeleteController = async (req,res,cartItemKey, cartItem, itemPrice) =>{
-    //TODO
+    let sessionID = req.sessionID;
+    let shoppingCart = new ShoppingCart(sessionID);
+    let types = req.body;
+
+    if(!types || !Array.isArray(types) || types.length===0){
+        res.json({result:"OK", item: cartItem})
+        return;
+    }
+
+    //delete request item types
+    for(let type of types) {
+        type = type.toUpperCase();
+        console.log('delete from cart:',type)
+        await shoppingCart.removeItemFromCart(type);
+    }
+
+
+    res.json({result:"OK", item: cartItem})
+
 }
 
 const flightOfferCartItemCreator = async (offerId, searchResults) => {

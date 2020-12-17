@@ -15,8 +15,6 @@ import {
     signInError
 } from '../../../redux/sagas/web3';
 import { createPaymentIntent } from "../../../utils/api-utils";
-import BookingFlowBreadcrumb, {STEPS} from "../common-blocks/breadcrumbs"
-import BookingFlowLayout from "../layout/booking-flow-layout";
 
 const CountDown = props => {
     const {
@@ -55,12 +53,10 @@ const CountDown = props => {
 
 const CryptoPaymentPage = props => {
     const {
+        confirmedOfferId,
         walletAddress,
         signInError
     } = props;
-    const {
-        confirmedOfferId
-    } = useParams();
     const history = useHistory();
     const [error, setError] = useState(null);
     const [isOfferLoading, setOfferLoading] = useState(false);
@@ -108,59 +104,55 @@ const CryptoPaymentPage = props => {
         setCountDown(0);
         createIntent();
     };
-    let breadcrumb = <BookingFlowBreadcrumb currentStepId={STEPS.PAYMENT}/>
 
     return (
-        <BookingFlowLayout breadcrumb={breadcrumb}>
-                {offer &&
-                    <h1 className={styles.cryptoTitle}>
-                        {countDown > 0 &&
+        <>
+            <Spinner enabled={isOfferLoading}/>
+            {offer &&
+                <>
+                    {countDown > 0 &&
+                        <div>
                             <CountDown
                                 value={countDown}
                                 onCountDown={handleOnCountDown}
                             />
-                        }
-                        Pay {offer.price.public} {offer.price.currency} with Crypto
-                    </h1>
-                }
-                <Spinner enabled={isOfferLoading}/>
-                {offer &&
-                    <>
-                        <WalletAddress />
-                        <Row className={styles.mb10}>
-                            <Col>
-                                <MetamaskButton exclusive />
-                            </Col>
-                        </Row>
-                        <Row className={styles.mb10}>
-                            <Col>
-                                <PortisButton exclusive />
-                            </Col>
-                        </Row>
-                        {walletAddress &&
-                            <SelectCrypto
-                                title='Select a token'
-                                usdValue={amountUSD}
-                                confirmedOfferId={confirmedOfferId}
-                                deadline={deadline}
-                                onPaymentReset={() => handlePaymentReset()}
-                                onPaymentStart={() => handlePaymentStart()}
-                                onPaymentSuccess={() => handlePaymentSuccess(confirmedOfferId)}
-                            />
-                        }
-                    </>
-                }
-                {signInError &&
-                    <Alert variant='warning'>
-                        {signInError.message}
-                    </Alert>
-                }
-                {error &&
-                    <Alert variant='warning'>
-                        {error.message}
-                    </Alert>
-                }
-        </BookingFlowLayout>
+                        </div>
+                    }
+                    <WalletAddress />
+                    <Row className={styles.mb10}>
+                        <Col>
+                            <MetamaskButton exclusive />
+                        </Col>
+                    </Row>
+                    <Row className={styles.mb10}>
+                        <Col>
+                            <PortisButton exclusive />
+                        </Col>
+                    </Row>
+                    {walletAddress &&
+                        <SelectCrypto
+                            title='Select a token'
+                            usdValue={amountUSD}
+                            confirmedOfferId={confirmedOfferId}
+                            deadline={deadline}
+                            onPaymentReset={() => handlePaymentReset()}
+                            onPaymentStart={() => handlePaymentStart()}
+                            onPaymentSuccess={() => handlePaymentSuccess(confirmedOfferId)}
+                        />
+                    }
+                </>
+            }
+            {signInError &&
+                <Alert variant='warning'>
+                    {signInError.message}
+                </Alert>
+            }
+            {error &&
+                <Alert variant='warning'>
+                    {error.message}
+                </Alert>
+            }
+        </>
     );
 };
 

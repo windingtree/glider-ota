@@ -3,7 +3,13 @@ import { all, call, put, takeEvery, select} from 'redux-saga/effects';
 import {
     shoppingFlowStateSelector
 } from "./shopping-flow-store";
-import {storeItemInCart, retrieveItemFromCart, storeOfferId, retrieveCart} from "../../utils/api-utils"
+import {
+    storeItemInCart,
+    retrieveItemFromCart,
+    storeOfferId,
+    retrieveCart,
+    deleteItemInCart
+} from "../../utils/api-utils"
 
 /**
  * Shopping cart & booking flow store
@@ -16,6 +22,7 @@ const ADD_FLIGHT_TO_CART = `${moduleName}/ADD_FLIGHT_TO_CART`;
 const ADD_HOTEL_TO_CART = `${moduleName}/ADD_HOTEL_TO_CART`;
 const DELETE_FLIGHT_FROM_CART = `${moduleName}/DELETE_FLIGHT_FROM_CART`;
 const DELETE_HOTEL_FROM_CART = `${moduleName}/DELETE_HOTEL_FROM_CART`;
+const CLEAR_CART = `${moduleName}/CLEAR_CART`;
 const BOOK = `${moduleName}/BOOK`;
 const STORE_CART_ON_SERVER = `${moduleName}/STORE_CART_ON_SERVER`;
 const REQUEST_RESTORE_CART_FROM_SERVER = `${moduleName}/REQUEST_RESTORE_CART_FROM_SERVER`;
@@ -67,10 +74,15 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 isUpdateInProgress: true
             });
+        case CLEAR_CART:
+            return Object.assign({}, state, {
+                isUpdateInProgress: true
+            });
         case CART_RESTORED_FROM_SERVER:
             return Object.assign({}, state, {
                 flightOffer: payload.flightOffer,
                 hotelOffer: payload.hotelOffer,
+                totalPrice: payload.totalPrice,
                 isUpdateInProgress: false,
                 isShoppingCartInitialized:true
             });
@@ -135,6 +147,11 @@ export const deleteHotelFromCart = () => {
         type: DELETE_HOTEL_FROM_CART
     }
 };
+export const clearCart = () => {
+    return {
+        type: DELETE_HOTEL_FROM_CART
+    }
+};
 
 export const bookAction = () => {
     return {
@@ -155,12 +172,13 @@ export const requestCartRestoreFromServer = () => {
     }
 };
 
-export const cartRestorecFromServer = (flightOffer, hotelOffer) => {
+export const cartRestorecFromServer = (flightOffer, hotelOffer,totalPrice) => {
     return {
         type: CART_RESTORED_FROM_SERVER,
         payload: {
             flightOffer:flightOffer,
-            hotelOffer: hotelOffer
+            hotelOffer: hotelOffer,
+            totalPrice: totalPrice
         }
     }
 };
@@ -189,6 +207,10 @@ export const flightOfferSelector = createSelector(
 export const hotelOfferSelector = createSelector(
     shoppingCartStateSelector,
     ({ hotelOffer }) => hotelOffer
+);
+export const totalPriceSelector = createSelector(
+    shoppingCartStateSelector,
+    ({ totalPrice }) => totalPrice
 );
 
 export const errorSelector = createSelector(
@@ -244,12 +266,14 @@ function* restoreCartFromServerSideSaga() {
         console.log('Response from itemsInCart:',itemsInCart)
         let flightOffer=null;
         let hotelOffer=null;
+        let totalPrice=null;
         if(itemsInCart && itemsInCart.items){
             let items = itemsInCart.items;
             flightOffer = items['TRANSPORTATION_OFFER'] ? items['TRANSPORTATION_OFFER'].item:null;
             hotelOffer = items['ACCOMMODATION_OFFER'] ? items['ACCOMMODATION_OFFER'].item:null;
+            totalPrice = itemsInCart.totalPrice
         }
-        yield put(cartRestorecFromServer(flightOffer, hotelOffer))
+        yield put(cartRestorecFromServer(flightOffer, hotelOffer, totalPrice))
 
     } catch (error) {
         console.log('*restoreCartFromServerSideSaga failed, error:',error)
@@ -267,14 +291,29 @@ function* addOfferIdToCart({payload}) {
         console.log('Response from itemsInCart:',itemsInCart)
         let flightOffer=null;
         let hotelOffer=null;
+        let totalPrice=null;
         if(itemsInCart && itemsInCart.items){
             let items = itemsInCart.items;
              flightOffer = items['TRANSPORTATION_OFFER'] ? items['TRANSPORTATION_OFFER'].item:null;
              hotelOffer = items['ACCOMMODATION_OFFER'] ? items['ACCOMMODATION_OFFER'].item:null;
+            totalPrice = itemsInCart.totalPrice
         }
-        yield put(cartRestorecFromServer(flightOffer, hotelOffer))
+        yield put(cartRestorecFromServer(flightOffer, hotelOffer,totalPrice))
     } catch (error) {
         console.log('*restoreCartFromServerSideSaga failed, error:',error)
+        yield put(cartUpdateFailedAction(error))
+    }
+}
+const clearCartApiCall = () =>{
+    deleteItemInCart(['ACCOMMODATION_OFFER','TRANSPORTATION_OFFER'])
+}
+function* deleteCartItemSaga({payload}) {
+    console.log('*deleteCartItemSaga, payload=',payload)
+    try {
+        yield call(clearCartApiCall);
+        yield call(requestCartRestoreFromServer)
+    } catch (error) {
+        console.log('*deleteCartItemSaga failed, error:',error)
         yield put(cartUpdateFailedAction(error))
     }
 }
@@ -286,7 +325,10 @@ export const saga = function*() {
         takeEvery(STORE_CART_ON_SERVER, storeCartOnServerSideSaga),
         takeEvery(ADD_FLIGHT_TO_CART, addOfferIdToCart),
         takeEvery(ADD_HOTEL_TO_CART, addOfferIdToCart),
-        takeEvery(REQUEST_RESTORE_CART_FROM_SERVER, restoreCartFromServerSideSaga)
+        takeEvery(REQUEST_RESTORE_CART_FROM_SERVER, restoreCartFromServerSideSaga),
+        takeEvery(DELETE_FLIGHT_FROM_CART, deleteCartItemSaga,['ACCOMMODATION_OFFER']),
+        takeEvery(DELETE_HOTEL_FROM_CART, deleteCartItemSaga,['TRANSPORTATION_OFFER']),
+        takeEvery(CLEAR_CART, deleteCartItemSaga,['TRANSPORTATION_OFFER','ACCOMMODATION_OFFER']),
     ]);
 };
 

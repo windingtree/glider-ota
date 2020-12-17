@@ -2,8 +2,6 @@
 
 .header{
   @include g-font($g-fontsize-xl, $g-color-black, $g-fontweight-bold);
-  padding-bottom: 40px;
-  padding-top: 60px;
 }
 
 .note{

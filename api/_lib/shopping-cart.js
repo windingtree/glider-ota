@@ -100,7 +100,7 @@ class ShoppingCart {
             this._cart = await this._updateTotalPrice(cart);
             await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
         }
-        
+
         return this._cart;
     }
 
@@ -158,7 +158,7 @@ class ShoppingCart {
     async estimatePriceInUserPreferredCurrency(offerPrice) {
         // Retrieve user's preferred currency
         let userCurrency = await this.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
-      
+
         // If the supplier price is already in the user currency return it
         if(offerPrice.currency === userCurrency) {
             return {
@@ -167,7 +167,7 @@ class ShoppingCart {
                 isEstimated: false,
             }
         }
-      
+
         // Retrieve the exchange rate
         let rateKey = `${userCurrency}${offerPrice.currency}`;
         let exchangeRate = this.exchangeRates[rateKey];
@@ -176,7 +176,7 @@ class ShoppingCart {
             exchangeRate = Number(rateResponse.rate);
             this.exchangeRates[rateKey] = exchangeRate;
         }
-      
+
           // Update offer price and currency
         return {
             currency: userCurrency,
@@ -194,7 +194,7 @@ class ShoppingCart {
 
         // Reset total price
         cart.totalPrice.public = 0;
-        
+
 
         // Walk through each item in the cart
         for(let i=0; i<Object.keys(cart.items).length; i++) {
@@ -213,7 +213,7 @@ class ShoppingCart {
 
                 // Otherwise quote the currency exchange
                 else {
-                    //logger.debug(`_updateTotalPrice: Different currency, quoting | ${JSON.stringify(record)}`);
+                    logger.debug(`_updateTotalPrice: Different currency, quoting | ${JSON.stringify(record)}`);
 
                     // Create a quote if not already quoted
                     if((record.quote === undefined) || (record.quote.currency !== cart.totalPrice.currency)) {
@@ -235,6 +235,7 @@ class ShoppingCart {
                 cart.totalPrice.public += itemPrice;
             }
         }
+        cart.totalPrice.public = (cart.totalPrice.public).toFixed(2)    //round to two digits
         return cart;
     }
 

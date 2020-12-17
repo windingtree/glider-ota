@@ -11,12 +11,12 @@ export default props => {
     const firstPassenger = passengers && passengers[0];
     const cardholderName = firstPassenger && `${firstPassenger.civility?firstPassenger.civility:''} ${firstPassenger.firstName} ${firstPassenger.lastName}`;
 
-    function onPaymentSuccess(){
+    const onPaymentSuccess = () => {
         let url=`/dc/confirmation/${confirmedOfferId}`;
         history.push(url);
     }
-    function onPaymentFailure(){
-        console.log("Failed payment")
+    const onPaymentFailure = error => {
+        console.log("Failed payment", error)
     }
 
     return (
@@ -27,4 +27,4 @@ export default props => {
             cardholderName={cardholderName}
         />
     )
-}
+};

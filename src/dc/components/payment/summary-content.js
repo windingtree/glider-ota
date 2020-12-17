@@ -9,7 +9,7 @@ import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-w
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner"
 import {
-    flightOfferSelector,
+    flightOfferSelector, hotelOfferSelector,
     isShoppingCartInitializedSelector,
     requestCartRestoreFromServer
 } from "../../../redux/sagas/shopping-cart-store";
@@ -21,6 +21,8 @@ import {
 } from "../../../redux/sagas/shopping-flow-store";
 import {JourneySummary} from "../flight-blocks/journey-summary";
 import PaymentSelector from './payment-selector';
+import {HotelOfferSummary} from "../hoteldetails/hotel-offer-summary";
+import DevConLayout from "../layout/devcon-layout";
 
 
 function RenderPleaseWait(){
@@ -34,9 +36,9 @@ function RenderPleaseWait(){
     )
 }
 
-
-export function SummaryContent({searchResults, offerId, onRestoreSearchResults, onRestoreShoppingCart,refreshInProgress,isShoppingCartStoreInitialized, isShoppingFlowStoreInitialized}) {
+export function SummaryContent(props) {
     let history = useHistory();
+    const {onRestoreShoppingCart,refreshInProgress,isShoppingCartStoreInitialized, isShoppingFlowStoreInitialized,flightOffer, hotelOffer}=props;
     const [passengerDetails, setPassengerDetails] = useState();
     const [confirmedOffer, setConfirmedOffer] = useState();
     const [loadInProgress, setLoadInProgress] = useState(false);
@@ -109,32 +111,31 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults, 
 
     //Populate summary with passengers details from session
     useEffect(()=>{
-        if(!isShoppingFlowStoreInitialized){
-            console.log('Initialize shopping flow')
-            //no search results in store - probably page was refreshed, try to restore search results from cache
-            onRestoreSearchResults();
-            return
-        }else{
-            console.log('we have shopping results - initialize passengers')
-        }
-
         if(!isShoppingCartStoreInitialized){
             console.log('Initialize shopping cart')
             onRestoreShoppingCart();
         }
 
-        repriceItemsInCart();
+        if(isShoppingCartStoreInitialized){
+            //cart and results initialized
+            //call reprice endpoint to get a final quote
+            repriceItemsInCart();
+        }
 
-    },[searchResults, passengerDetails])
+    },[isShoppingCartStoreInitialized, onRestoreShoppingCart])
 
 
-    let itineraries;
-    if(searchResults && offerId) {
-        console.log('Search offerId:',offerId)
-        console.log('Search results:',searchResults)
-        let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
-        itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+    const displayFlightSummary = () =>
+    {
+        return (<><JourneySummary itineraries={flightOffer.itineraries}/><div className={'pb-1'}></div></>)
     }
+    const displayHotelSummary = () =>
+    {
+        const {room, hotel, price, offer} = hotelOffer;
+        return (<><HotelOfferSummary room={room} price={price} hotel={hotel} offer={offer}/><div className={'pb-1'}></div></>)
+    }
+
+
 
     return (
 
@@ -142,7 +143,9 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults, 
         <>
             <div>
                 <div className='root-container-subpages'>
-                    {itineraries &&         (<div className={style.itineraryContainer}><JourneySummary itineraries={itineraries}/></div>)}
+                    {flightOffer && displayFlightSummary()}
+                    {hotelOffer && displayHotelSummary()}
+
                     {(loadInProgress||refreshInProgress) && <RenderPleaseWait/>}
                     {pricingFailed && PricingErrorAlert()}
                     {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}
@@ -175,7 +178,9 @@ const mapStateToProps = state => ({
     offerId: flightOfferSelector(state)?flightOfferSelector(state).offerId:undefined,
     refreshInProgress:isShoppingResultsRestoreInProgressSelector(state),
     isShoppingFlowStoreInitialized: isShoppingFlowStoreInitialized(state),
-    isShoppingCartStoreInitialized: isShoppingCartInitializedSelector(state)
+    isShoppingCartStoreInitialized: isShoppingCartInitializedSelector(state),
+    flightOffer: flightOfferSelector(state),
+    hotelOffer: hotelOfferSelector(state),
 
 });
 

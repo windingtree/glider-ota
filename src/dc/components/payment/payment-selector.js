@@ -97,7 +97,11 @@ export default props => {
                     selected={selectedCard}
                     onSelected={setSelectedCard}
                     offStyle={style.unicorn}
-                    component={(<div/>)}
+                    component={(
+                        <PaymentCrypto
+                            confirmedOfferId={confirmedOffer.offerId}
+                        />
+                    )}
                 />
                 <PaymentCard
                     name='cc'
