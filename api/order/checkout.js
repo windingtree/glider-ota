@@ -159,7 +159,11 @@ const rewritePassengers = (userProvided, searchPassengers) => {
             "contactInformation": [
                 webPax.phone,
                 webPax.email
-            ]
+            ],
+            lastName:webPax.lastName,
+            firstName:webPax.firstName,
+            phone:webPax.phone,
+            email:webPax.email
         }
         results.push(record)
     }
