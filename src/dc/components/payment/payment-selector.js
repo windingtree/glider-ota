@@ -37,7 +37,7 @@ const PaymentCard = props => {
                         {title}
                     </span>
                 </div>
-                <div>
+                <div className={style.paymentAmount}>
                     {amount} {currency}
                 </div>
             </div>

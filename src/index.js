@@ -36,7 +36,7 @@ import DCPaymentSummaryPage from './dc/pages/payment-summary-page'
 // import DCPaymentPage from "./dc/components/payment/payment-cc";
 // import DCPaymentCryptoPage from "./dc/components/payment/payment-crypto";
 import DCConfirmationPage from "./dc/pages/confirmation-page";
-import DCPayComponent from './dc/components/payment/payment-selector';
+// import DCPayComponent from './dc/components/payment/payment-selector';
 function Dispatcher() {
     return (
         <Provider store={store}>
@@ -61,7 +61,7 @@ function Dispatcher() {
                         {/*Hotels flow*/}
                         <Route path="/hotels/" component={HotelsSearchPage}/>
                         <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
-                        <Route path="/dc/pay/" component={DCPayComponent} />
+                        {/* <Route path="/dc/pay/" component={DCPayComponent} /> */}
                         {<Route path="/dc/pax/" component={DCFlightPassengersPage}/>}
                         {<Route path="/dc/ancillaries/" component={DCAncillariesPage}/>}
                         {<Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>}

@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Alert } from 'react-bootstrap';
+import { Row, Col, Alert, Spinner as RoundSpinner } from 'react-bootstrap';
 import { useHistory, useParams } from "react-router-dom";
 import SelectCrypto from '../crypto/SelectCrypto';
 import MetamaskButton from '../crypto/MetamaskButton';
-import PortisButton from '../crypto/PortisButton';
+// import PortisButton from '../crypto/PortisButton';
 import WalletAddress from '../crypto/WalletAddress';
 import styles from '../crypto/crypto.module.scss';
 import Spinner from "../common/spinner"
@@ -46,7 +46,7 @@ const CountDown = props => {
 
     return (
         <div className={styles.countDown}>
-            {count}
+            <span>{count}</span>
         </div>
     );
 };
@@ -106,29 +106,38 @@ const CryptoPaymentPage = props => {
     };
 
     return (
-        <>
-            <Spinner enabled={isOfferLoading}/>
+        <div className={styles.payCryptoContainer}>
+            {!offer &&
+                <Spinner enabled={isOfferLoading}/>
+            }
             {offer &&
                 <>
-                    {countDown > 0 &&
-                        <div>
-                            <CountDown
-                                value={countDown}
-                                onCountDown={handleOnCountDown}
-                            />
-                        </div>
-                    }
-                    <WalletAddress />
-                    <Row className={styles.mb10}>
+                    <Row className={styles.walletRow}>
                         <Col>
-                            <MetamaskButton exclusive />
+                            <WalletAddress />
+                            <MetamaskButton exclusive noLogout />
+                        </Col>
+                        <Col>
+                            <div className={styles.countDownWrapper}>
+                                {isOfferLoading &&
+                                    <div
+                                        className={styles.countDownSpinner}
+                                    />
+                                }
+                                {countDown > 0 &&
+                                    <CountDown
+                                        value={countDown}
+                                        onCountDown={handleOnCountDown}
+                                    />
+                                }
+                            </div>
                         </Col>
                     </Row>
-                    <Row className={styles.mb10}>
+                    {/* <Row className={styles.mb10}>
                         <Col>
                             <PortisButton exclusive />
                         </Col>
-                    </Row>
+                    </Row> */}
                     {walletAddress &&
                         <SelectCrypto
                             title='Select a token'
@@ -138,6 +147,7 @@ const CryptoPaymentPage = props => {
                             onPaymentReset={() => handlePaymentReset()}
                             onPaymentStart={() => handlePaymentStart()}
                             onPaymentSuccess={() => handlePaymentSuccess(confirmedOfferId)}
+                            onPaymentError={setError}
                         />
                     }
                 </>
@@ -152,7 +162,7 @@ const CryptoPaymentPage = props => {
                     {error.message}
                 </Alert>
             }
-        </>
+        </div>
     );
 };
 
