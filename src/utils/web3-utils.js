@@ -224,8 +224,8 @@ export const approveToken = (web3, tokenAddress, ownerAddress, spenderAddress, a
             ...(gasPrice ? { gasPrice } : {})
         })
         .on('confirmation', (number, receipt) => {
-            console.log(number, receipt);
             if (receipt.status && number >= 0) {
+                console.log(number, receipt);
                 resolve(receipt);
             }
         })
@@ -273,8 +273,8 @@ export const payWithToken = (
         ...(gasPrice ? { gasPrice } : {})
     })
     .on('confirmation', (number, receipt) => {
-        console.log(number, receipt);
         if (receipt.status && number >= 2) {
+            console.log(number, receipt);
             resolve(receipt);
         }
     })
@@ -325,8 +325,8 @@ export const payWithETH = (
         ...(gasPrice ? { gasPrice } : {})
     })
     .on('confirmation', (number, receipt) => {
-        console.log(number, receipt);
         if (receipt.status && number >= 2) {
+            console.log(number, receipt);
             resolve(receipt);
         }
     })

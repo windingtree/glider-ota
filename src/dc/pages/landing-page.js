@@ -47,9 +47,9 @@ export default function DCLandingPage() {
                 initDest={searchCity}
                 initDepartureDate={searchDateId}
                 initReturnDate={searchDateOut}
-                initAdults={searchPassengersCounts.adults}
-                initChildren={searchPassengersCounts.children}
-                initInfants={searchPassengersCounts.infants}
+                initAdults={searchPassengersCounts && searchPassengersCounts.adults}
+                initChildren={searchPassengersCounts && searchPassengersCounts.children}
+                initInfants={searchPassengersCounts && searchPassengersCounts.infants}
             />
         )}
     </DevConLayout>)
