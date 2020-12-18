@@ -2,13 +2,13 @@ import React from 'react';
 import HotelSearchForm from '../search-form/hotel-search-form'
 import HotelFilters from "../filters/hotel-filters";
 import HotelsSearchResults from "../hotelresults/hotels-search-results";
-import {Col, Row} from "react-bootstrap";
+import {Container, Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import ShoppingCart from "../shopping-cart/shopping-cart";
 
 export default function HotelsShoppingComponent(props) {
     return (
-        <div>
+        <Container fluid={true}>
             <Row>
                 <HotelSearchForm {...props}/>
             </Row>
@@ -24,7 +24,7 @@ export default function HotelsShoppingComponent(props) {
                 </Col>
             </Row>
 
-        </div>
+        </Container>
     )
 }
 
@@ -49,6 +49,3 @@ const WarningNoResults = () => {
 function searchForFlightsWithCriteria() {
 
 }
-
-
-

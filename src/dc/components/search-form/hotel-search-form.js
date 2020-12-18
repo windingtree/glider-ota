@@ -115,9 +115,6 @@ export function HotelSearchForm(props){
   let initialCheckout=returnDate?returnDate:venueConfig.endDate;
 
     return (<>
-
-          <Container fluid={true}>
-            <Row >
               <Col xs={12} md={3} className={style.formElem}>
                 <CityLookup
                   initialLocation={initDest}
@@ -131,8 +128,6 @@ export function HotelSearchForm(props){
                 <DateRangePickup onStartDateChanged={setDepartureDate} onEndDateChanged={setReturnDate} initialStart={initialCheckInDate} initialEnd={initialCheckout} label='When' localstorageKey={'traveldates'}/>
               </Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} placeholder='guest' infantsAllowed={true} label='Who'/></Col>
-            </Row>
-          </Container>
         </>
     )
 

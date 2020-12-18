@@ -110,13 +110,10 @@ export function FlightsSearchForm(props){
   let initialDepartureDate=departureDate?departureDate:venueConfig.startDate;
   let initialReturnDate=returnDate?returnDate:venueConfig.endDate;
     return (<>
-          <Container fluid={true}>
-            <Row >
               <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initialOrigin} onSelectedLocationChange={setOrigin} placeHolder='Where from' label='From' localstorageKey={'origin-airport'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initialDestination} onSelectedLocationChange={setDestination} placeHolder='Where to' label='To' localstorageKey={'destination-airport'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} startPlaceholder={'Departure'} endPlaceholder={'Return'} onEndDateChanged={setReturnDate} initialStart={initialDepartureDate} initialEnd={initialReturnDate} label='When' localstorageKey={'traveldates'}/></Col>
               <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label='Who'/></Col>
-            </Row>
 {/*
             <Row>
               <Col xs={12} md={3} className={style.formElem}>
@@ -124,7 +121,6 @@ export function FlightsSearchForm(props){
               </Col>
             </Row>
 */}
-          </Container>
 
         </>
     )
