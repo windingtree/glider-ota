@@ -4,7 +4,7 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import SeatCard from './seat-card';
 
 export default {
-  title: 'DC/Seatmap/SeatCard',
+  title: 'Seatmap/SeatCard',
 };
 
 export const activeChargeableSelected = () => (

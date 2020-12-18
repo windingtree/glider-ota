@@ -7,7 +7,7 @@ import {addDecorator} from "@storybook/react";
 addDecorator(story =>  <ProviderWrapper>{story()}</ProviderWrapper>)
 
 export default {
-    title: 'DC/Flights shopping',
+    title: 'Flights shopping',
     component:FlightsShoppingComponent
 };
 

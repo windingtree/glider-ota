@@ -2,7 +2,7 @@ import React from 'react';
 import SeatMap from './seatmap'
 
 export default {
-  title: 'DC/Seatmap/SeatMap',
+  title: 'Seatmap/SeatMap',
 };
 
 const smallCabin = {

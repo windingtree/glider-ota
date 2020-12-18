@@ -2,7 +2,7 @@ import React from 'react';
 import {HotelAddress} from "./hotel-address"
 
 export default {
-    title: 'DC/accommodation blocks/hotel address',
+    title: 'accommodation blocks/hotel address',
     component: HotelAddress
 };
 

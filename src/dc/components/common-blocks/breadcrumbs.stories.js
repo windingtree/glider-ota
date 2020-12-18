@@ -2,7 +2,7 @@ import React from 'react';
 import {BookingFlowBreadcrumb, STEPS,} from "./breadcrumbs"
 
 export default {
-    title: 'DC/common blocks/fulfilment breadcrumbs',
+    title: 'common blocks/fulfilment breadcrumbs',
     component: BookingFlowBreadcrumb
 };
 

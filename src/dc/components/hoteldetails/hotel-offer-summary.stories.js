@@ -3,7 +3,7 @@ import shoppingCart from "../storybook-utils/mock-data/shopping_cart_accommodati
 import {HotelOfferSummary} from './hotel-offer-summary'
 
 export default {
-    title: 'DC/Hotels/Selected Offer',
+    title: 'Hotels/Selected Offer',
     component: HotelOfferSummary
 };
 

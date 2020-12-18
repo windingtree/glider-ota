@@ -6,7 +6,7 @@ import {
 
 export default {
     component: LookupField,
-    title: 'DC/Search form/Lookup/Generic Lookup Field',
+    title: 'Search form/Lookup/Generic Lookup Field',
     excludeStories: /.*Data$/,
 };
 

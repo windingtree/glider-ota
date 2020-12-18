@@ -4,7 +4,7 @@ import dummySearchResults from "../../data/sample_response_flights.json"
 
 export default {
     component: SummaryContent,
-    title: 'DC/pages/price summary',
+    title: 'pages/price summary',
     excludeStories: /.*Data$/,
 };
 

@@ -5,7 +5,7 @@ import {
 import {ShoppingCart} from './shopping-cart'
 
 export default {
-    title: 'DC/shopping cart',
+    title: 'shopping cart',
     component: ShoppingCart
 };
 

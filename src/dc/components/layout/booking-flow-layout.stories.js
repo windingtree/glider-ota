@@ -4,7 +4,7 @@ import DevConLayout from "./devcon-layout";
 
 export default {
     component: BookingFlowLayout,
-    title: 'DC/layout/booking flow layout'
+    title: 'layout/booking flow layout'
 };
 
 export const Default = () => {

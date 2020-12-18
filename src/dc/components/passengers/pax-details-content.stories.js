@@ -6,7 +6,7 @@ import {PaxDetailsContent} from "./pax-details-content";
 
 export default {
     component: PaxDetailsContent,
-    title: 'DC/Passenger/Passenger Details',
+    title: 'Passenger/Passenger Details',
 };
 
 

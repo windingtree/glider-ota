@@ -8,7 +8,7 @@ addDecorator(story =>  <ProviderWrapper>{story()}</ProviderWrapper>)
 
 
 export default {
-    title: 'DC/Hotels shopping',
+    title: 'Hotels shopping',
     component:HotelsShoppingComponent
 };
 

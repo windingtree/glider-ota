@@ -1,7 +1,7 @@
 import React from 'react';
 import {AirlineLogo} from './airline-logo'
 export default {
-    title: 'DC/flight blocks/airline logo',
+    title: 'flight blocks/airline logo',
     component:AirlineLogo
 };
 

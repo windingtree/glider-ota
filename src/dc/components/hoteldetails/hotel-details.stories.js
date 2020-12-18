@@ -9,7 +9,7 @@ import {HotelSearchResultsFilterHelper} from "../../../utils/hotel-search-result
 const searchHelper = new HotelSearchResultsFilterHelper(sample);
 
 export default {
-    title: 'DC/Hotels/HotelDetailsPage details',
+    title: 'Hotels/HotelDetailsPage details',
     component: HotelDetails
 };
 

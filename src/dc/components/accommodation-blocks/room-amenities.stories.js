@@ -2,7 +2,7 @@ import React from 'react';
 import {RoomAmenities} from "./room-amenities"
 
 export default {
-    title: 'DC/accommodation blocks/hotel amenities',
+    title: 'accommodation blocks/hotel amenities',
     component: RoomAmenities
 };
 const amenities = ['hair dryer', 'free wifi', 'toilet'];

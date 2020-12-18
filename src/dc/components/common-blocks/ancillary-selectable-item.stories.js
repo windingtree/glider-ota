@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import {AncillarySelectableItem} from "./ancillary-selectable-item"
 
 export default {
-    title: 'DC/common blocks/ancillary selectable item',
+    title: 'common blocks/ancillary selectable item',
     component: AncillarySelectableItem
 };
 

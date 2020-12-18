@@ -2,7 +2,7 @@ import React from 'react';
 import Seat from './seat'
 
 export default {
-  title: 'DC/Seatmap/Seat',
+  title: 'Seatmap/Seat',
 };
 
 export const availableFreeSeat = () => (

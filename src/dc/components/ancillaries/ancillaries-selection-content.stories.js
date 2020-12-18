@@ -7,7 +7,7 @@ import {
 
 export default {
     component: AncillariesSelection,
-    title: 'DC/ancillaries',
+    title: 'ancillaries',
     excludeStories: /.*Data$/,
 };
 
