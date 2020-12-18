@@ -20,7 +20,8 @@ import {
     getAmountIn,
     approveToken,
     payWithToken,
-    payWithETH
+    payWithETH,
+    getStableCoinAddress
 } from '../../../utils/web3-utils';
 
 import {
@@ -314,8 +315,9 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
         try {
             // Get Uniswap estimation
             let amount = await getAmountIn(web3, usdValue, coinAddress);
+            const stableCoinAddress = await getStableCoinAddress(web3);
             // Add Slippage tolerance 1%
-            if (withSlippage) {
+            if (withSlippage && stableCoinAddress !== coinAddress) {
                 amount = toBN(amount).add(toBN(amount).div(toBN(100))).toString();
             }
             return [

@@ -126,7 +126,7 @@ const CryptoPaymentPage = props => {
                                         className={styles.countDownSpinner}
                                     />
                                 }
-                                {countDown > 0 &&
+                                {!isOfferLoading && countDown > 0 &&
                                     <CountDown
                                         value={countDown}
                                         onCountDown={handleOnCountDown}
