@@ -19,7 +19,7 @@ export function FlightsSearchForm(props){
   // Destructure properties
   const {
     initOrigin,
-    initiDest,
+    initDest,
     initDepartureDate,
     initReturnDate,
     initAdults,
@@ -33,7 +33,7 @@ export function FlightsSearchForm(props){
 
 
   const [origin, setOrigin] = useState(initOrigin);
-  const [destination, setDestination] = useState(initiDest);
+  const [destination, setDestination] = useState(initDest);
   const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
   const [returnDate, setReturnDate] = useState(initReturnDate?initReturnDate:undefined);
   const [adults, setAdults] = useState(initAdults||1);
@@ -106,7 +106,7 @@ export function FlightsSearchForm(props){
   }
 
   let initialOrigin=initOrigin?initOrigin:venueConfig.originIata;
-  let initialDestination=initiDest?initiDest:venueConfig.destinationIata;
+  let initialDestination=initDest?initDest:venueConfig.destinationIata;
   let initialDepartureDate=departureDate?departureDate:venueConfig.startDate;
   let initialReturnDate=returnDate?returnDate:venueConfig.endDate;
     return (<>

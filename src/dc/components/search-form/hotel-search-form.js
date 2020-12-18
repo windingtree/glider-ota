@@ -14,7 +14,7 @@ import {venueConfig} from "../venue-context/theme-context";
 export function HotelSearchForm(props){
   // Destructure properties
   const {
-    initiDest,
+    initDest,
     initDepartureDate,
     initReturnDate,
     initAdults,
@@ -27,14 +27,14 @@ export function HotelSearchForm(props){
   } = props;
 
 
-  const [destination, setDestination] = useState(initiDest);
+  const [destination, setDestination] = useState(initDest);
   const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
   const [returnDate, setReturnDate] = useState(initReturnDate?initReturnDate:undefined);
   const [adults, setAdults] = useState(initAdults||1);
   const [children, setChildren] = useState(initChildren||0);
   const [infants, setInfants] = useState(initInfants||0);
 
-  function serializeSearchForm(){
+    function serializeSearchForm(){
     return {
       origin: origin,
       destination: destination,
@@ -110,7 +110,7 @@ export function HotelSearchForm(props){
     return destinationValid && departureDateValid && returnDateValid && paxSelectionValid;
   }
   // let initialOrigin=initOrigin?initOrigin:venueConfig.originIata;
-  // let initialDestination=initiDest?initiDest:venueConfig.destinationIata;
+  // let initialDestination=initDest?initDest:venueConfig.destinationIata;
   let initialCheckInDate=departureDate?departureDate:venueConfig.startDate;
   let initialCheckout=returnDate?returnDate:venueConfig.endDate;
 
@@ -120,7 +120,7 @@ export function HotelSearchForm(props){
             <Row >
               <Col xs={12} md={3} className={style.formElem}>
                 <CityLookup
-                  initialLocation={initiDest}
+                  initialLocation={initDest}
                   onSelectedLocationChange={setDestination}
                   placeHolder='Destination'
                   label='Destination/Hotel'
