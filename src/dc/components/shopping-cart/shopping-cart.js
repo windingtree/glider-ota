@@ -87,11 +87,24 @@ const BookHotelBtn = ({ flightOffer }) => {
     let returnItinerary = itineraries.length>1?itineraries[1]:null;
 
     const handleBookHotel = (outboundItinerary, returnItinerary) => {
+        let storedDestCity;
+        let storedPassengers;
+        try {//destination-airport
+            const storedDestCityRaw = sessionStorage.getItem(`inputfield-destination-airport`);
+            const storedPassengersRaw = sessionStorage.getItem(`inputfield-passengers-count`);
+            if (storedDestCityRaw) {
+                storedDestCity=JSON.parse(storedDestCityRaw);
+            }
+            if (storedPassengersRaw) {
+                storedPassengers=JSON.parse(storedPassengersRaw);
+            }
+        } catch (e) {}
         history.push('/dc', {
             searchType: 'HOTELS',
-            city: OfferUtils.getItineraryArrivalAirportCode(outboundItinerary),
+            city: storedDestCity,
             dateIn: OfferUtils.getItineraryArrivalDate(outboundItinerary),
             dateOut: returnItinerary ? OfferUtils.getItineraryDepartureDate(returnItinerary) : undefined,
+            passengersCounts: storedPassengers,
             rnd: Math.random()
         });
     };

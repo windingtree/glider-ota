@@ -34,7 +34,7 @@ export function HotelSearchForm(props){
   const [children, setChildren] = useState(initChildren||0);
   const [infants, setInfants] = useState(initInfants||0);
 
-    function serializeSearchForm(){
+  function serializeSearchForm(){
     return {
       origin: origin,
       destination: destination,

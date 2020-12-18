@@ -16,6 +16,10 @@ export function CityLookup(props) {
     const [queryPromise, setQueryPromise] = useState(null);
 
     useEffect(() => {
+        console.log('New initial location:', initialLocation);
+    }, [initialLocation]);
+
+    useEffect(() => {
         let queryProcess = queryPromise;
         if (queryProcess && typeof queryProcess.then === 'function') {
             queryProcess

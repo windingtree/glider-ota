@@ -12,23 +12,26 @@ export default function DCLandingPage() {
     const [searchCity, setSearchCity] = useState();
     const [searchDateId, setSearchDateIn] = useState();
     const [searchDateOut, setSearchDateOut] = useState();
+    const [searchPassengersCounts, setSearchPassengersCounts] = useState();
 
     useEffect(() => {
-        const stop = history.listen(() => {
+        const stopListen = history.listen(() => {
             if (history.location && history.location.state) {
                 const {
                     searchType,
                     city,
                     dateIn,
-                    dateOut
+                    dateOut,
+                    passengersCounts
                 } = history.location && history.location.state;
                 setSearchType(searchType);
                 setSearchCity(city);
                 setSearchDateIn(dateIn);
                 setSearchDateOut(dateOut);
+                setSearchPassengersCounts(passengersCounts);
             }
         });
-        return () => stop();
+        return () => stopListen();
     });
     return (<DevConLayout>
         <SearchModeSelector selectedMode={searchType} onToggle={setSearchType}/>
@@ -44,6 +47,9 @@ export default function DCLandingPage() {
                 initDest={searchCity}
                 initDepartureDate={searchDateId}
                 initReturnDate={searchDateOut}
+                initAdults={searchPassengersCounts.adults}
+                initChildren={searchPassengersCounts.children}
+                initInfants={searchPassengersCounts.infants}
             />
         )}
     </DevConLayout>)
