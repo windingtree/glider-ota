@@ -6,7 +6,7 @@ import TripRates,{ItineraryRates} from "./flight-rates"
 
 export default {
     component: TripRates,
-    title: 'DC/ancillaries/Fare families selection',
+    title: 'ancillaries/Fare families selection',
 };
 
 let amenities = [

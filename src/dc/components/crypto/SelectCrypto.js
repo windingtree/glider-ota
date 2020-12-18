@@ -20,7 +20,8 @@ import {
     getAmountIn,
     approveToken,
     payWithToken,
-    payWithETH
+    payWithETH,
+    getStableCoinAddress
 } from '../../../utils/web3-utils';
 
 import {
@@ -93,7 +94,7 @@ const CryptoCard = props => {
                 coin.address,
                 walletAddress,
                 PAYMENT_MANAGER_ADDRESS,
-                coin.rawAmount
+                coin.rawBalance
             );
             handleProcessing(false);
         } catch (error) {
@@ -172,11 +173,11 @@ const CryptoCard = props => {
                         {selected ? 'Balance' : coin.balance}
                     </div>
                 </Col>
-                <Col className={styles.xsHide}>
+                {/* <Col className={styles.xsHide}>
                     <div className={styles.tokenDataText}>
                         {selected ? 'Allowance' : coin.allowance}
                     </div>
-                </Col>
+                </Col> */}
                 {coin.insufficientLiquidity &&
                     <Col xs='auto' sm='4' className={styles.xsHide}>
                         <div className={styles.amountWrapper + ` ${styles.noLiquidity}`}>
@@ -217,11 +218,11 @@ const CryptoCard = props => {
                                 {'Balance'}
                             </div>
                         </Col>
-                        <Col>
+                        {/* <Col>
                             <div className={styles.tokenDataText}>
                                 {'Allowance'}
                             </div>
-                        </Col>
+                        </Col> */}
                     </Row>
                     <Row className={styles.xsShow}>
                         <Col>
@@ -229,11 +230,11 @@ const CryptoCard = props => {
                                 {coin.balance}
                             </div>
                         </Col>
-                        <Col>
+                        {/* <Col>
                             <div className={styles.tokenDataText}>
                                 {coin.allowance}
                             </div>
-                        </Col>
+                        </Col> */}
                     </Row>
                     <Row className={styles.actionRow}>
                         <Col className={styles.xsHide}>
@@ -244,12 +245,11 @@ const CryptoCard = props => {
                                 {coin.balance}
                             </div>
                         </Col>
-                        <Col className={styles.xsHide}>
+                        {/* <Col className={styles.xsHide}>
                             <div className={styles.tokenDataText}>
                                 {coin.allowance}
                             </div>
-
-                        </Col>
+                        </Col> */}
                         <Col xs={12} sm='4'>
                             <div className={styles.actionWrapper}>
                                 {(coin.balance >= coin.amount && coin.allowance < coin.amount) &&
@@ -315,8 +315,9 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
         try {
             // Get Uniswap estimation
             let amount = await getAmountIn(web3, usdValue, coinAddress);
+            const stableCoinAddress = await getStableCoinAddress(web3);
             // Add Slippage tolerance 1%
-            if (withSlippage) {
+            if (withSlippage && stableCoinAddress !== coinAddress) {
                 amount = toBN(amount).add(toBN(amount).div(toBN(100))).toString();
             }
             return [
@@ -374,6 +375,7 @@ const tokensPoller = (web3, walletAddress, tokens, loadingCallback, updateCallba
                         return {
                             ...coin,
                             insufficientLiquidity,
+                            rawBalance: balance,
                             balance: parseTokenValue(web3, balance, coin.decimals, true, 6),
                             allowance: parseTokenValue(web3, allowance, coin.decimals, true, 6),
                             amount,
@@ -484,7 +486,7 @@ const SelectCrypto = props => {
         <>
             {(!error && !paymentHash) &&
                 <>
-                    <p>
+                    <p className={styles.topNote}>
                         Your final paid amount might change depending on real-time conversion rate. The transaction will be reverted if the price increases by more than 1%
                     </p>
                     <h2 className={styles.selectorTitle}>{title}</h2>

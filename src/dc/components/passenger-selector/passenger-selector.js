@@ -1,40 +1,83 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './passenger-selector.module.scss'
 
 import {Button, Dropdown, Container, Row, Col} from 'react-bootstrap'
 import Alert from 'react-bootstrap/Alert';
 
 export default function PassengerSelector({adults, children, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false, maxPassengers, infantsAllowed = true, label}) {
+    const [passengers, setPassengers] = useState({
+        adults, children, infants
+    });
+
+    useEffect(() => {
+        setPassengers({
+            adults, children, infants
+        });
+    }, [adults, children, infants]);
+
+    useEffect(() => {
+        console.log('Passengers updated', passengers);
+        sessionStorage.setItem(`inputfield-passengers-count`, JSON.stringify(passengers));
+    }, [passengers]);
 
     function increase(type) {
         if (!maxPassengers || (getTotal() < maxPassengers)) {
             switch (type) {
                 case 'adults':
-                    onAdultsChange(adults + 1);
+                    setPassengers(p => {
+                        p.adults += 1;
+                        onAdultsChange(p.adults);
+                        return p;
+                    });
                     break;
                 case 'children':
-                    onChildrenChange(children + 1);
+                    setPassengers(p => {
+                        p.children += 1;
+                        onChildrenChange(p.children);
+                        return p;
+                    });
                     break;
                 case 'infants':
-                    onInfantsChange(infants + 1);
+                    setPassengers(p => {
+                        p.infants += 1;
+                        onInfantsChange(p.infants);
+                        return p;
+                    });
                     break;
                 default:
                     console.log("Passenger type not implemented");
                 }
         }
-
     }
 
     function decrease(type) {
         switch (type) {
             case 'adults':
-                if (adults > 0) onAdultsChange(adults - 1);
+                setPassengers(p => {
+                    if (adults > 0) {
+                        p.adults -= 1;
+                    }
+                    onAdultsChange(p.adults);
+                    return p;
+                });
                 break;
             case 'children':
-                if (children > 0) onChildrenChange(children - 1);
+                setPassengers(p => {
+                    if (children > 0) {
+                        p.children -= 1;
+                    }
+                    onChildrenChange(p.children);
+                    return p;
+                });
                 break;
             case 'infants':
-                if (infants > 0) onInfantsChange(infants - 1);
+                setPassengers(p => {
+                    if (infants > 0) {
+                        p.infants -= 1;
+                    }
+                    onInfantsChange(p.infants);
+                    return p;
+                });
                 break;
             default:
                 console.log("Passenger type not implemented");

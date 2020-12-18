@@ -6,7 +6,7 @@ import {
 import ResultsPaginator from "./results-paginator";
 
 export default {
-  title: 'DC/common blocks/Results paging',
+  title: 'common blocks/Results paging',
   component: ResultsPaginator,
 };
 

@@ -5,20 +5,24 @@ import PaxSummary from "../passengers/pax-summary";
 import {repriceShoppingCartContents, retrievePassengerDetails} from "../../../utils/api-utils";
 import TotalPriceButton from "../common/totalprice/total-price";
 import PaymentSummary from "./payment-summary";
-import {RouteOverview} from "../flightdetails/trip-details";
 import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner"
-import {flightOfferSelector} from "../../../redux/sagas/shopping-cart-store";
+import {
+    flightOfferSelector, hotelOfferSelector,
+    isShoppingCartInitializedSelector,
+    requestCartRestoreFromServer
+} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import style from "./summary-content.module.scss"
 import {
-    flightSearchResultsSelector,
-    isFlightSearchInProgressSelector,
-    isHotelSearchInProgressSelector,
+    flightSearchResultsSelector,isShoppingFlowStoreInitialized, isShoppingResultsRestoreInProgressSelector,
     requestSearchResultsRestoreFromCache
 } from "../../../redux/sagas/shopping-flow-store";
 import {JourneySummary} from "../flight-blocks/journey-summary";
+import PaymentSelector from './payment-selector';
+import {HotelOfferSummary} from "../hoteldetails/hotel-offer-summary";
+import DevConLayout from "../layout/devcon-layout";
 
 
 function RenderPleaseWait(){
@@ -32,9 +36,9 @@ function RenderPleaseWait(){
     )
 }
 
-
-export function SummaryContent({searchResults, offerId, onRestoreSearchResults}) {
+export function SummaryContent(props) {
     let history = useHistory();
+    const {onRestoreShoppingCart,refreshInProgress,isShoppingCartStoreInitialized, isShoppingFlowStoreInitialized,flightOffer, hotelOffer}=props;
     const [passengerDetails, setPassengerDetails] = useState();
     const [confirmedOffer, setConfirmedOffer] = useState();
     const [loadInProgress, setLoadInProgress] = useState(false);
@@ -107,25 +111,31 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
 
     //Populate summary with passengers details from session
     useEffect(()=>{
-        if(!searchResults){
-            onRestoreSearchResults();
-        }
-        if(!passengerDetails) {
-            loadPassengerDetailsFromServer();
+        if(!isShoppingCartStoreInitialized){
+            console.log('Initialize shopping cart')
+            onRestoreShoppingCart();
         }
 
-        repriceItemsInCart();
+        if(isShoppingCartStoreInitialized){
+            //cart and results initialized
+            //call reprice endpoint to get a final quote
+            repriceItemsInCart();
+        }
 
-    },[searchResults,passengerDetails])
+    },[isShoppingCartStoreInitialized, onRestoreShoppingCart])
 
 
-    let itineraries;
-    if(searchResults && offerId) {
-        console.log('Search offerId:',offerId)
-        console.log('Search results:',searchResults)
-        let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults);
-        itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+    const displayFlightSummary = () =>
+    {
+        return (<><JourneySummary itineraries={flightOffer.itineraries}/><div className={'pb-1'}></div></>)
     }
+    const displayHotelSummary = () =>
+    {
+        const {room, hotel, price, offer} = hotelOffer;
+        return (<><HotelOfferSummary room={room}  hotel={hotel} offer={offer}/><div className={'pb-1'}></div></>)
+    }
+
+
 
     return (
 
@@ -133,20 +143,26 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
         <>
             <div>
                 <div className='root-container-subpages'>
-                    {itineraries &&         (<div className={style.itineraryContainer}><JourneySummary itineraries={itineraries}/></div>)}
-                    {loadInProgress && <RenderPleaseWait/>}
+                    {flightOffer && displayFlightSummary()}
+                    {hotelOffer && displayHotelSummary()}
+
+                    {(loadInProgress||refreshInProgress) && <RenderPleaseWait/>}
                     {pricingFailed && PricingErrorAlert()}
                     {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}
                     {confirmedOffer &&
                     <>
                         <PaymentSummary offer = {confirmedOffer.offer}/>
-                        <TotalPriceButton
+                        <PaymentSelector
+                            confirmedOffer={confirmedOffer}
+                            passengers={passengerDetails}
+                        />
+                        {/* <TotalPriceButton
                             forPayment={true}
                             price={confirmedOffer.offer.price}
                             proceedButtonTitle="Pay with Card"
                             onProceedClicked={onProceedButtonClick}
                             onProceedCryptoClicked={onProceedCryptoButtonClick}
-                        />
+                        /> */}
                     </>
                     }
                 </div>
@@ -160,7 +176,11 @@ export function SummaryContent({searchResults, offerId, onRestoreSearchResults})
 const mapStateToProps = state => ({
     searchResults:flightSearchResultsSelector(state),
     offerId: flightOfferSelector(state)?flightOfferSelector(state).offerId:undefined,
-    refreshInProgress:(isFlightSearchInProgressSelector(state)===true || isHotelSearchInProgressSelector(state)===true)
+    refreshInProgress:isShoppingResultsRestoreInProgressSelector(state),
+    isShoppingFlowStoreInitialized: isShoppingFlowStoreInitialized(state),
+    isShoppingCartStoreInitialized: isShoppingCartInitializedSelector(state),
+    flightOffer: flightOfferSelector(state),
+    hotelOffer: hotelOfferSelector(state),
 
 });
 
@@ -169,7 +189,11 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onRestoreSearchResults: () =>{
             dispatch(requestSearchResultsRestoreFromCache());
+        },
+        onRestoreShoppingCart: () =>{
+            dispatch(requestCartRestoreFromServer());
         }
+
     }
 }
 

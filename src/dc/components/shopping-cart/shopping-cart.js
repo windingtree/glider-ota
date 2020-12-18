@@ -9,7 +9,7 @@ import {
     requestCartRestoreFromServer,
     errorSelector,
     flightOfferSelector,
-    hotelOfferSelector, isShoppingCartUpdateInProgress
+    hotelOfferSelector, isShoppingCartUpdateInProgress, deleteFlightFromCart, totalPriceSelector
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
@@ -22,6 +22,7 @@ import {
     requestSearchResultsRestoreFromCache
 } from "../../../redux/sagas/shopping-flow-store";
 import Spinner from "../common/spinner";
+import Container from "react-bootstrap/Container";
 
 
 let cx = classNames.bind(style);
@@ -38,19 +39,19 @@ const SubTotal = ({title,price, priceAmount, currency}) =>{
     }
 
     return (
-        <div className={'pt-2 pb-2'}>
-            <Row >
-                <Col >
-                    <div className={style.subtotalItem}>{title}</div>
+        <Container fluid={true}>
+            <Row noGutters={true}>
+                <Col className={style.subtotalItem}>
+                    {title}
                 </Col>
-                <Col >
-                    <div className={cls}>{priceAmount}{currency}</div>
+                <Col className={cls}>
+                    {priceAmount} {currency}
                 </Col>
             </Row>
-        </div>)
+        </Container>)
 }
 
-const Total = ({title,price, priceAmount, currency}) =>{
+const Total = ({title, price, priceAmount, currency}) =>{
     let cls=cx({
         totalItem:true,
         'float-right':true,
@@ -60,21 +61,63 @@ const Total = ({title,price, priceAmount, currency}) =>{
         currency = price.currency;
     }
     return (
-        <div  className={'pt-2 pb-2'}>
-            <Row >
-                <Col >
-                    <div className={style.totalItem}>{title}</div>
+        <Container fluid={true}>
+            <Row noGutters={true}>
+                <Col className={style.totalItem}>
+                    {title}
                 </Col>
-                <Col >
-                    <div className={cls}>{priceAmount}{currency}</div>
+                <Col className={cls}>
+                   {priceAmount} {currency}
                 </Col>
             </Row>
-        </div>)
+        </Container>)
 }
 
 
-const FlightOfferCartItem = ({flightOffer, hotelOffer}) =>{
+const BookHotelBtn = ({ flightOffer }) => {
     let history = useHistory();
+    console.log('BookHotelBtn - flightOffer = ',flightOffer)
+    const {itineraries} = flightOffer;
+
+    if(!Array.isArray(itineraries) || itineraries.length===0) {
+        return (<></>);
+    }
+
+    let outboundItinerary = itineraries.length>0?itineraries[0]:null;
+    let returnItinerary = itineraries.length>1?itineraries[1]:null;
+
+    const handleBookHotel = (outboundItinerary, returnItinerary) => {
+        let storedDestCity;
+        let storedPassengers;
+        try {//destination-airport
+            const storedDestCityRaw = sessionStorage.getItem(`inputfield-destination-airport`);
+            const storedPassengersRaw = sessionStorage.getItem(`inputfield-passengers-count`);
+            if (storedDestCityRaw) {
+                storedDestCity=JSON.parse(storedDestCityRaw);
+            }
+            if (storedPassengersRaw) {
+                storedPassengers=JSON.parse(storedPassengersRaw);
+            }
+        } catch (e) {}
+        history.push('/dc', {
+            searchType: 'HOTELS',
+            city: storedDestCity,
+            dateIn: OfferUtils.getItineraryArrivalDate(outboundItinerary),
+            dateOut: returnItinerary ? OfferUtils.getItineraryDepartureDate(returnItinerary) : undefined,
+            passengersCounts: storedPassengers,
+            rnd: Math.random()
+        });
+    };
+
+    return (
+        <div className={style.bookHotelLink} onClick={() => handleBookHotel(outboundItinerary, returnItinerary)}>
+            Book a hotel in {OfferUtils.getItineraryArrivalCityName(outboundItinerary)}
+        </div>
+    );
+};
+
+
+const FlightOfferCartItem = ({flightOffer, displayOutbound=true, displayInbound=true}) =>{
     if(!flightOffer)
         return (<></>)
 
@@ -93,24 +136,10 @@ const FlightOfferCartItem = ({flightOffer, hotelOffer}) =>{
         return (<ArrivalDeparture adType={ADTYPES.DEPARTURE} date={departureTime} cityCode={cityCode} cityName={cityName}/>)
     }
 
-    const handleBookHotel = (outboundItinerary, returnItinerary) => {
-        history.push('/dc', {
-            searchType: 'HOTELS',
-            city: OfferUtils.getItineraryArrivalCityName(outboundItinerary),
-            dateIn: OfferUtils.getItineraryArrivalDate(outboundItinerary),
-            dateOut: returnItinerary ? OfferUtils.getItineraryDepartureDate(returnItinerary) : undefined
-        });
-    };
-
     return (
         <>
-            {outboundItinerary && renderItineraryStart(outboundItinerary)}
-            {!hotelOffer &&
-                <div className={style.bookHotelLink} onClick={() => handleBookHotel(outboundItinerary, returnItinerary)}>
-                    Book a hotel in {OfferUtils.getItineraryArrivalCityName(outboundItinerary)}
-                </div>
-            }
-            {returnItinerary && renderItineraryStart(returnItinerary)}
+            {outboundItinerary && displayOutbound && renderItineraryStart(outboundItinerary)}
+            {returnItinerary && displayInbound &&  renderItineraryStart(returnItinerary)}
         </>
     )
 }
@@ -152,9 +181,9 @@ const HotelOfferCartItem = ({hotelOffer}) => {
     </>)
 }
 
-export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress}) =>{
+export const ShoppingCart = (props) =>{
+    const {totalPrice, flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress, error, onClearCart} = props;
     let history = useHistory();
-
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
         e.preventDefault();
@@ -179,7 +208,7 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
 
     const hotelPrice = hotelOffer?hotelOffer.price:null;
     const flightPrice = flightOffer?flightOffer.price:null;
-    const totalPrice = calculateTotalPrice(hotelPrice,flightPrice)
+
 
     let cartIsEmpty = (!flightOffer && !hotelOffer)
 
@@ -191,8 +220,13 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
             <Link to={'/dc/summary'}>Pricing</Link><br/>
             <a href={"#"}  onClick={onRestoreCartFromServer}>Restore cart from server</a><br/>
             <a href={"#"}  onClick={onRestoreSearchResultsFromCache}>Restore search from server</a><br/>
+            <a href={"#"}  onClick={onClearCart}>Clear cart</a><br/>
 
         </div>)
+    }
+
+    const displayError = (error) =>{
+        return (<div>Error occurred</div>)
     }
 
     if(cartIsEmpty)
@@ -208,7 +242,8 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
                 <div className={style.flightOfferWrapper}>
                     <FlightOfferCartItem
                         flightOffer={flightOffer}
-                        hotelOffer={hotelOffer}
+                        displayOutbound={true}
+                        displayInbound={false}
                     />
                 </div>
             }
@@ -217,12 +252,27 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
                     <HotelOfferCartItem hotelOffer={hotelOffer}/>
                 </div>
             }
+            {!hotelOffer && flightOffer &&
+                <BookHotelBtn
+                    flightOffer={flightOffer}
+                />
+            }
+            {flightOffer &&
+                <div className={style.flightOfferWrapper}>
+                    <FlightOfferCartItem
+                        flightOffer={flightOffer}
+                        displayOutbound={false}
+                        displayInbound={true}/>
+                </div>
+            }
             <HorizontalDottedLine/>
-            <div className={style.flightOfferBottomWrapper}>
+            <div>
                 {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/> }
                 {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/> }
-                {totalPrice && totalPrice.public>0 && <Total price={totalPrice} currency={"$"} title={"Total:"}/>}
-                <div className={'pt-2'}/>
+                {totalPrice && totalPrice.public>0 && <Total price={totalPrice} title={"Total:"}/>}
+            </div>
+            <div className={'pt-2'}/>
+            <div className={style.flightOfferBottomWrapper}>
                 <a href={"#"} className={bookButtonClassnames} onClick={onProceedToBook}>Book</a>
             </div>
             {config.DEV_MODE && links()}
@@ -231,31 +281,10 @@ export const ShoppingCart = ({flightOffer, hotelOffer, restoreCartFromServer, re
     )
 }
 
-//TODO - handle different currencies
-const calculateTotalPrice = (hotelPrice, flightPrice) => {
-    let currency;
-
-    let hotelAmount = 0;
-    if(hotelPrice){
-        hotelAmount = hotelPrice.public
-        currency = hotelPrice.currency;
-    }
-    let flightAmount = 0;
-    if(flightPrice){
-        flightPrice = flightPrice.public;
-        currency = flightPrice.currency;
-    }
-
-    let total = Number(hotelAmount) + Number(flightAmount);
-    return {
-        public:total,
-        currency:currency
-    };
-}
-
 const mapStateToProps = state => ({
     flightOffer: flightOfferSelector(state),
     hotelOffer: hotelOfferSelector(state),
+    totalPrice: totalPriceSelector(state),  //total price of items in cart
     error: errorSelector(state),
     isShoppingCartUpdateInProgress:isShoppingCartUpdateInProgress(state),
 
@@ -273,6 +302,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onStore: () => {
             dispatch(bookAction())
+        },
+        onClearCart: () => {
+            dispatch(deleteFlightFromCart())
         },
 
     }

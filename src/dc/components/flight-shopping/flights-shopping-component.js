@@ -3,12 +3,12 @@ import FlightsSearchForm from '../search-form/flight-search-form'
 import Filters from "../filters/filters";
 import FlightsSearchResults from "../flightresults/flights-search-results";
 import ShoppingCart from "../shopping-cart/shopping-cart";
-import {Col, Row} from "react-bootstrap";
+import {Container, Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 
 export default function FlightsShoppingComponent(props) {
     return (
-        <div>
+        <Container fluid={true}>
             <Row>
                 <FlightsSearchForm {...props}/>
             </Row>
@@ -25,7 +25,7 @@ export default function FlightsShoppingComponent(props) {
                 </Col>
             </Row>
 
-        </div>
+        </Container>
     )
 }
 
@@ -50,6 +50,3 @@ const WarningNoResults = () => {
 function searchForFlightsWithCriteria() {
 
 }
-
-
-

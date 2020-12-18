@@ -4,7 +4,7 @@ const axios = require('axios').default;
 const {GLIDER_CONFIG} = require('./config');
 const {storeOffersMetadata} = require('./model/offerMetadata');
 const logger = createLogger('aggregator-api');
-const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission} = require('./response-decorator');
+const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithMaxOPCFee} = require('./response-decorator');
 const {createErrorResponse,mergeAggregatorResponse, ERRORS} = require ('./rest-utils');
 const OrgId= require('./orgId');
 const SEARCH_TIMEOUT=1000*40;
@@ -158,7 +158,7 @@ async function reprice(offerId, options, endpoint) {
     let repriceResponse = {};
     if (response && response.data) {
         repriceResponse = response.data;
-        increaseConfirmedPriceWithStripeCommission(repriceResponse)
+        increaseConfirmedPriceWithMaxOPCFee(repriceResponse)
     }
     logger.debug("Reprice response", repriceResponse);
     return response.data;

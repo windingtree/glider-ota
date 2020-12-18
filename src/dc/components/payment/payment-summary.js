@@ -9,9 +9,8 @@ export default function PaymentSummary({offer}) {
     const pricedItems = offer.pricedItems;
     const options = offer.options;
 
-    let pricedItem=pricedItems[0];  //FIXME - may htere be more elements?
-    return (
-        <div>
+    const displaySinglePricedItem = (pricedItem) =>{
+        return (
             <Row noGutters={true}>
                 <Col md={8}>
                     <Row noGutters={true}><h2 className={style.header}>Payment</h2></Row>
@@ -24,9 +23,19 @@ export default function PaymentSummary({offer}) {
                     <div className={style.totalPrice}>{totalPrice.public}</div>
                 </Col>
             </Row>
-        </div>
-    )
+        )
+    }
+
+    let pricedItem;
+    if(pricedItems && Array.isArray(pricedItems) && pricedItems.length>0){
+        pricedItem=pricedItems[0];  //take first - we don't yet have any other items in a response
+    }
+    return (<div>
+        {pricedItem && displaySinglePricedItem(pricedItem)}
+        </div>)
 }
+
+
 
 function Taxes({items, title, type}) {
     return (

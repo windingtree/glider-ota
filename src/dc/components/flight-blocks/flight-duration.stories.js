@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-    action
-} from '@storybook/addon-actions';
-
 import {FlightDuration} from "./flight-duration"
 import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
 import searchResults from "../storybook-utils/mock-data/flight_search_BOGMIA.json";
 export default {
-    title: 'DC/flight blocks/flight duration',
+    title: 'flight blocks/flight duration',
     component:FlightDuration
 };
 

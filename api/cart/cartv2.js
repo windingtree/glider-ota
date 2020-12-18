@@ -20,8 +20,7 @@ const shoppingCartController = async (req, res) => {
         await genericCartGetController(req,res);
     }
     if(method === 'DELETE') {
-        //delete item from cart
-        //TODO
+        await genericCartDeleteController(req,res);
     }
 
 
@@ -71,23 +70,92 @@ const genericCartPostController = async (req,res) =>{
     }
     //TODO add payload validation
     await shoppingCart.addItemToCart(type, cartItem, cartItem.price);
+
+    // Override price with quoted price
+    if(cartItem.quote !== undefined) {
+        cartItem.price = {
+            currency: cartItem.quote.currency,
+            public: cartItem.quote.amount,
+        }
+    }
+
     res.json({result:"OK", item: cartItem})
 }
 const genericCartGetController = async (req,res,cartItemKey, cartItem, itemPrice) =>{
+    // Retrieve cart
     let sessionID = req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let cart = await shoppingCart.getCart();
+    let opcIncreaseFactor = await shoppingCart.getOpcIncreaseFactor();
+
+    // Override prices with quoted prices
+    let cartKeys = Object.keys(cart.items);
+    for(let i=0; i<cartKeys.length; i++) {
+        let itemKey = cartKeys[i];
+        let quote = cart.items[itemKey].quote;
+        
+        if(quote !== undefined) {
+            cart.items[itemKey].price = {
+                currency: quote.currency,
+                public: Number(quote.amount * opcIncreaseFactor).toFixed(2),
+            };
+            delete(cart.items[itemKey].quote);
+        } else {
+            if(cart.items[itemKey].price) {
+                delete(cart.items[itemKey].price.commission);
+                delete(cart.items[itemKey].price.taxes);
+                cart.items[itemKey].price.public = Number(cart.items[itemKey].price.public * opcIncreaseFactor).toFixed(2);
+            }
+        }
+    }
+
     res.json(cart);
 }
 const genericCartDeleteController = async (req,res,cartItemKey, cartItem, itemPrice) =>{
-    //TODO
+    let sessionID = req.sessionID;
+    let shoppingCart = new ShoppingCart(sessionID);
+    let types = req.body;
+
+    if(!types || !Array.isArray(types) || types.length===0){
+        res.json({result:"OK", item: cartItem})
+        return;
+    }
+
+    //delete request item types
+    for(let type of types) {
+        type = type.toUpperCase();
+        console.log('delete from cart:',type)
+        await shoppingCart.removeItemFromCart(type);
+    }
+
+
+    res.json({result:"OK", item: cartItem})
+
 }
 
 const flightOfferCartItemCreator = async (offerId, searchResults) => {
+    let offerIds = offerId.split(',');
     let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults)
-    let itineraries = searchResultsWrapper.getOfferItineraries(offerId);
-    let offer = searchResults.offers[offerId];
-    let price = offer.price;
+
+    let itineraries;
+    let offer;
+    let price;
+    //dirty hack to deal with combined out&returned - FIXME
+    if(offerIds.length==1){
+        itineraries = searchResultsWrapper.getOfferItineraries(offerId);
+        offer = searchResults.offers[offerId];
+        price = offer.price;
+    }else if(offerIds.length==2){
+        let outboundOfferId = offerIds[0];
+        let inboundOfferId = offerIds[1];
+        let outboundItineraries = searchResultsWrapper.getOfferItineraries(outboundOfferId);
+        let inboundItineraries = searchResultsWrapper.getOfferItineraries(inboundOfferId);
+        itineraries = [...outboundItineraries,...inboundItineraries];
+        offer = mergeRoundTripOffers(searchResults,outboundOfferId,inboundOfferId);
+        price = offer.price;
+    }else{
+        throw new Error("Open jaw offers are not supported");
+    }
     let cartItem = {
         offerId:offerId,
         offer:offer,
@@ -119,6 +187,48 @@ const hotelOfferCartItemCreator = async (offerId, searchResults) => {
     return cartItem;
 }
 
+
+
+const mergeRoundTripOffers = (searchResults, outboundOfferId, inboundOfferId) => {
+
+        // Retrieve details of both offers
+        let outboundOffer = searchResults.offers[outboundOfferId];
+        let inboundOffer = searchResults.offers[inboundOfferId];
+
+        // Get the plan key, there is exactly one since it was filtered above
+        let outboundPlanKey = Object.keys(outboundOffer.pricePlansReferences)[0];
+        let inboundPlanKey = Object.keys(inboundOffer.pricePlansReferences)[0];
+
+        let newPricePlansReferences = {};
+
+        // If keys are the same, the flight list contains the two flights
+        if(inboundPlanKey === outboundPlanKey) {
+            newPricePlansReferences[outboundPlanKey] = { flights: [
+                    outboundOffer.pricePlansReferences[outboundPlanKey].flights[0],
+                    inboundOffer.pricePlansReferences[inboundPlanKey].flights[0],
+                ]};
+        }
+
+        // Otherwise there is one key per pricePlan / flight
+        else {
+            newPricePlansReferences[outboundPlanKey] = outboundOffer.pricePlansReferences[outboundPlanKey];
+            newPricePlansReferences[inboundPlanKey] = inboundOffer.pricePlansReferences[inboundPlanKey];
+        }
+
+        // Return the merged offer
+        let mergedOffer = {
+            expiration: Date(inboundOffer.expiration) < Date(outboundOffer.expiration) ? inboundOffer.expiration : outboundOffer.expiration,
+            pricePlansReferences: newPricePlansReferences,
+            price: {
+                currency: inboundOffer.price.currency,
+                public: Number(Number(inboundOffer.price.public)+Number(outboundOffer.price.public)).toFixed(2),
+                taxes: Number(Number(inboundOffer.price.taxes)+Number(outboundOffer.price.taxes)).toFixed(2),
+            }
+        }
+
+
+    return mergedOffer;
+};
 
 module.exports = decorate(shoppingCartController);
 

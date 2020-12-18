@@ -11,8 +11,7 @@ import {
 import './seat-selection-content.scss';
 import {
     addFlightToCartAction,
-    flightOfferSelector,
-    hotelOfferSelector
+    flightOfferSelector
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {

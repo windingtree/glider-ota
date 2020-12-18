@@ -5,7 +5,7 @@ import {
 
 import {ArrivalDeparture, ADTYPES} from "./arrival-departure"
 export default {
-    title: 'DC/flight blocks/arrival and departure',
+    title: 'flight blocks/arrival and departure',
     component:ArrivalDeparture
 };
 

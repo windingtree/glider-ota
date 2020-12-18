@@ -19,7 +19,7 @@ import {
     flightsErrorSelector,
     requestSearchResultsRestoreFromCache, isShoppingFlowStoreInitialized
 } from '../../../redux/sagas/shopping-flow-store';
-import Spinner from "../../../components/common/spinner";
+import Spinner from "../../components/common/spinner";
 import Alert from "react-bootstrap/Alert";
 
 
@@ -27,13 +27,6 @@ import Alert from "react-bootstrap/Alert";
 export function FlightsSearchResults({searchResults,filters, isSearchFormValid, onOfferDisplay, onSearchClicked, searchInProgress, error, onRestoreFromCache, isStoreInitialized, onRestoreResultsFromCache}) {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortType, setSortType] = useState('PRICE');
-
-    useEffect(()=>{
-        if(!isStoreInitialized)
-            onRestoreResultsFromCache();
-    },[])
-
-
 
     //called when user clicked on a specific offer
     function handleOfferDisplay(offerId) {
@@ -43,11 +36,6 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
             console.warn('onOfferDisplay handler is not defined')
         }
     }
-
-    if (searchResults === undefined) {
-        return (<>Nothing was found</>)
-    }
-
 
     //SEARCH button was hit - search for flights
     const onSearchButtonClicked = () => {
@@ -60,7 +48,6 @@ export function FlightsSearchResults({searchResults,filters, isSearchFormValid, 
     let totalResultsCount=0;
     //only use helpers when there are search results present (initially it may be null/empty)
     if(searchResults) {
-
         const filterHelper = new FlightSearchResultsFilterHelper(searchResults);
         trips = filterHelper.generateSearchResults(sortType, filters)
         totalResultsCount = trips.length;

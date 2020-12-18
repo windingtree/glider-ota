@@ -1,11 +1,10 @@
 import { createSelector } from 'reselect';
 
-import { all, call, put, takeEvery, select, delay } from 'redux-saga/effects';
-import {findFlights, findHotels} from "../../utils/search";
+import { all, call, put, takeEvery, select } from 'redux-saga/effects';
+import {findFlights} from "../../utils/search";
 import {getCachedSearchResults} from "../../utils/api-utils";
-import {config} from "../../config/default";
-import {uiEvent} from "../../utils/events";
 import SearchCriteriaBuilder from "../../utils/search-criteria-builder";
+import extendResponse from "../../utils/flight-search-results-extender";
 
 /**
  * Search/filtering/results store
@@ -120,7 +119,7 @@ export default (state = initialState, action) => {
             });
         case REQUEST_RESTORE_RESULTS_FROM_CACHE:
             return Object.assign({}, state, {
-                isStoreInitialized:true,
+                isStoreInitialized:false,
                 isRestoreInProgress:true,
             });
         case RESTORE_RESULTS_FROM_CACHE_COMPLETED:
@@ -146,11 +145,16 @@ export const searchForFlightsAction = () => {
 };
 
 //flight search completed - populate results
-export const flightSearchCompletedAction = results => ({
-    type: FLIGHT_SEARCH_COMPLETED,
-    payload: {
-        flightSearchResults:results
-    }});
+export const flightSearchCompletedAction = results => {
+    if(results){
+        results = extendResponse(results);
+    }
+    return {
+        type: FLIGHT_SEARCH_COMPLETED,
+        payload: {
+            flightSearchResults:results
+        }};
+}
 
 //flight search failed - populate results
 export const flightSearchFailedAction = error => ({
@@ -230,6 +234,9 @@ export const requestSearchResultsRestoreFromCache = () => ({
 
 //populate restored search results (from cache) into store
 export const searchResultsRestoredFromCache = (flightSearchResults, hotelSearchResults) => {
+    if(flightSearchResults){
+        flightSearchResults = extendResponse(flightSearchResults)
+    }
     return {
         type: RESTORE_RESULTS_FROM_CACHE_COMPLETED,
         payload: {
@@ -371,14 +378,12 @@ function* searchForHotelsSaga() {
 }
 //retrieve search results (flights & hotels) from server side cache (redis)
 function* restoreSearchResultsFromCache() {
-    console.log('Restore search results')
     //TODO - make it parallel iso sequential
     //restore flight search results
     let flightSearchResults;
     let hotelSearchResults;
     try {
         flightSearchResults = yield call(getCachedSearchResults,'flights');
-        // yield put(flightSearchCompletedAction(flightSearchResults?flightSearchResults.data:null));
     } catch (error) {
         //no resuls in cache will also throw error - we can ignore it
     }
@@ -386,7 +391,6 @@ function* restoreSearchResultsFromCache() {
     //restore hotel search results
     try {
         hotelSearchResults = yield call(getCachedSearchResults,'hotels');
-        // yield put(hotelSearchCompletedAction(hotelSearchResults?hotelSearchResults.data:null));
     } catch (error) {
         //no results in cache will also throw error - we can ignore it
     }

@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {FaPlus, FaCheck} from "react-icons/fa";
 export default {
-    title: 'DC/common blocks/Badges',
+    title: 'common blocks/Badges',
     component: Badge
 };
 

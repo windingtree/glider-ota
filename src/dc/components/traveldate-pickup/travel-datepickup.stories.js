@@ -6,7 +6,7 @@ import TravelDatepickup from "./travel-datepickup";
 
 export default {
     component: TravelDatepickup,
-    title: 'DC/Search form/Travel date pickup',
+    title: 'Search form/Travel date pickup',
 };
 
 let today=new Date();

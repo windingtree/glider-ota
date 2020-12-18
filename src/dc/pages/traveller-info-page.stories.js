@@ -7,7 +7,7 @@ import {
 
 export default {
     component: DCTravellerInfoPage,
-    title: 'DC/pages/booking step1',
+    title: 'pages/booking step1',
     excludeStories: /.*Data$/,
 };
 

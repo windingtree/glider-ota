@@ -19,7 +19,8 @@ import {
 import Spinner from "../common/spinner";
 
 
-export  function AncillariesSelectionContent({offerId, flightSearchResults, setSelectedOffer, restoreCartFromServer, restoreSearchResultsFromCache, workInProgress}) {
+export  function AncillariesSelectionContent(props) {
+    const {offerId, flightSearchResults, setSelectedOffer, restoreCartFromServer, restoreSearchResultsFromCache, workInProgress} = props;
     let history = useHistory();
     let searchResultsWrapper;
     let tripRates;
@@ -162,6 +163,7 @@ const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
 const mapStateToProps = state => ({
     flightSearchResults:flightSearchResultsSelector(state),
     offerId: flightOfferSelector(state)?flightOfferSelector(state).offerId:undefined,
+    offer:flightOfferSelector(state),
     workInProgress: isShoppingResultsRestoreInProgressSelector(state) || isShoppingCartUpdateInProgress(state)
 });
 

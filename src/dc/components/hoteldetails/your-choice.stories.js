@@ -8,7 +8,7 @@ let price1 = sample.offers["7ed6503f-70b6-408d-a60e-a5c04a1f0161"].price
 let room1 = sample.accommodations["erevmax.07119"].roomTypes.ND
 
 export default {
-    title: 'DC/Hotels/HotelDetailsPage details'
+    title: 'Hotels/HotelDetailsPage details'
 };
 
 

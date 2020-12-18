@@ -8,22 +8,34 @@ const shoppingCartController = async (req, res) => {
     let sessionID = req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
     let method = req.method;
-    let cartUserPreferenceKey=CART_USER_PREFERENCES_KEYS.CURRENCY;
 
     // Handle creation of user preferences
     if(method === 'POST') {
         //validate if payload is OK
         validateCartUserPreferencesPayload(req.body);
+
+        // Set currency
         let currency = req.body.currency;
-        await shoppingCart.setUserPreference(cartUserPreferenceKey, currency);
+        if(currency !== undefined) {
+            await shoppingCart.setUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY, currency);
+        }
+
+        // Set payment method
+        let paymentMethod = req.body.paymentMethod;
+        if(paymentMethod !== undefined) {
+            await shoppingCart.setUserPreference(CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD, paymentMethod);
+        }
+        
         res.json({result:"OK"})
     }
     else if(method === 'GET') {
-        let currency = await shoppingCart.getUserPreference(cartUserPreferenceKey);        
-        res.json({currency: currency});
+        let currency = await shoppingCart.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
+        let paymentMethod = await shoppingCart.getUserPreference(CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD);
+        res.json({currency: currency, paymentMethod: paymentMethod});
     }
     else if(method === 'DELETE') {
-        await shoppingCart.unsetUserPreference(cartUserPreferenceKey)
+        await shoppingCart.unsetUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY)
+        await shoppingCart.unsetUserPreference(CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD)
         res.json({result:"OK"})
     }else{
         logger.warn("Unsupported method:%s",req.method);

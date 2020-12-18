@@ -3,7 +3,7 @@ const logger = createLogger('session-storage');
 const {SessionStorage} = require('./session-storage');
 const {assertParameterNotEmpty} = require('./utils')
 const _ = require('lodash');
-const { createQuoteAsync } = require('./simard-api');
+const { createQuoteAsync, getRateAsync } = require('./simard-api');
 
 // Possible items in the cart
 const CART_ITEMKEYS = {
@@ -14,12 +14,20 @@ const CART_ITEMKEYS = {
     CONFIRMED_OFFER : 'confirmed-offer',
     TRANSPORTATION_OFFER : 'TRANSPORTATION_OFFER',
     ACCOMMODATION_OFFER : 'ACCOMMODATION_OFFER',
-    INSURANCE_OFFER : 'insurance_offer'
+    INSURANCE_OFFER : 'INSURANCE_OFFER',
 };
 
 // Possible cart preferences
 const CART_USER_PREFERENCES_KEYS = {
     CURRENCY : 'currency',
+    PAYMENT_METHOD: 'paymentMethod',
+};
+
+// Possible fees per payment method
+const OPC_FEES = {
+    'card':   0.05,
+    'crypto': 0.02,
+    'lif':    0.01,
 };
 
 
@@ -38,6 +46,26 @@ class ShoppingCart {
         logger.debug("Shopping cart created for sessionID:%s",sessionID);
         this.sessionID = sessionID;
         this.sessionStorage = new SessionStorage(sessionID);
+        this.exchangeRates = {};
+        this._cart = undefined;
+    }
+
+    /**
+     * Returns shopping cart content.
+     * Object: {
+     *     totalPrice,
+     *     items:{}
+     * }
+     * @returns {Promise<*>} Cart contents after operation
+     */
+    async getCart(){
+        if(this._cart === undefined) {
+            this._cart = await this.sessionStorage.retrieveFromSession(SESSION_STORAGE_KEY);
+        }
+        if(this._cart === null) {
+            this._cart = this._initializeCartRecord();
+        }
+        return this._cart;
     }
 
     /**
@@ -59,30 +87,11 @@ class ShoppingCart {
             price: price, // public & currency in supplier currency
             quote: undefined, // will be set if user currency is different than supplier
         }
-        let cart = await this.sessionStorage.retrieveFromSession(SESSION_STORAGE_KEY);
-        if (cart === null) {
-            cart = this._initializeCartRecord();
-        }
+        let cart = await this.getCart();
         cart.items[cartKey] = record;
-        cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,cart);
-        return cart;
-    }
-
-    /**
-     * Returns shopping cart content.
-     * Object: {
-     *     totalPrice,
-     *     items:{}
-     * }
-     * @returns {Promise<*>} Cart contents after operation
-     */
-    async getCart(){
-        let cart = await this.sessionStorage.retrieveFromSession(SESSION_STORAGE_KEY);
-        if (cart === null) {
-            cart = this._initializeCartRecord();
-        }
-        return cart;
+        this._cart = await this._updateTotalPrice(cart);
+        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+        return this._cart;
     }
 
     /**
@@ -94,10 +103,11 @@ class ShoppingCart {
         let cart = await this.getCart();
         if (cart.items[cartKey] !== undefined) {
             delete cart.items[cartKey];
+            this._cart = await this._updateTotalPrice(cart);
+            await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
         }
-        cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,cart);
-        return cart;
+
+        return this._cart;
     }
 
     /**
@@ -120,10 +130,7 @@ class ShoppingCart {
      */
     async getUserPreference(userPreferenceKey){
         let cart = await this.getCart();
-        let record = cart.userPreferences[userPreferenceKey];
-        if(record == null)
-            return null;
-        return record.item;
+        return cart.userPreferences[userPreferenceKey];
     }
 
    /**
@@ -135,9 +142,9 @@ class ShoppingCart {
     async setUserPreference(userPreferenceKey, value){
         let cart = await this.getCart();
         cart.userPreferences[userPreferenceKey] = value;
-        cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,cart);
-        return cart;
+        this._cart = await this._updateTotalPrice(cart);
+        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+        return this._cart;
     }
 
    /**
@@ -148,35 +155,78 @@ class ShoppingCart {
     async unsetUserPreference(userPreferenceKey){
         let defaultValue = undefined;
         if(userPreferenceKey === CART_USER_PREFERENCES_KEYS.CURRENCY) {
-            defaultValue = 'USD'
+            defaultValue = 'USD';
+        }
+        if(userPreferenceKey === CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD) {
+            defaultValue = 'card';
         }
         return this.setUserPreference(userPreferenceKey, defaultValue);
     }
 
+    async getOpcIncreaseFactor() {
+        let cart = await this.getCart();
+        let paymentMethod = cart.userPreferences.paymentMethod;
+        return(1.0 + OPC_FEES[paymentMethod]);
+    }
+
+
+
+    // Convert a price record to the user preferred currency
+    async estimatePriceInUserPreferredCurrency(offerPrice) {
+        // Retrieve user's preferred currency
+        let userCurrency = await this.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
+        let paymentMethodFeeIncrease = await this.getOpcIncreaseFactor();
+
+        // If the supplier price is already in the user currency return it
+        if(offerPrice.currency === userCurrency) {
+            return {
+                currency: userCurrency,
+                public: Number(offerPrice.public * paymentMethodFeeIncrease).toFixed(2),
+                isEstimated: false,
+            }
+        }
+
+        // Retrieve the exchange rate
+        let rateKey = `${userCurrency}${offerPrice.currency}`;
+        let exchangeRate = this.exchangeRates[rateKey];
+        if(exchangeRate === undefined) {
+            let rateResponse = await getRateAsync(offerPrice.currency, userCurrency);
+            exchangeRate = Number(rateResponse.rate);
+            this.exchangeRates[rateKey] = exchangeRate;
+        }
+
+          // Update offer price and currency
+        return {
+            currency: userCurrency,
+            public: Number(offerPrice.public * exchangeRate * paymentMethodFeeIncrease).toFixed(2),
+            isEstimated: true,
+        }
+    }
 
     // Update the total price in the cart
     async _updateTotalPrice(cart) {
-        logger.debug("Updating Cart total price");
+        //logger.debug("Updating Cart total price");
 
         // Update the currency to the user preference
         cart.totalPrice.currency = cart.userPreferences.currency;
+        let paymentMethodFeeIncrease = await this.getOpcIncreaseFactor();
 
         // Reset total price
         cart.totalPrice.public = 0;
-        
+
 
         // Walk through each item in the cart
         for(let i=0; i<Object.keys(cart.items).length; i++) {
             let itemKey = Object.keys(cart.items)[i];
             let record = cart.items[itemKey];
 
-            logger.debug(`_updateTotalPrice: Processing ${itemKey} | ${JSON.stringify(record.price)}`);
+            //logger.debug(`_updateTotalPrice: Processing ${itemKey} | ${JSON.stringify(record.price)}`);
             if(record.price) {
                 let itemPrice = 0;
 
                 // If currencies are the same price is already calculated
                 if(record.price.currency === cart.totalPrice.currency) {
-                    logger.debug(`_updateTotalPrice: Same currency, no quoting`);
+                    //logger.debug(`_updateTotalPrice: Same currency, no quoting`);
                     itemPrice = record.price.public;
                 }
 
@@ -186,9 +236,9 @@ class ShoppingCart {
 
                     // Create a quote if not already quoted
                     if((record.quote === undefined) || (record.quote.currency !== cart.totalPrice.currency)) {
-                        logger.debug(`_updateTotalPrice: Quote does not exist, creating`);
+                        //logger.debug(`_updateTotalPrice: Quote does not exist, creating`);
                         let quote = await createQuoteAsync(cart.totalPrice.currency, record.price.currency, record.price.public);
-                        logger.debug(`_updateTotalPrice: Quote created: ${JSON.stringify(quote)}`);
+                        //logger.debug(`_updateTotalPrice: Quote created: ${JSON.stringify(quote)}`);
                         cart.items[itemKey].quote = {
                             currency: quote.sourceCurrency,
                             amount: Number(quote.sourceAmount),
@@ -201,12 +251,10 @@ class ShoppingCart {
                 }
 
                 // Increment total
-                cart.totalPrice.public += itemPrice;
+                cart.totalPrice.public += (itemPrice * paymentMethodFeeIncrease);
             }
-
-
         }
-
+        cart.totalPrice.public = cart.totalPrice.public.toFixed(2);    //round to two digits
         return cart;
     }
 
@@ -214,14 +262,17 @@ class ShoppingCart {
         return {
             totalPrice: {
                 public: 0,
-                currency: 'USD'
+                currency: 'USD',
             },
             items: {},
             userPreferences: {
                 currency: 'USD',
+                paymentMethod: 'card',
             },
         }
     }
+
+
 }
 
 module.exports = {

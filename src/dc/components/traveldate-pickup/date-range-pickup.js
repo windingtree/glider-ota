@@ -36,6 +36,18 @@ export default function DateRangePickup({
 
     const inputElem = (<CustomInput endDate={endDate} startDate={startDate} placeholderText="Select dates"/>)
 
+    useEffect(()=>{
+        //if dates are pre-populated, we need to notify that it got changed so that validation can be checked to block/unblock search button
+        if(initialStart && onStartDateChanged) {
+            onStartDateChanged(initialStart)
+        }
+        if(initialEnd && onEndDateChanged){
+            onEndDateChanged(initialEnd);
+        }
+    },[])
+
+
+
     return (
         <>
             {label && <div className={style.label}>{label}</div>}
@@ -67,13 +79,18 @@ const CustomInput = ({value, onClick, startDate, endDate, placeholderText}) => {
         textToDisplay=dates.join(' | ');
     else
         textToDisplay=dates[0];
+
+    const onChangeHandler = () => {
+        console.log('Change')
+    }
+
     return (
         <>
             <Form.Control
                 type="text"
                 placeholder={placeholderText}
                 onFocus={onClick}
-                value={textToDisplay}
+                value={textToDisplay} onChange={onChangeHandler}
                 className={style.inputField}
             />
         </>

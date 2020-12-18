@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import style from "./breadcrumbs.module.scss"
 import {Breadcrumb} from "react-bootstrap";
+import {useHistory} from "react-router-dom";
 import {
     flightOfferSelector,
     hotelOfferSelector,
@@ -19,10 +20,10 @@ export const STEPS = {
 const FLIGHT_FLOW='flight'
 const HOTEL_FLOW='hotel'
 const items = [
-    {id: STEPS.SEARCH, label: 'Search', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
-    {id: STEPS.TRAVELLER_INFO, label: 'Traveller info', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
-    {id: STEPS.FLIGHT_DETAILS, label: 'Flight details', includedInFlows:[FLIGHT_FLOW]},
-    {id: STEPS.SEAT_SELECTION, label: 'Seat selection', includedInFlows:[FLIGHT_FLOW]},
+    {id: STEPS.SEARCH, label: 'Search', url:'/dc',  includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
+    {id: STEPS.TRAVELLER_INFO, url:'/dc/pax', label: 'Traveller info', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
+    {id: STEPS.FLIGHT_DETAILS, url:'/dc/ancillaries', label: 'Flight details', includedInFlows:[FLIGHT_FLOW]},
+    {id: STEPS.SEAT_SELECTION, url:'/dc/seatmap', label: 'Seat selection', includedInFlows:[FLIGHT_FLOW]},
     {id: STEPS.PAYMENT, label: 'Payment', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]}
 ]
 
@@ -40,50 +41,56 @@ const getBreadcrumbItemsForFlow = (flows = [FLIGHT_FLOW, HOTEL_FLOW]) =>{
 }
 
 
-export const BookingFlowBreadcrumb = ({flightOffer, hotelOffer, currentStepId = STEPS.SEARCH}) => {
-    console.log('BookingFlowBreadcrumb,flightOffer=',flightOffer,' hotelOffer=',hotelOffer)
+export const BookingFlowBreadcrumb = ({isFlightBooking, isHotelBooking, currentStepId = STEPS.SEARCH, onClick}) => {
+    let history = useHistory();
     let flow = [];
-    if(flightOffer)
+    if(isFlightBooking)
         flow.push(FLIGHT_FLOW)
-    if(hotelOffer)
+    if(isHotelBooking)
         flow.push(HOTEL_FLOW)
 
     let itemsInBreadcrumb = getBreadcrumbItemsForFlow(flow)
-    let currentItemIndex=0;
-    let idx=0;
-    let labels = itemsInBreadcrumb.map(item=>{
-        if(currentStepId === item.id)
-            currentItemIndex = idx;
-        idx++;
-        return item.label;
-    })
 
-    return <Breadcrumbs items={labels} currentItemIndex={currentItemIndex}/>
-}
+    const onClickHandler = (e,id,url) => {
+        e.preventDefault();
+        //if onClick is defined - call it
+        if(onClick){
+            onClick(id,url)
+        }else{
+            //otherwise open url
+            history.push(url);
+        }
+        console.log('onClick',id)
+    }
+    let currentStepAlreadyFound = false;
 
-
-
-export const Breadcrumbs = ({items = [], currentItemIndex = 0}) => {
-    items = items || [];
-
-    let index=0;
-    return (
-        <Breadcrumb className={style.breadCrumb} >
+    return (<Breadcrumb className={style.breadCrumb} >
         {
-            items.map(item=> {
-                let isActive= (index++ === currentItemIndex);
-                return (<Breadcrumb.Item linkAs='text' active={isActive}>{item}</Breadcrumb.Item>)
-            }
+            itemsInBreadcrumb.map((item, index)=> {
+                    let {id, url, label} = item;
+                    let isActive = (id === currentStepId);
+                    if (id === currentStepId) {
+                        currentStepAlreadyFound = true;
+                    }
+                let breadcrumb;
+                    if (!currentStepAlreadyFound) {
+                        breadcrumb=<Breadcrumb.Item key={index} href={url} onClick={(e) => onClickHandler(e, id,url)}>{label}</Breadcrumb.Item>;
+                    } else {
+                        breadcrumb=<Breadcrumb.Item key={index} active={isActive} linkAs='text' >{label}</Breadcrumb.Item>;
+                    }
+                    return breadcrumb;
+                }
             )
         }
-        </Breadcrumb>
-    );
+    </Breadcrumb>)
 }
+
+
 
 
 const mapStateToProps = state => ({
-    flightOffer: flightOfferSelector(state),
-    hotelOffer: hotelOfferSelector(state),
+    isFlightBooking: (flightOfferSelector(state)!==null),
+    isHotelBooking: (hotelOfferSelector(state)!==null)
 });
 
 

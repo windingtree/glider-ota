@@ -8,7 +8,7 @@ import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-w
 import searchResults from '../storybook-utils/mock-data/flight_search_BOGMIA.json'
 
 export default {
-    title: 'DC/flight blocks/journey summary',
+    title: 'flight blocks/journey summary',
     component:JourneySummary
 };
 let offerId="42ad23de-fdf5-4bf2-8d85-9c6ad7f3539e";

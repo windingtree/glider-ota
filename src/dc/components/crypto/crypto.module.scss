@@ -8,6 +8,10 @@
     margin-top: 10px;
 }
 
+.payCryptoContainer {
+    padding-top: 20px;
+}
+
 .cryptoTitle {
     display: flex;
     align-items: center;
@@ -32,7 +36,7 @@
 .paymentSuccess {
     font-style: normal;
     font-weight: 500;
-    font-size: 30px;
+    font-size: 18px;
     line-height: 120%;
     color: #202020;
 }
@@ -42,11 +46,20 @@
     font-weight: normal;
 }
 
-.buttonLabel {
+.connectButton {
     @include _glider-font-text16;
     color: $glider-color-primary-background;
-    display: flex;
-    align-items: center;
+    background-color: white;
+    padding: 12px 24px;
+    border: 1px solid #42424F;
+    box-sizing: border-box;
+    border-radius: 8px;
+    color: #42424F;
+}
+
+.iconLeft {
+    margin-top: -3px;
+    margin-right: 4px;
 }
 
 .buttonSpinner {
@@ -57,7 +70,6 @@
 .walletAddress {
     @include _glider-font-text12;
     color: $glider-color-primary-background;
-    margin-bottom: 10px;
 }
 
 .tokenIcon {
@@ -178,14 +190,55 @@
     color: red;
 }
 
+.countDownWrapper {
+    justify-content: space-between;
+}
+
+.countDownWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .countDown {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     border: 1px solid #7161D6;
     font-weight: 500;
     font-size: 12px;
     text-align: center;
-    min-width: 38px;
-    height: 38px;
+    min-width: 30px;
+    height: 30px;
     margin-right: 10px;
+}
+
+@keyframes spinner {
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
+.countDownSpinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border: 1.5px solid;
+    border-right: 1.5px solid transparent;
+    border-radius: 50%;
+    animation: spinner .75s linear infinite;
+    color: #7161D6;
+}
+
+.topNote {
+    font-size: 12px;
+}
+
+.walletRow {
+    margin-bottom: 10px;
+    align-items: center;
 }

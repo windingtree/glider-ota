@@ -10,7 +10,7 @@ let roomND1 = sample.accommodations["EREVMAX.07119"].roomTypes.ND1
 let roomNMD = sample.accommodations["EREVMAX.07119"].roomTypes.NMD
 
 export default {
-    title: 'DC/Hotels/Room details'
+    title: 'Hotels/Room details'
 };
 
 

@@ -4,7 +4,7 @@ import PaymentSummary, {TermsFareRules} from "./payment-summary";
 
 export default {
     component: PaymentSummary,
-    title: 'DC/Payments/Payment summary',
+    title: 'Payments/Payment summary',
 };
 
 

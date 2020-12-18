@@ -25,6 +25,9 @@
   display: inline-block;
   vertical-align: top;
 }
+:global(.icon-primary-color){
+  color:$g-color-primary;
+}
 
 .adDetails{
   display: inline-block;

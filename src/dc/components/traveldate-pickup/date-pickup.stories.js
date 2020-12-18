@@ -6,7 +6,7 @@ import DatePickup from "./date-pickup";
 
 export default {
     component: DatePickup,
-    title: 'DC/Search form/Date pickup',
+    title: 'Search form/Date pickup',
 };
 
 let today=new Date();

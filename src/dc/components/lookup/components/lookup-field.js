@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import {Overlay, Popover,  Form} from 'react-bootstrap'
+import {Overlay, Popover,  Form, Spinner} from 'react-bootstrap'
 import {Dropdown, Container} from 'react-bootstrap'
 import LookupList from "./lookup-list";
 import style from './lookup-field.module.scss'
@@ -12,40 +12,55 @@ let cx = classNames.bind(style);
     CITIES:'cities'
 }*/
 
-const SEARCH_TIMEOUT_MILLIS=100;
+const SEARCH_TIMEOUT_MILLIS=250;
 
-export default function LookupField({initialLocation,onSelectedLocationChange, placeHolder, onQueryEntered, locations=[], label, localstorageKey})  {
+export default function LookupField(props)  {
+    const {
+        initialLocation,
+        onSelectedLocationChange,
+        placeHolder,
+        onQueryEntered,
+        locations=[],
+        label,
+        localstorageKey,
+        loading=false
+    } = props;
     const [value, setValue] = useState(initialLocation!==undefined?initialLocation.primary:'');
     const [target, setTarget] = useState();
     const [selectedLocation, setSelectedLocation] = useState(initialLocation);
     const [searchQueryTimeout, setSearchQueryTimeout] = useState();
     const [focus,setFocus] = useState(false);
-
     useEscape(() => {setFocus(false)})
 
     useEffect(()=>{
+        let previouslySelectedLocation;
+        //check if there is previously saved search location
         if(localstorageKey) {
-            let storedValue = localStorage.getItem(`inputfield-${localstorageKey}`);
+            //there is - check if there was something saved in browser and use it
+            let storedValue = sessionStorage.getItem(`inputfield-${localstorageKey}`);
             if(storedValue){
                 try{
-                    let previouslySelectedLocation=JSON.parse(storedValue);
-                    handleLocationSelected(previouslySelectedLocation)
+                    previouslySelectedLocation=JSON.parse(storedValue);
                 }catch(err){
-                    console.log('Error:',err)
                 }
             }
         }
-    },[])
-
+        if(previouslySelectedLocation) {
+            handleLocationSelected(previouslySelectedLocation)
+        }
+        else if(initialLocation){
+            //alternatively use default location (e.g. venue)
+            handleLocationSelected(initialLocation)
+        }
+    }, [initialLocation]);
 
     function handleLocationSelected(location) {
         setSelectedLocation(location);
         setValue(location.primary);
         onSelectedLocationChange(location)
         if(localstorageKey) {
-            localStorage.setItem(`inputfield-${localstorageKey}`, JSON.stringify(location));
+            sessionStorage.setItem(`inputfield-${localstorageKey}`, JSON.stringify(location));
         }
-
     }
 
     function clearSelectedLocation() {
@@ -65,11 +80,7 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
     function handleOnChange(event) {
         const enteredText = event.target.value;
         clearSelectedLocation();
-        if(searchQueryTimeout!==undefined){
-            //check if there was already a timeout handler set previously - if so, cancel it (in case user entered text too fast)
-            clearTimeout(searchQueryTimeout);
-            setSearchQueryTimeout(undefined)
-        }
+        clearTimeout(searchQueryTimeout);
 
         setValue(enteredText);
         setTarget(event.target);
@@ -104,7 +115,12 @@ export default function LookupField({initialLocation,onSelectedLocationChange, p
                     onFocus={handleOnFocus}
                     className={style.inputField} placeholder={placeHolder}>
                 </Form.Control>
-                <span className={style.code}>{selectedLocation && selectedLocation.code}</span>
+                {selectedLocation && selectedLocation.code &&
+                    <div className={style.code}>{selectedLocation.code}</div>
+                }
+                {loading &&
+                    <Spinner className={style.loadingSpinner} animation="border" size='sm' variant='primary' />
+                }
                 <Overlay
                     show={focus && selectedLocation===undefined && locations.length > 0}
                     target={target}

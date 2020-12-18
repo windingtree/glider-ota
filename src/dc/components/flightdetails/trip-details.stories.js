@@ -2,7 +2,7 @@ import React from 'react';
 import TripDetails, {ItineraryDetails,SegmentDetails,RouteOverview,LayoverInfo} from "./trip-details"
 
 export default {
-  title: 'DC/Flights/Segment, Itinerary and Trip details',
+  title: 'Flights/Segment, Itinerary and Trip details',
 };
 
 let segments=[{

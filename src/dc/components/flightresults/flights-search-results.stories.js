@@ -19,7 +19,7 @@ addDecorator(story =>  <ProviderWrapper>{story()}</ProviderWrapper>)
 let results  = extendResponse(searchResults);
 
 export default {
-  title: 'DC/Search results/flights',
+  title: 'Search results/flights',
   component: FlightsSearchResults,
 };
 

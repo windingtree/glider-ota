@@ -12,11 +12,15 @@
 }
 
 .breadCrumb :global(.breadcrumb-item) + :global(.breadcrumb-item::before) {
-   content: "→";
+  content: url("data:image/svg+xml;charset=UTF-8,<svg width='17' height='16' viewBox='0 0 17 16' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9.53906 15.2891L16.8281 8L9.53906 0.710937L8.13281 2.10938L13.0156 6.98437H0.75V9.01562H13.0156L8.13281 13.8984L9.53906 15.2891Z' fill='#717171'/></svg>");
   height:20px;
-  transform: scale(2);
+  //transform: scale(2);
   position: relative;
-  top:-15px;
+  //top:-15px;
   padding-left: 20px;
   padding-right: 20px;
  }
+
+.breadCrumb :global(.breadcrumb-item) a{
+  @include g-font($g-fontsize-xxl, $g-color-darkgrey, $g-fontweight-normal)
+}

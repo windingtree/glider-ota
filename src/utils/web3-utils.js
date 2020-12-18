@@ -183,6 +183,11 @@ export const rawTokenValue = (web3, value, decimals) => web3.utils
         mappedUnits(web3)[Math.pow(10, decimals)]
     );
 
+export const getStableCoinAddress = async web3 => {
+    const paymentManagerContract = createPaymentManagerContract(web3);
+    return (await paymentManagerContract.methods.stableCoin().call()).toLowerCase();
+};
+
 // Convert usd value into stablecoin raw value
 export const getStableCoinValue = async (web3, usdValue) => {
     const paymentManagerContract = createPaymentManagerContract(web3);

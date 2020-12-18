@@ -2,7 +2,7 @@ import React from 'react';
 import {ImageGallery} from "./hotel-images"
 
 export default {
-    title: 'DC/accommodation blocks/image gallery',
+    title: 'accommodation blocks/image gallery',
     component: ImageGallery
 };
 let images1= [

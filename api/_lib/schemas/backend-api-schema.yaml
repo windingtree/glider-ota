@@ -187,13 +187,15 @@ components:
             $ref: "wt-aggregator.yaml#/components/schemas/Passenger"
     CartUserPreferences:
       description: User preferences for the shopping
-      required:
-        - "currency"
       properties:
         currency:
           description: Payment currency
           type: string
           pattern: "^[A-Z]{3}$"
+        paymentMethod:
+          description: Payment method
+          type: string
+          enum: [card, crypto, lif]
     CheckoutParameters:
       description: Payment details
       required: ["type","confirmedOfferId"]

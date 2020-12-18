@@ -3,6 +3,7 @@ import style from "./arrival-departure.module.scss"
 import React from 'react';
 import {format, parseISO} from "date-fns";
 import {safeDateFormat} from '../../../utils/offer-utils'
+import {IconContext} from "react-icons";
 
 export const ADTYPES = {
     ARRIVAL: 'arrival',
@@ -29,8 +30,10 @@ export const ArrivalDeparture = ({cityName, cityCode, date, adType = ADTYPES.NON
     }
 
     return (
+
         <div className={style.adBox}>
-            <div className={style.adIcon}>{renderIcon()}</div>
+            <IconContext.Provider value={{ className: "icon-primary-color" }}>
+                <div className={style.adIcon}>{renderIcon()}</div></IconContext.Provider>
             <div className={style.adDetails}>
                 <div className={style.adDate}>{safeDateFormat(date, 'dd MMM, EE')}</div>
                 <div><span className={style.adTime}>{safeDateFormat(date, 'HH:mm')}</span> <span
@@ -38,6 +41,7 @@ export const ArrivalDeparture = ({cityName, cityCode, date, adType = ADTYPES.NON
                 </div>
             </div>
         </div>
+
     )
 }
 

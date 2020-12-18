@@ -6,38 +6,50 @@ import HotelsShoppingComponent from "../components/hotel-shopping/hotels-shoppin
 import {SEARCH_TYPE} from "../components/search-form/search-mode-selector"
 import DevConLayout from "../components/layout/devcon-layout"
 
-export default function DCLandingPage({match}) {
+export default function DCLandingPage() {
     const history = useHistory();
-    const {
-        searchType: customSearchType,
-        city,
-        dateIn,
-        dateOut
-    } = history.location && history.location.state ? history.location.state : {};
-    const [searchType, setSearchType] = useState(
-        customSearchType
-        ? customSearchType
-        : SEARCH_TYPE.FLIGHTS
-    );
+    const [searchType, setSearchType] = useState(SEARCH_TYPE.FLIGHTS);
+    const [searchCity, setSearchCity] = useState();
+    const [searchDateId, setSearchDateIn] = useState();
+    const [searchDateOut, setSearchDateOut] = useState();
+    const [searchPassengersCounts, setSearchPassengersCounts] = useState();
+
     useEffect(() => {
-        if (customSearchType && customSearchType !== searchType) {
-            setSearchType(customSearchType);
-        }
-    }, [customSearchType]);
+        const stopListen = history.listen(() => {
+            if (history.location && history.location.state) {
+                const {
+                    searchType,
+                    city,
+                    dateIn,
+                    dateOut,
+                    passengersCounts
+                } = history.location && history.location.state;
+                setSearchType(searchType);
+                setSearchCity(city);
+                setSearchDateIn(dateIn);
+                setSearchDateOut(dateOut);
+                setSearchPassengersCounts(passengersCounts);
+            }
+        });
+        return () => stopListen();
+    });
     return (<DevConLayout>
         <SearchModeSelector selectedMode={searchType} onToggle={setSearchType}/>
         {searchType === SEARCH_TYPE.FLIGHTS && (
             <FlightsShoppingComponent
-                initiDest={city}
-                initDepartureDate={dateIn}
-                initReturnDate={dateOut}
+                initDest={searchCity}
+                initDepartureDate={searchDateId}
+                initReturnDate={searchDateOut}
             />
         )}
         {searchType === SEARCH_TYPE.HOTELS && (
             <HotelsShoppingComponent
-                initiDest={city}
-                initDepartureDate={dateIn}
-                initReturnDate={dateOut}
+                initDest={searchCity}
+                initDepartureDate={searchDateId}
+                initReturnDate={searchDateOut}
+                initAdults={searchPassengersCounts.adults}
+                initChildren={searchPassengersCounts.children}
+                initInfants={searchPassengersCounts.infants}
             />
         )}
     </DevConLayout>)

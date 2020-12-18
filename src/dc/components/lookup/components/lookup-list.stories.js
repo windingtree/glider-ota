@@ -4,7 +4,7 @@ import LookupList from "./lookup-list";
 
 export default {
     component: LookupList,
-    title: 'DC/Search form/Lookup/Dropdown list',
+    title: 'Search form/Lookup/Dropdown list',
     excludeStories: /.*Data$/,
 };
 
