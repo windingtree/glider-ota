@@ -6,7 +6,7 @@ import DateRangePickup from "./date-range-pickup";
 
 export default {
     component: DateRangePickup,
-    title: 'DC/Search form/date range pickup',
+    title: 'Search form/date range pickup',
 };
 
 let today=new Date();

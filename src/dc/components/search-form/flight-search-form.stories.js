@@ -3,7 +3,7 @@ import React from 'react';
 import FlightsSearchForm from "./flight-search-form";
 
 export default {
-  title: 'DC/Search form/Flight Search',
+  title: 'Search form/Flight Search',
   component:FlightsSearchForm
 };
 

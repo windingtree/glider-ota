@@ -8,7 +8,7 @@ import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-w
 import searchResults from '../storybook-utils/mock-data/flight_search_BOGMIA.json'
 
 export default {
-    title: 'DC/flight blocks/itinerary information',
+    title: 'flight blocks/itinerary information',
     component:ItinerarySummary
 };
 

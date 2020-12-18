@@ -19,7 +19,7 @@ import {
     flightsErrorSelector,
     requestSearchResultsRestoreFromCache, isShoppingFlowStoreInitialized
 } from '../../../redux/sagas/shopping-flow-store';
-import Spinner from "../../../components/common/spinner";
+import Spinner from "../../components/common/spinner";
 import Alert from "react-bootstrap/Alert";
 
 

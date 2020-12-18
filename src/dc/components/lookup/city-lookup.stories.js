@@ -8,7 +8,7 @@ import {
 
 export default {
     component: CityLookup,
-    title: 'DC/Search form/Lookup/City Lookup Field',
+    title: 'Search form/Lookup/City Lookup Field',
     excludeStories: /.*Data$/,
 };
 

@@ -3,7 +3,7 @@ import DCPaxDetailsPage from "./pax-details-page";
 
 export default {
     component: DCPaxDetailsPage,
-    title: 'DC/Pages/pax details page'
+    title: 'Pages/pax details page'
 };
 
 export const defaultPage = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import {ExpandCollapseToggle,ExpandCollapseToggleV2} from "./expand-collapse-toggle"
 import style from "./expand-collapse-toggle.module.scss"
 export default {
-    title: 'DC/common blocks/ExpandCollapseToggle',
+    title: 'common blocks/ExpandCollapseToggle',
     component: ExpandCollapseToggle
 };
 

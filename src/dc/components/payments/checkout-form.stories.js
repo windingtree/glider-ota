@@ -7,7 +7,7 @@ import fetchMock from 'fetch-mock';
 
 export default {
     component: PaymentForm,
-    title: 'DC/Payments/Payment form',
+    title: 'Payments/Payment form',
 };
 
 const publicKeyMockedResponse={

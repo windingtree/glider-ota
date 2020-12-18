@@ -2,7 +2,7 @@ import React from 'react';
 
 import {LodgingInfo} from "./lodging-info"
 export default {
-    title: 'DC/accommodation blocks/lodging info',
+    title: 'accommodation blocks/lodging info',
     component:LodgingInfo
 };
 

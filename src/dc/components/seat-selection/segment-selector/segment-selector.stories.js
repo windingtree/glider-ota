@@ -2,7 +2,7 @@ import React from 'react';
 import SegmentSelector from './segment-selector'
 
 export default {
-  title: 'DC/Seatmap/Segment Selector',
+  title: 'Seatmap/Segment Selector',
 };
 
 export const segmentSelectorOneStop = () => (

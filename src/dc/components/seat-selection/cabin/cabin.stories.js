@@ -2,7 +2,7 @@ import React from 'react';
 import Cabin from './cabin'
 
 export default {
-  title: 'DC/Seatmap/Cabin',
+  title: 'Seatmap/Cabin',
 };
 
 export const OneOneCabin = () => (

@@ -12,7 +12,7 @@ import {
     hotelSearchResultsSelector, requestSearchResultsRestoreFromCache, isShoppingFlowStoreInitialized
 } from "../../../redux/sagas/shopping-flow-store";
 import {connect} from "react-redux";
-import Spinner from "../../../components/common/spinner";
+import Spinner from "../../components/common/spinner";
 import SearchButton from "../search-form/search-button";
 import ResultsPaginator, {limitSearchResultsToCurrentPage, ITEMS_PER_PAGE} from "../common/pagination/results-paginator";
 
