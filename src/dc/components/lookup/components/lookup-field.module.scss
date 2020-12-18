@@ -11,7 +11,6 @@
     order: 1;
     align-self: stretch;
     flex-grow: 0;
-    margin: 0px 4px;
 
     display: flex;
     align-items: center;
@@ -44,7 +43,7 @@
 }
 
 .inputField::placeholder {
-    color: $glider-color-text-background;
+    @include g-font($g-fontsize-xl,$g-color-lightgrey,$g-fontweight-normal);
 }
 .code{
     background-color: $glider-color-inputfields-background;
@@ -70,5 +69,5 @@ global(.locationLookupPopover){
 
 .label{
     @include g-font($g-fontsize-xs,$glider-color-text-labels,$g-fontweight-normal);
-    margin-left: 1px;
+    margin-left: 4px;
 }
