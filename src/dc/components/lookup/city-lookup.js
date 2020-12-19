@@ -16,21 +16,17 @@ export function CityLookup(props) {
     const [queryPromise, setQueryPromise] = useState(null);
 
     useEffect(() => {
-        console.log('New initial location:', initialLocation);
-    }, [initialLocation]);
-
-    useEffect(() => {
         let queryProcess = queryPromise;
         if (queryProcess && typeof queryProcess.then === 'function') {
             queryProcess
                 .then(response => {
-                    let airports = convertResponse(response.results);
+                    let results = convertResponse(response.results);
                     setLoading(false);
-                    setSearchResults(airports);
+                    setSearchResults(results);
                 })
                 .catch(error => {
                     setLoading(false);
-                    console.log('Failed to search for airports', error);
+                    console.log('Failed to search for city', error);
                 });
         }
         return () => {
@@ -40,6 +36,7 @@ export function CityLookup(props) {
 
     async function onQueryEntered(searchQuery) {
         setLoading(true);
+        setSearchResults([]);
         setQueryPromise(
             fetchGet('/api/lookup/citySearch', {
                 searchquery: searchQuery

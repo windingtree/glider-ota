@@ -83,6 +83,20 @@ function insert(collection, doc) {
     });
 }
 
+const insertMany = async (collection, documents, options) => {
+    const db = await getConnection();
+    return db.collection(collection)
+      .insertMany(
+        documents,
+        {
+          ordered: true,
+          ...(options
+            ? options
+            : {})
+        }
+      );
+  };
+
 /**
  * Helper function to find a single record (findOne) within a provided collection
  * @param collection - name of collection to search
@@ -100,6 +114,13 @@ function findOne(collection, criteria){
         .catch(reject);
     });
 }
+
+const findAll = async (collection, query, options) => {
+    const db = await getConnection();
+    const result = await db.collection(collection)
+        .find(query, options);
+    return result.toArray();
+};
 
 /**
  * Helper function to update a single document (updateOne) in a collection
@@ -270,7 +291,9 @@ module.exports = {
     PAYMENT_STATUSES,
     ORDER_TYPES,
     insert,
+    insertMany,
     findOne,
+    findAll,
     storeConfirmedOffer,
     findConfirmedOffer,
     upsertOfferPassengers,

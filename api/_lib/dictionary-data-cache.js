@@ -1,5 +1,10 @@
 const fs = require("fs");
 const _ = require('lodash');
+const {
+    insertMany,
+    findAll
+} = require('../_lib/mongo-dao');
+
 const DB_LOCATION="api/_data/";
 const TABLES={
     AIRLINES:'airlines',
@@ -225,8 +230,40 @@ function findAirport(query,maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
  * @param query Airport code (case insensitive)
  * @returns {*}
  */
-function findCity(query,maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
-    return findTableRecords(TABLES.CITIES,query,"city_name", maxResults);
+async function findCity(query, countryCode, maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
+
+    // const table = getTable(TABLES.CITIES);
+    // await insertMany(TABLES.CITIES, table)
+    //     .then(console.log)
+    //     .catch(console.error);
+
+    return findAll(TABLES.CITIES,
+        {
+            ...(
+                query
+                    ? {
+                        'city_name': {
+                            '$regex': `^${query.substr(0, 4)}`,
+                            '$options': 'i'
+                        }
+                    }
+                    : {}
+            ),
+            ...(
+                countryCode
+                    ? {
+                        'country_code': countryCode
+                    }
+                    : {}
+            )
+        },
+        {
+            projection: {
+                _id: 0
+            },
+            limit: maxResults
+        }
+    );
 }
 
 

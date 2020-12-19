@@ -8,7 +8,7 @@
 
 .cartHeader{
   @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
-  padding: 20px 20px 0 20px;
+  padding: 20px 20px 1rem 20px;
 }
 
 .subtotalItem{
@@ -41,7 +41,16 @@
   padding: 0 20px 20px 20px;
 }
 
+.cartBody {
+  padding: 1rem 0 1rem 0;
+}
+
+.cartFooter {
+  padding: 1rem 0 0.5rem 0;
+}
+
 .bookHotelLink {
+  display: flex;
   text-align: center;
   font-style: normal;
   font-weight: 500;
@@ -52,10 +61,19 @@
   cursor: pointer;
   margin-top: 20px;
   margin-bottom: 20px;
+  justify-content: center;
+}
+.bookHotelLoading {
+  margin-left: 5px;
+  width: 18px;
+  height: 18px;
+  border-width: 0.15em;
 }
 
 
 
 .debugLinks{
   @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+  cursor: pointer;
+  color: #543CE2;
 }

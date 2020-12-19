@@ -31,7 +31,6 @@ export function FlightsSearchForm(props){
     searchCriteriaChanged
   } = props;
 
-
   const [origin, setOrigin] = useState(initOrigin);
   const [destination, setDestination] = useState(initDest);
   const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
@@ -54,10 +53,10 @@ export function FlightsSearchForm(props){
     };
   }
 
-
   function isOriginValid(){
     return origin!==undefined;
   }
+
   function isDestinationValid(){
     return destination!==undefined;
   }
@@ -65,7 +64,6 @@ export function FlightsSearchForm(props){
   function isDepartureDateValid(){
     return departureDate!==undefined
   }
-
 
   //subscribe for search criteria changes so that we notify others once form is valid
   useEffect(() => {
@@ -105,25 +103,79 @@ export function FlightsSearchForm(props){
     return result;
   }
 
-  let initialOrigin=initOrigin?initOrigin:venueConfig.originIata;
-  let initialDestination=initDest?initDest:venueConfig.destinationIata;
-  let initialDepartureDate=departureDate?departureDate:venueConfig.startDate;
-  let initialReturnDate=returnDate?returnDate:venueConfig.endDate;
-    return (<>
-              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initialOrigin} onSelectedLocationChange={setOrigin} placeHolder='Where from' label='From' localstorageKey={'origin-airport'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><AirportLookup initialLocation={initialDestination} onSelectedLocationChange={setDestination} placeHolder='Where to' label='To' localstorageKey={'destination-airport'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><DateRangePickup onStartDateChanged={setDepartureDate} startPlaceholder={'Departure'} endPlaceholder={'Return'} onEndDateChanged={setReturnDate} initialStart={initialDepartureDate} initialEnd={initialReturnDate} label='When' localstorageKey={'traveldates'}/></Col>
-              <Col xs={12} md={3} className={style.formElem}><PassengerSelector adults={adults} children={children} infants={infants} onAdultsChange={setAdults} onChildrenChange={setChildren} onInfantsChange={setInfants} infantsAllowed={false} maxPassengers={9} label='Who'/></Col>
+  const originAirportKey = 'origin-airport';
+  const destinationAirportKey = 'destination-airport';
+
+  const storedOriginRaw = sessionStorage.getItem(`inputfield-${originAirportKey}`);
+  const storedDestinationRaw = sessionStorage.getItem(`inputfield-${destinationAirportKey}`);
+  let storedOrigin;
+  let storedDestination;
+
+  try {
+    storedOrigin = JSON.parse(storedOriginRaw);
+    storedDestination = JSON.parse(storedDestinationRaw);
+  } catch (e) {}
+
+  let initialOrigin = initOrigin ? initOrigin : storedOrigin ? storedOrigin : venueConfig.originIata;
+  let initialDestination = initDest ? initDest : storedDestination ? storedDestination : venueConfig.destinationIata;
+  let initialDepartureDate = departureDate ? departureDate : venueConfig.startDate;
+  let initialReturnDate = returnDate ? returnDate : venueConfig.endDate;
+
+  return (
+    <>
+      <Col xs={12} md={3} className={style.formElem}>
+        <AirportLookup
+          initialLocation={initialOrigin}
+          onSelectedLocationChange={setOrigin}
+          placeHolder='Where from'
+          label='From'
+          localstorageKey={originAirportKey}
+        />
+      </Col>
+      <Col xs={12} md={3} className={style.formElem}>
+        <AirportLookup
+          initialLocation={initialDestination}
+          onSelectedLocationChange={setDestination}
+          placeHolder='Where to'
+          label='To'
+          localstorageKey={destinationAirportKey}
+        />
+      </Col>
+      <Col xs={12} md={3} className={style.formElem}>
+        <DateRangePickup
+          onStartDateChanged={setDepartureDate}
+          startPlaceholder={'Departure'}
+          endPlaceholder={'Return'}
+          onEndDateChanged={setReturnDate}
+          initialStart={initialDepartureDate}
+          initialEnd={initialReturnDate}
+          label='When'
+          localstorageKey={'traveldates'}
+        />
+      </Col>
+      <Col xs={12} md={3} className={style.formElem}>
+        <PassengerSelector
+          adults={adults}
+          children={children}
+          infants={infants}
+          onAdultsChange={setAdults}
+          onChildrenChange={setChildren}
+          onInfantsChange={setInfants}
+          infantsAllowed={false}
+          maxPassengers={9}
+          label='Who'
+        />
+      </Col>
 {/*
-            <Row>
-              <Col xs={12} md={3} className={style.formElem}>
-                <div className={style.roundTripCheckbox}> <Form.Check ><Form.Check.Input type={'checkbox'}  bsPrefix={style.roundTripCheckbox}/><Form.Check.Label bsPrefix={style.roundTripCheckboxLabel}>Round trip</Form.Check.Label></Form.Check></div>
-              </Col>
-            </Row>
+<Row>
+  <Col xs={12} md={3} className={style.formElem}>
+    <div className={style.roundTripCheckbox}> <Form.Check ><Form.Check.Input type={'checkbox'}  bsPrefix={style.roundTripCheckbox}/><Form.Check.Label bsPrefix={style.roundTripCheckboxLabel}>Round trip</Form.Check.Label></Form.Check></div>
+  </Col>
+</Row>
 */}
 
-        </>
-    )
+    </>
+  );
 }
 
 

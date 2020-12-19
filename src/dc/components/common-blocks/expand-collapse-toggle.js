@@ -17,7 +17,7 @@ export const ExpandCollapseToggle = ({text, expanded = false, onToggle, classNam
     c[className]=true
     let classNames=cx(c)
     return (
-        <a href={"#"} className={classNames} onClick={toggle}>{text}{expanded?<FaChevronUp/>:<FaChevronDown/>}</a>
+        <button className={classNames} onClick={toggle}>{text}{expanded?<FaChevronUp/>:<FaChevronDown/>}</button>
     );
 }
 
@@ -43,8 +43,8 @@ export const ExpandCollapseToggleV2 = ({customClassName, expandedText, collapsed
         collapsedSymbol=<FaChevronDown/>;
 
     if(expanded){
-        return (<a href={"#"} className={classNames} onClick={toggle}>{expandedText}{expandedSymbol}</a>);
+        return (<button className={classNames} onClick={toggle}>{expandedText}{expandedSymbol}</button>);
     }else{
-        return (<a href={"#"} className={classNames} onClick={toggle}>{collapsedText}{collapsedSymbol}</a>);
+        return (<button className={classNames} onClick={toggle}>{collapsedText}{collapsedSymbol}</button>);
     }
 }

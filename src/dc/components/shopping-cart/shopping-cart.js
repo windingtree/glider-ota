@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './shopping-cart.module.scss'
 import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
-import {Col, Image, Row} from 'react-bootstrap'
+import {Col, Image, Row, Spinner as RoundSpinner} from 'react-bootstrap'
 import _ from 'lodash'
 import classNames from 'classnames/bind';
 import {
@@ -23,6 +23,7 @@ import {
 } from "../../../redux/sagas/shopping-flow-store";
 import Spinner from "../common/spinner";
 import Container from "react-bootstrap/Container";
+import {fetchGet} from "../../../utils/api-utils";
 
 
 let cx = classNames.bind(style);
@@ -76,6 +77,7 @@ const Total = ({title, price, priceAmount, currency}) =>{
 
 const BookHotelBtn = ({ flightOffer }) => {
     let history = useHistory();
+    const [loading, setLoading] = useState(false);
     console.log('BookHotelBtn - flightOffer = ',flightOffer)
     const {itineraries} = flightOffer;
 
@@ -85,6 +87,22 @@ const BookHotelBtn = ({ flightOffer }) => {
 
     let outboundItinerary = itineraries.length>0?itineraries[0]:null;
     let returnItinerary = itineraries.length>1?itineraries[1]:null;
+
+    const getCityByIataCode = async code => {
+        const {
+            results: {
+                city_name,
+                country_code
+            }
+        } = await fetchGet('/api/lookup/airportByIata', {
+            iata: code
+        });
+        const cities = await fetchGet('/api/lookup/citySearch', {
+            searchquery: city_name,
+            country_code
+        });
+        return cities.results[0];
+    };
 
     const handleBookHotel = (outboundItinerary, returnItinerary) => {
         let storedDestCity;
@@ -99,19 +117,42 @@ const BookHotelBtn = ({ flightOffer }) => {
                 storedPassengers=JSON.parse(storedPassengersRaw);
             }
         } catch (e) {}
-        history.push('/dc', {
-            searchType: 'HOTELS',
-            city: storedDestCity,
-            dateIn: OfferUtils.getItineraryArrivalDate(outboundItinerary),
-            dateOut: returnItinerary ? OfferUtils.getItineraryDepartureDate(returnItinerary) : undefined,
-            passengersCounts: storedPassengers,
-            rnd: Math.random()
-        });
+        setLoading(true);
+        getCityByIataCode(storedDestCity.code)
+            .then(city => {
+                setLoading(false);
+                console.log('#######', city);
+                history.push('/dc/hotels', {
+                    city: {
+                        primary: city.city_name,
+                        secondary: city.country_name,
+                        latitude: city.latitude,
+                        longitude: city.longitude
+                    },
+                    dateIn: OfferUtils.getItineraryArrivalDate(outboundItinerary),
+                    dateOut: returnItinerary ? OfferUtils.getItineraryDepartureDate(returnItinerary) : undefined,
+                    passengersCounts: storedPassengers,
+                    doSearch: true
+                });
+            })
+            .catch(error => {
+                setLoading(false);
+                console.log(error);
+            });
     };
 
     return (
         <div className={style.bookHotelLink} onClick={() => handleBookHotel(outboundItinerary, returnItinerary)}>
-            Book a hotel in {OfferUtils.getItineraryArrivalCityName(outboundItinerary)}
+            <div>
+                Book a hotel in {OfferUtils.getItineraryArrivalCityName(outboundItinerary)}
+            </div>
+            {loading &&
+                <RoundSpinner
+                    className={style.bookHotelLoading}
+                    animation='border'
+                    variant='primary'
+                />
+            }
         </div>
     );
 };
@@ -218,9 +259,9 @@ export const ShoppingCart = (props) =>{
             <Link to={'/dc/ancillaries'}>Ancillaries</Link><br/>
             <Link to={'/dc/seatmap'}>Seatmap</Link><br/>
             <Link to={'/dc/summary'}>Pricing</Link><br/>
-            <a href={"#"}  onClick={onRestoreCartFromServer}>Restore cart from server</a><br/>
-            <a href={"#"}  onClick={onRestoreSearchResultsFromCache}>Restore search from server</a><br/>
-            <a href={"#"}  onClick={onClearCart}>Clear cart</a><br/>
+            <span onClick={onRestoreCartFromServer}>Restore cart from server</span><br/>
+            <span onClick={onRestoreSearchResultsFromCache}>Restore search from server</span><br/>
+            <span onClick={onClearCart}>Clear cart</span><br/>
 
         </div>)
     }
@@ -238,42 +279,44 @@ export const ShoppingCart = (props) =>{
             <div className={style.cartHeader}>Your trip so far</div>
             <Spinner enabled={isShoppingCartUpdateInProgress===true}/>
             <HorizontalDottedLine/>
-            {flightOffer &&
-                <div className={style.flightOfferWrapper}>
-                    <FlightOfferCartItem
+            <div className={style.cartBody}>
+                {flightOffer &&
+                    <div className={style.flightOfferWrapper}>
+                        <FlightOfferCartItem
+                            flightOffer={flightOffer}
+                            displayOutbound={true}
+                            displayInbound={false}
+                        />
+                    </div>
+                }
+                {hotelOffer &&
+                    <div className={style.flightOfferWrapper}>
+                        <HotelOfferCartItem hotelOffer={hotelOffer}/>
+                    </div>
+                }
+                {!hotelOffer && flightOffer &&
+                    <BookHotelBtn
                         flightOffer={flightOffer}
-                        displayOutbound={true}
-                        displayInbound={false}
                     />
-                </div>
-            }
-            {hotelOffer &&
-                <div className={style.flightOfferWrapper}>
-                    <HotelOfferCartItem hotelOffer={hotelOffer}/>
-                </div>
-            }
-            {!hotelOffer && flightOffer &&
-                <BookHotelBtn
-                    flightOffer={flightOffer}
-                />
-            }
-            {flightOffer &&
-                <div className={style.flightOfferWrapper}>
-                    <FlightOfferCartItem
-                        flightOffer={flightOffer}
-                        displayOutbound={false}
-                        displayInbound={true}/>
-                </div>
-            }
+                }
+                {flightOffer &&
+                    <div className={style.flightOfferWrapper}>
+                        <FlightOfferCartItem
+                            flightOffer={flightOffer}
+                            displayOutbound={false}
+                            displayInbound={true}/>
+                    </div>
+                }
+            </div>
             <HorizontalDottedLine/>
-            <div>
+            <div className={style.cartFooter}>
                 {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/> }
                 {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/> }
                 {totalPrice && totalPrice.public>0 && <Total price={totalPrice} title={"Total:"}/>}
             </div>
             <div className={'pt-2'}/>
             <div className={style.flightOfferBottomWrapper}>
-                <a href={"#"} className={bookButtonClassnames} onClick={onProceedToBook}>Book</a>
+                <button className={bookButtonClassnames} onClick={onProceedToBook}>Book</button>
             </div>
             {config.DEV_MODE && links()}
         </div>

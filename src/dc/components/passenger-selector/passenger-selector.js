@@ -16,7 +16,7 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
     }, [adults, children, infants]);
 
     useEffect(() => {
-        console.log('Passengers updated', passengers);
+        // console.log('Passengers updated', passengers);
         sessionStorage.setItem(`inputfield-passengers-count`, JSON.stringify(passengers));
     }, [passengers]);
 

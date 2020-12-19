@@ -42,7 +42,7 @@ export default function LookupList({locations=[], onLocationSelected}){
         let secondaryTextClassNames=cx({secondaryText:true})
 
         return (
-            <Row noGutters={true} className={rowClassNames} key={createKey(rec.code,rowIndex)} onClick={event => selected(rowIndex)}>
+            <Row noGutters={true} className={rowClassNames} key={rowIndex} onClick={event => selected(rowIndex)}>
                 <Col xs={10} className={primaryColClassNames}>
                     {rec.indent===true?(<span className={style.indent}></span>):('')}
                     {rec.icon?(<span className={`icon${rec.icon}`}></span>):('')}
