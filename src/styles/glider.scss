@@ -89,5 +89,14 @@ body{
   //border: 1px solid black;
 }
 
+button {
+  border: none;
+  background-color: transparent;
+
+  &:focus {
+    outline:0;
+  }
+}
+
 
 

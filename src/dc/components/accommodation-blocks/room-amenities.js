@@ -13,7 +13,7 @@ const Amenities = ({amenities = []}) => {
     amenities = amenities || []
 
     return (<>
-        {amenities.map(amenity=>(<Amenity amenity={amenity}/>))}
+        {amenities.map((amenity, i)=>(<Amenity key={i} amenity={amenity}/>))}
     </>)
 }
 

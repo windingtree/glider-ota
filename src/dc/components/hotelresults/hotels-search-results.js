@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useCallback} from 'react'
 import style from './hotel-search-results.module.scss'
 import _ from 'lodash'
 import HotelDetails from "../hoteldetails/hotel-details"
@@ -16,17 +16,34 @@ import Spinner from "../../components/common/spinner";
 import SearchButton from "../search-form/search-button";
 import ResultsPaginator, {limitSearchResultsToCurrentPage, ITEMS_PER_PAGE} from "../common/pagination/results-paginator";
 
-export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFormValid, filters, searchInProgress, isStoreInitialized, onRestoreResultsFromCache, error}) {
+export function HotelsSearchResults(props) {
+    const {
+        searchResults,
+        onSearchClicked,
+        isSearchFormValid,
+        filters,
+        searchInProgress,
+        isStoreInitialized,
+        onRestoreResultsFromCache,
+        error,
+        initSearch
+    } = props;
     const [currentPage, setCurrentPage] = useState(1);
 
     //SEARCH button was hit - search for hotels
-    const onSearchButtonClicked = () => {
+    const onSearchButtonClicked = useCallback(() => {
         if(onSearchClicked) {
             onSearchClicked();
         }else{
             console.warn('onSearchClicked is not defined!')
         }
-    }
+    }, [onSearchClicked]);
+
+    useEffect(() => {
+        if (initSearch) {
+            setTimeout(() => onSearchButtonClicked(), 1000);
+        }
+    }, [initSearch, onSearchButtonClicked]);
 
     let results=[];
     let totalResultsCount=0;
@@ -61,7 +78,7 @@ export function HotelsSearchResults({searchResults, onSearchClicked, isSearchFor
                         let hotel = result.hotel;
                         let bestoffer = result.bestoffer;
                         // return (<SingleHotel hotel={hotel} bestoffer={bestoffer} key={id} handleClick={onHotelSelected} searchResults={searchResults}/>)
-                        return (<HotelDetails searchResults={searchResults} hotel={hotel}/>)
+                        return (<HotelDetails key={id} searchResults={searchResults} hotel={hotel}/>)
                     })
                 }
             {/*</Row>*/}

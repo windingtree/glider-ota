@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState,useEffect, useCallback} from 'react'
 import {Overlay, Popover,  Form, Spinner} from 'react-bootstrap'
 import {Dropdown, Container} from 'react-bootstrap'
 import LookupList from "./lookup-list";
@@ -30,38 +30,39 @@ export default function LookupField(props)  {
     const [selectedLocation, setSelectedLocation] = useState(initialLocation);
     const [searchQueryTimeout, setSearchQueryTimeout] = useState();
     const [focus,setFocus] = useState(false);
-    useEscape(() => {setFocus(false)})
+    useEscape(() => {setFocus(false)});
 
-    useEffect(()=>{
-        let previouslySelectedLocation;
-        //check if there is previously saved search location
-        if(localstorageKey) {
-            //there is - check if there was something saved in browser and use it
-            let storedValue = sessionStorage.getItem(`inputfield-${localstorageKey}`);
-            if(storedValue){
-                try{
-                    previouslySelectedLocation=JSON.parse(storedValue);
-                }catch(err){
-                }
-            }
-        }
-        if(previouslySelectedLocation) {
-            handleLocationSelected(previouslySelectedLocation)
-        }
-        else if(initialLocation){
-            //alternatively use default location (e.g. venue)
-            handleLocationSelected(initialLocation)
-        }
-    }, [initialLocation]);
-
-    function handleLocationSelected(location) {
+    const handleLocationSelected = useCallback(location => {
         setSelectedLocation(location);
         setValue(location.primary);
         onSelectedLocationChange(location)
-        if(localstorageKey) {
+        // console.log('$$$$$$$$', localstorageKey, location);
+        if (localstorageKey) {
             sessionStorage.setItem(`inputfield-${localstorageKey}`, JSON.stringify(location));
         }
-    }
+    }, [localstorageKey, onSelectedLocationChange]);
+
+    useEffect(()=>{
+        if (initialLocation) {
+            // console.log('@@@@@@@@@', initialLocation);
+            handleLocationSelected(initialLocation);
+        } else {
+            let previouslySelectedLocation;
+            //check if there is previously saved search location
+            if (localstorageKey) {
+                //there is - check if there was something saved in browser and use it
+                let storedValue = sessionStorage.getItem(`inputfield-${localstorageKey}`);
+                if (storedValue){
+                    try {
+                        previouslySelectedLocation=JSON.parse(storedValue);
+                    } catch (err) {}
+                }
+            }
+            if (previouslySelectedLocation) {
+                handleLocationSelected(previouslySelectedLocation)
+            }
+        }
+    }, [initialLocation, localstorageKey, handleLocationSelected]);
 
     function clearSelectedLocation() {
         setSelectedLocation(undefined);

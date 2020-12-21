@@ -2,7 +2,8 @@ import React from 'react'
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Redirect
 } from "react-router-dom";
 
 import { Provider } from 'react-redux';
@@ -24,13 +25,15 @@ function Dispatcher() {
             <CookiesProvider>
                 <Router>
                     <Switch>
-                        <Route path="/dc/pax/" component={DCFlightPassengersPage}/>}
-                        <Route path="/dc/ancillaries/" component={DCAncillariesPage}/>}
-                        <Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>}
-                        <Route path="/dc/summary/" component={DCPaymentSummaryPage}/>}
+                        <Route path="/dc/pax/" component={DCFlightPassengersPage}/>
+                        <Route path="/dc/ancillaries/" component={DCAncillariesPage}/>
+                        <Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>
+                        <Route path="/dc/summary/" component={DCPaymentSummaryPage}/>
                         <Route path="/dc/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
-                        <Route path="/dc/" component={DCLandingPage}/>
-                        <Route path="/" component={DCLandingPage}/>
+                        <Route path="/dc/flights" component={DCLandingPage}/>
+                        <Route path="/dc/hotels" component={DCLandingPage}/>
+                        <Redirect push from="/dc/" to="/dc/flights" />
+                        <Redirect push from="/" to="/dc/flights" />
                     </Switch>
                 </Router>
             </CookiesProvider>

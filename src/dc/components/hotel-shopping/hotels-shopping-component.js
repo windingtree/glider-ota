@@ -7,6 +7,9 @@ import Alert from 'react-bootstrap/Alert';
 import ShoppingCart from "../shopping-cart/shopping-cart";
 
 export default function HotelsShoppingComponent(props) {
+    const {
+        initSearch
+    } = props;
     return (
         <Container fluid={true}>
             <Row>
@@ -17,7 +20,7 @@ export default function HotelsShoppingComponent(props) {
                     <HotelFilters/>
                 </Col>
                 <Col xs={12} sm={9} md={6} xl={6}>
-                    <HotelsSearchResults/>
+                    <HotelsSearchResults initSearch={initSearch} />
                 </Col>
                 <Col xs={0} sm={3} md={3} xl={3}>
                     <ShoppingCart/>

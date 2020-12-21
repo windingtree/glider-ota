@@ -1,40 +1,45 @@
-import React, {useState, useEffect} from 'react';
-import {useHistory} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import SearchModeSelector from "../components/search-form/search-mode-selector";
 import FlightsShoppingComponent from "../components/flight-shopping/flights-shopping-component"
 import HotelsShoppingComponent from "../components/hotel-shopping/hotels-shopping-component"
-import {SEARCH_TYPE} from "../components/search-form/search-mode-selector"
+import { SEARCH_TYPE } from "../components/search-form/search-mode-selector"
 import DevConLayout from "../components/layout/devcon-layout"
 
 export default function DCLandingPage() {
+    const match = useRouteMatch();
     const history = useHistory();
-    const [searchType, setSearchType] = useState(SEARCH_TYPE.FLIGHTS);
+    const searchType = match.path === '/dc/flights'
+        ? SEARCH_TYPE.FLIGHTS
+        : match.path === '/dc/hotels'
+            ? SEARCH_TYPE.HOTELS
+            : SEARCH_TYPE.FLIGHTS;
+    const locationState = history.location && history.location.state;
     const [searchCity, setSearchCity] = useState();
     const [searchDateId, setSearchDateIn] = useState();
     const [searchDateOut, setSearchDateOut] = useState();
     const [searchPassengersCounts, setSearchPassengersCounts] = useState();
+    const [initSearch, setInitSearch] = useState(false);
 
     useEffect(() => {
-        const stopListen = history.listen(() => {
-            if (history.location && history.location.state) {
-                const {
-                    searchType,
-                    city,
-                    dateIn,
-                    dateOut,
-                    passengersCounts
-                } = history.location && history.location.state;
-                setSearchType(searchType);
-                setSearchCity(city);
-                setSearchDateIn(dateIn);
-                setSearchDateOut(dateOut);
-                setSearchPassengersCounts(passengersCounts);
-            }
-        });
-        return () => stopListen();
-    });
+        if (locationState) {
+            const {
+                city,
+                dateIn,
+                dateOut,
+                passengersCounts,
+                doSearch
+            } = history.location && history.location.state;
+            setSearchCity(city);
+            setSearchDateIn(dateIn);
+            setSearchDateOut(dateOut);
+            setSearchPassengersCounts(passengersCounts);
+            setInitSearch(doSearch);
+        }
+    }, [history.location, locationState]);
+
     return (<DevConLayout>
-        <SearchModeSelector selectedMode={searchType} onToggle={setSearchType}/>
+        <SearchModeSelector />
         {searchType === SEARCH_TYPE.FLIGHTS && (
             <FlightsShoppingComponent
                 initDest={searchCity}
@@ -47,9 +52,10 @@ export default function DCLandingPage() {
                 initDest={searchCity}
                 initDepartureDate={searchDateId}
                 initReturnDate={searchDateOut}
-                initAdults={searchPassengersCounts.adults}
-                initChildren={searchPassengersCounts.children}
-                initInfants={searchPassengersCounts.infants}
+                initAdults={searchPassengersCounts && searchPassengersCounts.adults}
+                initChildren={searchPassengersCounts && searchPassengersCounts.children}
+                initInfants={searchPassengersCounts && searchPassengersCounts.infants}
+                initSearch={initSearch}
             />
         )}
     </DevConLayout>)
