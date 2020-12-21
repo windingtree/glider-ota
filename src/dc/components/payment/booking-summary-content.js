@@ -11,7 +11,7 @@ import Spinner from "../common/spinner"
 import {
     flightOfferSelector,
     isShoppingCartInitializedSelector,
-    requestCartRestoreFromServer
+    requestCartUpdateAction
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import style from "./summary-content.module.scss"
@@ -167,7 +167,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(requestSearchResultsRestoreFromCache());
         },
         onRestoreShoppingCart: () =>{
-            dispatch(requestCartRestoreFromServer());
+            dispatch(requestCartUpdateAction());
         }
 
     }

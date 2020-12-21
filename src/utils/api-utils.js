@@ -122,8 +122,17 @@ export async function storeOfferId(offerId, type){
 export async function retrieveCart(){
   return fetchGet('/api/cart/cartv2');
 }
-export async function deleteItemInCart(types){
+export async function deleteItemFromCartByType(types){
+  let body={
+    types:types
+  }
   return deleteCall('/api/cart/cartv2', types);
+}
+export async function deleteItemFromCartByOfferId(offerId){
+  let body={
+    offerId:offerId
+  }
+  return deleteCall('/api/cart/cartv2', body);
 }
 
 

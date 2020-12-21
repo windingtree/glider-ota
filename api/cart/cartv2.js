@@ -8,7 +8,6 @@ const {getHotelSearchResults, getFlightSearchResults} = require('../_lib/cache')
 const logger = require('../_lib/logger').createLogger('/cart1');
 
 const shoppingCartController = async (req, res) => {
-    let sessionID = req.sessionID;
     let method = req.method;
 
     if(method === 'POST') {
@@ -22,8 +21,6 @@ const shoppingCartController = async (req, res) => {
     if(method === 'DELETE') {
         await genericCartDeleteController(req,res);
     }
-
-
 }
 
 const genericCartPostController = async (req,res) =>{
@@ -93,7 +90,7 @@ const genericCartGetController = async (req,res,cartItemKey, cartItem, itemPrice
     for(let i=0; i<cartKeys.length; i++) {
         let itemKey = cartKeys[i];
         let quote = cart.items[itemKey].quote;
-        
+
         if(quote !== undefined) {
             cart.items[itemKey].price = {
                 currency: quote.currency,
@@ -114,23 +111,43 @@ const genericCartGetController = async (req,res,cartItemKey, cartItem, itemPrice
 const genericCartDeleteController = async (req,res,cartItemKey, cartItem, itemPrice) =>{
     let sessionID = req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
-    let types = req.body;
+    let {types, offerId} = req.body;
 
-    if(!types || !Array.isArray(types) || types.length===0){
-        res.json({result:"OK", item: cartItem})
+
+    if(offerId){    //orderId parameter exists - delete from cart by orderId
+        //delete specific orderID
+        let cart = await shoppingCart.getCart();
+        if(!cart || !cart.items || cart.items.length===0){
+            res.json({result:"OK"})
+            return;
+        }
+        for(let cartKey in cart.items){
+            let cartItem = cart.items[cartKey];
+            const {item} = cartItem;
+            if(item && item.offerId === offerId ){
+                await shoppingCart.removeItemFromCart(cartKey);
+            }
+        }
+
+    }else if(types){
+        if(!Array.isArray(types) || types.length === 0){
+            sendErrorResponse(res, 400, ERRORS.INVALID_INPUT, "TYPES parameter is expected to be a non-empty array");
+            return;
+        }
+
+        //delete request item types
+        for(let type of types) {
+            type = type.toUpperCase();
+            console.log('delete from cart:',type)
+            await shoppingCart.removeItemFromCart(type);
+        }
+
+    }else{
+        sendErrorResponse(res, 400, ERRORS.INVALID_INPUT, "Missing either TYPES or OFFERID parameters ");
         return;
+
     }
-
-    //delete request item types
-    for(let type of types) {
-        type = type.toUpperCase();
-        console.log('delete from cart:',type)
-        await shoppingCart.removeItemFromCart(type);
-    }
-
-
-    res.json({result:"OK", item: cartItem})
-
+    res.json({result:"OK"})
 }
 
 const flightOfferCartItemCreator = async (offerId, searchResults) => {
