@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button";
 import {
     addFlightToCartAction,
     flightOfferSelector, isShoppingCartUpdateInProgress,
-    requestCartRestoreFromServer
+    requestCartUpdateAction
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {
@@ -174,7 +174,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(addFlightToCartAction(offerId));
         },
         restoreCartFromServer: () => {
-            dispatch(requestCartRestoreFromServer())
+            dispatch(requestCartUpdateAction())
         },
         restoreSearchResultsFromCache: ()=>{
             dispatch(requestSearchResultsRestoreFromCache())

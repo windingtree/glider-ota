@@ -15,6 +15,8 @@ const {validateCheckoutPayload} = require('../_lib/validators')
 const {
     createQuoteAsync
 } = require('../_lib/simard-api');
+const {SessionStorage} = require('../_lib/session-storage');
+
 
 const checkoutCard = async (req, res) => {
     let payload = req.body;
@@ -47,7 +49,9 @@ const processCheckout = async (sessionID, confirmedOfferId) => {
 
     let shoppingCart = new ShoppingCart(sessionID);
     let passengers = await shoppingCart.getItemFromCart(CART_ITEMKEYS.PASSENGERS);
-    let confirmedOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.CONFIRMED_OFFER)
+    let sessionStorage = new SessionStorage(sessionID);
+
+    let confirmedOffer = await sessionStorage.retrieveConfirmedOfferFromSession();
 
     if (confirmedOffer == null) {
         logger.warn("Cannot find requested confirmedOffer in session storage, SessionID: %s", sessionID)
@@ -55,7 +59,7 @@ const processCheckout = async (sessionID, confirmedOfferId) => {
             res,
             400,
             ERRORS.INVALID_INPUT,
-            `The offer ${confirmedOfferId} not found or expired`,
+            `The offer not found or expired`,
             req.body
         );
         return;
@@ -67,48 +71,41 @@ const processCheckout = async (sessionID, confirmedOfferId) => {
     }
     let exchangeQuote = await getExchangeQuote(confirmedOffer);
 
-    //SINGLE-single order(e.g. only flight or only hotel
-    //MASTER-order that consists of other suborders (e.g. hotel+flight)
-    //check if we have a master order (order with sub orders for e.g. flights or hotels)
-    let subOfferIDs = confirmedOffer.subOfferIDs;   //if so - this would have a list of sub offers that need to be paid and fulfilled
+    //confirmed offer is just a 'MASTER' order, all suborders are stored in 'cartItems' object (copy of shopping cart)
+    let cartItems = confirmedOffer.cartItems;   //if so - this would have a list of sub offers that need to be paid and fulfilled
+
     let childOfferIDs=[];
-    if(subOfferIDs && Array.isArray(subOfferIDs) && subOfferIDs.length>0){
-        //in case of a master order, we need to create sub-orders separately
-        // await storeConfirmedOffer(confirmedOffer, passengers, exchangeQuote, ORDER_TYPES.MASTER, subOfferIDs);
-        //store results in redis (for cache purpose)
-        let hotelSearchResults = await getHotelSearchResults(sessionID)
-        let flightSearchResults = await getFlightSearchResults(sessionID)
-        confirmedOfferId = `${confirmedOfferId}-master`;
-        for(let subOfferId of subOfferIDs){
-            let originalSubOffer;
-            let searchPassengers;
-            if(hotelSearchResults && hotelSearchResults.offers[subOfferId]){
-                //offer found in hotel results
-                originalSubOffer =  hotelSearchResults.offers[subOfferId];
-                searchPassengers = hotelSearchResults.passengers;
+    if(cartItems) {
+        let accommodationOfferCartItem = cartItems[CART_ITEMKEYS.ACCOMMODATION_OFFER];
+        let transportationOfferCartItem = cartItems[CART_ITEMKEYS.TRANSPORTATION_OFFER];
+
+        if (accommodationOfferCartItem) {
+            const {offer, offerId} = accommodationOfferCartItem.item;
+            let hotelSearchResults = await getHotelSearchResults(sessionID)
+            if (!hotelSearchResults) {
+                throw new Error('Cannot find hotel search results')
             }
-            if(flightSearchResults && flightSearchResults.offers[subOfferId]){
-                //offer found in flight results
-                originalSubOffer =  flightSearchResults.offers[subOfferId];
-                searchPassengers = flightSearchResults.passengers;
-            }
-            if(!originalSubOffer){
-                console.log(`sub offer ${subOfferId} not found in cached search results`);
-            }else{
-                console.log(`sub offer ${subOfferId} found in cached search results`);
-                originalSubOffer.offerId=subOfferId;
-                childOfferIDs.push(originalSubOffer.offerId)
-                let paxDetails = rewritePassengers(passengers,searchPassengers);
-                //store child offer
-                await storeConfirmedOffer(originalSubOffer, paxDetails, null, ORDER_TYPES.SINGLE, [], confirmedOfferId);
-            }
+            let searchPassengers = hotelSearchResults.passengers;
+            let paxDetails = rewritePassengers(passengers, searchPassengers);
+            offer.offerId = offerId;
+            await storeConfirmedOffer(offer, paxDetails, null, ORDER_TYPES.SUBOFFER, [], confirmedOfferId);
+            childOfferIDs.push(offerId)
         }
-        confirmedOffer.offerId = confirmedOfferId;      //IMPORTANT - master offer ID changes to avoid confict with one of child offers
+
+        if (transportationOfferCartItem) {
+            const {offer, offerId} = transportationOfferCartItem.item;
+            let flightSearchResults = await getFlightSearchResults(sessionID)
+            if (!flightSearchResults) {
+                throw new Error('Cannot find flight search results')
+            }
+            let searchPassengers = flightSearchResults.passengers;
+            let paxDetails = rewritePassengers(passengers, searchPassengers);
+            offer.offerId = offerId;
+            await storeConfirmedOffer(offer, paxDetails, null, ORDER_TYPES.SUBOFFER, [], confirmedOfferId);
+            childOfferIDs.push(offerId)
+        }
         //store master offer
         await storeConfirmedOffer(confirmedOffer, passengers, exchangeQuote, ORDER_TYPES.MASTER, childOfferIDs);
-    }else{
-        console.log('Master offerID',confirmedOffer.offerId)
-        await storeConfirmedOffer(confirmedOffer, passengers, exchangeQuote, ORDER_TYPES.SINGLE, []);
     }
     return {confirmedOffer, exchangeQuote};
 }
@@ -174,7 +171,7 @@ const getExchangeQuote = async (confirmedOffer) => {
     const {
         public: publicPrice,
         currency
-    } = confirmedOffer.offer.price;
+    } = confirmedOffer.totalPrice;
     let amount = publicPrice;
     let exchangeQuote;
 

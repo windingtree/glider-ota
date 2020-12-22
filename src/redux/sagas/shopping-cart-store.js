@@ -4,11 +4,11 @@ import {
     shoppingFlowStateSelector
 } from "./shopping-flow-store";
 import {
-    storeItemInCart,
-    retrieveItemFromCart,
+    // storeItemInCart,
+    // retrieveItemFromCart,
     storeOfferId,
     retrieveCart,
-    deleteItemInCart
+    deleteItemFromCartByOfferId
 } from "../../utils/api-utils"
 
 /**
@@ -20,20 +20,16 @@ export const moduleName = 'cart';
 //cart related actions
 const ADD_FLIGHT_TO_CART = `${moduleName}/ADD_FLIGHT_TO_CART`;
 const ADD_HOTEL_TO_CART = `${moduleName}/ADD_HOTEL_TO_CART`;
-const DELETE_FLIGHT_FROM_CART = `${moduleName}/DELETE_FLIGHT_FROM_CART`;
-const DELETE_HOTEL_FROM_CART = `${moduleName}/DELETE_HOTEL_FROM_CART`;
+
+//delete specific item (offerId) from cart
+const DELETE_ITEM_FROM_CART = `${moduleName}/DELETE_ITEM_FROM_CART`;
+//clear contents of shopping cart at all
 const CLEAR_CART = `${moduleName}/CLEAR_CART`;
-const BOOK = `${moduleName}/BOOK`;
-const STORE_CART_ON_SERVER = `${moduleName}/STORE_CART_ON_SERVER`;
+
 const REQUEST_RESTORE_CART_FROM_SERVER = `${moduleName}/REQUEST_RESTORE_CART_FROM_SERVER`;
 const CART_RESTORED_FROM_SERVER = `${moduleName}/CART_RESTORED_FROM_SERVER`;
 const CART_ACTION_FAILED = `${moduleName}/CART_ACTION_FAILED`;
 const ERROR = `${moduleName}/ERROR`;
-
-//booking flow related actions
-const RETRIEVE_PASSENGER_DETAILS = `${moduleName}/RETRIEVE_PASSENGER_DETAILS`;
-
-
 
 const initialState = {
     flightOffer: null,
@@ -52,7 +48,6 @@ export default (state = initialState, action) => {
         payload,
         error
     } = action;
-    // console.log(`Reducer:${moduleName}, action:`,action)
     switch (type) {
         case ERROR:
             return Object.assign({}, state, {
@@ -66,11 +61,7 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 isUpdateInProgress: true
             });
-        case DELETE_FLIGHT_FROM_CART:
-            return Object.assign({}, state, {
-                isUpdateInProgress: true
-            });
-        case DELETE_HOTEL_FROM_CART:
+        case DELETE_ITEM_FROM_CART:
             return Object.assign({}, state, {
                 isUpdateInProgress: true
             });
@@ -94,13 +85,6 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 isUpdateInProgress: false,
                 error:error
-            });
-        case BOOK:
-            return state;
-
-        case RETRIEVE_PASSENGER_DETAILS:
-            return Object.assign({}, state, {
-                passengers: payload.passengers
             });
 
         default:
@@ -137,42 +121,26 @@ export const addHotelToCartAction = (offerId) => {
         }
     }
 };
-export const deleteFlightFromCart = () => {
+export const deleteOfferFromCartAction = (offerId) => {
     return {
-        type: DELETE_FLIGHT_FROM_CART
+        type: DELETE_ITEM_FROM_CART,
+        offerId
     }
 };
-export const deleteHotelFromCart = () => {
+export const clearCartAction = () => {
     return {
-        type: DELETE_HOTEL_FROM_CART
-    }
-};
-export const clearCart = () => {
-    return {
-        type: DELETE_HOTEL_FROM_CART
-    }
-};
-
-export const bookAction = () => {
-    return {
-        type: BOOK
+        type: CLEAR_CART
     }
 };
 
 
-export const storeCartOnServerAction = () => {
-    return {
-        type: STORE_CART_ON_SERVER
-    }
-};
-
-export const requestCartRestoreFromServer = () => {
+export const requestCartUpdateAction = () => {
     return {
         type: REQUEST_RESTORE_CART_FROM_SERVER
     }
 };
 
-export const cartRestorecFromServer = (flightOffer, hotelOffer,totalPrice) => {
+export const cartSuccessfullyUpdatedAction = (flightOffer, hotelOffer, totalPrice) => {
     return {
         type: CART_RESTORED_FROM_SERVER,
         payload: {
@@ -189,15 +157,13 @@ export const cartUpdateFailedAction = (error) => {
     }
 };
 
-
-
 export const errorAction= error => ({
     type: ERROR,
     error
 });
 // Selectors
 
-export const shoppingCartStateSelector = state => state[moduleName];
+const shoppingCartStateSelector = state => state[moduleName];
 
 export const flightOfferSelector = createSelector(
     shoppingCartStateSelector,
@@ -236,34 +202,12 @@ export const isShoppingCartInitializedSelector = createSelector(
     ({ isShoppingCartInitialized }) => isShoppingCartInitialized
 );
 
-//logic to store/retrieve cart to/from server side
-const storeCartOnServerSide = async (itemsInCart) => {
-    await storeItemInCart('cart', itemsInCart)
-}
-
-const restoreCartFromServerSide = async () => {
-    let data = await retrieveItemFromCart('cart')
-    return data;
-}
-
 //saga
-
-function* storeCartOnServerSideSaga() {
-    try {
-        // yield put(searchForFlightsAction());
-        const data = yield select(storeToSyncSelector);
-        yield call(storeCartOnServerSide, data);
-    } catch (error) {
-        console.log('*storeCartOnServerSideSaga failed, error:',error)
-        yield put(errorAction(error))
-    }
-}
 
 function* restoreCartFromServerSideSaga() {
     console.log('*restoreCartFromServerSideSaga')
     try {
         const itemsInCart = yield call(retrieveCart);
-        console.log('Response from itemsInCart:',itemsInCart)
         let flightOffer=null;
         let hotelOffer=null;
         let totalPrice=null;
@@ -291,7 +235,7 @@ function* restoreCartFromServerSideSaga() {
 
 
         }
-        yield put(cartRestorecFromServer(flightOffer, hotelOffer, totalPrice))
+        yield put(cartSuccessfullyUpdatedAction(flightOffer, hotelOffer, totalPrice))
 
     } catch (error) {
         console.log('*restoreCartFromServerSideSaga failed, error:',error)
@@ -300,13 +244,10 @@ function* restoreCartFromServerSideSaga() {
 }
 
 function* addOfferIdToCart({payload}) {
-    console.log('*addOfferIdToCart, payload=',payload)
     try {
         const {offerId, type} = payload;
         const data = yield call(storeOfferId, offerId, type );
-        console.log('Response from add to cart:',data)
         const itemsInCart = yield call(retrieveCart);
-        console.log('Response from itemsInCart:',itemsInCart)
         let flightOffer=null;
         let hotelOffer=null;
         let totalPrice=null;
@@ -331,37 +272,35 @@ function* addOfferIdToCart({payload}) {
             // Retrieve Total price
             totalPrice = itemsInCart.totalPrice;
         }
-        yield put(cartRestorecFromServer(flightOffer, hotelOffer, totalPrice))
+        yield put(cartSuccessfullyUpdatedAction(flightOffer, hotelOffer, totalPrice))
     } catch (error) {
         console.log('*restoreCartFromServerSideSaga failed, error:',error)
         yield put(cartUpdateFailedAction(error))
     }
 }
-const clearCartApiCall = () =>{
-    deleteItemInCart(['ACCOMMODATION_OFFER','TRANSPORTATION_OFFER'])
-}
-function* deleteCartItemSaga({payload}) {
-    console.log('*deleteCartItemSaga, payload=',payload)
+
+function* deleteCartItemSaga({offerId}) {
     try {
-        yield call(clearCartApiCall);
-        yield call(requestCartRestoreFromServer)
+        yield call(()=>deleteItemFromCartByOfferId(offerId));
+        yield put(requestCartUpdateAction())
     } catch (error) {
         console.log('*deleteCartItemSaga failed, error:',error)
         yield put(cartUpdateFailedAction(error))
     }
+}
+function* clearCartSaga() {
+    console.log('*clearCartSaga');
 }
 
 
 // Main saga
 export const saga = function*() {
     yield all([
-        takeEvery(STORE_CART_ON_SERVER, storeCartOnServerSideSaga),
         takeEvery(ADD_FLIGHT_TO_CART, addOfferIdToCart),
         takeEvery(ADD_HOTEL_TO_CART, addOfferIdToCart),
         takeEvery(REQUEST_RESTORE_CART_FROM_SERVER, restoreCartFromServerSideSaga),
-        takeEvery(DELETE_FLIGHT_FROM_CART, deleteCartItemSaga,['ACCOMMODATION_OFFER']),
-        takeEvery(DELETE_HOTEL_FROM_CART, deleteCartItemSaga,['TRANSPORTATION_OFFER']),
-        takeEvery(CLEAR_CART, deleteCartItemSaga,['TRANSPORTATION_OFFER','ACCOMMODATION_OFFER']),
+        takeEvery(DELETE_ITEM_FROM_CART, deleteCartItemSaga),
+        takeEvery(CLEAR_CART, clearCartSaga),
     ]);
 };
 

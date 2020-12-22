@@ -122,12 +122,7 @@ class SessionStorage {
         value=JSON.stringify(value);
         logger.info("storeInSession(%s) start",key)
         await getClient().set(key, value);
-        /*.exec(function (err, replies) {
-            logger.info("storeInSession(%s) completed",key)
-            if(err){
-                logger.error("Redis error %s",err);
-            }
-        });*/
+        await getClient().expire(key, ttl);
     }
 
 
@@ -172,7 +167,7 @@ class SessionStorage {
      * Stores confirmed(re-priced) offer in a session
      * @param confirmedOffer
      */
-    storeConfirmedOffer(confirmedOffer) {
+    storeConfirmedOfferInSession(confirmedOffer) {
         this.storeInSession(KEYS.CONFIRMED_OFFER, confirmedOffer);
     }
 
@@ -181,7 +176,7 @@ class SessionStorage {
      * @param confirmedOfferId
      * @returns {Promise<*>}
      */
-    retrieveConfirmedOffer(confirmedOfferId) {
+    retrieveConfirmedOfferFromSession() {
         //todo check if offerID matches with the one in session
         let key = KEYS.CONFIRMED_OFFER;
         return this.retrieveFromSession(key);

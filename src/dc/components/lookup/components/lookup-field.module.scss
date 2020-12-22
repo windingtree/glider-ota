@@ -24,7 +24,7 @@
 }
 
 .inputField{
-    width:70%;
+    width:80%;
     @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
     background-color: $glider-color-inputfields-background;
     display: inline;
