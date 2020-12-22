@@ -4,8 +4,8 @@ import {
     shoppingFlowStateSelector
 } from "./shopping-flow-store";
 import {
-    storeItemInCart,
-    retrieveItemFromCart,
+    // storeItemInCart,
+    // retrieveItemFromCart,
     storeOfferId,
     retrieveCart,
     deleteItemFromCartByOfferId

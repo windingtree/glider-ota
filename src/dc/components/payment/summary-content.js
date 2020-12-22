@@ -29,7 +29,7 @@ function RenderPleaseWait(){
     return (
         <>
             <div className='glider-font-text24medium-fg'>
-                Please wait while we are confirming your price with the airline
+                Please wait while we are confirming your price
                 <Spinner enabled={true}></Spinner>
             </div>
         </>
@@ -43,6 +43,8 @@ export function SummaryContent(props) {
     const [confirmedOffer, setConfirmedOffer] = useState();
     const [loadInProgress, setLoadInProgress] = useState(false);
     const [pricingFailed, setPricingFailed] = useState(false);
+
+
     // let offerId = match.params.offerId;
 
     // let offer = retrieveOfferFromLocalStorage(offerId);
@@ -80,12 +82,12 @@ export function SummaryContent(props) {
     }
 
     // Validate the price of the shopping cart
-    function repriceItemsInCart() {
+    function repriceItemsInCart(paymentMethod = null) {
         setLoadInProgress(true);
         setPricingFailed(false);
-        let response=repriceShoppingCartContents();
+        let response=repriceShoppingCartContents(paymentMethod);
         response.then(offer=>{
-            setConfirmedOffer(offer)
+            setConfirmedOffer(offer);
         }).catch(err=>{
             setPricingFailed(true);
         }).finally(()=>{
@@ -135,7 +137,10 @@ export function SummaryContent(props) {
         return (<><HotelOfferSummary room={room}  hotel={hotel} offer={offer}/><div className={'pb-1'}></div></>)
     }
 
-
+    //handle when user changes preferred payment method
+    const onPaymentMethodChange = (method) => {
+        repriceItemsInCart(method)
+    }
 
     return (
 
@@ -151,10 +156,12 @@ export function SummaryContent(props) {
                     {passengerDetails && <PaxSummary passengers={passengerDetails} onEditFinished={onEditFinished}/>}
                     {confirmedOffer &&
                     <>
-                        <PaymentSummary offer = {confirmedOffer.offer}/>
+                        <PaymentSummary offer = {confirmedOffer}/>
                         <PaymentSelector
                             confirmedOffer={confirmedOffer}
                             passengers={passengerDetails}
+                            paymentMethod={confirmedOffer.paymentMethod}
+                            onPaymentMethodChange={onPaymentMethodChange}
                         />
                         {/* <TotalPriceButton
                             forPayment={true}

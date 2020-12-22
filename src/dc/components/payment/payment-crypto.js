@@ -61,28 +61,28 @@ const CryptoPaymentPage = props => {
     const [error, setError] = useState(null);
     const [isOfferLoading, setOfferLoading] = useState(false);
     const [deadline, setDeadline] = useState(0);
-    const [offer, setOffer] = useState(null);
+    // const [offer, setOffer] = useState(null);
     const [amountUSD, setAmountUSD] = useState(0);
     const [countDown, setCountDown] = useState(0);
-    const [finalOfferId, setFinalOfferId] = useState(confirmedOfferId)
+    // const [finalOfferId, setFinalOfferId] = useState(confirmedOfferId)
     const createIntent = useCallback(() => {
         setOfferLoading(true);
         createPaymentIntent(confirmedOfferId, 'crypto')
             .then(data => {
                 console.log(data);
                 setDeadline(Math.ceil(Date.now() / 1000) + (60*60*20)); // @todo Set better value
-                setOffer(data.offer.offer);
+                // setOffer(data.offer.offer);
                 setAmountUSD(data.amount);
                 setOfferLoading(false);
                 setCountDown(120);
-                setFinalOfferId(data.offer.offerId)
-                console.log('retrieved final offer ID', data.offer.offerId)
+                // setFinalOfferId(data.offer.offerId)
+                // console.log('retrieved final offer ID', data.offer.offerId)
             })
             .catch(err => {
                 setError(err);
                 setOfferLoading(false);
             });
-    }, [confirmedOfferId, finalOfferId]);
+    }, [confirmedOfferId]);
 
     useEffect(()=>{
         createIntent();
@@ -109,10 +109,10 @@ const CryptoPaymentPage = props => {
 
     return (
         <div className={styles.payCryptoContainer}>
-            {!offer &&
+            {isOfferLoading &&
                 <Spinner enabled={isOfferLoading}/>
             }
-            {offer &&
+            {amountUSD && amountUSD>0 &&
                 <>
                     <Row className={styles.walletRow}>
                         <Col>
@@ -144,7 +144,7 @@ const CryptoPaymentPage = props => {
                         <SelectCrypto
                             title='Select a token'
                             usdValue={amountUSD}
-                            confirmedOfferId={finalOfferId}
+                            confirmedOfferId={confirmedOfferId}
                             deadline={deadline}
                             onPaymentReset={() => handlePaymentReset()}
                             onPaymentStart={() => handlePaymentStart()}

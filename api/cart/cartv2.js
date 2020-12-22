@@ -44,11 +44,11 @@ const genericCartPostController = async (req,res) =>{
     switch(type){
         case CART_ITEMKEYS.TRANSPORTATION_OFFER:
             data = await getFlightSearchResults(sessionID);
-            cartItem = await flightOfferCartItemCreator(offerId,data);
+            cartItem = await flightOfferCartItemCreator(shoppingCart, offerId,data);
             break;
         case CART_ITEMKEYS.ACCOMMODATION_OFFER:
             data = await getHotelSearchResults(sessionID)
-            cartItem = await hotelOfferCartItemCreator(offerId,data);
+            cartItem = await hotelOfferCartItemCreator(shoppingCart, offerId,data);
             break;
         case CART_ITEMKEYS.INSURANCE_OFFER:
             break;
@@ -150,7 +150,7 @@ const genericCartDeleteController = async (req,res,cartItemKey, cartItem, itemPr
     res.json({result:"OK"})
 }
 
-const flightOfferCartItemCreator = async (offerId, searchResults) => {
+const flightOfferCartItemCreator = async (shoppingCart, offerId, searchResults) => {
     let offerIds = offerId.split(',');
     let searchResultsWrapper = new FlightSearchResultsWrapper(searchResults)
 
@@ -173,16 +173,14 @@ const flightOfferCartItemCreator = async (offerId, searchResults) => {
     }else{
         throw new Error("Open jaw offers are not supported");
     }
-    let cartItem = {
-        offerId:offerId,
-        offer:offer,
+    let genericCartItem = shoppingCart.createCartItem(offerId,offer,price);      //initialize cart item record with required properties
+    let cartItem = Object.assign(genericCartItem,{
         itineraries:itineraries,
-        price:price
-    }
+    });
     return cartItem;
 }
 
-const hotelOfferCartItemCreator = async (offerId, searchResults) => {
+const hotelOfferCartItemCreator = async (shoppingCart, offerId, searchResults) => {
     let searchResultsWrapper = new HotelSearchResultsWrapper(searchResults);
 
     let offer = searchResults.offers[offerId];
@@ -194,13 +192,13 @@ const hotelOfferCartItemCreator = async (offerId, searchResults) => {
     let hotel = searchResultsWrapper.getAccommodation(accommodation);
     let room = hotel.roomTypes[roomType]
     let price = offer.price;
-    let cartItem = {
-        offerId:offerId,
-        offer:offer,
-        price:price,
+
+    let genericCartItem = shoppingCart.createCartItem(offerId,offer,price);      //initialize cart item record with required properties
+    //add additional details to a cart items
+    let cartItem = Object.assign(genericCartItem,{
         hotel:hotel,
         room:room
-    }
+    });
     return cartItem;
 }
 
