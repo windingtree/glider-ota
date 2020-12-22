@@ -181,28 +181,35 @@ async function processPaymentSuccessMulti(confirmedOfferId, webhookEvent) {
         //should not happen
         throw new Error('Missing sub offers - cannot proceed')
     }
+
     // Extract relevant details from Stripe
     let paymentDetails = retrievePaymentDetailsFromWebhook(webhookEvent);
+
     //update payment status of master offer to PAID
     await updatePaymentStatus(confirmedOfferId, PAYMENT_STATUSES.PAID, paymentDetails, "Webhook event:" + webhookEvent.type, {webhookEvent});
     await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLING, "Fulfilled after successful payment", {})
 
+    //prepare confirmation (at a master order level)
     let masterConfirmation={
         orderId: confirmedOfferId,
         isDuplicate:false
     }
     let failedCount=0;
     let completedCount=0;
+
+    //iterate over all items that were in the shopping cart and are eligible for fulfillment
     for(let key of BOOKEABLE_ITEMS_IN_CART) {
-        if (cartItems[key]) {
+        if (cartItems[key]) {   //if a given item exists - proceed with fulfillment
             const item = cartItems[key].item;
             const offerId = item.offerId;
             console.log(`Fulfilling offer type: ${key}, offerId:${offerId}`);
             try {
                 const confirmation = await processPaymentSuccess(offerId, webhookEvent)
+                console.log(`Successful fulfilment, type: ${key}, offerId:${offerId}`);
                 masterConfirmation[key] = confirmation;
                 completedCount++;
             } catch (err) {
+                console.warn(`Failed to fulfill, type: ${key}, offerId:${offerId}`, err);
                 failedCount++
                 masterConfirmation[key] = {
                     order_status: ORDER_STATUSES.FAILED
