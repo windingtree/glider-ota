@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react'
-import {Button, Row, Col, Container, Form} from 'react-bootstrap'
+import {Col} from 'react-bootstrap'
 import DateRangePickup from '../traveldate-pickup/date-range-pickup'
 import style from './flight-search-form.module.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
 import {AirportLookup} from "../lookup/airport-lookup";
-
+import ArrowIcon from '../../../assets/arrow-up-right.svg';
 
 import { connect } from 'react-redux';
 import {
   flightSearchCriteriaChangedAction
 } from '../../../redux/sagas/shopping-flow-store';
-import {CalendarContainer} from "react-datepicker";
 import {venueConfig} from "../venue-context/theme-context"
+import {UnicornVenueBadge} from "./unicorn-venue-badge";
 
 
 
@@ -38,6 +38,7 @@ export function FlightsSearchForm(props){
   const [adults, setAdults] = useState(initAdults||1);
   const [children, setChildren] = useState(initChildren||0);
   const [infants, setInfants] = useState(initInfants||0);
+  const [showUnicornBadge, setShowUnicornBadge] = useState(venueConfig.active);
 
   function serializeSearchForm(){
     return {
@@ -121,6 +122,18 @@ export function FlightsSearchForm(props){
   let initialDepartureDate = departureDate ? departureDate : venueConfig.startDate;
   let initialReturnDate = returnDate ? returnDate : venueConfig.endDate;
 
+  const onVenueBadgeClick = () =>{
+    try {
+      setDepartureDate(venueConfig.startDate);
+      setReturnDate(venueConfig.endDate);
+      setShowUnicornBadge(false);
+    }catch(err){
+      console.error('Failed to set venue start or end date',err)
+    }
+  }
+
+
+
   return (
     <>
       <Col xs={12} md={3} className={style.formElem}>
@@ -152,6 +165,7 @@ export function FlightsSearchForm(props){
           label='When'
           localstorageKey={'traveldates'}
         />
+        {showUnicornBadge && <UnicornVenueBadge onBadgeClick={onVenueBadgeClick}/>}
       </Col>
       <Col xs={12} md={3} className={style.formElem}>
         <PassengerSelector

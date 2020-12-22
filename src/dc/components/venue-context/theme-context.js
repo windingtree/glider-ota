@@ -11,6 +11,7 @@ const getDate = (strDate, defaultValue) =>{
 }
 
 export const venueConfig={
+    active:true,
     originIata:venue.originIata,
     destinationIata:venue.destinationIata,
     originLocation:venue.originLocation,
