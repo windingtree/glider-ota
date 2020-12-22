@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import {
   flightSearchCriteriaChangedAction
 } from '../../../redux/sagas/shopping-flow-store';
-import {CalendarContainer} from "react-datepicker";
 import {venueConfig} from "../venue-context/theme-context"
 
 

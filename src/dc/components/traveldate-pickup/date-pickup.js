@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react'
-import {Form} from 'react-bootstrap'
-import style from './date-pickup.module.scss'
+import { uuid } from 'uuidv4';
+import moment from 'moment';
+import React, {useEffect, useState} from 'react';
+import {Form} from 'react-bootstrap';
+import style from './date-pickup.module.scss';
 import {format} from "date-fns";
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "./react-datepicker.scss";
-import {CustomCalendarContainer} from "./calendar-container"
-
+import 'react-dates/initialize';
+import { DatePicker } from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
 
 export default function DatePickup({initialDate,onDateChanged,placeholder = 'Departure',label,localstorageKey}) {
     const [startDate, setStartDate] = useState(initialDate);
+    const [focusedInput, setFocusedInput] = useState(null);
     const onChange = date => {
         setStartDate(date);
         if(onDateChanged) {
@@ -25,15 +26,17 @@ export default function DatePickup({initialDate,onDateChanged,placeholder = 'Dep
     return (
         <>
             {label && <div className={style.label}>{label}</div>}
-        <DatePicker
-            placeholderText="Select dates"
-            selected={startDate}
-            onChange={onChange}
-            minDate={new Date()}
-            monthsShown={2}
-            customInput={inputElem}
-            calendarContainer={CustomCalendarContainer}
-        />
+            <DatePicker
+                startDatePlaceholderText="Date"
+                startDateTitleText="Date"
+
+                startDate={moment(startDate)}
+                startDateId={uuid()}
+                onDatesChange={onChange}
+
+                focusedInput={focusedInput}
+                onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+            />
         </>
     );
 };
