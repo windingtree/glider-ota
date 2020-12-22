@@ -23,6 +23,11 @@ const CART_USER_PREFERENCES_KEYS = {
     PAYMENT_METHOD: 'paymentMethod',
 };
 
+//there may be multiple types of items in cart but only subset of them should be fulfilled
+const BOOKEABLE_ITEMS_IN_CART = [
+    CART_ITEMKEYS.ACCOMMODATION_OFFER, CART_ITEMKEYS.TRANSPORTATION_OFFER
+]
+
 // Possible fees per payment method
 const OPC_FEES = {
     'card':   0.05,
@@ -295,6 +300,7 @@ module.exports = {
     ShoppingCart,
     CART_ITEMKEYS,
     CART_USER_PREFERENCES_KEYS,
+    BOOKEABLE_ITEMS_IN_CART
 }
 
 

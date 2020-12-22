@@ -6,6 +6,7 @@ export default {
     component: PaymentConfirmation,
     title: 'Payments/Payment confirmation',
 };
+/*
 
 const pendingStatusMockResponse={
     "_id": "5ec69309e025507efc80ae24",
@@ -137,7 +138,6 @@ const pendingStatusMockResponse={
     },
     "createDate": "2020-05-21T14:41:13.380Z"
 }
-
 const flightBookingFulfilledStatusMockResponse={
     "_id": "5ec6ddb3dafff062187951c3",
     "offerId": "ed0acb4c-b8a1-425a-bce5-459f27220a71",
@@ -417,8 +417,6 @@ const flightBookingFulfilledStatusMockResponse={
         }
     }
 }
-
-
 const hotelBookingFulfilledStatusMockResponse={
     "payment_status": "PAID",
     "payment_details": {
@@ -472,10 +470,6 @@ const hotelBookingFulfilledStatusMockResponse={
         }
     }
 }
-
-
-
-
 const failedStatusMockResponse={
     "_id": "5ec69309e025507efc80ae24",
     "offerId": "3875fa87-e6e7-4cc0-81b6-f920c1256d20",
@@ -606,7 +600,1044 @@ const failedStatusMockResponse={
         },
     },
 }
+*/
 
+// multiple orders
+const successfullMultiBookingResponse = {
+    "payment_status": "PAID",
+    "payment_details": {
+        "card": {
+            "brand": "visa",
+            "last4": "4242"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "message": "Payment complete."
+        }
+    },
+    "order_status": "FULFILLED",
+    "history": [
+        {
+            "comment": "New order created",
+            "timestamp": "2020-12-22T17:09:48.767Z"
+        },
+        {
+            "comment": "Webhook event:charge.succeeded",
+            "timestamp": "2020-12-22T17:10:44.730Z"
+        },
+        {
+            "comment": "Fulfilled after successful payment",
+            "timestamp": "2020-12-22T17:11:02.389Z"
+        },
+        {
+            "comment": "Order fulfillment completed",
+            "timestamp": "2020-12-22T17:14:15.998Z"
+        }
+    ],
+    "subOffers": {
+        "ACCOMMODATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FULFILLED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:47.847Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:12:03.314Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:12:22.637Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:12:51.613Z"
+                }
+            ],
+            "confirmation": {
+                "orderId": "3750aa4a-7595-49b7-9860-dd10dc98605a",
+                "order": {
+                    "passengers": {
+                        "PAX1": {
+                            "type": "ADT",
+                            "civility": "MR",
+                            "lastnames": [
+                                "Kurek"
+                            ],
+                            "firstnames": [
+                                "Tomasz"
+                            ],
+                            "gender": "Male",
+                            "birthdate": "1999-12-12",
+                            "contactInformation": [
+                                "+48609111825",
+                                "tomasz.kurek@gmail.com"
+                            ]
+                        }
+                    },
+                    "price": {
+                        "currency": "USD",
+                        "public": 582
+                    },
+                    "restrictions": {
+                        "exchangeable": false,
+                        "refundable": false
+                    },
+                    "status": "OK",
+                    "response": "Committed",
+                    "reservationNumber": "3750AA4A"
+                }
+            }
+        },
+        "TRANSPORTATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FULFILLED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:48.664Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:13:44.397Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:13:44.839Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:14:03.761Z"
+                }
+            ],
+            "confirmation": {
+                "orderId": "eJzTd9f3CQ%2FzcrQEAAudAmM%3D",
+                "order": {
+                    "price": {
+                        "currency": "EUR",
+                        "public": "172.38",
+                        "commission": 0,
+                        "taxes": "0.00"
+                    },
+                    "passengers": {
+                        "EE273BF1": {
+                            "type": "ADT",
+                            "gender": "Male",
+                            "civility": "",
+                            "lastnames": [
+                                "Kurek"
+                            ],
+                            "firstnames": [
+                                "Tomasz"
+                            ],
+                            "birthdate": "1999-12-12",
+                            "contactInformation": [
+                                "tomasz.kurek@gmail.com",
+                                "48609111825"
+                            ]
+                        }
+                    },
+                    "itinerary": {
+                        "segments": [
+                            {
+                                "operator": {
+                                    "operatorType": "airline",
+                                    "iataCode": "SN",
+                                    "flightNumber": "SN3721"
+                                },
+                                "origin": {
+                                    "locationType": "airport",
+                                    "iataCode": "BRU"
+                                },
+                                "destination": {
+                                    "locationType": "airport",
+                                    "iataCode": "MAD"
+                                },
+                                "departureTime": "2021-08-04T09:25:00",
+                                "arrivalTime": "2021-08-04T11:50:00",
+                                "Departure": {
+                                    "AirportCode": "BRU"
+                                },
+                                "Arrival": {
+                                    "AirportCode": "MAD"
+                                }
+                            },
+                            {
+                                "operator": {
+                                    "operatorType": "airline",
+                                    "iataCode": "SN",
+                                    "flightNumber": "SN3732"
+                                },
+                                "origin": {
+                                    "locationType": "airport",
+                                    "iataCode": "MAD"
+                                },
+                                "destination": {
+                                    "locationType": "airport",
+                                    "iataCode": "BRU"
+                                },
+                                "departureTime": "2021-08-14T06:20:00",
+                                "arrivalTime": "2021-08-14T08:35:00",
+                                "Departure": {
+                                    "AirportCode": "MAD"
+                                },
+                                "Arrival": {
+                                    "AirportCode": "BRU"
+                                }
+                            }
+                        ]
+                    },
+                    "options": []
+                },
+                "travelDocuments": {
+                    "bookings": [
+                        "LWVJA9"
+                    ],
+                    "etickets": [
+                        {
+                            "082-3861720285": "EE273BF1"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
+const partiallyFulfilledHotelFailMockResponse = {
+    "payment_status": "PAID",
+    "payment_details": {
+        "card": {
+            "brand": "visa",
+            "last4": "4242"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "message": "Payment complete."
+        }
+    },
+    "order_status": "FULFILLED_PARTIALLY",
+    "history": [
+        {
+            "comment": "New order created",
+            "timestamp": "2020-12-22T17:09:48.767Z"
+        },
+        {
+            "comment": "Webhook event:charge.succeeded",
+            "timestamp": "2020-12-22T17:10:44.730Z"
+        },
+        {
+            "comment": "Fulfilled after successful payment",
+            "timestamp": "2020-12-22T17:11:02.389Z"
+        },
+        {
+            "comment": "Order fulfillment completed",
+            "timestamp": "2020-12-22T17:14:15.998Z"
+        }
+    ],
+    "subOffers": {
+        "ACCOMMODATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FAILED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:47.847Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:12:03.314Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:12:22.637Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:12:51.613Z"
+                }
+            ],
+        },
+        "TRANSPORTATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FULFILLED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:48.664Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:13:44.397Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:13:44.839Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:14:03.761Z"
+                }
+            ],
+            "confirmation": {
+                "orderId": "eJzTd9f3CQ%2FzcrQEAAudAmM%3D",
+                "order": {
+                    "price": {
+                        "currency": "EUR",
+                        "public": "172.38",
+                        "commission": 0,
+                        "taxes": "0.00"
+                    },
+                    "passengers": {
+                        "EE273BF1": {
+                            "type": "ADT",
+                            "gender": "Male",
+                            "civility": "",
+                            "lastnames": [
+                                "Kurek"
+                            ],
+                            "firstnames": [
+                                "Tomasz"
+                            ],
+                            "birthdate": "1999-12-12",
+                            "contactInformation": [
+                                "tomasz.kurek@gmail.com",
+                                "48609111825"
+                            ]
+                        }
+                    },
+                    "itinerary": {
+                        "segments": [
+                            {
+                                "operator": {
+                                    "operatorType": "airline",
+                                    "iataCode": "SN",
+                                    "flightNumber": "SN3721"
+                                },
+                                "origin": {
+                                    "locationType": "airport",
+                                    "iataCode": "BRU"
+                                },
+                                "destination": {
+                                    "locationType": "airport",
+                                    "iataCode": "MAD"
+                                },
+                                "departureTime": "2021-08-04T09:25:00",
+                                "arrivalTime": "2021-08-04T11:50:00",
+                                "Departure": {
+                                    "AirportCode": "BRU"
+                                },
+                                "Arrival": {
+                                    "AirportCode": "MAD"
+                                }
+                            },
+                            {
+                                "operator": {
+                                    "operatorType": "airline",
+                                    "iataCode": "SN",
+                                    "flightNumber": "SN3732"
+                                },
+                                "origin": {
+                                    "locationType": "airport",
+                                    "iataCode": "MAD"
+                                },
+                                "destination": {
+                                    "locationType": "airport",
+                                    "iataCode": "BRU"
+                                },
+                                "departureTime": "2021-08-14T06:20:00",
+                                "arrivalTime": "2021-08-14T08:35:00",
+                                "Departure": {
+                                    "AirportCode": "MAD"
+                                },
+                                "Arrival": {
+                                    "AirportCode": "BRU"
+                                }
+                            }
+                        ]
+                    },
+                    "options": []
+                },
+                "travelDocuments": {
+                    "bookings": [
+                        "LWVJA9"
+                    ],
+                    "etickets": [
+                        {
+                            "082-3861720285": "EE273BF1"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
+const partiallyFulfilledFlightFailMockResponse = {
+    "payment_status": "PAID",
+    "payment_details": {
+        "card": {
+            "brand": "visa",
+            "last4": "4242"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "message": "Payment complete."
+        }
+    },
+    "order_status": "FULFILLED_PARTIALLY",
+    "history": [
+        {
+            "comment": "New order created",
+            "timestamp": "2020-12-22T17:09:48.767Z"
+        },
+        {
+            "comment": "Webhook event:charge.succeeded",
+            "timestamp": "2020-12-22T17:10:44.730Z"
+        },
+        {
+            "comment": "Fulfilled after successful payment",
+            "timestamp": "2020-12-22T17:11:02.389Z"
+        },
+        {
+            "comment": "Order fulfillment completed",
+            "timestamp": "2020-12-22T17:14:15.998Z"
+        }
+    ],
+    "subOffers": {
+        "ACCOMMODATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FULFILLED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:47.847Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:12:03.314Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:12:22.637Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:12:51.613Z"
+                }
+            ],
+            "confirmation": {
+                "orderId": "3750aa4a-7595-49b7-9860-dd10dc98605a",
+                "order": {
+                    "passengers": {
+                        "PAX1": {
+                            "type": "ADT",
+                            "civility": "MR",
+                            "lastnames": [
+                                "Kurek"
+                            ],
+                            "firstnames": [
+                                "Tomasz"
+                            ],
+                            "gender": "Male",
+                            "birthdate": "1999-12-12",
+                            "contactInformation": [
+                                "+48609111825",
+                                "tomasz.kurek@gmail.com"
+                            ]
+                        }
+                    },
+                    "price": {
+                        "currency": "USD",
+                        "public": 582
+                    },
+                    "restrictions": {
+                        "exchangeable": false,
+                        "refundable": false
+                    },
+                    "status": "OK",
+                    "response": "Committed",
+                    "reservationNumber": "3750AA4A"
+                }
+            }
+        },
+        "TRANSPORTATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FAILED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:48.664Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:13:44.397Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:13:44.839Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:14:03.761Z"
+                }
+            ]
+        }
+    }
+}
+const pendingMultiBookingResponse = {
+    "payment_status": "PAID",
+    "payment_details": {
+        "card": {
+            "brand": "visa",
+            "last4": "4242"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "message": "Payment complete."
+        }
+    },
+    "order_status": "FULFILLING",
+    "history": [
+        {
+            "comment": "New order created",
+            "timestamp": "2020-12-22T17:09:48.767Z"
+        },
+        {
+            "comment": "Webhook event:charge.succeeded",
+            "timestamp": "2020-12-22T17:10:44.730Z"
+        },
+        {
+            "comment": "Fulfilled after successful payment",
+            "timestamp": "2020-12-22T17:11:02.389Z"
+        },
+        {
+            "comment": "Order fulfillment completed",
+            "timestamp": "2020-12-22T17:14:15.998Z"
+        }
+    ],
+    "subOffers": {
+        "ACCOMMODATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "NEW",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:47.847Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:12:03.314Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:12:22.637Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:12:51.613Z"
+                }
+            ],
+        },
+        "TRANSPORTATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FULFILLING",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:48.664Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:13:44.397Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:13:44.839Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:14:03.761Z"
+                }
+            ],
+        }
+    }
+}
+const failMockResponse = {
+    "payment_status": "PAID",
+    "payment_details": {
+        "card": {
+            "brand": "visa",
+            "last4": "4242"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "message": "Payment complete."
+        }
+    },
+    "order_status": "FAILED",
+    "history": [
+        {
+            "comment": "New order created",
+            "timestamp": "2020-12-22T17:09:48.767Z"
+        },
+        {
+            "comment": "Webhook event:charge.succeeded",
+            "timestamp": "2020-12-22T17:10:44.730Z"
+        },
+        {
+            "comment": "Fulfilled after successful payment",
+            "timestamp": "2020-12-22T17:11:02.389Z"
+        },
+        {
+            "comment": "Order fulfillment completed",
+            "timestamp": "2020-12-22T17:14:15.998Z"
+        }
+    ],
+    "subOffers": {
+        "ACCOMMODATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FULFILLED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:47.847Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:12:03.314Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:12:22.637Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:12:51.613Z"
+                }
+            ],
+            "confirmation": {
+                "orderId": "3750aa4a-7595-49b7-9860-dd10dc98605a",
+                "order": {
+                    "passengers": {
+                        "PAX1": {
+                            "type": "ADT",
+                            "civility": "MR",
+                            "lastnames": [
+                                "Kurek"
+                            ],
+                            "firstnames": [
+                                "Tomasz"
+                            ],
+                            "gender": "Male",
+                            "birthdate": "1999-12-12",
+                            "contactInformation": [
+                                "+48609111825",
+                                "tomasz.kurek@gmail.com"
+                            ]
+                        }
+                    },
+                    "price": {
+                        "currency": "USD",
+                        "public": 582
+                    },
+                    "restrictions": {
+                        "exchangeable": false,
+                        "refundable": false
+                    },
+                    "status": "OK",
+                    "response": "Committed",
+                    "reservationNumber": "3750AA4A"
+                }
+            }
+        },
+        "TRANSPORTATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FAILED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:48.664Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:13:44.397Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:13:44.839Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:14:03.761Z"
+                }
+            ],
+            "confirmation": {
+                "orderId": "eJzTd9f3CQ%2FzcrQEAAudAmM%3D",
+                "order": {
+                    "price": {
+                        "currency": "EUR",
+                        "public": "172.38",
+                        "commission": 0,
+                        "taxes": "0.00"
+                    },
+                    "passengers": {
+                        "EE273BF1": {
+                            "type": "ADT",
+                            "gender": "Male",
+                            "civility": "",
+                            "lastnames": [
+                                "Kurek"
+                            ],
+                            "firstnames": [
+                                "Tomasz"
+                            ],
+                            "birthdate": "1999-12-12",
+                            "contactInformation": [
+                                "tomasz.kurek@gmail.com",
+                                "48609111825"
+                            ]
+                        }
+                    },
+                    "itinerary": {
+                        "segments": [
+                            {
+                                "operator": {
+                                    "operatorType": "airline",
+                                    "iataCode": "SN",
+                                    "flightNumber": "SN3721"
+                                },
+                                "origin": {
+                                    "locationType": "airport",
+                                    "iataCode": "BRU"
+                                },
+                                "destination": {
+                                    "locationType": "airport",
+                                    "iataCode": "MAD"
+                                },
+                                "departureTime": "2021-08-04T09:25:00",
+                                "arrivalTime": "2021-08-04T11:50:00",
+                                "Departure": {
+                                    "AirportCode": "BRU"
+                                },
+                                "Arrival": {
+                                    "AirportCode": "MAD"
+                                }
+                            },
+                            {
+                                "operator": {
+                                    "operatorType": "airline",
+                                    "iataCode": "SN",
+                                    "flightNumber": "SN3732"
+                                },
+                                "origin": {
+                                    "locationType": "airport",
+                                    "iataCode": "MAD"
+                                },
+                                "destination": {
+                                    "locationType": "airport",
+                                    "iataCode": "BRU"
+                                },
+                                "departureTime": "2021-08-14T06:20:00",
+                                "arrivalTime": "2021-08-14T08:35:00",
+                                "Departure": {
+                                    "AirportCode": "MAD"
+                                },
+                                "Arrival": {
+                                    "AirportCode": "BRU"
+                                }
+                            }
+                        ]
+                    },
+                    "options": []
+                },
+                "travelDocuments": {
+                    "bookings": [
+                        "LWVJA9"
+                    ],
+                    "etickets": [
+                        {
+                            "082-3861720285": "EE273BF1"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
+const paymentPending = {
+    "payment_status": "NOT_PAID",
+    "payment_details": {
+        "card": {
+            "brand": "visa",
+            "last4": "4242"
+        },
+        "receipt": {
+            "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+        },
+        "status": {
+            "type": "authorized",
+            "network": "approved_by_network",
+            "message": "Payment complete."
+        }
+    },
+    "order_status": "NEW",
+    "history": [
+        {
+            "comment": "New order created",
+            "timestamp": "2020-12-22T17:09:48.767Z"
+        },
+        {
+            "comment": "Webhook event:charge.succeeded",
+            "timestamp": "2020-12-22T17:10:44.730Z"
+        },
+        {
+            "comment": "Fulfilled after successful payment",
+            "timestamp": "2020-12-22T17:11:02.389Z"
+        },
+        {
+            "comment": "Order fulfillment completed",
+            "timestamp": "2020-12-22T17:14:15.998Z"
+        }
+    ],
+    "subOffers": {
+        "ACCOMMODATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FULFILLED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:47.847Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:12:03.314Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:12:22.637Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:12:51.613Z"
+                }
+            ],
+        },
+        "TRANSPORTATION_OFFER": {
+            "payment_status": "PAID",
+            "payment_details": {
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                },
+                "receipt": {
+                    "url": "https://pay.stripe.com/receipts/acct_1GYSMZBtLSGo1hFP/ch_1HSgdsBtLSGo1hFPOG8zXvb6/rcpt_I2mChBbFKkjJvm80ji6KgqWPbBbQMuv"
+                },
+                "status": {
+                    "type": "authorized",
+                    "network": "approved_by_network",
+                    "message": "Payment complete."
+                }
+            },
+            "order_status": "FAILED",
+            "history": [
+                {
+                    "comment": "New order created",
+                    "timestamp": "2020-12-22T17:09:48.664Z"
+                },
+                {
+                    "comment": "Webhook event:charge.succeeded",
+                    "timestamp": "2020-12-22T17:13:44.397Z"
+                },
+                {
+                    "comment": "Order creation started",
+                    "timestamp": "2020-12-22T17:13:44.839Z"
+                },
+                {
+                    "comment": "Fulfilled after successful payment",
+                    "timestamp": "2020-12-22T17:14:03.761Z"
+                }
+            ],
+        }
+    }
+}
+
+
+/*
 
 export const StatusPending = () => {
     fetchMock.restore();
@@ -638,5 +1669,39 @@ let statusPaymentCancelled={"payment_status":"CANCELLED","payment_details":{"pay
 export const StatusPaymentCancelled = () => {
     fetchMock.restore();
     fetchMock.mock('path:/api/order/status',statusPaymentCancelled);
+    return (<PaymentConfirmation orderID={"XYZ"}/>);
+}
+
+*/
+
+export const StatusFulfilledForMultiBooking = () => {
+    fetchMock.restore();
+    fetchMock.mock('path:/api/order/status',successfullMultiBookingResponse);
+    return (<PaymentConfirmation orderID={"XYZ"}/>);
+}
+
+export const PartiallyFulfilledHotelFailMockResponse = () => {
+    fetchMock.restore();
+    fetchMock.mock('path:/api/order/status',partiallyFulfilledHotelFailMockResponse);
+    return (<PaymentConfirmation orderID={"XYZ"}/>);
+}
+export const PartiallyFulfilledFlightFailMockResponse = () => {
+    fetchMock.restore();
+    fetchMock.mock('path:/api/order/status',partiallyFulfilledFlightFailMockResponse);
+    return (<PaymentConfirmation orderID={"XYZ"}/>);
+}
+export const PendingMultiBookingResponse = () => {
+    fetchMock.restore();
+    fetchMock.mock('path:/api/order/status',pendingMultiBookingResponse);
+    return (<PaymentConfirmation orderID={"XYZ"}/>);
+}
+export const FullyFailed = () => {
+    fetchMock.restore();
+    fetchMock.mock('path:/api/order/status',failMockResponse);
+    return (<PaymentConfirmation orderID={"XYZ"}/>);
+}
+export const PaymentPending = () => {
+    fetchMock.restore();
+    fetchMock.mock('path:/api/order/status',paymentPending);
     return (<PaymentConfirmation orderID={"XYZ"}/>);
 }

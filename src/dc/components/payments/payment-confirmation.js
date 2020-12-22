@@ -3,12 +3,15 @@ import {Button, Container, Row, Col} from "react-bootstrap";
 import Spinner from "../common/spinner";
 import {getOrderStatus} from "../../../utils/api-utils";
 import './payment-confirmation.scss';
+import style from './payment-confirmation.module.scss';
 import Alert from 'react-bootstrap/Alert';
 import {
     DEFAULT_NETWORK
 } from '../../../config/default';
 import { strCenterEllipsis } from '../../../utils/strings';
 
+import classNames from "classnames/bind";
+let cx = classNames.bind(style);
 
 
 const CONFIRMATION_STATUS={
@@ -17,11 +20,33 @@ const CONFIRMATION_STATUS={
     SUCCESS:'SUCCESS',
     FAILURE:'FAILURE',
     TIMEOUT:'TIMEOUT',
-    CANNOT_CONFIRM:'CANNOT_CONFIRM'
+    CANNOT_CONFIRM:'CANNOT_CONFIRM',
+    FULFILLED_PARTIALLY:'FULFILLED_PARTIALLY'
 }
 
 const MAX_CONFIRMATION_WAIT_TIME_MILLIS=70000;
 const RETRY_TIMEOUT_MILLIS=5000;
+
+const ACCOMMODATION_OFFER_KEY='ACCOMMODATION_OFFER';
+const TRANSPORTATION_OFFER_KEY='TRANSPORTATION_OFFER';
+
+
+
+const RenderBookingStatusMessage = ({variant = 'info', icon, pending = false, heading=undefined, children}) =>{
+    let headerCN=cx({
+        alertHeader:true,
+        colorSuccess:variant === 'success',
+        colorInfo:variant === 'info',
+        colorDanger:variant === 'danger',
+    })
+    return (<>
+        {/*{icon && <div className={`icon-status-${icon}`}/>}*/}
+        {heading && <div className={headerCN}>{heading}</div>}
+        <div className={style.alertBody}>{children}</div>
+        {pending && <Spinner/>}
+        </>)
+}
+
 
 export default function PaymentConfirmation({orderID}) {
     const [checkStatus, setCheckStatus] = useState(CONFIRMATION_STATUS.INITIAL);
@@ -87,6 +112,10 @@ export default function PaymentConfirmation({orderID}) {
                 setCheckStatus(CONFIRMATION_STATUS.SUCCESS);
                 stopCheckingInFuture();
                 break;
+            case 'FULFILLED_PARTIALLY':
+                setCheckStatus(CONFIRMATION_STATUS.FULFILLED_PARTIALLY);
+                stopCheckingInFuture();
+                break;
             case 'FAILED':
                 setCheckStatus(CONFIRMATION_STATUS.FAILURE);
                 stopCheckingInFuture();
@@ -118,16 +147,10 @@ export default function PaymentConfirmation({orderID}) {
     );
 
     const ConfirmationPendingAlert = () => (
-        <>
-            <Alert variant="info">
-                <Alert.Heading>We are confirming your booking</Alert.Heading>
-                <p>
-                    Please wait while we confirm your booking.<br/>
-                    This can take a few minutes.
-                </p>
-            </Alert>
-            <Spinner/>
-        </>
+        <RenderBookingStatusMessage heading={'We are confirming your booking'} pending={true} variant={'info'}>
+            Please wait while we confirm your booking.<br/>
+            This can take a few minutes.
+        </RenderBookingStatusMessage>
     );
 
     const ConfirmationTimeoutAlert = () => (
@@ -144,32 +167,15 @@ export default function PaymentConfirmation({orderID}) {
         </Alert>
     );
 
-    const ConfirmationSuccessAlert = () => {
-        const confirmation = order.confirmation;
-        let bookings = [];
-
-        // Get the bookings from travel document
-        if(confirmation.travelDocuments &&
-            Array.isArray(confirmation.travelDocuments.bookings))
-        {
-            bookings = confirmation.travelDocuments.bookings
-        }
-
-        // Add the bookings from the order (for Hotels)
-        if(confirmation.order && confirmation.order.reservationNumber) {
-            bookings.push(confirmation.order.reservationNumber);
-        }
-
-        return (
-            <Alert variant="success">
-                <Alert.Heading>Your booking confirmation number{bookings.length > 1 ? 's are' : ' is'} <b>{bookings.join(', ')}</b></Alert.Heading>
-                <p>
-                    Your booking has been created with the travel supplier.<br/>
-                    You will receive your booking confirmation by email shortly!
-                </p>
-            </Alert>
-        )
-    };
+    const ConfirmationPartiallyFulfilledAlert = () => (
+        <Alert variant="warning">
+            <Alert.Heading>We could not confirm all requested services.</Alert.Heading>
+            <p>
+                We are sorry, we could only partially fulfill your booking but some elements could not be confirmed.<br/>
+                Please contact our support to confirm the remaining elements of your booking.
+            </p>
+        </Alert>
+    );
 
     // Render the Payment Status
     const paymentStatus = () => {
@@ -183,9 +189,9 @@ export default function PaymentConfirmation({orderID}) {
             case 'NOT_PAID':
                 iconStatus = 'pending';
                 message = (
-                    <small>
+                    <RenderBookingStatusMessage icon={iconStatus} variant={'info'}>
                         We have not yet received confirmation of your payment
-                    </small>
+                    </RenderBookingStatusMessage>
                 );
                 break;
             case 'PAID':
@@ -193,81 +199,78 @@ export default function PaymentConfirmation({orderID}) {
                 if (order.payment_details && !order.payment_details.tx) {
                     const {card, receipt, status} = order.payment_details;
                     message = (
-                        <small>
+                        <RenderBookingStatusMessage icon={iconStatus} variant={'success'} heading={'Payment completed'}>
                             Your {card.brand} card **{card.last4} is {status.type}. <a href={receipt.url} target='_blank' rel="noopener noreferrer">(Receipt)</a>
-                        </small>
+                        </RenderBookingStatusMessage>
                     );
                 } else if (order.payment_details && order.payment_details.tx) {
                     const {
                         hash
                     } = order.payment_details.tx;
                     message = (
-                        <small>
+                            <RenderBookingStatusMessage icon={iconStatus} variant={'success'} heading={'Payment completed'}>
                             Payment made with crypto transaction:&nbsp;
                             <a
                                 href={`https://${DEFAULT_NETWORK}.etherscan.io/tx/${hash}`}
                                 target='_blanc'
                                 rel="noreferrer noopener"
                             >{strCenterEllipsis(hash)}</a>
-                        </small>
+                            </RenderBookingStatusMessage>
                     );
                 }
                 break;
             case 'FAILED':
                 iconStatus = 'failed';
                 message = (
-                    <small>
+                    <RenderBookingStatusMessage icon={iconStatus} variant={'danger'}>
                         Your payment has been declined
-                    </small>
+                    </RenderBookingStatusMessage>
                 );
                 break;
             case 'CANCELLED':
                 iconStatus = 'failed';
                 message = (
-                    <small>
+                    <RenderBookingStatusMessage icon={iconStatus} variant={'danger'}>
                         Your payment was refunded
-                    </small>
+                    </RenderBookingStatusMessage>
                 );
                 break;
             default:
                 iconStatus = 'undefined';
                 message = (
-                    <small>
+                    <RenderBookingStatusMessage icon={iconStatus} variant={'info'} pending={true}>
                         The status of your payment is being retrieved from the server
-                    </small>
+                    </RenderBookingStatusMessage>
                 );
                 break;
         }
 
         return (
-            <div className='col-status'>
-                <div className={`icon-status-${iconStatus}`} aria-label={status}/>
-                <div className='message-status'>{message}</div>
-            </div>
+                <>{message}</>
         );
     };
 
     // Render the Booking Status
-    const bookingStatus = () => {
-        const status = (order && order.order_status) ? order.order_status : 'undefined';
+    const bookingStatus = (subOrder, type) => {
+        const status = (subOrder && subOrder.order_status) ? subOrder.order_status : 'undefined';
         let iconStatus;
         let message;
         switch(status) {
             case 'NEW':
                 iconStatus = 'pending';
-                if(order.payment_status !== 'PAID') {
+                if(subOrder.payment_status !== 'PAID') {
                     message = (
-                        <small>
+                        <RenderBookingStatusMessage icon={iconStatus} variant={'info'} pending={true}>
                             We will process your booking once the payment is confirmed
-                        </small>
+                        </RenderBookingStatusMessage>
                     );
                 }
 
                 else {
                     message = (
-                        <small>
-                            We are confirming your booking with the travel supplier.
-                        </small>
+                    <RenderBookingStatusMessage icon={iconStatus} variant={'info'} pending={true}>
+                        We are confirming your booking with the travel supplier.
+                    </RenderBookingStatusMessage>
                     );
                 }
 
@@ -275,58 +278,108 @@ export default function PaymentConfirmation({orderID}) {
             case 'FULFILLED':
                 iconStatus = 'success';
                 if(
-                    order.confirmation &&
-                    order.confirmation.travelDocuments
+                    subOrder.confirmation &&
+                    subOrder.confirmation.travelDocuments
                 ) {
-                    const {bookings, etickets} = order.confirmation.travelDocuments;
+                    const {bookings, etickets} = subOrder.confirmation.travelDocuments;
                     message = (
-                        <small>
+                        <RenderBookingStatusMessage icon={iconStatus} heading={'Flights are booked successfully'} variant={'success'}>
                             Your booking reference{bookings.length > 1 ? 's are' : ' is'}: {bookings.join(', ')}
                             <br/>
                             {(etickets && etickets.length>0) && (<>Your e-ticket{bookings.length > 1 ? 's are' : ' is'}: {(etickets).map(tkt => Object.keys(tkt)[0]).join(', ')}</>)}
-                        </small>
+                        </RenderBookingStatusMessage>
                     );
                 }else if(
-                    order.confirmation &&
-                    order.confirmation.order &&
-                    order.confirmation.order.reservationNumber
+                    subOrder.confirmation &&
+                    subOrder.confirmation.order &&
+                    subOrder.confirmation.order.reservationNumber
                 ) {
-                    const reservationNumber = order.confirmation.order.reservationNumber;
+                    const reservationNumber = subOrder.confirmation.order.reservationNumber;
                     message = (
-                        <small>
-                            Your booking reference is: {reservationNumber}
-                        </small>
-                    );
+                    <RenderBookingStatusMessage icon={iconStatus} variant={'success'} heading={'Hotel is booked successfully'}>
+                        Your booking reference is: {reservationNumber}
+                    </RenderBookingStatusMessage>
+                );
                 }
 
                 break;
             case 'FAILED':
                 iconStatus = 'failed';
                 message = (
-                    <small>
-                        We could not create your booking due to an error.
+                    <RenderBookingStatusMessage icon={iconStatus} variant={'danger'} heading={'Booking failed'}>
                         This may be due to changed availability or increased price.
                         Please try again later.
-                    </small>
+                    </RenderBookingStatusMessage>
                 );
                 break;
             default:
                 iconStatus = 'undefined';
                 message = (
-                    <small>
-                        The status of your booking is being retrieved from the server
-                    </small>
+                    <>
+                        <RenderBookingStatusMessage icon={iconStatus} variant={'info'}>
+                            The status of your booking is being retrieved from the server
+                        </RenderBookingStatusMessage>
+
+                    </>
                 );
                 break;
         }
 
-        return (
-            <div className='col-status'>
+        return (<>{message}</>
+           /* <div className='col-status'>
                 <div className={`icon-status-${iconStatus}`} aria-label={status}/>
                 <div className='message-status'>{message}</div>
-            </div>
+            </div>*/
         );
     };
+
+    const displaySubOffersDetails = () => {
+        let flightOrder;
+        let hotelOrder;
+        if (order) {
+            const {subOffers} = order;
+            if (subOffers) {
+                flightOrder = subOffers[TRANSPORTATION_OFFER_KEY];
+                hotelOrder = subOffers[ACCOMMODATION_OFFER_KEY];
+            }
+        }
+
+        return (<>
+            {flightOrder &&
+            (<><div className={style.sectionHeader}>Flights</div>
+                <div className={style.sectionBody}>
+                    {bookingStatus(flightOrder)}
+                </div></>)}
+            {hotelOrder &&
+            (<><div className={style.sectionHeader}>Hotel</div>
+                <div className={style.sectionBody}>
+                    {bookingStatus(hotelOrder)}
+                </div></>)}
+        </>)
+
+    }
+
+    let displaySubOfferStatus=true;
+
+   /* if(checkStatus === CONFIRMATION_STATUS.SUCCESS || checkStatus === CONFIRMATION_STATUS.FULFILLED_PARTIALLY){
+        //only display sub offers statuses when booking is completed or partially fulfilled
+        displaySubOfferStatus=true;
+    }*/
+
+    return (<>
+        {checkStatus === CONFIRMATION_STATUS.PENDING && ConfirmationPendingAlert()}
+        {checkStatus === CONFIRMATION_STATUS.FAILURE && ConfirmationFailedAlert()}
+        {/*{checkStatus === CONFIRMATION_STATUS.SUCCESS && ConfirmationSuccessAlert()}*/}
+        {checkStatus === CONFIRMATION_STATUS.TIMEOUT && ConfirmationTimeoutAlert()}
+        {checkStatus === CONFIRMATION_STATUS.FULFILLED_PARTIALLY && ConfirmationPartiallyFulfilledAlert()}
+
+
+        <div className={style.sectionHeader}>Payment status</div>
+        <div className={style.sectionBody}>{paymentStatus()}</div>
+        {displaySubOfferStatus && displaySubOffersDetails()}
+
+</>)
+
 
     return (
         <Container >
@@ -339,8 +392,9 @@ export default function PaymentConfirmation({orderID}) {
                 <Col>
                 {checkStatus === CONFIRMATION_STATUS.PENDING && ConfirmationPendingAlert()}
                 {checkStatus === CONFIRMATION_STATUS.FAILURE && ConfirmationFailedAlert()}
-                {checkStatus === CONFIRMATION_STATUS.SUCCESS && ConfirmationSuccessAlert()}
+                {/*{checkStatus === CONFIRMATION_STATUS.SUCCESS && ConfirmationSuccessAlert()}*/}
                 {checkStatus === CONFIRMATION_STATUS.TIMEOUT && ConfirmationTimeoutAlert()}
+                {checkStatus === CONFIRMATION_STATUS.TIMEOUT && ConfirmationPartiallyFulfilledAlert()}
                 </Col>
             </Row>
             <Row>
@@ -356,7 +410,8 @@ export default function PaymentConfirmation({orderID}) {
                     <span>Booking</span>
                 </Col>
                 <Col xs={12} md={9}>
-                    {bookingStatus()}
+                    {/*{bookingStatus()}*/}
+                    {/*{displaySubOffersStatus()}*/}
                 </Col>
             </Row>
             <Row>

@@ -1,3 +1,4 @@
+const {BOOKEABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
 const {CART_ITEMKEYS} = require("../_lib/shopping-cart");
 const {validateWebhook, cancelPaymentIntent} = require('../_lib/stripe-api');
 const {decorate} = require('../_lib/decorators');
@@ -174,23 +175,25 @@ async function processPaymentSuccessMulti(confirmedOfferId, webhookEvent) {
         return {...masterOffer.confirmation, isDuplicate: true};
     }
 
-    await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLING, `Order creation started`, {})
-
     const confirmedOffer = masterOffer.confirmedOffer;
     const cartItems = confirmedOffer.cartItems;
     if(!cartItems){
         //should not happen
         throw new Error('Missing sub offers - cannot proceed')
     }
-
+    // Extract relevant details from Stripe
+    let paymentDetails = retrievePaymentDetailsFromWebhook(webhookEvent);
+    //update payment status of master offer to PAID
+    await updatePaymentStatus(confirmedOfferId, PAYMENT_STATUSES.PAID, paymentDetails, "Webhook event:" + webhookEvent.type, {webhookEvent});
     await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLING, "Fulfilled after successful payment", {})
 
     let masterConfirmation={
-        orderId: confirmedOfferId
+        orderId: confirmedOfferId,
+        isDuplicate:false
     }
     let failedCount=0;
     let completedCount=0;
-    for(let key of [CART_ITEMKEYS.TRANSPORTATION_OFFER,CART_ITEMKEYS.ACCOMMODATION_OFFER]) {
+    for(let key of BOOKEABLE_ITEMS_IN_CART) {
         if (cartItems[key]) {
             const item = cartItems[key].item;
             const offerId = item.offerId;
@@ -209,15 +212,15 @@ async function processPaymentSuccessMulti(confirmedOfferId, webhookEvent) {
     }
     if(failedCount>0){
         if(completedCount>0) {
-            await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED_PARTIALLY, `Order partially fulfilled, completed#${completedCount}, failed#${failedCount}`, masterConfirmation)
+            await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED_PARTIALLY, `Order partially fulfilled, completed#${completedCount}, failed#${failedCount}`, {})
         }else{
             await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Failed to fulfill`, {})
         }
     }else{
-        await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED, `Order fulfillment completed`, masterConfirmation)
+        await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED, `Order fulfillment completed`, {})
     }
 
-    console.log('Master confirmation', masterConfirmation)
+    console.log(`Successful/failed fulfillments : ${completedCount}/${failedCount}` )
     return masterConfirmation;
 }
 

@@ -67,3 +67,22 @@
     border-radius: 5px;
 }
 
+.alertHeader{
+    @include g-font($glider-font-size-xl,$g-color-primary, $g-fontweight-bold);
+}
+
+.alertBody{
+    @include g-font($glider-font-size-l,$g-color-black, $g-fontweight-normal);
+}
+
+.colorSuccess{
+    color: $g-color-primary;
+}
+
+.colorInfo{
+    color: $g-color-black;
+}
+
+.colorDanger{
+    color: $g-color-warning;
+}
