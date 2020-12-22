@@ -1,17 +1,18 @@
-import React, {useCallback, useEffect, useState} from 'react'
-import {Button, Row, Col, Container} from 'react-bootstrap'
-import DatePickup from '../traveldate-pickup/date-pickup'
-import {addDays} from "date-fns";
-import style from './hotel-search-form.module.scss'
-import PassengerSelector from '../passenger-selector/passenger-selector'
-import {CityLookup} from "../lookup/city-lookup";
-import {hotelSearchCriteriaChangedAction} from "../../../redux/sagas/shopping-flow-store";
-import {connect} from "react-redux";
-import DateRangePickup from "../traveldate-pickup/date-range-pickup";
-import {venueConfig} from "../venue-context/theme-context";
+import React, {useCallback, useEffect, useState} from 'react';
+import { connect } from 'react-redux';
+import { Button, Row, Col, Container } from 'react-bootstrap';
+import DateRangePickup from '../traveldate-pickup/date-range-pickup';
+import PassengerSelector from '../passenger-selector/passenger-selector';
+import { CityLookup } from '../lookup/city-lookup';
+import {
+  hotelSearchCriteriaChangedAction
+} from '../../../redux/sagas/shopping-flow-store';
+import { addDays } from 'date-fns';
+import style from './hotel-search-form.module.scss';
 
+import { storageKeys } from '../../../config/default';
 
-export function HotelSearchForm(props){
+export function HotelSearchForm(props) {
   // Destructure properties
   const {
     initDest,
@@ -27,13 +28,14 @@ export function HotelSearchForm(props){
     initSearch
   } = props;
 
+  const destinationCityKey = storageKeys.hotels.destination;
 
   const [destination, setDestination] = useState(initDest);
-  const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
-  const [returnDate, setReturnDate] = useState(initReturnDate?initReturnDate:undefined);
-  const [adults, setAdults] = useState(initAdults||1);
-  const [children, setChildren] = useState(initChildren||0);
-  const [infants, setInfants] = useState(initInfants||0);
+  const [departureDate, setDepartureDate] = useState(initDepartureDate);
+  const [returnDate, setReturnDate] = useState(initReturnDate);
+  const [adults, setAdults] = useState(initAdults);
+  const [children, setChildren] = useState(initChildren);
+  const [infants, setInfants] = useState(initInfants);
 
   const validate = useCallback(() => {
     const isDestinationValid = () => {
@@ -61,7 +63,7 @@ export function HotelSearchForm(props){
       }
 
       // Check if infants do not exceed adults (since they seat on laps)
-      if(infants > adults) {
+      if (infants > adults) {
         return false;
       }
 
@@ -76,85 +78,76 @@ export function HotelSearchForm(props){
     return destinationValid && departureDateValid && returnDateValid && paxSelectionValid;
   }, [adults, children, departureDate, destination, infants, maxPassengers, returnDate]);
 
-  const serializeSearchForm = useCallback(() => {
-    return {
-      origin: origin,
-      destination: destination,
-      departureDate: departureDate,
-      returnDate: returnDate,
-      adults: adults,
-      children: children,
-      infants: infants,
-      isValid: validate()
-    };
-  }, [destination, departureDate, returnDate, adults, children, infants, validate]);
-
   //subscribe for search criteria changes so that we notify others once form is valid
   useEffect(() => {
-    if(searchCriteriaChanged){
+    const serializeSearchForm = () => {
+      return {
+        origin: origin,
+        destination: destination,
+        departureDate: departureDate,
+        returnDate: returnDate,
+        adults: adults,
+        children: children,
+        infants: infants,
+        isValid: validate()
+      };
+    };
+
+    if (searchCriteriaChanged){
       if (departureDate && !returnDate) {
         setReturnDate(addDays(departureDate, 1))
       }
-      let searchCriteria=serializeSearchForm();
+      let searchCriteria = serializeSearchForm();
       let isSearchFormValid = searchCriteria.isValid;
       //fire action to notify others about search criteria and bool flag with the result of validation
       searchCriteriaChanged(searchCriteria, isSearchFormValid);
-    }else{
+    } else {
       console.warn('searchCriteriaChanged is not defined!')
     }
-  }, [destination, departureDate, returnDate, adults, children, infants, serializeSearchForm, searchCriteriaChanged]) // <-- here put the parameter to listen
+  }, [destination, departureDate, returnDate, adults, children, infants, searchCriteriaChanged, validate]) // <-- here put the parameter to listen
 
-  let initialCheckInDate=departureDate?departureDate:venueConfig.startDate;
-  let initialCheckout=returnDate?returnDate:venueConfig.endDate;
-
-    return (<>
-              <Col xs={12} md={3} className={style.formElem}>
-                <CityLookup
-                  initialLocation={initDest}
-                  onSelectedLocationChange={setDestination}
-                  placeHolder='Destination'
-                  label='Destination/Hotel'
-                  localstorageKey={'destination-city'}
-                />
-              </Col>
-              <Col xs={12} md={6} className={style.formElem}>
-                <DateRangePickup
-                  onStartDateChanged={setDepartureDate}
-                  onEndDateChanged={setReturnDate}
-                  initialStart={initialCheckInDate}
-                  initialEnd={initialCheckout}
-                  label='When'
-                  localstorageKey={'traveldates'}
-                />
-              </Col>
-              <Col xs={12} md={3} className={style.formElem}>
-                <PassengerSelector
-                  adults={adults}
-                  children={children}
-                  infants={infants}
-                  onAdultsChange={setAdults}
-                  onChildrenChange={setChildren}
-                  onInfantsChange={setInfants}
-                  placeholder='guest'
-                  infantsAllowed={true}
-                  label='Who'
-                />
-              </Col>
-        </>
-    )
-
+  return (<>
+            <Col xs={12} md={3} className={style.formElem}>
+              <CityLookup
+                initialLocation={initDest}
+                onSelectedLocationChange={setDestination}
+                placeHolder='Destination'
+                label='Destination/Hotel'
+                localstorageKey={destinationCityKey}
+              />
+            </Col>
+            <Col xs={12} md={6} className={style.formElem}>
+              <DateRangePickup
+                onStartDateChanged={setDepartureDate}
+                onEndDateChanged={setReturnDate}
+                initialStart={initDepartureDate}
+                initialEnd={initReturnDate}
+                label='When'
+                localstorageKey={'traveldates'}
+              />
+            </Col>
+            <Col xs={12} md={3} className={style.formElem}>
+              <PassengerSelector
+                adults={initAdults}
+                children={initChildren}
+                infants={initInfants}
+                onAdultsChange={setAdults}
+                onChildrenChange={setChildren}
+                onInfantsChange={setInfants}
+                placeholder='guest'
+                infantsAllowed={true}
+                label='Who'
+              />
+            </Col>
+      </>
+  );
 }
 
-
-const mapStateToProps = state => ({
-
+const mapStateToProps = state => ({});
+const mapDispatchToProps = (dispatch) => ({
+  searchCriteriaChanged: (searchCriteria, isSearchFormValid) => dispatch(
+    hotelSearchCriteriaChangedAction(searchCriteria, isSearchFormValid)
+  )
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    searchCriteriaChanged: (searchCriteria, isSearchFormValid) => {
-      dispatch(hotelSearchCriteriaChangedAction(searchCriteria, isSearchFormValid))
-    }
-  }
-}
 export default connect(mapStateToProps, mapDispatchToProps)(HotelSearchForm);

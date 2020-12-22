@@ -10,7 +10,7 @@ export const HotelVenueDistance = ({hotelLatitude, hotelLongitude}) => {
         return (<></>);
     }
 
-    let venuePoint = new Geopoint(Number(venueConfig.destinationLocation.latitude), Number(venueConfig.destinationLocation.longitude));
+    let venuePoint = new Geopoint(Number(venueConfig.destinationCity.latitude), Number(venueConfig.destinationCity.longitude));
     let hotelPoint = new Geopoint(Number(hotelLatitude), Number(hotelLongitude));
     let distance = hotelPoint.distanceTo(venuePoint, true);
 

@@ -9,8 +9,14 @@ import {
     requestCartRestoreFromServer,
     errorSelector,
     flightOfferSelector,
-    hotelOfferSelector, isShoppingCartUpdateInProgress, deleteFlightFromCart, totalPriceSelector
+    hotelOfferSelector,
+    isShoppingCartUpdateInProgress,
+    deleteFlightFromCart,
+    totalPriceSelector
 } from "../../../redux/sagas/shopping-cart-store";
+import {
+    flightSearchCriteriaSelector
+} from '../../../redux/sagas/shopping-flow-store';
 import {connect} from "react-redux";
 import {ADTYPES, ArrivalDeparture} from "../flight-blocks/arrival-departure";
 import OfferUtils, {safeDateFormat} from "../../../utils/offer-utils";
@@ -24,6 +30,7 @@ import {
 import Spinner from "../common/spinner";
 import Container from "react-bootstrap/Container";
 import {fetchGet} from "../../../utils/api-utils";
+import { storageKeys } from '../../../config/default';
 
 
 let cx = classNames.bind(style);
@@ -75,7 +82,7 @@ const Total = ({title, price, priceAmount, currency}) =>{
 }
 
 
-const BookHotelBtn = ({ flightOffer }) => {
+const BookHotelBtn = ({ flightOffer, flightSearchCriteria }) => {
     let history = useHistory();
     const [loading, setLoading] = useState(false);
     console.log('BookHotelBtn - flightOffer = ',flightOffer)
@@ -105,34 +112,39 @@ const BookHotelBtn = ({ flightOffer }) => {
     };
 
     const handleBookHotel = (outboundItinerary, returnItinerary) => {
-        let storedDestCity;
-        let storedPassengers;
-        try {//destination-airport
-            const storedDestCityRaw = sessionStorage.getItem(`inputfield-destination-airport`);
-            const storedPassengersRaw = sessionStorage.getItem(`inputfield-passengers-count`);
-            if (storedDestCityRaw) {
-                storedDestCity=JSON.parse(storedDestCityRaw);
-            }
-            if (storedPassengersRaw) {
-                storedPassengers=JSON.parse(storedPassengersRaw);
-            }
-        } catch (e) {}
+        console.log('Itinerary', outboundItinerary, returnItinerary);
+        console.log('Search criteria', flightSearchCriteria);
+        const destinationIataCode = OfferUtils
+            .getLastSegmentOfItinerary(outboundItinerary)
+            .destination.iataCode;
+
         setLoading(true);
-        getCityByIataCode(storedDestCity.code)
+        getCityByIataCode(destinationIataCode)
             .then(city => {
                 setLoading(false);
                 console.log('#######', city);
-                history.push('/dc/hotels', {
-                    city: {
-                        primary: city.city_name,
-                        secondary: city.country_name,
-                        latitude: city.latitude,
-                        longitude: city.longitude
-                    },
-                    dateIn: OfferUtils.getItineraryArrivalDate(outboundItinerary),
-                    dateOut: returnItinerary ? OfferUtils.getItineraryDepartureDate(returnItinerary) : undefined,
-                    passengersCounts: storedPassengers,
-                    doSearch: true
+                history.push({
+                    pathname: '/dc/hotels',
+                    search: `?${new URLSearchParams({
+                        [storageKeys.hotels.destination]: JSON.stringify({
+                            primary: city.city_name,
+                            secondary: city.country_name,
+                            latitude: city.latitude,
+                            longitude: city.longitude
+                        }),
+                        [storageKeys.common.departureDate]: OfferUtils.getItineraryArrivalDate(outboundItinerary),
+                        [storageKeys.common.adults]: flightSearchCriteria.adults,
+                        [storageKeys.common.children]: flightSearchCriteria.children,
+                        [storageKeys.common.infants]: flightSearchCriteria.infants,
+                        ...(
+                            returnItinerary
+                                ? {
+                                    [storageKeys.common.returnDate]: OfferUtils.getItineraryDepartureDate(returnItinerary)
+                                }
+                                : {}
+                        ),
+                        doSearch: true
+                    })}`
                 });
             })
             .catch(error => {
@@ -223,7 +235,17 @@ const HotelOfferCartItem = ({hotelOffer}) => {
 }
 
 export const ShoppingCart = (props) =>{
-    const {totalPrice, flightOffer, hotelOffer, restoreCartFromServer, restoreSearchResultsFromCache, isShoppingCartUpdateInProgress, error, onClearCart} = props;
+    const {
+        totalPrice,
+        flightOffer,
+        hotelOffer,
+        restoreCartFromServer,
+        restoreSearchResultsFromCache,
+        isShoppingCartUpdateInProgress,
+        error,
+        onClearCart,
+        flightSearchCriteria
+    } = props;
     let history = useHistory();
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
@@ -297,6 +319,7 @@ export const ShoppingCart = (props) =>{
                 {!hotelOffer && flightOffer &&
                     <BookHotelBtn
                         flightOffer={flightOffer}
+                        flightSearchCriteria={flightSearchCriteria}
                     />
                 }
                 {flightOffer &&
@@ -330,7 +353,7 @@ const mapStateToProps = state => ({
     totalPrice: totalPriceSelector(state),  //total price of items in cart
     error: errorSelector(state),
     isShoppingCartUpdateInProgress:isShoppingCartUpdateInProgress(state),
-
+    flightSearchCriteria: flightSearchCriteriaSelector(state)
 });
 
 
