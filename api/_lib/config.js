@@ -78,7 +78,8 @@ const STRIPE_CONFIG =
         PUBLISHABLE_KEY: getConfigKey('STRIPE_PUBLISHABLE_KEY'),
         SECRET_KEY: getConfigKey('STRIPE_SECRET_KEY'),
         WEBHOOK_SECRET: getConfigKey('STRIPE_WEBHOOK_SECRET'),
-        BYPASS_WEBHOOK_SIGNATURE_CHECK: (getConfigKey('STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK',"no") === "yes"),
+        // BYPASS_WEBHOOK_SIGNATURE_CHECK: (getConfigKey('STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK',"no") === "yes"),
+        BYPASS_WEBHOOK_SIGNATURE_CHECK: true    //TEMPORARY - for webhook testing only
     };
 const ELASTIC_CONFIG =
     {
