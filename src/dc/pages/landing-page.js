@@ -5,6 +5,7 @@ import FlightsShoppingComponent from "../components/flight-shopping/flights-shop
 import HotelsShoppingComponent from "../components/hotel-shopping/hotels-shopping-component"
 import { SEARCH_TYPE } from "../components/search-form/search-mode-selector"
 import DevConLayout from "../components/layout/devcon-layout"
+import { LandingExplainer } from '../components/landing-explainer/landing-explainer';
 
 export default function DCLandingPage() {
     const match = useRouteMatch();
@@ -58,5 +59,6 @@ export default function DCLandingPage() {
                 initSearch={initSearch}
             />
         )}
+        <LandingExplainer/>
     </DevConLayout>)
 }
