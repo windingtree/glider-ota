@@ -1,3 +1,4 @@
+const {CART_ITEMKEYS} = require("../_lib/shopping-cart");
 const {validateWebhook, cancelPaymentIntent} = require('../_lib/stripe-api');
 const {decorate} = require('../_lib/decorators');
 const {createLogger} = require('../_lib/logger');
@@ -167,20 +168,57 @@ async function processWebhookEvent(event) {
 
 async function processPaymentSuccessMulti(confirmedOfferId, webhookEvent) {
     let masterOffer = await findConfirmedOffer(confirmedOfferId)
-    let {subOfferIDs} = masterOffer;
-    if(!subOfferIDs){
+
+    // Check if fulfillment is already processed or in progress
+    if (masterOffer && masterOffer.order_status && masterOffer.order_status!==ORDER_STATUSES.NEW){
+        return {...masterOffer.confirmation, isDuplicate: true};
+    }
+
+    await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLING, `Order creation started`, {})
+
+    const confirmedOffer = masterOffer.confirmedOffer;
+    const cartItems = confirmedOffer.cartItems;
+    if(!cartItems){
         //should not happen
         throw new Error('Missing sub offers - cannot proceed')
     }
-    for(let offerId of subOfferIDs){
-        console.log('Process success for offerId',offerId)
-        try {
-            results.push(await processPaymentSuccess(offerId, webhookEvent));
-        }catch(err){
-            console.log('error while processing', err)
+
+    await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLING, "Fulfilled after successful payment", {})
+
+    let masterConfirmation={
+        orderId: confirmedOfferId
+    }
+    let failedCount=0;
+    let completedCount=0;
+    for(let key of [CART_ITEMKEYS.TRANSPORTATION_OFFER,CART_ITEMKEYS.ACCOMMODATION_OFFER]) {
+        if (cartItems[key]) {
+            const item = cartItems[key].item;
+            const offerId = item.offerId;
+            console.log(`Fulfilling offer type: ${key}, offerId:${offerId}`);
+            try {
+                const confirmation = await processPaymentSuccess(offerId, webhookEvent)
+                masterConfirmation[key] = confirmation;
+                completedCount++;
+            } catch (err) {
+                failedCount++
+                masterConfirmation[key] = {
+                    order_status: ORDER_STATUSES.FAILED
+                }
+            }
         }
     }
-    console.log('Results', results)
+    if(failedCount>0){
+        if(completedCount>0) {
+            await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED_PARTIALLY, `Order partially fulfilled, completed#${completedCount}, failed#${failedCount}`, masterConfirmation)
+        }else{
+            await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Failed to fulfill`, {})
+        }
+    }else{
+        await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED, `Order fulfillment completed`, masterConfirmation)
+    }
+
+    console.log('Master confirmation', masterConfirmation)
+    return masterConfirmation;
 }
 
 /**
