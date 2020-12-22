@@ -12,11 +12,25 @@
 }
 
 .subtotalItem{
-  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal)
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
 }
 
-.totalItem{
-  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal)
+.subtotalItemLabel{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+}
+
+.subtotalItemAmount{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+  text-align: right;
+}
+
+.totalItemLabel{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal);
+}
+
+.totalItemAmount{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal);
+  text-align: right;
 }
 
 .hotelItemHotelImage{

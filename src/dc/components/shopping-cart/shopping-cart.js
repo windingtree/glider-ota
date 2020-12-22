@@ -29,11 +29,6 @@ import {fetchGet} from "../../../utils/api-utils";
 let cx = classNames.bind(style);
 
 const SubTotal = ({title,price, priceAmount, currency}) =>{
-    let cls=cx({
-        subtotalItem:true,
-        'float-right':true,
-    })
-
     if(price) {
         priceAmount = price.public;
         currency = price.currency;
@@ -42,10 +37,10 @@ const SubTotal = ({title,price, priceAmount, currency}) =>{
     return (
         <Container fluid={true}>
             <Row noGutters={true}>
-                <Col className={style.subtotalItem}>
+                <Col className={style.subtotalItemLabel}>
                     {title}
                 </Col>
-                <Col className={cls}>
+                <Col className={style.subtotalItemAmount}>
                     {priceAmount} {currency}
                 </Col>
             </Row>
@@ -53,10 +48,6 @@ const SubTotal = ({title,price, priceAmount, currency}) =>{
 }
 
 const Total = ({title, price, priceAmount, currency}) =>{
-    let cls=cx({
-        totalItem:true,
-        'float-right':true,
-    })
     if(price) {
         priceAmount = price.public;
         currency = price.currency;
@@ -64,10 +55,10 @@ const Total = ({title, price, priceAmount, currency}) =>{
     return (
         <Container fluid={true}>
             <Row noGutters={true}>
-                <Col className={style.totalItem}>
+                <Col className={style.totalItemLabel}>
                     {title}
                 </Col>
-                <Col className={cls}>
+                <Col className={style.totalItemAmount}>
                    {priceAmount} {currency}
                 </Col>
             </Row>

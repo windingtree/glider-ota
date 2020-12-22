@@ -345,4 +345,10 @@ const sampleCart = {
 export const EmptyCart = () => (<ShoppingCart onBook={action('onBook')}/>);
 export const FlightOnly = () => (<ShoppingCart flightOffer={sampleCart.flightOffer} onBook={action('onBook')}/>);
 export const HotelOnly = () => (<ShoppingCart hotelOffer={sampleCart.hotelOffer} onBook={action('onBook')}/>);
-export const HotelAndFlight = () => (<ShoppingCart hotelOffer={sampleCart.hotelOffer} flightOffer={sampleCart.flightOffer} onBook={action('onBook')}/>);
+export const HotelAndFlight = () => (
+    <ShoppingCart 
+        hotelOffer={sampleCart.hotelOffer}
+        flightOffer={sampleCart.flightOffer}
+        onBook={action('onBook')}
+        totalPrice={{public: 23445.23, currency:'EUR'}}
+    />);
