@@ -4,16 +4,32 @@ import style from './passenger-selector.module.scss'
 import {Button, Dropdown, Container, Row, Col} from 'react-bootstrap'
 import Alert from 'react-bootstrap/Alert';
 
-export default function PassengerSelector({adults, children, infants, onAdultsChange, onChildrenChange, onInfantsChange, placeholder = 'passenger',cabin='economy', showCabin = false, maxPassengers, infantsAllowed = true, label}) {
+export default function PassengerSelector(props) {
+    const {
+        adults,
+        children,
+        infants,
+        onAdultsChange,
+        onChildrenChange,
+        onInfantsChange,
+        placeholder = 'passenger',
+        cabin = 'economy',
+        showCabin = false,
+        maxPassengers,
+        infantsAllowed = true,
+        label
+    } = props;
     const [passengers, setPassengers] = useState({
         adults, children, infants
     });
 
-    useEffect(() => {
-        setPassengers({
-            adults, children, infants
-        });
-    }, [adults, children, infants]);
+    console.log('$$$', passengers);
+
+    // useEffect(() => {
+    //     setPassengers({
+    //         adults, children, infants
+    //     });
+    // }, [adults, children, infants]);
 
     useEffect(() => {
         // console.log('Passengers updated', passengers);
@@ -148,9 +164,9 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
                                 </div>
                             </Col>
                             <Col xs={6} className={style.paxSelectorButtons}>
-                                <Button className={style.paxSelectorButton} onClick={() => decrease('adults')} variant=' pax-btn-circle pax-btn-decrease' size='sm'>—</Button>
-                                <span className={style.paxSelectorPaxCount}>{adults}</span>
-                                <Button className={style.paxSelectorButton} onClick={() => increase('adults')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
+                                <Button className={style.paxSelectorButton} onClick={() => decrease('adults')} variant=' pax-btn-circle pax-btn-decrease' size='sm'><span>—</span></Button>
+                                <span className={style.paxSelectorPaxCount}>{passengers.adults}</span>
+                                <Button className={style.paxSelectorButton} onClick={() => increase('adults')} variant=' pax-btn-circle pax-btn-increase' size='sm'><span>+</span></Button>
                             </Col>
                         </Row>
                         <Row className={style.paxSelectorRow}>
@@ -163,9 +179,9 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
                                 </div>
                             </Col>
                             <Col xs={6} className={style.paxSelectorButtons}>
-                                <Button onClick={() => decrease('children')} variant=' pax-btn-circle pax-btn-decrease' size='sm'>—</Button>
-                                <span className={style.paxSelectorPaxCount}>{children}</span>
-                                <Button onClick={() => increase('children')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
+                                <Button onClick={() => decrease('children')} variant=' pax-btn-circle pax-btn-decrease' size='sm'><span>—</span></Button>
+                                <span className={style.paxSelectorPaxCount}>{passengers.children}</span>
+                                <Button onClick={() => increase('children')} variant=' pax-btn-circle pax-btn-increase' size='sm'><span>+</span></Button>
                             </Col>
                         </Row>
                         <Row className={style.paxSelectorRow}>
@@ -179,9 +195,9 @@ export default function PassengerSelector({adults, children, infants, onAdultsCh
 
                             </Col>
                             <Col xs={6} className={style.paxSelectorButtons}>
-                                <Button onClick={() => decrease('infants')} variant=' pax-btn-circle pax-btn-decrease' size='sm'>—</Button>
-                                <span className={style.paxSelectorPaxCount}>{infants}</span>
-                                <Button onClick={() => increase('infants')} variant=' pax-btn-circle pax-btn-increase' size='sm'>+</Button>
+                                <Button onClick={() => decrease('infants')} variant=' pax-btn-circle pax-btn-decrease' size='sm'><span>—</span></Button>
+                                <span className={style.paxSelectorPaxCount}>{passengers.infants}</span>
+                                <Button onClick={() => increase('infants')} variant=' pax-btn-circle pax-btn-increase' size='sm'><span>+</span></Button>
                             </Col>
                         </Row>
                         { !infantsAllowed && infants > 0 && infantWarning()}

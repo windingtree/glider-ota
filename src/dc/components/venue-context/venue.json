@@ -1,5 +1,18 @@
 {
-  "destinationIata": "BOG",
+  "destinationAirport": {
+    "code": "BOG",
+    "icon": "airport",
+    "indent": false,
+    "primary": "Bogota El Dorado Intl",
+    "secondary": "CO"
+  },
+  "destinationCity": {
+    "latitude": "4.60971",
+    "longitude": "-74.08175",
+    "primary": "Bogotá",
+    "secondary": "Colombia"
+  },
+  "destinationCountryCode": "COL",
   "destinationLocation": {
     "latitude": "4.6298745",
     "longitude": "-74.0926271"

@@ -67,6 +67,14 @@ global(.locationLookupPopover){
     border: 1px solid $glider-color-primary;
 }
 
+.warningFocus {
+    border: 1px solid #CE613F !important;
+}
+
+.warning {
+    color:  #CE613F !important;
+}
+
 .label{
     @include g-font($g-fontsize-xs,$glider-color-text-labels,$g-fontweight-normal);
     margin-left: 4px;

@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import {config} from "../../../config/default";
 import style from './flights-search-results.module.scss'
 import {
     FlightSearchResultsFilterHelper
@@ -26,17 +27,36 @@ import Alert from 'react-bootstrap/Alert';
 
 
 //Component to display flight search results
-export function FlightsSearchResults({
-                                         searchResults,
-                                         filters,
-                                         isSearchFormValid,
-                                         onOfferDisplay,
-                                         onSearchClicked,
-                                         searchInProgress,
-                                         error,
-                                     }) {
+export function FlightsSearchResults(props) {
+    const {
+        searchResults,
+        filters,
+        isSearchFormValid,
+        onOfferDisplay,
+        onSearchClicked,
+        searchInProgress,
+        error,
+        onRestoreFromCache,
+        isStoreInitialized,
+        onRestoreResultsFromCache,
+        initSearch
+    } = props;
     const [currentPage, setCurrentPage] = useState(1);
     const [sortType, setSortType] = useState('PRICE');
+
+    const onSearchButtonClicked = useCallback(() => {
+        if (onSearchClicked) {
+            onSearchClicked();
+        }else{
+            console.warn('onSearchClicked is not defined!')
+        }
+    }, [onSearchClicked]);
+
+    useEffect(() => {
+        if (initSearch) {
+            setTimeout(() => onSearchButtonClicked(), 1000);
+        }
+    }, [initSearch, onSearchButtonClicked]);
 
     //called when user clicked on a specific offer
     function handleOfferDisplay(offerId) {
@@ -49,7 +69,7 @@ export function FlightsSearchResults({
 
     //SEARCH button was hit - search for flights
     const onSearchButtonClicked = () => {
-        if (onSearchClicked)
+        if(onSearchClicked)
             onSearchClicked();
     }
 

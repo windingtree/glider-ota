@@ -16,7 +16,9 @@ const lookupController = async (req, res) => {
     }
     try{
         let results = await dictionary.findCity(searchquery, country_code, MAX_RESULTS);
-        res.json({ results })
+        res.json({
+            results
+        });
     }catch(error){
         logger.error("Got error while airport search, error:%s",error.message,error)
         sendErrorResponse(res,500,ERRORS.INTERNAL_SERVER_ERROR);
