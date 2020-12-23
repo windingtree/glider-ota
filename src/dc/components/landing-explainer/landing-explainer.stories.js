@@ -1,5 +1,5 @@
 import React from 'react';
-import { LandingExplainer, REASONS } from './landing-explainer';
+import { LandingExplainer } from './landing-explainer';
 
 
 export default {
@@ -8,5 +8,3 @@ export default {
 
 
 export const Default = () => (<LandingExplainer/> );
-
-export const Small = () => (<LandingExplainer reasons={[REASONS[0],REASONS[1]]}/> );
