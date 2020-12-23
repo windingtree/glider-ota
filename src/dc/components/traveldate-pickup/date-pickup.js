@@ -24,7 +24,7 @@ export default function DatePickup({
     const [startDate, setStartDate] = useState(initialDate);
     const [focusedInput, setFocusedInput] = useState(null);
     const onChange = _date => {
-        const date = (_date) ? _date.format() : null
+        const date = (_date) ? _date.toDate() : null
 
         setStartDate(date);
         if(onDateChanged) {
