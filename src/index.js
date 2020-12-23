@@ -19,6 +19,12 @@ import DCSeatSelectionPage from './dc/pages/seat-selection-page'
 import DCPaymentSummaryPage from './dc/pages/payment-summary-page'
 import ConfirmationPage from './dc/pages/confirmation-page'
 
+import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
+import aphroditeInterface from 'react-with-styles-interface-aphrodite';
+import { customDatePickerTheme } from './custom-date-picker-theme';
+ThemedStyleSheet.registerInterface(aphroditeInterface);
+ThemedStyleSheet.registerTheme(customDatePickerTheme());
+
 function Dispatcher() {
     return (
         <Provider store={store}>

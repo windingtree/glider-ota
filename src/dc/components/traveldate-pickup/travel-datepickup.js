@@ -1,9 +1,18 @@
+import styled from 'styled-components';
+import { uuid } from 'uuidv4';
+import styled, { css } from 'styled-components';
 import React, {useState} from 'react'
 import style from './travel-datepickup.module.scss'
 
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
+
+const StyledWrapper = styled.div`
+    .DateRangePickerInput {
+        text-align: center;
+    }
+`;
 
 export default function TravelDatepickup({
     initialStart,
@@ -32,21 +41,26 @@ export default function TravelDatepickup({
     return (
         <>
             {label && <div className={style.label}>{label}</div>}
-            <DateRangePicker
-                startDatePlaceholderText="Start date"
-                endDatePlaceholderText="End date"
-                startDateTitleText="Start"
-                endDateTitleText="End"
+            <StyledWrapper>
+                <DateRangePicker
+                    startDatePlaceholderText="Start date"
+                    endDatePlaceholderText="End date"
+                    startDateTitleText="Start"
+                    endDateTitleText="End"
 
-                startDate={moment(startDate)}
-                startDateId={uuid()}
-                endDate={moment(endDate)}
-                endDateId={uuid()}
-                onDatesChange={onChange}
+                    startDate={(moment(startDate).isValid()) ? moment(startDate) : undefined}
+                    startDateId={uuid()}
+                    endDate={(moment(endDate).isValid()) ? moment(endDate) : undefined}
+                    endDateId={uuid()}
+                    onDatesChange={onChange}
 
-                focusedInput={focusedInput}
-                onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-            />
+                    focusedInput={focusedInput}
+                    onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+
+                    customArrowIcon={<span>&#65372;</span>}
+                    block
+                />
+            </StyledWrapper>
         </>
     );
 };
