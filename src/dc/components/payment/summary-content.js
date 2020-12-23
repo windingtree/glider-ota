@@ -19,7 +19,7 @@ import {
     flightSearchResultsSelector,isShoppingFlowStoreInitialized, isShoppingResultsRestoreInProgressSelector,
     requestSearchResultsRestoreFromCache
 } from "../../../redux/sagas/shopping-flow-store";
-import {JourneySummary} from "../flight-blocks/journey-summary";
+import {JourneyHeader, JourneySummary} from "../flight-blocks/journey-summary";
 import PaymentSelector from './payment-selector';
 import {HotelOfferSummary} from "../hoteldetails/hotel-offer-summary";
 import DevConLayout from "../layout/devcon-layout";
@@ -129,7 +129,10 @@ export function SummaryContent(props) {
 
     const displayFlightSummary = () =>
     {
-        return (<><JourneySummary itineraries={flightOffer.itineraries}/><div className={'pb-1'}></div></>)
+        return (<>
+            <JourneyHeader itineraries={flightOffer.itineraries}/>
+            <JourneySummary itineraries={flightOffer.itineraries}/><div className={'pb-1'}></div>
+        </>)
     }
     const displayHotelSummary = () =>
     {

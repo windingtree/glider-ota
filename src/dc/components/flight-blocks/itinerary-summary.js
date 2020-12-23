@@ -2,7 +2,10 @@ import React from 'react';
 import style from "./itinerary-summary.module.scss"
 import {ArrivalDeparture,ADTYPES} from './arrival-departure'
 import {FlightDuration} from './flight-duration'
-import {ensureDateObj} from '../../../utils/offer-utils'
+import OfferUtils, {ensureDateObj} from '../../../utils/offer-utils'
+import ForwardArrow from '../../../assets/forward-arrow.svg';
+import CopyIcon from "../../../assets/copy-icon.svg";
+import styles from "../crypto/copytext.module.scss";
 
 
 const isSameDayArrival = (depDate,arrDate) => {
@@ -24,6 +27,20 @@ const DifferentDayArrival = () => {
     )
 }
 
+export const ItineraryHeader = ({itinerary}) => {
+    if(!itinerary)
+        return (<></>)
+
+    let origin;
+    let destination;
+    try{
+         origin = OfferUtils.getItineraryDepartureCityName(itinerary);
+         destination = OfferUtils.getItineraryArrivalCityName(itinerary);
+    }catch(err){
+
+    }
+    return (<div className={style.itineraryHeader}>{origin} <img src={ForwardArrow} width='16px' height='16px' /> {destination}</div>)
+}
 export const ItinerarySummary = ({itinerary}) => {
     let segments = (itinerary && itinerary.segments)?itinerary.segments:[];
     let firstSegment, lastSegment;
