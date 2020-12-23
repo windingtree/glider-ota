@@ -109,8 +109,12 @@ const offerRepriceController = async (req, res) => {
 }
 
 const repriceTransportationOffer = async (transportationOffer, seatOptions) => {
+    //here it can be either single offerID or a list (comma separated, if we combined out and return one ways)
     let offerIDs = transportationOffer.offerId.split(',');
+    //even if we have multiple offerIDs, assumption is that they all come from the same provider
+    //therefore we just need to take first offerID and find metadata
     let offerId = offerIDs[0];
+
     let offerMetadata = await getOfferMetadata(offerId);
     if (!offerMetadata) {
         logger.error(`Offer metadata not found, offerId=${transportationOffer.offerId}`);
