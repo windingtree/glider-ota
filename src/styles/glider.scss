@@ -27,6 +27,9 @@ global stylesheets
 
 }*/
 
+html, body, #root {
+  height: 100%;
+}
 
 .content-wrapper{
   min-height: 600px;
