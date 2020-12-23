@@ -8,7 +8,7 @@ import {
     errorSelector,addFlightToCartAction
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
-import { FaPlaneDeparture } from "react-icons/fa";
+import {IconPlaneDeparture } from '../icons/icons';
 import {JourneySummary} from "../flight-blocks/journey-summary"
 import {AddToTrip} from "../common-blocks/add-to-trip-button"
 import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
@@ -62,7 +62,7 @@ export function Itinerary({itinerary}) {
         <Container fluid={true}>
             <Row>
                 <Col xs={12} md={4} className={style.itinRow}>
-                    <div className={style.itinDptrdate}><FaPlaneDeparture/><span className={'ml-3'}>{format(startOfTrip, 'dd MMM, EE')}</span></div>
+                    <div className={style.itinDptrdate}><IconPlaneDeparture/><span className={'ml-3'}>{format(startOfTrip, 'dd MMM, EE')}</span></div>
                     <div className={style.itinTimes}>{format(startOfTrip, 'HH:mm')} - {format(endOfTrip, 'HH:mm')}</div>
                 </Col>
                 <Col xs={12} md={4} className={style.itinRow}>

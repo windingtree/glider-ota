@@ -2,8 +2,9 @@ import React from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import style from './search-mode-selector.module.scss';
 import classNames from 'classnames/bind';
-import { FaPlaneDeparture } from 'react-icons/fa';
 import { FaBed } from 'react-icons/fa';
+import {IconPlaneDepartureTop, IconHotelBedTop } from '../icons/icons';
+
 
 export const SEARCH_TYPE={
     FLIGHTS:'FLIGHTS',
@@ -29,18 +30,24 @@ export default function SearchModeSelector(){
         // onToggle(SEARCH_TYPE.HOTELS);
     }
 
+    const isFlightActive = (selectedMode===SEARCH_TYPE.FLIGHTS);
+    const isHotelActive = (selectedMode===SEARCH_TYPE.HOTELS);
+
+    const activeColor = '#543CE2'; //$g-color-primary
+    const inactiveColor = '#717171';  // $g-color-darkgrey
+
     return (
         <div className={style.container}>
                 <SelectorButton
                     onToggle={onFlightClick}
-                    isActive={selectedMode===SEARCH_TYPE.FLIGHTS}
-                    icon={<FaPlaneDeparture/>}
+                    isActive={isFlightActive}
+                    icon={<IconPlaneDepartureTop stroke={isFlightActive ? activeColor : inactiveColor}/>}
                     text={'Flights'}
                 />
                 <SelectorButton
                     onToggle={onHotelClick}
-                    isActive={selectedMode===SEARCH_TYPE.HOTELS}
-                    icon={<FaBed/>}
+                    isActive={isHotelActive}
+                    icon={<IconHotelBedTop stroke={isHotelActive ? activeColor : inactiveColor}/>}
                     text={'Hotels'}
                 />
         </div>)

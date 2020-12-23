@@ -1,9 +1,9 @@
-import {FaPlaneDeparture, FaPlaneArrival} from "react-icons/fa";
 import style from "./arrival-departure.module.scss"
 import React from 'react';
 import {format, parseISO} from "date-fns";
 import {safeDateFormat} from '../../../utils/offer-utils'
 import {IconContext} from "react-icons";
+import {IconPlaneDeparture, IconPlaneArrival} from '../icons/icons';
 
 export const ADTYPES = {
     ARRIVAL: 'arrival',
@@ -23,9 +23,9 @@ export const ADTYPES = {
 export const ArrivalDeparture = ({cityName, cityCode, date, adType = ADTYPES.NONE}) => {
     const renderIcon = () => {
         if (adType === ADTYPES.ARRIVAL)
-            return (<FaPlaneArrival/>)
+            return (<IconPlaneArrival/>)
         if (adType === ADTYPES.DEPARTURE)
-            return (<FaPlaneDeparture/>)
+            return (<IconPlaneDeparture/>)
         return (<></>)
     }
 
