@@ -20,3 +20,20 @@
   @include g-font($g-fontsize-xs,$glider-color-text-labels,$g-fontweight-normal);
   margin-left: 1px;
 }
+
+
+.datePickerWrapper {
+  > div > div > div {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px !important;
+    border-color: transparent !important;
+    input {
+      font-weight: 600 !important;
+      font-size: 13.5px !important;
+      padding: 8px !important;
+      text-align: center;
+    }
+  }
+}

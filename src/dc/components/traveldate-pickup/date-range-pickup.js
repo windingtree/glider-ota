@@ -71,7 +71,7 @@ export default function DateRangePickup({
     return (
         <>
             {label && <div className={style.label}>{label}</div>}
-            <StyledWrapper>
+            <StyledWrapper className={style.datePickerWrapper}>
                 <DateRangePicker
                     startDatePlaceholderText="Start date"
                     endDatePlaceholderText="End date"
