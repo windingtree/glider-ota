@@ -37,9 +37,9 @@ const PaymentCard = props => {
                         {title}
                     </span>
                 </div>
-                <div className={style.paymentAmount}>
+                {isSelected && <div className={style.paymentAmount}>
                     {amount} {currency}
-                </div>
+                </div>}
             </div>
             {isSelected && component}
         </div>
@@ -53,15 +53,19 @@ const PaymentCard = props => {
 // should be provided as props
 export default props => {
     const {
-        confirmedOffer
+        confirmedOffer,
+        paymentMethod,
+        onPaymentMethodChange
     } = props;
     const {
         public: amount,
         currency
-    } = confirmedOffer.offer.price;
-    const [selectedCard, setSelectedCard] = useState('cc');
+    } = confirmedOffer.totalPrice;
+    // const [selectedCard, setSelectedCard] = useState(paymentMethod);
     const [isLoading, setLoading] = useState(true);
     const [passengerDetails, setPassengerDetails] = useState();
+
+    console.log('PaymentSelector rendered, paymentMethod=',paymentMethod)
 
     useEffect(() => {
         retrievePassengerDetails()
@@ -85,6 +89,14 @@ export default props => {
         );
     }
 
+    //handle change of payment method
+    const handlePaymentMethodChange = (method) => {
+        // setSelectedCard(method);
+        //update parent item so that call to /reprice can be made
+        // (as price needs to be updated, it depends on payment method)
+        onPaymentMethodChange(method);
+    }
+
     return (
         <>
             <div className={style.paymentSelectorContainer}>
@@ -94,8 +106,8 @@ export default props => {
                     title='Pay with Crypto and save 3%'
                     amount={amount}
                     currency={currency}
-                    selected={selectedCard}
-                    onSelected={setSelectedCard}
+                    selected={paymentMethod}
+                    onSelected={handlePaymentMethodChange}
                     offStyle={style.unicorn}
                     component={(
                         <PaymentCrypto
@@ -104,12 +116,12 @@ export default props => {
                     )}
                 />
                 <PaymentCard
-                    name='cc'
+                    name='card'
                     title='Pay with boring Credit Card'
                     amount={amount}
                     currency={currency}
-                    selected={selectedCard}
-                    onSelected={setSelectedCard}
+                    selected={paymentMethod}
+                    onSelected={handlePaymentMethodChange}
                     offStyle={null}
                     component={(
                         <PaymentCC

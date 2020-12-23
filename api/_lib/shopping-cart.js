@@ -11,7 +11,7 @@ const CART_ITEMKEYS = {
     PASSENGERS : 'passengers',
     SEATS : 'seats',
     ANCILLARIES : 'ancillaries',
-    CONFIRMED_OFFER : 'confirmed-offer',
+    // CONFIRMED_OFFER : 'confirmed-offer',
     TRANSPORTATION_OFFER : 'TRANSPORTATION_OFFER',
     ACCOMMODATION_OFFER : 'ACCOMMODATION_OFFER',
     INSURANCE_OFFER : 'INSURANCE_OFFER',
@@ -269,6 +269,22 @@ class ShoppingCart {
                 currency: 'USD',
                 paymentMethod: 'card',
             },
+        }
+    }
+
+    /**
+     * Create a basic cart item object with required properties.
+     * Client may add additional items (e.g. hotel details, flight details) but at least common structure should be kept (offerId, offer, price are required at later stages)
+     * @param offerId
+     * @param offer
+     * @param price
+     * @returns {{offer, price, offerId}}
+     */
+    createCartItem(offerId, offer, price){
+        return {
+            offerId:offerId,
+            offer:offer,
+            price:price
         }
     }
 

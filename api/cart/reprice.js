@@ -1,11 +1,12 @@
-const {CART_USER_PREFERENCES_KEYS} = require("../_lib/shopping-cart");
 const {reprice} = require('../_lib/glider-api');
 const {createLogger} = require('../_lib/logger')
 const {decorate} = require('../_lib/decorators');
-const {ShoppingCart,CART_ITEMKEYS} = require('../_lib/shopping-cart');
-const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
+const {ShoppingCart, CART_ITEMKEYS, CART_USER_PREFERENCES_KEYS} = require('../_lib/shopping-cart');
+const {sendErrorResponse, ERRORS} = require("../_lib/rest-utils")
 const {getOfferMetadata} = require("../_lib/model/offerMetadata")
 const logger = createLogger('/offerSummary')
+const {v4} = require('uuid');
+const {SessionStorage} = require('../_lib/session-storage');
 
 /**
  * /cart/reprice controller
@@ -15,62 +16,98 @@ const logger = createLogger('/offerSummary')
  * @returns {Promise<void>}
  */
 const offerRepriceController = async (req, res) => {
-    let sessionID=req.sessionID;
+    let sessionID = req.sessionID;
     let shoppingCart = new ShoppingCart(sessionID);
-    let transportationOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.TRANSPORTATION_OFFER);
-    let seatOptions = await shoppingCart.getItemFromCart(CART_ITEMKEYS.SEATS);
-    let accommodationOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.ACCOMMODATION_OFFER);
+    let userPreferredPaymentMethod = req.body.paymentMethod;
+    let userPreferredCurrency = req.body.currency;
 
-    if (transportationOffer == null && accommodationOffer == null) {
+    if(userPreferredCurrency){
+        await shoppingCart.setUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY,userPreferredCurrency)
+    }
+    if(userPreferredPaymentMethod){
+        await shoppingCart.setUserPreference(CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD,userPreferredPaymentMethod)
+    }
+
+    let cart = await shoppingCart.getCart();        //retrieve entire cart, with all items and prices
+    let transportationOfferItem = cart.items[CART_ITEMKEYS.TRANSPORTATION_OFFER];
+    let seatOptions = cart.items[CART_ITEMKEYS.SEATS];
+    let accommodationOfferItem = cart.items[CART_ITEMKEYS.ACCOMMODATION_OFFER];
+
+
+    if (transportationOfferItem == null && accommodationOfferItem == null) {
         logger.warn("No flight offer nor hotel offer in cart - nothing to reprice.");
-        sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Cannot find valid offer in the shopping cart");
+        sendErrorResponse(res, 400, ERRORS.INVALID_INPUT, "Cannot find valid offer in the shopping cart");
         return;
     }
-    let subOfferIDs = [];
-    let subTotalPrices = [];
-    let finalMasterOffer;       //Master offer - may hold sub orders (flights, hotels, insurance)
-    let grandTotalPrice=0;      //total price to be paid for an entire(master) order
-    try{
-        let confirmedTransportationOffer;
-        if(transportationOffer){
-            confirmedTransportationOffer = await repriceTransportationOffer(transportationOffer, seatOptions)
-            confirmedTransportationOffer.offer.price = await shoppingCart.estimatePriceInUserPreferredCurrency(confirmedTransportationOffer.offer.price);
 
-            subOfferIDs.push(confirmedTransportationOffer.offerId); //store ID of confirmed flight offer in a list
-            finalMasterOffer=confirmedTransportationOffer;
-            // confirmedTransportationOffer.offer.price.public=1;
-            grandTotalPrice+=Number(confirmedTransportationOffer.offer.price.public);
+    const masterOffer = {
+        suboffers: [],
+        totalPrice: null,
+        offerId: `${v4()}-master`
+    }
+    let subOffers = [];
+    try {
+        //check what are the sub offers (e.g. flights, hotels, maybe insurances) that need to be combined into the final offer
+        //if some offers require repricing - do it here (e.g. flight repricing)
+        if (transportationOfferItem) {
+            const {
+                offerId: unConfirmedOfferId,
+                offer: unConfirmedOffer,
+                itineraries: flightItineraries,
+                isOfferConfirmed
+            } = transportationOfferItem.item;
+
+            //check if flight offer, by any chance, is already confirmed?
+            //it may happen if the user hit refresh or e.g. changed payment method (and already called /reprice previously)
+            if(isOfferConfirmed === true){
+                //if that was the case, there is no need to reprice flights again
+
+            }else {
+
+                //flights need to be repriced - call repricing API to get new confirmed price (and potentially new offerID)
+                let repriceResponse = await repriceTransportationOffer(transportationOfferItem.item, seatOptions);
+                const {offerId: confirmedOfferId, offer: confirmedOffer} = repriceResponse;
+                //destructure response from repricing API
+                const {price: confirmedPrice, pricedItems, disclosures, terms, options} = confirmedOffer;
+
+                //since we need to display terms&conditions in UI - we need to copy part of reprice response to the master offer (it may also be needed at a later stage, e.g. confirmation email)
+                Object.assign(masterOffer, {
+                    pricedItems, disclosures, terms, options
+                })
+                //we need to replace existing transportation item in shopping cart (in order to recalculate price and quotes)
+                transportationOfferItem = shoppingCart.createCartItem(confirmedOfferId, confirmedOffer, confirmedPrice);
+                //itineraries should remain the same between unconfirmed and confirmed cart item
+                //it would be difficult to re-generate itineraries as it's done using search results (see /api/cart/cartv2) and new offerID cannot be found in search results (as it's a new offerID)
+
+                Object.assign(transportationOfferItem, {
+                    itineraries: flightItineraries,
+                    isOfferConfirmed:true   //this is to avoid repricing again
+                })
+                //finally add new item to the cart (and replace unconfirmed transportation offer)
+                cart = await shoppingCart.addItemToCart(CART_ITEMKEYS.TRANSPORTATION_OFFER, transportationOfferItem, confirmedPrice)
+            }
+            // masterOffer.suboffers.push(cart.items[CART_ITEMKEYS.TRANSPORTATION_OFFER]);
+        }
+        if (accommodationOfferItem) {
+            // masterOffer.suboffers.push(cart.items[CART_ITEMKEYS.ACCOMMODATION_OFFER]);
         }
 
-        if(accommodationOffer){
-            //for accommodation offer we should already have it in user pref currency but just in case it is not, try to convert
-            accommodationOffer.price = await shoppingCart.estimatePriceInUserPreferredCurrency(accommodationOffer.price);
 
-            subOfferIDs.push(accommodationOffer.offerId); //store ID of hotel offer in a list too
-            if(!finalMasterOffer)
-                finalMasterOffer=accommodationOffer;
-            // accommodationOffer.offer.price.public=1;
-            // subTotalPrices.push(accommodationOffer.offer.price);
-            grandTotalPrice+=Number(accommodationOffer.offer.price.public);
-        }
-        finalMasterOffer.subOfferIDs=subOfferIDs;
+        masterOffer.totalPrice = cart.totalPrice;
+        masterOffer.cartItems = cart.items;
+        masterOffer.paymentMethod = cart.userPreferences.paymentMethod;
 
-        let userCurrency = await shoppingCart.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
-        let totalPrice = {
-            currency:userCurrency,
-            public: grandTotalPrice
-        }
-        finalMasterOffer.offer.price=totalPrice;
-        finalMasterOffer.price=totalPrice;
-        await shoppingCart.addItemToCart(CART_ITEMKEYS.CONFIRMED_OFFER,finalMasterOffer);
-        res.json(finalMasterOffer);
-    }catch(error){
-        logger.error("Got error while call to /offers/price, error:%s",error.message,error)
-        sendErrorResponse(res,500,ERRORS.INTERNAL_SERVER_ERROR);
+        const sessionStorage = new SessionStorage(sessionID);
+        sessionStorage.storeConfirmedOfferInSession(masterOffer);
+
+        res.json(masterOffer);
+    } catch (error) {
+        logger.error("Got error while call to /offers/price, error:%s", error.message, error)
+        sendErrorResponse(res, 500, ERRORS.INTERNAL_SERVER_ERROR);
     }
 }
 
-const repriceTransportationOffer = async (transportationOffer, seatOptions) =>{
+const repriceTransportationOffer = async (transportationOffer, seatOptions) => {
     let offerMetadata = await getOfferMetadata(transportationOffer.offerId);
     if (!offerMetadata) {
         logger.error(`Offer metadata not found, offerId=${transportationOffer.offerId}`);
@@ -79,10 +116,10 @@ const repriceTransportationOffer = async (transportationOffer, seatOptions) =>{
     let confirmedTransportationOffer
     try {
         confirmedTransportationOffer = await reprice(transportationOffer.offerId, seatOptions, offerMetadata);
-    }catch(err){
+    } catch (err) {
         //REMOVE THIS - it's for testing only
         console.error('Repricing failed - ignore for now')
-        confirmedTransportationOffer=transportationOffer;
+        confirmedTransportationOffer = transportationOffer;
     }
 
     return confirmedTransportationOffer;

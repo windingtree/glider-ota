@@ -187,26 +187,18 @@ const processCryptoOrderMulti = async (
 ) => {
 
     let masterOffer = await findConfirmedOffer(confirmedOfferId)
-    let {orderType, masterOrderId, subOfferIDs} = masterOffer;
+    let {subOfferIDs} = masterOffer;
     let results = []
-    if(orderType === ORDER_TYPES.SINGLE){
-        try{
-            results.push(await processCryptoOrder(confirmedOfferId,{tx,receipt,payment,quoteId}))
+    if(!subOfferIDs){
+        //should not happen
+        throw new Error('Missing sub offers - cannot proceed')
+    }
+    for(let offerId of subOfferIDs){
+        console.log('Process success for offerId',offerId)
+        try {
+            results.push(await processCryptoOrder(offerId,{tx,receipt,payment,quoteId}));
         }catch(err){
             console.log('error while processing', err)
-        }
-    }else{
-        if(!subOfferIDs){
-            //should not happen
-            throw new Error('Missing sub offers - cannot proceed')
-        }
-        for(let offerId of subOfferIDs){
-            console.log('Process success for offerId',offerId)
-            try {
-                results.push(await processCryptoOrder(offerId,{tx,receipt,payment,quoteId}));
-            }catch(err){
-                console.log('error while processing', err)
-            }
         }
     }
     console.log('Results', results)
