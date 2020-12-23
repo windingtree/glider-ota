@@ -123,6 +123,7 @@ const repriceTransportationOffer = async (transportationOffer, seatOptions) => {
     try {
         confirmedTransportationOffer = await reprice(transportationOffer.offerId, seatOptions, offerMetadata);
     } catch (err) {
+        console.error(err)
         //REMOVE THIS - it's for testing only
         console.error('Repricing failed - ignore for now')
         confirmedTransportationOffer = transportationOffer;
