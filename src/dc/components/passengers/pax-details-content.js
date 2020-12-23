@@ -1,17 +1,17 @@
-import React, {useState,useEffect} from 'react';
-import PaxDetails from "./pax-details";
-import {storePassengerDetails,retrievePassengerDetails} from "../../../utils/api-utils"
+import React, {useState, useEffect} from 'react';
+import PaxDetails from './pax-details';
+import {storePassengerDetails, retrievePassengerDetails} from '../../../utils/api-utils'
 import Alert from 'react-bootstrap/Alert';
-import Spinner from "../common/spinner";
-import DevConLayout from "../layout/devcon-layout";
+import Spinner from '../common/spinner';
+import DevConLayout from '../layout/devcon-layout';
 import {
     flightOfferSelector,
     hotelOfferSelector, isShoppingCartInitializedSelector,
     requestCartUpdateAction
-} from "../../../redux/sagas/shopping-cart-store";
-import {connect} from "react-redux";
-import {Button, Col, Row} from "react-bootstrap";
-import {useHistory} from "react-router-dom";
+} from '../../../redux/sagas/shopping-cart-store';
+import {connect} from 'react-redux';
+import {Button, Col, Row} from 'react-bootstrap';
+import {useHistory} from 'react-router-dom';
 
 import {
     flightSearchResultsSelector,
@@ -19,10 +19,9 @@ import {
     isShoppingResultsRestoreInProgressSelector,
     isShoppingFlowStoreInitialized,
     hotelSearchResultsSelector
-} from "../../../redux/sagas/shopping-flow-store";
-import {ItinerarySummary} from "../flight-blocks/itinerary-summary";
-import {JourneySummary} from "../flight-blocks/journey-summary";
-import {HotelOfferSummary} from "../hoteldetails/hotel-offer-summary";
+} from '../../../redux/sagas/shopping-flow-store';
+import {JourneySummary} from '../flight-blocks/journey-summary';
+import {HotelOfferSummary} from '../hoteldetails/hotel-offer-summary';
 
 
 export function PaxDetailsContent(props) {
@@ -38,37 +37,38 @@ export function PaxDetailsContent(props) {
         hotelOffer
     } = props;
     const [passengerDetails, setPassengerDetails] = useState();
-    const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
+    const [passengerDetailsValid, setPassengerDetailsValid] = useState(false);
     const [highlightInvalidFields, setHighlightInvalidFields] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     let history = useHistory();
-    function onPaxDetailsChange(paxData, allPassengersDetailsAreValid){
+
+    function onPaxDetailsChange(paxData, allPassengersDetailsAreValid) {
         setPassengerDetails(paxData)
         setPassengerDetailsValid(allPassengersDetailsAreValid)
     }
 
     //Populate form with either passengers from session (if e.g. user refreshed page or clicked back) or initialize with number of passengers (and types) specified in a search form
-    useEffect(()=>{
-        if(!isShoppingFlowStoreInitialized){
+    useEffect(() => {
+        if (!isShoppingFlowStoreInitialized) {
             //no search results in store - probably page was refreshed, try to restore search results from cache
-            try{
+            try {
                 onRestoreSearchResults();
-            }catch(err){
-                console.log('Restore from cache failed',err)
+            } catch (err) {
+                console.log('Restore from cache failed', err)
             }
         }
 
-        if(!isShoppingCartStoreInitialized){
+        if (!isShoppingCartStoreInitialized) {
             //same as above but for shopping cart - reload it first
             try {
                 onRestoreShoppingCart();
-            }catch(err){
+            } catch (err) {
                 console.log('Restore of cart failed', err)
             }
         }
 
         //only when we have cart and search results we can proceed with creating pax for
-        if(isShoppingCartStoreInitialized===true && isShoppingFlowStoreInitialized === true) {
+        if (isShoppingCartStoreInitialized === true && isShoppingFlowStoreInitialized === true) {
             //initialize passengers
             let passengers = passengerDetails || createInitialPassengersFromSearch(flightSearchResults, hotelSearchResults);
             setIsLoading(true);
@@ -100,17 +100,18 @@ export function PaxDetailsContent(props) {
                 setPassengerDetails(passengers);
             })
         }
-    },[isShoppingCartStoreInitialized,isShoppingFlowStoreInitialized]);
+    }, [isShoppingCartStoreInitialized, isShoppingFlowStoreInitialized]);
 
-    function redirectToPrevStep(){
-        let url='/dc/';
+    function redirectToPrevStep() {
+        let url = '/dc/';
         history.push(url);
     }
+
     //redirect to the next page in the flow
-    function redirectToNextStep(){
-        let url='/dc/ancillaries';
-        if(!flightOffer){   //if there are no flights in cart - redirect to summary
-            url='/dc/summary';
+    function redirectToNextStep() {
+        let url = '/dc/ancillaries';
+        if (!flightOffer) {   //if there are no flights in cart - redirect to summary
+            url = '/dc/summary';
         }
         history.push(url);
     }
@@ -118,16 +119,16 @@ export function PaxDetailsContent(props) {
     function savePassengerDetailsAndProceed() {
         setIsLoading(true);
         let results = storePassengerDetails(passengerDetails);
-            results.then((response) => {
-                redirectToNextStep();
-         }).catch(err => {
-             console.error("Failed to store passenger details", err);
-             setHighlightInvalidFields(true);
-             setPassengerDetailsValid(false);
-         })
-         .finally(() => {
-            setIsLoading(false);
-         });
+        results.then((response) => {
+            redirectToNextStep();
+        }).catch(err => {
+            console.error("Failed to store passenger details", err);
+            setHighlightInvalidFields(true);
+            setPassengerDetailsValid(false);
+        })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
 
     const PassengerInvalidAlert = () => (
@@ -152,15 +153,13 @@ export function PaxDetailsContent(props) {
     }
 
 
-
     /**
      * if initial search was for e.g. 2 adults and 1 child, we need to initialize passenger form with 2 adults and 1 child.
      * This function does that (based on search form criteria)
      * @returns {[]}
      */
-    const createInitialPassengersFromSearch = (flightSearchResults,hotelSearchResults) =>
-    {
-        let searchResults = flightSearchResults?flightSearchResults:hotelSearchResults;
+    const createInitialPassengersFromSearch = (flightSearchResults, hotelSearchResults) => {
+        let searchResults = flightSearchResults ? flightSearchResults : hotelSearchResults;
         let paxData = searchResults.passengers;
         let passengers = Object.keys(paxData).map(paxId => {
             return {
@@ -171,55 +170,58 @@ export function PaxDetailsContent(props) {
         return passengers;
     }
 
-    const displayFlightSummary = () =>
-    {
-        const {itineraries} = flightOffer;
-        return (<><JourneySummary itineraries={flightOffer.itineraries}/><div className={'pb-1'}></div></>)
+    const displayFlightSummary = () => {
+        return (<><JourneySummary itineraries={flightOffer.itineraries}/>
+            <div className={'pb-1'}></div>
+        </>)
     }
-    const displayHotelSummary = () =>
-    {
+    const displayHotelSummary = () => {
         const {room, hotel, offer} = hotelOffer;
-        return (<><HotelOfferSummary room={room} hotel={hotel} offer={offer}/><div className={'pb-1'}></div></>)
+        return (<><HotelOfferSummary room={room} hotel={hotel} offer={offer}/>
+            <div className={'pb-1'}></div>
+        </>)
     }
-
 
 
     return (
         <DevConLayout>
             {flightOffer && displayFlightSummary()}
             {hotelOffer && displayHotelSummary()}
-                    <PaxDetails
-                        passengers={passengerDetails}
-                        onDataChange={onPaxDetailsChange}
-                        highlightInvalidFields={highlightInvalidFields}
-                    />
-                    {highlightInvalidFields && PassengerInvalidAlert()}
-                    {(isLoading||refreshInProgress) && loadingSpinner()}
-                    <NaviButtons prevEnabled={true} nextEnabled={passengerDetailsValid} onPrev={redirectToPrevStep} onNext={savePassengerDetailsAndProceed}/>
+            <PaxDetails
+                passengers={passengerDetails}
+                onDataChange={onPaxDetailsChange}
+                highlightInvalidFields={highlightInvalidFields}
+            />
+            {highlightInvalidFields && PassengerInvalidAlert()}
+            {(isLoading || refreshInProgress) && loadingSpinner()}
+            <NaviButtons prevEnabled={true} nextEnabled={passengerDetailsValid} onPrev={redirectToPrevStep}
+                         onNext={savePassengerDetailsAndProceed}/>
         </DevConLayout>
     )
 }
 
-const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
-    return(<>
-            <div className={'pt-3'}></div>
-        <Row>
-            <Col sm={4}>
-                <Button className={'btn-block'} variant="outline-primary"  disabled={prevEnabled===false} onClick={onPrev}>Back</Button>
-            </Col>
-            <Col sm={4}>
-            </Col>
-            <Col sm={4}>
-                <Button className={'btn-block'} variant="primary"  disabled={nextEnabled===false} onClick={onNext}>Proceed</Button>
-            </Col>
-        </Row></>
+const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext}) => {
+    return (<>
+            <Row className={'pt-3 pb-5'}>
+                <Col sm={4}>
+                    <Button className={'btn-block'} variant="outline-primary" disabled={prevEnabled === false}
+                            onClick={onPrev}>Back</Button>
+                </Col>
+                <Col sm={4}>
+                    <div className={'pt-2'}></div>
+                </Col>
+                <Col sm={4}>
+                    <Button className={'btn-block'} variant="primary" disabled={nextEnabled === false}
+                            onClick={onNext}>Proceed</Button>
+                </Col>
+            </Row></>
     )
 }
 
 const mapStateToProps = state => ({
-    flightSearchResults:flightSearchResultsSelector(state),
-    hotelSearchResults:hotelSearchResultsSelector(state),
-    refreshInProgress:isShoppingResultsRestoreInProgressSelector(state),
+    flightSearchResults: flightSearchResultsSelector(state),
+    hotelSearchResults: hotelSearchResultsSelector(state),
+    refreshInProgress: isShoppingResultsRestoreInProgressSelector(state),
     isShoppingFlowStoreInitialized: isShoppingFlowStoreInitialized(state),
     isShoppingCartStoreInitialized: isShoppingCartInitializedSelector(state),
     flightOffer: flightOfferSelector(state),
@@ -230,10 +232,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onRestoreSearchResults: () =>{
+        onRestoreSearchResults: () => {
             dispatch(requestSearchResultsRestoreFromCache());
         },
-        onRestoreShoppingCart: () =>{
+        onRestoreShoppingCart: () => {
             dispatch(requestCartUpdateAction());
         }
     }

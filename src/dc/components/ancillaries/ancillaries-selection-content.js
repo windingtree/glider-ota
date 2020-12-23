@@ -146,11 +146,12 @@ export function FareFamilies({tripRates, selectedOffer, onSelectedOfferChange}) 
 
 const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
     return(
-        <Row>
+        <Row className={'pt-3 pb-5'}>
             <Col sm={4}>
                 <Button className={'btn-block'} variant="outline-primary"  disabled={prevEnabled===false} onClick={onPrev}>Back</Button>
             </Col>
             <Col sm={4}>
+                <div className={'pt-2'}></div>
             </Col>
             <Col sm={4}>
                 <Button className={'btn-block'} variant="primary"  disabled={nextEnabled===false} onClick={onNext}>Proceed</Button>
