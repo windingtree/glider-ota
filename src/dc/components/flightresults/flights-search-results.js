@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useCallback} from 'react'
 import {config} from "../../../config/default";
 import style from './flights-search-results.module.scss'
 import {
@@ -65,12 +65,6 @@ export function FlightsSearchResults(props) {
         } else {
             console.warn('onOfferDisplay handler is not defined')
         }
-    }
-
-    //SEARCH button was hit - search for flights
-    const onSearchButtonClicked = () => {
-        if(onSearchClicked)
-            onSearchClicked();
     }
 
 
