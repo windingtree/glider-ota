@@ -19,6 +19,7 @@ export function Room({room, roomPricePlansWithOffers, selectedOffer, onAddOfferT
         <div className={style.roomContainer}>
             <ImageGallery images={roomImages}/>
             <div className={style.roomName}>{room.name}</div>
+            <div className={style.roomDescription}>{room.description}</div>
             <MaxOccupation maximumOccupancy={room.maximumOccupancy}/>
             <RoomSize room={room}/>
             <div className={'pt-4 pb-4'}>

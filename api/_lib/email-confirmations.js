@@ -53,7 +53,13 @@ const prepareEmailTemplateInput = (confirmation, paxID) => {
         segments = itinerary.segments;
     if(travelDocuments) {       //same with travelDocuments
      bookings=travelDocuments.bookings;
-     etickets=travelDocuments.etickets
+     etickets=[];
+     if(travelDocuments.etickets){
+         if(Array.isArray(travelDocuments.etickets) && travelDocuments.etickets.length>0){
+             etickets = Object.keys(travelDocuments.etickets[0])
+         }
+     }
+     // etickets=travelDocuments.etickets
     }
 
     //hotel bookings store booking confirmation in 'reservationNumber'

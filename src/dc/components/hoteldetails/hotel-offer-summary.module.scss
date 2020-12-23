@@ -35,3 +35,8 @@
 .roomPrice{
   @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-bold);
 }
+
+.roomDescription{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-light);
+
+}

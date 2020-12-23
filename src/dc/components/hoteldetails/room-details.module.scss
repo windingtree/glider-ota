@@ -4,6 +4,9 @@
     @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
   padding-top: 1rem;
 }
+.roomDescription {
+    @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-light);
+}
 
 .roomDisclaimer {
     @include g-font($g-fontsize-xs,$g-color-darkgrey,$g-fontweight-normal);
