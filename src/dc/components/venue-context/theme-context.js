@@ -13,7 +13,7 @@ const getDate = (strDate, defaultValue) =>{
 export const venueConfig={
     originAirport: venue.originAirport,
     destinationAirport: venue.destinationAirport,
-    destinationCity:venue.destinationCity,
+    destinationLocation:venue.destinationLocation,
     venueName:venue.venueName,
     startDate:getDate(venue.start_date),
     endDate:getDate(venue.end_date)
