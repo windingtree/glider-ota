@@ -36,17 +36,17 @@ const REASONS_RIGHT = [
 
 function LandingExplainerRow({title, description}) {
     return (
-    <Row>
+    <Row className={style.reasonRow}>
         <div className={style.reasonTitle}>{title}</div>
         <div className={style.reasonDetails}>{description}</div>
     </Row>
     )
 }
 
-export function LandingExplainer({reasons}) {
+export function LandingExplainer() {
     return (
         <Container className={style.explainerContainer}>
-            <Row>
+            <Row className={style.mainReasonRow}>
                 <div className={style.mainReasonTitle}>{MAIN_REASON.title}</div>
                 <div className={style.mainReasonDetails}>{MAIN_REASON.description}</div>
             </Row>

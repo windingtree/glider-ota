@@ -1,7 +1,11 @@
 @import '../../../styles/mixins';
 
 .explainerContainer {
-    margin: 40px 250px 40px 250px;
+    margin: 0px 0px 0px 0px;
+}
+
+.mainReasonRow {
+    margin: 0px;
 }
 
 .mainReasonTitle{
@@ -12,6 +16,10 @@
 .mainReasonDetails{
     @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
     margin: 0px 12px 80px 12px;
+}
+
+.reasonRow {
+    margin: 0px;
 }
 
 .reasonTitle{
