@@ -26,7 +26,7 @@ export function HotelOfferSummary({hotel, room, offer, price}) {
     }
 
     const roomInformation = (room) => {
-        const {name, maximumOccupancy, amenities, media} = room;
+        const {name, maximumOccupancy, amenities, media, description} = room;
         let imageUrl;
         if(media && Array.isArray(media) && media.length>0){
             imageUrl=media[0].url;
@@ -39,6 +39,9 @@ export function HotelOfferSummary({hotel, room, offer, price}) {
                         <div className={style.roomName}>{name}</div>
                         <RoomAmenities amenities={amenities} defaultExpanded={false}/>
                     </Col>
+                </Row>
+                <Row  className={style.roomDescription}>
+                    {description}
                 </Row>
                 {price &&
                     <div className={'pt-4 pb-4'}>
