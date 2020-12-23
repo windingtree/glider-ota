@@ -79,6 +79,7 @@ export function FlightsSearchForm(props) {
   //subscribe for search criteria changes so that we notify others once form is valid
   useEffect(() => {
     const serializeSearchForm = () => {
+      console.log('Date:',departureDate)
       return {
         origin: origin,
         destination: destination,
@@ -133,6 +134,7 @@ export function FlightsSearchForm(props) {
           initialEnd={initReturnDate}
           label='When'
           localstorageKey={'traveldates'}
+          displayVenueBadge={true}
         />
       </Col>
       <Col xs={12} md={3} className={style.formElem}>

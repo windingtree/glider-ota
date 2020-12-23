@@ -19,5 +19,8 @@
   },
   "venueName": "Devcon VI",
   "start_date": "2021-08-04",
-  "end_date": "2021-08-14"
+  "end_date": "2021-08-14",
+  "badgeVenueName": "Aug 10-13: Devcon VI",
+  "badgeStartDate": "2021-08-10",
+  "badgeEndDate": "2021-08-13"
 }

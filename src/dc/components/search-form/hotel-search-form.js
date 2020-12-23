@@ -124,6 +124,7 @@ export function HotelSearchForm(props) {
                 initialEnd={initReturnDate}
                 label='When'
                 localstorageKey={'traveldates'}
+                displayVenueBadge={true}
               />
             </Col>
             <Col xs={12} md={3} className={style.formElem}>

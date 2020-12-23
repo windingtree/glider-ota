@@ -11,10 +11,15 @@ const getDate = (strDate, defaultValue) =>{
 }
 
 export const venueConfig={
+    active: true,
     originAirport: venue.originAirport,
     destinationAirport: venue.destinationAirport,
     destinationLocation:venue.destinationLocation,
-    venueName:venue.venueName,
+    venueName:venue.badgeVenueName,
+    badgeVenueName:venue.badgeVenueName,
+    badgeStartDate:getDate(venue.badgeStartDate),
+    badgeEndDate:getDate(venue.badgeEndDate),
     startDate:getDate(venue.start_date),
-    endDate:getDate(venue.end_date)
+    endDate:getDate(venue.end_date),
+
 }
