@@ -1,18 +1,24 @@
 import { uuid } from 'uuidv4';
 import moment from 'moment';
-import React, {useEffect, useState} from 'react';
-import {Form} from 'react-bootstrap';
+import React, {useState} from 'react';
 import style from './date-pickup.module.scss';
-import {format} from "date-fns";
 
 import 'react-dates/initialize';
-import { DatePicker } from 'react-dates';
+import { SingleDatePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
-export default function DatePickup({initialDate,onDateChanged,placeholder = 'Departure',label,localstorageKey}) {
+export default function DatePickup({
+    initialDate,
+    onDateChanged,
+    placeholder = 'Departure',
+    label,
+    localstorageKey
+}) {
     const [startDate, setStartDate] = useState(initialDate);
     const [focusedInput, setFocusedInput] = useState(null);
-    const onChange = date => {
+    const onChange = _date => {
+        const date = (_date) ? _date.format() : null
+
         setStartDate(date);
         if(onDateChanged) {
             onDateChanged(date);
@@ -21,52 +27,20 @@ export default function DatePickup({initialDate,onDateChanged,placeholder = 'Dep
         }
     };
 
-    const inputElem = (<CustomInput date={startDate} placeholderText="Select dates" />)
-
     return (
         <>
             {label && <div className={style.label}>{label}</div>}
-            <DatePicker
+            <SingleDatePicker
                 startDatePlaceholderText="Date"
                 startDateTitleText="Date"
 
-                startDate={moment(startDate)}
-                startDateId={uuid()}
-                onDatesChange={onChange}
-
+                date={moment(startDate)}
+                onDateChange={onChange}
+                focused={focusedInput}
                 focusedInput={focusedInput}
                 onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+                id={uuid()}
             />
         </>
     );
 };
-
-
-const CustomInput = ({value, date, onClick, placeholderText}) => {
-    let textToDisplay='1';
-    if(date)
-        textToDisplay = formatDate(date);
-
-    return (
-        <>
-            <Form.Control
-                type="text"
-                placeholder={placeholderText}
-                onFocus={onClick}
-                value={textToDisplay}
-                className={style.inputField}
-            />
-        </>
-    )
-};
-
-const formatDate = (date) => {
-    if(!date)
-        return '';
-    try{
-        return format(date, 'MMM dd, EEE');
-    }catch(err){
-        console.warn(`Cannot format date in travel date picker, date: ${date}, error:${err}`);
-    }
-    return '';
-}
