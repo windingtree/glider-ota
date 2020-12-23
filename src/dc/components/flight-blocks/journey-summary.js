@@ -10,6 +10,23 @@ const NightsAtDestination = ({nights, cityName}) => {
 }
 
 
+export const JourneyHeader = ({itineraries}) => {
+    if(!itineraries || itineraries.length == 0)
+        return (<></>)
+    const isOneWay = (itineraries.length == 1);
+
+    let outboundItinerary = itineraries[0];
+
+    let origin;
+    let destination;
+    try{
+        origin = OfferUtils.getItineraryDepartureCityName(outboundItinerary);
+        destination = OfferUtils.getItineraryArrivalCityName(outboundItinerary);
+    }catch(err){
+
+    }
+    return (<div className={style.tripHeader}>From {origin} to {destination} {!isOneWay && 'and back'}</div>)
+}
 
 export const JourneySummary = ({itineraries}) => {
     const isOneWay = (itineraries.length == 1);

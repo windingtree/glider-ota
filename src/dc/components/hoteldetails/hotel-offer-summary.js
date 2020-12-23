@@ -11,13 +11,18 @@ export function HotelOfferSummary({hotel, room, offer, price}) {
     const hotelInformation = (hotel) =>{
         const {name:hotelName, description:hotelDescription, media:hotelImages, roomTypes:rooms} = hotel;
         const hotelAddress = _.get(hotel, 'contactInformation.address');
+        let hotelCity;
+        if(hotelAddress  && hotelAddress.locality)
+            hotelCity=hotelAddress.locality;
 
         return (
+            <>
+                {hotelCity && <div className={style.hotelStayHeader}>Hotel stay in {hotelCity}</div>}
             <Container>
             <Row className={style.hotelName}>{hotelName}</Row>
                 <Row>{hotelAddress && <HotelAddress address={hotelAddress}/>}</Row>
                 <Row>{hotelDescription && <div className={style.hotelDescription}>{hotelDescription}</div>}</Row>
-            </Container>)
+            </Container></>)
     }
 
     const roomInformation = (room) => {

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import style from './flight-rates.module.scss'
-import {ItinerarySummary} from '../../flight-blocks/itinerary-summary';
+import {ItineraryHeader, ItinerarySummary} from '../../flight-blocks/itinerary-summary';
 import FareFamilyHelper from '../../../../utils/fare-family-helper';
 import {AncillarySelectableItem} from '../../common-blocks/ancillary-selectable-item'
 
@@ -83,6 +83,7 @@ export function ItineraryRates({itinerary, tripRates, selectedOffer, onOfferSele
 
     return (<>
         {/*<ItineraryDetails itinerary={itinerary} key={itineraryId}/>*/}
+        <ItineraryHeader itinerary={itinerary}/>
         <div className={style.itineraryContainer}>
             <ItinerarySummary itinerary={itinerary}/>
         </div>

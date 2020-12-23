@@ -1,5 +1,8 @@
 @import '../../../styles/mixins';
 
+.tripHeader {
+    @include g-font($g-fontsize-xxl, $g-color-black, $g-fontweight-normal)
+}
 
 .itinerarySummaryWrapper {
     padding: 20px 20px 0 20px;

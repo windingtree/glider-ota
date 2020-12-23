@@ -1,5 +1,8 @@
 @import '../../../styles/mixins';
 
+.hotelStayHeader {
+  @include g-font($g-fontsize-xxl, $g-color-black, $g-fontweight-normal)
+}
 
 .roomImage {
     max-width: 180px;
