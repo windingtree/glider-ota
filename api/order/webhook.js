@@ -1,4 +1,4 @@
-const {BOOKEABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
+const {BOOKABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
 const {CART_ITEMKEYS} = require("../_lib/shopping-cart");
 const {validateWebhook, cancelPaymentIntent} = require('../_lib/stripe-api');
 const {decorate} = require('../_lib/decorators');
@@ -198,7 +198,7 @@ async function processPaymentSuccessMulti(confirmedOfferId, webhookEvent) {
     let completedCount=0;
 
     //iterate over all items that were in the shopping cart and are eligible for fulfillment
-    for(let key of BOOKEABLE_ITEMS_IN_CART) {
+    for(let key of BOOKABLE_ITEMS_IN_CART) {
         if (cartItems[key]) {   //if a given item exists - proceed with fulfillment
             const item = cartItems[key].item;
             const offerId = item.offerId;

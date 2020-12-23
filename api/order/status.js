@@ -1,4 +1,4 @@
-const {BOOKEABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
+const {BOOKABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
 const {createLogger} = require('../_lib/logger')
 const {decorate} = require('../_lib/decorators');
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
@@ -26,7 +26,7 @@ const checkOrderStatusController = async (req, res) => {
     const confirmedOffer = document.confirmedOffer;
     const cartItems = confirmedOffer.cartItems;
     let subOffersStatuses = {}
-    for(let key of BOOKEABLE_ITEMS_IN_CART){
+    for(let key of BOOKABLE_ITEMS_IN_CART){
         if (cartItems[key]) {
             const item = cartItems[key].item;
             const offerId = item.offerId;

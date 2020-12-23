@@ -24,7 +24,7 @@ const CART_USER_PREFERENCES_KEYS = {
 };
 
 //there may be multiple types of items in cart but only subset of them should be fulfilled
-const BOOKEABLE_ITEMS_IN_CART = [
+const BOOKABLE_ITEMS_IN_CART = [
     CART_ITEMKEYS.ACCOMMODATION_OFFER, CART_ITEMKEYS.TRANSPORTATION_OFFER
 ]
 
@@ -317,7 +317,7 @@ module.exports = {
     ShoppingCart,
     CART_ITEMKEYS,
     CART_USER_PREFERENCES_KEYS,
-    BOOKEABLE_ITEMS_IN_CART
+    BOOKABLE_ITEMS_IN_CART
 }
 
 

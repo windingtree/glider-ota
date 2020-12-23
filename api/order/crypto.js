@@ -1,5 +1,5 @@
 const Web3 = require('web3');
-const {BOOKEABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
+const {BOOKABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
 const { decorate } = require('../_lib/decorators');
 const { createLogger } = require('../_lib/logger');
 const { sendBookingConfirmations } = require('../_lib/email-confirmations');
@@ -233,7 +233,7 @@ const processCryptoOrderMulti = async (
     let completedCount=0;
 
     //iterate over all items that were in the shopping cart and are eligible for fulfillment
-    for(let key of BOOKEABLE_ITEMS_IN_CART) {
+    for(let key of BOOKABLE_ITEMS_IN_CART) {
         if (cartItems[key]) {   //if a given item exists - proceed with fulfillment
             const item = cartItems[key].item;
             const offerId = item.offerId;
