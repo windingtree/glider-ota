@@ -9,6 +9,9 @@ import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
+import {UnicornVenueBadge} from "../search-form/unicorn-venue-badge";
+import {venueConfig} from "../venue-context/theme-context";
+
 const StyledWrapper = styled.div`
     .DateRangePickerInput {
         text-align: center;
@@ -23,16 +26,27 @@ export default function DateRangePickup({
     startPlaceholder = 'Departure',
     endPlaceholder = 'Return',
     label,
-    localstorageKey
+    localstorageKey,
+    displayVenueBadge =  false
 }) {
     const [startDate, setStartDate] = useState(initialStart);
     const [endDate, setEndDate] = useState(initialEnd);
     const [focusedInput, setFocusedInput] = useState(null);
+    const [showVenueBadge, setShowVenueBadge] = useState(venueConfig.active && displayVenueBadge);
+
+    const onVenueBadgeClick = () =>{
+        try {
+            setStartDate(venueConfig.badgeStartDate);
+            setEndDate(venueConfig.badgeEndDate);
+            setShowVenueBadge(false);
+        }catch(err){
+            console.error('Failed to set venue start or end date',err)
+        }
+    }
 
     const onChange = dates => {
-        const start = (dates.startDate) ? dates.startDate.toDate() : null
+        const start = (dates.startDate) ? dates.startDate.toDate(): null
         const end = (dates.endDate) ? dates.endDate.toDate() : null
-
         setStartDate(start);
         onStartDateChanged(start);
 
@@ -77,6 +91,7 @@ export default function DateRangePickup({
                     block
                 />
             </StyledWrapper>
+            {showVenueBadge && <UnicornVenueBadge onBadgeClick={onVenueBadgeClick}/>}
         </>
     );
 };
