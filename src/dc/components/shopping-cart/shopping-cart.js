@@ -31,14 +31,8 @@ import { storageKeys } from '../../../config/default';
 
 let cx = classNames.bind(style);
 
-//display row in shopping cart with subtotal amount (e.g. total amount for flights)
-const SubTotal = ({title, price, priceAmount, currency}) => {
-    let cls = cx({
-        subtotalItem: true,
-        'float-right': true,
-    })
-
-    if (price) {
+const SubTotal = ({title,price, priceAmount, currency}) =>{
+    if(price) {
         priceAmount = price.public;
         currency = price.currency;
     }
@@ -46,34 +40,29 @@ const SubTotal = ({title, price, priceAmount, currency}) => {
     return (
         <Container fluid={true}>
             <Row noGutters={true}>
-                <Col className={style.subtotalItem}>
+                <Col className={style.subtotalItemLabel}>
                     {title}
                 </Col>
-                <Col className={cls}>
+                <Col className={style.subtotalItemAmount}>
                     {priceAmount} {currency}
                 </Col>
             </Row>
         </Container>)
 }
 
-//display total amount to pay
-const Total = ({title, price, priceAmount, currency}) => {
-    let cls = cx({
-        totalItem: true,
-        'float-right': true,
-    })
-    if (price) {
+const Total = ({title, price, priceAmount, currency}) =>{
+    if(price) {
         priceAmount = price.public;
         currency = price.currency;
     }
     return (
         <Container fluid={true}>
             <Row noGutters={true}>
-                <Col className={style.totalItem}>
+                <Col className={style.totalItemLabel}>
                     {title}
                 </Col>
-                <Col className={cls}>
-                    {priceAmount} {currency}
+                <Col className={style.totalItemAmount}>
+                   {priceAmount} {currency}
                 </Col>
             </Row>
         </Container>)
