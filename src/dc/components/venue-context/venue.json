@@ -6,7 +6,7 @@
     "primary": "Bogota El Dorado Intl",
     "secondary": "CO"
   },
-  "destinationLocation": {
+  "destinationCity": {
     "latitude": "4.60971",
     "longitude": "-74.08175",
     "primary": "Bogotá",

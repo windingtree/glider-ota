@@ -28,7 +28,7 @@ export function HotelSearchForm(props) {
     initSearch
   } = props;
 
-  const destinationLocationKey = storageKeys.hotels.destination;
+  const destinationCityKey = storageKeys.hotels.destination;
 
   const [destination, setDestination] = useState(initDest);
   const [departureDate, setDepartureDate] = useState(initDepartureDate);
@@ -113,7 +113,7 @@ export function HotelSearchForm(props) {
                 onSelectedLocationChange={setDestination}
                 placeHolder='Destination'
                 label='Destination/Hotel'
-                localstorageKey={destinationLocationKey}
+                localstorageKey={destinationCityKey}
               />
             </Col>
             <Col xs={12} md={6} className={style.formElem}>
