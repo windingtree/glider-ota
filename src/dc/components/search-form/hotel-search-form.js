@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {Button, Row, Col, Container} from 'react-bootstrap'
-import DatePickup from '../traveldate-pickup/date-pickup'
 import {addDays} from "date-fns";
 import style from './hotel-search-form.module.scss'
 import PassengerSelector from '../passenger-selector/passenger-selector'
@@ -9,7 +8,6 @@ import {hotelSearchCriteriaChangedAction} from "../../../redux/sagas/shopping-fl
 import {connect} from "react-redux";
 import DateRangePickup from "../traveldate-pickup/date-range-pickup";
 import {venueConfig} from "../venue-context/theme-context";
-import {UnicornVenueBadge} from "./unicorn-venue-badge";
 
 
 export function HotelSearchForm(props){
@@ -35,7 +33,6 @@ export function HotelSearchForm(props){
   const [adults, setAdults] = useState(initAdults||1);
   const [children, setChildren] = useState(initChildren||0);
   const [infants, setInfants] = useState(initInfants||0);
-  const [showUnicornBadge, setShowUnicornBadge] = useState(false);    //disable for now
 
   const validate = useCallback(() => {
     const isDestinationValid = () => {
@@ -107,17 +104,8 @@ export function HotelSearchForm(props){
   }, [destination, departureDate, returnDate, adults, children, infants, serializeSearchForm, searchCriteriaChanged]) // <-- here put the parameter to listen
 
 
-  const onVenueBadgeClick = () =>{
-    try {
-      setDestination('London');
-      setShowUnicornBadge(false);
-    }catch(err){
-      console.error('Failed to set venue start or end date',err)
-    }
-  }
-
-  let initialCheckInDate=departureDate?departureDate:venueConfig.startDate;
-  let initialCheckout=returnDate?returnDate:venueConfig.endDate;
+  let initialCheckInDate=departureDate?departureDate:null;
+  let initialCheckout=returnDate?returnDate:null;
 
     return (<>
               <Col xs={12} md={3} className={style.formElem}>
@@ -128,7 +116,6 @@ export function HotelSearchForm(props){
                   label='Destination/Hotel'
                   localstorageKey={'destination-city'}
                 />
-                {showUnicornBadge && <UnicornVenueBadge onBadgeClick={onVenueBadgeClick}/>}
               </Col>
               <Col xs={12} md={6} className={style.formElem}>
                 <DateRangePickup
@@ -138,6 +125,7 @@ export function HotelSearchForm(props){
                   initialEnd={initialCheckout}
                   label='When'
                   localstorageKey={'traveldates'}
+                  displayVenueBadge={true}
                 />
               </Col>
               <Col xs={12} md={3} className={style.formElem}>
