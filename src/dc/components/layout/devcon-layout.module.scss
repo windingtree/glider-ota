@@ -1,11 +1,21 @@
 @import '../../../styles/mixins';
 
+.outerPageWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+  align-items: stretch;
+  position: relative;
+  height: 100%;
+}
+
 .innerPageWrapper {
-  max-width: 1200px;
+  height: 100%;
   width: 100%;
   display: block;
   box-sizing: border-box;
-  margin-left: auto;
-  margin-right: auto;
-  // overflow: auto; // prevent margin collapsing
+  padding-left: 15%;
+  padding-right: 15%;
+  overflow: auto; // prevent margin collapsing
 }
