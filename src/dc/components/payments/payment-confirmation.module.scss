@@ -57,13 +57,36 @@
 }
 
 .sectionHeader{
-    @include g-font($glider-font-size-xxl,$g-color-black, $g-fontweight-normal)
+    @include g-font($glider-font-size-xxl,$g-color-black, $g-fontweight-normal);
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .sectionBody{
     background-color: $glider-color-primary-background;
-    padding: 20px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-radius: 8px;
+    padding: 20px;
 }
 
+.alertHeader{
+    @include g-font($glider-font-size-xl,$g-color-primary, $g-fontweight-bold);
+}
+
+.alertBody{
+    @include g-font($glider-font-size-l,$g-color-black, $g-fontweight-normal);
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+.colorSuccess{
+    color: $g-color-primary;
+}
+
+.colorInfo{
+    color: $g-color-black;
+}
+
+.colorDanger{
+    color: $g-color-warning;
+}

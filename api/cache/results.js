@@ -28,7 +28,7 @@ const cachedResultsController = async (req, res) => {
         sendErrorResponse(res, 400, ERRORS.INTERNAL_SERVER_ERROR, "Could not retrieve cached results");
         return;
     }
-    if (!data) {
+    if (!data || !data.offers) {
         //no data cached - normal case if it's initial load
         res.json({})
         return;
@@ -41,7 +41,7 @@ const cachedResultsController = async (req, res) => {
         let convertedPrice = await shoppingCart.estimatePriceInUserPreferredCurrency(data.offers[offerId].price);
         data.offers[offerId].price = convertedPrice;
     }
-    
+
     res.json({data: data})
 }
 

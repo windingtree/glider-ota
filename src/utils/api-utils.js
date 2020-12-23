@@ -105,18 +105,6 @@ export async function storeSelectedOffer(selectedOffer){
   return fetchPost('/api/cart/offer',{offer:selectedOffer});
 }
 
-/*
-export async function retrieveSelectedOffer(){
-  return fetchGet('/api/cart/offer',{});
-}
-*/
-
-/*
-export async function storeSelectedAccommodation(selectedOffer){
-  return fetchPost('/api/cart/accommodation',{offer:selectedOffer});
-}
-*/
-
 //server side cart
 export async function storeOfferId(offerId, type){
   return fetchPost('/api/cart/cartv2',{type:type,offerId:offerId});
@@ -147,27 +135,6 @@ export async function retrieveSeatmap() {
 export async function addSeats(selectedSeats){
   return fetchPost('/api/cart/seats', selectedSeats);
 }
-
-///////////////// GENERIC CART STORAGE //////////////////////
-/*
-export async function retrieveItemFromCart(key) {
-  let query={
-    key:key
-  }
-  return fetchGet('/api/cart/cart', query);
-};
-*/
-
-/*
-export async function storeItemInCart(key,item){
-  let payload = {
-    key:key,
-    item: item
-  }
-  return fetchPost('/api/cart/cart',payload );
-}
-*/
-
 
 ///////////////// REPRICE //////////////////////
 
@@ -231,4 +198,9 @@ export async function getCachedSearchResults(type) {
     throw new Error('Invalid type');
   }
   return fetchGet('/api/cache/results', {type: type});
+}
+
+//invalidate session (remove shopping cart items, search results, etc...)
+export async function invalidateCache() {
+  return deleteCall('/api/cart/session');
 }

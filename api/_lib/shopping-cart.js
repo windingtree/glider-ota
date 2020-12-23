@@ -23,6 +23,11 @@ const CART_USER_PREFERENCES_KEYS = {
     PAYMENT_METHOD: 'paymentMethod',
 };
 
+//there may be multiple types of items in cart but only subset of them should be fulfilled
+const BOOKEABLE_ITEMS_IN_CART = [
+    CART_ITEMKEYS.ACCOMMODATION_OFFER, CART_ITEMKEYS.TRANSPORTATION_OFFER
+]
+
 // Possible fees per payment method
 const OPC_FEES = {
     'card':   0.05,
@@ -90,7 +95,7 @@ class ShoppingCart {
         let cart = await this.getCart();
         cart.items[cartKey] = record;
         this._cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+        await this._save();
         return this._cart;
     }
 
@@ -104,7 +109,7 @@ class ShoppingCart {
         if (cart.items[cartKey] !== undefined) {
             delete cart.items[cartKey];
             this._cart = await this._updateTotalPrice(cart);
-            await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+            await this._save();
         }
 
         return this._cart;
@@ -143,7 +148,7 @@ class ShoppingCart {
         let cart = await this.getCart();
         cart.userPreferences[userPreferenceKey] = value;
         this._cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+        await this._save();
         return this._cart;
     }
 
@@ -288,6 +293,23 @@ class ShoppingCart {
         }
     }
 
+    /**
+     * Remove all items from cart
+     * @returns {Promise<any>}
+     */
+    async emptyCart( ) {
+        const cart = await this.getCart();
+        cart.items={};
+        await this._updateTotalPrice(cart);
+        await this._save();
+        return this._cart;
+    }
+
+    async _save() {
+        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+    }
+
+
 
 }
 
@@ -295,6 +317,7 @@ module.exports = {
     ShoppingCart,
     CART_ITEMKEYS,
     CART_USER_PREFERENCES_KEYS,
+    BOOKEABLE_ITEMS_IN_CART
 }
 
 

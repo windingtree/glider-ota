@@ -1,4 +1,5 @@
 const Web3 = require('web3');
+const {BOOKEABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
 const { decorate } = require('../_lib/decorators');
 const { createLogger } = require('../_lib/logger');
 const { sendBookingConfirmations } = require('../_lib/email-confirmations');
@@ -186,22 +187,84 @@ const processCryptoOrderMulti = async (
     }
 ) => {
 
+
+
     let masterOffer = await findConfirmedOffer(confirmedOfferId)
-    let {subOfferIDs} = masterOffer;
-    let results = []
-    if(!subOfferIDs){
+
+    // Check if fulfillment is already processed or in progress
+    if (masterOffer && masterOffer.order_status && masterOffer.order_status!==ORDER_STATUSES.NEW){
+        return {...masterOffer.confirmation, isDuplicate: true};
+    }
+
+    const confirmedOffer = masterOffer.confirmedOffer;
+    const cartItems = confirmedOffer.cartItems;
+    if(!cartItems){
         //should not happen
         throw new Error('Missing sub offers - cannot proceed')
     }
-    for(let offerId of subOfferIDs){
-        console.log('Process success for offerId',offerId)
-        try {
-            results.push(await processCryptoOrder(offerId,{tx,receipt,payment,quoteId}));
-        }catch(err){
-            console.log('error while processing', err)
+
+    // Extract relevant details from Stripe
+    // let paymentDetails = retrievePaymentDetailsFromWebhook(webhookEvent);
+
+    //update payment status of master offer to PAID
+    await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLING, "Fulfilled after successful payment", {})
+
+    // Update the Payment Status in DB
+    await updatePaymentStatus(
+        confirmedOfferId,// offerId
+        PAYMENT_STATUSES.PAID, // payment_status
+        {// payment_details
+            tx,
+            receipt,
+            payment,
+            quoteId
+        },
+        `Crypto payment`,// comment
+        receipt// transaction_details
+    );
+
+
+    //prepare confirmation (at a master order level)
+    let masterConfirmation={
+        orderId: confirmedOfferId,
+        isDuplicate:false
+    }
+    let failedCount=0;
+    let completedCount=0;
+
+    //iterate over all items that were in the shopping cart and are eligible for fulfillment
+    for(let key of BOOKEABLE_ITEMS_IN_CART) {
+        if (cartItems[key]) {   //if a given item exists - proceed with fulfillment
+            const item = cartItems[key].item;
+            const offerId = item.offerId;
+            console.log(`Fulfilling offer type: ${key}, offerId:${offerId}`);
+            try {
+                const confirmation =await processCryptoOrder(offerId,{tx,receipt,payment,quoteId});
+                console.log(`Successful fulfilment, type: ${key}, offerId:${offerId}`);
+                masterConfirmation[key] = confirmation;
+                completedCount++;
+            } catch (err) {
+                console.warn(`Failed to fulfill, type: ${key}, offerId:${offerId}`, err);
+                failedCount++
+                masterConfirmation[key] = {
+                    order_status: ORDER_STATUSES.FAILED
+                }
+            }
         }
     }
-    console.log('Results', results)
+    if(failedCount>0){
+        if(completedCount>0) {
+            await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED_PARTIALLY, `Order partially fulfilled, completed#${completedCount}, failed#${failedCount}`, {})
+        }else{
+            await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Failed to fulfill`, {})
+        }
+    }else{
+        await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED, `Order fulfillment completed`, {})
+    }
+
+    console.log(`Successful/failed fulfillments : ${completedCount}/${failedCount}` )
+    return masterConfirmation;
+
 }
 
 const processCryptoOrder = async (
@@ -321,7 +384,7 @@ const validatePaymentTransaction = async (confirmedOfferId, transactionHash) => 
     const amount = web3.utils.fromWei(payment.amountOut, 'picoether');// USDC uses picoether: 1000000
     const {
         currency
-    } = document.confirmedOffer.price;
+    } = document.confirmedOffer.totalPrice;
     const exchangeQuote = document.exchangeQuote;
     const offerCurrency = String(currency).toLowerCase();
 
