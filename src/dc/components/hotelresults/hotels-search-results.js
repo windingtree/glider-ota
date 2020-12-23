@@ -30,7 +30,6 @@ export function HotelsSearchResults(props) {
     } = props;
     const [currentPage, setCurrentPage] = useState(1);
 
-    //SEARCH button was hit - search for hotels
     const onSearchButtonClicked = useCallback(() => {
         if(onSearchClicked) {
             onSearchClicked();

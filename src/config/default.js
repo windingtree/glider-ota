@@ -33,3 +33,20 @@ export const GLIDER_ORGID = DEFAULT_NETWORK !== 'ropsten'
     : process.env.REACT_APP_GLIDER_ORGID;
 
 export const PAYMENT_MANAGER_ADDRESS = PAYMENT_MANAGER[DEFAULT_NETWORK];
+
+export const storageKeys = {
+    flights: {
+        origin: 'origin-airport',
+        destination: 'destination-airport'
+    },
+    hotels: {
+        destination: 'destination-city'
+    },
+    common: {
+        adults: 'adults',
+        children: 'children',
+        infants: 'infants',
+        departureDate: 'departureDate',
+        returnDate: 'returnDate'
+    }
+};

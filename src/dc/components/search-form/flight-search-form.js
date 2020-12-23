@@ -1,21 +1,17 @@
-import React, {useState, useEffect} from 'react'
-import {Button, Row, Col, Container, Form} from 'react-bootstrap'
-import DateRangePickup from '../traveldate-pickup/date-range-pickup'
-import style from './flight-search-form.module.scss'
-import PassengerSelector from '../passenger-selector/passenger-selector'
-import {AirportLookup} from "../lookup/airport-lookup";
-
-
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
+import { Button, Row, Col, Container, Form } from 'react-bootstrap';
+import DateRangePickup from '../traveldate-pickup/date-range-pickup';
+import PassengerSelector from '../passenger-selector/passenger-selector';
+import { AirportLookup } from '../lookup/airport-lookup';
 import {
   flightSearchCriteriaChangedAction
 } from '../../../redux/sagas/shopping-flow-store';
-import {CalendarContainer} from "react-datepicker";
-import {venueConfig} from "../venue-context/theme-context"
+import style from './flight-search-form.module.scss';
 
+import { storageKeys } from '../../../config/default';
 
-
-export function FlightsSearchForm(props){
+export function FlightsSearchForm(props) {
   // Destructure properties
   const {
     initOrigin,
@@ -31,101 +27,87 @@ export function FlightsSearchForm(props){
     searchCriteriaChanged
   } = props;
 
+  const originAirportKey = storageKeys.flights.origin;
+  const destinationAirportKey = storageKeys.flights.destination;
+
   const [origin, setOrigin] = useState(initOrigin);
   const [destination, setDestination] = useState(initDest);
-  const [departureDate, setDepartureDate] = useState(initDepartureDate?initDepartureDate:undefined);
-  const [returnDate, setReturnDate] = useState(initReturnDate?initReturnDate:undefined);
-  const [adults, setAdults] = useState(initAdults||1);
-  const [children, setChildren] = useState(initChildren||0);
-  const [infants, setInfants] = useState(initInfants||0);
+  const [departureDate, setDepartureDate] = useState(initDepartureDate);
+  const [returnDate, setReturnDate] = useState(initReturnDate);
+  const [adults, setAdults] = useState(initAdults);
+  const [children, setChildren] = useState(initChildren);
+  const [infants, setInfants] = useState(initInfants);
 
-  function serializeSearchForm(){
-    return {
-      origin: origin,
-      destination: destination,
-      departureDate: departureDate,
-      returnDate: returnDate,
-      adults:adults,
-      children:children,
-      infants:infants,
-      isValid:validate(),
-      locationsSource:locationsSource
-    };
-  }
+  const validate = useCallback(() => {
+    const isOriginValid = () => {
+      return origin!==undefined;
+    }
 
-  function isOriginValid(){
-    return origin!==undefined;
-  }
+    const isDestinationValid = () => {
+      return destination!==undefined;
+    }
 
-  function isDestinationValid(){
-    return destination!==undefined;
-  }
+    const isDepartureDateValid = () => {
+      return departureDate!==undefined
+    }
 
-  function isDepartureDateValid(){
-    return departureDate!==undefined
-  }
+    const isPaxSelectionValid = () => {
+      // Check if maximum is not exceeded
+      if(maxPassengers && (adults + infants + children) > maxPassengers) {
+        return false;
+      }
+      //@fixme: Infants are not yet supported by AC
+      if(infants > 0) {
+        return false;
+      }
+      // Check if infants do not exceed adults (since they seat on laps)
+      if(infants > adults) {
+        return false;
+      }
+      // Otherwise just ensure we have adults (minor-only not supported)
+      return (adults>0);
+    }
+
+    const originValid = isOriginValid();
+    const destinationValid =  isDestinationValid();
+    const departureDateValid = isDepartureDateValid();
+    const paxSelectionValid = isPaxSelectionValid();
+    const result = originValid && destinationValid && departureDateValid && paxSelectionValid;
+    return result;
+  }, [adults, children, departureDate, destination, infants, maxPassengers, origin]);
 
   //subscribe for search criteria changes so that we notify others once form is valid
   useEffect(() => {
-    if(searchCriteriaChanged){
-      let searchCriteria=serializeSearchForm();
+    const serializeSearchForm = () => {
+      return {
+        origin: origin,
+        destination: destination,
+        departureDate: departureDate,
+        returnDate: returnDate,
+        adults: adults,
+        children: children,
+        infants: infants,
+        isValid:validate(),
+        locationsSource:locationsSource
+      };
+    }
+
+    if (searchCriteriaChanged) {
+      let searchCriteria = serializeSearchForm();
       let isSearchFormValid = searchCriteria.isValid;
+      console.log('searchCriteriaChanged', searchCriteria, isSearchFormValid);
       //fire action to notify others about search criteria and bool flag with the result of validation
       searchCriteriaChanged(searchCriteria, isSearchFormValid);
-    }else{
+    } else {
       console.warn('searchCriteriaChanged is not defined!')
     }
-  }, [origin, destination, departureDate, returnDate, adults, children, infants]) // <-- here put the parameter to listen
-
-  function isPaxSelectionValid(){
-    // Check if maximum is not exceeded
-    if(maxPassengers && (adults + infants + children) > maxPassengers) {
-      return false;
-    }
-    //@fixme: Infants are not yet supported by AC
-    if(infants > 0) {
-      return false;
-    }
-    // Check if infants do not exceed adults (since they seat on laps)
-    if(infants > adults) {
-      return false;
-    }
-    // Otherwise just ensure we have adults (minor-only not supported)
-    return (adults>0);
-  }
-
-  function validate(){
-    let originValid = isOriginValid();
-    let destinationValid =  isDestinationValid();
-    let departureDateValid = isDepartureDateValid();
-    let paxSelectionValid = isPaxSelectionValid();
-    let result = originValid && destinationValid && departureDateValid && paxSelectionValid;
-    return result;
-  }
-
-  const originAirportKey = 'origin-airport';
-  const destinationAirportKey = 'destination-airport';
-
-  const storedOriginRaw = sessionStorage.getItem(`inputfield-${originAirportKey}`);
-  const storedDestinationRaw = sessionStorage.getItem(`inputfield-${destinationAirportKey}`);
-  let storedOrigin;
-  let storedDestination;
-
-  try {
-    storedOrigin = JSON.parse(storedOriginRaw);
-    storedDestination = JSON.parse(storedDestinationRaw);
-  } catch (e) {}
-
-  let initialOrigin = initOrigin ? initOrigin : storedOrigin ? storedOrigin : venueConfig.originIata;
-  let initialDestination = initDest ? initDest : storedDestination ? storedDestination : venueConfig.destinationIata;
-  let initialDepartureDate = departureDate ? departureDate : venueConfig.startDate;
-  let initialReturnDate = returnDate ? returnDate : venueConfig.endDate;
+  }, [locationsSource, origin, destination, departureDate, returnDate, adults, children, infants, searchCriteriaChanged, validate]) // <-- here put the parameter to listen
 
   return (
     <>
       <Col xs={12} md={3} className={style.formElem}>
         <AirportLookup
-          initialLocation={initialOrigin}
+          initialLocation={initOrigin}
           onSelectedLocationChange={setOrigin}
           placeHolder='Where from'
           label='From'
@@ -134,7 +116,7 @@ export function FlightsSearchForm(props){
       </Col>
       <Col xs={12} md={3} className={style.formElem}>
         <AirportLookup
-          initialLocation={initialDestination}
+          initialLocation={initDest}
           onSelectedLocationChange={setDestination}
           placeHolder='Where to'
           label='To'
@@ -144,20 +126,20 @@ export function FlightsSearchForm(props){
       <Col xs={12} md={3} className={style.formElem}>
         <DateRangePickup
           onStartDateChanged={setDepartureDate}
+          onEndDateChanged={setReturnDate}
           startPlaceholder={'Departure'}
           endPlaceholder={'Return'}
-          onEndDateChanged={setReturnDate}
-          initialStart={initialDepartureDate}
-          initialEnd={initialReturnDate}
+          initialStart={initDepartureDate}
+          initialEnd={initReturnDate}
           label='When'
           localstorageKey={'traveldates'}
         />
       </Col>
       <Col xs={12} md={3} className={style.formElem}>
         <PassengerSelector
-          adults={adults}
-          children={children}
-          infants={infants}
+          adults={initAdults}
+          children={initChildren}
+          infants={initInfants}
           onAdultsChange={setAdults}
           onChildrenChange={setChildren}
           onInfantsChange={setInfants}
@@ -178,18 +160,11 @@ export function FlightsSearchForm(props){
   );
 }
 
-
-
-
-const mapStateToProps = state => ({
-
+const mapStateToProps = state => ({});
+const mapDispatchToProps = (dispatch) => ({
+  searchCriteriaChanged: (searchCriteria, isSearchFormValid) => dispatch(
+    flightSearchCriteriaChangedAction(searchCriteria, isSearchFormValid)
+  )
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    searchCriteriaChanged: (searchCriteria, isSearchFormValid) => {
-      dispatch(flightSearchCriteriaChangedAction(searchCriteria, isSearchFormValid))
-    }
-  }
-}
 export default connect(mapStateToProps, mapDispatchToProps)(FlightsSearchForm);

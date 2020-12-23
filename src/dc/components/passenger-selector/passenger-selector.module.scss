@@ -26,7 +26,7 @@
   width: 280px;
   color: $glider-color-inputfields-text;
   background-color: $glider-color-inputfields-background;
-  
+  margin: 8px 0 0 0;
 }
 
 
@@ -55,6 +55,11 @@
   margin:4px;
   border:0px;
   line-height: 1;
+  padding: 0;
+
+  > span {
+    display: block;
+  }
 }
 :global(.pax-btn-increase) {
   color: #fff;
