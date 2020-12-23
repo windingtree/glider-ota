@@ -30,8 +30,8 @@ export default function DateRangePickup({
     const [focusedInput, setFocusedInput] = useState(null);
 
     const onChange = dates => {
-        const start = (dates.startDate) ? dates.startDate.format() : null
-        const end = (dates.endDate) ? dates.endDate.format() : null
+        const start = (dates.startDate) ? dates.startDate.toDate() : null
+        const end = (dates.endDate) ? dates.endDate.toDate() : null
 
         setStartDate(start);
         onStartDateChanged(start);
