@@ -5,7 +5,7 @@ import linkifyHtml from 'linkifyjs/html';
 
 
 export default function PaymentSummary({offer}) {
-    const totalPrice = offer.price;
+    const totalPrice = offer.totalPrice;
     const pricedItems = offer.pricedItems;
     const options = offer.options;
 

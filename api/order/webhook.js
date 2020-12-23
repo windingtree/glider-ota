@@ -167,26 +167,17 @@ async function processWebhookEvent(event) {
 
 async function processPaymentSuccessMulti(confirmedOfferId, webhookEvent) {
     let masterOffer = await findConfirmedOffer(confirmedOfferId)
-    let {orderType, masterOrderId, subOfferIDs} = masterOffer;
-    let results = []
-    if(orderType === ORDER_TYPES.SINGLE){
-        try{
-            results.push(processPaymentSuccess(confirmedOfferId,webhookEvent))
+    let {subOfferIDs} = masterOffer;
+    if(!subOfferIDs){
+        //should not happen
+        throw new Error('Missing sub offers - cannot proceed')
+    }
+    for(let offerId of subOfferIDs){
+        console.log('Process success for offerId',offerId)
+        try {
+            results.push(await processPaymentSuccess(offerId, webhookEvent));
         }catch(err){
             console.log('error while processing', err)
-        }
-    }else{
-        if(!subOfferIDs){
-            //should not happen
-            throw new Error('Missing sub offers - cannot proceed')
-        }
-        for(let offerId of subOfferIDs){
-            console.log('Process success for offerId',offerId)
-            try {
-                results.push(await processPaymentSuccess(offerId, webhookEvent));
-            }catch(err){
-                console.log('error while processing', err)
-            }
         }
     }
     console.log('Results', results)

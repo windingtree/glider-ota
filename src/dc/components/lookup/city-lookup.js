@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react'
-import LookupField from "./components/lookup-field";
-import {fetchGet} from "../../../utils/api-utils";
-
+import React, { useState, useEffect } from 'react';
+import LookupField from './components/lookup-field';
+import { fetchGet } from '../../../utils/api-utils';
 
 export function CityLookup(props) {
     const {
@@ -12,40 +11,13 @@ export function CityLookup(props) {
         localstorageKey
     } = props;
     const [searchResults, setSearchResults] = useState([]);
+    const [searchQuery, setSearchQuery] = useState();
+    const [isNewSearch, setNewSearch] = useState(false);
     const [isLoading, setLoading] = useState(false);
-    const [queryPromise, setQueryPromise] = useState(null);
+    const [isNoResults, setNoResults] = useState(false);
 
-    useEffect(() => {
-        let queryProcess = queryPromise;
-        if (queryProcess && typeof queryProcess.then === 'function') {
-            queryProcess
-                .then(response => {
-                    let results = convertResponse(response.results);
-                    setLoading(false);
-                    setSearchResults(results);
-                })
-                .catch(error => {
-                    setLoading(false);
-                    console.log('Failed to search for city', error);
-                });
-        }
-        return () => {
-            queryProcess = undefined;
-        };
-    }, [queryPromise]);
-
-    async function onQueryEntered(searchQuery) {
-        setLoading(true);
-        setSearchResults([]);
-        setQueryPromise(
-            fetchGet('/api/lookup/citySearch', {
-                searchquery: searchQuery
-            })
-        );
-    }
-
-    function convertResponse(airports) {
-        return airports.map(rec => {
+    const convertResponse = cities => {
+        return cities.map(rec => {
             return {
                 primary: rec.city_name,
                 secondary: rec.country_name,
@@ -55,16 +27,59 @@ export function CityLookup(props) {
         })
     }
 
+    useEffect(() => {
+        let cancelled = false;
+
+        if (searchQuery && isNewSearch) {
+            setLoading(true);
+            setSearchResults([]);
+            setNoResults(false);
+            fetchGet(
+                '/api/lookup/citySearch',
+                {
+                    searchquery: searchQuery
+                }
+            )
+                .then(response => {
+                    if (!cancelled) {
+                        let results = convertResponse(response.results);
+                        setLoading(false);
+                        setNoResults(results.length === 0);
+
+                        if (results.length > 0) {
+                            setSearchResults(results);
+                        }
+
+                        setNewSearch(false);
+                    }
+                })
+                .catch(error => {
+                    setLoading(false);
+                    console.log('Failed to search for airports', error);
+                });
+        }
+
+        return () => {
+            cancelled = true;
+        };
+    }, [searchQuery, initialLocation, isNewSearch]);
+
+    const onNewSearch = () => {
+        setNewSearch(true);
+    };
+
     return (
         <LookupField
             initialLocation={initialLocation}
             onSelectedLocationChange={onSelectedLocationChange}
             placeHolder={placeHolder}
-            onQueryEntered={onQueryEntered}
+            onQueryEntered={setSearchQuery}
+            onNewSearch={onNewSearch}
             locations={searchResults}
             label={label}
             localstorageKey={localstorageKey}
             loading={isLoading}
+            noResults={isNoResults}
         />
     )
 }

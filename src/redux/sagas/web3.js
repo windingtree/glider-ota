@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
-import Portis from '@portis/web3';
+// import Portis from '@portis/web3';
 import { createSelector } from 'reselect';
 import { eventChannel, END } from 'redux-saga';
 import { all, call, put, takeEvery, select, take, delay } from 'redux-saga/effects';
@@ -309,6 +309,7 @@ function* signInSaga({ provider }) {
     try {
         switch (provider) {
             case 'portis':
+                const Portis = require('@portis/web3');
                 portis = new Portis(PORTIS_ID, DEFAULT_NETWORK);
                 yield subscribePortisSaga();
                 break;

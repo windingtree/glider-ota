@@ -24,7 +24,7 @@
 }
 
 .inputField{
-    width:70%;
+    width:80%;
     @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
     background-color: $glider-color-inputfields-background;
     display: inline;
@@ -65,6 +65,14 @@ global(.locationLookupPopover){
 
 .pseudoFocus{
     border: 1px solid $glider-color-primary;
+}
+
+.warningFocus {
+    border: 1px solid #CE613F !important;
+}
+
+.warning {
+    color:  #CE613F !important;
 }
 
 .label{

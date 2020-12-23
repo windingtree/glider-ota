@@ -3,10 +3,12 @@ import {
     action
 } from '@storybook/addon-actions';
 import {ShoppingCart} from './shopping-cart'
+import {BrowserRouter} from "react-router-dom";
 
 export default {
     title: 'shopping cart',
-    component: ShoppingCart
+    component: ShoppingCart,
+    decorators:[(Story)=>(<BrowserRouter><Story/></BrowserRouter>)]
 };
 
 const sampleCart = {

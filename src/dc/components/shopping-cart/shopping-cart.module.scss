@@ -84,10 +84,17 @@
   border-width: 0.15em;
 }
 
-
-
 .debugLinks{
   @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
   cursor: pointer;
   color: #543CE2;
+}
+
+.cartItem{
+  position: relative;
+}
+.removeFromCartBtn {
+  position: absolute;
+  top:0px;
+  right:0px;
 }

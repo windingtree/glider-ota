@@ -7,6 +7,9 @@ import {Container, Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 
 export default function FlightsShoppingComponent(props) {
+    const {
+        initSearch
+    } = props;
     return (
         <Container fluid={true}>
             <Row>
@@ -17,8 +20,7 @@ export default function FlightsShoppingComponent(props) {
                     <Filters/>
                 </Col>
                 <Col xs={12} sm={9} md={6} xl={6}>
-
-                    <FlightsSearchResults/>
+                    <FlightsSearchResults  initSearch={initSearch} />
                 </Col>
                 <Col xs={0} sm={3} md={3} xl={3}>
                     <ShoppingCart/>

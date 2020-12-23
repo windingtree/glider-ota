@@ -111,9 +111,11 @@ export async function retrieveSelectedOffer(){
 }
 */
 
+/*
 export async function storeSelectedAccommodation(selectedOffer){
   return fetchPost('/api/cart/accommodation',{offer:selectedOffer});
 }
+*/
 
 //server side cart
 export async function storeOfferId(offerId, type){
@@ -122,8 +124,17 @@ export async function storeOfferId(offerId, type){
 export async function retrieveCart(){
   return fetchGet('/api/cart/cartv2');
 }
-export async function deleteItemInCart(types){
+export async function deleteItemFromCartByType(types){
+  let body={
+    types:types
+  }
   return deleteCall('/api/cart/cartv2', types);
+}
+export async function deleteItemFromCartByOfferId(offerId){
+  let body={
+    offerId:offerId
+  }
+  return deleteCall('/api/cart/cartv2', body);
 }
 
 
@@ -138,13 +149,16 @@ export async function addSeats(selectedSeats){
 }
 
 ///////////////// GENERIC CART STORAGE //////////////////////
+/*
 export async function retrieveItemFromCart(key) {
   let query={
     key:key
   }
   return fetchGet('/api/cart/cart', query);
 };
+*/
 
+/*
 export async function storeItemInCart(key,item){
   let payload = {
     key:key,
@@ -152,12 +166,18 @@ export async function storeItemInCart(key,item){
   }
   return fetchPost('/api/cart/cart',payload );
 }
+*/
 
 
 ///////////////// REPRICE //////////////////////
 
-export async function repriceShoppingCartContents(){
-  return fetchPost('/api/cart/reprice',{});
+
+//call to /reprice to get a new quote - paymentMethod parameter is optional (if empty, userPreference from session will be taken)
+export async function repriceShoppingCartContents(paymentMethod){
+  let body = {
+    paymentMethod:paymentMethod
+  }
+  return fetchPost('/api/cart/reprice',paymentMethod?body:undefined);
 }
 
 ///////////////// CHECKOUT //////////////////////

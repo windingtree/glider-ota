@@ -1,70 +1,22 @@
-import React, {useEffect, useState} from 'react'
-import LookupField from "./components/lookup-field";
-import {fetchGet} from "../../../utils/api-utils";
+import React, { useEffect, useState } from 'react';
+import LookupField from './components/lookup-field';
+import { fetchGet } from '../../../utils/api-utils';
 
-export function AirportLookup({initialLocation, onSelectedLocationChange, placeHolder, label, localstorageKey}) {
+export function AirportLookup(props) {
+    const {
+        initialLocation,
+        onSelectedLocationChange,
+        placeHolder,
+        label,
+        localstorageKey
+    } = props;
     const [searchResults, setSearchResults] = useState([]);
-    const [defaultLocation, setDefaultLocation] = useState();
+    const [searchQuery, setSearchQuery] = useState();
+    const [isNewSearch, setNewSearch] = useState(false);
     const [isLoading, setLoading] = useState(false);
-    const [queryPromise, setQueryPromise] = useState(null);
+    const [isNoResults, setNoResults] = useState(false);
 
-    useEffect(() => {
-        let queryProcess = queryPromise;
-        if (queryProcess && typeof queryProcess.then === 'function') {
-            queryProcess
-                .then(response => {
-                    let airports = convertResponse(response.results);
-                    setLoading(false);
-                    setSearchResults(airports);
-                })
-                .catch(error => {
-                    setLoading(false);
-                    console.log('Failed to search for airports', error);
-                });
-        }
-        return () => {
-            queryProcess = undefined;
-        };
-    }, [queryPromise]);
-
-    // useEffect(()=>{
-
-    //     if (initialLocation) {
-    //         //if initial location is set - it will be iata code and it needs to be resolved into airport name/city/country
-    //         console.log('Airport initial location:', initialLocation)
-
-    //         const initialLocationCode = typeof initialLocation === 'object'
-    //             ? initialLocation.code
-    //             : initialLocation;
-
-    //         if (initialLocationCode){
-    //             let results = fetchGet('/api/lookup/airportByIata', {iata: initialLocationCode});
-    //             results.then((response) => {
-    //                 let airportRecord=response.results;
-    //                 let resolvedLocation= {
-    //                     primary: `${airportRecord.city_name} ${airportRecord.airport_name}`,
-    //                     secondary: airportRecord.country_code,
-    //                     code: airportRecord.airport_iata_code,
-    //                 }
-    //                 setDefaultLocation(resolvedLocation)
-    //             }).catch(err => {
-    //                 console.error("Failed to search for airport by iata", err)
-    //             })
-    //         }
-    //     }
-    // }, []);
-
-    async function onQueryEntered(searchQuery) {
-        setLoading(true);
-        setSearchResults([]);
-        setQueryPromise(
-            fetchGet('/api/lookup/airportSearch2', {
-                searchquery: searchQuery
-            })
-        );
-    }
-
-    function convertResponse(airports) {
+    const convertResponse = (airports) => {
         let lastMetropolitan;
         return airports.map(rec => {
             let icon,primaryName, secondaryName, code, indent=false;
@@ -91,17 +43,62 @@ export function AirportLookup({initialLocation, onSelectedLocationChange, placeH
                 icon:icon
             }
         })
-    }
+    };
+
+    useEffect(() => {
+        let cancelled = false;
+        // console.log('Search query:', searchQuery, initialLocation, isNewSearch);
+
+        if (searchQuery && isNewSearch) {
+            setLoading(true);
+            setSearchResults([]);
+            setNoResults(false);
+            fetchGet(
+                '/api/lookup/airportSearch2',
+                {
+                    searchquery: searchQuery
+                }
+            )
+                .then(response => {
+                    if (!cancelled) {
+                        let results = convertResponse(response.results);
+                        setLoading(false);
+                        setNoResults(results.length === 0);
+
+                        if (results.length > 0) {
+                            setSearchResults(results);
+                        }
+
+                        setNewSearch(false);
+                    }
+                })
+                .catch(error => {
+                    setLoading(false);
+                    console.log('Failed to search for airports', error);
+                });
+        }
+
+        return () => {
+            cancelled = true;
+        };
+    }, [searchQuery, initialLocation, isNewSearch]);
+
+    const onNewSearch = () => {
+        setNewSearch(true);
+    };
+
     return (
         <LookupField
-            initialLocation={defaultLocation}
+            initialLocation={initialLocation}
             onSelectedLocationChange={onSelectedLocationChange}
             placeHolder={placeHolder}
-            onQueryEntered={onQueryEntered}
+            onQueryEntered={setSearchQuery}
+            onNewSearch={onNewSearch}
             locations={searchResults}
             label={label}
             localstorageKey={localstorageKey}
             loading={isLoading}
+            noResults={isNoResults}
         />
     )
 }

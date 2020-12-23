@@ -6,6 +6,10 @@ import {getCachedSearchResults} from "../../utils/api-utils";
 import SearchCriteriaBuilder from "../../utils/search-criteria-builder";
 import extendResponse from "../../utils/flight-search-results-extender";
 
+import history from '../history';
+import { parseUrlParams } from '../../utils/url-utils';
+import { storageKeys } from '../../config/default';
+
 /**
  * Search/filtering/results store
  */
@@ -354,8 +358,31 @@ export function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnD
 function* searchForFlightsSaga() {
     try {
         const searchCriteria = yield select(flightSearchCriteriaSelector);
-        const {origin:{code:originCode}, destination:{code:destinationCode}, departureDate, returnDate, adults, children, infants} = searchCriteria;
+        const {origin, destination, departureDate,
+            returnDate, adults, children, infants} = searchCriteria;
+        const {
+            code: originCode
+        } = origin;
+        const {
+            code: destinationCode
+        } = destination;
         let searchRequest = buildFlightsSearchCriteria(originCode, destinationCode, departureDate, returnDate, adults, children, infants);
+
+        // Update URL parameters
+        history.push({
+            pathname: '/dc/flights',
+            search: `?${new URLSearchParams({
+                [storageKeys.flights.origin]: JSON.stringify(origin),
+                [storageKeys.flights.destination]: JSON.stringify(destination),
+                [storageKeys.common.adults]: adults,
+                [storageKeys.common.children]: children,
+                [storageKeys.common.infants]: infants,
+                [storageKeys.common.departureDate]: departureDate.toISOString().split('T')[0],
+                [storageKeys.common.returnDate]: returnDate.toISOString().split('T')[0],
+                doSearch: true
+            }).toString()}`
+        });
+
         let results = yield call(findFlights,searchRequest);
         yield put(flightSearchCompletedAction(results));
     } catch (error) {
@@ -367,8 +394,27 @@ function* searchForFlightsSaga() {
 function* searchForHotelsSaga() {
     try {
         const searchCriteria = yield select(hotelSearchCriteriaSelector);
-        const {destination:{latitude,longitude}, departureDate,returnDate, adults, children, infants} = searchCriteria;
+        const {destination, departureDate, returnDate, adults, children, infants} = searchCriteria;
+        const {
+            latitude,
+            longitude
+        } = destination;
         let searchRequest = buildHotelsSearchCriteria(latitude,longitude,departureDate,returnDate, adults,children,infants)
+
+        // Update URL parameters
+        history.push({
+            pathname: '/dc/hotels',
+            search: `?${new URLSearchParams({
+                [storageKeys.hotels.destination]: JSON.stringify(destination),
+                [storageKeys.common.adults]: adults,
+                [storageKeys.common.children]: children,
+                [storageKeys.common.infants]: infants,
+                [storageKeys.common.departureDate]: departureDate.toISOString().split('T')[0],
+                [storageKeys.common.returnDate]: returnDate.toISOString().split('T')[0],
+                doSearch: true
+            }).toString()}`
+        });
+
         let results = yield call(findFlights,searchRequest);
         yield put(hotelSearchCompletedAction(results));
     } catch (error) {
