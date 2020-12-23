@@ -95,7 +95,7 @@ class ShoppingCart {
         let cart = await this.getCart();
         cart.items[cartKey] = record;
         this._cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+        await this._save();
         return this._cart;
     }
 
@@ -109,7 +109,7 @@ class ShoppingCart {
         if (cart.items[cartKey] !== undefined) {
             delete cart.items[cartKey];
             this._cart = await this._updateTotalPrice(cart);
-            await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+            await this._save();
         }
 
         return this._cart;
@@ -148,7 +148,7 @@ class ShoppingCart {
         let cart = await this.getCart();
         cart.userPreferences[userPreferenceKey] = value;
         this._cart = await this._updateTotalPrice(cart);
-        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+        await this._save();
         return this._cart;
     }
 
@@ -292,6 +292,23 @@ class ShoppingCart {
             price:price
         }
     }
+
+    /**
+     * Remove all items from cart
+     * @returns {Promise<any>}
+     */
+    async emptyCart( ) {
+        const cart = await this.getCart();
+        cart.items={};
+        await this._updateTotalPrice(cart);
+        await this._save();
+        return this._cart;
+    }
+
+    async _save() {
+        await this.sessionStorage.storeInSession(SESSION_STORAGE_KEY,this._cart);
+    }
+
 
 
 }

@@ -22,7 +22,7 @@ import {
 } from '../../../redux/sagas/shopping-flow-store';
 import Spinner from '../common/spinner';
 import Container from 'react-bootstrap/Container';
-import {fetchGet} from '../../../utils/api-utils';
+import {fetchGet, invalidateCache} from '../../../utils/api-utils';
 import deleteIcon from '../../../assets/delete-cartitem-checkmark.svg';
 
 let cx = classNames.bind(style);
@@ -383,7 +383,9 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(requestSearchResultsRestoreFromCache())
         },
         onClearCart: () => {
-            // dispatch(deleteFlightFromCart())
+            invalidateCache().then(()=>{
+                console.log('Cache removed')
+            })
         },
         removeOfferFromCart: (offerId) => {
             dispatch(deleteOfferFromCartAction(offerId))
