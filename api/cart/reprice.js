@@ -109,7 +109,9 @@ const offerRepriceController = async (req, res) => {
 }
 
 const repriceTransportationOffer = async (transportationOffer, seatOptions) => {
-    let offerMetadata = await getOfferMetadata(transportationOffer.offerId);
+    let offerIDs = transportationOffer.offerId.split(',');
+    let offerId = offerIDs[0];
+    let offerMetadata = await getOfferMetadata(offerId);
     if (!offerMetadata) {
         logger.error(`Offer metadata not found, offerId=${transportationOffer.offerId}`);
         throw new Error(`Offer metadata not found, offerId=${transportationOffer.offerId}`);
