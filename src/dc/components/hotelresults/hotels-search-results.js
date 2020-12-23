@@ -1,20 +1,22 @@
 import React, {useEffect, useState, useCallback} from 'react'
 import style from './hotel-search-results.module.scss'
 import _ from 'lodash'
-import HotelDetails from "../hoteldetails/hotel-details"
-
-import {HotelSearchResultsFilterHelper} from "../../../utils/hotel-search-results-filter-helper";
+import HotelDetails from '../hoteldetails/hotel-details'
+import {connect} from 'react-redux'
+import {HotelSearchResultsFilterHelper} from '../../../utils/hotel-search-results-filter-helper';
 import {
     hotelErrorSelector,
     hotelsFiltersSelector, isHotelSearchFormValidSelector,
     isHotelSearchInProgressSelector,
     hotelSearchCriteriaSelector, searchForHotelsAction,
     hotelSearchResultsSelector, requestSearchResultsRestoreFromCache, isShoppingFlowStoreInitialized
-} from "../../../redux/sagas/shopping-flow-store";
-import {connect} from "react-redux";
-import Spinner from "../../components/common/spinner";
-import SearchButton from "../search-form/search-button";
-import ResultsPaginator, {limitSearchResultsToCurrentPage, ITEMS_PER_PAGE} from "../common/pagination/results-paginator";
+} from '../../../redux/sagas/shopping-flow-store';
+import Spinner from '../../components/common/spinner';
+import SearchButton from '../search-form/search-button';
+import ResultsPaginator, {
+    limitSearchResultsToCurrentPage,
+    ITEMS_PER_PAGE
+} from '../common/pagination/results-paginator';
 
 export function HotelsSearchResults(props) {
     const {
@@ -23,8 +25,6 @@ export function HotelsSearchResults(props) {
         isSearchFormValid,
         filters,
         searchInProgress,
-        isStoreInitialized,
-        onRestoreResultsFromCache,
         error,
         initSearch
     } = props;
@@ -32,9 +32,9 @@ export function HotelsSearchResults(props) {
 
     //SEARCH button was hit - search for hotels
     const onSearchButtonClicked = useCallback(() => {
-        if(onSearchClicked) {
+        if (onSearchClicked) {
             onSearchClicked();
-        }else{
+        } else {
             console.warn('onSearchClicked is not defined!')
         }
     }, [onSearchClicked]);
@@ -45,22 +45,25 @@ export function HotelsSearchResults(props) {
         }
     }, [initSearch, onSearchButtonClicked]);
 
-    let results=[];
-    let totalResultsCount=0;
-    if(searchResults) {
+    let results = [];
+    let totalResultsCount = 0;
+    let nothingFound = false;
+    if (searchResults) {
         const helper = new HotelSearchResultsFilterHelper(searchResults);
         results = helper.generateSearchResults(filters);
         totalResultsCount = results.length;
-        results = limitSearchResultsToCurrentPage(results, currentPage,ITEMS_PER_PAGE);
+        results = limitSearchResultsToCurrentPage(results, currentPage, ITEMS_PER_PAGE);
+        nothingFound = (totalResultsCount === 0)
     }
 
     //display search results paginator only if there are more than ITEMS_PER_PAGE results
-    const displayResultsPaginator = () =>{
+    const displayResultsPaginator = () => {
 
-        if(totalResultsCount < ITEMS_PER_PAGE)
+        if (totalResultsCount < ITEMS_PER_PAGE)
             return (<></>)
         return (
-            <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE} onActivePageChange={setCurrentPage} totalRecords={totalResultsCount}/>
+            <ResultsPaginator activePage={currentPage} recordsPerPage={ITEMS_PER_PAGE}
+                              onActivePageChange={setCurrentPage} totalRecords={totalResultsCount}/>
         )
     }
 
@@ -68,26 +71,29 @@ export function HotelsSearchResults(props) {
     return (
         <>
             <SearchButton disabled={!isSearchFormValid} onSearchButtonClicked={onSearchButtonClicked}/>
-            <Spinner enabled={searchInProgress===true}/>
+            <Spinner enabled={searchInProgress === true}/>
             {error && (<div>ERROR OCCURED</div>)}
-
+            {nothingFound && <WarningNoResults/>}
             <div className='pt-3'/>
-            {/*<Row className={style.hotelsSearchResultsWrapper}>*/}
-                {
-                    _.map(results, (result, id) => {
-                        let hotel = result.hotel;
-                        let bestoffer = result.bestoffer;
-                        // return (<SingleHotel hotel={hotel} bestoffer={bestoffer} key={id} handleClick={onHotelSelected} searchResults={searchResults}/>)
-                        return (<HotelDetails key={id} searchResults={searchResults} hotel={hotel}/>)
-                    })
-                }
-            {/*</Row>*/}
+            {
+                _.map(results, (result, id) => {
+                    let hotel = result.hotel;
+                    return (<HotelDetails key={id} searchResults={searchResults} hotel={hotel}/>)
+                })
+            }
             {displayResultsPaginator()}
         </>
     )
 
 }
 
+const WarningNoResults = () => {
+    return (<>
+            <div className={style.sorryNoResults}>Sorry, we couldn't find any hotels</div>
+            There may be no hotels available for the requested travel dates and filters<br/>
+        </>
+    );
+};
 
 
 const mapStateToProps = state => ({
@@ -97,7 +103,7 @@ const mapStateToProps = state => ({
     searchResults: hotelSearchResultsSelector(state),
     isSearchFormValid: isHotelSearchFormValidSelector(state),
     isStoreInitialized: isShoppingFlowStoreInitialized(state),
-    error:hotelErrorSelector(state)
+    error: hotelErrorSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => {
