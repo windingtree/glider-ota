@@ -92,7 +92,6 @@ const offerRepriceController = async (req, res) => {
             // masterOffer.suboffers.push(cart.items[CART_ITEMKEYS.ACCOMMODATION_OFFER]);
         }
 
-        cart.totalPrice.public=10;
         masterOffer.totalPrice = cart.totalPrice;
 
         masterOffer.cartItems = cart.items;
