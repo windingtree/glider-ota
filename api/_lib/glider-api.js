@@ -160,8 +160,16 @@ async function reprice(offerId, options, endpoint) {
         repriceResponse = response.data;
         increaseConfirmedPriceWithMaxOPCFee(repriceResponse)
     }
-    logger.debug("Reprice response", repriceResponse);
-    return response.data;
+
+    //we may have a new offerID at this stage (e.g. aircanada) - we need to store metadata for this offer too
+    let offerMetadata = {
+        endpoint:endpoint,
+        offerId:offerId,
+        passengers:repriceResponse.offer.passengers
+    }
+    await storeOffersMetadata([offerMetadata])
+
+    return repriceResponse;
 }
 
 

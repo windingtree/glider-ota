@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react'
-import {Form} from 'react-bootstrap'
-import style from './date-range-pickup.module.scss'
+import { uuid } from 'uuidv4';
+import moment from 'moment';
+import React, {useEffect, useState} from 'react';
+import {Form} from 'react-bootstrap';
+import style from './date-range-pickup.module.scss';
 import {format, addDays} from "date-fns";
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "./react-datepicker.scss";
-import {CustomCalendarContainer} from "./calendar-container"
+import 'react-dates/initialize';
+import { DateRangePicker } from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
 
 export default function DateRangePickup({
                                              initialStart,
@@ -20,6 +21,7 @@ export default function DateRangePickup({
                                          }) {
     const [startDate, setStartDate] = useState(initialStart);
     const [endDate, setEndDate] = useState(initialEnd);
+    const [focusedInput, setFocusedInput] = useState(null);
     const onChange = dates => {
         const [start, end] = dates;
 
@@ -51,17 +53,21 @@ export default function DateRangePickup({
     return (
         <>
             {label && <div className={style.label}>{label}</div>}
-        <DatePicker
-            placeholderText="Select dates"
-            selected={startDate}
-            onChange={onChange}
-            startDate={startDate}
-            minDate={new Date()}
-            monthsShown={2}
-            customInput={inputElem}
-            calendarContainer={CustomCalendarContainer}
-            selectsRange
-        />
+            <DateRangePicker
+                startDatePlaceholderText="Start date"
+                endDatePlaceholderText="End date"
+                startDateTitleText="Start"
+                endDateTitleText="End"
+
+                startDate={moment(startDate)}
+                startDateId={uuid()}
+                endDate={moment(endDate)}
+                endDateId={uuid()}
+                onDatesChange={onChange}
+
+                focusedInput={focusedInput}
+                onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+            />
         </>
     );
 };

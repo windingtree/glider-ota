@@ -7,7 +7,7 @@ import DevConLayout from "../layout/devcon-layout";
 import {
     flightOfferSelector,
     hotelOfferSelector, isShoppingCartInitializedSelector,
-    requestCartRestoreFromServer
+    requestCartUpdateAction
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {Button, Col, Row} from "react-bootstrap";
@@ -234,7 +234,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(requestSearchResultsRestoreFromCache());
         },
         onRestoreShoppingCart: () =>{
-            dispatch(requestCartRestoreFromServer());
+            dispatch(requestCartUpdateAction());
         }
     }
 }
