@@ -86,7 +86,7 @@ function convertUTCtoLocalAirportTime(results){
             segment.departureTimeUtc=segment.departureTime;
             segment.departureTime=utcToZonedTime(segment.departureTime,airportData.timezone).toISOString();
         }else{
-            throw new Error("Timezone definition not found for airport code:%s",segment.origin.iataCode);
+            throw new Error(`Timezone definition not found for airport code:${segment.origin.iataCode}`);
         }
 
         airportData = getAirportByIataCode(segment.destination.iataCode);
@@ -94,7 +94,7 @@ function convertUTCtoLocalAirportTime(results){
             segment.arrivalTimeUtc=segment.arrivalTime;
             segment.arrivalTime=utcToZonedTime(segment.arrivalTime,airportData.timezone).toISOString();
         }else{
-            throw new Error("Timezone definition not found for airport code:%s",segment.destination.iataCode);
+            throw new Error(`Timezone definition not found for airport code:${segment.destination.iataCode}`);
         }
     });
 }
