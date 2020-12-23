@@ -45,7 +45,6 @@ export default function DateRangePickup({
     }
 
     const onChange = dates => {
-
         const start = (dates.startDate) ? dates.startDate.toDate(): null
         const end = (dates.endDate) ? dates.endDate.toDate() : null
         setStartDate(start);
