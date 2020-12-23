@@ -11,9 +11,8 @@ const getDate = (strDate, defaultValue) =>{
 }
 
 export const venueConfig={
-    originIata:venue.originIata,
-    destinationIata:venue.destinationIata,
-    originLocation:venue.originLocation,
+    originAirport: venue.originAirport,
+    destinationAirport: venue.destinationAirport,
     destinationLocation:venue.destinationLocation,
     venueName:venue.venueName,
     startDate:getDate(venue.start_date),
