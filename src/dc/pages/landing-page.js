@@ -80,7 +80,7 @@ export default function DCLandingPage() {
         initialSearchDestination = initialSearchDestination ? initialSearchDestination : venueConfig.destinationCity;
     }
     initialSearchDepartureDate = initialSearchDepartureDate ? initialSearchDepartureDate : venueConfig.startDate ? venueConfig.startDate : null;
-    initialSearchReturnDate = initialSearchReturnDate ? initialSearchReturnDate : venueConfig.endDateZ ? venueConfig.endDate : null;
+    initialSearchReturnDate = initialSearchReturnDate ? initialSearchReturnDate : venueConfig.endDate ? venueConfig.endDate : null;
     initialSearchAdults = initialSearchAdults ? initialSearchAdults : 1;
     initialSearchChildren = initialSearchChildren ? initialSearchChildren : 0;
     initialSearchInfants = initialSearchInfants ? initialSearchInfants : 0;
