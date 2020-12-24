@@ -378,7 +378,13 @@ function* searchForFlightsSaga() {
                 [storageKeys.common.children]: children,
                 [storageKeys.common.infants]: infants,
                 [storageKeys.common.departureDate]: departureDate.toISOString().split('T')[0],
-                [storageKeys.common.returnDate]: returnDate.toISOString().split('T')[0],
+                ...(
+                    returnDate
+                    ? {
+                        [storageKeys.common.returnDate]: returnDate.toISOString().split('T')[0]
+                    }
+                    : {}
+                ),
                 doSearch: true
             }).toString()}`
         });

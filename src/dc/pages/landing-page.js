@@ -79,8 +79,8 @@ export default function DCLandingPage() {
     if (searchType === SEARCH_TYPE.HOTELS) {
         initialSearchDestination = initialSearchDestination ? initialSearchDestination : venueConfig.destinationCity;
     }
-    initialSearchDepartureDate = initialSearchDepartureDate ? initialSearchDepartureDate : venueConfig.startDate;
-    initialSearchReturnDate = initialSearchReturnDate ? initialSearchReturnDate : venueConfig.endDate;
+    initialSearchDepartureDate = initialSearchDepartureDate ? initialSearchDepartureDate : venueConfig.startDate ? venueConfig.startDate : null;
+    initialSearchReturnDate = initialSearchReturnDate ? initialSearchReturnDate : venueConfig.endDateZ ? venueConfig.endDate : null;
     initialSearchAdults = initialSearchAdults ? initialSearchAdults : 1;
     initialSearchChildren = initialSearchChildren ? initialSearchChildren : 0;
     initialSearchInfants = initialSearchInfants ? initialSearchInfants : 0;

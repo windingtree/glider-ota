@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { Button, Row, Col, Container, Form } from 'react-bootstrap';
 import DateRangePickup from '../traveldate-pickup/date-range-pickup';
+import moment from 'moment';
 import PassengerSelector from '../passenger-selector/passenger-selector';
 import { AirportLookup } from '../lookup/airport-lookup';
 import {
@@ -79,7 +80,7 @@ export function FlightsSearchForm(props) {
   //subscribe for search criteria changes so that we notify others once form is valid
   useEffect(() => {
     const serializeSearchForm = () => {
-      console.log('Date:',departureDate)
+      console.log('Dates:',departureDate, returnDate)
       return {
         origin: origin,
         destination: destination,
@@ -135,6 +136,7 @@ export function FlightsSearchForm(props) {
           label='When'
           localstorageKey={'traveldates'}
           displayVenueBadge={true}
+          minimumNights={0}
         />
       </Col>
       <Col xs={12} md={3} className={style.formElem}>
