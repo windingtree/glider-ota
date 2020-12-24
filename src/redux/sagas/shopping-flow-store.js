@@ -383,7 +383,9 @@ function* searchForFlightsSaga() {
                     ? {
                         [storageKeys.common.returnDate]: returnDate.toISOString().split('T')[0]
                     }
-                    : {}
+                    : {
+                        [storageKeys.common.returnDate]: null
+                    }
                 ),
                 doSearch: true
             }).toString()}`

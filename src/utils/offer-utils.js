@@ -18,6 +18,7 @@ export default class OfferUtils {
     return durationString
   }
   static calculateDurationInMins (itinerary) {
+    // console.log('=====', itinerary);
     const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
     const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
     const startOfTrip = parseISO(firstSegment.departureTimeUtc);

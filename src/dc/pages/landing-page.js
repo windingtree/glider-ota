@@ -62,7 +62,9 @@ export default function DCLandingPage() {
             if (searchParams[storageKeys.common.departureDate]) {
                 initialSearchDepartureDate = new Date(searchParams[storageKeys.common.departureDate]);
             }
-            if (searchParams[storageKeys.common.returnDate]) {
+            if (searchParams[storageKeys.common.returnDate] === 'null') {
+                initialSearchReturnDate = null;
+            } else if (searchParams[storageKeys.common.returnDate]) {
                 initialSearchReturnDate = new Date(searchParams[storageKeys.common.returnDate]);
             }
 
@@ -80,7 +82,7 @@ export default function DCLandingPage() {
         initialSearchDestination = initialSearchDestination ? initialSearchDestination : venueConfig.destinationCity;
     }
     initialSearchDepartureDate = initialSearchDepartureDate ? initialSearchDepartureDate : venueConfig.startDate ? venueConfig.startDate : null;
-    initialSearchReturnDate = initialSearchReturnDate ? initialSearchReturnDate : venueConfig.endDate ? venueConfig.endDate : null;
+    initialSearchReturnDate = initialSearchReturnDate === null ? null : initialSearchReturnDate ? initialSearchReturnDate : venueConfig.endDate ? venueConfig.endDate : null;
     initialSearchAdults = initialSearchAdults ? initialSearchAdults : 1;
     initialSearchChildren = initialSearchChildren ? initialSearchChildren : 0;
     initialSearchInfants = initialSearchInfants ? initialSearchInfants : 0;

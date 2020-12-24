@@ -51,6 +51,7 @@ export default class SearchCriteriaBuilder {
   }
 
   withTransportReturnDate (returnDate) {
+    console.log('&&&&&&&&&&', returnDate);
     this.searchCriteria.transportReturnDate = formatISO(returnDate);
     return this;
   }

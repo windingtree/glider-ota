@@ -43,7 +43,7 @@ export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
         try {
             this.sortItinerariesInDepartureTimeAscendingOrder(itineraries);
         }catch (err){
-            console.log('error while sorting itins',itineraries)
+            console.log('error while sorting itins', this.getOffer(offerId), offerItinIds, itineraries)
         }
         return itineraries;
     }
@@ -109,8 +109,11 @@ export class FlightSearchResultsWrapper extends BaseSearchResultsWrapper{
         let offerItinIds = [];
         Object.keys(pricePlansReferences).forEach(pricePlanId=> {
             let pricePlan = pricePlansReferences[pricePlanId];
-            let flights = pricePlan.flights;
-            offerItinIds=[...offerItinIds,...flights];
+            let flights = pricePlan.flights.filter(f => f !== ''); // workaround for WTR-741
+
+            if (flights.length > 0) {
+                offerItinIds=[...offerItinIds,...flights];
+            }
         });
         return offerItinIds;
     }
