@@ -1,0 +1,40 @@
+.selectorWrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    input[type=checkbox] {
+        display: none;
+    }
+
+    &:before {
+        position: absolute;
+        content: "";
+        width: 10px;
+        height: 10px;
+        background-image: url(../../../assets/rt-off.svg);
+        background-size: contain;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
+
+    &.checked {
+        &:before {
+            background-image: url(../../../assets/rt-on.svg);
+        }
+    }
+}
+
+.label {
+    position: relative;
+    margin-left: 17px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: rgba(66, 66, 79, 0.7);
+
+    &.checked {
+        color: rgba(84, 60, 226, 1);
+    }
+}

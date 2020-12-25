@@ -2,12 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { Button, Row, Col, Container, Form } from 'react-bootstrap';
 import DateRangePickup from '../traveldate-pickup/date-range-pickup';
-import moment from 'moment';
+import DateSinglePickup from '../traveldate-pickup/date-pickup';
 import PassengerSelector from '../passenger-selector/passenger-selector';
 import { AirportLookup } from '../lookup/airport-lookup';
 import {
   flightSearchCriteriaChangedAction
 } from '../../../redux/sagas/shopping-flow-store';
+import ReturnTripSelector from '../return-trip-selector';
 import style from './flight-search-form.module.scss';
 
 import { storageKeys } from '../../../config/default';
@@ -15,6 +16,7 @@ import { storageKeys } from '../../../config/default';
 export function FlightsSearchForm(props) {
   // Destructure properties
   const {
+    initReturnTrip,
     initOrigin,
     initDest,
     initDepartureDate,
@@ -38,6 +40,7 @@ export function FlightsSearchForm(props) {
   const [adults, setAdults] = useState(initAdults);
   const [children, setChildren] = useState(initChildren);
   const [infants, setInfants] = useState(initInfants);
+  const [isReturnTrip, setReturnTrip] = useState(initReturnTrip);
 
   const validate = useCallback(() => {
     const isOriginValid = () => {
@@ -105,6 +108,12 @@ export function FlightsSearchForm(props) {
     }
   }, [locationsSource, origin, destination, departureDate, returnDate, adults, children, infants, searchCriteriaChanged, validate]) // <-- here put the parameter to listen
 
+  useEffect(() => {
+    if (!isReturnTrip) {
+      setReturnDate(undefined);
+    }
+  }, [isReturnTrip]);
+
   return (
     <>
       <Col xs={12} md={3} className={style.formElem}>
@@ -115,6 +124,12 @@ export function FlightsSearchForm(props) {
           label='From'
           localstorageKey={originAirportKey}
         />
+        <div className={style.returnTripSelectorWrapper}>
+          <ReturnTripSelector
+            label='Round-trip'
+            onChange={setReturnTrip}
+          />
+        </div>
       </Col>
       <Col xs={12} md={3} className={style.formElem}>
         <AirportLookup
@@ -126,18 +141,29 @@ export function FlightsSearchForm(props) {
         />
       </Col>
       <Col xs={12} md={3} className={style.formElem}>
-        <DateRangePickup
-          onStartDateChanged={setDepartureDate}
-          onEndDateChanged={setReturnDate}
-          startPlaceholder={'Departure'}
-          endPlaceholder={'Return'}
-          initialStart={initDepartureDate}
-          initialEnd={initReturnDate}
-          label='When'
-          localstorageKey={'traveldates'}
-          displayVenueBadge={true}
-          minimumNights={0}
-        />
+        {isReturnTrip &&
+          <DateRangePickup
+            onStartDateChanged={setDepartureDate}
+            onEndDateChanged={setReturnDate}
+            startPlaceholder={'Departure'}
+            endPlaceholder={'Return'}
+            initialStart={initDepartureDate}
+            initialEnd={initReturnDate}
+            label='When'
+            localstorageKey={'traveldates'}
+            displayVenueBadge={true}
+            minimumNights={1}
+          />
+        }
+        {!isReturnTrip &&
+          <DateSinglePickup
+            onDateChanged={setDepartureDate}
+            initialDate={initDepartureDate}
+            label='When'
+            localstorageKey={'traveldates'}
+            displayVenueBadge={true}
+          />
+        }
       </Col>
       <Col xs={12} md={3} className={style.formElem}>
         <PassengerSelector

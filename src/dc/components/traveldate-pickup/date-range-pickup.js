@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import style from './date-range-pickup.module.scss';
-import {addDays} from "date-fns";
+// import {addDays} from "date-fns";
 
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
@@ -94,6 +94,7 @@ export default function DateRangePickup({
                     endDateId={uuid()}
                     onDatesChange={onChange}
                     minimumNights={minimumNights}
+                    displayFormat='MM/DD/YYYY'
 
                     focusedInput={focusedInput}
                     onFocusChange={focusedInput => setFocusedInput(focusedInput)}

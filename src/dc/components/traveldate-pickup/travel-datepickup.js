@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { uuid } from 'uuidv4';
-import styled, { css } from 'styled-components';
+import { v4 as uuid } from 'uuid';
+// import styled, { css } from 'styled-components';
 import React, {useState} from 'react'
+import moment from 'moment';
 import style from './travel-datepickup.module.scss'
 
 import 'react-dates/initialize';

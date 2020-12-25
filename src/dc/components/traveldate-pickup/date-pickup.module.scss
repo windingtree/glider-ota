@@ -16,3 +16,19 @@
   margin-left: 5px;
 }
 
+.datePickerWrapper {
+  > div > div > div {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px !important;
+    border-color: transparent !important;
+    input {
+      font-family: "Inter", sans-serif;
+      font-weight: 600 !important;
+      font-size: 16px !important;
+      padding: 7px 8px !important;
+      text-align: center;
+    }
+  }
+}

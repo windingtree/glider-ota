@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useRouteMatch, useLocation } from 'react-router-dom';
 import SearchModeSelector from '../components/search-form/search-mode-selector';
 import FlightsShoppingComponent from '../components/flight-shopping/flights-shopping-component';
@@ -30,6 +30,7 @@ export default function DCLandingPage() {
     let initialSearchDepartureDate;
     let initialSearchReturnDate;
     let initialDoSearch;
+    let initialRoundTrip;
 
     if (Object.keys(searchParams).length > 0) {
         try {
@@ -86,9 +87,12 @@ export default function DCLandingPage() {
     initialSearchAdults = initialSearchAdults ? initialSearchAdults : 1;
     initialSearchChildren = initialSearchChildren ? initialSearchChildren : 0;
     initialSearchInfants = initialSearchInfants ? initialSearchInfants : 0;
+    initialRoundTrip = initialSearchReturnDate !== null
 
     console.log('+++ Origin', initialSearchOrigin);
     console.log('+++ Dest', initialSearchDestination);
+    console.log('+++ Dates', initialSearchDepartureDate, initialSearchReturnDate);
+    console.log('+++ Round Trip', initialRoundTrip);
 
     return (
         <DevConLayout>
@@ -96,6 +100,7 @@ export default function DCLandingPage() {
             {searchType === SEARCH_TYPE.FLIGHTS &&
                 <FlightsShoppingComponent
                     key={Math.random()}
+                    initReturnTrip={initialRoundTrip}
                     initSearch={initialDoSearch}
                     initOrigin={initialSearchOrigin}
                     initDest={initialSearchDestination}

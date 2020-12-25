@@ -66,3 +66,7 @@
 .roundTripCheckboxLabel{
     @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-light);
 }
+
+.returnTripSelectorWrapper {
+    margin: 10px 0 0 12px;
+}
