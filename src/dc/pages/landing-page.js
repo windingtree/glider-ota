@@ -87,7 +87,7 @@ export default function DCLandingPage() {
     initialSearchAdults = initialSearchAdults ? initialSearchAdults : 1;
     initialSearchChildren = initialSearchChildren ? initialSearchChildren : 0;
     initialSearchInfants = initialSearchInfants ? initialSearchInfants : 0;
-    initialRoundTrip = initialSearchReturnDate !== null
+    initialRoundTrip = initialSearchReturnDate !== null;
 
     console.log('+++ Origin', initialSearchOrigin);
     console.log('+++ Dest', initialSearchDestination);
