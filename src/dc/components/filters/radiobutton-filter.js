@@ -37,6 +37,7 @@ export function RadiobuttonFilter({title = 'title', filterItems, onItemCheckStat
                                     name='group'
                                     className={style.filterCheckbox}
                                     checked={item.selected===true}
+                                    onChange={() => {}}
                                     label={item.display}
                                     onClick={(event) => onChange(idx, item, event.target.checked)} /></span>)
     }

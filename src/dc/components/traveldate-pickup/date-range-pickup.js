@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import style from './date-range-pickup.module.scss';
-import {addDays} from "date-fns";
+// import {addDays} from "date-fns";
 
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
@@ -27,7 +27,8 @@ export default function DateRangePickup({
     endPlaceholder = 'Return',
     label,
     localstorageKey,
-    displayVenueBadge =  false
+    displayVenueBadge =  false,
+    minimumNights = 1
 }) {
     const [startDate, setStartDate] = useState(initialStart);
     const [endDate, setEndDate] = useState(initialEnd);
@@ -45,17 +46,26 @@ export default function DateRangePickup({
     }
 
     const onChange = dates => {
-        const start = (dates.startDate) ? dates.startDate.toDate(): null
-        const end = (dates.endDate) ? dates.endDate.toDate() : null
-        setStartDate(start);
-        onStartDateChanged(start);
+        let start = dates.startDate ? dates.startDate : moment();
+        let end = dates.endDate ? dates.endDate : moment();
+        setStartDate(start.toDate());
+        onStartDateChanged(start.toDate());
 
-        if (start && !end) {
-            setEndDate(addDays(start, 1))
-        } else {
-            setEndDate(end);
-            onEndDateChanged(end);
+        if (start && end && end.isBefore(start)) {
+            end = start;
         }
+
+        if (minimumNights === 0 && (!end || start.isSame(end, 'day'))) {
+            end = null;
+            setEndDate(null);
+        } else if (minimumNights > 0 && (!end || start.isSame(end, 'day'))) {
+            end = end.add(1, 'day').toDate();
+            setEndDate(end);
+        } else {
+            setEndDate(end.toDate());
+        }
+
+        onEndDateChanged(!end ? end : end.toDate());
     };
 
     useEffect(()=>{
@@ -83,6 +93,8 @@ export default function DateRangePickup({
                     endDate={(moment(endDate).isValid()) ? moment(endDate) : undefined}
                     endDateId={uuid()}
                     onDatesChange={onChange}
+                    minimumNights={minimumNights}
+                    displayFormat='MM/DD/YYYY'
 
                     focusedInput={focusedInput}
                     onFocusChange={focusedInput => setFocusedInput(focusedInput)}

@@ -34,7 +34,7 @@ export default function LookupField(props)  {
         loading = false,
         noResults = false
     } = props;
-    const [value, setValue] = useState();
+    const [value, setValue] = useState('');
     const [target, setTarget] = useState();
     const [selectedLocation, setSelectedLocation] = useState();
     const [focus, setFocus] = useState(false);

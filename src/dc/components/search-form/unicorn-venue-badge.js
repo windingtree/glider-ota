@@ -9,5 +9,5 @@ export const UnicornVenueBadge = ({onBadgeClick}) => {
     if(!venueConfig.active)
         return (<></>)
     const {badgeVenueName} = venueConfig;
-    return <div style={{'padding-top':'4px'}}><UnicornBadge onClick={onBadgeClick}>{badgeVenueName} <img src={ArrowIcon} height='11px' width='11px' border='0'/> </UnicornBadge></div>
+    return <div style={{paddingTop:'4px'}}><UnicornBadge onClick={onBadgeClick}>{badgeVenueName} <img alt={badgeVenueName} src={ArrowIcon} height='11px' width='11px' border='0'/> </UnicornBadge></div>
 }

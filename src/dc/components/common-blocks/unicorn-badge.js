@@ -9,9 +9,10 @@ export const UnicornBadge = ({onClick, children}) => {
             onClick();
     }
 
-    return (<>
-            <a href={'#'} className={style.badge} onClick={onClickHandler}>{children}</a>
-        </>
+    return (
+        <div className={style.badge} onClick={onClickHandler}>
+            {children}
+        </div>
     );
 }
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import React, {useState} from 'react';
 import style from './date-pickup.module.scss';
@@ -16,37 +16,32 @@ const StyledWrapper = styled.div`
 
 export default function DatePickup({
     initialDate,
-    onDateChanged,
+    onDateChanged = () => {},
     placeholder = 'Departure',
     label,
     localstorageKey
 }) {
-    const [startDate, setStartDate] = useState(initialDate);
+    const [startDate, setDate] = useState(initialDate);
     const [focusedInput, setFocusedInput] = useState(null);
-    const onChange = _date => {
-        const date = (_date) ? _date.toDate() : null
 
-        setStartDate(date);
-        if(onDateChanged) {
-            onDateChanged(date);
-        }else{
-            console.warn('onDateChanged is not defined!')
-        }
+    const onChange = _date => {
+        const date = _date ? _date.toDate() : null;
+        setDate(date);
+        onDateChanged(date);
     };
 
     return (
         <>
             {label && <div className={style.label}>{label}</div>}
-            <StyledWrapper>
+            <StyledWrapper className={style.datePickerWrapper}>
                 <SingleDatePicker
-                    startDatePlaceholderText="Date"
-                    startDateTitleText="Date"
+                    placeholder={placeholder}
+                    titleText="Date"
 
                     date={(moment(startDate).isValid()) ? moment(startDate) : undefined}
                     onDateChange={onChange}
                     focused={focusedInput}
-                    focusedInput={focusedInput}
-                    onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+                    onFocusChange={({ focused }) => setFocusedInput(focused)}
                     id={uuid()}
 
                     customArrowIcon={<span>&#65372;</span>}

@@ -4,7 +4,7 @@ import {Row, Col, Container} from 'react-bootstrap';
 
 const MAIN_REASON = {
     title: "Yes, we have just decentralized the Travel",
-    description: 
+    description:
         <span>
             <p>Here you can book airlines and hotels directly so that your payment goes to the travel provider and not to gatekeepers taking commissions.</p>
             <p>There are no gatekeepers, no hidden fees, no data selling. Only technologies and smart contracts that do their jobs.</p>
@@ -19,7 +19,7 @@ const REASONS_LEFT = [
     },
     {
         title: "Really? What’s the trick?",
-        description: 
+        description:
             <span>
                 <p>No trick, this is a decentralized aplication so you can book flights and hotels without intermediary humans between you and the travel</p>
                 <p>Algorithms were already fully capable of connecting you with thousands of travel suppliers at the same time. But those algorithms serve their owners more than customers</p>
@@ -89,8 +89,9 @@ export function LandingExplainer() {
             </Row>
             <Row>
                 <Col xs={12} md={6}>
-                    {REASONS_LEFT.map(reason => (
-                        <LandingExplainerRow 
+                    {REASONS_LEFT.map((reason, i) => (
+                        <LandingExplainerRow
+                            key={i}
                             title={reason.title}
                             description={reason.description}
                             image={reason.image}
@@ -98,8 +99,9 @@ export function LandingExplainer() {
                     ))}
                 </Col>
                 <Col xs={12} md={6}>
-                    {REASONS_RIGHT.map(reason => (
-                        <LandingExplainerRow 
+                    {REASONS_RIGHT.map((reason, i) => (
+                        <LandingExplainerRow
+                            key={i}
                             title={reason.title}
                             description={reason.description}
                             image={reason.image}
