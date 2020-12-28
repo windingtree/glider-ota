@@ -42,6 +42,8 @@ export function FlightsSearchForm(props) {
   const [infants, setInfants] = useState(initInfants);
   const [isReturnTrip, setReturnTrip] = useState(initReturnTrip);
 
+  console.log('!!!', initReturnTrip, isReturnTrip);
+
   const validate = useCallback(() => {
     const isOriginValid = () => {
       return origin!==undefined;
@@ -127,6 +129,7 @@ export function FlightsSearchForm(props) {
         <div className={style.returnTripSelectorWrapper}>
           <ReturnTripSelector
             label='Round-trip'
+            checked={isReturnTrip}
             onChange={setReturnTrip}
           />
         </div>
