@@ -19,6 +19,10 @@ import DCSeatSelectionPage from './dc/pages/seat-selection-page'
 import DCPaymentSummaryPage from './dc/pages/payment-summary-page'
 import ConfirmationPage from './dc/pages/confirmation-page'
 
+import FAQPage from './dc/pages/faq-page'
+import TermsOfServicePage from './dc/pages/terms-of-service-page'
+import PrivacyPolicyPage from './dc/pages/privacy-policy-page'
+
 import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
 import aphroditeInterface from 'react-with-styles-interface-aphrodite';
 import { customDatePickerTheme } from './custom-date-picker-theme';
@@ -38,6 +42,9 @@ function Dispatcher() {
                         <Route path="/dc/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
                         <Route path="/dc/flights" component={DCLandingPage}/>
                         <Route path="/dc/hotels" component={DCLandingPage}/>
+                        <Route path="/dc/terms-of-service" component={TermsOfServicePage}/>
+                        <Route path="/dc/privacy-policy" component={PrivacyPolicyPage}/>
+                        <Route path="/dc/faq" component={FAQPage}/>
                         <Redirect push from="/dc/" to="/dc/flights" />
                         <Redirect push from="/" to="/dc/flights" />
                     </Switch>
