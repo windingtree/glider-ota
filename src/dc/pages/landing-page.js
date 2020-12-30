@@ -6,7 +6,6 @@ import HotelsShoppingComponent from '../components/hotel-shopping/hotels-shoppin
 import { SEARCH_TYPE } from '../components/search-form/search-mode-selector';
 import DevConLayout from '../components/layout/devcon-layout';
 import { parseUrlParams } from '../../utils/url-utils';
-import { LandingExplainer } from '../components/landing-explainer/landing-explainer';
 
 import { venueConfig } from '../components/venue-context/theme-context';
 import { storageKeys } from '../../config/default';
@@ -123,7 +122,6 @@ export default function DCLandingPage() {
                     initInfants={initialSearchInfants}
                 />
             }
-            <LandingExplainer/>
         </DevConLayout>
     );
 }
