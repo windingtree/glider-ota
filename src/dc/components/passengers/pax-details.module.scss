@@ -1,9 +1,13 @@
 @import 'src/styles/mixins';
 
-.header{
-  @include g-font($g-fontsize-xl, $g-color-black, $g-fontweight-bold);
-}
+.travelerInfoWrapper {
+  margin: 20px 0;
+  padding: 20px 0;
 
+  h2 {
+    @include g-font($g-fontsize-xxl, $g-color-black, $g-fontweight-bold);
+  }
+}
 .note{
   @include _glider-font-text18;
   color: $glider-color-text;

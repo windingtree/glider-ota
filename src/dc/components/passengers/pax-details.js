@@ -30,26 +30,24 @@ export default function PaxDetails({shoppingCart, currentStep, passengers, onDat
         return -1;
     }
         return (
-            <>
-                <div>
-                    <h2 className={style.header}>Traveler Info</h2>
-                </div>
-                    {
-                        _.map(passengers,(pax,id)=> {
-                            return (
-                                <SinglePaxDetails
-                                    key={pax.id}
-                                    passengerId={pax.id}
-                                    passengerType={pax.type}
-                                    onDataChange={onPassengerDataChanged}
-                                    initial={pax}
-                                    highlightInvalidFields={highlightInvalidFields}
-                                />)
-                        })
-                    }
+            <div className={style.travelerInfoWrapper}>
+                <h2 className={style.header}>Traveler Info</h2>
+                {
+                    _.map(passengers,(pax,id)=> {
+                        return (
+                            <SinglePaxDetails
+                                key={pax.id}
+                                passengerId={pax.id}
+                                passengerType={pax.type}
+                                onDataChange={onPassengerDataChanged}
+                                initial={pax}
+                                highlightInvalidFields={highlightInvalidFields}
+                            />)
+                    })
+                }
 {/*                <div className={style.footnote}>
                     We will send your tickets to your email. The travel supplier might send SMS to the provided phone number in case of changes or emergency situations
                 </div>*/}
-            </>
+            </div>
         )
 }

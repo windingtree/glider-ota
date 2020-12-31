@@ -26,7 +26,5 @@
 .header{
     @include _glider-font-text24medium;
     color: $glider-color-text;
-    padding-bottom: 20px;
-    padding-top:60px;
+    padding: 20px 0;
 }
-

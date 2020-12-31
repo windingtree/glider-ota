@@ -178,7 +178,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     );
     return (
         <>
-                <div className={style.header}>{paxTypeLabel}</div>
+            <div className={style.header}>{paxTypeLabel}</div>
 
             <Form validated={validated} onSubmit={handleSubmit} ref={formRef}>
                 <Form.Row className={style.paxDetailsFormRow}>
