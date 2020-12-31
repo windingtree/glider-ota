@@ -101,4 +101,4 @@ We may update this Privacy Policy in the future. We will notify you about materi
 
 ## Contact Us
 
-If you have any questions about this Privacy Policy, please contact us via [info@simard.io](mailto:info@simard.io).
+If you have any questions about this Privacy Policy, please contact us via [support@glider.travel](mailto:support@glider.travel).

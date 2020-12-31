@@ -45,7 +45,7 @@ Yes, [EKTA](https://travel.ic-ekta.com/) provides medical insurance that covers 
 
 ## I want to book travel for the entire team or another request for assistance
 
-Send us an email to [devcon@windingtree.com](mailto:devcon@windingtree.com) and we'll help you out.
+Send us an email to [support+devcon@glider.travel](mailto:support+devcon@glider.travel) and we'll help you out.
 
 ## Why is booking with crypto cheaper?
 
@@ -55,6 +55,6 @@ Sending crypto is not free, but it could be much cheaper than using a credit car
 
 ## What if I need a refund?
 
-Most bookings on Glider are non-refundable, but try and send us a refund request to [devcon@windingtree.com](mailto:devcon@windingtree.com).
+Most bookings on Glider are non-refundable, but try and send us a refund request to [support@glider.travel](mailto:support@glider.travel).
 
 Please note that if you aren't paying in stablecoins, we will be converting your crypto payment to DAI and USDC, so we're not exposed to crypto price fluctuations. If you then request a refund, we can either send you DAI or USDC, and then we'll have to deduct the conversion and transaction fees from your original amount.
