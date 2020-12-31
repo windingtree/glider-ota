@@ -1,9 +1,9 @@
 @import '../../../styles/mixins';
 
 .container{
-  border-bottom: 1px solid $glider-color-text-background;
   margin-bottom: 20px;
   margin-top: 25px;
+  text-align: center;
 }
 
 .selectorBtn{
@@ -16,7 +16,6 @@
 
 .active{
   color: $glider-color-primary;
-  border-bottom: 2px solid $glider-color-primary;
 }
 
 .inactive{
