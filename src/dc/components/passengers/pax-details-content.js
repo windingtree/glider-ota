@@ -184,7 +184,7 @@ export function PaxDetailsContent(props) {
 
 
     return (
-        <DevConLayout>
+        <div>
             {flightOffer && displayFlightSummary()}
             {hotelOffer && displayHotelSummary()}
             <PaxDetails
@@ -196,7 +196,7 @@ export function PaxDetailsContent(props) {
             {(isLoading || refreshInProgress) && loadingSpinner()}
             <NaviButtons prevEnabled={true} nextEnabled={passengerDetailsValid} onPrev={redirectToPrevStep}
                          onNext={savePassengerDetailsAndProceed}/>
-        </DevConLayout>
+        </div>
     )
 }
 

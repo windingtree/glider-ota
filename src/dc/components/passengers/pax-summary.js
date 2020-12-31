@@ -27,7 +27,7 @@ export default function PaxSummary({passengers=[], onEditFinished}) {
 
     return (
         <div>
-            <Row noGutters={true}><h2 className={style.header}>Traveller info</h2></Row>
+            <Row noGutters={true}><h2 className={style.header}>Traveler Info</h2></Row>
             <Row>
             {
                 passengers.map((p)=>{

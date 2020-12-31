@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
-import style from "./breadcrumbs.module.scss"
 import {Breadcrumb} from "react-bootstrap";
+import style from "./breadcrumbs.module.scss"
 import {useHistory} from "react-router-dom";
 import {
     flightOfferSelector,
@@ -21,9 +21,9 @@ const FLIGHT_FLOW='flight'
 const HOTEL_FLOW='hotel'
 const items = [
     {id: STEPS.SEARCH, label: 'Search', url:'/dc',  includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
-    {id: STEPS.TRAVELLER_INFO, url:'/dc/pax', label: 'Traveller info', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
-    {id: STEPS.FLIGHT_DETAILS, url:'/dc/ancillaries', label: 'Flight details', includedInFlows:[FLIGHT_FLOW]},
-    {id: STEPS.SEAT_SELECTION, url:'/dc/seatmap', label: 'Seat selection', includedInFlows:[FLIGHT_FLOW]},
+    {id: STEPS.TRAVELLER_INFO, url:'/dc/pax', label: 'Traveler Info', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
+    {id: STEPS.FLIGHT_DETAILS, url:'/dc/ancillaries', label: 'Flight Details', includedInFlows:[FLIGHT_FLOW]},
+    {id: STEPS.SEAT_SELECTION, url:'/dc/seatmap', label: 'Seat Selection', includedInFlows:[FLIGHT_FLOW]},
     {id: STEPS.PAYMENT, label: 'Payment', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]}
 ]
 

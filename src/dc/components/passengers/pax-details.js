@@ -32,7 +32,7 @@ export default function PaxDetails({shoppingCart, currentStep, passengers, onDat
         return (
             <>
                 <div>
-                    <h2 className={style.header}>Traveller Info</h2>
+                    <h2 className={style.header}>Traveler Info</h2>
                 </div>
                     {
                         _.map(passengers,(pax,id)=> {
