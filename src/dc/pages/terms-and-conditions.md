@@ -1,4 +1,4 @@
-# Terms and Conditions
+# Terms of Service
 
 Glider Travel is operated by Simard OÜ, a company registered at Tartu mnt 67/1-13b, 10115 Tallinn, Estonia (registry identification number 14905495, ORGID [0x07493f...](https://marketplace.windingtree.com/organization/0x07493f25bb5610951bd8b3b10fcd271abc69e45817d170d1dcb60076ee699b1a)) ("Glider," "we," "us").
 
@@ -64,7 +64,7 @@ You agree and acknowledge that the Supplier is at all times responsible for the 
 
 ## Intellectual Rights
 
-Glider Travel software is open source and available on GitHub. We want you to create as many copies of Glider Travel as possible, according to software licenses in relevant repositories. It's totally awesome, we know.
+Glider Travel software is open source and available on [GitHub](https://github.com/windingtree/). We want you to create as many copies of Glider Travel as possible, according to software licenses in relevant repositories. It's totally awesome, we know.
 
 Regardless of the above, you are not entitled to copy, scrape, integrate, utilize, combine or otherwise use the Inventory and any and all information related to Inventory and Suppliers.
 
