@@ -1,12 +1,17 @@
 const mongoose = require('mongoose');
 const {getMongoConnection} = require('./mongo')
-
+const {REDIS_CONFIG} = require('../config')
 
 const offerMetadataSchema = new mongoose.Schema({
     offerId: {type: String, required: true},
     id: {type: String, required: true},
     serviceEndpoint: {type: String, required: true},
-    jwt: {type: String, required: true}
+    jwt: {type: String, required: true},
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        expires: `${REDIS_CONFIG.SESSION_TTL_IN_SECS}s`// in seconds
+      }
 });
 
 const getModel = async () =>{
