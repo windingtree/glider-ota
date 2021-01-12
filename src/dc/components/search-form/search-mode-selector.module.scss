@@ -2,22 +2,25 @@
 
 .container{
   margin-bottom: 20px;
-  margin-top: 25px;
+  margin-top: 20px;
   text-align: center;
 }
 
 .selectorBtn{
-  @include _glider-font-text24medium;
-  font-size: $glider-font-size-xxl;
+  @include g-font($g-fontsize-xxl,$g-color-primary,$g-fontweight-light);
   padding-left: 10px;
   border: none;
   background-color: transparent;
 }
 
 .active{
-  color: $glider-color-primary;
+  color: $g-color-primary;
 }
 
 .inactive{
-  color: $glider-color-text-background;
+  color: $g-color-darkgrey;
+}
+
+.pl-3 {
+  padding: 0px 0px;
 }
