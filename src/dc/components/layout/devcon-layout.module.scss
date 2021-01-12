@@ -8,7 +8,7 @@
   width: 100%;
   margin: 0 auto;
   overflow: auto; // prevent margin collapsing
-  padding: 25px;
+  padding: 20px;
 }
 
 .devconHeader {
@@ -16,7 +16,8 @@
 }
 
 .devconFooter {
-  padding: 20px;
+  @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-light);
+  padding: 40px 0px;
 
   ul {
     display: flex;
