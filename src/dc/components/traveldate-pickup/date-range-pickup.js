@@ -33,17 +33,7 @@ export default function DateRangePickup({
     const [startDate, setStartDate] = useState(initialStart);
     const [endDate, setEndDate] = useState(initialEnd);
     const [focusedInput, setFocusedInput] = useState(null);
-    const [showVenueBadge, setShowVenueBadge] = useState(venueConfig.active && displayVenueBadge);
-
-    const onVenueBadgeClick = () =>{
-        try {
-            setStartDate(venueConfig.badgeStartDate);
-            setEndDate(venueConfig.badgeEndDate);
-            setShowVenueBadge(false);
-        }catch(err){
-            console.error('Failed to set venue start or end date',err)
-        }
-    }
+    const showVenueBadge = (venueConfig.active && displayVenueBadge) && !startDate && !endDate;
 
     const onChange = dates => {
         let start = dates.startDate ? dates.startDate : moment();
@@ -68,6 +58,17 @@ export default function DateRangePickup({
         onEndDateChanged(!end ? end : end.toDate());
     };
 
+    const onVenueBadgeClick = () =>{
+        try {
+            setStartDate(venueConfig.badgeStartDate);
+            onStartDateChanged(moment(venueConfig.badgeStartDate).toDate());
+            setEndDate(venueConfig.badgeEndDate);
+            onEndDateChanged(moment(venueConfig.badgeEndDate).toDate());
+        }catch(err){
+            console.error('Failed to set venue start or end date',err)
+        }
+    }
+
     useEffect(()=>{
         //if dates are pre-populated, we need to notify that it got changed so that validation can be checked to block/unblock search button
         if(initialStart && onStartDateChanged) {
@@ -83,8 +84,8 @@ export default function DateRangePickup({
             {label && <div className={style.label}>{label}</div>}
             <StyledWrapper className={style.datePickerWrapper}>
                 <DateRangePicker
-                    startDatePlaceholderText="Start date"
-                    endDatePlaceholderText="End date"
+                    startDatePlaceholderText={startPlaceholder}
+                    endDatePlaceholderText={endPlaceholder}
                     startDateTitleText="Start"
                     endDateTitleText="End"
 

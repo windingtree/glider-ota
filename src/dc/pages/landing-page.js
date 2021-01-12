@@ -75,18 +75,20 @@ export default function DCLandingPage() {
     }
 
     if (searchType === SEARCH_TYPE.FLIGHTS) {
-        initialSearchOrigin = initialSearchOrigin ? initialSearchOrigin : venueConfig.originAirport;
-        initialSearchDestination = initialSearchDestination ? initialSearchDestination : venueConfig.destinationAirport;
+        initialSearchOrigin = initialSearchOrigin || null; // ? initialSearchOrigin : venueConfig.originAirport;
+        initialSearchDestination = initialSearchDestination || null; // ? initialSearchDestination : venueConfig.destinationAirport;
     }
+
     if (searchType === SEARCH_TYPE.HOTELS) {
-        initialSearchDestination = initialSearchDestination ? initialSearchDestination : venueConfig.destinationCity;
+        initialSearchDestination = initialSearchDestination || null; // ? initialSearchDestination : venueConfig.destinationCity;
     }
-    initialSearchDepartureDate = initialSearchDepartureDate ? initialSearchDepartureDate : venueConfig.startDate ? venueConfig.startDate : null;
-    initialSearchReturnDate = initialSearchReturnDate === null ? null : initialSearchReturnDate ? initialSearchReturnDate : venueConfig.endDate ? venueConfig.endDate : null;
+
+    initialSearchDepartureDate = initialSearchDepartureDate ? initialSearchDepartureDate : null; // venueConfig.startDate ? venueConfig.startDate : null;
+    initialSearchReturnDate = initialSearchReturnDate || null; // === null ? null : initialSearchReturnDate ? initialSearchReturnDate : venueConfig.endDate ? venueConfig.endDate : null;
     initialSearchAdults = initialSearchAdults ? initialSearchAdults : 1;
     initialSearchChildren = initialSearchChildren ? initialSearchChildren : 0;
     initialSearchInfants = initialSearchInfants ? initialSearchInfants : 0;
-    initialRoundTrip = initialSearchReturnDate !== null;
+    initialRoundTrip = (initialSearchDepartureDate === null && initialSearchReturnDate === null) || initialSearchReturnDate !== null;
 
     console.log('+++ Origin', initialSearchOrigin);
     console.log('+++ Dest', initialSearchDestination);
