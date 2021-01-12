@@ -22,7 +22,7 @@
     "ajv": "^6.12.4",
     "aphrodite": "^2.4.0",
     "async-redis": "^1.1.7",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
     "continuation-local-storage": "^3.2.1",
