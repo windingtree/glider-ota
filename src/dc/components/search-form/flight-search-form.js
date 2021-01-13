@@ -46,9 +46,8 @@ export function FlightsSearchForm(props) {
   const [infants, setInfants] = useState(initInfants);
   const [isReturnTrip, setReturnTrip] = useState(initReturnTrip);
 
-  const showVenueBadge = venueConfig.active && (!destination || (destination && destination.primary !== venueConfig.destinationAirport.primary));
-
-  console.log('!!!', initReturnTrip, isReturnTrip);
+  const showVenueBadge = venueConfig.active &&
+    (!destination || (destination && destination.primary !== venueConfig.destinationAirport.primary));
 
   const validate = useCallback(() => {
     const isOriginValid = () => {
@@ -171,6 +170,7 @@ export function FlightsSearchForm(props) {
             localstorageKey={'traveldates'}
             displayVenueBadge={true}
             minimumNights={1}
+            destination={destination}
           />
         }
         {!isReturnTrip &&
@@ -181,6 +181,7 @@ export function FlightsSearchForm(props) {
             label='When'
             localstorageKey={'traveldates'}
             displayVenueBadge={true}
+            destination={destination}
           />
         }
       </Col>

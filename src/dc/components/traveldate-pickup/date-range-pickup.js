@@ -28,16 +28,22 @@ export default function DateRangePickup({
     label,
     localstorageKey,
     displayVenueBadge =  false,
-    minimumNights = 1
+    minimumNights = 1,
+    destination
 }) {
     const [startDate, setStartDate] = useState(initialStart);
     const [endDate, setEndDate] = useState(initialEnd);
     const [focusedInput, setFocusedInput] = useState(null);
-    const showVenueBadge = (venueConfig.active && displayVenueBadge) && !startDate && !endDate;
+    const showVenueBadge = (venueConfig.active && displayVenueBadge) &&
+        (destination && (
+            destination.primary === venueConfig.destinationAirport.primary ||
+            destination.primary === venueConfig.destinationCity.primary
+        )) &&
+        !startDate && !endDate;
 
     const onChange = dates => {
-        let start = dates.startDate ? dates.startDate : moment();
-        let end = dates.endDate ? dates.endDate : moment();
+        let start = dates.startDate ? moment(dates.startDate) : moment();
+        let end = dates.endDate ? moment(dates.endDate) : moment();
         setStartDate(start.toDate());
         onStartDateChanged(start.toDate());
 
@@ -49,8 +55,8 @@ export default function DateRangePickup({
             end = null;
             setEndDate(null);
         } else if (minimumNights > 0 && (!end || start.isSame(end, 'day'))) {
-            end = end.add(1, 'day').toDate();
-            setEndDate(end);
+            end = end.add(1, 'day');
+            setEndDate(end.toDate());
         } else {
             setEndDate(end.toDate());
         }
@@ -88,20 +94,18 @@ export default function DateRangePickup({
                     endDatePlaceholderText={endPlaceholder}
                     startDateTitleText="Start"
                     endDateTitleText="End"
-
                     startDate={(moment(startDate).isValid()) ? moment(startDate) : undefined}
                     startDateId={uuid()}
                     endDate={(moment(endDate).isValid()) ? moment(endDate) : undefined}
                     endDateId={uuid()}
                     onDatesChange={onChange}
                     minimumNights={minimumNights}
-                    displayFormat='MM/DD/YYYY'
-
+                    displayFormat='MMM DD, ddd'
                     focusedInput={focusedInput}
                     onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-
                     customArrowIcon={<span>&#65372;</span>}
                     block
+                    appendToBody={true}
                 />
             </StyledWrapper>
             {showVenueBadge && <UnicornVenueBadge onBadgeClick={onVenueBadgeClick}/>}

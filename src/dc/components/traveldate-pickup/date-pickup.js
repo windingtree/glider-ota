@@ -49,17 +49,17 @@ export default function DatePickup({
             {label && <div className={style.label}>{label}</div>}
             <StyledWrapper className={style.datePickerWrapper}>
                 <SingleDatePicker
+                    displayFormat='MMM DD, ddd'
                     placeholder={placeholder}
                     titleText="Date"
-
                     date={(moment(startDate).isValid()) ? moment(startDate) : undefined}
                     onDateChange={onChange}
                     focused={focusedInput}
                     onFocusChange={({ focused }) => setFocusedInput(focused)}
                     id={uuid()}
-
                     customArrowIcon={<span>&#65372;</span>}
                     block
+                    appendToBody={true}
                 />
             </StyledWrapper>
             {showVenueBadge && <UnicornVenueBadge onBadgeClick={onVenueBadgeClick}/>}
