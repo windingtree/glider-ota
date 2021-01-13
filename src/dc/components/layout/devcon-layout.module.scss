@@ -16,7 +16,7 @@
 }
 
 .devconFooter {
-  @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-light);
+  @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-normal);
   padding: 40px 0px;
 
   ul {

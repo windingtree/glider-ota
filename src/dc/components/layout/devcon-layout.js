@@ -6,7 +6,7 @@ export default function DevConLayout(props) {
     return (
         <div className={style.pageWrapper}>
             <header className={style.devconHeader}>
-              <a href="/">Glider Logo</a>
+              <a href="/">Your Logo</a>
             </header>
             <div className={props.pageClass ? " " + props.pageClass : ""}>
                 {props.children}
