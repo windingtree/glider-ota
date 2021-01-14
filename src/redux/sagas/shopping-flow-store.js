@@ -366,6 +366,7 @@ function* searchForFlightsSaga() {
         const {
             code: destinationCode
         } = destination;
+        console.log('Criteria:', searchCriteria);
         let searchRequest = buildFlightsSearchCriteria(originCode, destinationCode, departureDate, returnDate, adults, children, infants);
 
         // Update URL parameters

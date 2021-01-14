@@ -13,6 +13,9 @@ import style from './flight-search-form.module.scss';
 
 import { storageKeys } from '../../../config/default';
 
+import {UnicornVenueBadge} from "../../components/search-form/unicorn-venue-badge";
+import {venueConfig} from "../../components/venue-context/theme-context";
+
 export function FlightsSearchForm(props) {
   // Destructure properties
   const {
@@ -34,7 +37,8 @@ export function FlightsSearchForm(props) {
   const destinationAirportKey = storageKeys.flights.destination;
 
   const [origin, setOrigin] = useState(initOrigin);
-  const [destination, setDestination] = useState(initDest);
+  const [initDestination, setInitDestination] = useState(initDest);
+  const [destination, setDestination] = useState(initDestination);
   const [departureDate, setDepartureDate] = useState(initDepartureDate);
   const [returnDate, setReturnDate] = useState(initReturnDate);
   const [adults, setAdults] = useState(initAdults);
@@ -42,7 +46,8 @@ export function FlightsSearchForm(props) {
   const [infants, setInfants] = useState(initInfants);
   const [isReturnTrip, setReturnTrip] = useState(initReturnTrip);
 
-  console.log('!!!', initReturnTrip, isReturnTrip);
+  const showVenueBadge = venueConfig.active &&
+    (!destination || (destination && destination.primary !== venueConfig.destinationAirport.primary));
 
   const validate = useCallback(() => {
     const isOriginValid = () => {
@@ -116,6 +121,14 @@ export function FlightsSearchForm(props) {
     }
   }, [isReturnTrip]);
 
+  const onVenueBadgeClick = () => {
+    try {
+      setInitDestination(venueConfig.destinationAirport);
+    }catch(err){
+      console.error('Failed to set destination',err)
+    }
+  }
+
   return (
     <>
       <Col xs={12} md={3} className={style.formElem}>
@@ -136,12 +149,13 @@ export function FlightsSearchForm(props) {
       </Col>
       <Col xs={12} md={3} className={style.formElem}>
         <AirportLookup
-          initialLocation={initDest}
+          initialLocation={initDestination}
           onSelectedLocationChange={setDestination}
           placeHolder='Where to'
           label='To'
           localstorageKey={destinationAirportKey}
         />
+        {showVenueBadge && <UnicornVenueBadge isDates={false} onBadgeClick={onVenueBadgeClick}/>}
       </Col>
       <Col xs={12} md={3} className={style.formElem}>
         {isReturnTrip &&
@@ -156,15 +170,18 @@ export function FlightsSearchForm(props) {
             localstorageKey={'traveldates'}
             displayVenueBadge={true}
             minimumNights={1}
+            destination={destination}
           />
         }
         {!isReturnTrip &&
           <DateSinglePickup
+            placeholder='Departure'
             onDateChanged={setDepartureDate}
             initialDate={initDepartureDate}
             label='When'
             localstorageKey={'traveldates'}
             displayVenueBadge={true}
+            destination={destination}
           />
         }
       </Col>

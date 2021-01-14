@@ -62,7 +62,7 @@ export default function PassengerSelector(props) {
                     break;
                 default:
                     console.log("Passenger type not implemented");
-                }
+            }
         }
     }
 
@@ -70,7 +70,7 @@ export default function PassengerSelector(props) {
         switch (type) {
             case 'adults':
                 setPassengers(p => {
-                    if (adults > 0) {
+                    if (p.adults > 0) {
                         p.adults -= 1;
                     }
                     onAdultsChange(p.adults);
@@ -79,7 +79,7 @@ export default function PassengerSelector(props) {
                 break;
             case 'children':
                 setPassengers(p => {
-                    if (children > 0) {
+                    if (p.children > 0) {
                         p.children -= 1;
                     }
                     onChildrenChange(p.children);
@@ -88,7 +88,7 @@ export default function PassengerSelector(props) {
                 break;
             case 'infants':
                 setPassengers(p => {
-                    if (infants > 0) {
+                    if (p.infants > 0) {
                         p.infants -= 1;
                     }
                     onInfantsChange(p.infants);
@@ -101,7 +101,7 @@ export default function PassengerSelector(props) {
     }
 
     function getTotal() {
-        return adults + children + infants;
+        return passengers.adults + passengers.children + passengers.infants;
     }
 
     // Display a warning when attempting to book infant

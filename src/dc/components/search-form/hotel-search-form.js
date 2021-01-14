@@ -12,6 +12,9 @@ import style from './hotel-search-form.module.scss';
 
 import { storageKeys } from '../../../config/default';
 
+import {UnicornVenueBadge} from "../../components/search-form/unicorn-venue-badge";
+import {venueConfig} from "../../components/venue-context/theme-context";
+
 export function HotelSearchForm(props) {
   // Destructure properties
   const {
@@ -30,12 +33,15 @@ export function HotelSearchForm(props) {
 
   const destinationCityKey = storageKeys.hotels.destination;
 
-  const [destination, setDestination] = useState(initDest);
+  const [initDestination, setInitDestination] = useState(initDest);
+  const [destination, setDestination] = useState(initDestination);
   const [departureDate, setDepartureDate] = useState(initDepartureDate);
   const [returnDate, setReturnDate] = useState(initReturnDate);
   const [adults, setAdults] = useState(initAdults);
   const [children, setChildren] = useState(initChildren);
   const [infants, setInfants] = useState(initInfants);
+
+  const showVenueBadge = venueConfig.active && (!destination || (destination && destination.primary !== venueConfig.destinationCity.primary));
 
   const validate = useCallback(() => {
     const isDestinationValid = () => {
@@ -106,15 +112,24 @@ export function HotelSearchForm(props) {
     }
   }, [destination, departureDate, returnDate, adults, children, infants, searchCriteriaChanged, validate]) // <-- here put the parameter to listen
 
+  const onVenueBadgeClick = () => {
+    try {
+      setInitDestination(venueConfig.destinationCity);
+    }catch(err){
+      console.error('Failed to set destination',err)
+    }
+  }
+
   return (<>
             <Col xs={12} md={3} className={style.formElem}>
               <CityLookup
-                initialLocation={initDest}
+                initialLocation={initDestination}
                 onSelectedLocationChange={setDestination}
                 placeHolder='Destination'
                 label='Destination/Hotel'
                 localstorageKey={destinationCityKey}
               />
+              {showVenueBadge && <UnicornVenueBadge isDates={false} onBadgeClick={onVenueBadgeClick}/>}
             </Col>
             <Col xs={12} md={6} className={style.formElem}>
               <DateRangePickup
@@ -125,6 +140,7 @@ export function HotelSearchForm(props) {
                 label='When'
                 localstorageKey={'traveldates'}
                 displayVenueBadge={true}
+                destination={destination}
               />
             </Col>
             <Col xs={12} md={3} className={style.formElem}>
