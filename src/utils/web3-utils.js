@@ -205,6 +205,68 @@ export const getAmountIn = async (web3, usdValue, coinAddress) => {
     return paymentManagerContract.methods.getAmountIn(stableCoinValue, coinAddress).call();
 };
 
+// Wait for transaction confirmations count
+export const waitForConfirmations = (
+    web3,
+    txHash,
+    count
+) => new Promise((resolve, reject) => {
+    let interval;
+    const task = async () => {
+        try {
+            const tx = await web3.eth.getTransaction(txHash);
+            const currentBlock = await web3.eth.getBlockNumber();
+            const confirmations = tx.blockNumber === null ? 0 : currentBlock - tx.blockNumber;
+            if (confirmations >= count) {
+                resolve();
+                clearInterval(interval);
+            }
+        } catch(error) {
+            console.log('waitForConfirmations error:', error);
+            reject(error);
+        }
+    };
+    interval = setInterval(task, 2000);
+});
+
+// Wait for payment tx
+export const waitForPaymentTx = (
+    web3,
+    attachment,
+    merchant
+) => new Promise((resolve, reject) => {
+    let paymentManager = createPaymentManagerContract(web3);
+
+    // Start Paid event listener
+    const subscription = paymentManager.events.Paid();
+    subscription
+        .on('data', async event => {
+            // When event is emitted:
+            try {
+                // fetch Payment data by event.returnValues.index
+                const payment = await paymentManager.methods.payments(
+                    event.returnValues.index
+                ).call();
+                console.log('waitForPaymentTx payment:', payment);
+                // filter Payment by the merchant ORGiD and attachment
+                if (payment.attachment === attachment && payment.merchant === merchant) {
+                    // start waiting for confirmations
+                    console.log('waitForPaymentTx wait confirmations:', payment.attachment, payment.merchant);
+                    await waitForConfirmations(web3, event.transactionHash, 2);
+                    resolve(event);
+                    subscription.unsubscribe();
+                    paymentManager = undefined;
+                }
+            } catch (error) {
+                console.log('waitForPaymentTx error:', error);
+                reject(error);
+                subscription.unsubscribe();
+                paymentManager = undefined;
+            }
+        })
+        .on('error', reject);
+});
+
 // Approve amount of tokens
 export const approveToken = (web3, tokenAddress, ownerAddress, spenderAddress, amount, gasPrice) => {
     const token = createErc20Contract(web3, tokenAddress);
@@ -251,7 +313,7 @@ export const payWithToken = (
     from,
     gasPrice
 ) => new Promise((resolve, reject) => {
-    const paymentManager = createPaymentManagerContract(web3);
+    let paymentManager = createPaymentManagerContract(web3);
     console.log('Pay with token', [
         amountOut,
         amountIn,
@@ -260,38 +322,58 @@ export const payWithToken = (
         attachment,
         GLIDER_ORGID
     ]);
-    paymentManager.methods.pay(
-        amountOut,
-        amountIn,
-        tokenIn,
-        deadline,
+    let resolved = false;
+
+    // Start payment tx watcher
+    waitForPaymentTx(
+        web3,
         attachment,
         GLIDER_ORGID
     )
-    .send({
-        from,
-        ...(gasPrice ? { gasPrice } : {})
-    })
-    .on('confirmation', (number, receipt) => {
-        if (receipt.status && number >= 2) {
-            console.log(number, receipt);
-            resolve(receipt);
-        }
-    })
-    .on('error', error => {
-        console.log(error);
-        if (error.message.match(/^Transaction has been/g)) {
-            reject(new Error('Transaction has been reverted by the EVM'));
-        } else {
+        .then(receipt => {
+            if (!resolved) {
+                resolved = true;
+                resolve(receipt);
+            }
+        })
+        .catch(error => {
+            console.log(error);
             reject(error);
-        }
-    });
-});
+            paymentManager = undefined;
+        });
 
-// uint256 amountOut,
-// uint256 deadline,
-// string calldata attachment,
-// bytes32 merchant
+    // Start payment tx
+    paymentManager.methods
+        .pay(
+            amountOut,
+            amountIn,
+            tokenIn,
+            deadline,
+            attachment,
+            GLIDER_ORGID
+        )
+        .send({
+            from,
+            ...(gasPrice ? { gasPrice } : {})
+        })
+        .on('confirmation', (number, receipt) => {
+            if (receipt.status && number >= 2 && !resolved) {
+                console.log(number, receipt);
+                resolved = true;
+                resolve(receipt);
+                paymentManager = undefined;
+            }
+        })
+        .on('error', error => {
+            console.log(error);
+            if (error.message.match(/^Transaction has been/g)) {
+                reject(new Error('Transaction has been reverted by the EVM'));
+            } else {
+                reject(error);
+            }
+            paymentManager = undefined;
+        });
+});
 
 // Make a payment with ETH
 export const payWithETH = (
@@ -303,7 +385,7 @@ export const payWithETH = (
     from,
     gasPrice
 ) => new Promise((resolve, reject) => {
-    const paymentManager = createPaymentManagerContract(web3);
+    let paymentManager = createPaymentManagerContract(web3);
     console.log('Pay with ETH', [
         amountOut,
         deadline,
@@ -313,31 +395,56 @@ export const payWithETH = (
             value: amountIn
         }
     ]);
-    paymentManager.methods.payETH(
-        amountOut,
-        deadline,
+    let resolved = false;
+
+    // Start payment tx watcher
+    waitForPaymentTx(
+        web3,
         attachment,
         GLIDER_ORGID
     )
-    .send({
-        value: amountIn,
-        from,
-        ...(gasPrice ? { gasPrice } : {})
-    })
-    .on('confirmation', (number, receipt) => {
-        if (receipt.status && number >= 2) {
-            console.log(number, receipt);
-            resolve(receipt);
-        }
-    })
-    .on('error', error => {
-        console.log(error);
-        if (error.message.match(/^Transaction has been/g)) {
-            reject(new Error('Transaction has been reverted by the EVM'));
-        } else {
+        .then(receipt => {
+            if (!resolved) {
+                resolved = true;
+                resolve(receipt);
+            }
+        })
+        .catch(error => {
+            console.log(error);
             reject(error);
-        }
-    });
+            paymentManager = undefined;
+        });
+
+    // Start payment tx
+    paymentManager.methods
+        .payETH(
+            amountOut,
+            deadline,
+            attachment,
+            GLIDER_ORGID
+        )
+        .send({
+            value: amountIn,
+            from,
+            ...(gasPrice ? { gasPrice } : {})
+        })
+        .on('confirmation', (number, receipt) => {
+            if (receipt.status && number >= 2 && !resolved) {
+                console.log(number, receipt);
+                resolved = true;
+                resolve(receipt);
+                paymentManager = undefined;
+            }
+        })
+        .on('error', error => {
+            console.log(error);
+            if (error.message.match(/^Transaction has been/g)) {
+                reject(new Error('Transaction has been reverted by the EVM'));
+            } else {
+                reject(error);
+            }
+            paymentManager = undefined;
+        });
 });
 
 // Build ether transfer transaction object

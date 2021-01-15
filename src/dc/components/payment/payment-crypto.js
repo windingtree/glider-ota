@@ -112,47 +112,51 @@ const CryptoPaymentPage = props => {
             {isOfferLoading &&
                 <Spinner enabled={isOfferLoading}/>
             }
-            {amountUSD && amountUSD>0 &&
-                <>
-                    <Row className={styles.walletRow}>
-                        <Col>
-                            <WalletAddress />
-                            <MetamaskButton exclusive noLogout />
-                        </Col>
-                        <Col>
-                            <div className={styles.countDownWrapper}>
-                                {isOfferLoading &&
-                                    <div
-                                        className={styles.countDownSpinner}
-                                    />
-                                }
-                                {!isOfferLoading && countDown > 0 &&
-                                    <CountDown
-                                        value={countDown}
-                                        onCountDown={handleOnCountDown}
-                                    />
-                                }
-                            </div>
-                        </Col>
-                    </Row>
-                    {/* <Row className={styles.mb10}>
-                        <Col>
-                            <PortisButton exclusive />
-                        </Col>
-                    </Row> */}
-                    {walletAddress &&
-                        <SelectCrypto
-                            title='Select a token'
-                            usdValue={amountUSD}
-                            confirmedOfferId={confirmedOfferId}
-                            deadline={deadline}
-                            onPaymentReset={() => handlePaymentReset()}
-                            onPaymentStart={() => handlePaymentStart()}
-                            onPaymentSuccess={() => handlePaymentSuccess(confirmedOfferId)}
-                            onPaymentError={setError}
-                        />
-                    }
-                </>
+            {/* do not change construction below. this is helps avoid a strange "0" (zero) instead of void*/}
+            {amountUSD && amountUSD>0 ?
+                (
+                    <>
+                        <Row className={styles.walletRow}>
+                            <Col>
+                                <WalletAddress />
+                                <MetamaskButton exclusive noLogout />
+                            </Col>
+                            <Col>
+                                <div className={styles.countDownWrapper}>
+                                    {isOfferLoading &&
+                                        <div
+                                            className={styles.countDownSpinner}
+                                        />
+                                    }
+                                    {!isOfferLoading && countDown > 0 &&
+                                        <CountDown
+                                            value={countDown}
+                                            onCountDown={handleOnCountDown}
+                                        />
+                                    }
+                                </div>
+                            </Col>
+                        </Row>
+                        {/* <Row className={styles.mb10}>
+                            <Col>
+                                <PortisButton exclusive />
+                            </Col>
+                        </Row> */}
+                        {walletAddress &&
+                            <SelectCrypto
+                                title='Select a token'
+                                usdValue={amountUSD}
+                                confirmedOfferId={confirmedOfferId}
+                                deadline={deadline}
+                                onPaymentReset={() => handlePaymentReset()}
+                                onPaymentStart={() => handlePaymentStart()}
+                                onPaymentSuccess={() => handlePaymentSuccess(confirmedOfferId)}
+                                onPaymentError={setError}
+                            />
+                        }
+                    </>
+                )
+                : ''
             }
             {signInError &&
                 <Alert variant='warning'>
