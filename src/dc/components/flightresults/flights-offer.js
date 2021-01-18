@@ -1,11 +1,14 @@
 import React, {useState} from 'react'
 import style from './flights-offer.module.scss'
-import {Container, Row, Col, Button} from 'react-bootstrap'
+import {Container, Row, Col, Spinner} from 'react-bootstrap'
 import {format, parseISO} from "date-fns";
 import OfferUtils from '../../../utils/offer-utils'
 import _ from 'lodash'
 import {
-    errorSelector,addFlightToCartAction
+    addFlightToCartAction,
+    deleteOfferFromCartAction,
+    isShoppingCartUpdateInProgress,
+    flightOfferSelector
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 import {IconPlaneDeparture } from '../icons/icons';
@@ -13,22 +16,43 @@ import {JourneySummary} from "../flight-blocks/journey-summary"
 import {AddToTrip} from "../common-blocks/add-to-trip-button"
 import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
 
-export function Offer({offer, itineraries = [], price, offerId, onOfferDisplay, onAddOfferToCart}) {
+export function Offer(props) {
+    const {
+        offer,
+        itineraries = [],
+        price,
+        offerId,
+        onOfferDisplay,
+        onAddOfferToCart = () => {},
+        onDeleteOfferFromCart = () => {},
+        isCartInProgress,
+        cartFlightOffer
+    } = props;
+    const [updateStarted, setUpdateStarted] = useState(false);
+    const isAlreadyAdded= cartFlightOffer &&
+        cartFlightOffer.offerId === offer.offerId;
 
     const addOfferToCart = () =>{
-        if(onAddOfferToCart)
-        {
-            onAddOfferToCart(offer.offerId, offer, price, itineraries)
-        }else{
-            console.warn('onAddOfferToCart is not defined!')
-        }
+        setUpdateStarted(true);
+        onAddOfferToCart(offer.offerId, offer, price, itineraries)
+    }
+
+    const deleteOfferFromCart = () =>{
+        setUpdateStarted(true);
+        onDeleteOfferFromCart(offer.offerId)
     }
 
     return (
-        <div  className={style.flightsearchoffercontainer}>
-                <JourneySummary itineraries={itineraries}/>
-                <HorizontalDottedLine/>
-                <AddToTrip isAlreadyAdded={false} priceCurrency={price.currency} priceAmount={price.public} onAdd={addOfferToCart}/>
+        <div className={style.flightsearchoffercontainer}>
+            <JourneySummary itineraries={itineraries}/>
+            <HorizontalDottedLine/>
+            <AddToTrip
+                isProgress={isCartInProgress && updateStarted}
+                isAlreadyAdded={isAlreadyAdded}
+                priceCurrency={price.currency}
+                priceAmount={price.public}
+                onAdd={isAlreadyAdded ? deleteOfferFromCart : addOfferToCart}
+            />
         </div>
     )
 }
@@ -126,13 +150,16 @@ function ItineraryAncillaries({pricePlan}) {
     )
 }
 
+const mapStateToProps = state => ({
+    isCartInProgress: isShoppingCartUpdateInProgress(state),
+    cartFlightOffer: flightOfferSelector(state)
+});
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAddOfferToCart: (offerId, offer, price, itineraries) => {
-            dispatch(addFlightToCartAction(offerId, offer, price, itineraries))
-        }
+        onAddOfferToCart: (offerId, offer, price, itineraries) => dispatch(addFlightToCartAction(offerId, offer, price, itineraries)),
+        onDeleteOfferFromCart: offerId => dispatch(deleteOfferFromCartAction(offerId))
     }
 }
 
-export default connect(null, mapDispatchToProps)(Offer);
+export default connect(mapStateToProps, mapDispatchToProps)(Offer);
