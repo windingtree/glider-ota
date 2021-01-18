@@ -34,12 +34,12 @@ export function Offer(props) {
 
     const addOfferToCart = () =>{
         setUpdateStarted(true);
-        onAddOfferToCart(offer.offerId, offer, price, itineraries)
+        onAddOfferToCart(offer.offerId, offer, price, itineraries);
     }
 
     const deleteOfferFromCart = () =>{
         setUpdateStarted(true);
-        onDeleteOfferFromCart(offer.offerId)
+        onDeleteOfferFromCart(offer.offerId);
     }
 
     return (
