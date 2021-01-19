@@ -41,13 +41,13 @@ export const AddToTrip = ({priceAmount, priceCurrency, isAlreadyAdded, onAdd, is
                 <Col className={style.addButtonWrapper}>
                     <button
                         title={isAlreadyAdded
-                            ? 'Already added'
+                            ? 'Added to trip'
                             : 'Add to trip'}
                         className={buttonClassnames}
                         onClick={!isProgress ? handleButtonClick: () => {}}
                     >
                         {isAlreadyAdded
-                            ? !isProgress ? 'Already added' : 'Removing from trip'
+                            ? !isProgress ? 'Added to trip' : 'Removing from trip'
                             : !isProgress ? 'Add to trip' : 'Adding to trip'}
                         {isProgress &&
                             <Spinner
