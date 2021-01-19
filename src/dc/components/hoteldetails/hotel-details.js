@@ -8,14 +8,27 @@ import {ExpandCollapseToggle, ExpandCollapseToggleV2} from "../common-blocks/exp
 
 import {HotelAddress} from "../accommodation-blocks/hotel-address";
 import {HotelVenueDistance} from "../accommodation-blocks/hotel-venue-distance"
-import {addHotelToCartAction} from "../../../redux/sagas/shopping-cart-store";
+import {
+    addHotelToCartAction,
+    deleteOfferFromCartAction,
+    isShoppingCartUpdateInProgress,
+    hotelOfferSelector
+} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 
 
 
 
-export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
-    console.log('Display hotel details',hotel)
+export function HotelDetails(props) {
+    const {
+        hotel,
+        searchResults,
+        onAddOfferToCart = () => {},
+        onDeleteOfferFromCart = () => {},
+        isCartInProgress,
+        cartHotelOffer
+    } = props;
+    // console.log('Display hotel details',hotel)
     const [selectedOffer,setSelectedOffer] = useState()
     const [roomsExpanded,setRoomsExpanded] = useState(false)
     const offers = searchResults.offers;
@@ -26,15 +39,12 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
     const hotelCoordinates = _.get(hotel, 'location.coordinates');
     const hotelLeadingImageUrl =  getLeadingHotelImageUrl(hotel);
 
-    const handleAddOfferToCart = ({offerId, price, room}) =>{
+    const handleAddOfferToCart = ({offerId, price, room}) => {
+        onAddOfferToCart(offerId, room, hotel, price)
+    }
 
-
-        if(onAddOfferToCart) {
-             onAddOfferToCart(offerId, room, hotel, price)
-        }
-        else {
-            console.warn('onAddOfferToCart is not defined!');
-        }
+    const deleteOfferFromCart = ({offerId}) =>{
+        onDeleteOfferFromCart(offerId);
     }
 
     const findLowestHotelPrice = () => {
@@ -70,19 +80,44 @@ export function HotelDetails({hotel, searchResults, onAddOfferToCart}) {
                     <Col ><ExpandCollapseToggleV2 expanded={roomsExpanded} collapsedText={'Show rooms'} expandedText={'Hide rooms'} onToggle={setRoomsExpanded} customClassName={style.showHideRoomsToggle}/></Col>
                 </Row>
 
-                {roomsExpanded && displayRooms(rooms,hotelPricePlansWithOffers,selectedOffer, handleAddOfferToCart)}
+                {roomsExpanded && displayRooms(
+                    rooms,
+                    hotelPricePlansWithOffers,
+                    selectedOffer,
+                    handleAddOfferToCart,
+                    deleteOfferFromCart,
+                    isCartInProgress,
+                    cartHotelOffer
+                )}
             </Col>
         </Row>
         </Container>
     )
 }
 
-const displayRooms = (rooms, hotelPricePlansWithOffers, selectedOffer, onAddOfferToCart) =>{
+const displayRooms = (
+    rooms,
+    hotelPricePlansWithOffers,
+    selectedOffer,
+    onAddOfferToCart,
+    onDeleteOfferFromCart,
+    isCartInProgress,
+    cartHotelOffer
+) =>{
     return(<div>
         {
             _.map(rooms, (room, roomId) => {
                 const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
-                return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers}  selectedOffer={selectedOffer} onAddOfferToCart={onAddOfferToCart}/>)
+                return (<Room
+                    room={room}
+                    key={roomId}
+                    roomPricePlansWithOffers={roomPricePlansWithOffers}
+                    selectedOffer={selectedOffer}
+                    onAddOfferToCart={onAddOfferToCart}
+                    onDeleteOfferFromCart={onDeleteOfferFromCart}
+                    isCartInProgress={isCartInProgress}
+                    cartHotelOffer={cartHotelOffer}
+                />)
             })
         }
     </div>)
@@ -132,18 +167,19 @@ const getLeadingHotelImageUrl = (hotel) => {
 }
 
 
+const mapStateToProps = state => ({
+    isCartInProgress: isShoppingCartUpdateInProgress(state),
+    cartHotelOffer: hotelOfferSelector(state)
+});
 
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onAddOfferToCart: (offerId, room, hotel, price) => {
-            dispatch(addHotelToCartAction(offerId, room, hotel, price))
-        }
-    }
-}
+const mapDispatchToProps = dispatch => ({
+    onAddOfferToCart: (offerId, room, hotel, price) => dispatch(addHotelToCartAction(offerId, room, hotel, price)),
+    onDeleteOfferFromCart: offerId => dispatch(deleteOfferFromCartAction(offerId))
+});
 
 
 
-export default connect(null, mapDispatchToProps)(HotelDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(HotelDetails);
 
 

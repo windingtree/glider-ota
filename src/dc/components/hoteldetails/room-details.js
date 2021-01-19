@@ -11,7 +11,16 @@ import {AddToTrip} from "../common-blocks/add-to-trip-button"
 
 
 
-export function Room({room, roomPricePlansWithOffers, selectedOffer, onAddOfferToCart}) {
+export function Room(props) {
+    const {
+        room,
+        roomPricePlansWithOffers,
+        selectedOffer,
+        onAddOfferToCart,
+        onDeleteOfferFromCart,
+        isCartInProgress,
+        cartHotelOffer
+    } = props;
 
     const roomImages = room.media;
 
@@ -32,9 +41,16 @@ export function Room({room, roomPricePlansWithOffers, selectedOffer, onAddOfferT
                         roomPricePlansWithOffers.map(plan => {
                             let key = plan.offerId + room.roomTypeId + plan.pricePlanReference;
                             return (
-                                <RoomPricePlan key={key}
-                                           offer={plan} pricePlan={plan.pricePlan}
-                                           selectedOffer={selectedOffer} onAddOfferToCart={onAddOfferToCart}/>
+                                <RoomPricePlan
+                                    key={key}
+                                    offer={plan}
+                                    pricePlan={plan.pricePlan}
+                                    selectedOffer={selectedOffer}
+                                    onAddOfferToCart={onAddOfferToCart}
+                                    onDeleteOfferFromCart={onDeleteOfferFromCart}
+                                    isCartInProgress={isCartInProgress}
+                                    cartHotelOffer={cartHotelOffer}
+                                />
                             )
                         })
                     }
@@ -64,33 +80,59 @@ export function Room({room, roomPricePlansWithOffers, selectedOffer, onAddOfferT
 }
 
 
-export function RoomPricePlan({offer, pricePlan, selectedOffer, onAddOfferToCart}) {
+export function RoomPricePlan(props) {
+    const {
+        offer,
+        pricePlan,
+        selectedOffer,
+        onAddOfferToCart = () => {},
+        onDeleteOfferFromCart = () => {},
+        isCartInProgress,
+        cartHotelOffer
+    } = props;
     let price = offer.price;
-    let isThisSelectedOffer = false;
-    if(selectedOffer){
-        if(selectedOffer.offerId === offer.offerId)
-            isThisSelectedOffer=true;
-    }
-    let {name,penalties} = pricePlan||{}
+    const [updateStarted, setUpdateStarted] = useState(false);
+    // let isThisSelectedOffer = false;
+    // if(selectedOffer){
+    //     if(selectedOffer.offerId === offer.offerId)
+    //         isThisSelectedOffer=true;
+    // }
+    let {name,penalties} = pricePlan||{};
+    const isAlreadyAdded= cartHotelOffer &&
+    cartHotelOffer.offerId === offer.offerId;
+
+    console.log('###@!@@', isCartInProgress);
 
     const onAddPricePlanToCart = () =>{
-        if(onAddOfferToCart){
+        if (onAddOfferToCart) {
             let hotelCartItem = {
                 offer: offer,
                 price:price,
                 offerId:offer.offerId,
                 room: offer.room
             }
+            setUpdateStarted(true);
             onAddOfferToCart(hotelCartItem)
-        }else{
+        } else {
             console.warn('onAddOfferToCart is not defined!');
         }
+    }
+
+    const deleteOfferFromCart = () => {
+        setUpdateStarted(true);
+        onDeleteOfferFromCart(offer);
     }
 
 
     return (<div>
             <PlanPenalties penalties={penalties}/>
-            <AddToTrip priceAmount={price.public} priceCurrency={price.currency} isAlreadyAdded={isThisSelectedOffer} onAdd={onAddPricePlanToCart}/>
+            <AddToTrip
+                priceAmount={price.public}
+                priceCurrency={price.currency}
+                isProgress={isCartInProgress && updateStarted}
+                isAlreadyAdded={isAlreadyAdded}
+                onAdd={isAlreadyAdded ? deleteOfferFromCart : onAddPricePlanToCart}
+            />
             <div className={style.roomPriceDisclaimer}>includes all taxes and charges</div>
     </div>)
 }
