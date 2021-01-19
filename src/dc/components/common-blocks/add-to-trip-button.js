@@ -30,6 +30,7 @@ export const AddToTrip = ({priceAmount, priceCurrency, isAlreadyAdded, onAdd, is
         addButtonInactive:isAlreadyAdded,
         addIcon: !isAlreadyAdded && !isProgress,
         addedIcon: isAlreadyAdded && !isProgress,
+        addProgress: isProgress
     });
 
     return (

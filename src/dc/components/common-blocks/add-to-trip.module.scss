@@ -7,11 +7,23 @@
 
 .addButtonActive{
   @include g-font($g-fontsize-l,$g-color-primary,$g-fontweight-normal);
+
+  &.addProgress:hover {
+    background-color: transparent;
+    color: $g-color-primary;
+    pointer-events: none;
+  }
 }
 
 .addButtonInactive{
   @include g-font($g-fontsize-l,$g-color-darkgrey,$g-fontweight-normal);
-  border-color: #717171;
+  border-color: #717171 !important;
+
+  &.addProgress:hover {
+    background-color: transparent;
+    color: $g-color-darkgrey;
+    pointer-events: none;
+  }
 }
 
 .priceActive{
