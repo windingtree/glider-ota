@@ -19,10 +19,10 @@ export default function HotelsShoppingComponent(props) {
                 <Col xs={0} sm={0} md={3} xl={0} className='d-none d-md-block'>
                     <HotelFilters/>
                 </Col>
-                <Col xs={12} sm={9} md={6} xl={6}>
+                <Col xs={12} sm={12} md={6} xl={6}>
                     <HotelsSearchResults initSearch={initSearch} />
                 </Col>
-                <Col xs={0} sm={3} md={3} xl={3}>
+                <Col xs={0} sm={0} md={3} xl={3}>
                     <ShoppingCart/>
                 </Col>
             </Row>

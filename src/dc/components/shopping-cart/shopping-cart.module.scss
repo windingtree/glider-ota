@@ -5,21 +5,41 @@
   background: $glider-color-primary-background;
   border-radius: 8px;
 
-  @include media-max-sm {
+  @include media-max-md {
     display: none;
   }
 }
 
-.cartContainerMobile{
+.cartContainerMobile {
+  position: relative;
   background: $glider-color-primary-background;
   border-radius: 8px;
-  outline: 9999px solid rgba(0,0,0,0.2);
-  z-index: 99999;
 
-  @include media-max-sm {
+  @include media-max-md {
     position: fixed;
+    min-width: calc(100vw - 50px);
+    max-width: 50vw;
     top: 20px;
-    width: calc(100vw - 68px);
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cartOverlay {
+  @include media-max-md {
+    &:before {
+      display: block;
+      position: absolute;
+      content: "";
+      top: -99999px;
+      right: -99999px;
+      bottom: -99999px;
+      left: -99999px;
+      background-color: rgba(0,0,0,0.05);
+    }
   }
 }
 
@@ -27,17 +47,17 @@
   display: none;
   position: fixed;
   right: 20px;
-  bottom: 40px;
+  bottom: 30px;
   width: 70%;
   padding: 16px 10px;
   @include g-font($g-fontsize-xl,white,$g-fontweight-normal);
   background-color: $glider-color-primary;
   border-radius: 8px;
   text-align: center;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 
-  @include media-max-sm {
+  @include media-max-md {
     display: block;
   }
 }

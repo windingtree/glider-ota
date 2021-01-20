@@ -317,73 +317,75 @@ export const ShoppingCart = (props) => {
         }
 
         return (
-            <div className={isMobile ? style.cartContainerMobile : style.cartContainer}>
-                <div className={style.cartHeader}>
-                    <div className={style.cartHeaderTitle}>
-                        Your trip so far
+            <div className={mobileCartOpen ? style.cartOverlay : ''}>
+                <div className={isMobile ? style.cartContainerMobile : style.cartContainer}>
+                    <div className={style.cartHeader}>
+                        <div className={style.cartHeaderTitle}>
+                            Your trip so far
+                        </div>
+                        {isMobile &&
+                            <div
+                                className={style.cartHeaderCloseBtn}
+                                onClick={toggleMobileCart}
+                            >
+                                close
+                            </div>
+                        }
                     </div>
-                    {isMobile &&
-                        <div
-                            className={style.cartHeaderCloseBtn}
-                            onClick={toggleMobileCart}
-                        >
-                            close
-                        </div>
-                    }
-                </div>
-                <HorizontalDottedLine/>
-                <div className={style.cartBody}>
-
-                    {flightOffer &&
-                        <div className={style.flightOfferWrapper}>
-                            <FlightOfferCartItem
-                                flightOffer={flightOffer}
-                                displayOutbound={true}
-                                displayInbound={false}
-                                onRemoveOfferFromCart={() => removeOfferFromCart(flightOffer.offerId)}
-                            />
-                        </div>
-                    }
-
-                    {hotelOffer &&
-                        <div className={style.flightOfferWrapper}>
-                            <HotelOfferCartItem hotelOffer={hotelOffer}
-                                                onRemoveOfferFromCart={() => removeOfferFromCart(hotelOffer.offerId)}/>
-                        </div>
-                    }
-
-
-                    {!hotelOffer && flightOffer &&
-                        <BookHotelBtn
-                            flightOffer={flightOffer}
-                            flightSearchCriteria={flightSearchCriteria}
-                        />
-                    }
-
-
-                    {flightOffer &&
-                        <div className={style.flightOfferWrapper}>
-                            <FlightOfferCartItem
-                                flightOffer={flightOffer}
-                                displayOutbound={false}
-                                displayInbound={true}
-                                onRemoveOfferFromCart={() => removeOfferFromCart(flightOffer.offerId)}/>
-                        </div>
-                    }
-
-                    <Spinner enabled={isShoppingCartUpdateInProgress === true}/>
-                    <div className={style.cartBodyBottom}></div>
                     <HorizontalDottedLine/>
-                    <div className={style.cartFooter}>
-                        {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/>}
-                        {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/>}
-                        {totalPrice && totalPrice.public > 0 && <Total price={totalPrice} title={"Total:"}/>}
+                    <div className={style.cartBody}>
+
+                        {flightOffer &&
+                            <div className={style.flightOfferWrapper}>
+                                <FlightOfferCartItem
+                                    flightOffer={flightOffer}
+                                    displayOutbound={true}
+                                    displayInbound={false}
+                                    onRemoveOfferFromCart={() => removeOfferFromCart(flightOffer.offerId)}
+                                />
+                            </div>
+                        }
+
+                        {hotelOffer &&
+                            <div className={style.flightOfferWrapper}>
+                                <HotelOfferCartItem hotelOffer={hotelOffer}
+                                                    onRemoveOfferFromCart={() => removeOfferFromCart(hotelOffer.offerId)}/>
+                            </div>
+                        }
+
+
+                        {!hotelOffer && flightOffer &&
+                            <BookHotelBtn
+                                flightOffer={flightOffer}
+                                flightSearchCriteria={flightSearchCriteria}
+                            />
+                        }
+
+
+                        {flightOffer &&
+                            <div className={style.flightOfferWrapper}>
+                                <FlightOfferCartItem
+                                    flightOffer={flightOffer}
+                                    displayOutbound={false}
+                                    displayInbound={true}
+                                    onRemoveOfferFromCart={() => removeOfferFromCart(flightOffer.offerId)}/>
+                            </div>
+                        }
+
+                        <Spinner enabled={isShoppingCartUpdateInProgress === true}/>
+                        <div className={style.cartBodyBottom}></div>
+                        <HorizontalDottedLine/>
+                        <div className={style.cartFooter}>
+                            {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/>}
+                            {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/>}
+                            {totalPrice && totalPrice.public > 0 && <Total price={totalPrice} title={"Total:"}/>}
+                        </div>
+                        <div className={'pt-2'}/>
+                        <div className={style.flightOfferBottomWrapper}>
+                            <button className={bookButtonClassnames} onClick={onProceedToBook}>Book</button>
+                        </div>
+                        {config.DEV_MODE && links()}
                     </div>
-                    <div className={'pt-2'}/>
-                    <div className={style.flightOfferBottomWrapper}>
-                        <button className={bookButtonClassnames} onClick={onProceedToBook}>Book</button>
-                    </div>
-                    {config.DEV_MODE && links()}
                 </div>
             </div>
         );
