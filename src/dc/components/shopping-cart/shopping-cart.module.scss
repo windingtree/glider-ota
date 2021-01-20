@@ -14,6 +14,7 @@
   background: $glider-color-primary-background;
   border-radius: 8px;
   outline: 9999px solid rgba(0,0,0,0.2);
+  z-index: 99999;
 
   @include media-max-sm {
     position: fixed;
