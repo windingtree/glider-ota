@@ -253,6 +253,9 @@ export const ShoppingCart = (props) => {
         removeOfferFromCart
     } = props;
     let history = useHistory();
+    const [mobileCartOpen, setMobileCartOpen] = useState(false);
+
+    const toggleMobileCart = () => setMobileCartOpen(!mobileCartOpen);
 
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
@@ -307,60 +310,99 @@ export const ShoppingCart = (props) => {
         </>)
     }
 
+    const cartContent = isMobile => {
+
+        if (isMobile && !mobileCartOpen) {
+            return null;
+        }
+
+        return (
+            <div className={isMobile ? style.cartContainerMobile : style.cartContainer}>
+                <div className={style.cartHeader}>
+                    <div className={style.cartHeaderTitle}>
+                        Your trip so far
+                    </div>
+                    {isMobile &&
+                        <div
+                            className={style.cartHeaderCloseBtn}
+                            onClick={toggleMobileCart}
+                        >
+                            close
+                        </div>
+                    }
+                </div>
+                <HorizontalDottedLine/>
+                <div className={style.cartBody}>
+
+                    {flightOffer &&
+                        <div className={style.flightOfferWrapper}>
+                            <FlightOfferCartItem
+                                flightOffer={flightOffer}
+                                displayOutbound={true}
+                                displayInbound={false}
+                                onRemoveOfferFromCart={() => removeOfferFromCart(flightOffer.offerId)}
+                            />
+                        </div>
+                    }
+
+                    {hotelOffer &&
+                        <div className={style.flightOfferWrapper}>
+                            <HotelOfferCartItem hotelOffer={hotelOffer}
+                                                onRemoveOfferFromCart={() => removeOfferFromCart(hotelOffer.offerId)}/>
+                        </div>
+                    }
+
+
+                    {!hotelOffer && flightOffer &&
+                        <BookHotelBtn
+                            flightOffer={flightOffer}
+                            flightSearchCriteria={flightSearchCriteria}
+                        />
+                    }
+
+
+                    {flightOffer &&
+                        <div className={style.flightOfferWrapper}>
+                            <FlightOfferCartItem
+                                flightOffer={flightOffer}
+                                displayOutbound={false}
+                                displayInbound={true}
+                                onRemoveOfferFromCart={() => removeOfferFromCart(flightOffer.offerId)}/>
+                        </div>
+                    }
+
+                    <Spinner enabled={isShoppingCartUpdateInProgress === true}/>
+                    <div className={style.cartBodyBottom}></div>
+                    <HorizontalDottedLine/>
+                    <div className={style.cartFooter}>
+                        {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/>}
+                        {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/>}
+                        {totalPrice && totalPrice.public > 0 && <Total price={totalPrice} title={"Total:"}/>}
+                    </div>
+                    <div className={'pt-2'}/>
+                    <div className={style.flightOfferBottomWrapper}>
+                        <button className={bookButtonClassnames} onClick={onProceedToBook}>Book</button>
+                    </div>
+                    {config.DEV_MODE && links()}
+                </div>
+            </div>
+        );
+    };
+
 
     return (
-        <div className={style.cartContainer}>
-            <div className={style.cartHeader}>Your trip so far</div>
-            <HorizontalDottedLine/>
-            <div className={style.cartBody}>
-
-                {flightOffer &&
-                <div className={style.flightOfferWrapper}>
-                    <FlightOfferCartItem
-                        flightOffer={flightOffer}
-                        displayOutbound={true}
-                        displayInbound={false}
-                        onRemoveOfferFromCart={() => removeOfferFromCart(flightOffer.offerId)}
-                    />
-                </div>}
-
-                {hotelOffer &&
-                <div className={style.flightOfferWrapper}>
-                    <HotelOfferCartItem hotelOffer={hotelOffer}
-                                        onRemoveOfferFromCart={() => removeOfferFromCart(hotelOffer.offerId)}/>
-                </div>}
-
-
-                {!hotelOffer && flightOffer &&
-                <BookHotelBtn
-                    flightOffer={flightOffer}
-                    flightSearchCriteria={flightSearchCriteria}
-                />}
-
-
-                {flightOffer &&
-                <div className={style.flightOfferWrapper}>
-                    <FlightOfferCartItem
-                        flightOffer={flightOffer}
-                        displayOutbound={false}
-                        displayInbound={true}
-                        onRemoveOfferFromCart={() => removeOfferFromCart(flightOffer.offerId)}/>
-                </div>}
-            </div>
-            <Spinner enabled={isShoppingCartUpdateInProgress === true}/>
-            <HorizontalDottedLine/>
-            <div className={style.cartFooter}>
-                {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/>}
-                {hotelOffer && hotelPrice && <SubTotal price={hotelPrice} title={"Hotels:"}/>}
-                {totalPrice && totalPrice.public > 0 && <Total price={totalPrice} title={"Total:"}/>}
-            </div>
-            <div className={'pt-2'}/>
-            <div className={style.flightOfferBottomWrapper}>
-                <button className={bookButtonClassnames} onClick={onProceedToBook}>Book</button>
-            </div>
-            {config.DEV_MODE && links()}
-        </div>
-
+        <>
+            {cartContent(false)}
+            {cartContent(true)}
+            {totalPrice && totalPrice.public > 0 && !mobileCartOpen &&
+                <div
+                    className={style.cartFloatingButton}
+                    onClick={toggleMobileCart}
+                >
+                    Trip total: {totalPrice.public} {totalPrice.currency}
+                </div>
+            }
+        </>
     )
 }
 

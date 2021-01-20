@@ -4,11 +4,57 @@
 .cartContainer{
   background: $glider-color-primary-background;
   border-radius: 8px;
+
+  @include media-max-sm {
+    display: none;
+  }
+}
+
+.cartContainerMobile{
+  background: $glider-color-primary-background;
+  border-radius: 8px;
+  outline: 9999px solid rgba(0,0,0,0.2);
+
+  @include media-max-sm {
+    position: fixed;
+    top: 20px;
+    width: calc(100vw - 68px);
+  }
+}
+
+.cartFloatingButton {
+  display: none;
+  position: fixed;
+  right: 20px;
+  bottom: 40px;
+  width: 70%;
+  padding: 16px 10px;
+  @include g-font($g-fontsize-xl,white,$g-fontweight-normal);
+  background-color: $glider-color-primary;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+
+  @include media-max-sm {
+    display: block;
+  }
 }
 
 .cartHeader{
-  @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
   padding: 20px 20px 1rem 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cartHeaderTitle {
+  @include g-font($g-fontsize-xl,$glider-color-primary,$g-fontweight-normal);
+}
+
+.cartHeaderCloseBtn {
+  @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
+  cursor: pointer;
 }
 
 .subtotalItem{
@@ -57,6 +103,12 @@
 
 .cartBody {
   padding: 1rem 0 1rem 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 103px);
+}
+
+.cartBodyBottom {
+  margin-top: 10px;
 }
 
 .cartFooter {
