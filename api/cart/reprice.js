@@ -40,6 +40,7 @@ const offerRepriceController = async (req, res) => {
         return;
     }
 
+    //master offer is needed to hold multiple sub-offers (e.g. flight, hotel)
     const masterOffer = {
         suboffers: [],
         totalPrice: null,
@@ -52,7 +53,7 @@ const offerRepriceController = async (req, res) => {
         if (transportationOfferItem) {
             const {
                 offerId: unConfirmedOfferId,
-                offer: unConfirmedOffer,
+                // offer: unConfirmedOffer,
                 itineraries: flightItineraries,
                 isOfferConfirmed
             } = transportationOfferItem.item;
@@ -60,8 +61,15 @@ const offerRepriceController = async (req, res) => {
             //check if flight offer, by any chance, is already confirmed?
             //it may happen if the user hit refresh or e.g. changed payment method (and already called /reprice previously)
             if(isOfferConfirmed === true){
-                //if that was the case, there is no need to reprice flights again
-
+                //if that was the case, there is no need to reprice flights again - we already have it in transportationOfferItem.item.offer
+                const confirmedOffer = transportationOfferItem.item.offer;
+                if(confirmedOffer){
+                    const {pricedItems, disclosures, terms, options} = confirmedOffer;
+                    //we need to display terms&conditions in UI - we need to copy part of reprice response to the master offer (it may also be needed at a later stage, e.g. confirmation email)
+                    Object.assign(masterOffer, {
+                        pricedItems, disclosures, terms, options
+                    })
+                }
             }else {
 
                 //flights need to be repriced - call repricing API to get new confirmed price (and potentially new offerID)
