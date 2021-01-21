@@ -27,7 +27,6 @@ const seatmapController = async (req, res) => {
     try {
         let offerMetadata = await getOfferMetadata(offer.offerId);
         if (!offerMetadata) {
-            logger.error(`Offer metadata not found, offerId=${offer.offerId}`);
             throw new Error(`Offer metadata not found, offerId=${offer.offerId}`);
         }
 
