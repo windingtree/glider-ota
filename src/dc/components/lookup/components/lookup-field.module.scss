@@ -6,7 +6,7 @@
     background-color: $glider-color-inputfields-background;
     box-sizing: border-box;
     border-radius: 8px;
-    //height: 40px;
+    height: 40px;
 
     order: 1;
     align-self: stretch;
@@ -38,12 +38,12 @@
 .inputField:focus{
     box-shadow:none;
     color: $glider-color-inputfields-text;
-    background-color: $glider-color-inputfields-background;
+    background-color: transparent;
 
 }
 
 .inputField::placeholder {
-    @include g-font($g-fontsize-xl,$g-color-lightgrey,$g-fontweight-normal);
+    @include g-font($g-fontsize-xl,$g-color-darkgrey,$g-fontweight-normal);
 }
 .code{
     background-color: $glider-color-inputfields-background;
