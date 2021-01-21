@@ -1,21 +1,24 @@
 const {decorate} = require('../_lib/decorators');
 const {createLogger} = require('../_lib/logger')
 const {sendErrorResponse,ERRORS} = require("../_lib/rest-utils")
-const dictionary = require("../_lib/dictionary-data-cache")
-const MAX_RESULTS=30;
-const logger = createLogger('/lookup/airportSearch')
+const lookup = require("../_lib/lookup-manager");
+const logger = createLogger('/lookup/citySearch')
 const lookupController = async (req, res) => {
-    const {
-        searchquery,
-        country_code
-    } = req.query;
-
-    if(!validateRequest(req.query)){
+    let searchquery = req.query.searchquery;
+    let country_code = req.query.country_code;
+    const start = process.hrtime();
+    if(!validateRequest(searchquery)){
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Invalid request parameter, searchquery="+searchquery,req.body);
         return;
     }
     try{
-        let results = await dictionary.findCity(searchquery, country_code, MAX_RESULTS);
+        let results = await lookup.cityLookup(searchquery);
+
+        //if country_code parameter is specified, narrow down results to cities that belong to specified country
+        if(country_code){
+            results = results.filter(city=>city.country_code.toUpperCase() === country_code.toUpperCase())
+        }
+
         res.json({
             results
         });
@@ -23,14 +26,11 @@ const lookupController = async (req, res) => {
         logger.error("Got error while airport search, error:%s",error.message,error)
         sendErrorResponse(res,500,ERRORS.INTERNAL_SERVER_ERROR);
     }
+    console.log('Lookup time:', process.hrtime(start))
 };
 
 function validateRequest(query){
-    if ((query.searchquery && query.searchquery.length > 2) ||
-        (query.country_code && query.country_code.length >= 2)) {
-        return true;
-    }
+    return !(query === undefined || query.length < 2);
 
-    return true;
 }
 module.exports = decorate(lookupController);
