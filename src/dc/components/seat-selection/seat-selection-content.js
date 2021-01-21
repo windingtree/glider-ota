@@ -56,11 +56,8 @@ export function SeatSelectionContent({offerId, searchResults, refreshInProgress}
 
     // Load the seatmap on first component mounting
     useEffect(() => {
-        console.log(`useEffect, passengersMap=${passengersMap==undefined}, searchResults=${searchResults==undefined}, indexedSeatmap=${indexedSeatmap ==undefined}`)
         // Prepare spinner
-
         if(!passengersMap) {
-            console.log('useEffect - load passengers');
             //passenger data not yet loaded - load it here
             setIsLoadingPassengers(true);
             retrievePassengerDetails().then(result => {
@@ -77,7 +74,6 @@ export function SeatSelectionContent({offerId, searchResults, refreshInProgress}
 
         }
         if(!indexedSeatmap) {
-            console.log('useEffect - load seatmap');
             setIsLoading(true);
 
             // Load the seat map
@@ -105,7 +101,6 @@ export function SeatSelectionContent({offerId, searchResults, refreshInProgress}
         }
 
         if(!searchResults){
-            console.log('useEffect - refresh search results');
             requestSearchResultsRestoreFromCache();
         }
 
