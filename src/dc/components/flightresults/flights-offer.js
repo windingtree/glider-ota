@@ -134,7 +134,7 @@ export function AirlineLogo({iatacode,tooltip, airlineName}){
     const MISSING_LOGO='missing';
     let imgPath = "/airlines/" + img + ".png";
     return (
-        (<img key={iatacode} src={imgPath} title={tooltip} className={style.itinCarrierLogo} onError={() => setImg(MISSING_LOGO)}/>)
+        (<img key={iatacode} src={imgPath} alt={tooltip} title={tooltip} className={style.itinCarrierLogo} onError={() => setImg(MISSING_LOGO)}/>)
     )
 }
 
@@ -144,8 +144,8 @@ function ItineraryAncillaries({pricePlan}) {
         fba=parseInt(pricePlan.checkedBaggages.quantity)
     return (
         <span>
-            {fba === 0 && <img src="/ancillaries/luggage_notallowed.png"/>}
-            {fba > 0 && <img src="/ancillaries/luggage_allowed.png"/>}
+            {fba === 0 && <img alt="luggage not allowed" src="/ancillaries/luggage_notallowed.png"/>}
+            {fba > 0 && <img alt="luggage allowed" src="/ancillaries/luggage_allowed.png"/>}
         </span>
     )
 }
