@@ -317,7 +317,11 @@ export const ShoppingCart = (props) => {
         }
 
         return (
-            <div className={mobileCartOpen ? style.cartOverlay : ''}>
+            <>
+                <div
+                    className={mobileCartOpen ? style.cartOverlay : ''}
+                    onClick={toggleMobileCart}
+                />
                 <div className={isMobile ? style.cartContainerMobile : style.cartContainer}>
                     <div className={style.cartHeader}>
                         <div className={style.cartHeaderTitle}>
@@ -328,7 +332,7 @@ export const ShoppingCart = (props) => {
                                 className={style.cartHeaderCloseBtn}
                                 onClick={toggleMobileCart}
                             >
-                                close
+                                Close
                             </div>
                         }
                     </div>
@@ -387,7 +391,7 @@ export const ShoppingCart = (props) => {
                         {config.DEV_MODE && links()}
                     </div>
                 </div>
-            </div>
+            </>
         );
     };
 
