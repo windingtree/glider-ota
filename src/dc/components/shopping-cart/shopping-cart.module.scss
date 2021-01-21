@@ -3,6 +3,7 @@
 .cartContainer{
   background: $glider-color-primary-background;
   border-radius: 8px;
+  position: fixed;
 
   @include media-max-md {
     display: none;
