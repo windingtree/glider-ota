@@ -1,6 +1,5 @@
 @import 'src/styles/mixins';
 
-
 .cartContainer{
   background: $glider-color-primary-background;
   border-radius: 8px;
@@ -17,11 +16,11 @@
 
   @include media-max-md {
     position: fixed;
-    min-width: calc(100vw - 50px);
+    min-width: 300px;
     max-width: 50vw;
-    top: 20px;
     right: 0;
     left: 0;
+    bottom: 20px;
     margin-right: auto;
     margin-left: auto;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
@@ -32,12 +31,12 @@
   @include media-max-md {
     &:before {
       display: block;
-      position: absolute;
+      position: fixed;
       content: "";
-      top: -99999px;
-      right: -99999px;
-      bottom: -99999px;
-      left: -99999px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       background-color: rgba(0,0,0,0.05);
     }
   }
@@ -47,7 +46,7 @@
   display: none;
   position: fixed;
   right: 20px;
-  bottom: 30px;
+  bottom: 20px;
   width: 70%;
   padding: 16px 10px;
   @include g-font($g-fontsize-xl,white,$g-fontweight-normal);
@@ -125,7 +124,7 @@
 .cartBody {
   padding: 1rem 0 1rem 0;
   overflow-y: auto;
-  max-height: calc(100vh - 103px);
+  max-height: calc(100vh - 40px);
 }
 
 .cartBodyBottom {
