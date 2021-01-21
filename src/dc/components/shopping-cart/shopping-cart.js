@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, createRef} from 'react'
 import style from './shopping-cart.module.scss'
 import {HorizontalDottedLine} from '../common-blocks/horizontal-line'
 import {Col, Image, Row, Spinner as RoundSpinner} from 'react-bootstrap'
@@ -253,9 +253,20 @@ export const ShoppingCart = (props) => {
         removeOfferFromCart
     } = props;
     let history = useHistory();
+    const cartRef = createRef();
     const [mobileCartOpen, setMobileCartOpen] = useState(false);
 
     const toggleMobileCart = () => setMobileCartOpen(!mobileCartOpen);
+
+    useEffect(() => {
+        const onScroll = e => {
+            if (cartRef.current) {
+                cartRef.current.style.top = `${e.target.documentElement.scrollTop}px`;
+            }
+        };
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
+    }, [cartRef]);
 
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
@@ -322,7 +333,10 @@ export const ShoppingCart = (props) => {
                     className={mobileCartOpen ? style.cartOverlay : ''}
                     onClick={toggleMobileCart}
                 />
-                <div className={isMobile ? style.cartContainerMobile : style.cartContainer}>
+                <div
+                    className={isMobile ? style.cartContainerMobile : style.cartContainer}
+                    ref={!isMobile ? cartRef : null}
+                >
                     <div className={style.cartHeader}>
                         <div className={style.cartHeaderTitle}>
                             Your trip so far
