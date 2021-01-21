@@ -7,7 +7,7 @@ const {getOfferMetadata} = require("../_lib/model/offerMetadata")
 const logger = createLogger('/offerSummary')
 const {v4} = require('uuid');
 const {SessionStorage} = require('../_lib/session-storage');
-
+const {CRYPTO_CONFIG} = require('../_lib/config');
 /**
  * /cart/reprice controller
  * This call should be made to re-price all items from the cart and get a final, binding price
@@ -21,11 +21,11 @@ const offerRepriceController = async (req, res) => {
     let userPreferredPaymentMethod = req.body.paymentMethod;
     let userPreferredCurrency = req.body.currency;
 
-    if(userPreferredCurrency){
-        await shoppingCart.setUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY,userPreferredCurrency)
+    if (userPreferredCurrency) {
+        await shoppingCart.setUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY, userPreferredCurrency)
     }
-    if(userPreferredPaymentMethod){
-        await shoppingCart.setUserPreference(CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD,userPreferredPaymentMethod)
+    if (userPreferredPaymentMethod) {
+        await shoppingCart.setUserPreference(CART_USER_PREFERENCES_KEYS.PAYMENT_METHOD, userPreferredPaymentMethod)
     }
 
     let cart = await shoppingCart.getCart();        //retrieve entire cart, with all items and prices
@@ -60,17 +60,17 @@ const offerRepriceController = async (req, res) => {
 
             //check if flight offer, by any chance, is already confirmed?
             //it may happen if the user hit refresh or e.g. changed payment method (and already called /reprice previously)
-            if(isOfferConfirmed === true){
+            if (isOfferConfirmed === true) {
                 //if that was the case, there is no need to reprice flights again - we already have it in transportationOfferItem.item.offer
                 const confirmedOffer = transportationOfferItem.item.offer;
-                if(confirmedOffer){
+                if (confirmedOffer) {
                     const {pricedItems, disclosures, terms, options} = confirmedOffer;
                     //we need to display terms&conditions in UI - we need to copy part of reprice response to the master offer (it may also be needed at a later stage, e.g. confirmation email)
                     Object.assign(masterOffer, {
                         pricedItems, disclosures, terms, options
                     })
                 }
-            }else {
+            } else {
 
                 //flights need to be repriced - call repricing API to get new confirmed price (and potentially new offerID)
                 let repriceResponse = await repriceTransportationOffer(transportationOfferItem.item, seatOptions);
@@ -89,7 +89,7 @@ const offerRepriceController = async (req, res) => {
 
                 Object.assign(transportationOfferItem, {
                     itineraries: flightItineraries,
-                    isOfferConfirmed:true   //this is to avoid repricing again
+                    isOfferConfirmed: true   //this is to avoid repricing again
                 })
                 //finally add new item to the cart (and replace unconfirmed transportation offer)
                 cart = await shoppingCart.addItemToCart(CART_ITEMKEYS.TRANSPORTATION_OFFER, transportationOfferItem, confirmedPrice)
@@ -101,6 +101,11 @@ const offerRepriceController = async (req, res) => {
         }
 
         masterOffer.totalPrice = cart.totalPrice;
+        //WARNING -ONLY FOR TESTING, use small amounts for payments with crypto
+        if(CRYPTO_CONFIG.PRICING_DEVELOPMENT_MODE === true && userPreferredPaymentMethod === 'crypto'){
+            masterOffer.totalPrice.public = Number(masterOffer.totalPrice.public/10).toFixed(2);
+        }
+
 
         masterOffer.cartItems = cart.items;
         masterOffer.paymentMethod = cart.userPreferences.paymentMethod;
@@ -131,10 +136,10 @@ const repriceTransportationOffer = async (transportationOffer, seatOptions) => {
     try {
         confirmedTransportationOffer = await reprice(transportationOffer.offerId, seatOptions, offerMetadata);
     } catch (err) {
-        console.error(err)
+        console.error('Repricing failed!', err)
         //REMOVE THIS - it's for testing only
-        console.error('Repricing failed - ignore for now')
-        confirmedTransportationOffer = transportationOffer;
+        // console.error('Repricing failed - ignore for now')
+        // confirmedTransportationOffer = transportationOffer;
     }
 
     return confirmedTransportationOffer;
