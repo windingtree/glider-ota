@@ -100,7 +100,8 @@ const SENDGRID_CONFIG =
 
 const CRYPTO_CONFIG = {
     DEFAULT_NETWORK: getConfigKey('DEFAULT_NETWORK'),
-    INFURA_ENDPOINT: getConfigKey('INFURA_ENDPOINT')
+    INFURA_ENDPOINT: getConfigKey('INFURA_ENDPOINT'),
+    PRICING_DEVELOPMENT_MODE: getConfigKey('PRICING_DEVELOPMENT_MODE') === "yes"    //if yes, prices for crypto payment will be divided by 10 to minimize usage of coins
 };
 
 module.exports = {
