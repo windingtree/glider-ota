@@ -1,4 +1,4 @@
-import { FaLongArrowAltDown } from "react-icons/fa";
+import arrowIcon from '../../../assets/arrow-down.svg';
 import style from "./flight-duration.module.scss";
 import {differenceInHours, differenceInMinutes, parseISO} from "date-fns";
 import React from 'react';
@@ -66,7 +66,6 @@ const getStopoverAirports = (segments) => {
  * @param startOfTripDate
  * @param endOfTripDate
  * @param stopoverAirports
- * @param carrierNames
  * @returns {JSX.Element}
  * @constructor
  */
@@ -82,7 +81,7 @@ export const FlightDuration = ({startOfTripDate, endOfTripDate, segments = []}) 
 
     return (
         <div className={style.fdBox}>
-            <div className={style.fdIcon}><FaLongArrowAltDown/></div>
+            <div className={style.fdIcon}><img src={arrowIcon} alt='Connection'/></div>
             <div className={style.fdDetails}>
                 <span className={style.fdDuration}>{durationStr}</span> <span className={style.fdConnectionInfo}>{type}</span> <span className={style.fdCarriers}>{carriers.join(', ')}</span>
             </div>
