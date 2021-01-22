@@ -242,3 +242,13 @@
     margin-bottom: 10px;
     align-items: center;
 }
+
+.progressNote {
+    @include g-font($g-fontsize-m,$g-color-black,$g-fontweight-light);
+    text-align: center;
+    margin-top: 8px;
+
+    p {
+      margin-bottom: 2px;
+    }
+}

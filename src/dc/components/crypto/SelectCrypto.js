@@ -300,6 +300,18 @@ const CryptoCard = props => {
                     </Row>
                 </>
             }
+            {selected && isProcessing &&
+                <Row>
+                    <Col className={styles.progressNote}>
+                        <p>
+                        Awaiting confirmation from Ethereum network.
+                        </p>
+                        <p>
+                        Might take a while. Wait for it
+                        </p>
+                    </Col>
+                </Row>
+            }
         </Container>
     );
 };
