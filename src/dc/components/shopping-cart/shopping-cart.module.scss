@@ -3,7 +3,7 @@
 .cartContainer{
   background: $glider-color-primary-background;
   border-radius: 8px;
-  position: fixed;
+  position: sticky;
 
   @include media-max-md {
     display: none;
@@ -69,6 +69,12 @@
   justify-content: space-between;
 }
 
+.cartBody {
+  padding: 1rem 0 1rem 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 110px);
+}
+
 .cartHeaderTitle {
   @include g-font($g-fontsize-xl,$glider-color-primary,$g-fontweight-normal);
 }
@@ -120,12 +126,6 @@
 
 .flightOfferBottomWrapper {
   padding: 0 20px 20px 20px;
-}
-
-.cartBody {
-  padding: 1rem 0 1rem 0;
-  overflow-y: auto;
-  max-height: calc(100vh - 340px);
 }
 
 .cartBodyBottom {

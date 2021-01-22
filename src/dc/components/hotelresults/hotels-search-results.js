@@ -71,6 +71,19 @@ export function HotelsSearchResults(props) {
         <>
             <SearchButton disabled={!isSearchFormValid} onSearchButtonClicked={onSearchButtonClicked}/>
             <Spinner enabled={searchInProgress === true}/>
+            {searchInProgress &&
+                <div className={style.progressNote}>
+                    <p>
+                    Looking for hotels in all the hotels at the same time. Kinda awesome right?
+                    </p>
+                    <p>
+                    However this might take a while. Waiting for the messenger on a rainbow-colored unicorn to bring us the results
+                    </p>
+                    <p>
+                    Might take about 59 seconds
+                    </p>
+                </div>
+            }
             {error && (<div>ERROR OCCURED</div>)}
             {nothingFound && <WarningNoResults/>}
             <div className='pt-3'/>

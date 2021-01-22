@@ -98,6 +98,19 @@ export function FlightsSearchResults(props) {
             <SearchButton disabled={!isSearchFormValid || searchInProgress}
                           onSearchButtonClicked={onSearchButtonClicked}/>
             <Spinner enabled={searchInProgress}/>
+            {searchInProgress &&
+                <div className={style.progressNote}>
+                    <p>
+                    Looking for flights in all the airlines at the same time. Kinda awesome right?
+                    </p>
+                    <p>
+                    However this might take a while. Waiting for the messenger on a rainbow-colored unicorn to bring us the results
+                    </p>
+                    <p>
+                    Might take about 59 seconds
+                    </p>
+                </div>
+            }
             {error && (<div>ERRRORS OCCURED</div>)}
             {nothingFound && <WarningNoResults/>}
             <div className='pt-5'/>

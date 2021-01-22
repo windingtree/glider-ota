@@ -11,3 +11,12 @@
     @include g-font($g-fontsize-xl,$g-color-warning,$g-fontweight-normal);
     padding-top: 20px;
 }
+
+.progressNote {
+    @include g-font($g-fontsize-m,$g-color-black,$g-fontweight-light);
+    text-align: center;
+
+    p {
+      margin-bottom: 8px;
+    }
+  }

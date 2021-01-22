@@ -121,8 +121,7 @@ export default function PassengerSelector(props) {
         return (
             <Row>
                 <Alert variant='warning' className={style.passengerWarning}>
-                    We are sorry, we do not support unaccompanied minors
-                    bookings! We invite you to make a booking with an adult
+                    We are sorry, we do not support bookings with infants right now. We invite you to make a booking with an adult
                     or call the service center for this specific service.
                 </Alert>
             </Row>
@@ -143,7 +142,7 @@ export default function PassengerSelector(props) {
 
     const total = getTotal();
     const maxPassengerReached = maxPassengers && (total >= maxPassengers);
-    const hasOnlyMinors = (children > 0) && (adults === 0);
+    const hasOnlyMinors = passengers.infants > 0;
 
     return (
         <>
