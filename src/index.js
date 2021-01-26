@@ -12,13 +12,13 @@ import  store from './redux/store';
 import ReactDOM from 'react-dom'
 import './styles/glider.scss'
 import { CookiesProvider } from 'react-cookie';
-import DCLandingPage from './dc/pages/landing-page'
-import DCFlightPassengersPage from './dc/pages/pax-details-page'
-import DCAncillariesPage from './dc/pages/ancillaries-page'
-import DCSeatSelectionPage from './dc/pages/seat-selection-page'
-import DCPaymentSummaryPage from './dc/pages/payment-summary-page'
-import ConfirmationPage from './dc/pages/confirmation-page'
-import MarkdownPage from './dc/pages/markdown-page'
+import DCLandingPage from './pages/landing-page'
+import DCFlightPassengersPage from './pages/pax-details-page'
+import DCAncillariesPage from './pages/ancillaries-page'
+import DCSeatSelectionPage from './pages/seat-selection-page'
+import DCPaymentSummaryPage from './pages/payment-summary-page'
+import ConfirmationPage from './pages/confirmation-page'
+import MarkdownPage from './pages/markdown-page'
 import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
 import aphroditeInterface from 'react-with-styles-interface-aphrodite';
 import { customDatePickerTheme } from './custom-date-picker-theme';

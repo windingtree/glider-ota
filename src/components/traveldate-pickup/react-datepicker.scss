@@ -1,0 +1,42 @@
+@import 'src/styles/mixins';
+
+//https://reactdatepicker.com/
+
+.react-datepicker {
+    border-color: $g-color-primary;
+    //@include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-light, $g-lineheight-20);
+    border-bottom: 0px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding-top: 8px;
+    position: relative;
+    @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal, $g-lineheight-20);
+    font-family: $g-fontfamily;
+    //font-size: 16px;
+    //line-height: 20px;
+    //font-weight: 500;
+
+}
+.react-datepicker__header {
+    text-align: center;
+    background-color: $glider-color-inputfields-background;
+    //font-family: $g-fontfamily;
+    border-bottom: 0px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding-top: 8px;
+    position: relative;
+
+}
+
+.react-datepicker__day--selected {
+    background: #7161D6;
+
+}
+
+.react-datepicker__triangle{
+    display: none;
+}
+.react-datepicker-wrapper {
+    display: block;
+}

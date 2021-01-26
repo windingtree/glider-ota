@@ -1,5 +1,5 @@
 import {HotelSearchResultsWrapper} from "./hotel-search-results-wrapper";
-import {FILTERS} from "../dc/components/filters/filters-utils";
+import {FILTERS} from "../components/filters/filters-utils";
 
 export class HotelSearchResultsFilterHelper {
     constructor(searchResults) {

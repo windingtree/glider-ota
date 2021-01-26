@@ -1,0 +1,41 @@
+@import 'src/styles/mixins';
+
+
+.ancillaryContainer {
+  background: $glider-color-primary-background;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px;
+
+  border-radius: 8px;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 4;
+  flex-grow: 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 1px solid $glider-color-inputfields-border;
+  cursor: pointer;
+}
+
+.ancillaryName {
+  @include g-font($glider-font-size-xl, $g-color-black, $g-fontweight-normal);
+}
+
+.ancillaryDescription {
+  @include g-font($glider-font-size-m, $g-color-darkgrey, $g-fontweight-normal);
+}
+
+.ancillaryPrice {
+  @include g-font($glider-font-size-l, $g-color-black, $g-fontweight-normal);
+}
+
+.ancillaryList {
+  padding-left: 20px;
+}
+
+.ancillaryItem {
+  @include g-font($glider-font-size-xs, $g-color-black, $g-fontweight-normal);
+}
