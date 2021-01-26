@@ -33,7 +33,7 @@
         // Selected
         &-selected {
             @extend .icon;
-            background: url(/src/assets/tick.svg), #7161D6;
+            background: url(../../../assets/tick.svg), #7161D6;
             background-repeat: no-repeat;
             background-position: center;
             background-size: 85%;
@@ -48,7 +48,7 @@
         // Occupied
         &-occupied {
             @extend .icon;
-            background: url(/src/assets/cross.svg), #BBBBBB;
+            background: url(../../../assets/cross.svg), #BBBBBB;
             background-repeat: no-repeat;
             background-position: center;
             background-size: 120%;

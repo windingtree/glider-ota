@@ -71,7 +71,7 @@
 
     // Seat state when selected
     input:checked + label {
-        background: url(/src/assets/tick.svg), #7161D6;
+        background: url(../../../assets/tick.svg), #7161D6;
         background-repeat: no-repeat;
         background-position: center;
         background-size: 85%;
@@ -79,7 +79,7 @@
 
     // Seat state when disabled (= occupied)
     input:disabled + label {
-        background: url(/src/assets/cross.svg), #BBBBBB;
+        background: url(../../../assets/cross.svg), #BBBBBB;
         background-repeat: no-repeat;
         background-position: center;
         background-size: 120%;
