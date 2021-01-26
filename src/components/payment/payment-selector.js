@@ -4,6 +4,10 @@ import { retrievePassengerDetails } from '../../utils/api-utils';
 import Spinner from '../common/spinner';
 import PaymentCC from './payment-cc';
 import PaymentCrypto from './payment-crypto';
+import {
+    CRYPTO_PAYMENTS_DISABLED,
+    CRYPTO_PAYMENTS_DISABLED_LABEL
+} from '../../config/default';
 
 const PaymentCard = props => {
     const {
@@ -14,7 +18,9 @@ const PaymentCard = props => {
         offStyle,
         component,
         amount,
-        currency
+        currency,
+        disabled,
+        disabledLabel
     } = props;
     const isSelected = selected === name;
     const containerWrapperStyle = isSelected
@@ -24,8 +30,10 @@ const PaymentCard = props => {
     return (
         <div className={containerWrapperStyle}>
             <div
-                className={style.titleWrapper}
-                onClick={() => onSelected(name)}
+                className={`${style.titleWrapper} ${disabled ? style.titleDisabled : ''}`}
+                onClick={!disabled
+                    ? () => onSelected(name)
+                    : () => {}}
             >
                 <div className={style.title}>
                     <span className={
@@ -34,14 +42,18 @@ const PaymentCard = props => {
                         : style.selector
                     }></span>
                     <span>
-                        {title}
+                        {
+                            disabled && disabledLabel
+                                ? disabledLabel
+                                : title
+                        }
                     </span>
                 </div>
                 {isSelected && <div className={style.paymentAmount}>
                     {amount} {currency}
                 </div>}
             </div>
-            {isSelected && component}
+            {isSelected && !disabled && component}
         </div>
     );
 };
@@ -102,6 +114,8 @@ export default props => {
             <div className={style.paymentSelectorContainer}>
                 <PaymentCard
                     {...props}
+                    disabled={CRYPTO_PAYMENTS_DISABLED}
+                    disabledLabel={CRYPTO_PAYMENTS_DISABLED_LABEL}
                     name='crypto'
                     title='Pay with Crypto and save 3%'
                     amount={amount}
