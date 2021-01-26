@@ -3,8 +3,8 @@ import {
     action
 } from '@storybook/addon-actions';
 
-import searchResults from "../../dc/data/sample_response_unprocessed2.json"
-import searchResults2 from "../../dc/data/sample_flights.json"
+import searchResults from "../storybook-utils/mock-data/sample_response_unprocessed2.json"
+import searchResults2 from "../storybook-utils/mock-data/sample_flights.json"
 
 import Filters from "./filters"
 import {Button} from "react-bootstrap";

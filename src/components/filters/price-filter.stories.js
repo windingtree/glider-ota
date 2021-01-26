@@ -4,7 +4,7 @@ import {
 } from '@storybook/addon-actions';
 
 import {PriceFilter} from "./price-filter";
-import searchResults from "../../dc/data/sample_response_unprocessed2.json"
+import searchResults from "../storybook-utils/mock-data/sample_response_unprocessed2.json"
 
 export default {
     title: 'Filters/Price filter',

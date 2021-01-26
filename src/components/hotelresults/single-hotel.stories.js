@@ -2,7 +2,7 @@ import React from 'react';
 import {
   action
 } from '@storybook/addon-actions';
-import sample from "../../dc/data/sample_response_hotels.json"
+import sample from "../storybook-utils/mock-data/sample_response_hotels.json"
 import SingleHotel from "./single-hotel"
 
 let hotel = sample.accommodations["erevmax.07119"]

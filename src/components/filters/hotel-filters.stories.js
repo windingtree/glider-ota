@@ -3,7 +3,7 @@ import {
     action
 } from '@storybook/addon-actions';
 
-import searchResults from "../../dc/data/sample_response_hotels_simulator.json"
+import searchResults from "../storybook-utils/mock-data/sample_response_hotels_simulator.json"
 
 import {Button} from "react-bootstrap";
 import {useState} from "@storybook/addons";

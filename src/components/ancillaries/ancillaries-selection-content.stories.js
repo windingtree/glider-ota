@@ -1,6 +1,6 @@
 import React from 'react';
 import AncillariesSelection from "./ancillaries-selection-content";
-import dummySearchResults from "../../dc/data/sample_response_flights.json"
+import dummySearchResults from "../storybook-utils/mock-data/sample_response_flights.json"
 
 export default {
     component: AncillariesSelection,
