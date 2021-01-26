@@ -34,11 +34,11 @@ export  function AncillariesSelectionContent(props) {
 
 
     function onBackButtonClick() {
-        let url='/dc/pax';
+        let url='/pax';
         history.push(url);
     }
     function onProceedButtonClick() {
-        let url='/dc/seatmap';
+        let url='/seatmap';
         history.push(url);
     }
     const syncInProgressSpinner = () => {
@@ -151,7 +151,7 @@ const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext})=>{
                 <Button className={'btn-block'} variant="outline-primary"  disabled={prevEnabled===false} onClick={onPrev}>Back</Button>
             </Col>
             <Col xs={2}>
-                <div className={'pt-2'}></div>
+                <div className={'pt-2'}/>
             </Col>
             <Col xs={5}>
                 <Button className={'btn-block'} variant="primary"  disabled={nextEnabled===false} onClick={onNext}>Proceed</Button>

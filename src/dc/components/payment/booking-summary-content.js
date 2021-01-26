@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import PaxSummary from "../passengers/pax-summary";
-import {repriceShoppingCartContents, retrievePassengerDetails} from "../../../utils/api-utils";
+import {retrievePassengerDetails} from "../../../utils/api-utils";
 import TotalPriceButton from "../common/totalprice/total-price";
 import PaymentSummary from "./payment-summary";
 import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
@@ -27,7 +27,7 @@ function RenderPleaseWait(){
         <>
             <div className='glider-font-text24medium-fg'>
                 Please wait while we are confirming your price with the airline
-                <Spinner enabled={true}></Spinner>
+                <Spinner enabled={true}/>
             </div>
         </>
     )
@@ -46,12 +46,12 @@ export function BookingSummaryContent({searchResults, offerId, onRestoreSearchRe
 
 
     function onProceedButtonClick(){
-        let url='/dc/payment/'+confirmedOffer.offerId;
+        let url='/payment/'+confirmedOffer.offerId;
         history.push(url, { passengers: passengerDetails });
     }
 
     function onProceedCryptoButtonClick(){
-        let url=`/dc/crypto/${confirmedOffer.offerId}`;
+        let url=`/crypto/${confirmedOffer.offerId}`;
         history.push(url, { passengers: passengerDetails });
     }
 

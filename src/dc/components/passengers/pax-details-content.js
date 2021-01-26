@@ -129,15 +129,15 @@ export function PaxDetailsContent(props) {
     }, [isShoppingCartStoreInitialized, isShoppingFlowStoreInitialized]);
 
     function redirectToPrevStep() {
-        let url = '/dc/';
+        let url = '/';
         history.push(url);
     }
 
     //redirect to the next page in the flow
     function redirectToNextStep() {
-        let url = '/dc/ancillaries';
+        let url = '/ancillaries';
         if (!flightOffer) {   //if there are no flights in cart - redirect to summary
-            url = '/dc/summary';
+            url = '/summary';
         }
         history.push(url);
     }
@@ -224,13 +224,13 @@ export function PaxDetailsContent(props) {
 
     const displayFlightSummary = () => {
         return (<><JourneySummary itineraries={flightOffer.itineraries}/>
-            <div className={'pb-1'}></div>
+            <div className={'pb-1'}/>
         </>)
     }
     const displayHotelSummary = () => {
         const {room, hotel, offer} = hotelOffer;
         return (<><HotelOfferSummary room={room} hotel={hotel} offer={offer}/>
-            <div className={'pb-1'}></div>
+            <div className={'pb-1'}/>
         </>)
     }
 
@@ -260,7 +260,7 @@ const NaviButtons = ({prevEnabled, nextEnabled, onPrev, onNext}) => {
                             onClick={onPrev}>Back</Button>
                 </Col>
                 <Col xs={0}>
-                    <div className={'pt-2'}></div>
+                    <div className={'pt-2'}/>
                 </Col>
                 <Col xs={5}>
                     <Button className={'btn-block'} variant="primary" disabled={nextEnabled === false}

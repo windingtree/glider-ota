@@ -1,7 +1,7 @@
-import React, {useState,useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import PaxDetails from "../components/passengers/pax-details";
-import {storePassengerDetails,retrievePassengerDetails} from "../../utils/api-utils"
+import {retrievePassengerDetails} from "../../utils/api-utils"
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "../components/common/spinner";
 import {Button} from "react-bootstrap";
@@ -50,15 +50,16 @@ export default function DCTravellerInfoPage({searchCriteriaPassengers}) {
         })
     },[]);
 
-    function redirectToSeatmap(){
-/*        let url='/flights/seatmap/'+offerId;
-        history.push(url, {passengers: passengerDetails});*/
-    }
+//     function redirectToSeatmap(){
+// /*        let url='/flights/seatmap/'+offerId;
+//         history.push(url, {passengers: passengerDetails});*/
+//     }
 
     const proceedToNextStep = () => {
-        let url='/dc/step2';
+        let url='/step2';
         history.push(url);
     }
+/*
     function savePassengerDetailsAndProceed() {
         setIsLoading(true);
         let results = storePassengerDetails(passengerDetails);
@@ -74,6 +75,7 @@ export default function DCTravellerInfoPage({searchCriteriaPassengers}) {
                 setIsLoading(false);
             });
     }
+*/
 
     const PassengerInvalidAlert = () => (
         <Alert variant="danger">
@@ -103,13 +105,12 @@ export default function DCTravellerInfoPage({searchCriteriaPassengers}) {
      */
     const createInitialPassengersFromSearch = () => {
         let paxData = searchCriteriaPassengers || {};
-        let passengers = Object.keys(paxData).map(paxId => {
+        return Object.keys(paxData).map(paxId => {
             return {
                 id: paxId,
                 type: paxData[paxId].type
             }
         });
-        return passengers;
     }
     return (
         <>

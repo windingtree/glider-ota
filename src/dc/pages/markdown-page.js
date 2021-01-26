@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRouteMatch } from 'react-router-dom';
 import DevConLayout from '../components/layout/devcon-layout';
-import style from "./markdown-page.scss";
 import ReactMarkdown from 'react-markdown'
 
 // Content
@@ -13,11 +12,11 @@ export default function MarkdownPage() {
   const match = useRouteMatch();
   let markdownContent = null;
 
-  if (match.path === '/dc/faq') {
+  if (match.path === '/faq') {
     markdownContent = faqMarkdown;
-  } else if (match.path === '/dc/terms-of-service') {
+  } else if (match.path === '/terms-of-service') {
     markdownContent = termsAndConditionsMarkdown;
-  } else if (match.path === '/dc/privacy-policy') {
+  } else if (match.path === '/privacy-policy') {
     markdownContent = privacyPolicyMarkdown;
   }
 

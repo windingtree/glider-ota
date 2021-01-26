@@ -1,11 +1,8 @@
-import React,{useState} from 'react';
+import React from 'react';
 import {Breadcrumb} from "react-bootstrap";
 import style from "./breadcrumbs.module.scss"
 import {useHistory} from "react-router-dom";
-import {
-    flightOfferSelector,
-    hotelOfferSelector,
-} from "../../../redux/sagas/shopping-cart-store";
+import {flightOfferSelector, hotelOfferSelector,} from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
 
 
@@ -20,24 +17,23 @@ export const STEPS = {
 const FLIGHT_FLOW='flight'
 const HOTEL_FLOW='hotel'
 const items = [
-    {id: STEPS.SEARCH, label: 'Search', url:'/dc',  includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
-    {id: STEPS.TRAVELLER_INFO, url:'/dc/pax', label: 'Traveler Info', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
-    {id: STEPS.FLIGHT_DETAILS, url:'/dc/ancillaries', label: 'Flight Details', includedInFlows:[FLIGHT_FLOW]},
-    {id: STEPS.SEAT_SELECTION, url:'/dc/seatmap', label: 'Seat Selection', includedInFlows:[FLIGHT_FLOW]},
+    {id: STEPS.SEARCH, label: 'Search', url:'/',  includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
+    {id: STEPS.TRAVELLER_INFO, url:'/pax', label: 'Traveler Info', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]},
+    {id: STEPS.FLIGHT_DETAILS, url:'/ancillaries', label: 'Flight Details', includedInFlows:[FLIGHT_FLOW]},
+    {id: STEPS.SEAT_SELECTION, url:'/seatmap', label: 'Seat Selection', includedInFlows:[FLIGHT_FLOW]},
     {id: STEPS.PAYMENT, label: 'Payment', includedInFlows:[FLIGHT_FLOW,HOTEL_FLOW]}
 ]
 
 const getBreadcrumbItemsForFlow = (flows = [FLIGHT_FLOW, HOTEL_FLOW]) =>{
-    let filteredItems = items.filter(item=>{
+    return items.filter(item => {
         const {includedInFlows} = item;
 
-        for(const flow of flows){
-            if(includedInFlows.includes(flow))
+        for (const flow of flows) {
+            if (includedInFlows.includes(flow))
                 return true;
         }
         return false;
     })
-    return filteredItems
 }
 
 
@@ -94,7 +90,7 @@ const mapStateToProps = state => ({
 });
 
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = () => {
     return {
     }
 }

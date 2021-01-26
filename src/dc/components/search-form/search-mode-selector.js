@@ -2,7 +2,6 @@ import React from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import style from './search-mode-selector.module.scss';
 import classNames from 'classnames/bind';
-import { FaBed } from 'react-icons/fa';
 import {IconPlaneDepartureTop, IconHotelBedTop } from '../icons/icons';
 
 
@@ -14,19 +13,19 @@ export const SEARCH_TYPE={
 export default function SearchModeSelector(){
     const match = useRouteMatch();
     const history = useHistory();
-    const selectedMode = match.path === '/dc/flights'
+    const selectedMode = match.path === '/flights'
         ? SEARCH_TYPE.FLIGHTS
-        : match.path === '/dc/hotels'
+        : match.path === '/hotels'
             ? SEARCH_TYPE.HOTELS
             : SEARCH_TYPE.FLIGHTS;
 
     const onFlightClick = () => {
-        history.push('/dc/flights');
+        history.push('/flights');
         // onToggle(SEARCH_TYPE.FLIGHTS);
     }
 
     const onHotelClick = () => {
-        history.push('/dc/hotels');
+        history.push('/hotels');
         // onToggle(SEARCH_TYPE.HOTELS);
     }
 

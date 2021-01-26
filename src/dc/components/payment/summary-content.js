@@ -3,9 +3,7 @@ import {useHistory} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import PaxSummary from "../passengers/pax-summary";
 import {repriceShoppingCartContents, retrievePassengerDetails} from "../../../utils/api-utils";
-import TotalPriceButton from "../common/totalprice/total-price";
 import PaymentSummary from "./payment-summary";
-import {FlightSearchResultsWrapper} from "../../../utils/flight-search-results-wrapper";
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "../common/spinner"
 import {
@@ -14,7 +12,6 @@ import {
     requestCartUpdateAction
 } from "../../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
-import style from "./summary-content.module.scss"
 import {
     flightSearchResultsSelector,isShoppingFlowStoreInitialized, isShoppingResultsRestoreInProgressSelector,
     requestSearchResultsRestoreFromCache
@@ -22,7 +19,6 @@ import {
 import {JourneyHeader, JourneySummary} from "../flight-blocks/journey-summary";
 import PaymentSelector from './payment-selector';
 import {HotelOfferSummary} from "../hoteldetails/hotel-offer-summary";
-import DevConLayout from "../layout/devcon-layout";
 
 
 function RenderPleaseWait(){
@@ -30,7 +26,7 @@ function RenderPleaseWait(){
         <>
             <div className='glider-font-text24medium-fg'>
                 Please wait while we are confirming your price
-                <Spinner enabled={true}></Spinner>
+                <Spinner enabled={true}/>
             </div>
         </>
     )
@@ -38,7 +34,7 @@ function RenderPleaseWait(){
 
 export function SummaryContent(props) {
     let history = useHistory();
-    const {onRestoreShoppingCart,refreshInProgress,isShoppingCartStoreInitialized, isShoppingFlowStoreInitialized,flightOffer, hotelOffer}=props;
+    const {onRestoreShoppingCart,refreshInProgress,isShoppingCartStoreInitialized, flightOffer, hotelOffer}=props;
     const [passengerDetails, setPassengerDetails] = useState();
     const [confirmedOffer, setConfirmedOffer] = useState();
     const [loadInProgress, setLoadInProgress] = useState(false);
@@ -49,16 +45,18 @@ export function SummaryContent(props) {
 
     // let offer = retrieveOfferFromLocalStorage(offerId);
 
+/*
 
     function onProceedButtonClick(){
-        let url='/dc/payment/'+confirmedOffer.offerId;
+        let url='/payment/'+confirmedOffer.offerId;
         history.push(url, { passengers: passengerDetails });
     }
 
     function onProceedCryptoButtonClick(){
-        let url=`/dc/crypto/${confirmedOffer.offerId}`;
+        let url=`/crypto/${confirmedOffer.offerId}`;
         history.push(url, { passengers: passengerDetails });
     }
+*/
 
 
     function onEditFinished(){
@@ -131,13 +129,13 @@ export function SummaryContent(props) {
     {
         return (<>
             <JourneyHeader itineraries={flightOffer.itineraries}/>
-            <JourneySummary itineraries={flightOffer.itineraries}/><div className={'pb-1'}></div>
+            <JourneySummary itineraries={flightOffer.itineraries}/><div className={'pb-1'}/>
         </>)
     }
     const displayHotelSummary = () =>
     {
-        const {room, hotel, price, offer} = hotelOffer;
-        return (<><HotelOfferSummary room={room}  hotel={hotel} offer={offer}/><div className={'pb-1'}></div></>)
+        const {room, hotel, offer} = hotelOffer;
+        return (<><HotelOfferSummary room={room}  hotel={hotel} offer={offer}/><div className={'pb-1'}/></>)
     }
 
     //handle when user changes preferred payment method

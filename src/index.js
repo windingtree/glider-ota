@@ -31,18 +31,18 @@ function Dispatcher() {
             <CookiesProvider>
                 <Router>
                     <Switch>
-                        <Route path="/dc/pax/" component={DCFlightPassengersPage}/>
-                        <Route path="/dc/ancillaries/" component={DCAncillariesPage}/>
-                        <Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>
-                        <Route path="/dc/summary/" component={DCPaymentSummaryPage}/>
-                        <Route path="/dc/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
-                        <Route path="/dc/flights" component={DCLandingPage}/>
-                        <Route path="/dc/hotels" component={DCLandingPage}/>
-                        <Route path="/dc/terms-of-service" component={MarkdownPage}/>
-                        <Route path="/dc/privacy-policy" component={MarkdownPage}/>
-                        <Route path="/dc/faq" component={MarkdownPage}/>
-                        <Redirect push from="/dc/" to="/dc/flights" />
-                        <Redirect push from="/" to="/dc/flights" />
+                        <Route path="/pax/" component={DCFlightPassengersPage}/>
+                        <Route path="/ancillaries/" component={DCAncillariesPage}/>
+                        <Route path="/seatmap/" component={DCSeatSelectionPage}/>
+                        <Route path="/summary/" component={DCPaymentSummaryPage}/>
+                        <Route path="/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
+                        <Route path="/flights" component={DCLandingPage}/>
+                        <Route path="/hotels" component={DCLandingPage}/>
+                        <Route path="/terms-of-service" component={MarkdownPage}/>
+                        <Route path="/privacy-policy" component={MarkdownPage}/>
+                        <Route path="/faq" component={MarkdownPage}/>
+                        <Redirect push from="/" to="/flights" />
+                        <Redirect push from="/" to="/flights" />
                     </Switch>
                 </Router>
             </CookiesProvider>

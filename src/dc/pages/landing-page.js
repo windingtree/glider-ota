@@ -7,7 +7,6 @@ import { SEARCH_TYPE } from '../components/search-form/search-mode-selector';
 import DevConLayout from '../components/layout/devcon-layout';
 import { parseUrlParams } from '../../utils/url-utils';
 
-import { venueConfig } from '../components/venue-context/theme-context';
 import { storageKeys } from '../../config/default';
 
 export default function DCLandingPage() {
@@ -15,9 +14,9 @@ export default function DCLandingPage() {
     const searchParams = parseUrlParams(useLocation().search);
     console.log('###', searchParams);
 
-    const searchType = match.path === '/dc/flights'
+    const searchType = match.path === '/flights'
         ? SEARCH_TYPE.FLIGHTS
-        : match.path === '/dc/hotels'
+        : match.path === '/hotels'
             ? SEARCH_TYPE.HOTELS
             : SEARCH_TYPE.FLIGHTS;
 
@@ -34,7 +33,7 @@ export default function DCLandingPage() {
     if (Object.keys(searchParams).length > 0) {
         try {
             switch (match.path) {
-                case '/dc/flights':
+                case '/flights':
                     if (searchParams[storageKeys.flights.origin]) {
                         initialSearchOrigin = JSON.parse(searchParams[storageKeys.flights.origin]);
                     }
@@ -42,7 +41,7 @@ export default function DCLandingPage() {
                         initialSearchDestination = JSON.parse(searchParams[storageKeys.flights.destination]);
                     }
                     break;
-                case '/dc/hotels':
+                case '/hotels':
                     if (searchParams[storageKeys.hotels.destination]) {
                         initialSearchDestination = JSON.parse(searchParams[storageKeys.hotels.destination]);
                     }

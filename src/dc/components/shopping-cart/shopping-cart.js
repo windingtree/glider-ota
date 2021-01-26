@@ -15,7 +15,7 @@ import {
 } from '../../../redux/sagas/shopping-flow-store';
 import {connect} from 'react-redux';
 import {ADTYPES, ArrivalDeparture} from '../flight-blocks/arrival-departure';
-import OfferUtils, {safeDateFormat} from '../../../utils/offer-utils';
+import OfferUtils from '../../../utils/offer-utils';
 import {LodgingInfo} from '../accommodation-blocks/lodging-info';
 import {Link} from 'react-router-dom';
 import {config} from '../../../config/default'
@@ -110,7 +110,7 @@ const BookHotelBtn = ({ flightOffer, flightSearchCriteria }) => {
                 setLoading(false);
                 console.log('#######', city);
                 history.push({
-                    pathname: '/dc/hotels',
+                    pathname: '/hotels',
                     search: `?${new URLSearchParams({
                         [storageKeys.hotels.destination]: JSON.stringify({
                             primary: city.city_name,
@@ -164,7 +164,7 @@ const RemoveItemFromCartBtn = ({onRemoveItemClick}) => {
         }
     }
 
-    return (<a href={'#'} onClick={onClickHandler} className={style.removeFromCartBtn}><img src={deleteIcon}/></a>)
+    return (<a href={'#'} onClick={onClickHandler} className={style.removeFromCartBtn}><img src={deleteIcon} alt={'Remove item'}/></a>)
 }
 
 //display details of a FLIGHT ITEM in shopping cart (e.g. departure airport, date/time)
@@ -247,7 +247,6 @@ export const ShoppingCart = (props) => {
         restoreCartFromServer,
         restoreSearchResultsFromCache,
         isShoppingCartUpdateInProgress,
-        error,
         onClearCart,
         flightSearchCriteria,
         removeOfferFromCart
@@ -271,7 +270,7 @@ export const ShoppingCart = (props) => {
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {
         e.preventDefault();
-        let url = '/dc/pax';
+        let url = '/pax';
         history.push(url);
     }
 
@@ -299,20 +298,22 @@ export const ShoppingCart = (props) => {
 
     const links = () => {
         return (<div className={style.debugLinks}>
-            <Link to={'/dc/pax'}>Pax details</Link><br/>
-            <Link to={'/dc/ancillaries'}>Ancillaries</Link><br/>
-            <Link to={'/dc/seatmap'}>Seatmap</Link><br/>
-            <Link to={'/dc/summary'}>Pricing</Link><br/>
+            <Link to={'/pax'}>Pax details</Link><br/>
+            <Link to={'/ancillaries'}>Ancillaries</Link><br/>
+            <Link to={'/seatmap'}>Seatmap</Link><br/>
+            <Link to={'/summary'}>Pricing</Link><br/>
             <span onClick={onRestoreCartFromServer}>Restore cart from server</span><br/>
             <span onClick={onRestoreSearchResultsFromCache}>Restore search from server</span><br/>
             <span onClick={onClearCart}>Clear cart</span><br/>
 
         </div>)
     }
+/*
 
     const displayError = (error) => {
         return (<div>Error occurred</div>)
     }
+*/
 
     if (cartIsEmpty) {
         return (<>
@@ -391,7 +392,7 @@ export const ShoppingCart = (props) => {
                         }
 
                         <Spinner enabled={isShoppingCartUpdateInProgress === true}/>
-                        <div className={style.cartBodyBottom}></div>
+                        <div className={style.cartBodyBottom}/>
                         <HorizontalDottedLine/>
                         <div className={style.cartFooter}>
                             {flightOffer && flightPrice && <SubTotal price={flightPrice} title={"Flights:"}/>}

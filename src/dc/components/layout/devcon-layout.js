@@ -14,9 +14,9 @@ export default function DevConLayout(props) {
             <footer className={style.devconFooter}>
                 <nav>
                     <ul>
-                        <li><a href="/dc/faq">FAQ</a></li>
-                        <li><a href="/dc/terms-of-service">Terms of Service</a></li>
-                        <li><a href="/dc/privacy-policy">Privacy Policy</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/terms-of-service">Terms of Service</a></li>
+                        <li><a href="/privacy-policy">Privacy Policy</a></li>
                     </ul>
                 </nav>
             </footer>

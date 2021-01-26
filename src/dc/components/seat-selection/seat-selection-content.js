@@ -22,7 +22,7 @@ import {
 
 
 // SeatMap page rendering
-export function SeatSelectionContent({offerId, searchResults, refreshInProgress}) {
+export function SeatSelectionContent({offerId, searchResults}) {
     let history = useHistory();
     let offer;
     if(searchResults && offerId){
@@ -108,7 +108,7 @@ export function SeatSelectionContent({offerId, searchResults, refreshInProgress}
 
     // Proceed to summary
     const proceedToSummary = () => {
-        let url='/dc/summary/'
+        let url='/summary/'
         history.push(url);
     };
 
@@ -293,7 +293,7 @@ export function SeatSelectionContent({offerId, searchResults, refreshInProgress}
             return (
                 <>
                 <div className='seatmap-loading-message'>
-                    <Spinner enabled={true}></Spinner>
+                    <Spinner enabled={true}/>
                     {message}
                 </div>
             </>

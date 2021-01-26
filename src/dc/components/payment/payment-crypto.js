@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Alert, Spinner as RoundSpinner } from 'react-bootstrap';
-import { useHistory, useParams } from "react-router-dom";
+import { Row, Col, Alert} from 'react-bootstrap';
+import { useHistory} from "react-router-dom";
 import SelectCrypto from '../crypto/SelectCrypto';
 import MetamaskButton from '../crypto/MetamaskButton';
-// import PortisButton from '../crypto/PortisButton';
 import WalletAddress from '../crypto/WalletAddress';
 import styles from '../crypto/crypto.module.scss';
 import Spinner from "../common/spinner"
@@ -98,7 +97,7 @@ const CryptoPaymentPage = props => {
     };
 
     const handlePaymentSuccess = confirmedOfferId => {
-        const url=`/dc/confirmation/${confirmedOfferId}`;
+        const url=`/confirmation/${confirmedOfferId}`;
         history.push(url);
     }
 
