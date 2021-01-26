@@ -14,7 +14,7 @@ export default {
 
 const initialLocation = {primary: "Pulkovo airport", secondary: "Russia", code: "LED"};
 export const successfullLoad = () => {
-    fetchMock.restore().get('path:/api/lookup/airportSearch2', airportLookupResultsNYC);
+    fetchMock.restore().get('path:/api/lookup/airportSearch', airportLookupResultsNYC);
     return (<AirportLookup initialLocation={initialLocation}
                            onSelectedLocationChange={action('onSelectedLocationChange')}/>);
 }

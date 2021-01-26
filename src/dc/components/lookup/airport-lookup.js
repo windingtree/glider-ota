@@ -19,7 +19,7 @@ export function AirportLookup(props) {
     const convertResponse = (airports) => {
         let lastMetropolitan;
         return airports.map(rec => {
-            let icon,primaryName, secondaryName, code, indent=false;
+            let icon,primaryName, secondaryName, indent=false;
 
             if(rec.type === 'AIRPORT')
                 icon='airport'
@@ -54,7 +54,7 @@ export function AirportLookup(props) {
             setSearchResults([]);
             setNoResults(false);
             fetchGet(
-                '/api/lookup/airportSearch2',
+                '/api/lookup/airportSearch',
                 {
                     searchquery: searchQuery
                 }
