@@ -74,7 +74,7 @@ export function HotelsSearchResults(props) {
             {searchInProgress &&
                 <div className={style.progressNote}>
                     <p>
-                    Looking for hotels in all the hotels at the same time. Kinda awesome right?
+                    Looking for rooms in all the hotels at the same time. Kinda awesome right?
                     </p>
                     <p>
                     However this might take a while. Waiting for the messenger on a rainbow-colored unicorn to bring us the results
