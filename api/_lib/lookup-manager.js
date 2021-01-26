@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const {MONGO_CONFIG} = require('./config');
+const {getModel:getAirportsModel} = require('./models/airports')
+const {getModel:getCitiesModel} = require('./models/cities')
+
+//default configuration for airport search behaviour
 const AIRPORT_SEARCH_CONFIG = {
     BY_CITY_NAME: {
         MIN_QUERY_LENGTH: 3,
@@ -19,6 +21,7 @@ const AIRPORT_SEARCH_CONFIG = {
     }
 }
 
+//default configuration for cities search behaviour
 const CITY_SEARCH_CONFIG = {
     BY_CITY_NAME: {
         MIN_QUERY_LENGTH: 3,
@@ -33,49 +36,21 @@ const CITY_SEARCH_CONFIG = {
         WEIGHT: 10
     }
 }
+
+
 const LOOKUP_CONFIG = {
-    MIN_QUERY_LENGTH: 3,
+    MIN_QUERY_LENGTH: 3,        //min query length to trigger search in mongo (shorter queries will be ignored)
     MAX_RESULTS: 30
 }
 
-
-mongoose.connect(MONGO_CONFIG.URL, {useNewUrlParser: true, useUnifiedTopology: true});
-
-//Table which stores airports (needed to populate airport lookup field)
-const Airports = mongoose.model('airports', mongoose.Schema({
-    city_name: String,
-    city_code: String,
-    country_code: String,
-    airport_name: String,
-    airport_iata_code: String,
-    type: String,
-    country_name: String,
-    timezone: String,
-    pagerank: Number,   //how popular given airport is
-    belongs_to_metropolitan:{type: Boolean, default: false}
-}), 'airportscurated');
 
 //SAMPLE AIRPORT RECORDS
 // { "city_name" : "New York", "city_code" : "NYC", "country_code" : "US", "airport_name" : "Newark Liberty Intl", "airport_iata_code" : "EWR", "type" : "AIRPORT", "country_name" : "United States", "timezone" : "America/New_York" }
 // { "city_name" : "New York", "city_code" : "NYC", "country_code" : "US", "airport_name" : "Stewart International", "airport_iata_code" : "SWF", "type" : "AIRPORT", "country_name" : "United States", "timezone" : "America/New_York" }
 
-//Table which stores cities (needed to populate cities lookup field in hotel search)
-const Cities = mongoose.model('cities', mongoose.Schema({
-    city_name: String,
-    country_code: String,
-    country_name: String,
-    asciiname: String,
-    alternatenames: String,
-    latitude: String,
-    longitude: String,
-    population: Number, //number of people in a given city
-}), 'citiescurated');
 
 //SAMPLE RECORD
-/* {
-    "city_name" : "Luanda","country_code" : "AO","latitude" : "-8.83682","longitude" : "13.23432","population" : 2776168,"asciiname" : "Luanda","country_name" : "Angola",
-    "alternatenames" : "LAD,Loanda,Louanda,Louanta,Luand,Luanda,Luandae,Luando,Lwanda,Lúanda,Saint Paul de Loanda,Sao Paolo de Loanda,Sao Paulo da Assuncao de Luanda,Sao Paulo de Loanda,Sao Paulo de Luanda,St Paul de Loanda,São Paolo de Loanda,São Paulo da Assunção de Luanda,São Paulo de Loanda,São Paulo de Luanda,lu'anda,luanda,luo an da,luvanta,luxanda,luyanda,lwanda,ruanda,Λουάντα,Луандæ,Луанда,Լուանդա,לואנדה,לואנדע,لوآندا,لواندا,لونڈا,लुआंडा,लुआण्डा,লুয়ান্ডা,ਲੁਆਂਦਾ,லுவாண்டா,ลูอันดา,ལའུན་ཌ།,ლუანდა,ሏንዳ,ルアンダ,罗安达,루안다",
-}*/
+// { "city_name" : "Luanda","country_code" : "AO","latitude" : "-8.83682","longitude" : "13.23432","population" : 2776168,"asciiname" : "Luanda","country_name" : "Angola", "alternatenames" : "LAD,Loanda,Louanda,Louanta,Luand,Luanda,Luandae,Luando,Lwanda,Lúanda,Saint Paul de Loanda,Sao Paolo de Loanda,Sao Paulo da Assuncao de Luanda,Sao Paulo de Loanda,Sao Paulo de Luanda,St Paul de Loanda,São Paolo de Loanda,São Paulo da Assunção de Luanda,São Paulo de Loanda,São Paulo de Luanda,lu'anda,luanda,luo an da,luvanta,luxanda,luyanda,lwanda,ruanda,Λουάντα,Луандæ,Луанда,Լուանդա,לואנדה,לואנדע,لوآندا,لواندا,لونڈا,लुआंडा,लुआण्डा,লুয়ান্ডা,ਲੁਆਂਦਾ,லுவாண்டா,ลูอันดา,ལའུན་ཌ།,ლუანდა,ሏንዳ,ルアンダ,罗安达,루안다", }
 
 /////////////// GENERIC FUNCTIONS ////////////////////
 const isQueryLongerOrEqualThan = (query, length) => {
@@ -93,15 +68,14 @@ const decorateRecordWithWeight = (records, weight) => {
     return records;
 }
 const multipleComparators = (comparators) =>{
-    const compare=(A,B)=>{
-        for(let comparator of comparators){
-            let result = comparator(A,B);
-            if(result !== 0)
+    return (A, B) => {
+        for (let comparator of comparators) {
+            let result = comparator(A, B);
+            if (result !== 0)
                 return result;
         }
         return 0;
-    }
-    return compare;
+    };
 }
 
 
@@ -110,20 +84,15 @@ const multipleComparators = (comparators) =>{
 /**
  * Wrapper on airports query
  * @param query
+ * @param orderBy
  * @returns {Promise<*>}
  */
 const searchAirports = async (query, orderBy) => {
-    let q = Airports.find(query)
+    const AirportsModel = await getAirportsModel();
+    let q = AirportsModel.find(query)
     if (orderBy)
         q = q.sort(orderBy)
-    let results = await q.exec();
-    return results;
-}
-const printResults = (message, airports) => {
-    console.log(message)
-    airports.forEach(airport=>{
-        console.log(`\t${airport.airport_name} [iata=${airport.airport_iata_code} city=${airport.city_code} type=${airport.type}] [W:${airport.weight}] [W:${airport.weight}] [RANK:${airport.pagerank}]`)
-    })
+    return await q.exec();
 }
 
 const airportSearchByExactAirportCode = async (airportCode) => {
@@ -131,7 +100,6 @@ const airportSearchByExactAirportCode = async (airportCode) => {
         return [];
     let results = await searchAirports({'airport_iata_code': {'$regex': `^${airportCode}`, '$options': 'i'}},{pagerank:-1,city_name:1 });
     results = decorateRecordWithWeight(results, AIRPORT_SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
-    // printResults(`searchByExactAirportCode(${airportCode})==>${results.length}`, results);
     return results;
 }
 const airportSearchByCityName = async (cityName) => {
@@ -139,7 +107,6 @@ const airportSearchByCityName = async (cityName) => {
         return [];
     let results = await searchAirports({'city_name': {'$regex': `^${cityName}`, '$options': 'i'}},{pagerank:-1,city_name:1 });
     results = decorateRecordWithWeight(results, AIRPORT_SEARCH_CONFIG.BY_CITY_NAME.WEIGHT);
-    // printResults(`searchByCityName(${cityName})==>${results.length}`, results);
     return results;
 }
 const airportSearchByCityCode = async (cityCode) => {
@@ -147,7 +114,6 @@ const airportSearchByCityCode = async (cityCode) => {
         return [];
     let results = await searchAirports({'city_code': {'$regex': `^${cityCode}`, '$options': 'i'}},{pagerank:-1,city_name:1 });
     results =  decorateRecordWithWeight(results, AIRPORT_SEARCH_CONFIG.BY_CITY_CODE.WEIGHT);
-    // printResults(`searchByCityCode(${cityCode})==>${results.length}`, results);
     return results;
 }
 
@@ -156,7 +122,6 @@ const airportSearchByAirportName = async (airportName) => {
         return [];
     let results = await searchAirports({'airport_name': {'$regex': `^${airportName}`, '$options': 'i'}},{pagerank:-1,city_name:1 });
     results =  decorateRecordWithWeight(results, AIRPORT_SEARCH_CONFIG.BY_AIRPORT_NAME.WEIGHT);
-    printResults(`searchByAirportName(${airportName})==>${results.length}`, results);
     return results;
 }
 
@@ -174,12 +139,10 @@ const removeDupeAirports = (airports) => {
     const isSame = (a,b) =>{
         return ((a.airport_iata_code === b.airport_iata_code) && (a.type === b.type));
     }
-    let uniques = airports.filter((v,i,a)=>a.findIndex(t=>isSame(t,v))===i)
-    return uniques;
+    return airports.filter((v, i, a) => a.findIndex(t => isSame(t, v)) === i);
 }
 const findAllAirportsOfCity = async (cityCode) => {
-    let results = await searchAirports({type:'AIRPORT',city_code: cityCode}, {pagerank:-1,city_name:1 });
-    return results;
+    return await searchAirports({type: 'AIRPORT', city_code: cityCode}, {pagerank: -1, city_name: 1});
 }
 const getMetropolitanArea = async (cityCode) => {
     let results = await searchAirports({type:'METROPOLITAN',city_code: cityCode});
@@ -223,7 +186,7 @@ const airportLookup = async (name) => {
 
     //check if we have metro area - if so, find airports that belong to that city
     for (let airport of records) {
-        let {city_code, airport_name, airport_iata_code, type, belongs_to_metropolitan} = airport
+        let {city_code, type, belongs_to_metropolitan} = airport
             if (type === 'AIRPORT')
             {
                 if(belongs_to_metropolitan) {   //if airport belongs to metro, find metro and all cities that belong to it, add to results
@@ -252,16 +215,17 @@ const airportLookup = async (name) => {
 /////////////// CITY SEARCH HELPERS ////////////////////
 
 /**
-* Wrapper on cities query
-* @param query
-* @returns {Promise<*>}
-*/
+ * Wrapper on cities query
+ * @param query
+ * @param orderBy
+ * @returns {Promise<*>}
+ */
 const searchCities = async (query, orderBy) => {
-    let q = Cities.find(query)
+    const CitiesModel = await getCitiesModel();
+    let q = CitiesModel.find(query)
     if (orderBy)
         q = q.sort(orderBy)
-    let results = await q.exec();
-    return results;
+    return await q.exec();
 }
 
 const citySearchByCityName = async (cityName) => {
@@ -280,7 +244,13 @@ const citySearchByAsciiName = async (cityName) => {
     return results;
 }
 
-const byPopulationRankComparator = (A, B) => {
+/**
+ * By city population comparator. City with higher population will be before lower
+ * @param A
+ * @param B
+ * @returns {number}
+ */
+const byPopulationComparator = (A, B) => {
     let rankA=Number(A.population);
     let rankB=Number(B.population);
     if(isNaN(rankA))
@@ -295,8 +265,7 @@ const removeDupeCities = (cities) => {
     const isSame = (a,b) =>{
         return ((a.city_name === b.city_name));
     }
-    let uniques = cities.filter((v,i,a)=>a.findIndex(t=>isSame(t,v))===i)
-    return uniques;
+    return cities.filter((v, i, a) => a.findIndex(t => isSame(t, v)) === i);
 }
 
 const cityLookup = async (name) => {
@@ -304,10 +273,9 @@ const cityLookup = async (name) => {
         return [];
     }
 
-    //this should be optimized to avoid multiple calls - use one or two queries instead
     const promises = [
-        citySearchByCityName(name),
-        citySearchByAsciiName(name)];
+        citySearchByCityName(name),     //search by city name in local language (e.g. Kraków)
+        citySearchByAsciiName(name)];   //and also using ascii name             (e.g. Krakow)
     const results = await Promise.all(promises);
     let records = [];
     results.forEach(cities => {
@@ -316,7 +284,7 @@ const cityLookup = async (name) => {
         })
     })
 
-    records = records.sort(multipleComparators([byPopulationRankComparator]));
+    records = records.sort(multipleComparators([byPopulationComparator]));
 
     records = removeDupeCities(records);
     const MAX_LEN = 5;

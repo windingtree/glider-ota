@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config();  //load .env
+require('dotenv').config();  //load .env
 const {
     searchByExactAirportCode,
     searchByCityName,
@@ -18,7 +18,8 @@ describe('lookup-manager', function () {
                 expect(result[0].airport_iata_code).to.equal('JFK')
                 //with lower case it should give same results
                 let resultLowerCase = await searchByExactAirportCode('jfk');
-                expect(resultLowerCase).to.deep.equal(result)
+                expect(resultLowerCase).to.have.length(1);
+                expect(resultLowerCase[0].airport_iata_code).to.equal('JFK')
             });
         });
         describe('#searchByCityName()', function () {
@@ -74,6 +75,7 @@ describe('lookup-manager', function () {
         describe('#citySearchByCityName()', function () {
             it('should find city by exact city name', async () => {
                 let result = await citySearchByCityName('Kraków');
+                console.log('result',result)
                 expect(result).to.have.length(1);
                 expect(result[0].city_name).to.equal('Kraków')
 

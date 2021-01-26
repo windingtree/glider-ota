@@ -36,8 +36,7 @@ const storeOfferMetadata = async (offerId, endpoint) =>{
 
 const getOfferMetadata = async (offerId) =>{
     let OfferMetadata = await getModel();
-    let result = await OfferMetadata.findOne({offerId:offerId}).exec();
-    return result;
+    return await OfferMetadata.findOne({offerId: offerId}).exec();
 }
 
 
