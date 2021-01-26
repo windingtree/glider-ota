@@ -1,9 +1,6 @@
 import {config} from "../config/default";
-import extendResponse from "./flight-search-results-extender";
-import offline_flight_results from "../data/sample_response_flights";
-import offline_hotels_results from "../data/sample_response_hotels";
-import {uiEvent} from "./events";
-import {storeSearchResultsInCache,checkSearchResultsInCache} from "./local-storage-cache"
+import offline_hotels_results from "../components/storybook-utils/mock-data/sample_response_hotels";
+
 /**
  * Search for flights with a criteria provided as parameters.
  *
