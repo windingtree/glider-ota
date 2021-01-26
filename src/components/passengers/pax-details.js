@@ -2,7 +2,6 @@ import React from 'react'
 import _ from 'lodash'
 import style from "./pax-details.module.scss"
 import SinglePaxDetails from "./single-pax-details";
-import {Button} from "react-bootstrap";
 
 export default function PaxDetails({shoppingCart, currentStep, passengers, onDataChange, highlightInvalidFields, restoreCart}) {
     console.log(`PaxDetails, currentStep:${currentStep}, shoppingCart:`, shoppingCart)

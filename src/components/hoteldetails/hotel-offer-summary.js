@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
+import React from 'react'
 import style from './hotel-offer-summary.module.scss'
-import {Row, Col, Image, Container} from 'react-bootstrap'
+import {Col, Container, Image, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import {HotelAddress} from "../accommodation-blocks/hotel-address"
 import {RoomAmenities} from "../accommodation-blocks/room-amenities";
 
 
-export function HotelOfferSummary({hotel, room, offer, price}) {
+export function HotelOfferSummary({hotel, room, price}) {
 
     const hotelInformation = (hotel) =>{
         const {name:hotelName, description:hotelDescription, media:hotelImages, roomTypes:rooms} = hotel;

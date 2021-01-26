@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import BookingFlowLayout from "../components/layout/booking-flow-layout"
 import PaxDetailsContent from "../components/passengers/pax-details-content"
 import BookingFlowBreadcrumb, {STEPS} from "../components/common-blocks/breadcrumbs"

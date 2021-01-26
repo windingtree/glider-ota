@@ -1,10 +1,6 @@
 import React from 'react';
 import DCTravellerInfoPage from "./traveller-info-page";
 
-import {
-    action
-} from '@storybook/addon-actions';
-
 export default {
     component: DCTravellerInfoPage,
     title: 'pages/booking step1',

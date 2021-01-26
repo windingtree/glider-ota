@@ -1,6 +1,5 @@
 import React from 'react';
 import BookingFlowLayout from "./booking-flow-layout";
-import DevConLayout from "./devcon-layout";
 
 export default {
     component: BookingFlowLayout,

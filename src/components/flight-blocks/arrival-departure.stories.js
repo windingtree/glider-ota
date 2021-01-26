@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-    action
-} from '@storybook/addon-actions';
 
-import {ArrivalDeparture, ADTYPES} from "./arrival-departure"
+import {ADTYPES, ArrivalDeparture} from "./arrival-departure"
+
 export default {
     title: 'flight blocks/arrival and departure',
     component:ArrivalDeparture

@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import {RangeFilter} from "./range-filter";
 import {differenceInMinutes, parseISO} from "date-fns";
 

@@ -1,6 +1,5 @@
 import React from 'react'
-import {Button, Row, Col} from 'react-bootstrap'
-import style from './search-button.module.scss'
+import {Button} from 'react-bootstrap'
 
 export default function SearchButton({disabled,onSearchButtonClicked}) {
     return (<>

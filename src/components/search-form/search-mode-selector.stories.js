@@ -1,9 +1,6 @@
 import React from 'react';
-import {
-    action
-} from '@storybook/addon-actions';
 import {useState} from "@storybook/addons";
-import SearchModeSelector,{SEARCH_TYPE} from "./search-mode-selector";
+import SearchModeSelector, {SEARCH_TYPE} from "./search-mode-selector";
 
 export default {
     title: 'Search Form/SearchModeSelector',

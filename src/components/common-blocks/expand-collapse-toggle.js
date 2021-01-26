@@ -1,7 +1,8 @@
-import React,{useState} from 'react';
+import React from 'react';
 import style from "./expand-collapse-toggle.module.scss"
-import {FaChevronUp, FaChevronDown} from "react-icons/fa";
+import {FaChevronDown, FaChevronUp} from "react-icons/fa";
 import classNames from "classnames/bind";
+
 let cx = classNames.bind(style);
 
 

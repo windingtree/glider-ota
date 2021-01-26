@@ -1,8 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Col, Container, Row} from 'react-bootstrap'
 import style from './lookup-list.module.scss'
 import PropTypes from 'prop-types'
 import classNames from "classnames/bind";
+
 let cx = classNames.bind(style);
 
 export default function LookupList({locations=[], onLocationSelected}){
@@ -44,8 +45,8 @@ export default function LookupList({locations=[], onLocationSelected}){
         return (
             <Row noGutters={true} className={rowClassNames} key={rowIndex} onClick={event => selected(rowIndex)}>
                 <Col xs={10} className={primaryColClassNames}>
-                    {rec.indent===true?(<span className={style.indent}></span>):('')}
-                    {rec.icon?(<span className={`icon${rec.icon}`}></span>):('')}
+                    {rec.indent===true?(<span className={style.indent}/>):('')}
+                    {rec.icon?(<span className={`icon${rec.icon}`}/>):('')}
                     <span className={primaryTextClassNames}>{rec.primary}</span>
                     <span className={secondaryTextClassNames}>{rec.secondary}</span>
                 </Col>
@@ -86,12 +87,6 @@ export default function LookupList({locations=[], onLocationSelected}){
 
 
 }
-
-function createKey(a,b,c){
-    return a+b+c;
-}
-
-
 
 LookupList.propTypes = {
     locations:PropTypes.array

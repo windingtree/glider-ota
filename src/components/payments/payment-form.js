@@ -8,7 +8,7 @@ const stripePromise = api.getPublicStripeKey().then(key => loadStripe(key));
 
 
 
-export default function PaymentForm({match, onPaymentSuccess, onPaymentFailure, cardholderName}) {
+export default function PaymentForm({onPaymentSuccess, onPaymentFailure, cardholderName}) {
 
     return (
         <Container>

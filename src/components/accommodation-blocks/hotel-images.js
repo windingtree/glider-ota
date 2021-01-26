@@ -1,6 +1,6 @@
-import React,{useState, useRef} from 'react';
+import React, {useRef} from 'react';
 import style from "./hotel-images.module.scss"
-import { Splide, SplideSlide } from '@splidejs/react-splide';
+import {Splide, SplideSlide} from '@splidejs/react-splide';
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 export const ImageGallery = ({images}) => {

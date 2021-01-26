@@ -1,7 +1,6 @@
 import {CalendarContainer} from "react-datepicker";
 import React from "react";
 import style from "./calendar-container.module.scss"
-import {Form} from "react-bootstrap";
 
 export const CustomCalendarContainer = ({ className, children }) => {
     return (
