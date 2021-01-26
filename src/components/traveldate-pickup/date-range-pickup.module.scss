@@ -1,0 +1,39 @@
+@import 'src/styles/mixins';
+
+.inputField {
+  width: 99%;
+  box-sizing: border-box;
+  //border: 1px solid $glider-color-inputfields-border;
+  background-color: $glider-color-inputfields-background;
+  margin: 0px 4px;
+  text-align: center;
+
+  &:focus {
+    box-shadow: none;
+    border: 1px solid $g-color-primary;
+  }
+}
+
+.label{
+  @include g-font($g-fontsize-xs,$glider-color-text-labels,$g-fontweight-normal);
+  margin-left: 4px;
+}
+
+
+.datePickerWrapper {
+  > div > div > div {
+    height: 40px;
+    overflow: hidden;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px !important;
+    border-color: transparent !important;
+    input {
+     font-weight: 500 !important;
+     font-size: 18px !important;
+     padding: 6px 8px 3px 8px !important;
+     text-align: center;
+    }
+  }
+}

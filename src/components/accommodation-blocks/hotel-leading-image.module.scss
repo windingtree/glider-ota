@@ -1,0 +1,23 @@
+@import 'src/styles/mixins';
+
+.mainImageContainer {
+  height: 158px;
+  @include glider-media-small_576 {
+  }
+  @include glider-media-medium_768 {
+  }
+  @include glider-media-large_992 {
+
+  }
+  @include glider-media-xlarge_1600 {
+    height: 262px;
+  }
+
+}
+
+.mainImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}

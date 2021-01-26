@@ -1,0 +1,254 @@
+@import 'src/styles/mixins';
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.payCryptoContainer {
+    padding-top: 20px;
+}
+
+.cryptoTitle {
+    display: flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 120%;
+    color: #202020;
+    margin-bottom: 40px;
+}
+
+.selectorTitle {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 150%;
+    display: flex;
+    align-items: center;
+    color: #202020;
+}
+
+.paymentSuccess {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 120%;
+    color: #202020;
+}
+
+.paymentTx {
+    color: #5E666A;
+    font-weight: normal;
+}
+
+.connectButton {
+    @include _glider-font-text16;
+    color: $glider-color-primary-background;
+    background-color: white;
+    padding: 12px 24px;
+    border: 1px solid #42424F;
+    box-sizing: border-box;
+    border-radius: 8px;
+    color: #42424F;
+}
+
+.iconLeft {
+    margin-top: -3px;
+    margin-right: 4px;
+}
+
+.buttonSpinner {
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.walletAddress {
+    @include _glider-font-text12;
+    color: $glider-color-primary-background;
+}
+
+.tokenIcon {
+    height: 18px;
+    width: auto;
+    margin-right: 5px;
+}
+
+.tokenLabel {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    color: #202020;
+    text-transform: capitalize;
+}
+
+.tokenComment {
+    @include _glider-font-text14;
+    color: #9f9f9f;
+}
+
+.cryptoCardWrapper {
+    background: #FFFFFF;
+    border: 1px solid #BBBBBB;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+
+    &.disabled {
+        background: #f5f5f5;
+        cursor: auto;
+    }
+}
+
+.tokenDataText {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    color: #202020;
+
+    @include media-max-sm {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 150%;
+        display: flex;
+        align-items: center;
+        color: #202020;
+    }
+}
+
+.amountWrapper {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    text-align: right;
+    color: #7161D6;
+
+    @include media-max-sm {
+        font-size: 18px;
+
+        &.selected {
+            font-size: 24px;
+        }
+    }
+
+    &.red {
+        color: red;
+    }
+
+    &.noLiquidity {
+        font-size: 18px;
+    }
+}
+
+.actionRow {
+    margin-top: 20px;
+}
+
+.actionNote {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #5E666A;
+}
+
+.actionWrapper {
+    text-align: right;
+}
+
+.xsHide {
+    @include media-max-sm {
+        display: none;
+    }
+}
+
+.xsShow {
+    @include glider-media-small_576 {
+        display: none;
+    }
+}
+
+.xsBlock {
+    @include media-max-sm {
+        display: block;
+        width: 100%;
+    }
+}
+
+.errorMessage {
+    color: red;
+}
+
+.countDownWrapper {
+    justify-content: space-between;
+}
+
+.countDownWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.countDown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #7161D6;
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
+    min-width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+@keyframes spinner {
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
+.countDownSpinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border: 1.5px solid;
+    border-right: 1.5px solid transparent;
+    border-radius: 50%;
+    animation: spinner .75s linear infinite;
+    color: #7161D6;
+}
+
+.topNote {
+    font-size: 12px;
+}
+
+.walletRow {
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.progressNote {
+    @include g-font($g-fontsize-m,$g-color-black,$g-fontweight-light);
+    text-align: center;
+    margin-top: 8px;
+
+    p {
+      margin-bottom: 2px;
+    }
+}

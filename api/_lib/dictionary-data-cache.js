@@ -1,15 +1,10 @@
 const fs = require("fs");
 const _ = require('lodash');
-const {
-    insertMany,
-    findAll
-} = require('../_lib/mongo-dao');
 
 const DB_LOCATION="api/_data/";
 const TABLES={
     AIRLINES:'airlines',
     AIRPORTS:'airports',
-    CITIES:'cities',
     CURRENCIES:'currencies',
     COUNTRIES:'COUNTRIES'
 }
@@ -82,9 +77,8 @@ function _match(searchQuery, values){
         valuesConcat.push(fieldValue);
     }
     let concatendatedValues = valuesConcat.join(' ');
-    if(concatendatedValues.search(query)>-1)
-        return true;
-    return false;
+    return concatendatedValues.search(query) > -1;
+
 }
 function _getFieldValues(obj,keys){
     let values=[];
@@ -122,9 +116,6 @@ function loadTableIntoCache(tableName) {
             break;
         case TABLES.CURRENCIES:
             data = loadCurrencies();
-            break;
-        case TABLES.CITIES:
-            data = loadCities();
             break;
         case TABLES.COUNTRIES:
             data = loadCountries();
@@ -164,12 +155,6 @@ function loadCurrencies(){
     return currenciesMap;
 }
 
-function loadCities(){
-    let path = `${DB_LOCATION}${TABLES.CITIES}.json`;
-    let data = JSON.parse(fs.readFileSync(path));
-    return data;
-}
-
 function loadCountries(){
     let path = `${DB_LOCATION}${TABLES.COUNTRIES}.json`;
     let data = JSON.parse(fs.readFileSync(path));
@@ -191,8 +176,8 @@ function getCurrencyByCode(currencyCode){
 
 /**
  * Get country by country code
- * @param currencyCode Country code (case sensitive)
  * @returns {*}
+ * @param countryCode
  */
 function getCountryByCountryCode(countryCode){
     return getTableRecordByKey(TABLES.COUNTRIES,countryCode.toUpperCase());
@@ -219,57 +204,17 @@ function getAirlineByIataCode(airline_iata_code){
 /**
  * Search for airport by iata code/city code/city name
  * @param query Airport code (case insensitive)
+ * @param maxResults
  * @returns {*}
  */
 function findAirport(query,maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
     return findTableRecords(TABLES.AIRPORTS,query,["airport_iata_code","city_code","city_name","airport_name"], maxResults);
 }
 
-/**
- * Find city
- * @param query Airport code (case insensitive)
- * @returns {*}
- */
-async function findCity(query, countryCode, maxResults = DEFAULT_MAX_LOOKUP_RESULTS){
-
-    // const table = getTable(TABLES.CITIES);
-    // await insertMany(TABLES.CITIES, table)
-    //     .then(console.log)
-    //     .catch(console.error);
-
-    return findAll(TABLES.CITIES,
-        {
-            ...(
-                query
-                    ? {
-                        'city_name': {
-                            '$regex': `^${query.substr(0, 4)}`,
-                            '$options': 'i'
-                        }
-                    }
-                    : {}
-            ),
-            ...(
-                countryCode
-                    ? {
-                        'country_code': countryCode
-                    }
-                    : {}
-            )
-        },
-        {
-            projection: {
-                _id: 0
-            },
-            limit: maxResults
-        }
-    );
-}
-
 
 
 module.exports = {
-    findTableRecords,getTableRecordByKey,TABLES, getCurrencyByCode,getAirportByIataCode,getCountryByCountryCode,findAirport,findCity, getAirlineByIataCode
+    findTableRecords,getTableRecordByKey,TABLES, getCurrencyByCode,getAirportByIataCode,getCountryByCountryCode,findAirport,getAirlineByIataCode
 }
 
 

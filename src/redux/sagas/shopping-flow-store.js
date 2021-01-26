@@ -1,14 +1,13 @@
-import { createSelector } from 'reselect';
+import {createSelector} from 'reselect';
 
-import { all, call, put, takeEvery, select } from 'redux-saga/effects';
+import {all, call, put, select, takeEvery} from 'redux-saga/effects';
 import {findFlights} from "../../utils/search";
 import {getCachedSearchResults} from "../../utils/api-utils";
 import SearchCriteriaBuilder from "../../utils/search-criteria-builder";
 import extendResponse from "../../utils/flight-search-results-extender";
 
 import history from '../history';
-import { parseUrlParams } from '../../utils/url-utils';
-import { storageKeys } from '../../config/default';
+import {storageKeys} from '../../config/default';
 
 /**
  * Search/filtering/results store
@@ -336,20 +335,18 @@ export function buildFlightsSearchCriteria(origin,destination,departureDate,retu
     if(returnDate) {
         criteriaBuilder.withTransportReturnDate(returnDate);
     }
-    const searchCriteria = criteriaBuilder.build();
-    return searchCriteria;
+    return criteriaBuilder.build();
 }
 
 export function buildHotelsSearchCriteria(latitude,longitude,arrivalDate,returnDate, adults,children,infants) {
     const criteriaBuilder = new SearchCriteriaBuilder();
     let boundingBoxForSelectedLocation = criteriaBuilder.boundingBox(latitude,longitude,10)
-    const searchCriteria = criteriaBuilder
-        .withAccommodationLocation(boundingBoxForSelectedLocation,'rectangle')
+    return criteriaBuilder
+        .withAccommodationLocation(boundingBoxForSelectedLocation, 'rectangle')
         .withAccommodationArrivalDate(arrivalDate)
         .withAccommodationReturnDate(returnDate)
-        .withPassengers(adults,children,infants)
+        .withPassengers(adults, children, infants)
         .build();
-    return searchCriteria;
 }
 
 
@@ -371,7 +368,7 @@ function* searchForFlightsSaga() {
 
         // Update URL parameters
         history.push({
-            pathname: '/dc/flights',
+            pathname: '/flights',
             search: `?${new URLSearchParams({
                 [storageKeys.flights.origin]: JSON.stringify(origin),
                 [storageKeys.flights.destination]: JSON.stringify(destination),
@@ -412,7 +409,7 @@ function* searchForHotelsSaga() {
 
         // Update URL parameters
         history.push({
-            pathname: '/dc/hotels',
+            pathname: '/hotels',
             search: `?${new URLSearchParams({
                 [storageKeys.hotels.destination]: JSON.stringify(destination),
                 [storageKeys.common.adults]: adults,

@@ -12,13 +12,13 @@ import  store from './redux/store';
 import ReactDOM from 'react-dom'
 import './styles/glider.scss'
 import { CookiesProvider } from 'react-cookie';
-import DCLandingPage from './dc/pages/landing-page'
-import DCFlightPassengersPage from './dc/pages/pax-details-page'
-import DCAncillariesPage from './dc/pages/ancillaries-page'
-import DCSeatSelectionPage from './dc/pages/seat-selection-page'
-import DCPaymentSummaryPage from './dc/pages/payment-summary-page'
-import ConfirmationPage from './dc/pages/confirmation-page'
-import MarkdownPage from './dc/pages/markdown-page'
+import DCLandingPage from './pages/landing-page'
+import DCFlightPassengersPage from './pages/pax-details-page'
+import DCAncillariesPage from './pages/ancillaries-page'
+import DCSeatSelectionPage from './pages/seat-selection-page'
+import DCPaymentSummaryPage from './pages/payment-summary-page'
+import ConfirmationPage from './pages/confirmation-page'
+import MarkdownPage from './pages/markdown-page'
 import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
 import aphroditeInterface from 'react-with-styles-interface-aphrodite';
 import { customDatePickerTheme } from './custom-date-picker-theme';
@@ -31,18 +31,18 @@ function Dispatcher() {
             <CookiesProvider>
                 <Router>
                     <Switch>
-                        <Route path="/dc/pax/" component={DCFlightPassengersPage}/>
-                        <Route path="/dc/ancillaries/" component={DCAncillariesPage}/>
-                        <Route path="/dc/seatmap/" component={DCSeatSelectionPage}/>
-                        <Route path="/dc/summary/" component={DCPaymentSummaryPage}/>
-                        <Route path="/dc/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
-                        <Route path="/dc/flights" component={DCLandingPage}/>
-                        <Route path="/dc/hotels" component={DCLandingPage}/>
-                        <Route path="/dc/terms-of-service" component={MarkdownPage}/>
-                        <Route path="/dc/privacy-policy" component={MarkdownPage}/>
-                        <Route path="/dc/faq" component={MarkdownPage}/>
-                        <Redirect push from="/dc/" to="/dc/flights" />
-                        <Redirect push from="/" to="/dc/flights" />
+                        <Route path="/pax/" component={DCFlightPassengersPage}/>
+                        <Route path="/ancillaries/" component={DCAncillariesPage}/>
+                        <Route path="/seatmap/" component={DCSeatSelectionPage}/>
+                        <Route path="/summary/" component={DCPaymentSummaryPage}/>
+                        <Route path="/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
+                        <Route path="/flights" component={DCLandingPage}/>
+                        <Route path="/hotels" component={DCLandingPage}/>
+                        <Route path="/terms-of-service" component={MarkdownPage}/>
+                        <Route path="/privacy-policy" component={MarkdownPage}/>
+                        <Route path="/faq" component={MarkdownPage}/>
+                        <Redirect push from="/" to="/flights" />
+                        <Redirect push from="/" to="/flights" />
                     </Switch>
                 </Router>
             </CookiesProvider>
