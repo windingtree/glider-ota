@@ -4,7 +4,7 @@ const { decorate } = require('../_lib/decorators');
 const { createLogger } = require('../_lib/logger');
 const { sendBookingConfirmations } = require('../_lib/email-confirmations');
 const { createWithOffer } = require('../_lib/glider-api');
-const {getOfferMetadata} = require('../_lib/model/offerMetadata');
+const {getOfferMetadata} = require('../_lib/models/offerMetadata');
 const {
     createCryptoDeposit,
     createCryptoGuarantee
@@ -18,8 +18,7 @@ const {
     updatePaymentStatus,
     findConfirmedOffer,
     ORDER_STATUSES,
-    PAYMENT_STATUSES,
-    ORDER_TYPES
+    PAYMENT_STATUSES
 } = require('../_lib/mongo-dao');
 const {
     PaymentManagerContract,
@@ -59,7 +58,7 @@ const createPassengers = passengers => {
     let passengersRequest = {};
     for (let i = 0; i < passengers.length; i++) {
         let pax = passengers[i];
-        let record = {
+        passengersRequest[pax.id] = {
             type: pax.type,
             civility: pax.civility,
             lastnames: [pax.lastName],
@@ -70,8 +69,7 @@ const createPassengers = passengers => {
                 pax.phone,
                 pax.email
             ]
-        }
-        passengersRequest[pax.id] = record;
+        };
     }
     return passengersRequest;
 };

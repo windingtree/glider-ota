@@ -1,0 +1,16 @@
+@import 'src/styles/mixins';
+
+.tripHeader {
+    @include g-font($g-fontsize-xxl, $g-color-black, $g-fontweight-normal)
+}
+
+.itinerarySummaryWrapper,
+.itinerarySummaryWrapperReturn {
+    padding: 20px 20px 0 20px;
+}
+
+.journeyContainer{
+    background:$glider-color-primary-background;
+    border-radius: 8px;
+    padding-bottom: 20px;
+}

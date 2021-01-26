@@ -1,6 +1,6 @@
 
 import {parseISO, differenceInHours, differenceInMinutes, differenceInBusinessDays, format} from "date-fns";
-import airportToCityMap from "../data/airport-city-map";
+import airportToCityMap from "../components/storybook-utils/mock-data/airport-city-map";
 
 
 export default class OfferUtils {

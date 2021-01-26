@@ -1,0 +1,106 @@
+@import 'src/styles/mixins';
+
+.roomName {
+    @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+  padding-top: 1rem;
+}
+.roomDescription {
+    @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-light);
+}
+
+.roomDisclaimer {
+    @include g-font($g-fontsize-xs,$g-color-darkgrey,$g-fontweight-normal);
+}
+.roomConditions {
+    @include g-font($g-fontsize-xs,$g-color-green,$g-fontweight-normal);
+}
+/*.roomPrice {
+    @include g-font($g-fontsize-xxl,$g-color-primary,$g-fontweight-medium);
+}*/
+
+.roomPriceDisclaimer {
+    @include g-font($g-fontsize-xs,$g-color-lightgrey,$g-fontweight-normal);
+}
+
+
+
+.roomContainer {
+        //background:$glider-color-primary-background;
+        //box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        //border-radius: 5px;
+        //padding: 20px;
+        margin-top: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px dotted $g-color-lightgrey;
+    }
+
+
+
+
+/*.pricePlanName{
+    @include _glider-font-text24medium;
+    color:$glider-color-text;
+    padding-bottom: 40px;
+}
+
+.amenitiesTitle{
+    @include _glider-font-text16;
+    color:$glider-color-primary;
+}
+
+.amenitiesItem{
+    @include _glider-font-text16;
+    color:$glider-color-text-background;
+}*/
+/*
+.penaltyRefundable{
+    @include _glider-font-text18;
+    color:$glider-color-text;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+}
+
+.penaltyNonRefundable{
+    @include _glider-font-text18;
+    color:$glider-color-text;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+}*/
+
+/*
+.roomOccupancy{
+    @include _glider-font-text18;
+    color:$glider-color-text;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+*/
+/*
+
+.mainImageContainer {
+    height: 140px;
+    @include glider-media-small_576 {
+    }
+    @include glider-media-medium_768 {
+    }
+    @include glider-media-large_992 {
+        max-width: 285px;
+
+    }
+    @include glider-media-xlarge_1600 {
+        height: 262px;
+    }
+
+}
+
+.mainImage {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    @include glider-media-large_992 {
+
+    }
+}
+*/

@@ -1,0 +1,19 @@
+@import 'src/styles/mixins';
+
+.arrivalNextDayWarning{
+  @include g-font($g-fontsize-m,$g-color-warning,$g-fontweight-normal);
+  padding-left: 30px;
+  padding-bottom: 12px;
+}
+
+.itineraryHeader {
+  @include g-font($g-fontsize-xxl, $g-color-black, $g-fontweight-normal)
+}
+
+.itinerarySummaryWrapper {
+  padding: 0 20px 1rem 20px;
+}
+
+.itinerarySummaryWrapperReturn {
+  padding: 0 20px 0 20px;
+}

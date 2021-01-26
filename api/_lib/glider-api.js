@@ -2,7 +2,7 @@ const {createLogger} = require('./logger');
 const _ = require('lodash');
 const axios = require('axios').default;
 const {GLIDER_CONFIG} = require('./config');
-const {storeOffersMetadata} = require('./model/offerMetadata');
+const {storeOffersMetadata} = require('./models/offerMetadata');
 const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithMaxOPCFee} = require('./response-decorator');
 const {createErrorResponse,mergeAggregatorResponse, ERRORS} = require ('./rest-utils');
@@ -103,6 +103,7 @@ async function searchOffersUsingEndpoint (criteria, endpoint, timeout) {
 /**
  * Create offer in Glider API
  * @param criteria- request to be passed to /createWithOffer API
+ * @param endpoint
  * @returns {Promise<any>} response from Glider
  */
 async function createWithOffer(criteria, endpoint) {
@@ -123,6 +124,7 @@ async function createWithOffer(criteria, endpoint) {
 /**
  * Retrieve seatmap for an offer using Glider API
  * @param offerId - offerId(s) for which the seatmaps are requested
+ * @param endpoint
  * @returns {Promise<any>} response from Glider
  */
 async function seatmap(offerId, endpoint) {
@@ -142,6 +144,8 @@ async function seatmap(offerId, endpoint) {
 /**
  * Create offer in Glider API
  * @param offerId - offerID to be repriced
+ * @param options
+ * @param endpoint
  * @returns {Promise<any>} response from Glider
  */
 async function reprice(offerId, options, endpoint) {

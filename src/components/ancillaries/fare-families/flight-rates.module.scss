@@ -1,0 +1,93 @@
+@import 'src/styles/mixins';
+
+.ratesHeader {
+    @include _glider-font-text24medium;
+    color: $glider-color-text;
+    margin-top: 20px;
+}
+
+
+
+.ratesItinRoute{
+    @include _glider-font-text18;
+    color: $glider-color-text;
+    padding-top: 50px;
+}
+
+.ratesPlanName{
+    @include _glider-font-text18;
+    color: $glider-color-text;
+    padding-bottom: 13px;
+}
+
+.ratesPlanPrice{
+    @include _glider-font-text18;
+    color: $glider-color-primary;
+    padding-bottom: 16px;
+}
+
+:global(.ratesPlanDetails){
+    @include _glider-font-text12;
+    color: $glider-color-text;
+    padding-bottom: 10px;
+}
+
+
+:global(.selectedamenity){
+    color: red;
+}
+
+.priceplanContainer{
+    background: $glider-color-primary-background;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.priceplanContainerSelected{
+    background: $glider-color-primary-background;
+    border: 2px solid $glider-color-primary;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 16px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    min-width: 305px;
+    max-width: 305px;
+    cursor: pointer;
+}
+
+
+:global(.amenityicon){
+    font-size: 18px;
+    vertical-align: middle;
+    display: inline-block;
+    //width: 30px;
+}
+
+:global(.gicon-empty) {
+    height:30px;
+    display: inline-block;
+}
+
+:global(.amenityActive) {
+    color: black;
+}
+
+:global(.amenityInactive) {
+    color: #bbb;
+}
+
+
+.itineraryContainer{
+    background: $glider-color-primary-background;
+    //box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+

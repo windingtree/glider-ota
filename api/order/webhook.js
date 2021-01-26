@@ -1,5 +1,4 @@
 const {BOOKABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
-const {CART_ITEMKEYS} = require("../_lib/shopping-cart");
 const {validateWebhook, cancelPaymentIntent} = require('../_lib/stripe-api');
 const {decorate} = require('../_lib/decorators');
 const {createLogger} = require('../_lib/logger');
@@ -7,7 +6,7 @@ const {getRawBodyFromRequest} = require('../_lib/rest-utils');
 const {createWithOffer} = require('../_lib/glider-api');
 const {createGuarantee} = require('../_lib/simard-api');
 const {sendBookingConfirmations} = require('../_lib/email-confirmations');
-const {getOfferMetadata} = require('../_lib/model/offerMetadata');
+const {getOfferMetadata} = require('../_lib/models/offerMetadata');
 
 const {STRIPE_CONFIG} = require('../_lib/config');
 const {
@@ -15,8 +14,7 @@ const {
     updatePaymentStatus,
     findConfirmedOffer,
     ORDER_STATUSES,
-    PAYMENT_STATUSES,
-    ORDER_TYPES
+    PAYMENT_STATUSES
 } = require('../_lib/mongo-dao');
 const logger = createLogger("/webhook");
 
@@ -55,7 +53,7 @@ const webhookController = async (request, response) => {
         // Answer to webhook if not yet done
         return sendSuccessResponseAndFinish({
             received: true,
-            fulfilled: (confirmation && !confirmation.isDuplicate && confirmation.orderId) ? true : false,
+            fulfilled: (confirmation && !confirmation.isDuplicate && confirmation.orderId),
             isDuplicate: confirmation && confirmation.isDuplicate === true,
             orderId: confirmation && confirmation.orderId,
         });
@@ -93,9 +91,8 @@ const validateAndParseEvent = async (request) => {
  * When order cannot be created, we should return money to they passenger.
  *
  * @param confirmedOfferId  ID of the offer which we want to cancel payment for
- * @param intentId  payment intent ID (from stripe)
+ * @param webhookEvent
  * @param errorMessage  error message (text)
- * @param errorDetails  additional information to be added to a DB transaction log
  */
 const cancelPaymentAndUpdatePaymentStatus = async (confirmedOfferId, webhookEvent, errorMessage) => {
     try {
@@ -326,7 +323,7 @@ const retrievePaymentDetailsFromWebhook = (webhookEvent) => {
 /**
  * Order fulfillment
  * @param confirmedOfferId
- * @param intentId
+ * @param webhookEvent
  * @returns {Promise<any>}
  */
 async function fulfillOrder(confirmedOfferId, webhookEvent) {
@@ -361,7 +358,6 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
     // Retrieve offer details
     let passengers = document.passengers;
     let offerId = document.confirmedOffer.offerId;
-    let offer = document.confirmedOffer.offer;
     let price = document.confirmedOffer.price;
 
     // Request a guarantee to Simard
@@ -419,7 +415,7 @@ function createPassengers(passengers) {
     let passengersRequest = {};
     for (let i = 0; i < passengers.length; i++) {
         let pax = passengers[i];
-        let record = {
+        passengersRequest[pax.id] = {
             type: pax.type,
             civility: pax.civility,
             lastnames: [pax.lastName],
@@ -430,8 +426,7 @@ function createPassengers(passengers) {
                 pax.phone,
                 pax.email
             ]
-        }
-        passengersRequest[pax.id] = record;
+        };
     }
     return passengersRequest;
 }

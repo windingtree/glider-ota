@@ -1,10 +1,9 @@
-const {getOfferMetadata} = require('../_lib/model/offerMetadata');
+const {getOfferMetadata} = require('../_lib/models/offerMetadata');
 const {sendErrorResponse, ERRORS} = require("../_lib/rest-utils")
 const logger = require('../_lib/logger').createLogger('/offer')
 const {decorate} = require('../_lib/decorators');
 
 const offer = async (req, res) => {
-    let sessionID = req.sessionID;
     let method = req.method;
     if (method === 'GET') {
         let offerId = req.query.offerId;
@@ -33,7 +32,6 @@ const offer = async (req, res) => {
     } else {
         logger.warn("Unsupported method:%s", req.method);
         sendErrorResponse(res, 400, ERRORS.INVALID_METHOD, "Unsupported request method");
-        return;
     }
 
 }

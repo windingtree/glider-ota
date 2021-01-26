@@ -3,7 +3,7 @@ const {createLogger} = require('../_lib/logger')
 const {decorate} = require('../_lib/decorators');
 const {ShoppingCart, CART_ITEMKEYS, CART_USER_PREFERENCES_KEYS} = require('../_lib/shopping-cart');
 const {sendErrorResponse, ERRORS} = require("../_lib/rest-utils")
-const {getOfferMetadata} = require("../_lib/model/offerMetadata")
+const {getOfferMetadata} = require("../_lib/models/offerMetadata")
 const logger = createLogger('/offerSummary')
 const {v4} = require('uuid');
 const {SessionStorage} = require('../_lib/session-storage');
@@ -46,14 +46,11 @@ const offerRepriceController = async (req, res) => {
         totalPrice: null,
         offerId: `${v4()}-master`
     }
-    let subOffers = [];
     try {
         //check what are the sub offers (e.g. flights, hotels, maybe insurances) that need to be combined into the final offer
         //if some offers require repricing - do it here (e.g. flight repricing)
         if (transportationOfferItem) {
             const {
-                offerId: unConfirmedOfferId,
-                // offer: unConfirmedOffer,
                 itineraries: flightItineraries,
                 isOfferConfirmed
             } = transportationOfferItem.item;
