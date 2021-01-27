@@ -50,3 +50,6 @@ export const storageKeys = {
         returnDate: 'returnDate'
     }
 };
+
+export const CRYPTO_PAYMENTS_DISABLED = true;
+export const CRYPTO_PAYMENTS_DISABLED_LABEL = 'Pay with Crypto — Coming 2021';
