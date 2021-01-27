@@ -28,14 +28,14 @@ const PaymentCard = props => {
         : `${style.paymentCardContainer} ${offStyle ? offStyle : ''}`;
 
     return (
-        <div className={containerWrapperStyle}>
+        <div className={`${containerWrapperStyle} ${disabled ? style.containerDisabled : ''}`}>
             <div
-                className={`${style.titleWrapper} ${disabled ? style.titleDisabled : ''}`}
+                className={`${style.titleWrapper} ${disabled ? style.titleWrapperDisabled : ''}`}
                 onClick={!disabled
                     ? () => onSelected(name)
                     : () => {}}
             >
-                <div className={style.title}>
+                <div className={`${style.title} ${disabled ? style.titleDisabled : ''}`}>
                     <span className={
                         isSelected
                         ? `${style.selector} ${style.selected}`
