@@ -35,11 +35,17 @@ html, body, #root {
   min-height: 600px;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body{
   background: $glider-color-body-background;
   //font-family: 'Poppins', sans-serif;
   font-family: 'Inter', sans-serif;
   //font-size: 16px;
+  overflow-x: hidden;
+  position: relative;
 }
 
 //spinner

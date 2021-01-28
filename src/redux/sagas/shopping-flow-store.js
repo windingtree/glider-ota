@@ -273,6 +273,19 @@ export const isFlightSearchInProgressSelector = createSelector(
     ({ flightSearchInProgress }) => flightSearchInProgress
 );
 
+export const isBookingStartedSelector = createSelector(
+    shoppingFlowStateSelector,
+    ({
+        flightSearchInProgress,
+        flightSearchResults,
+        hotelSearchResults,
+        hotelSearchInProgress
+    }) => flightSearchInProgress ||
+        flightSearchResults ||
+        hotelSearchInProgress ||
+        hotelSearchResults
+);
+
 export const flightsErrorSelector = createSelector(
     shoppingFlowStateSelector,
     ({ flightsError }) => flightsError
