@@ -21,7 +21,7 @@ const GLIDER_BASEURL = getConfigKey('GLIDER_BASEURL');
 const GLIDER_CONFIG =
     {
         BASE_URL:GLIDER_BASEURL,
-        GLIDER_TOKEN: getConfigKey('GLIDER_JWT'),
+        // GLIDER_TOKEN: getConfigKey('GLIDER_JWT'),
         ORGID: getConfigKey('GLIDER_ORGID'),
         GLIDER_FIXED_USAGE:(getConfigKey('GLIDER_FIXED_USAGE',"yes")==="yes"),
     };
@@ -32,17 +32,18 @@ const ROOMS_CONFIG =
         BASE_URL:ROOMS_BASEURL,
         ENABLE_ROOMS_SEARCH: (getConfigKey('ENABLE_ROOMS_SEARCH',"yes")==="yes"),
         ROOMS_ORGID: getConfigKey('ROOMS_ORGID'),
-        ROOMS_TOKEN: getConfigKey('ROOMS_TOKEN'),
+        // ROOMS_TOKEN: getConfigKey('ROOMS_TOKEN'),
     };
 
 const ORGID = {
     OTA_ORGID: getConfigKey('OTA_ORGID'),
     OTA_PRIVATE_KEY: getConfigKey('OTA_PRIVATE_KEY'),
+    OTA_PRIVATE_KEY_ID: getConfigKey('OTA_PRIVATE_KEY_ID','webserver'),
     P2P_GRAPH_URL:getConfigKey('P2P_GRAPH_URL','https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten'),
     P2P_ENABLE_DISCOVERY:(getConfigKey('P2P_ENABLE_DISCOVERY',"no")==="yes")
 }
 
-const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL') || `https://${activeProfile}.api.simard.io/api/v1`;
+const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL');
 
 const SIMARD_CONFIG =
     {
@@ -51,7 +52,7 @@ const SIMARD_CONFIG =
         GUARANTEES_URL: SIMARD_BASEURL + "/balances/guarantees",
         CREATE_WITH_OFFER_URL: SIMARD_BASEURL + "/orders/createWithOffer",
         SIMULATE_DEPOSIT_URL: SIMARD_BASEURL + "/balances/simulateDeposit",
-        ORGID: getConfigKey('SIMARD_ORGID') || "0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171",
+        ORGID: getConfigKey('SIMARD_ORGID', "0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171"),
         DEPOSIT_EXPIRY_DAYS: 14,
         QUOTE_URL: `${SIMARD_BASEURL}/quotes`,
         SWAP_URL: `${SIMARD_BASEURL}/balances/swap`,
