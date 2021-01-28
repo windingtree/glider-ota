@@ -22,11 +22,13 @@ import MarkdownPage from './pages/markdown-page'
 import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
 import aphroditeInterface from 'react-with-styles-interface-aphrodite';
 import { customDatePickerTheme } from './custom-date-picker-theme';
+import ErrorCatcher from "./components/error-catcher";
 ThemedStyleSheet.registerInterface(aphroditeInterface);
 ThemedStyleSheet.registerTheme(customDatePickerTheme());
 
 function Dispatcher() {
     return (
+        <ErrorCatcher>
         <Provider store={store}>
             <CookiesProvider>
                 <Router>
@@ -47,6 +49,7 @@ function Dispatcher() {
                 </Router>
             </CookiesProvider>
         </Provider>
+        </ErrorCatcher>
     );
 }
 
