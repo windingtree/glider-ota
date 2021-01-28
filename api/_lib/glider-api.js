@@ -1,7 +1,5 @@
 const {createLogger} = require('./logger');
-const _ = require('lodash');
 const axios = require('axios').default;
-const {GLIDER_CONFIG} = require('./config');
 const {storeOffersMetadata} = require('./models/offerMetadata');
 const logger = createLogger('aggregator-api');
 const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithMaxOPCFee} = require('./response-decorator');
@@ -39,9 +37,7 @@ async function searchOffers(criteria) {
         await storeOfferToOrgIdMapping(validResults)
 
 
-        if (validResults.length === 0) {
-            throw new Error('No results.')
-        } else{
+        if (validResults.length > 0) {
             let propsToMerge;
             if(criteria.accommodation)
                 propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers']
@@ -49,12 +45,13 @@ async function searchOffers(criteria) {
                 propsToMerge = ['pricePlans', 'offers', 'passengers', 'itineraries']
             response = mergeAggregatorResponse(validResults, propsToMerge)
         }
-
     }catch(err){
         logger.error("Error ",err)
         return createErrorResponse(400,ERRORS.INVALID_SERVER_RESPONSE,err.message,criteria);
     }
-    let searchResults = [];
+    let searchResults = {
+        offers:{}
+    };
     if(response && response.data) {
         searchResults = response.data;
         enrichResponseWithDictionaryData(searchResults)
@@ -185,6 +182,8 @@ async function reprice(offerId, options, endpoint) {
  * @param guaranteeId - guaranteeId previously created with Simard API
  * @returns {Promise<any>} - booking confirmation, response from Glider /orders/.../fulfill API
  */
+/*
+NOT USED ANYMORE BUT MAY BE NEEDED - DON'T REMOVE IT
 async function fulfill(orderId, orderItems, passengers, guaranteeId) {
     let request = createFulfilmentRequest(orderItems, passengers, guaranteeId)
     let urlTemplate = GLIDER_CONFIG.FULFILL_URL;
@@ -200,6 +199,7 @@ async function fulfill(orderId, orderItems, passengers, guaranteeId) {
 }
 
 
+
 function createFulfilmentRequest(orderItems, passengers, guaranteeId) {
     let passengerReferences = [];
     _.each(passengers, (rec, key) => {
@@ -212,7 +212,7 @@ function createFulfilmentRequest(orderItems, passengers, guaranteeId) {
         guaranteeId: guaranteeId
     }
 }
-
+*/
 const urlFactory = (baseUrl, param) => {
     return {
         SEARCH_OFFERS_URL: baseUrl + "/offers/search",
@@ -226,7 +226,7 @@ const urlFactory = (baseUrl, param) => {
 module.exports = {
     createWithOffer,
     searchOffers,
-    fulfill,
+    // fulfill,
     reprice,
     seatmap,
 };
