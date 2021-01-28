@@ -15,7 +15,7 @@ const schemaDefinition = new mongoose.Schema({
 
 const getModel = async () =>{
     const db = await getMongoConnection();
-    return db.model('cities', schemaDefinition,'citiescurated');
+    return db.model('cities', schemaDefinition,'cities');
 
 }
 
