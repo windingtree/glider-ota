@@ -59,8 +59,8 @@
     "key": "SENDGRID_FROM_EMAIL_ADDR",
     "comment": "",
     "profiles": [
-      {"profile": "staging", "value": "noreply@em5199.glider.travel"},
-      {"profile": "production", "value": "noreply@em5199.glider.travel"}
+      {"profile": "staging", "value": "Glider Travel<noreply@glider.travel>"},
+      {"profile": "production", "value": "Glider Travel<noreply@glider.travel>"}
     ]
   },
   {
