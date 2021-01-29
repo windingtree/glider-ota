@@ -1,0 +1,31 @@
+@import 'src/styles/mixins';
+
+.searchButtonContainer{
+    width:100%;
+    margin: auto;
+
+    @include glider-media-medium_768 {
+        width: 620px;
+    }
+    @include glider-media-small_576 {
+        margin-top: 80px;
+    }
+
+}
+
+.searchButton{
+    height: 42px;
+    @include glider-media-small_576 {
+        width: 620px;
+    }
+    @include glider-media-medium_768 {
+        width: 620px;
+    }
+    -ms-flex: 1 1 auto !important;
+    flex: 1 1 auto !important;
+
+}
+.searchButton:disabled {
+    background: white;
+    color: grey;
+}

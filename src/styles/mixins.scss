@@ -35,38 +35,76 @@ mixins re-used in multiple other scripts
   }
 }
 
+@mixin media-max-sm {
+  @media (max-width: $glider-break-sm) {
+    @content;
+  }
+}
 
+@mixin media-max-md {
+  @media (max-width: $glider-break-md) {
+    @content;
+  }
+}
+
+@mixin media-max-lg {
+  @media (max-width: $glider-break-lg) {
+    @content;
+  }
+}
+
+@mixin media-max-xl {
+  @media (max-width: $glider-break-xl) {
+    @content;
+  }
+}
 
 
 //text 12px (regular 150%)
 @mixin _glider-font-text12 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 12px;
+  font-size: $glider-font-size-xs;
+  line-height: 150%;
+}
+//text 14px (regular 150%)
+@mixin _glider-font-text14 {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: $glider-font-size-m;
+  line-height: 150%;
+}
+//text 16px
+@mixin _glider-font-text16 {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: $glider-font-size-l;
   line-height: 150%;
 }
 //caps 12px medium
 @mixin _glider-font-caps12medium {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 12px;
+  font-size: $glider-font-size-xs;
   line-height: 110%;
 }
 
 
 //filter categories 13px
 @mixin _glider-font-filtercategories13 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 13px;
+  font-size: $glider-font-size-xs;
   line-height: 110%;
 }
 
 @mixin _glider-font-h1 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 40px;
@@ -74,50 +112,79 @@ mixins re-used in multiple other scripts
 }
 
 @mixin _glider-font-h2 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 30px;
+  font-size: $glider-font-size-xl;
   line-height: 120%;
 }
 
 @mixin _glider-font-text16 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
+  font-size: $glider-font-size-l;
   line-height: 150%;
 }
 
 
 @mixin _glider-font-regular18 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: $glider-font-size-xl;
   line-height: 110%;
 }
 
 @mixin _glider-font-text18 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: $glider-font-size-xl;
   line-height: 120%;
 }
 
 @mixin _glider-font-text24medium {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: $glider-font-size-xl;
   line-height: 24px;
 }
 
 @mixin _glider-font-h3 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: $glider-font-size-xl;
   //line-height: 110%;
+}
+$g-fontfamily: 'Inter',sans-serif;
+
+$g-fontsize-xs:12px;
+$g-fontsize-m:14px;
+$g-fontsize-l:16px;
+$g-fontsize-xl:18px;
+$g-fontsize-xxl:22px;
+
+$g-color-primary:#543CE2;
+$g-color-black:#424242;
+$g-color-darkgrey:#717171;
+$g-color-lightgrey:#C7C7C7;
+$g-color-warning:#CE613F;
+$g-color-green:#548A1F;
+
+$g-fontweight-light:400;
+$g-fontweight-normal:500;
+$g-fontweight-medium:600;
+$g-fontweight-bold:700;
+
+$g-lineheight-20:20px;
+
+@mixin g-font($size: false, $colour: false, $weight: false,  $lh: false) {
+  font-family: $g-fontfamily;
+  @if $size { font-size: $size; }
+  @if $colour { color: $colour; }
+  @if $weight { font-weight: $weight; }
+  @if $lh { line-height: $lh; }
 }

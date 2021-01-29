@@ -1,5 +1,5 @@
 import React from 'react';
-import sample from "../../data/sample_response_hotels.json"
+import sample from "../storybook-utils/mock-data/sample_response_hotels.json"
 import YourChoice,{CheckinPolicy} from './your-choice'
 
 let hotel = sample.accommodations["erevmax.07119"]

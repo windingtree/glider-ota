@@ -98,6 +98,24 @@ paths:
             application/json:
               schema:
                 type: object
+  /api/cart/userPreferences:
+    post:
+      summary: Store user preferences
+      operationId: addUserPreferences
+      requestBody:
+        description: Store user preferences
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartUserPreferences"
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
   /api/order/checkout:
     post:
       summary: Checkout - start payment process
@@ -108,6 +126,24 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CheckoutParameters"
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/order/crypto:
+    post:
+      summary: Create an order for the offer paid with crypto
+      operationId: crypto
+      requestBody:
+        description: Initiate creation of the order
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CryptoPaymentParameters"
         required: true
       responses:
         200:
@@ -149,6 +185,17 @@ components:
           minItems: 1
           items:
             $ref: "wt-aggregator.yaml#/components/schemas/Passenger"
+    CartUserPreferences:
+      description: User preferences for the shopping
+      properties:
+        currency:
+          description: Payment currency
+          type: string
+          pattern: "^[A-Z]{3}$"
+        paymentMethod:
+          description: Payment method
+          type: string
+          enum: [card, crypto, lif]
     CheckoutParameters:
       description: Payment details
       required: ["type","confirmedOfferId"]
@@ -158,8 +205,19 @@ components:
           description: Method of payment
           enum:
             - card
+            - crypto
         confirmedOfferId:
           $ref: "#/components/schemas/CommaSepUUIDs"
+    CryptoPaymentParameters:
+      description: Crypto Payment details
+      required: ["confirmedOfferId","transactionHash"]
+      properties:
+        confirmedOfferId:
+          $ref: "#/components/schemas/CommaSepUUIDs"
+        transactionHash:
+          type: string
+          description: Hash of the transaction
+          example: "0x769b0b56f749b71d2e42acf570c67ec0d770c32336d1d542b0c74caca8c5c619"
 
 #    Airports:
 #      description: List of airports

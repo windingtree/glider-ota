@@ -23,7 +23,7 @@ const seatRequestHandler = async (req, res) => {
             }
 
             // Add items to cart
-            shoppingCart.addItemToCart(CART_ITEMKEYS.SEATS, req.body, 0)
+            shoppingCart.addItemToCart(CART_ITEMKEYS.SEATS, req.body)
                 .then(() => {
                     res.status(200).json({result:"OK"});
                 })

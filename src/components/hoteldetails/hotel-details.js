@@ -1,180 +1,183 @@
 import React, {useState} from 'react'
 import style from './hotel-details.module.scss'
-import {Container, Row, Col, Image} from 'react-bootstrap'
+import {Col, Container, Row} from 'react-bootstrap'
 import _ from 'lodash'
-import PaxDetails from "../passengers/pax-details";
-import Room from "./room-details"
-import YourChoice from "./your-choice";
-import default_hotel_image from "../../assets/default_hotel_image.png";
-import {storePassengerDetails, storeSelectedAccommodation} from "../../utils/api-utils";
-import {HotelSearchResultsWrapper} from "../../utils/hotel-search-results-wrapper";
-import {useHistory} from "react-router-dom";
-import TotalPriceButton from "../common/totalprice/total-price";
+import {Room} from "./room-details"
+import {HotelLeadingImage} from "../accommodation-blocks/hotel-leading-image";
+import {ExpandCollapseToggleV2} from "../common-blocks/expand-collapse-toggle"
 
-export default function HotelDetails({hotel, searchResults}) {
-    let history = useHistory();
+import {HotelAddress} from "../accommodation-blocks/hotel-address";
+import {HotelVenueDistance} from "../accommodation-blocks/hotel-venue-distance"
+import {
+    addHotelToCartAction,
+    deleteOfferFromCartAction,
+    hotelOfferSelector,
+    isShoppingCartUpdateInProgress
+} from "../../redux/sagas/shopping-cart-store";
+import {connect} from "react-redux";
+
+
+export function HotelDetails(props) {
+    const {
+        hotel,
+        searchResults,
+        onAddOfferToCart = () => {},
+        onDeleteOfferFromCart = () => {},
+        isCartInProgress,
+        cartHotelOffer
+    } = props;
+    // console.log('Display hotel details',hotel)
     const [selectedOffer,setSelectedOffer] = useState()
-    const [passengerDetails, setPassengerDetails] = useState();
-    const [passengerDetailsValid,setPassengerDetailsValid] = useState(false);
-
-    let searchResultsWrapper=new HotelSearchResultsWrapper(searchResults);
-
-    function handleContactDetailsChange(paxData, allPassengersDetailsAreValid){
-        setPassengerDetails(paxData)
-        setPassengerDetailsValid(allPassengersDetailsAreValid)
-    }
-
-    function handleSelectedOfferChange(newOffer){
-        let offer  = searchResultsWrapper.getOffer(newOffer.offerId)
-
-        let results = storeSelectedAccommodation({
-            offerId:newOffer.offerId,
-            offer:offer
-        }, true);
-        results.then((response) => {
-            console.debug("Selected offer successfully added to a shopping cart", response);
-        }).catch(err => {
-            console.error("Failed to add selecteed offer to a shopping cart", err);
-            //TODO - add proper error handling (show user a message)
-        })
-        setSelectedOffer(newOffer);
-    }
-
-
-
-    function getHotelPricePlansWithOffers(hotel, offers, pricePlans){
-        let hotelOffers = [];
-        let roomTypes = hotel.roomTypes;
-        let accommodationId = hotel.accommodationId;
-        console.log("hotel",hotel)
-        console.log("hotel accommodationId",accommodationId)
-        _.map(offers,(offer,offerId)=>{
-            console.log("OfferID",offerId," = ",offer)
-            _.map(offer.pricePlansReferences,(ppRef,ppRefId)=>{
-                if(ppRef.accommodation === accommodationId){
-                    hotelOffers.push({
-                        accommodation:accommodationId,
-                        roomType:ppRef.roomType,
-                        pricePlanReference:ppRefId,
-                        pricePlan:pricePlans[ppRefId],
-                        price:offer.price,
-                        offerId:offerId,
-                        room:roomTypes[ppRef.roomType]
-                    })
-                }
-            })
-        })
-        hotelOffers.sort((a,b)=>{
-            return a.price.public>b.price.public?1:-1;
-        });
-
-        return hotelOffers
-    }
-
-    function getRoomPricePlansWithOffers(roomType, hotelPlansWithOffers) {
-        return hotelPlansWithOffers.filter(rec => {
-            return rec.roomType === roomType;
-        })
-    }
-
-
-    const payButtonClick = () => {
-        let results = storePassengerDetails(passengerDetails);
-        results.then((response) => {
-            console.debug("Successfully saved pax details", response);
-            redirectToPayment();
-        }).catch(err => {
-            console.error("Failed to store passenger details", err);
-            //TODO - add proper error handling (show user a message)
-        })
-    }
-
-    function initializePassengerForm(searchResults){
-        let passengers = [];
-        Object.keys(searchResults.passengers).forEach(paxId=>{
-            let pax = searchResults.passengers[paxId]
-            passengers.push({
-                id:paxId,
-                type:pax.type
-            })
-        })
-        return passengers;
-    }
-
-    function redirectToPayment() {
-        let offerId = selectedOffer.offerId
-        let url = '/payment/' + offerId;
-        history.push(url, { passengers: passengerDetails });
-    }
-
+    const [roomsExpanded,setRoomsExpanded] = useState(false)
     const offers = searchResults.offers;
     const pricePlans = searchResults.pricePlans;
-    const rooms = hotel.roomTypes;
     const hotelPricePlansWithOffers = getHotelPricePlansWithOffers(hotel, offers, pricePlans);
-    const passengers = initializePassengerForm(searchResults);
+    const {name:hotelName, description:hotelDescription, media:hotelImages, roomTypes:rooms} = hotel;
+    const hotelAddress = _.get(hotel, 'contactInformation.address');
+    const hotelCoordinates = _.get(hotel, 'location.coordinates');
+    const hotelLeadingImageUrl =  getLeadingHotelImageUrl(hotel);
+
+    const handleAddOfferToCart = ({offerId, price, room}) => {
+        onAddOfferToCart(offerId, room, hotel, price)
+    }
+
+    const deleteOfferFromCart = ({offerId}) =>{
+        onDeleteOfferFromCart(offerId);
+    }
+
+    const findLowestHotelPrice = () => {
+        let minPrice = Number.MAX_SAFE_INTEGER;
+        let minOffer = undefined;
+        if (hotelPricePlansWithOffers) {
+            hotelPricePlansWithOffers.forEach(offer => {
+                if (parseInt(offer.price.public) < minPrice) {
+                    minPrice = offer.price.public;
+                    minOffer = offer;
+                }
+            })
+        }
+        if(minPrice === Number.MAX_SAFE_INTEGER) {
+            return null
+        } else {
+            return minOffer.price;
+        }
+    }
+
+    let lowestPrice = findLowestHotelPrice();
 
     return (
-            <Container >
+        <Container><Row className={style.hotelContainer}>
+            <Col>
+                {hotelLeadingImageUrl && <HotelLeadingImage url={hotelLeadingImageUrl}/>}
+                <div className={style.hotelName}>{hotelName}</div>
+                {hotelAddress && <HotelAddress address={hotelAddress}/>}
+                {hotelCoordinates && <HotelVenueDistance hotelLatitude={hotelCoordinates.latitude} hotelLongitude={hotelCoordinates.longitude}/>}
+                {hotelDescription && <div className={style.hotelDescription}>{hotelDescription}</div>}
                 <Row>
-                    <Col className={style.offerWrapper}>
-                        <div className='glider-font-h1-fg mb-4'>
-                            Book your room
-                        </div>
-                        <div className='glider-font-text24medium-fg mb-3'>
-                            {hotel.name}
-                        </div>
-                        <div className='glider-font-text16-fg mb-5'>
-                            <HotelAddress hotel={hotel}/>
-                        </div>
-                            <HotelLeadingImage images={hotel.media}/>
-                        <div>
-                            {
-                                _.map(rooms, (room, roomId) => {
-                                    const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
-                                    return (<Room room={room} key={roomId} roomPricePlansWithOffers={roomPricePlansWithOffers} onOfferSelected={handleSelectedOfferChange} selectedOffer={selectedOffer}/>)
-                                })
-                            }
-
-                        </div>
-                        <div>
-                                {selectedOffer!==undefined && (
-                                    <YourChoice room={selectedOffer.room}
-                                                hotel={hotel}
-                                                price={selectedOffer.price}/>
-                                    )}
-                        </div>
-                        <div>
-                                <PaxDetails onDataChange={handleContactDetailsChange} passengers={passengers}/>
-                        </div>
-                        {selectedOffer!==undefined && (
-                            <TotalPriceButton price={selectedOffer.price} onProceedClicked={payButtonClick} disabled={!passengerDetailsValid}/>
-                        )}
-                    </Col>
+                    <Col>{lowestPrice && <div className={style.hotelLowestPrice}>From {lowestPrice.public} {lowestPrice.currency}</div>}</Col>
+                    <Col ><ExpandCollapseToggleV2 expanded={roomsExpanded} collapsedText={'Show rooms'} expandedText={'Hide rooms'} onToggle={setRoomsExpanded} customClassName={style.showHideRoomsToggle}/></Col>
                 </Row>
-            </Container>
-        )
-}
 
-
-
-
-
-export function HotelLeadingImage({images}){
-    const image = (images !== undefined && images.length > 0) ? images[0].url : default_hotel_image;
-    return (
-        <div className={style.mainImageContainer}>
-            <Image className={style.mainImage} src={image}/>
-        </div>
+                {roomsExpanded && displayRooms(
+                    rooms,
+                    hotelPricePlansWithOffers,
+                    selectedOffer,
+                    handleAddOfferToCart,
+                    deleteOfferFromCart,
+                    isCartInProgress,
+                    cartHotelOffer
+                )}
+            </Col>
+        </Row>
+        </Container>
     )
 }
 
-
-function HotelAddress({hotel}){
-    if (hotel && hotel.contactInformation && hotel.contactInformation.address){
-        const address = hotel.contactInformation.address;
-        return (<>{address.streetAddress}, {address.locality}</>)
-    }else{
-        return (<></>)
-    }
+const displayRooms = (
+    rooms,
+    hotelPricePlansWithOffers,
+    selectedOffer,
+    onAddOfferToCart,
+    onDeleteOfferFromCart,
+    isCartInProgress,
+    cartHotelOffer
+) =>{
+    return(<div>
+        {
+            _.map(rooms, (room, roomId) => {
+                const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
+                return (<Room
+                    room={room}
+                    key={roomId}
+                    roomPricePlansWithOffers={roomPricePlansWithOffers}
+                    selectedOffer={selectedOffer}
+                    onAddOfferToCart={onAddOfferToCart}
+                    onDeleteOfferFromCart={onDeleteOfferFromCart}
+                    isCartInProgress={isCartInProgress}
+                    cartHotelOffer={cartHotelOffer}
+                />)
+            })
+        }
+    </div>)
 }
+
+
+function getHotelPricePlansWithOffers(hotel, offers, pricePlans){
+    let hotelOffers = [];
+    let roomTypes = hotel.roomTypes;
+    let accommodationId = hotel.accommodationId;
+    _.map(offers,(offer,offerId)=>{
+        _.map(offer.pricePlansReferences,(ppRef,ppRefId)=>{
+            if(ppRef.accommodation === accommodationId){
+                hotelOffers.push({
+                    accommodation:accommodationId,
+                    roomType:ppRef.roomType,
+                    pricePlanReference:ppRefId,
+                    pricePlan:pricePlans[ppRefId],
+                    price:offer.price,
+                    offerId:offerId,
+                    room:roomTypes[ppRef.roomType]
+                })
+            }
+        })
+    })
+    hotelOffers.sort((a,b)=>{
+        return a.price.public>b.price.public?1:-1;
+    });
+
+    return hotelOffers
+}
+
+function getRoomPricePlansWithOffers(roomType, hotelPlansWithOffers) {
+    return hotelPlansWithOffers.filter(rec => {
+        return rec.roomType === roomType;
+    })
+}
+
+
+
+const getLeadingHotelImageUrl = (hotel) => {
+    const {media: images} = hotel;
+    if(images && Array.isArray(images) && images.length > 0){
+        return images[0].url;
+    }
+    return null;
+}
+
+
+const mapStateToProps = state => ({
+    isCartInProgress: isShoppingCartUpdateInProgress(state),
+    cartHotelOffer: hotelOfferSelector(state)
+});
+
+
+const mapDispatchToProps = dispatch => ({
+    onAddOfferToCart: (offerId, room, hotel, price) => dispatch(addHotelToCartAction(offerId, room, hotel, price)),
+    onDeleteOfferFromCart: offerId => dispatch(deleteOfferFromCartAction(offerId))
+});
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(HotelDetails);
+
 

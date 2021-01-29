@@ -1,72 +1,69 @@
-// Define the current enviroment
-const determineEnviroment = () => {
-    // If defined, use the Glider environment variable
-    if(process.env.GLIDER_ENV) {
-        return process.env.GLIDER_ENV;
-    }
+const path = require('path');
 
-    // Otherwise use the Github branch provided by Vercel
-    switch(process.env.VERCEL_GITHUB_COMMIT_REF || process.env.NOW_GITHUB_COMMIT_REF) {
-        case 'master':
-            return 'production';
-        case 'develop':
-        default:
-            return 'staging';
+const profiles = require('@windingtree/config-profiles');
+const activeProfile = process.env.ACTIVE_PROFILE || 'staging';
+profiles.init({
+    baseFolder: path.join(process.cwd(),'api/profiles'),
+        dbUrl: profiles.getEnvironmentEntry(activeProfile, 'MONGO_URL'),
+        encryptionDetails: profiles.getEnvironmentEntry(activeProfile, 'PROFILE_SECRET')
     }
-}
-const enviroment = determineEnviroment();
+)
+
 
 // Get an an environment variable
-const getConfigKey = (key) => {
-    // Return environment specific variable if any
-    const envKey = `${enviroment.toUpperCase()}_${key}`;
-    if(process.env.hasOwnProperty(envKey)) {
-      return process.env[envKey];
-    }
-
-    // Return variable key
-    if(process.env.hasOwnProperty(key)) {
-      return process.env[key];
-    }
-
-    // Config key does not exist
-    return undefined;
+const getConfigKey = (key, defaultValue) => {
+    return profiles.getEnvOrProfileEntry(key, defaultValue);
 };
+module.exports.getConfigKey = getConfigKey;
 
-// const GLIDER_BASEURL = `http://localhost:3000/api/v1`;
-const GLIDER_BASEURL = getConfigKey('GLIDER_BASEURL') || `https://${enviroment}.b2b.glider.travel/api/v1`;
+const GLIDER_BASEURL = getConfigKey('GLIDER_BASEURL');
 
 const GLIDER_CONFIG =
     {
-        GLIDER_TOKEN: getConfigKey('GLIDER_JWT'),
-        SEARCH_OFFERS_URL: GLIDER_BASEURL + "/offers/search",
-        CREATE_WITH_OFFER_URL: GLIDER_BASEURL + "/orders/createWithOffer",
-        SEATMAP_URL: GLIDER_BASEURL + "/offers/{offerId}/seatmap",
-        REPRICE_OFFER_URL: GLIDER_BASEURL + "/offers/{offerId}/price",
-        FULFILL_URL: GLIDER_BASEURL + "/orders/{orderId}/fulfill",
+        BASE_URL:GLIDER_BASEURL,
+        // GLIDER_TOKEN: getConfigKey('GLIDER_JWT'),
         ORGID: getConfigKey('GLIDER_ORGID'),
+        GLIDER_FIXED_USAGE:(getConfigKey('GLIDER_FIXED_USAGE',"yes")==="yes"),
+    };
+
+const ROOMS_BASEURL = getConfigKey('ROOMS_BASEURL');
+const ROOMS_CONFIG =
+    {
+        BASE_URL:ROOMS_BASEURL,
+        ENABLE_ROOMS_SEARCH: (getConfigKey('ENABLE_ROOMS_SEARCH',"yes")==="yes"),
+        ROOMS_ORGID: getConfigKey('ROOMS_ORGID'),
+        // ROOMS_TOKEN: getConfigKey('ROOMS_TOKEN'),
     };
 
 const ORGID = {
     OTA_ORGID: getConfigKey('OTA_ORGID'),
+    OTA_PRIVATE_KEY: getConfigKey('OTA_PRIVATE_KEY'),
+    OTA_PRIVATE_KEY_ID: getConfigKey('OTA_PRIVATE_KEY_ID','webserver'),
+    P2P_GRAPH_URL:getConfigKey('P2P_GRAPH_URL','https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten'),
+    P2P_ENABLE_DISCOVERY:(getConfigKey('P2P_ENABLE_DISCOVERY',"no")==="yes")
 }
 
-const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL') || `https://${enviroment}.api.simard.io/api/v1`;
+const SIMARD_BASEURL = getConfigKey('SIMARD_BASEURL');
 
 const SIMARD_CONFIG =
     {
         SIMARD_TOKEN: getConfigKey('SIMARD_JWT'),
+        DEPOSITS_URL: SIMARD_BASEURL + "/balances/deposits",
         GUARANTEES_URL: SIMARD_BASEURL + "/balances/guarantees",
         CREATE_WITH_OFFER_URL: SIMARD_BASEURL + "/orders/createWithOffer",
         SIMULATE_DEPOSIT_URL: SIMARD_BASEURL + "/balances/simulateDeposit",
-        ORGID: getConfigKey('SIMARD_ORGID') || "0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171",
-        DEPOSIT_EXPIRY_DAYS:14,
+        ORGID: getConfigKey('SIMARD_ORGID', "0x5e6994f76764ceb42c476a2505065a6170178a24c03d81c9f372563830001171"),
+        DEPOSIT_EXPIRY_DAYS: 14,
+        QUOTE_URL: `${SIMARD_BASEURL}/quotes`,
+        SWAP_URL: `${SIMARD_BASEURL}/balances/swap`,
+        RATE_URL: `${SIMARD_BASEURL}/rates`,
+        ENABLE_CURRENCY_CONVERSION:getConfigKey("SIMARD_ENABLE_CURRENCY_CONVERSION") === "yes"
     };
 
 
 const REDIS_CONFIG =
     {
-        REDIS_PORT: (getConfigKey('REDIS_PORT') && parseInt(getConfigKey('REDIS_PORT'))) || 14563,
+        REDIS_PORT: getConfigKey('REDIS_PORT',14563),
         REDIS_HOST: getConfigKey('REDIS_HOST'),
         REDIS_PASSWORD: getConfigKey('REDIS_PASSWORD'),
         SESSION_TTL_IN_SECS: 60 * 60,
@@ -83,7 +80,7 @@ const STRIPE_CONFIG =
         PUBLISHABLE_KEY: getConfigKey('STRIPE_PUBLISHABLE_KEY'),
         SECRET_KEY: getConfigKey('STRIPE_SECRET_KEY'),
         WEBHOOK_SECRET: getConfigKey('STRIPE_WEBHOOK_SECRET'),
-        BYPASS_WEBHOOK_SIGNATURE_CHECK: (getConfigKey('STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK') === "yes"),
+        BYPASS_WEBHOOK_SIGNATURE_CHECK: (getConfigKey('STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK',"no") === "yes")
     };
 const ELASTIC_CONFIG =
     {
@@ -92,17 +89,22 @@ const ELASTIC_CONFIG =
 
 const GENERIC_CONFIG =
     {
-        ENVIRONMENT: determineEnviroment(),
-        ENABLE_HEALHCHECK:(getConfigKey('HEALTHCHECK_ENABLE') === "yes"),
-        DEVELOPMENT_MODE:(getConfigKey('DEVELOPMENT_MODE') === "yes")
+        ENVIRONMENT: activeProfile,
+        ENABLE_HEALHCHECK: (getConfigKey('HEALTHCHECK_ENABLE','no') === "yes"),
+        DEVELOPMENT_MODE: (getConfigKey('DEVELOPMENT_MODE','no') === "yes")
     };
 const SENDGRID_CONFIG =
     {
         SENDGRID_API_KEY: getConfigKey('SENDGRID_API_KEY'),
-        FROM_EMAIL_ADDR: getConfigKey('SENDGRID_FROM_EMAIL_ADDR') || 'noreply@glider.travel',
-        TEMPLATE_ID: getConfigKey('SENDGRID_TEMPLATE_ID') || 'd-199fb2f410334d1296b0176e0435c4a7',
+        FROM_EMAIL_ADDR: getConfigKey('SENDGRID_FROM_EMAIL_ADDR', 'noreply@glider.travel'),
+        TEMPLATE_ID: getConfigKey('SENDGRID_TEMPLATE_ID','d-199fb2f410334d1296b0176e0435c4a7'),
     };
 
+const CRYPTO_CONFIG = {
+    DEFAULT_NETWORK: getConfigKey('DEFAULT_NETWORK'),
+    INFURA_ENDPOINT: getConfigKey('INFURA_ENDPOINT'),
+    PRICING_DEVELOPMENT_MODE: getConfigKey('PRICING_DEVELOPMENT_MODE') === "yes"    //if yes, prices for crypto payment will be divided by 10 to minimize usage of coins
+};
 
 module.exports = {
     GLIDER_CONFIG,
@@ -113,5 +115,9 @@ module.exports = {
     ELASTIC_CONFIG,
     ORGID,
     GENERIC_CONFIG,
-    SENDGRID_CONFIG
+    SENDGRID_CONFIG,
+    CRYPTO_CONFIG,
+    ROOMS_CONFIG
 };
+
+

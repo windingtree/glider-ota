@@ -25,6 +25,7 @@ export class FlightSearchResultsFilterHelper {
 
         //apply "offer level" filters (e.g. price range or baggage allowance to limit the amount of offers to process in next steps
         offers = this.applyOfferFilters(offers,filters);
+        // console.log('Offers:', offers);
 
         //now iterate over each offer,
         // calculate basic metadata (e.g. trip duration, number of stops, operating carriers)

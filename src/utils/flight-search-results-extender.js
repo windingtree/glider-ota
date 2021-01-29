@@ -8,6 +8,10 @@ const mergeRoundTripOffers = (searchResults) => {
         return searchResults;
     }
 
+    //if there are no offers - do nothing
+    if(!searchResults.offers || Object.keys(searchResults.offers).length == 0)
+        return searchResults;
+
     // Check if we have a roundtrip flight Search
     let isReturn = false;
     const combinations = searchResults.itineraries.combinations;

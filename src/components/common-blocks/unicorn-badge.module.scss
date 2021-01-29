@@ -1,0 +1,29 @@
+@import 'src/styles/mixins';
+
+.badge {
+  @include g-font($g-fontsize-m,$g-color-black,$g-fontweight-normal);
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: $glider-color-primary-background;
+  background-clip: padding-box;
+  align-items: center;
+  height: auto;
+  padding-left: 8px;
+  padding-right: 8px;
+  //margin-top:8px;
+  margin-left: 4px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.badge::after {
+  position: absolute;
+  top: -1px; bottom: -1px;
+  left: -1px; right: -1px;
+  background: linear-gradient(230.95deg, #A8DC3B 16.72%, rgba(59, 185, 86, 0.677083) 39.15%, rgba(77, 103, 141, 0.442708) 54.1%, rgba(159, 59, 220, 0.4) 71.86%, rgba(220, 59, 146, 0.56) 89.14%, #DC3B3B 105.97%);
+  content: '';
+  z-index: -1;
+  border-radius: 8px;
+}
+

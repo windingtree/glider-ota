@@ -3,7 +3,7 @@ import {
     action
 } from '@storybook/addon-actions';
 
-import searchResults from "../../data/sample_response_hotels_simulator.json"
+import searchResults from "../storybook-utils/mock-data/sample_response_hotels_simulator.json"
 import {AmenitiesFilter} from "./amenities-filter";
 
 export default {

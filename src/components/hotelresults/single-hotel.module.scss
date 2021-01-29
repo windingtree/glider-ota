@@ -6,10 +6,10 @@
     border-radius: 5px;
     min-height: 180px;
     justify-content: center;
-    background: #FFFFFF;
+    background: $glider-color-primary-background;
 }
 .container:hover {
-    background-color: aliceblue;
+    background-color: $glider-color-primary-background-hover;
 }
 .imagecontainer{
     height: 158px;

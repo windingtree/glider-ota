@@ -1,3 +1,5 @@
+@import 'src/styles/mixins';
+
 %status {
     height: 24px;
     width: 24px;
@@ -49,3 +51,19 @@
     margin-top: 50px;
     text-align: center;
 }
+
+.header{
+
+}
+
+.sectionHeader{
+    @include g-font($glider-font-size-xxl,$g-color-black, $g-fontweight-normal)
+}
+
+.sectionBody{
+    background-color: $glider-color-primary-background;
+    padding: 20px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+

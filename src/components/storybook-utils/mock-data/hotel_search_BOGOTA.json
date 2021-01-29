@@ -1,0 +1,449 @@
+{
+  "accommodations": {
+    "5fb965566eefeb0008ad9613": {
+      "name": "Grand",
+      "type": "hotel",
+      "description": "Hotel provided by Rooms project.",
+      "location": {
+        "coordinates": {
+          "latitude": 4.678678206786526,
+          "longitude": -74.06963109970094
+        }
+      },
+      "rating": 5,
+      "contactInformation": {
+        "phoneNumbers": [],
+        "emails": [],
+        "address": {
+          "streetAddress": "Some place in South America",
+          "premise": "",
+          "locality": "",
+          "postalCode": "",
+          "country": ""
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {},
+      "media": [
+        {
+          "type": "photo",
+          "url": "https://www.avontuura.com/wp-content/uploads/2019/06/1-1024x777.jpg"
+        }
+      ],
+      "roomTypes": {
+        "5fbf5bcc643398000987181c": {
+          "name": "Small",
+          "description": "Room provided by Rooms project.",
+          "amenities": [
+            "WiFi",
+            "Double Bed",
+            "Phone"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://caspiannews.com/media/caspian_news/all_original_photos/1532877540_1694257_1532877439_2977984main.jpg"
+            }
+          ],
+          "policies": {}
+        },
+        "5fbf5bd1643398000987181d": {
+          "name": "Large x",
+          "description": "Room provided by Rooms project.",
+          "amenities": [
+            "Air Conditioning"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://images.oyoroomscdn.com/uploads/hotel_image/85734/acb05ff883b580d5.jpg"
+            }
+          ],
+          "policies": {}
+        },
+        "5fbf5bd5643398000987181e": {
+          "name": "Very Small",
+          "description": "Room provided by Rooms project.",
+          "amenities": [
+            "Phone",
+            "Massage"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://www.nepalnow.blog/wp-content/uploads/2018/07/IMG_5403.jpg"
+            }
+          ],
+          "policies": {}
+        },
+        "5fbf706740aeff00083ddaf2": {
+          "name": "Maybe this?",
+          "description": "Room provided by Rooms project.",
+          "amenities": [],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://media.timeout.com/images/103327378/image.jpg"
+            }
+          ],
+          "policies": {}
+        },
+        "5fc8b57025c09c00083c2dff": {
+          "name": "Minor",
+          "description": "Room provided by Rooms project.",
+          "amenities": [
+            "Massage",
+            "Balcony"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://images.adsttc.com/media/images/5010/15f8/28ba/0d42/2200/09b1/newsletter/stringio.jpg?1414026169"
+            }
+          ],
+          "policies": {}
+        }
+      }
+    },
+    "5fbfa12d3151060008397a0e": {
+      "name": "Bogota Grande",
+      "type": "hotel",
+      "description": "Hotel provided by Rooms project.",
+      "location": {
+        "coordinates": {
+          "latitude": 4.64379524702172,
+          "longitude": -74.1110122203827
+        }
+      },
+      "rating": 5,
+      "contactInformation": {
+        "phoneNumbers": [],
+        "emails": [],
+        "address": {
+          "streetAddress": "PROS Ingeniería, Cl. 60 #30 14 Of. 202, Bogotá, Colombia",
+          "premise": "",
+          "locality": "",
+          "postalCode": "",
+          "country": ""
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {},
+      "media": [
+        {
+          "type": "photo",
+          "url": "https://specials-images.forbesimg.com/imageserve/1182337590/960x0.jpg?fit=scale"
+        }
+      ],
+      "roomTypes": {
+        "5fbfa1f884170f0008a2da0f": {
+          "name": "Double room",
+          "description": "Room provided by Rooms project.",
+          "amenities": [
+            "Double Bed",
+            "Balcony",
+            "Air Conditioning"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://breathelife2030.org/wp-content/uploads/2019/05/Bogota_Candelaria.jpg"
+            }
+          ],
+          "policies": {}
+        },
+        "5fbfa22684170f0008a2da10": {
+          "name": "Single room",
+          "description": "Room provided by Rooms project.",
+          "amenities": [
+            "Massage"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://cf.bstatic.com/images/hotel/max1024x768/162/162320170.jpg"
+            }
+          ],
+          "policies": {}
+        }
+      }
+    },
+    "5fbfb4e37ab5af000821a38a": {
+      "name": "Devcon Hotel 1",
+      "type": "hotel",
+      "description": "Hotel provided by Rooms project.",
+      "location": {
+        "coordinates": {
+          "latitude": 4.633012969621998,
+          "longitude": -74.08055305480958
+        }
+      },
+      "rating": 5,
+      "contactInformation": {
+        "phoneNumbers": [],
+        "emails": [],
+        "address": {
+          "streetAddress": "bogota",
+          "premise": "",
+          "locality": "",
+          "postalCode": "",
+          "country": ""
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {},
+      "media": [
+        {
+          "type": "photo",
+          "url": "https://cms.qz.com/wp-content/uploads/2015/06/exterior.jpg?quality=75&strip=all&w=900&h=900&crop=1"
+        }
+      ],
+      "roomTypes": {
+        "5fbfb585e8dca2000805bc32": {
+          "name": "Double Room",
+          "description": "Room provided by Rooms project.",
+          "amenities": [],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://i0.wp.com/curlytraveller.com/wp-content/uploads/2014/08/coolhotelssingapore1.jpg?resize=1000%2C750"
+            }
+          ],
+          "policies": {}
+        },
+        "5fbfb5a4e8dca2000805bc33": {
+          "name": "Triple Room",
+          "description": "Room provided by Rooms project.",
+          "amenities": [],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F28%2F2020%2F02%2Faerial-the-oasis-at-death-valley-DVOASIS0419.jpg"
+            }
+          ],
+          "policies": {}
+        }
+      }
+    }
+  },
+  "pricePlans": {
+    "BAR": {
+      "name": "Winding Tree BAR",
+      "penalties": {
+        "refund": {
+          "refundable": true
+        }
+      }
+    }
+  },
+  "offers": {
+    "b0871bad-b21d-42cb-ba23-cbba21138612": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fb965566eefeb0008ad9613",
+          "roomType": "5fbf5bcc643398000987181c"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 74.03,
+        "taxes": 0
+      }
+    },
+    "98a978e2-bbcc-4b13-bc5f-e519d96d8215": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fb965566eefeb0008ad9613",
+          "roomType": "5fbf5bd1643398000987181d"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 85.04,
+        "taxes": 0
+      }
+    },
+    "38132557-4227-42fc-8055-29737d37c5d0": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fb965566eefeb0008ad9613",
+          "roomType": "5fbf5bd5643398000987181e"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 126.53,
+        "taxes": 0
+      }
+    },
+    "fc764366-2a9c-4ecd-88f9-6b7acb16eae5": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fb965566eefeb0008ad9613",
+          "roomType": "5fbf706740aeff00083ddaf2"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 143.85,
+        "taxes": 0
+      }
+    },
+    "d24ff5dc-caa8-41fd-9349-430aadc7b40e": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fbfa12d3151060008397a0e",
+          "roomType": "5fbfa1f884170f0008a2da0f"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 133.56,
+        "taxes": 0
+      }
+    },
+    "dabd2b26-54cc-40a0-bb72-c8cd9210b23f": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fbfa12d3151060008397a0e",
+          "roomType": "5fbfa22684170f0008a2da10"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 91.35,
+        "taxes": 0
+      }
+    },
+    "6a3bfc7c-2650-4740-a99a-a6355611036a": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fbfb4e37ab5af000821a38a",
+          "roomType": "5fbfb585e8dca2000805bc32"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 103.95,
+        "taxes": 0
+      }
+    },
+    "38338d68-03e3-423e-a874-3056de530ca9": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fbfb4e37ab5af000821a38a",
+          "roomType": "5fbfb5a4e8dca2000805bc33"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 208.95,
+        "taxes": 0
+      }
+    },
+    "61867182-366a-4836-9c3e-a29ef35c23c5": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fb965566eefeb0008ad9613",
+          "roomType": "5fc8b57025c09c00083c2dff"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 104.48,
+        "taxes": 0
+      }
+    }
+  },
+  "passengers": {
+    "PAX1": {
+      "type": "ADT"
+    }
+  },
+  "metadata": {
+    "uuid": "c39ee1eb-c71f-4f09-9e32-811f33063771",
+    "timestamp": "2020-12-08T19:59:01.994Z",
+    "numberOfOffers": 9
+  }
+}

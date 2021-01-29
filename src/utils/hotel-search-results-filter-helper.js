@@ -13,7 +13,6 @@ export class HotelSearchResultsFilterHelper {
      * @returns {[]}
      */
     generateSearchResults(filters = {}) {
-        console.log("generateSearchResults, filters:", filters)
         let result = [];
         let hotels = this.searchResultsWrapper.getAllAccommodations();
         let offers = this.searchResultsWrapper.getAllOffers();
@@ -42,13 +41,16 @@ export class HotelSearchResultsFilterHelper {
         let minPrice = Number.MAX_SAFE_INTEGER;
         let minOffer = undefined;
 
-        Object.keys(offers).forEach(offerId => {
-            let offer = offers[offerId];
-            if (parseInt(offer.price.public) < minPrice)
+        let accommodationOffers = this.getOffersOfAccommodationOnly(accommodationId,offers)
+        //
+        Object.keys(accommodationOffers).forEach(offerId => {
+            let offer = accommodationOffers[offerId];
+            if (parseInt(offer.price.public) < minPrice){
+                minPrice = offer.price.public;
                 minOffer = offer;
+            }
         })
         return minOffer;
-
     }
 
     applyOfferFilters(offers, filters) {
@@ -111,7 +113,21 @@ export class HotelSearchResultsFilterHelper {
 
         return result;
     }
-
+    getOffersOfAccommodationOnly(accommodationId, allOffers){
+        let filteredOffers = {};
+        Object.keys(allOffers).forEach(offerId => {
+            let offer =  allOffers[offerId];
+            if(offer.pricePlansReferences){
+                Object.keys(offer.pricePlansReferences).forEach(pricePlanRefId=>{
+                    let pricePlanReference=offer.pricePlansReferences[pricePlanRefId];
+                    if(pricePlanReference && pricePlanReference.accommodation === accommodationId){
+                        filteredOffers[offerId] = offer;
+                    }
+                })
+            }
+        })
+        return filteredOffers;
+    }
 
 }
 

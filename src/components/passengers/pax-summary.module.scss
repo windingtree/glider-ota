@@ -6,7 +6,7 @@
 }
 
 .header{
-  @include _glider-font-h2;
+  @include g-font($glider-font-size-xl,$g-color-black,$g-fontweight-bold);
   padding-bottom: 40px;
 }
 

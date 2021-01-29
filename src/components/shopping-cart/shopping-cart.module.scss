@@ -1,0 +1,173 @@
+@import 'src/styles/mixins';
+
+.cartContainer{
+  background: $glider-color-primary-background;
+  border-radius: 8px;
+  position: sticky;
+
+  @include media-max-md {
+    display: none;
+  }
+}
+
+.cartContainerMobile {
+  position: relative;
+  background: $glider-color-primary-background;
+  border-radius: 8px;
+
+  @include media-max-md {
+    position: fixed;
+    min-width: 300px;
+    max-width: 50vw;
+    right: 0;
+    left: 0;
+    bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cartOverlay {
+  @include media-max-md {
+    &:before {
+      display: block;
+      position: fixed;
+      content: "";
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.05);
+    }
+  }
+}
+
+.cartFloatingButton {
+  display: none;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 70%;
+  padding: 16px 10px;
+  @include g-font($g-fontsize-xl,white,$g-fontweight-normal);
+  background-color: $glider-color-primary;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  @include media-max-md {
+    display: block;
+  }
+}
+
+.cartHeader{
+  padding: 20px 20px 1rem 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cartBody {
+  padding: 1rem 0 1rem 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 110px);
+}
+
+.cartHeaderTitle {
+  @include g-font($g-fontsize-xl,$glider-color-primary,$g-fontweight-normal);
+}
+
+.cartHeaderCloseBtn {
+  @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
+  cursor: pointer;
+}
+
+.subtotalItem{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+}
+
+.subtotalItemLabel{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+}
+
+.subtotalItemAmount{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+  text-align: right;
+}
+
+.totalItemLabel{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal);
+}
+
+.totalItemAmount{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal);
+  text-align: right;
+}
+
+.hotelItemHotelImage{
+    width: 100%;
+    height: 100%;
+  margin: 20px 0px;
+  border-radius: 8px;
+}
+
+.hotelItemHotelName {
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal)
+}
+.hotelItemRoomName {
+  @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-normal)
+}
+
+.flightOfferWrapper {
+  padding: 0 20px 0 20px;
+}
+
+.flightOfferBottomWrapper {
+  padding: 0 20px 20px 20px;
+}
+
+.cartBodyBottom {
+  margin-top: 10px;
+}
+
+.cartFooter {
+  padding: 1rem 0 0.5rem 0;
+}
+
+.bookHotelLink {
+  display: flex;
+  text-align: center;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  color: #543CE2;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+.bookHotelLoading {
+  margin-left: 5px;
+  width: 18px;
+  height: 18px;
+  border-width: 0.15em;
+}
+
+.debugLinks{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+  cursor: pointer;
+  color: #543CE2;
+}
+
+.cartItem{
+  position: relative;
+}
+.removeFromCartBtn {
+  position: absolute;
+  top:0px;
+  right:0px;
+}

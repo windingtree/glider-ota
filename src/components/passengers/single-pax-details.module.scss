@@ -7,6 +7,7 @@
 
 .paxdetails label{
     @include _glider-font-text12;
+    color: $glider-color-text;
 }
 
 .paxdetails input::placeholder{
@@ -19,11 +20,11 @@
 
 .label{
     @include _glider-font-regular18;
+    color: $glider-color-text;
 }
 
 .header{
     @include _glider-font-text24medium;
-    padding-bottom: 20px;
-    padding-top:60px;
+    color: $glider-color-text;
+    padding: 20px 0;
 }
-

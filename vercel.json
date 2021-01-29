@@ -1,0 +1,28 @@
+{
+    "version": 2,
+    "functions": {
+        "api/**/*.js": {
+          "memory": 3008,
+          "maxDuration": 60,
+          "includeFiles": "api/**/*.json"
+        }
+    },
+  "env": {
+    "STAGING_MONGO_URL": "@staging.glider-ota.mongo.uri2",
+    "PRODUCTION_MONGO_URL": "@production.glider-ota.mongo.uri",
+
+    "STAGING_SIMARD_JWT": "@staging.glider-ota.simard_jwt",
+    "PRODUCTION_SIMARD_JWT": "@production.glider-ota.simard_jwt",
+
+    "STAGING_PROFILE_SECRET": "@staging.glider-ota.profile_secret",
+    "PRODUCTION_PROFILE_SECRET": "@production.glider-ota.profile_secret"
+  },
+  "build": {
+    "env": {
+      "STAGING_MONGO_URL": "@staging.glider-ota.mongo.uri2",
+      "PRODUCTION_MONGO_URL": "@production.glider-ota.mongo.uri",
+      "STAGING_PROFILE_SECRET": "@staging.glider-ota.profile_secret",
+      "PRODUCTION_PROFILE_SECRET": "@production.glider-ota.profile_secret"
+    }
+  }
+}

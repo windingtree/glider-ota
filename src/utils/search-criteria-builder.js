@@ -46,11 +46,13 @@ export default class SearchCriteriaBuilder {
   }
 
   withTransportDepartureDate (departureDate) {
+    console.log('##########', departureDate);
     this.searchCriteria.transportDepartureDate = formatISO(departureDate);
     return this;
   }
 
   withTransportReturnDate (returnDate) {
+    console.log('&&&&&&&&&&', returnDate);
     this.searchCriteria.transportReturnDate = formatISO(returnDate);
     return this;
   }

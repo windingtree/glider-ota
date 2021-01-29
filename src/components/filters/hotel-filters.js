@@ -5,8 +5,10 @@ import {FILTERS} from "./filters-utils";
 import {HotelRatingFilter} from "./hotel-rating-filter";
 import {NightPriceFilter} from "./night-price-filter";
 import {AmenitiesFilter} from "./amenities-filter";
+import {applyHotelFilterAction, hotelsFiltersSelector, hotelSearchResultsSelector} from "../../redux/sagas/shopping-flow-store";
+import {connect} from "react-redux";
 
-export default function HotelFilters({searchResults, onFiltersChanged}) {
+export function HotelFilters({searchResults, onFiltersChanged}) {
     const [filterStates, setFilterStates] = useState({})
 
     function filterChanged(filterId, filterState) {
@@ -16,6 +18,12 @@ export default function HotelFilters({searchResults, onFiltersChanged}) {
         console.log(`Filters - filter ${filterId} was changed, list of filters:${JSON.stringify(newFilterStates)}`);
         onFiltersChanged(newFilterStates);
     }
+
+    //don't show filters if there are no results
+    if(!searchResults){
+        return (<></>)
+    }
+
 
     return (
         <>
@@ -28,3 +36,16 @@ export default function HotelFilters({searchResults, onFiltersChanged}) {
     )
 }
 
+const mapStateToProps = state => ({
+    filters: hotelsFiltersSelector(state),
+    searchResults:hotelSearchResultsSelector(state)
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFiltersChanged: (filters) => {
+            dispatch(applyHotelFilterAction(filters))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(HotelFilters);

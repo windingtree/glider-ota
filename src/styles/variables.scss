@@ -1,16 +1,38 @@
+@import 'src/styles/theme';
+
 /**
 variables.scss
 variable definitions
  */
-$glider-color-primary: #7161D6;
-$glider-color-body-background: #F3F4F6;
-$glider-color-primary-background: #ffffff;
-$glider-color-hover: #F1FCFF;
-$glider-color-text: #202020;
-$glider-color-text-background: #BBBBBB;
+/*
+
+$glider-color-primary: yellow;
+$glider-color-body-background: #555555;
+$glider-color-primary-background: #555555;
+$glider-color-primary-background-hover: #444444;
+
+$glider-color-text: #dcdcdc;
+$glider-color-text-background: #555555;
+$glider-color-text-labels: white;
 $glider-font-family-base:'Poppins', sans-serif;
 
+$glider-color-inputfields-background: pink;
+$glider-color-inputfields-background-hover: blue;
+$glider-color-inputfields-text: red;
+$glider-color-inputfields-text-secondary: yellow;
+*/
 
+
+$glider-primary-buttons-border: 0px solid $glider-color-primary;
+$glider-primary-inactive-color:white;
+$glider-primary-inactive-buttons-border:1px solid $glider-primary-inactive-color;
+
+
+$glider-font-size-xs:12px;
+$glider-font-size-m:14px;
+$glider-font-size-l:16px;
+$glider-font-size-xl:18px;
+$glider-font-size-xxl:22px;
 
 //BREAKPOINTS
 
@@ -41,4 +63,21 @@ $grid-breakpoints: (
         md: $glider-break-md,
         lg: $glider-break-lg,
         xl: $glider-break-xl
-) ;
+);
+
+
+:root {
+  --theme-color: #FF0000;
+  --glider-color-primary: #{$glider-color-primary};
+  --glider-color-body-background: #{$glider-color-body-background};
+  --glider-color-primary-background: #{$glider-color-primary-background};
+  --glider-color-primary-background-hover: #{$glider-color-primary-background-hover};
+  --glider-color-text: #{$glider-color-text};
+  --glider-color-text-background: #{$glider-color-text-background};
+  --glider-color-text-labels: #{$glider-color-text-labels};
+  --glider-font-family-base:#{$glider-font-family-base};
+}
+/*@if $theme == "default" {
+  @import './theme';
+}*/
+

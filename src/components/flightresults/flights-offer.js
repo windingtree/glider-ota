@@ -1,27 +1,59 @@
 import React, {useState} from 'react'
 import style from './flights-offer.module.scss'
-import {Container, Row, Col, Button} from 'react-bootstrap'
+import {Col, Container, Row} from 'react-bootstrap'
 import {format, parseISO} from "date-fns";
 import OfferUtils from '../../utils/offer-utils'
 import _ from 'lodash'
+import {
+    addFlightToCartAction,
+    deleteOfferFromCartAction,
+    flightOfferSelector,
+    isShoppingCartUpdateInProgress
+} from "../../redux/sagas/shopping-cart-store";
+import {connect} from "react-redux";
+import {IconPlaneDeparture} from '../icons/icons';
+import {JourneySummary} from "../flight-blocks/journey-summary"
+import {AddToTrip} from "../common-blocks/add-to-trip-button"
+import {HorizontalDottedLine} from "../common-blocks/horizontal-line"
 
+export function Offer(props) {
+    const {
+        offer,
+        itineraries = [],
+        price,
+        offerId,
+        onOfferDisplay,
+        onAddOfferToCart = () => {},
+        onDeleteOfferFromCart = () => {},
+        isCartInProgress,
+        cartFlightOffer
+    } = props;
+    const [updateStarted, setUpdateStarted] = useState(false);
+    const isAlreadyAdded= cartFlightOffer &&
+        cartFlightOffer.offerId === offer.offerId;
 
-export function Offer({itineraries = [], price, offerId, onOfferDisplay}) {
+    const addOfferToCart = () =>{
+        setUpdateStarted(true);
+        onAddOfferToCart(offer.offerId, offer, price, itineraries);
+    }
+
+    const deleteOfferFromCart = () =>{
+        setUpdateStarted(true);
+        onDeleteOfferFromCart(offer.offerId);
+    }
+
     return (
-        <Container fluid={true} className={style.flightsearchoffercontainer}>
-            <Row>
-                {itineraries.length > 0 && (<Itinerary itinerary={itineraries[0]}/>)}
-                {itineraries.length > 1 && (<Itinerary itinerary={itineraries[1]}/>)}
-                {itineraries.length > 3 && (<Itinerary itinerary={itineraries[2]}/>)}
-            </Row>
-            <Row className='flex-row-reverse'>
-                <Col xs={12} md={4}>
-                    <Button variant="outline-primary pricebtn" size="lg" onClick={() => {
-                        onOfferDisplay(offerId)
-                    }}>{price.public} {price.currency}</Button>
-                </Col>
-            </Row>
-        </Container>
+        <div className={style.flightsearchoffercontainer}>
+            <JourneySummary itineraries={itineraries}/>
+            <HorizontalDottedLine/>
+            <AddToTrip
+                isProgress={isCartInProgress && updateStarted}
+                isAlreadyAdded={isAlreadyAdded}
+                priceCurrency={price.currency}
+                priceAmount={price.public}
+                onAdd={isAlreadyAdded ? deleteOfferFromCart : addOfferToCart}
+            />
+        </div>
     )
 }
 
@@ -54,8 +86,8 @@ export function Itinerary({itinerary}) {
         <Container fluid={true}>
             <Row>
                 <Col xs={12} md={4} className={style.itinRow}>
+                    <div className={style.itinDptrdate}><IconPlaneDeparture/><span className={'ml-3'}>{format(startOfTrip, 'dd MMM, EE')}</span></div>
                     <div className={style.itinTimes}>{format(startOfTrip, 'HH:mm')} - {format(endOfTrip, 'HH:mm')}</div>
-                    <div className={style.itinDptrdate}>{format(startOfTrip, 'dd MMM, EE')}</div>
                 </Col>
                 <Col xs={12} md={4} className={style.itinRow}>
                     <Row noGutters={true}>
@@ -102,7 +134,7 @@ export function AirlineLogo({iatacode,tooltip, airlineName}){
     const MISSING_LOGO='missing';
     let imgPath = "/airlines/" + img + ".png";
     return (
-        (<img key={iatacode} src={imgPath} title={tooltip} className={style.itinCarrierLogo} onError={() => setImg(MISSING_LOGO)}/>)
+        (<img key={iatacode} src={imgPath} alt={tooltip} title={tooltip} className={style.itinCarrierLogo} onError={() => setImg(MISSING_LOGO)}/>)
     )
 }
 
@@ -112,10 +144,22 @@ function ItineraryAncillaries({pricePlan}) {
         fba=parseInt(pricePlan.checkedBaggages.quantity)
     return (
         <span>
-            {fba === 0 && <img src="/ancillaries/luggage_notallowed.png"/>}
-            {fba > 0 && <img src="/ancillaries/luggage_allowed.png"/>}
+            {fba === 0 && <img alt="luggage not allowed" src="/ancillaries/luggage_notallowed.png"/>}
+            {fba > 0 && <img alt="luggage allowed" src="/ancillaries/luggage_allowed.png"/>}
         </span>
     )
 }
 
+const mapStateToProps = state => ({
+    isCartInProgress: isShoppingCartUpdateInProgress(state),
+    cartFlightOffer: flightOfferSelector(state)
+});
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onAddOfferToCart: (offerId, offer, price, itineraries) => dispatch(addFlightToCartAction(offerId, offer, price, itineraries)),
+        onDeleteOfferFromCart: offerId => dispatch(deleteOfferFromCartAction(offerId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Offer);

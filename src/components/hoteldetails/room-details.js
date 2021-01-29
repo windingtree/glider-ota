@@ -1,49 +1,64 @@
-import React,{useState} from 'react'
+import React, {useState} from 'react'
 
 import './hotel-details.module.scss'
-import style from  './room-details.module.scss'
-import {Button, Image} from 'react-bootstrap'
+import style from './room-details.module.scss'
 import _ from 'lodash'
-import default_hotel_image from "../../assets/default_hotel_image.png";
 
-export default function Room({room, roomPricePlansWithOffers, onOfferSelected, selectedOffer}) {
+import {ImageGallery} from "../accommodation-blocks/hotel-images"
+import {RoomAmenities} from "../accommodation-blocks/room-amenities"
+import {AddToTrip} from "../common-blocks/add-to-trip-button"
+
+
+export function Room(props) {
+    const {
+        room,
+        roomPricePlansWithOffers,
+        selectedOffer,
+        onAddOfferToCart,
+        onDeleteOfferFromCart,
+        isCartInProgress,
+        cartHotelOffer
+    } = props;
+
+    const roomImages = room.media;
+
     return (
         <div className={style.roomContainer}>
-            <div className={style.roomName} >{room.name}</div>
+            <ImageGallery images={roomImages}/>
+            <div className={style.roomName}>{room.name}</div>
+            <div className={style.roomDescription}>{room.description}</div>
+            <MaxOccupation maximumOccupancy={room.maximumOccupancy}/>
+            <RoomSize room={room}/>
+            <div className={'pt-4 pb-4'}>
+                <RoomAmenities amenities={room.amenities} defaultExpanded={true}/>
+            </div>
+            <div></div>
             <div className='d-flex flex-row flex-wrap flex-fill'>
-                <div className='room-details__col1 d-flex flex-column pr-2' >
-                    {/*<div className='glider-font-h2-fg'>{room.name}</div>*/}
-                    {/*{room.roomTypeId}*/}
-                    {/*<div>{room.description}</div>*/}
-                    <div ><RoomImage images={room.media}/></div>
-                    <div className='glider-font-text16-fg'><RoomSize room={room}/></div>
-                    <div>
-                        <RoomAmenities amenities={room.amenities}/>
-                    </div>
-                    {/*<Col className='border'>TOTAL PRICE</Col>*/}
-                </div>
                 <div className='room-details__col2 d-flex flex-column flex-fill'>
                     {
                         roomPricePlansWithOffers.map(plan => {
                             let key = plan.offerId + room.roomTypeId + plan.pricePlanReference;
                             return (
-                                <RoomPricePlan key={key}
-                                           offer={plan} room={room} pricePlan={plan.pricePlan}
-                                           onOfferSelected={onOfferSelected} selectedOffer={selectedOffer}/>
+                                <RoomPricePlan
+                                    key={key}
+                                    offer={plan}
+                                    pricePlan={plan.pricePlan}
+                                    selectedOffer={selectedOffer}
+                                    onAddOfferToCart={onAddOfferToCart}
+                                    onDeleteOfferFromCart={onDeleteOfferFromCart}
+                                    isCartInProgress={isCartInProgress}
+                                    cartHotelOffer={cartHotelOffer}
+                                />
                             )
                         })
                     }
                 </div>
             </div>
-            {/*       <Row>
-            <Col>Policies</Col>
-            <Col><RoomPolicies policies={room.policies}/> </Col>
-        </Row>*/}
         </div>
     )
 }
 
-const RoomSize = ({room}) =>{
+ const RoomSize = ({room}) =>{
     let size = '';
     if(room && room.size && room.size.value){
         size+=room.size.value;
@@ -52,69 +67,90 @@ const RoomSize = ({room}) =>{
         else
             size+=' Sq.M.';
     }
-    return (<span>{size}</span>)
+    return (<div className={style.roomDisclaimer}>{size}</div>)
 }
 
-export function RoomPricePlan({offer, onOfferSelected, pricePlan, room, selectedOffer}) {
-    // let room = offer.room;
-    // let pricePlan = offer.pricePlan;
-    let price = offer.price;
-
-    let isThisSelectedOffer = false;
-    if(selectedOffer){
-        if(selectedOffer.offerId === offer.offerId)
-            isThisSelectedOffer=true;
-    }
-    let {name,penalties} = pricePlan||{}
-    return (<div className='d-flex flex-row flex-wrap border-bottom border-dark pb-3 mb-3'>
-        <div className='glider-font-text18medium-fg d-flex flex-column flex-fill'>
-            <div className={style.pricePlanName}>{name}</div>
-            <div>
-                <MaxOccupation maximumOccupancy={room.maximumOccupancy}/>
-                <PlanPenalties penalties={penalties}/>
-            </div>
-        </div>
-        <div>
-            <div className='glider-font-text18medium-fg'>Total Price</div>
-            <div className='glider-font-h2-fg mb-3'>{price.public} {price.currency} </div>
-            <div><Button onClick={() => onOfferSelected(offer)} variant={isThisSelectedOffer?"primary":"outline-primary"} size="lg">Select room</Button></div>
-        </div>
+ const RoomPrice = ({amount, currency}) =>{
+    return (<div>
+        <div className={style.roomPrice}>{amount} {currency}</div>
+        <div className={style.roomPriceDisclaimer}>includes all taxes and charges</div>
     </div>)
 }
 
 
-export function RoomAmenities({title = "More amenities", amenities, expanded = false}) {
-    const [expandedState, setExpandedState] = useState(expanded);
+export function RoomPricePlan(props) {
+    const {
+        offer,
+        pricePlan,
+        selectedOffer,
+        onAddOfferToCart = () => {},
+        onDeleteOfferFromCart = () => {},
+        isCartInProgress,
+        cartHotelOffer
+    } = props;
+    let price = offer.price;
+    const [updateStarted, setUpdateStarted] = useState(false);
+    // let isThisSelectedOffer = false;
+    // if(selectedOffer){
+    //     if(selectedOffer.offerId === offer.offerId)
+    //         isThisSelectedOffer=true;
+    // }
+    let {name,penalties} = pricePlan||{};
+    const isAlreadyAdded= cartHotelOffer &&
+    cartHotelOffer.offerId === offer.offerId;
 
-    function onClick(e){
-        e.preventDefault();
-        setExpandedState(!expandedState);
+    console.log('###@!@@', isCartInProgress);
+
+    const onAddPricePlanToCart = () =>{
+        if (onAddOfferToCart) {
+            let hotelCartItem = {
+                offer: offer,
+                price:price,
+                offerId:offer.offerId,
+                room: offer.room
+            }
+            setUpdateStarted(true);
+            onAddOfferToCart(hotelCartItem)
+        } else {
+            console.warn('onAddOfferToCart is not defined!');
+        }
     }
 
-    return (<>
-        <div className={style.amenitiesTitle}><a href="return false;" onClick={onClick}>{title}</a></div>
-        {
-            expandedState && amenities.map(rec => {
-                return (<div className={style.amenitiesItem} key={rec}>{rec}</div>)
-            })
-        }
-    </>)
+    const deleteOfferFromCart = () => {
+        setUpdateStarted(true);
+        onDeleteOfferFromCart(offer);
+    }
+
+
+    return (<div>
+            <PlanPenalties penalties={penalties}/>
+            <AddToTrip
+                priceAmount={price.public}
+                priceCurrency={price.currency}
+                isProgress={isCartInProgress && updateStarted}
+                isAlreadyAdded={isAlreadyAdded}
+                onAdd={isAlreadyAdded ? deleteOfferFromCart : onAddPricePlanToCart}
+            />
+            <div className={style.roomPriceDisclaimer}>includes all taxes and charges</div>
+    </div>)
 }
 
-export function PlanPenalties({penalties}){
+
+
+ function PlanPenalties({penalties}){
     if(penalties && penalties.refund) {
         let refund = penalties.refund;
         if (refund.refundable === true) {
-            return (<div className={style.penaltyRefundable}>Refundable</div>)
+            return (<div className={style.roomConditions}>Refundable</div>)
         } else {
-            return (<div className={style.penaltyNonRefundable}>Non-refundable</div>)
+            return (<div className={style.roomConditions}>Non-refundable</div>)
         }
     }else{
         return (<></>)
     }
 }
 
-export function MaxOccupation({maximumOccupancy}){
+ function MaxOccupation({maximumOccupancy}){
     let adults = maximumOccupancy.adults;
     let children = maximumOccupancy.childs?maximumOccupancy.childs:0;
     let text;
@@ -127,11 +163,11 @@ export function MaxOccupation({maximumOccupancy}){
         text += ` and 1 child`;
     else if(children>1)
         text += ` and ${children} children`;
-        return (<div className={style.roomOccupancy}>{text}</div>)
+        return (<div className={style.roomDisclaimer}>{text}</div>)
 }
 
 
-export function RoomPolicies({policies}){
+  function RoomPolicies({policies}){
     return (<>
         {
             _.map(policies, (value, key) => {
@@ -140,14 +176,3 @@ export function RoomPolicies({policies}){
         }
     </>)
 }
-
-export function RoomImage({images}){
-    const image = (images !== undefined && images.length > 0) ? images[0].url : default_hotel_image;
-    return (
-        <div className={style.mainImageContainer}>
-            <Image className={style.mainImage} src={image}/>
-        </div>
-    )
-}
-
-

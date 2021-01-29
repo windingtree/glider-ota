@@ -27,15 +27,25 @@ global stylesheets
 
 }*/
 
+html, body, #root {
+  min-height: 100vh;
+}
 
 .content-wrapper{
   min-height: 600px;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body{
   background: $glider-color-body-background;
-  font-family: 'Poppins', sans-serif;
+  //font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   //font-size: 16px;
+  overflow-x: hidden;
+  position: relative;
 }
 
 //spinner
@@ -71,6 +81,7 @@ body{
   margin: auto;
   padding-left: 10px;
   padding-right: 10px;
+  margin-bottom: 120px;
 
   @include glider-media-medium_768{
     padding-left: 0px;
@@ -87,3 +98,11 @@ body{
   //border: 1px solid black;
 }
 
+button {
+  border: none;
+  background-color: transparent;
+
+  &:focus {
+    outline:0;
+  }
+}

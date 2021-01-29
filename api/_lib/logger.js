@@ -1,4 +1,5 @@
 const winston = require('winston');
+const fs = require('fs');
 /*const client = new Client({
     node: ELASTIC_CONFIG.URL,
     name: 'glider-ota',
@@ -53,5 +54,55 @@ function createLogger(loggerName) {
 }
 
 
+// eslint-disable-next-line no-unused-vars
+const logRQRS = (data = '', suffix = '', provider = '') => {
+    const FOLDER = '/home/kurt/projects/glider-ota/temp';
+    let ts = Date.now();
+    let extension = 'json';
+    try {
+        if (typeof data === 'string') {
+            if (data.search('<soap') > -1 || data.search('<?xml') > -1)
+                extension = 'xml';
+        }
+        if (extension === 'json' && typeof data === 'object')
+            // data = JSON.stringify(data);
+            data = stringifyCircular(data);
 
-module.exports = {createLogger}
+        let filename = `log-${ts}-${suffix}-${provider}.${extension}`;
+        fs.writeFileSync(`${FOLDER}/${filename}`, data);
+    } catch (e) {
+        console.error('Cant log request', e);
+    }
+
+};
+// Stringify object with circular structures
+const stringifyCircular = (obj, indent = null) => {
+    let cache = [];
+
+    return JSON.stringify(obj, (key, value) => {
+
+        if (value instanceof Error) {
+
+            const obj = {};
+            Object.getOwnPropertyNames(value).forEach(key => {
+                obj[key] = value[key];
+            });
+
+            return obj;
+        }
+
+        if (typeof value === 'object' && value !== null) {
+
+            if (cache.indexOf(value) >= 0) {
+
+                return;
+            }
+
+            cache.push(value);
+        }
+
+        return value;
+    }, indent ? indent : undefined);
+};
+
+module.exports = {createLogger, logRQRS}

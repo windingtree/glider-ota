@@ -20,17 +20,22 @@ export async function fetchGet(url,params){
   let urlWithQueryString = url;
   if(queryString.length>0)
     urlWithQueryString+='?'+queryString;
-  let results;
-  try {
-    results = await fetch(urlWithQueryString, options);
-    results = await results.json();
+    let response;
+    let result;
+    try {
+      response = await fetch(urlWithQueryString, options);
+    result = await response.json();
   }catch(error){
-    throw new ApiFetchException("Failed to retrieve data from server")
+    throw new ApiFetchException("Failed to retrieve data from server");
   }
-  if(results.error){
-    throw new ApiFetchException("Error while fetching data from server",results)
+  if(response.error || !response.ok){
+    const message = result.message || result.description || 'Error while fetching data from server';
+    throw new ApiFetchException(
+      message,
+      result
+    );
   }
-  return results;
+  return result;
 }
 
 export async function fetchPost(url,payload){
@@ -41,17 +46,48 @@ export async function fetchPost(url,payload){
     },
     body: JSON.stringify(payload),
   };
-  let results;
+  let response;
+  let result;
   try {
-    results = await fetch(url, options);
-    results = await results.json();
+    response = await fetch(url, options);
+    result = await response.json();
   }catch(error){
     throw new ApiFetchException("Failed to retrieve data from server");
   }
-  if(results.error){
-    throw new ApiFetchException("Error while fetching data from server",results);
+  if(response.error || !response.ok){
+    const message = result.message || result.description || 'Error while fetching data from server';
+    throw new ApiFetchException(
+      message,
+      result
+    );
   }
-  return results;
+  return result;
+}
+
+export async function deleteCall(url,payload){
+  let options = {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+  };
+  let response;
+  let result;
+  try {
+    response = await fetch(url, options);
+    result = await response.json();
+  }catch(error){
+    throw new ApiFetchException("Failed to retrieve data from server");
+  }
+  if(response.error || !response.ok){
+    const message = result.message || result.description || 'Error while fetching data from server';
+    throw new ApiFetchException(
+      message,
+      result
+    );
+  }
+  return result;
 }
 
 ///////////////// PASSENGERS //////////////////////
@@ -69,13 +105,27 @@ export async function storeSelectedOffer(selectedOffer){
   return fetchPost('/api/cart/offer',{offer:selectedOffer});
 }
 
-export async function retrieveSelectedOffer(){
-  return fetchGet('/api/cart/offer',{});
+//server side cart
+export async function storeOfferId(offerId, type){
+  return fetchPost('/api/cart/cartv2',{type:type,offerId:offerId});
+}
+export async function retrieveCart(){
+  return fetchGet('/api/cart/cartv2');
+}
+export async function deleteItemFromCartByType(types){
+  let body={
+    types:types
+  }
+  return deleteCall('/api/cart/cartv2', types);
+}
+export async function deleteItemFromCartByOfferId(offerId){
+  let body={
+    offerId:offerId
+  }
+  return deleteCall('/api/cart/cartv2', body);
 }
 
-export async function storeSelectedAccommodation(selectedOffer){
-  return fetchPost('/api/cart/accommodation',{offer:selectedOffer});
-}
+
 
 ///////////////// SEATMAP //////////////////////
 export async function retrieveSeatmap() {
@@ -88,8 +138,13 @@ export async function addSeats(selectedSeats){
 
 ///////////////// REPRICE //////////////////////
 
-export async function repriceShoppingCartContents(){
-  return fetchPost('/api/cart/reprice',{});
+
+//call to /reprice to get a new quote - paymentMethod parameter is optional (if empty, userPreference from session will be taken)
+export async function repriceShoppingCartContents(paymentMethod){
+  let body = {
+    paymentMethod:paymentMethod
+  }
+  return fetchPost('/api/cart/reprice',paymentMethod?body:undefined);
 }
 
 ///////////////// CHECKOUT //////////////////////
@@ -101,13 +156,20 @@ export async function getStripePublicKey() {
   return fetchPost('/api/order/key', {});
 }
 
+/////// CRYPTO ORDER //////////
+export const createCryptoOrder = (confirmedOfferId, transactionHash) => fetchPost(
+  '/api/order/crypto',
+  {
+    confirmedOfferId,
+    transactionHash
+  }
+);
+
 
 ///////////////// ORDER CONFIRMATION //////////////////////
 export async function getOrderStatus(confirmedOfferId){
   return fetchPost('/api/order/status',{offerId:confirmedOfferId});
 }
-
-
 
 export function executionTimeCheck(taskName, callback) {
   let start = Date.now();
@@ -117,4 +179,28 @@ export function executionTimeCheck(taskName, callback) {
     let end = Date.now();
     console.log(`Task:${taskName}, Execution time:${end - start}ms`);
   }
+}
+
+
+
+///////////////// OFFER DETAILS //////////////////////
+//this retrieves basic data about offerID (e.g. passengers object returned with search results)
+export async function getOffer(offerId){
+  return fetchGet('/api/offer/offer',{offerId:offerId});
+}
+
+
+
+///////////////// SERVER SIDE CACHE //////////////////////
+
+export async function getCachedSearchResults(type) {
+  if (type !== 'flights' && type !== 'hotels') {
+    throw new Error('Invalid type');
+  }
+  return fetchGet('/api/cache/results', {type: type});
+}
+
+//invalidate session (remove shopping cart items, search results, etc...)
+export async function invalidateCache() {
+  return deleteCall('/api/cart/session');
 }

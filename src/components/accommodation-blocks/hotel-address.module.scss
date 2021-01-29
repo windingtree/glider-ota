@@ -1,0 +1,5 @@
+@import 'src/styles/mixins';
+
+.hotelAddress{
+  @include g-font($g-fontsize-xs,$g-color-darkgrey,$g-fontweight-normal);
+}

@@ -1,0 +1,27 @@
+{
+  "destinationAirport": {
+    "code": "BOG",
+    "icon": "airport",
+    "indent": false,
+    "primary": "Bogota El Dorado Intl",
+    "secondary": "CO"
+  },
+  "destinationCity": {
+    "latitude": "4.60971",
+    "longitude": "-74.08175",
+    "primary": "Bogotá",
+    "secondary": "Colombia"
+  },
+  "destinationCountryCode": "COL",
+  "destinationLocation": {
+    "latitude": "4.6298745",
+    "longitude": "-74.0926271"
+  },
+  "venueName": "Devcon VI",
+  "start_date": "2021-08-10",
+  "end_date": "2021-08-14",
+  "badgeVenueName": "Aug 10-13: Devcon VI",
+  "badgeDestinationName": "Bogotá",
+  "badgeStartDate": "2021-08-10",
+  "badgeEndDate": "2021-08-14"
+}

@@ -1,8 +1,8 @@
-@import '../../styles/mixins';
+@import 'src/styles/mixins';
 
 .offerWrapper {
 }
-
+/*
 .offerContainer {
   width: 280px;
 
@@ -33,7 +33,7 @@
     height: 262px;
   }
 
-}
+}*/
 
 .mainImage {
   object-fit: cover;
@@ -55,4 +55,33 @@
 }
 
 
+.hotelContainer {
+  background:$glider-color-primary-background;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
 
+
+.hotelName{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+  padding-top: 1rem;
+}
+
+.hotelDescription{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.hotelLowestPrice{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal);
+}
+
+.showHideRoomsToggle{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-normal);
+  float: right!important;
+}
+.bigred:active{
+
+}

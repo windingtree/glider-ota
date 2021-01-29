@@ -4,10 +4,15 @@ const {createLogger} = require('./logger');
 const logger = createLogger('dao');
 const url = require('url');
 
+const ORDER_TYPES={
+    SUBOFFER:'SUBOFFER',
+    MASTER:'MASTER'
+}
 const ORDER_STATUSES={
     NEW:'NEW',
     FULFILLING:'FULFILLING',
     FULFILLED:'FULFILLED',
+    FULFILLED_PARTIALLY:'FULFILLED_PARTIALLY',
     FAILED:'FAILED'
 }
 const PAYMENT_STATUSES={
@@ -40,8 +45,8 @@ function getConnection() {
                 });
 
                 // Update cached connection and resolve
-                // Get the database name from setting, or URI otherwise
-                _db=client.db(MONGO_CONFIG.DBNAME || url.parse(MONGO_CONFIG.URL).pathname.substr(1));
+                // Get the database name from URI
+                _db=client.db(url.parse(MONGO_CONFIG.URL).pathname.substr(1));
 
                 _db.on('close', ()=>{
                     logger.info("onclose event received");
@@ -79,6 +84,20 @@ function insert(collection, doc) {
     });
 }
 
+const insertMany = async (collection, documents, options) => {
+    const db = await getConnection();
+    return db.collection(collection)
+      .insertMany(
+        documents,
+        {
+          ordered: true,
+          ...(options
+            ? options
+            : {})
+        }
+      );
+  };
+
 /**
  * Helper function to find a single record (findOne) within a provided collection
  * @param collection - name of collection to search
@@ -96,6 +115,13 @@ function findOne(collection, criteria){
         .catch(reject);
     });
 }
+
+const findAll = async (collection, query, options) => {
+    const db = await getConnection();
+    const result = await db.collection(collection)
+        .find(query, options);
+    return result.toArray();
+};
 
 /**
  * Helper function to update a single document (updateOne) in a collection
@@ -119,24 +145,47 @@ function updateOne(collection, criteria, doc) {
 
 /**
  * Saves confirmed(re-priced) offer in a database (<orders> collection)
- * @param confirmedOfferId
  * @param offer
+ * @param passengers
+ * @param exchangeQuote
+ * @param orderType
+ * @param subOfferIDs
+ * @param masterOrderId
  * @returns {Promise<*>}
  */
 
-function storeConfirmedOffer(offer, passengers){
-    let object={
-        offerId:offer.offerId,
-        confirmedOffer:offer,
-        passengers:passengers,
-        order_status:ORDER_STATUSES.NEW,
-        payment_status:PAYMENT_STATUSES.NOT_PAID,
+async function storeConfirmedOffer(offer, passengers, exchangeQuote, orderType = ORDER_TYPES.SUBOFFER, subOfferIDs = [], masterOrderId){
+    let object = {
+        offerId: offer.offerId,
+        confirmedOffer: offer,
+        passengers: passengers,
+        order_status: ORDER_STATUSES.NEW,
+        payment_status: PAYMENT_STATUSES.NOT_PAID,
+        exchangeQuote,
+        orderType,
+        masterOrderId,
+        subOfferIDs,
         createDate: new Date(),
-        transactions:[createTransactionEntry('New order created', {order_status:ORDER_STATUSES.NEW,
-            payment_status:PAYMENT_STATUSES.NOT_PAID})]
+        transactions: [createTransactionEntry('New order created', {
+            order_status: ORDER_STATUSES.NEW,
+            payment_status: PAYMENT_STATUSES.NOT_PAID
+        })]
     };
-    logger.info("Storing confirmed offer, offerId:%s, order_status:%s, payment_status:%s",object.offerId,object.order_status,object.payment_status)
-    return insert('orders',object);
+    const storedOffer = await findConfirmedOffer(offer.offerId);
+
+    if (storedOffer) {
+        let updates = {
+            $set: object,
+            $currentDate: {
+                lastModifyDateTime: { $type: "timestamp" }
+            }
+        }
+        logger.info("Updating stored confirmed offer, offerId:%s, order_status:%s, payment_status:%s",object.offerId,object.order_status,object.payment_status)
+        return updateOne('orders', { offerId: offer.offerId }, updates);
+    } else {
+        logger.info("Storing confirmed offer, offerId:%s, order_status:%s, payment_status:%s",object.offerId,object.order_status,object.payment_status)
+        return insert('orders',object);
+    }
 }
 
 
@@ -244,8 +293,11 @@ module.exports = {
     updatePaymentStatus,
     ORDER_STATUSES,
     PAYMENT_STATUSES,
+    ORDER_TYPES,
     insert,
+    insertMany,
     findOne,
+    findAll,
     storeConfirmedOffer,
     findConfirmedOffer,
     upsertOfferPassengers,

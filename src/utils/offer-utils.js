@@ -1,6 +1,6 @@
 
-import {parseISO,differenceInHours,differenceInMinutes} from "date-fns";
-import airportToCityMap from "../data/airport-city-map";
+import {parseISO, differenceInHours, differenceInMinutes, differenceInBusinessDays, format} from "date-fns";
+import airportToCityMap from "../components/storybook-utils/mock-data/airport-city-map";
 
 
 export default class OfferUtils {
@@ -18,6 +18,7 @@ export default class OfferUtils {
     return durationString
   }
   static calculateDurationInMins (itinerary) {
+    // console.log('=====', itinerary);
     const firstSegment = OfferUtils.getFirstSegmentOfItinerary(itinerary);
     const lastSegment = OfferUtils.getLastSegmentOfItinerary(itinerary);
     const startOfTrip = parseISO(firstSegment.departureTimeUtc);
@@ -30,6 +31,12 @@ export default class OfferUtils {
     const arrival = parseISO(prevSegment.arrivalTimeUtc);
     const departure = parseISO(nextSegment.departureTimeUtc);
     return  differenceInMinutes(departure, arrival);
+  }
+  static calculateStayBetweenTripsInBusinessDays (outboundItinerary, returnItinerary) {
+    let arrivalToDestination = OfferUtils.getItineraryArrivalDate(outboundItinerary)
+    let departureFromDestination = OfferUtils.getItineraryDepartureDate(returnItinerary)
+
+    return differenceInBusinessDays(departureFromDestination,arrivalToDestination)
   }
 
   static getOutboundItinerary (combination) {
@@ -109,7 +116,7 @@ export default class OfferUtils {
     return iataToCityName(firstSegment.origin.iataCode);
   }
   static getItineraryArrivalCityName(itinerary){
-    let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
+    let lastSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
     return iataToCityName(lastSegment.destination.iataCode);
   }
   static getItineraryDepartureAirportName(itinerary){
@@ -117,11 +124,11 @@ export default class OfferUtils {
     return iataToAirportName(firstSegment.origin.iataCode);
   }
   static getItineraryArrivalAirportName(itinerary){
-    let lastSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
+    let lastSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
     return iataToAirportName(lastSegment.destination.iataCode);
   }
   static getItineraryDepartureAirportCode(itinerary){
-    let firstSegment=OfferUtils.getLastSegmentOfItinerary(itinerary);
+    let firstSegment=OfferUtils.getFirstSegmentOfItinerary(itinerary);
     return firstSegment.origin.iataCode;
   }
   static getItineraryArrivalAirportCode(itinerary){
@@ -162,3 +169,44 @@ export function iataToAirportName(iata){
 }
 
 
+
+
+
+/**
+ * Format date (param) to a string using specified format.
+ *
+ * @param date Date object or string (if it's string - function will try to parse date)
+ * @param formatString
+ * @returns {string}
+ */
+export function safeDateFormat(date, formatString) {
+  let result = '';
+  try{
+    let dateObj = date;
+    if(typeof date === 'string'){
+      dateObj=parseISO(date);
+    }
+    result = format(dateObj, formatString);
+  }catch(err){
+    console.warn()
+  }
+  return result;
+}
+
+/**
+ * Convert date from str to Date (or do nothing if it's already date)
+ * @param date
+ * @returns {Date|*}
+ */
+export function ensureDateObj(date) {
+  if(typeof date === 'string'){
+    return parseISO(date);
+  }
+  return date;
+
+}
+
+export function isSameDay(date1, date2) {
+  let d1=ensureDateObj(date1);
+  let d2=ensureDateObj(date2);
+}

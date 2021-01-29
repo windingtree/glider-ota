@@ -14,7 +14,7 @@ function enrichResponseWithDictionaryData(results){
     results['metadata']={
         uuid:v4(),
         timestamp:new Date(),
-        numberOfOffers:Object.keys(results.offers).length
+        numberOfOffers:results.offers?Object.keys(results.offers).length:0
     }
 }
 
@@ -86,7 +86,7 @@ function convertUTCtoLocalAirportTime(results){
             segment.departureTimeUtc=segment.departureTime;
             segment.departureTime=utcToZonedTime(segment.departureTime,airportData.timezone).toISOString();
         }else{
-            throw new Error("Timezone definition not found for airport code:%s",segment.origin.iataCode);
+            throw new Error(`Timezone definition not found for airport code:${segment.origin.iataCode}`);
         }
 
         airportData = getAirportByIataCode(segment.destination.iataCode);
@@ -94,7 +94,7 @@ function convertUTCtoLocalAirportTime(results){
             segment.arrivalTimeUtc=segment.arrivalTime;
             segment.arrivalTime=utcToZonedTime(segment.arrivalTime,airportData.timezone).toISOString();
         }else{
-            throw new Error("Timezone definition not found for airport code:%s",segment.destination.iataCode);
+            throw new Error(`Timezone definition not found for airport code:${segment.destination.iataCode}`);
         }
     });
 }
@@ -109,7 +109,7 @@ function increaseOfferPriceWithStripeCommission(results){
 }
 
 
-function increaseConfirmedPriceWithStripeCommission(repriceResponse){
+function increaseConfirmedPriceWithMaxOPCFee(repriceResponse){
     if (repriceResponse && repriceResponse.offer && repriceResponse.offer.price){
         let price = repriceResponse.offer.price;
         let priceWithoutOpcFee = Number(price.public);
@@ -123,13 +123,18 @@ function increaseConfirmedPriceWithStripeCommission(repriceResponse){
 
 //add 5% on top of the total price to cover for OPC fee
 //FIXME - replace hardcoded commision with configurable value
-function _addOPCFee(price){
-    return Number(price)*1.05;
+function _addOPCFee(amount){
+    return Number(amount)*1.05;
 }
 
 function _roundToTwoDecimals(number){
     return Math.round( number * 100 + Number.EPSILON ) / 100
 }
 module.exports={
-    enrichResponseWithDictionaryData,enrichAirportCodesWithAirportDetails,enrichOperatingCarrierWithAirlineNames,replaceUTCTimeWithLocalAirportTime: convertUTCtoLocalAirportTime, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithStripeCommission
+    enrichResponseWithDictionaryData,
+    enrichAirportCodesWithAirportDetails,
+    enrichOperatingCarrierWithAirlineNames,
+    replaceUTCTimeWithLocalAirportTime: convertUTCtoLocalAirportTime,
+    setDepartureDatesToNoonUTC,
+    increaseConfirmedPriceWithMaxOPCFee,
 }

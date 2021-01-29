@@ -1,3 +1,4 @@
+const {BOOKABLE_ITEMS_IN_CART} = require("../_lib/shopping-cart");
 const {validateWebhook, cancelPaymentIntent} = require('../_lib/stripe-api');
 const {decorate} = require('../_lib/decorators');
 const {createLogger} = require('../_lib/logger');
@@ -5,6 +6,8 @@ const {getRawBodyFromRequest} = require('../_lib/rest-utils');
 const {createWithOffer} = require('../_lib/glider-api');
 const {createGuarantee} = require('../_lib/simard-api');
 const {sendBookingConfirmations} = require('../_lib/email-confirmations');
+const {getOfferMetadata} = require('../_lib/models/offerMetadata');
+
 const {STRIPE_CONFIG} = require('../_lib/config');
 const {
     updateOrderStatus,
@@ -50,7 +53,7 @@ const webhookController = async (request, response) => {
         // Answer to webhook if not yet done
         return sendSuccessResponseAndFinish({
             received: true,
-            fulfilled: (confirmation && !confirmation.isDuplicate && confirmation.orderId) ? true : false,
+            fulfilled: (confirmation && !confirmation.isDuplicate && confirmation.orderId),
             isDuplicate: confirmation && confirmation.isDuplicate === true,
             orderId: confirmation && confirmation.orderId,
         });
@@ -88,9 +91,8 @@ const validateAndParseEvent = async (request) => {
  * When order cannot be created, we should return money to they passenger.
  *
  * @param confirmedOfferId  ID of the offer which we want to cancel payment for
- * @param intentId  payment intent ID (from stripe)
+ * @param webhookEvent
  * @param errorMessage  error message (text)
- * @param errorDetails  additional information to be added to a DB transaction log
  */
 const cancelPaymentAndUpdatePaymentStatus = async (confirmedOfferId, webhookEvent, errorMessage) => {
     try {
@@ -145,7 +147,8 @@ async function processWebhookEvent(event) {
         // case 'payment_intent.succeeded': //
         case 'charge.succeeded':
             logger.debug('Payment was successful!')
-            response = await processPaymentSuccess(confirmedOfferId, event);
+            response = await processPaymentSuccessMulti(confirmedOfferId, event);
+            // response = await processPaymentSuccess(confirmedOfferId, event);
             break;
         case 'payment_method.attached':
             //const paymentMethod = event.data.object;
@@ -160,6 +163,70 @@ async function processWebhookEvent(event) {
     return response;
 }
 
+
+async function processPaymentSuccessMulti(confirmedOfferId, webhookEvent) {
+    let masterOffer = await findConfirmedOffer(confirmedOfferId)
+
+    // Check if fulfillment is already processed or in progress
+    if (masterOffer && masterOffer.order_status && masterOffer.order_status!==ORDER_STATUSES.NEW){
+        return {...masterOffer.confirmation, isDuplicate: true};
+    }
+
+    const confirmedOffer = masterOffer.confirmedOffer;
+    const cartItems = confirmedOffer.cartItems;
+    if(!cartItems){
+        //should not happen
+        throw new Error('Missing sub offers - cannot proceed')
+    }
+
+    // Extract relevant details from Stripe
+    let paymentDetails = retrievePaymentDetailsFromWebhook(webhookEvent);
+
+    //update payment status of master offer to PAID
+    await updatePaymentStatus(confirmedOfferId, PAYMENT_STATUSES.PAID, paymentDetails, "Webhook event:" + webhookEvent.type, {webhookEvent});
+    await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLING, "Fulfilled after successful payment", {})
+
+    //prepare confirmation (at a master order level)
+    let masterConfirmation={
+        orderId: confirmedOfferId,
+        isDuplicate:false
+    }
+    let failedCount=0;
+    let completedCount=0;
+
+    //iterate over all items that were in the shopping cart and are eligible for fulfillment
+    for(let key of BOOKABLE_ITEMS_IN_CART) {
+        if (cartItems[key]) {   //if a given item exists - proceed with fulfillment
+            const item = cartItems[key].item;
+            const offerId = item.offerId;
+            console.log(`Fulfilling offer type: ${key}, offerId:${offerId}`);
+            try {
+                const confirmation = await processPaymentSuccess(offerId, webhookEvent)
+                console.log(`Successful fulfilment, type: ${key}, offerId:${offerId}`);
+                masterConfirmation[key] = confirmation;
+                completedCount++;
+            } catch (err) {
+                console.warn(`Failed to fulfill, type: ${key}, offerId:${offerId}`, err);
+                failedCount++
+                masterConfirmation[key] = {
+                    order_status: ORDER_STATUSES.FAILED
+                }
+            }
+        }
+    }
+    if(failedCount>0){
+        if(completedCount>0) {
+            await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED_PARTIALLY, `Order partially fulfilled, completed#${completedCount}, failed#${failedCount}`, {})
+        }else{
+            await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FAILED, `Failed to fulfill`, {})
+        }
+    }else{
+        await updateOrderStatus(confirmedOfferId, ORDER_STATUSES.FULFILLED, `Order fulfillment completed`, {})
+    }
+
+    console.log(`Successful/failed fulfillments : ${completedCount}/${failedCount}` )
+    return masterConfirmation;
+}
 
 /**
  * * Perform necessary steps after receiving information that payment failed
@@ -221,7 +288,7 @@ async function processPaymentSuccess(confirmedOfferId, webhookEvent) {
 const getErrorMessage = (error) => {
     let message;
     if (error.response && error.response.data && error.response.data.message) {
-        message = `Glider: ${error.response.data.message}`;
+        message = `Supplier: ${error.response.data.message}`;
     } else {
         message = error.message;
     }
@@ -256,7 +323,7 @@ const retrievePaymentDetailsFromWebhook = (webhookEvent) => {
 /**
  * Order fulfillment
  * @param confirmedOfferId
- * @param intentId
+ * @param webhookEvent
  * @returns {Promise<any>}
  */
 async function fulfillOrder(confirmedOfferId, webhookEvent) {
@@ -264,10 +331,17 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
 
     // Retrieve offer details
     logger.debug("#1 Retrieve offerDetails from DB");
-    let document = await findConfirmedOffer(confirmedOfferId)
+    let document =  await findConfirmedOffer(confirmedOfferId)
+
     if (!document) {
         logger.error(`Offer not found, confirmedOfferId=${confirmedOfferId}`);
         throw new Error(`Could not find offer ${confirmedOfferId} in the database`);
+    }
+    //retrieve endpoint details (url, jwt) for this offer
+    let offerMetadata = await getOfferMetadata(confirmedOfferId);
+    if (!offerMetadata) {
+        logger.error(`Offer metadata not found, confirmedOfferId=${confirmedOfferId}`);
+        throw new Error(`Could not find offer ${confirmedOfferId} metadata in the database`);
     }
 
     // Check if fulfillment is already processed or in progress
@@ -284,13 +358,12 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
     // Retrieve offer details
     let passengers = document.passengers;
     let offerId = document.confirmedOffer.offerId;
-    let offer = document.confirmedOffer.offer;
-    let price = offer.price;
+    let price = document.confirmedOffer.price;
 
     // Request a guarantee to Simard
     let guarantee;
     try {
-        guarantee = await createGuarantee(price.public, price.currency)
+        guarantee = await createGuarantee(price.public, price.currency, offerMetadata.id)
 
     }catch(error){
         logger.error("Guarantee could not be created, simard error:%s", error);
@@ -308,15 +381,15 @@ async function fulfillOrder(confirmedOfferId, webhookEvent) {
     let orderRequest = prepareRequest(offerId, guarantee.guaranteeId, passengers);
     let confirmation;
     try {
-        confirmation = await createWithOffer(orderRequest);
+        confirmation = await createWithOffer(orderRequest, offerMetadata);
         logger.info("Order created");
         // Handle the order creation success
 
         // Handle the error creation error
     } catch (error) {
-        // Override Error with Glider message
+        // Override Error with supplier message
         if (error.response && error.response.data && error.response.data.message) {
-            error.message = `Glider B2B: ${error.response.data.message}`;
+            error.message = `Supplier: ${error.response.data.message}`;
         }
         logger.error("Failure in response from /createWithOffer: %s, will try to cancel the payment", error.message);
         //if fulfilment fails - try to cancel payment
@@ -342,7 +415,7 @@ function createPassengers(passengers) {
     let passengersRequest = {};
     for (let i = 0; i < passengers.length; i++) {
         let pax = passengers[i];
-        let record = {
+        passengersRequest[pax.id] = {
             type: pax.type,
             civility: pax.civility,
             lastnames: [pax.lastName],
@@ -353,8 +426,7 @@ function createPassengers(passengers) {
                 pax.phone,
                 pax.email
             ]
-        }
-        passengersRequest[pax.id] = record;
+        };
     }
     return passengersRequest;
 }

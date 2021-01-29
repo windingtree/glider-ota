@@ -2,55 +2,53 @@ import React from 'react'
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Redirect
 } from "react-router-dom";
 
-import ReactDOM from 'react-dom'
-// import 'bootstrap/dist/css/bootstrap.min.css'
-import './styles/glider.scss'
-// import './styles/icons.css'
-import FlightTripOverviewPage from "./pages/flight-trip-overview-page"
-import HotelDetailsPage from "./pages/hotel-details-page"
-import FlightsSearchPage from "./pages/flights-search-page"
-import HotelsSearchPage from "./pages/hotels-search-page"
-import HomePage from "./pages/home-page"
-import { CookiesProvider } from 'react-cookie';
-import ConfirmationPage from "./pages/confirmation-page";
-import FlightSeatmapPage from "./pages/flight-seatmap-page";
-import FlightFareFamiliesPage from "./pages/flight-farefamilies-page";
-import FlightPassengersPage from "./pages/flight-passengers-page";
-import FlightSummaryPage from "./pages/flight-summary-page";
-import PaymentPage from "./pages/payment-page";
+import { Provider } from 'react-redux';
+import  store from './redux/store';
 
+import ReactDOM from 'react-dom'
+import './styles/glider.scss'
+import { CookiesProvider } from 'react-cookie';
+import DCLandingPage from './pages/landing-page'
+import DCFlightPassengersPage from './pages/pax-details-page'
+import DCAncillariesPage from './pages/ancillaries-page'
+import DCSeatSelectionPage from './pages/seat-selection-page'
+import DCPaymentSummaryPage from './pages/payment-summary-page'
+import ConfirmationPage from './pages/confirmation-page'
+import MarkdownPage from './pages/markdown-page'
+import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
+import aphroditeInterface from 'react-with-styles-interface-aphrodite';
+import { customDatePickerTheme } from './custom-date-picker-theme';
+import ErrorCatcher from "./components/error-catcher";
+ThemedStyleSheet.registerInterface(aphroditeInterface);
+ThemedStyleSheet.registerTheme(customDatePickerTheme());
 
 function Dispatcher() {
     return (
-        <CookiesProvider>
-            <Router>
-                <Switch>
-                    {/*Flights flow*/}
-                    <Route path="/flights/tripoverview/:offerId" component={FlightTripOverviewPage}/>
-                    <Route path="/flights/farefamilies/:offerId" component={FlightFareFamiliesPage}/>
-                    <Route path="/flights/seatmap/:offerId/:segmentId?" component={FlightSeatmapPage}/>
-                    <Route path="/flights/passengers/:offerId" component={FlightPassengersPage}/>
-                    <Route path="/flights/summary/:offerId" component={FlightSummaryPage}/>
-                    <Route path="/flights/" component={FlightsSearchPage}/>
-
-                    <Route path="/payment/:confirmedOfferId" component={PaymentPage}/>
-                    <Route path="/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
-
-                    {/*<Route path="/summary/:offerId" component={FlightOffer}/>*/}
-                    {/*<Route path="/confirmation/" component={FlightOffer}/>*/}
-
-                    {/*Hotels flow*/}
-                    <Route path="/hotels/" component={HotelsSearchPage}/>
-                    <Route path="/hotel/:accommodationId?" component={HotelDetailsPage}/>
-
-
-                    <Route path="/" component={HomePage} />
-                </Switch>
-            </Router>
-        </CookiesProvider>
+        <ErrorCatcher>
+        <Provider store={store}>
+            <CookiesProvider>
+                <Router>
+                    <Switch>
+                        <Route path="/pax/" component={DCFlightPassengersPage}/>
+                        <Route path="/ancillaries/" component={DCAncillariesPage}/>
+                        <Route path="/seatmap/" component={DCSeatSelectionPage}/>
+                        <Route path="/summary/" component={DCPaymentSummaryPage}/>
+                        <Route path="/confirmation/:confirmedOfferId" component={ConfirmationPage}/>
+                        <Route path="/flights" component={DCLandingPage}/>
+                        <Route path="/hotels" component={DCLandingPage}/>
+                        <Route path="/terms-of-service" component={MarkdownPage}/>
+                        <Route path="/privacy-policy" component={MarkdownPage}/>
+                        <Route path="/faq" component={MarkdownPage}/>
+                        <Redirect push from="/" to="/hotels" />
+                    </Switch>
+                </Router>
+            </CookiesProvider>
+        </Provider>
+        </ErrorCatcher>
     );
 }
 

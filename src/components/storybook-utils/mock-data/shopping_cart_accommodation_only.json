@@ -1,0 +1,211 @@
+{
+  "totalPrice": {
+    "public": 74.03,
+    "currency": "USD"
+  },
+  "items": {
+    "ACCOMMODATION_OFFER": {
+      "item": {
+        "offerId": "3a0baee2-bc4f-42d8-a53e-cace369444dd",
+        "offer": {
+          "pricePlansReferences": {
+            "BAR": {
+              "accommodation": "5fb965566eefeb0008ad9613",
+              "roomType": "5fbf5bcc643398000987181c"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "public": 50.03,
+            "taxes": 0
+          }
+        },
+        "price": {
+          "currency": "USD",
+          "public": 74.03,
+          "taxes": 0
+        },
+        "hotel": {
+          "name": "GHL Hotel Tequendama Bogotá",
+          "type": "hotel",
+          "description": "Hotel provided by Rooms project.",
+          "location": {
+            "coordinates": {
+              "latitude": 4.678678206786526,
+              "longitude": -74.06963109970094
+            }
+          },
+          "rating": 5,
+          "contactInformation": {
+            "phoneNumbers": [],
+            "emails": [],
+            "address": {
+              "streetAddress": "Avenida carrera 10",
+              "premise": "No. 20",
+              "locality": "Bogota",
+              "postalCode": "110010",
+              "country": "Colombia"
+            }
+          },
+          "checkinoutPolicy": {
+            "checkinTime": "15:00",
+            "checkoutTime": "24:00"
+          },
+          "otherPolicies": {},
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://www.avontuura.com/wp-content/uploads/2019/06/1-1024x777.jpg"
+            }
+          ],
+          "roomTypes": {
+            "5fbf5bcc643398000987181c": {
+              "name": "Small",
+              "description": "Room provided by Rooms project.",
+              "amenities": [
+                "WiFi",
+                "Double Bed",
+                "Phone"
+              ],
+              "size": {
+                "value": "",
+                "unit": "metric"
+              },
+              "maximumOccupancy": {
+                "adults": 2,
+                "childs": 1
+              },
+              "media": [
+                {
+                  "type": "photo",
+                  "url": "https://caspiannews.com/media/caspian_news/all_original_photos/1532877540_1694257_1532877439_2977984main.jpg"
+                }
+              ],
+              "policies": {}
+            },
+            "5fbf5bd1643398000987181d": {
+              "name": "Large x",
+              "description": "Room provided by Rooms project.",
+              "amenities": [
+                "Air Conditioning"
+              ],
+              "size": {
+                "value": "",
+                "unit": "metric"
+              },
+              "maximumOccupancy": {
+                "adults": 2,
+                "childs": 1
+              },
+              "media": [
+                {
+                  "type": "photo",
+                  "url": "https://images.oyoroomscdn.com/uploads/hotel_image/85734/acb05ff883b580d5.jpg"
+                }
+              ],
+              "policies": {}
+            },
+            "5fbf5bd5643398000987181e": {
+              "name": "Very Small",
+              "description": "Room provided by Rooms project.",
+              "amenities": [
+                "Phone",
+                "Massage"
+              ],
+              "size": {
+                "value": "",
+                "unit": "metric"
+              },
+              "maximumOccupancy": {
+                "adults": 2,
+                "childs": 1
+              },
+              "media": [
+                {
+                  "type": "photo",
+                  "url": "https://www.nepalnow.blog/wp-content/uploads/2018/07/IMG_5403.jpg"
+                }
+              ],
+              "policies": {}
+            },
+            "5fbf706740aeff00083ddaf2": {
+              "name": "Maybe this?",
+              "description": "Room provided by Rooms project.",
+              "amenities": [],
+              "size": {
+                "value": "",
+                "unit": "metric"
+              },
+              "maximumOccupancy": {
+                "adults": 2,
+                "childs": 1
+              },
+              "media": [
+                {
+                  "type": "photo",
+                  "url": "https://media.timeout.com/images/103327378/image.jpg"
+                }
+              ],
+              "policies": {}
+            },
+            "5fc8b57025c09c00083c2dff": {
+              "name": "Minor",
+              "description": "Room provided by Rooms project.",
+              "amenities": [
+                "Massage",
+                "Balcony"
+              ],
+              "size": {
+                "value": "",
+                "unit": "metric"
+              },
+              "maximumOccupancy": {
+                "adults": 2,
+                "childs": 1
+              },
+              "media": [
+                {
+                  "type": "photo",
+                  "url": "https://images.adsttc.com/media/images/5010/15f8/28ba/0d42/2200/09b1/newsletter/stringio.jpg?1414026169"
+                }
+              ],
+              "policies": {}
+            }
+          },
+          "accommodationId": "5fb965566eefeb0008ad9613"
+        },
+        "room": {
+          "name": "Deluxe Kingsize Room",
+          "description": "Room provided by Rooms project.",
+          "amenities": [
+            "WiFi",
+            "Double Bed",
+            "Phone"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [
+            {
+              "type": "photo",
+              "url": "https://caspiannews.com/media/caspian_news/all_original_photos/1532877540_1694257_1532877439_2977984main.jpg"
+            }
+          ],
+          "policies": {}
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": 74.03
+      }
+    }
+  },
+  "userPreferences": {
+    "currency": "USD"
+  }
+}

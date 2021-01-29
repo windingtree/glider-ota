@@ -1,0 +1,42 @@
+@import 'src/styles/mixins';
+
+.hotelStayHeader {
+  @include g-font($g-fontsize-xxl, $g-color-black, $g-fontweight-normal)
+}
+
+.roomImage {
+    max-width: 180px;
+    border-radius: 8px;
+  padding-left: 0px;
+}
+
+
+.hotelContainer {
+  background:$glider-color-primary-background;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+
+.hotelName{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+  padding-top: 1rem;
+}
+
+.hotelDescription{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.roomName{
+  @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+}
+.roomPrice{
+  @include g-font($g-fontsize-xl,$g-color-primary,$g-fontweight-bold);
+}
+
+.roomDescription{
+  @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-light);
+
+}

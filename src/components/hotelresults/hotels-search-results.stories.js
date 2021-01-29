@@ -2,11 +2,11 @@ import React from 'react';
 import {
     action
 } from '@storybook/addon-actions';
-import HotelsSearchResults from './hotels-search-results'
-import sample from "../../data/sample_response_hotels_simulator.json"
+import {HotelsSearchResults} from './hotels-search-results'
+import sample from "../storybook-utils/mock-data/hotel_search_BOGOTA.json"
 
 export default {
-    title: 'Hotels/Search/Multiple hotels',
+    title: 'Search results/Multiple hotels',
     component: HotelsSearchResults
 };
 
