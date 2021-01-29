@@ -7,12 +7,38 @@
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  overflow: auto; // prevent margin collapsing
+  overflow: visible;
   padding: 20px 0px;
+
+  &:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(154.17deg, #FBEADE -0.25%, #F1EDEB 15.58%, #EFEEEE 31.52%, #E9F0F2 47.54%, #F1ECF1 62.49%, #E8EFF5 73.6%, #E1F2F9 86.51%);
+    filter: blur(334px);
+    z-index: 0;
+  }
+
+  > * {
+    z-index: 1;
+  }
 }
 
-.devconHeader {
+.header {
   text-align: center;
+  background-image: url(../../assets/logo.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+  width: 100%;
+  height: 180px;
+
+  @include media-max-sm {
+    height: 60px;
+  }
 }
 
 .devconBody {
@@ -33,9 +59,22 @@
     justify-content: center;
     list-style: none;
     padding-left: 0;
+
+    @include media-max-sm {
+      justify-content: space-between;
+    }
   }
   li {
     text-align: center;
     padding: 0 20px;
+
+    @include media-max-sm {
+      &:first-child {
+        padding-left:30px;
+      }
+      &:last-child {
+        padding-right:30px;
+      }
+    }
   }
 }

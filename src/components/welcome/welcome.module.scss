@@ -1,0 +1,163 @@
+@import 'src/styles/mixins';
+
+.container {
+    position: relative;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-bottom: 400px;
+    padding-right: 0;
+    padding-left: 0;
+
+    @include media-max-sm {
+        margin-top: 10px;
+        padding-bottom: 230px;
+    }
+
+    &:before {
+        position: absolute;
+        content: "";
+        right: -9999px;
+        left: -9999px;
+        bottom: 0;
+        height: 1px;
+        background-color: #57DDB8;
+    }
+
+    &:after {
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 1px;
+        left: 0;
+        background-image: url(../../assets/bshshsh.svg);
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        @include media-max-sm {
+            background-size: 88%;
+        }
+    }
+}
+
+.infoRow {
+    flex-direction: row;
+
+    @include media-max-sm {
+        flex-direction: column;
+    }
+}
+
+.mainBlock {
+    margin-bottom: 80px;
+
+    @include media-max-sm {
+        margin-bottom: 50px;
+    }
+
+    h2 {
+        @include g-font($g-fontsize-l,$g-color-primary,$g-fontweight-normal);
+        padding: 0;
+        margin-bottom: 24px;
+    }
+
+    p {
+        @include g-font($g-fontsize-m,$g-color-black,$g-fontweight-normal);
+        margin-bottom: 12px;
+    }
+}
+
+.infoBlock {
+    margin-bottom: 40px;
+
+    @include media-max-sm {
+        margin-bottom: 30px;
+    }
+
+    h3 {
+        @include g-font($g-fontsize-m,$g-color-primary,$g-fontweight-normal);
+        padding: 0;
+        margin-bottom: 12px;
+    }
+
+    p {
+        @include g-font($g-fontsize-xs,$g-color-black,$g-fontweight-normal);
+        margin-bottom: 24px;
+
+        @include media-max-sm {
+            margin-bottom: 18px;
+        }
+    }
+}
+
+.iataBlock {
+    margin-top: 80px;
+    margin-bottom: 40px;
+
+    @include media-max-sm {
+        margin-bottom: 30px;
+    }
+}
+
+.logoBlack {
+    width: 48px;
+    height: 48px;
+    background-image: url(../../assets/logo-black.svg);
+    background-position: -4px center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.iataLogo {
+    width: 100px;
+    height: 48px;
+    background-image: url(../../assets/iata-logo.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.iataCode {
+    @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-light);
+}
+
+.contactBlock {
+
+    h2 {
+        @include g-font($g-fontsize-xxl,$g-color-black,$g-fontweight-normal);
+        margin-bottom: 35px;
+
+        @include media-max-sm {
+            margin-bottom: 30px;
+        }
+    }
+
+    p {
+        @include g-font($g-fontsize-xl,$g-color-black,$g-fontweight-normal);
+        margin-bottom: 35px;
+
+        a {
+            color: $g-color-primary;
+            &:visited {
+                color: $g-color-primary;
+            }
+        }
+
+        @include media-max-sm {
+            @include g-font($g-fontsize-l,$g-color-black,$g-fontweight-normal);
+            margin-bottom: 35px;
+        }
+    }
+}
+
+.wtLogoBlock {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    width: 100px;
+    height: 28px;
+    background-image: url(../../assets/wtlogo-black.svg);
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}

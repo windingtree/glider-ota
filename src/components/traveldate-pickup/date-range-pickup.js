@@ -105,7 +105,8 @@ export default function DateRangePickup({
                     onFocusChange={focusedInput => setFocusedInput(focusedInput)}
                     customArrowIcon={<span>&#65372;</span>}
                     block
-                    appendToBody={true}
+                    // appendToBody={true}
+                    orientation={window.matchMedia("(max-width: 700px)").matches ? 'vertical' : 'horizontal'}
                 />
             </StyledWrapper>
             {showVenueBadge && <UnicornVenueBadge onBadgeClick={onVenueBadgeClick}/>}
