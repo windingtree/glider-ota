@@ -78,7 +78,7 @@ const getEndpoints = async (searchCriteria) =>{
             endpoints.push(
                 {
                     serviceEndpoint: ROOMS_CONFIG.BASE_URL,
-                    id: ROOMS_CONFIG.ROOMS_ORGID
+                    id: ROOMS_CONFIG.ROOMS_ORGID,
                 }
             )
         }
@@ -189,9 +189,7 @@ const _getActiveHotels = async (lat, lon) => {
 
     let result = await runGraphQuery(createQuery('hotels'));
     let organisations = (result && result.directoryOrganizations)?result.directoryOrganizations:[]
-    console.log('Hotels before filtering:',organisations)
     organisations = filterInvalidOrganisations(organisations)
-    console.log('Final hotels:',organisations)
     return organisations;
 }
 
@@ -206,10 +204,7 @@ const _getActiveAirlines = async (origin, destination) => {
 
     let result = await runGraphQuery(createQuery('airlines'));
     let organisations = (result && result.directoryOrganizations)?result.directoryOrganizations:[]
-    console.log('Airlines before filtering:',organisations)
     organisations = filterInvalidOrganisations(organisations)
-
-    console.log('Final airlines:',organisations)
     return organisations;
 }
 
@@ -218,7 +213,7 @@ const createToken = async (issuer, audience, expiresIn, privateKey, fragment) =>
     let issuerDid=`did:orgid:${issuer}`;
 
     const priv = JWK.asKey(privateKey,{alg:'ES256K',use: 'sig'});
-    return JWT.sign(
+    let jwt = JWT.sign(
         {
         },
         priv,
@@ -230,6 +225,14 @@ const createToken = async (issuer, audience, expiresIn, privateKey, fragment) =>
             header: { typ: 'JWT' }
         }
     );
+    /*console.log(`Create JWT token:
+ISS:[${issuer}]
+AUD:[${audience}]
+expires:[${expiresIn}]
+keyID:[${fragment}]
+privateKey:[${privateKey}]
+JWT:[${jwt}]`)*/
+    return jwt;
 };
 
 
@@ -240,6 +243,6 @@ const isArrayEmpty = (arr) =>{
 
 
 module.exports = {
-    getEndpoints, createTokenForProvider
+    getEndpoints, createTokenForProvider, createToken
 }
 

@@ -2,10 +2,14 @@ const {createLogger} = require('./logger');
 const axios = require('axios').default;
 const {storeOffersMetadata} = require('./models/offerMetadata');
 const logger = createLogger('aggregator-api');
-const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithMaxOPCFee} = require('./response-decorator');
-const {createErrorResponse,mergeAggregatorResponse, ERRORS} = require ('./rest-utils');
-const OrgId= require('./orgId');
-const SEARCH_TIMEOUT=1000*40;
+const {
+    enrichResponseWithDictionaryData,
+    setDepartureDatesToNoonUTC,
+    increaseConfirmedPriceWithMaxOPCFee
+} = require('./response-decorator');
+const {createErrorResponse, mergeAggregatorResponse, ERRORS} = require('./rest-utils');
+const OrgId = require('./orgId');
+const SEARCH_TIMEOUT = 1000 * 40;
 
 function createHeaders(token) {
     return {
@@ -29,8 +33,8 @@ async function searchOffers(criteria) {
     let availableAPIsURLs = await OrgId.getEndpoints(criteria);
 
     try {
-        const searchPromises = availableAPIsURLs.map(endpoint=>{
-            return searchOffersUsingEndpoint(criteria,endpoint,SEARCH_TIMEOUT);
+        const searchPromises = availableAPIsURLs.map(endpoint => {
+            return searchOffersUsingEndpoint(criteria, endpoint, SEARCH_TIMEOUT);
         })
         const allSearchResults = await Promise.all(searchPromises.map(p => p.catch(e => e)));
         let validResults = allSearchResults.filter(result => (!(result instanceof Error)));
@@ -39,23 +43,23 @@ async function searchOffers(criteria) {
 
         if (validResults.length > 0) {
             let propsToMerge;
-            if(criteria.accommodation)
+            if (criteria.accommodation)
                 propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers']
-            if(criteria.itinerary)
+            if (criteria.itinerary)
                 propsToMerge = ['pricePlans', 'offers', 'passengers', 'itineraries']
             response = mergeAggregatorResponse(validResults, propsToMerge)
         }
-    }catch(err){
-        logger.error("Error ",err)
-        return createErrorResponse(400,ERRORS.INVALID_SERVER_RESPONSE,err.message,criteria);
+    } catch (err) {
+        logger.error("Error ", err)
+        return createErrorResponse(400, ERRORS.INVALID_SERVER_RESPONSE, err.message, criteria);
     }
     let searchResults = {
-        offers:{}
+        offers: {}
     };
-    if(response && response.data) {
+    if (response && response.data) {
         searchResults = response.data;
         enrichResponseWithDictionaryData(searchResults)
-    }else{
+    } else {
         logger.info("Response from /searchOffers API was empty, search criteria:", criteria)
     }
     return searchResults;
@@ -65,12 +69,12 @@ const storeOfferToOrgIdMapping = async (validResults) => {
     let offersMetadata = [];
     validResults.forEach(result => {
         let {endpoint, data} = result;
-        let {offers,passengers} = data;
-        Object.keys(offers).forEach(offerId=>{
+        let {offers, passengers} = data;
+        Object.keys(offers).forEach(offerId => {
             let offerMetadata = {
-                endpoint:endpoint,
-                offerId:offerId,
-                passengers:passengers
+                endpoint: endpoint,
+                offerId: offerId,
+                passengers: passengers
             }
             offersMetadata.push(offerMetadata)
         })
@@ -106,8 +110,7 @@ async function searchOffersUsingEndpoint (criteria, endpoint, timeout) {
 async function createWithOffer(criteria, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint).CREATE_WITH_OFFER_URL;
-    console.log('Creating order with URL:',url, 'JWT:',jwt)
-    console.log('JWT:',jwt)
+    console.log('Creating order with URL:', url, 'JWT:', jwt)
 
     let response = await axios({
         method: 'post',
@@ -126,8 +129,8 @@ async function createWithOffer(criteria, endpoint) {
  */
 async function seatmap(offerId, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
-    let url = urlFactory(serviceEndpoint,offerId).SEATMAP_URL;
-    console.log('Retrieve seatmap with URL:',url, 'JWT:',jwt)
+    let url = urlFactory(serviceEndpoint, offerId).SEATMAP_URL;
+    console.log('Retrieve seatmap with URL:', url, 'JWT:', jwt)
     let response = await axios({
         method: 'get',
         url: url,
@@ -147,8 +150,8 @@ async function seatmap(offerId, endpoint) {
  */
 async function reprice(offerId, options, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
-    let url = urlFactory(serviceEndpoint,offerId).REPRICE_OFFER_URL;
-    console.log('Reprice using URL:',url, 'JWT:',jwt)
+    let url = urlFactory(serviceEndpoint, offerId).REPRICE_OFFER_URL;
+    console.log('Reprice using URL:', url, 'JWT:', jwt)
 
     let response = await axios({
         method: 'post',
@@ -164,9 +167,9 @@ async function reprice(offerId, options, endpoint) {
 
     //we may have a new offerID at this stage (e.g. aircanada) - we need to store metadata for this offer too
     let offerMetadata = {
-        endpoint:endpoint,
-        offerId:offerId,
-        passengers:repriceResponse.offer.passengers
+        endpoint: endpoint,
+        offerId: offerId,
+        passengers: repriceResponse.offer.passengers
     }
     await storeOffersMetadata([offerMetadata])
 

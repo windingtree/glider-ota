@@ -2,7 +2,7 @@ const {createLogger} = require('./logger');
 const logger = createLogger('session-storage');
 const {SessionStorage} = require('./session-storage');
 const {assertParameterNotEmpty} = require('./utils')
-const _ = require('lodash');
+const {SIMARD_CONFIG} = require("./config");
 const { createQuoteAsync, getRateAsync } = require('./simard-api');
 
 // Possible items in the cart
@@ -182,6 +182,14 @@ class ShoppingCart {
         let userCurrency = await this.getUserPreference(CART_USER_PREFERENCES_KEYS.CURRENCY);
         let paymentMethodFeeIncrease = await this.getOpcIncreaseFactor();
 
+        //if currency conversion is disabled - just return price without conversion
+        if(!SIMARD_CONFIG.ENABLE_CURRENCY_CONVERSION) {
+            return {
+                currency: offerPrice.currency,
+                public: Number(offerPrice.public * paymentMethodFeeIncrease).toFixed(2),
+                isEstimated: false,
+            }
+        }
         // If the supplier price is already in the user currency return it
         if(offerPrice.currency === userCurrency) {
             return {
@@ -210,7 +218,58 @@ class ShoppingCart {
 
     // Update the total price in the cart
     async _updateTotalPrice(cart) {
-        //logger.debug("Updating Cart total price");
+
+        if(SIMARD_CONFIG.ENABLE_CURRENCY_CONVERSION === true){
+            //if currency conversion is disabled, we just need to calculate total price and take into account OPC fee
+            return await this._updateTotalPriceWithConversionRateEnabled(cart)
+        }else{
+            //with currency conversion enabled we need to quote the price of each cart item(call to simard) and update total price (including OPC fee)
+            return await this._updateTotalPriceWithConversionRateDisabled(cart)
+        }
+    }
+
+
+    async _updateTotalPriceWithConversionRateDisabled(cart) {
+
+        //make sure all items in cart have the same currency code - otherwise throw exception
+        let cartCurrency;
+        for(let i=0; i<Object.keys(cart.items).length; i++) {
+            let itemKey = Object.keys(cart.items)[i];
+            let record = cart.items[itemKey];
+
+            if(record.price && record.price.currency) {
+                if(!cartCurrency) {
+                    cartCurrency = record.price.currency;   //store the currency of the first item only - compare it with remaining items currency
+                }
+                if(cartCurrency !== record.price.currency)
+                {
+                    throw new Error("Multiple currencies are not supported!");
+                }
+            }
+        }
+
+        // Update the currency to the user preference
+        cart.totalPrice.currency = cartCurrency;
+        let paymentMethodFeeIncrease = await this.getOpcIncreaseFactor();
+
+        // Reset total price
+        cart.totalPrice.public = 0;
+
+
+        // Walk through each item in the cart and increase total cart price with item price (and OPC fee)
+        for(let i=0; i<Object.keys(cart.items).length; i++) {
+            let itemKey = Object.keys(cart.items)[i];
+            let record = cart.items[itemKey];
+            if(record.price) {
+                cart.totalPrice.public += (record.price.public * paymentMethodFeeIncrease);
+            }
+        }
+
+        cart.totalPrice.public = cart.totalPrice.public.toFixed(2);    //round to two digits
+        return cart;
+    }
+
+    async _updateTotalPriceWithConversionRateEnabled(cart) {
 
         // Update the currency to the user preference
         cart.totalPrice.currency = cart.userPreferences.currency;

@@ -3,7 +3,7 @@
     "key": "OTA_ORGID",
     "comment": "OTA OrgID",
     "profiles": [
-      {"profile": "staging", "value": "0xd27eb10e2a1fed7185266b31aa346c33834a4296b330c71fd411922186cb8e9e"},
+      {"profile": "staging", "value": "0xf94c83b1da7bc36989b6a4f25e51ce66dd0fcd88bae1e8486495bbc03e767229"},
       {"profile": "production", "value": "0x34dea2f4f739c43af35f6ffa82284d28280997ad26408b9e3d61525ec95b442e"}
     ]
   },
@@ -11,7 +11,7 @@
     "key": "OTA_PRIVATE_KEY",
     "comment": "OTA Private Key",
     "profiles": [
-      {"profile": "staging", "value": "fce55ff4f18bf4d06853dfc274b4f1b8805aeafd6c5dc35de1305fddc68999ff577ca6afe2a09a307642f14b13537b817f7854e60e483c606df3dee2faf1780118351bdf70b59045f067d631c77bcd35be93ba8fecc9e47292b056d24eb9ecacbed0190d7a90005c9d9c345a8808e471ce087065e846599e6b0ea37a2a4c997b84d9dda89e3f42919a73cb89330bf392ac80541b3cc55614e3010ecb34b5a531da481216270c46ebf164e52873d058b7b1033456b706e426aed9f08f234b2e8978a773bc28acc699decf40295bb3b64199942b85758ba2e8e9a44541a7b12cd9fa6d4daa331349b6f2a963d6ff87691c581b51c3512c0133a85816991d77b6d353f880d2a227682515aa399a7a29535d39b1223bd580c2aebd81908074d01a9883389dfe54", "isEncrypted": true},
+      {"profile": "staging", "value": "fce55ff4f18bf4d06853dfc274b4f1b8805aeafd6c5dc35de1305fddc68999ff577ca6afe2a09a307642f14b13537b817f7854e60e483c606df3dee2faf1780118351bdf70b59045f067d631c77bcd35be93ba8fecc9e47292b056d24eb9ecacbed0190d7a90005c9d9c345a8808e47cf972781be15954a07515b656175a9a63a6dae4b694677ee4a648c8fe330fa29f9faa632231cc273f9b7f0ecb34b5a531da481216270c46ebf164e52873d058f5bb68734f981798319efdc4a970041ea560e935a41992a793c4d4497200ad9a4dc49c069862ccf6e4c29f5802bc9924d0ef672e930a5118b6f6dd17d3ffd840644c255e8a30473600be184ff42554a08b11cad5c6ee01682515aa399a7a29535d39b1223bd580c2aebd81908074d01a9883389dfe54", "isEncrypted": true},
       {"profile": "production", "value": "fce55ff4f18bf4d06853dfc274b4f1b8805aeafd6c5dc35de1305fddc68999ff577ca6afe2a09a307642f14b13537b817f7854e60e483c606df3dee2faf1780118351bdf70b59045f067d631c77bcd35be93ba8fecc9e47292b056d24eb9ecacbed0190d7a90005c9d9c345a8808e474f910624ff94560b54a21937e5518c169f7ecdb949d447de39b6281eb020bc4be928f5a3153d72707a47e0ecb34b5a531da481216270c46ebf164e52873d058f1be16757883569c17b391e7b859691b9378f86af828a0bbe6e7df1b145dbc9d5bff942dc672edd1dce1a05c4486832e85ee441597232312b6c9ea43dba08548576d5a45aa3e740048987e3f810e43cccb4194e9fca537682515aa399a7a29535d39b1223bd580c2aebd81908074d01a9883389dfe54", "isEncrypted": true}
     ]
   },
@@ -45,6 +45,14 @@
     "profiles": [
       {"profile": "staging", "value": "no"},
       {"profile": "production", "value": "no"}
+    ]
+  },
+  {
+    "key": "P2P_GRAPH_URL",
+    "comment": "Thegraph.com endpoint to be used to query for OrgId details",
+    "profiles": [
+      {"profile": "staging", "value": "https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten"},
+      {"profile": "production", "value": "https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph"}
     ]
   },
   {
@@ -178,6 +186,14 @@
     "profiles": [
       {"profile": "staging", "value": "0x56e34fe286de62c4d15d536cef2d171f0cd380e38d77d33fd4a4f0c1257b5f9f"},
       {"profile": "production", "value": "0xb5cd9c2be7774d1729e21d6534f9c0a0e9a40bd6c7259896cf55db9962ced5b4"}
+    ]
+  },
+  {
+    "key": "SIMARD_ENABLE_CURRENCY_CONVERSION",
+    "comment": "Use conversion rates from Simard",
+    "profiles": [
+      {"profile": "staging", "value": "no"},
+      {"profile": "production", "value": "no"}
     ]
   }
 ]

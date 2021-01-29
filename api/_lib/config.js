@@ -57,6 +57,7 @@ const SIMARD_CONFIG =
         QUOTE_URL: `${SIMARD_BASEURL}/quotes`,
         SWAP_URL: `${SIMARD_BASEURL}/balances/swap`,
         RATE_URL: `${SIMARD_BASEURL}/rates`,
+        ENABLE_CURRENCY_CONVERSION:getConfigKey("SIMARD_ENABLE_CURRENCY_CONVERSION") === "yes"
     };
 
 
