@@ -21,3 +21,15 @@
   color: $g-color-darkgrey;
 }
 
+
+
+.comingSoon{
+  @include g-font($g-fontsize-xs,$g-color-darkgrey,$g-fontweight-normal);
+  position: relative;
+  top:-15px;
+  right:25px;
+  display: inline;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(230.95deg, #A8DC3B 16.72%, rgba(59, 185, 86, 0.677083) 39.15%, rgba(77, 103, 141, 0.442708) 54.1%, rgba(159, 59, 220, 0.4) 71.86%, rgba(220, 59, 146, 0.56) 89.14%, #DC3B3B 105.97%);
+  border-radius: 16px;
+  padding:2px 6px;
+}
