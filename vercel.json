@@ -11,12 +11,6 @@
     "STAGING_MONGO_URL": "@staging.glider-ota.mongo.uri2",
     "PRODUCTION_MONGO_URL": "@production.glider-ota.mongo.uri",
 
-    "STAGING_MONGO_DBNAME": "@staging.glider-ota.mongo.dbname",
-    "PRODUCTION_MONGO_DBNAME": "@production.glider-ota.mongo.dbname",
-
-    "STAGING_GLIDER_JWT": "@staging.glider-ota.glider_jwt",
-    "PRODUCTION_GLIDER_JWT": "@production.glider-ota.glider_jwt",
-
     "STAGING_SIMARD_JWT": "@staging.glider-ota.simard_jwt",
     "PRODUCTION_SIMARD_JWT": "@production.glider-ota.simard_jwt",
 
