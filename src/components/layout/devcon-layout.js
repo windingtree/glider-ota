@@ -9,7 +9,7 @@ export default function DevConLayout(props) {
         <div className={style.pageWrapper}>
             <header
                 className={style.header}
-                onClick={() => history.push('/')}
+                onClick={() => { window.location.assign(window.location.origin); }}
             >
             </header>
             <div className={props.pageClass ? " " + props.pageClass : ""}>
