@@ -68,7 +68,7 @@
     "comment": "",
     "profiles": [
       {"profile": "staging", "value": "yes"},
-      {"profile": "production", "value": "no"}
+      {"profile": "production", "value": "yes"}
     ]
   },
   {
