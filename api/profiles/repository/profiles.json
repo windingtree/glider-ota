@@ -1,18 +1,66 @@
 [
   {
+    "key": "OTA_ORGID",
+    "comment": "OTA OrgID",
+    "profiles": [
+      {"profile": "staging", "value": "0xf94c83b1da7bc36989b6a4f25e51ce66dd0fcd88bae1e8486495bbc03e767229"},
+      {"profile": "production", "value": "0x34dea2f4f739c43af35f6ffa82284d28280997ad26408b9e3d61525ec95b442e"}
+    ]
+  },
+  {
+    "key": "OTA_PRIVATE_KEY",
+    "comment": "OTA Private Key",
+    "profiles": [
+      {"profile": "staging", "value": "fce55ff4f18bf4d06853dfc274b4f1b8805aeafd6c5dc35de1305fddc68999ff577ca6afe2a09a307642f14b13537b817f7854e60e483c606df3dee2faf1780118351bdf70b59045f067d631c77bcd35be93ba8fecc9e47292b056d24eb9ecacbed0190d7a90005c9d9c345a8808e47cf972781be15954a07515b656175a9a63a6dae4b694677ee4a648c8fe330fa29f9faa632231cc273f9b7f0ecb34b5a531da481216270c46ebf164e52873d058f5bb68734f981798319efdc4a970041ea560e935a41992a793c4d4497200ad9a4dc49c069862ccf6e4c29f5802bc9924d0ef672e930a5118b6f6dd17d3ffd840644c255e8a30473600be184ff42554a08b11cad5c6ee01682515aa399a7a29535d39b1223bd580c2aebd81908074d01a9883389dfe54", "isEncrypted": true},
+      {"profile": "production", "value": "fce55ff4f18bf4d06853dfc274b4f1b8805aeafd6c5dc35de1305fddc68999ff577ca6afe2a09a307642f14b13537b817f7854e60e483c606df3dee2faf1780118351bdf70b59045f067d631c77bcd35be93ba8fecc9e47292b056d24eb9ecacbed0190d7a90005c9d9c345a8808e474f910624ff94560b54a21937e5518c169f7ecdb949d447de39b6281eb020bc4be928f5a3153d72707a47e0ecb34b5a531da481216270c46ebf164e52873d058f1be16757883569c17b391e7b859691b9378f86af828a0bbe6e7df1b145dbc9d5bff942dc672edd1dce1a05c4486832e85ee441597232312b6c9ea43dba08548576d5a45aa3e740048987e3f810e43cccb4194e9fca537682515aa399a7a29535d39b1223bd580c2aebd81908074d01a9883389dfe54", "isEncrypted": true}
+    ]
+  },
+  {
+  "key": "OTA_PRIVATE_KEY_ID",
+  "comment": "OTA Private Key ID (#webserver, #api, etc..)",
+  "profiles": [
+    {"profile": "staging", "value": "webserver", "isEncrypted": false},
+    {"profile": "production", "value": "webserver", "isEncrypted": false}
+  ]
+},
+  {
     "key": "GLIDER_ORGID",
-    "comment": "",
+    "comment": "Glider OrgID",
     "profiles": [
       {"profile": "staging", "value": "0x94bf5a57b850a35b4d1d7b59f663ce3a8a76fd9928ef2067cc772fc97fb0ad75"},
       {"profile": "production", "value": "0xa8eacc80e138a30cd86002f12f5f324a3f2214b1fefc833435901ab6189579bb"}
     ]
   },
   {
+    "key": "GLIDER_FIXED_USAGE",
+    "comment": "If yes - Glider B2B endpoint will always be queried",
+    "profiles": [
+      {"profile": "staging", "value": "yes"},
+      {"profile": "production", "value": "yes"}
+    ]
+  },
+  {
+    "key": "P2P_ENABLE_DISCOVERY",
+    "comment": "If yes - OTA will use thegraph.com to discover available endpoints",
+    "profiles": [
+      {"profile": "staging", "value": "no"},
+      {"profile": "production", "value": "no"}
+    ]
+  },
+  {
+    "key": "P2P_GRAPH_URL",
+    "comment": "Thegraph.com endpoint to be used to query for OrgId details",
+    "profiles": [
+      {"profile": "staging", "value": "https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten"},
+      {"profile": "production", "value": "https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph"}
+    ]
+  },
+  {
     "key": "SENDGRID_FROM_EMAIL_ADDR",
     "comment": "",
     "profiles": [
-      {"profile": "staging", "value": "noreply@em5199.glider.travel"},
-      {"profile": "production", "value": "noreply@em5199.glider.travel"}
+      {"profile": "staging", "value": "Glider Travel<noreply@glider.travel>"},
+      {"profile": "production", "value": "Glider Travel<noreply@glider.travel>"}
     ]
   },
   {
@@ -20,23 +68,7 @@
     "comment": "",
     "profiles": [
       {"profile": "staging", "value": "yes"},
-      {"profile": "production", "value": "no"}
-    ]
-  },
-  {
-    "key": "ROOMS_SEARCH_OFFERS_URL",
-    "comment": "",
-    "profiles": [
-      {"profile": "staging", "value": "https://staging.rooms.windingtree.com/api/v1/offers/search"},
-      {"profile": "production", "value": "https://"}
-    ]
-  },
-  {
-    "key": "ROOMS_TOKEN",
-    "comment": "",
-    "profiles": [
-      {"profile": "staging", "value": "b4b138e9b991f0fe6e74b5cc61a5f0909e58edd05a5ff267837438b6bef992a94c65b297d5b0f73232359302692f3fe3537c7ba71c5a2a521febf1cee8f40b1e037f41bd1ad1aa2789089351d17ce333a7e99596a6cc8475809a75d82abcc3bbd4a75e7a10c8255b88911e46a01c9c70c9122675ce5654b97a1fd0723a75c354b4e68db9905e7cfd9b49d7e3310be19cb3a023042cce6018be3b08eb0fbc9d2bc565390d212b27cbc90cd82326fd7691e3133163be09873daccffabb7c6920be5bf735920885df98dde0180007b39a77f5941bbe63f5a1fff9a0067cafbb22b3d349199c6b374af3fad54cea84f5636a64333dbe624c4636bd791495355af5e777ce9dfaed192c574cc927ed004e6c4925db5522ad99f9aba88ab49c0cca368ec450829e3db935b609bc032cd0c62888de6a985f07c19640702a82424d684a203a7b858c1d05d7a62b964ce477b67aea191f369f145a3e18b0568271df7a20b381f2a85e42aa2f82393c338278df567c9e8966d0d1b0dfc966ccd84166aa26d8cd8e1c46e64ef2f05720431190e2b99c20f68a55366246bb3c8a8b2e55","isEncrypted": "true"},
-      {"profile": "production", "value": "https://","isEncrypted": "true"}
+      {"profile": "production", "value": "yes"}
     ]
   },
   {
@@ -48,7 +80,23 @@
     ]
   },
   {
-    "key": "GLIDER_BASEURL", "comment": "",
+    "key": "ROOMS_BASEURL",
+    "comment": "Rooms project endpoint(it will be used only if ENABLE_ROOMS_SEARCH=yes)",
+    "profiles": [
+      {"profile": "staging", "value": "https://staging.rooms.windingtree.com/api/v1"},
+      {"profile": "production", "value": "https://rooms.windingtree.com/api/v1"}
+    ]
+  },
+  {
+    "key": "GRAPH_URL",
+    "comment": "URL for grapQL endpoint used to query for OrgID organisations",
+    "profiles": [
+      {"profile": "staging", "value": "https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten"},
+      {"profile": "production", "value": "https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph"}
+    ]
+  },
+  {
+    "key": "GLIDER_BASEURL", "comment": "Glider B2B endpoint",
     "profiles": [
       {"profile": "staging", "value": "https://staging.b2b.glider.travel/api/v1"},
       {"profile": "production", "value": "https://production.b2b.glider.travel/api/v1"}
@@ -69,16 +117,16 @@
     ]
   },
   {
-    "key": "REDIS_PASSWORD", "comment": "",
+    "key": "REDIS_PASSWORD", "comment": "Password to redis instance",
     "profiles": [
       {"profile": "staging", "value": "b6bc2aad9ba183dd176994e366e3968e8a28f1df6f2edd43887a2484afd59acc", "isEncrypted": "true"},
       {"profile": "production", "value": "bea927be98bfe5ee4971bcb54fcdd6808579d0897d4fde3c9a4a17948fb4eaeb686d979182bba3043c32b454590f1bc00258698b3a3f667b48d8afe5d5f1693d1d50079f2bacdd029e78a34bee49bc44", "isEncrypted": "true"}
     ]
   },
   {
-    "key": "REDIS_PORT", "comment": "",
+    "key": "REDIS_PORT", "comment": "Redis port",
     "profiles": [
-      {"profile": "staging", "value": "34024", "isEncrypted": "false"},
+      {"profile": "staging", "value": "14563", "isEncrypted": "false"},
       {"profile": "production", "value": "34024", "isEncrypted": "false"}
     ]
   },
@@ -111,31 +159,41 @@
     ]
   },
   {
-    "key": "REACT_APP_BASE_PRICE_TOKEN", "comment": "",
+    "key": "INFURA_ENDPOINT", "comment": "Crypto payments - infura endpoint",
     "profiles": [
-      {"profile": "staging", "value": "0xaD6D458402F60fD3Bd25163575031ACDce07538D", "isEncrypted": "false"},
-      {"profile": "production", "value": "MISSING", "isEncrypted": "false"}
+      {"profile": "staging", "value": "https://ropsten.infura.io/v3/7f4515daf11f4719bc7be70a3b286f46"},
+      {"profile": "production", "value": "https://mainnet.infura.io/v3/7f4515daf11f4719bc7be70a3b286f46"}
     ]
   },
   {
-    "key": "REACT_APP_DEFAULT_NETWORK", "comment": "",
+    "key": "DEFAULT_NETWORK", "comment": "Crypto payments - which network should be used",
     "profiles": [
-      {"profile": "staging", "value": "ropsten", "isEncrypted": "false"},
-      {"profile": "production", "value": "MISSING", "isEncrypted": "false"}
+      {"profile": "staging", "value": "ropsten"},
+      {"profile": "production", "value": "mainnet"}
     ]
   },
   {
-    "key": "REACT_APP_PORTIS_ID", "comment": "",
+    "key": "SIMARD_BASEURL",
+    "comment": "Simard endpoint URL",
     "profiles": [
-      {"profile": "staging", "value": "b2ae14e8ebaad7a60c7bccb206b995ceea2e8ad95c28a523ad7b4b91dbbbe9ac3b37a49b", "isEncrypted": "true"},
-      {"profile": "production", "value": "MISSING", "isEncrypted": "true"}
+      {"profile": "staging", "value": "https://staging.api.simard.io/api/v1"},
+      {"profile": "production", "value": "https://production.api.simard.io/api/v1"}
     ]
   },
   {
-    "key": "REACT_APP_UNISWAP_ROUTER_ADDRESS", "comment": "",
+    "key": "SIMARD_ORGID",
+    "comment": "Simard endpoint URL",
     "profiles": [
-      {"profile": "staging", "value": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D", "isEncrypted": "false"},
-      {"profile": "production", "value": "MISSING", "isEncrypted": "false"}
+      {"profile": "staging", "value": "0x56e34fe286de62c4d15d536cef2d171f0cd380e38d77d33fd4a4f0c1257b5f9f"},
+      {"profile": "production", "value": "0xb5cd9c2be7774d1729e21d6534f9c0a0e9a40bd6c7259896cf55db9962ced5b4"}
+    ]
+  },
+  {
+    "key": "SIMARD_ENABLE_CURRENCY_CONVERSION",
+    "comment": "Use conversion rates from Simard",
+    "profiles": [
+      {"profile": "staging", "value": "no"},
+      {"profile": "production", "value": "no"}
     ]
   }
 ]

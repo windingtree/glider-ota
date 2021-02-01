@@ -22,11 +22,13 @@ import MarkdownPage from './pages/markdown-page'
 import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
 import aphroditeInterface from 'react-with-styles-interface-aphrodite';
 import { customDatePickerTheme } from './custom-date-picker-theme';
+import ErrorCatcher from "./components/error-catcher";
 ThemedStyleSheet.registerInterface(aphroditeInterface);
 ThemedStyleSheet.registerTheme(customDatePickerTheme());
 
 function Dispatcher() {
     return (
+        <ErrorCatcher>
         <Provider store={store}>
             <CookiesProvider>
                 <Router>
@@ -41,12 +43,12 @@ function Dispatcher() {
                         <Route path="/terms-of-service" component={MarkdownPage}/>
                         <Route path="/privacy-policy" component={MarkdownPage}/>
                         <Route path="/faq" component={MarkdownPage}/>
-                        <Redirect push from="/" to="/flights" />
-                        <Redirect push from="/" to="/flights" />
+                        <Redirect push from="/" to="/hotels" />
                     </Switch>
                 </Router>
             </CookiesProvider>
         </Provider>
+        </ErrorCatcher>
     );
 }
 

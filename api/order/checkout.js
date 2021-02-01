@@ -1,3 +1,4 @@
+const {SIMARD_CONFIG} = require("../_lib/config");
 const {getHotelSearchResults,getFlightSearchResults} = require("../_lib/cache");
 const {
     createPaymentIntent,
@@ -18,12 +19,15 @@ const {
 const {SessionStorage} = require('../_lib/session-storage');
 
 
+const PAYMENT_TYPE_CARD='card';
+const PAYMENT_TYPE_CRYPTO='crypto';
+
 const checkoutCard = async (req, res) => {
     let payload = req.body;
     let confirmedOfferId=payload.confirmedOfferId;
     let sessionID=req.sessionID;
     try{
-        const {exchangeQuote, confirmedOffer} = await processCheckout(sessionID,confirmedOfferId);
+        const {exchangeQuote, confirmedOffer} = await processCheckout(sessionID,confirmedOfferId, PAYMENT_TYPE_CARD);
 
         // let price = confirmedOffer.offer.price;
         const {targetAmount, targetCurrency} = exchangeQuote;
@@ -45,7 +49,7 @@ const checkoutCard = async (req, res) => {
 };
 
 
-const processCheckout = async (sessionID, confirmedOfferId) => {
+const processCheckout = async (sessionID, confirmedOfferId, form_of_payment) => {
 
     let shoppingCart = new ShoppingCart(sessionID);
     let passengers = await shoppingCart.getItemFromCart(CART_ITEMKEYS.PASSENGERS);
@@ -69,7 +73,7 @@ const processCheckout = async (sessionID, confirmedOfferId) => {
         sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Invalid offer retrieved",req.body);
         return;
     }
-    let exchangeQuote = await getExchangeQuote(confirmedOffer);
+    let exchangeQuote = await getExchangeQuote(confirmedOffer, form_of_payment);
 
     //confirmed offer is just a 'MASTER' order, all suborders are stored in 'cartItems' object (copy of shopping cart)
     let cartItems = confirmedOffer.cartItems;   //if so - this would have a list of sub offers that need to be paid and fulfilled
@@ -167,7 +171,7 @@ const rewritePassengers = (userProvided, searchPassengers) => {
     return results;
 }
 
-const getExchangeQuote = async (confirmedOffer) => {
+const getExchangeQuote = async (confirmedOffer, form_of_payment) => {
     const {
         public: publicPrice,
         currency
@@ -175,39 +179,44 @@ const getExchangeQuote = async (confirmedOffer) => {
     let amount = publicPrice;
     let exchangeQuote;
 
-    const isNonUsd = String(currency).toLowerCase() !== 'usd';
+    // default - no conversion
+    exchangeQuote = {
+        quoteId: null,
+        rate: 1,
+        sourceAmount: publicPrice,
+        sourceCurrency: currency,
+        targetAmount: publicPrice,
+        targetCurrency: currency
+    };
 
-    if (isNonUsd) {
-        const {
-            quoteId,
-            rate,
-            sourceAmount,
-            sourceCurrency,
-            targetAmount,
-            targetCurrency
-        } = await convertCurrencyToUSD(currency, publicPrice);
-        amount = sourceAmount;
-        logger.info(`Quote created: quoteId=${quoteId}; from ${targetAmount}${targetCurrency} to ${sourceAmount}${sourceCurrency} with rate: ${rate}`);
+    if(form_of_payment === PAYMENT_TYPE_CRYPTO ){
+        //in case of crypto, we need currency to be converted to USD
+        const isNonUsd = String(currency).toLowerCase() !== 'usd';
+        if (isNonUsd) {
+            //we will perform conversion rate only if
+            const {
+                quoteId,
+                rate,
+                sourceAmount,
+                sourceCurrency,
+                targetAmount,
+                targetCurrency
+            } = await convertCurrencyToUSD(currency, publicPrice);
+            logger.info(`Quote created: quoteId=${quoteId}; from ${targetAmount}${targetCurrency} to ${sourceAmount}${sourceCurrency} with rate: ${rate}`);
 
-        exchangeQuote = {
-            quoteId,
-            rate,
-            sourceAmount,
-            sourceCurrency,
-            targetAmount,
-            targetCurrency
-        };
-    } else {
+            exchangeQuote = {
+                quoteId,
+                rate,
+                sourceAmount,
+                sourceCurrency,
+                targetAmount,
+                targetCurrency
+            };
+        }
+    }
+    if(form_of_payment === PAYMENT_TYPE_CARD ) {
+        const isConversionEnabled = (SIMARD_CONFIG.ENABLE_CURRENCY_CONVERSION === true);
 
-        // conversion disabled
-        exchangeQuote = {
-            quoteId: null,
-            rate: 1,
-            sourceAmount: publicPrice,
-            sourceCurrency: 'USD',
-            targetAmount: publicPrice,
-            targetCurrency: 'USD'
-        };
     }
     return exchangeQuote;
 }
@@ -224,7 +233,7 @@ const checkoutCrypto = async (req, res) => {
     const sessionID=req.sessionID;
 
     try{
-        const {exchangeQuote, confirmedOffer} = await processCheckout(sessionID,confirmedOfferId);
+        const {exchangeQuote, confirmedOffer} = await processCheckout(sessionID,confirmedOfferId, PAYMENT_TYPE_CRYPTO);
         let amount = exchangeQuote.sourceAmount;
         return {
             offer: confirmedOffer,
@@ -258,53 +267,19 @@ const checkoutUrlController = async (req, res) => {
     validateCheckoutPayload(req.body)
     let payload = req.body;
     let payment_type=payload.type;
-    // let sessionID=req.sessionID;
-    // let shoppingCart = new ShoppingCart(sessionID);
-    // let confirmedOfferId=payload.confirmedOfferId;
-
     let response;
 
     switch (payment_type) {
-        case 'card':
+        case PAYMENT_TYPE_CARD:
             response = await checkoutCard(req, res);
             break;
-        case 'crypto':
+        case PAYMENT_TYPE_CRYPTO:
             response = await checkoutCrypto(req, res);
             break;
         default:
             logger.warn("Unsupported payment type, payment_type=%s", payment_type);
             sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Unsupported payment type",req.body);
     }
-
-    // if (payment_type !== 'card') {
-    //     logger.warn("Unsupported payment type, payment_type=%s", payment_type)
-    //     sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Unsupported payment type",req.body);
-    //     return;
-    // }
-    // logger.debug("SessionID: %s, confirmedOffer:%s", sessionID, confirmedOfferId)
-    // let passengers = await shoppingCart.getItemFromCart(CART_ITEMKEYS.PASSENGERS);
-    // let confirmedOffer = await shoppingCart.getItemFromCart(CART_ITEMKEYS.CONFIRMED_OFFER)
-    // logger.debug("passenger details in shopping cart", passengers)
-    // logger.debug("shopping cart ", await shoppingCart.getCart());
-
-    // if (confirmedOffer == null) {
-    //     logger.warn("Cannot find requested confirmedOffer in session storage, SessionID: %s", sessionID)
-    //     sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Cannot find offer",req.body);
-    //     return;
-    // }
-    // if (confirmedOffer.offerId !== confirmedOfferId) {
-    //     logger.warn("Requested offerId was found in session storage but its offerId(%s) does not match with requested confirmedOfferId(%s)", confirmedOffer.offerId, confirmedOfferId, confirmedOffer)
-    //     sendErrorResponse(res,400,ERRORS.INVALID_INPUT,"Invalid offer retrieved",req.body);
-    //     return;
-    // }
-
-    // await storeConfirmedOffer(confirmedOffer,passengers);
-    // let price = confirmedOffer.offer.price;
-    // let priceInBaseUnits = convertPriceToMinorUnits(price.public, price.currency);
-    // logger.debug("Will create payment intent, sessionID:%s, confirmedOfferId:%s, amount %s %s", sessionID, confirmedOfferId, price.currency, price.public)
-    // let intent = await createPaymentIntent(PAYMENT_TYPES.CARD, priceInBaseUnits, price.currency,confirmedOfferId);
-    // logger.debug("Intent received from stripe",intent);
-    // let response = prepareResponse(intent);
     res.json(response)
 }
 

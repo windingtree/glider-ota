@@ -32,28 +32,34 @@ export default function SearchModeSelector(){
     const isFlightActive = (selectedMode===SEARCH_TYPE.FLIGHTS);
     const isHotelActive = (selectedMode===SEARCH_TYPE.HOTELS);
 
+    //if needed, we can disable hotel or search search (link in the top of the page) with env property (at build time!)
+    let flightSearchDisabled = (process.env.REACT_APP_FLIGHT_SEARCH_DISABLED === "yes")
+    let hotelSearchDisabled = (process.env.REACT_APP_HOTEL_SEARCH_DISABLED === "yes")
+
     const activeColor = '#543CE2'; //$g-color-primary
     const inactiveColor = '#717171';  // $g-color-darkgrey
 
     return (
         <div className={style.container}>
-                <SelectorButton
-                    onToggle={onFlightClick}
-                    isActive={isFlightActive}
-                    icon={<IconPlaneDepartureTop stroke={isFlightActive ? activeColor : inactiveColor}/>}
-                    text={'Flights'}
-                />
-                <SelectorButton
-                    onToggle={onHotelClick}
-                    isActive={isHotelActive}
-                    icon={<IconHotelBedTop stroke={isHotelActive ? activeColor : inactiveColor}/>}
-                    text={'Hotels'}
-                />
+            <SelectorButton
+                onToggle={onHotelClick}
+                isActive={isHotelActive && !hotelSearchDisabled}
+                disabled={hotelSearchDisabled}
+                icon={<IconHotelBedTop stroke={isHotelActive&&!hotelSearchDisabled ? activeColor : inactiveColor}/>}
+                text={'Hotels'}
+            />
+            <SelectorButton
+                onToggle={onFlightClick}
+                isActive={isFlightActive && !flightSearchDisabled}
+                disabled={flightSearchDisabled}
+                icon={<IconPlaneDepartureTop stroke={isFlightActive&&!flightSearchDisabled ? activeColor : inactiveColor}/>}
+                text={'Flights'}
+            />
         </div>)
 }
 
 
-export const SelectorButton = ({text, icon, isActive=false,onToggle=undefined}) => {
+export const SelectorButton = ({text, icon, isActive=false,disabled=false, onToggle=undefined}) => {
     const onClick = (e)  => {
         if(onToggle)
             onToggle();
@@ -63,13 +69,14 @@ export const SelectorButton = ({text, icon, isActive=false,onToggle=undefined}) 
     let className=cx({
         selectorBtn:true,
         active:isActive===true,
-        inactive:isActive===false,
+        inactive:isActive===false
     })
     return (
         <>
-            <button onClick={onClick} className={className}>
+            <button onClick={onClick} className={className} disabled={disabled} >
                 <span>{icon}</span>
                 <span className='pl-3 pr-3'>{text}</span>
+                {disabled && <span className={style.comingSoon}>Coming 2021</span>}
             </button>
         </>
 

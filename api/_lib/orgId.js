@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const {ORGID,GLIDER_CONFIG, ROOMS_CONFIG} = require('./config');
 const axios = require('axios');
 import { JWK, JWT } from 'jose'
@@ -10,10 +9,9 @@ import { JWK, JWT } from 'jose'
  * @returns {Promise<string>}
  */
 const createTokenForProvider = async (orgId) => {
-    return await createToken(ORGID.OTA_ORGID,orgId,'2hr',ORGID.OTA_PRIVATE_KEY,'api');
+    return await createToken(ORGID.OTA_ORGID,orgId,'12hr',ORGID.OTA_PRIVATE_KEY,ORGID.OTA_PRIVATE_KEY_ID);
 }
 
-let GRAPH_URL = 'https://api.thegraph.com/subgraphs/name/windingtree/orgid-subgraph-ropsten';
 
 /**
  * Run a query on thegraph.com API with a query provided as a parameter.
@@ -44,7 +42,6 @@ const runGraphQuery = async (query) => {
 const getEndpoints = async (searchCriteria) =>{
     let endpoints=[];
 
-
     if(ORGID.P2P_ENABLE_DISCOVERY) {
         let organisations = [];
 
@@ -72,7 +69,6 @@ const getEndpoints = async (searchCriteria) =>{
             {
                 serviceEndpoint: GLIDER_CONFIG.BASE_URL,
                 id: GLIDER_CONFIG.ORGID,
-                jwt: GLIDER_CONFIG.GLIDER_TOKEN
             }
         )
     }
@@ -83,7 +79,6 @@ const getEndpoints = async (searchCriteria) =>{
                 {
                     serviceEndpoint: ROOMS_CONFIG.BASE_URL,
                     id: ROOMS_CONFIG.ROOMS_ORGID,
-                    jwt: ROOMS_CONFIG.ROOMS_TOKEN
                 }
             )
         }
@@ -115,37 +110,21 @@ const filterInvalidOrganisations = (organisations) =>{
     if(isArrayEmpty(organisations))
         return organisations;
     organisations = organisations.filter(org=>{
-        const {isIncluded,registrationStatus, segment, directory, organization:{id, isActive, service, publicKey}} = org;
-        console.log(`Checking organisation:${id}, isIncluded:${isIncluded}, registrationStatus:${registrationStatus}, segment:${segment}`);
+        const {isIncluded, segment, directory, organization:{isActive, service}} = org;
         if(!directory) {
-            // console.log(`!directory`);
             return false;
         }
         if(!isIncluded) {
-            // console.log(`!isIncluded`);
             return false;
         }
         if(!segment) {
-            // console.log(`!segment`);
             return;
         }
-
-        // const {isActive, service, publicKey} = organization;
         if(!isActive) {
-            // console.log(`!isActive`);
             return false;
         }
-        if(isArrayEmpty(service)){
-            // console.log(`empty service`);
-            return false;
-        }
-/*
-        if(isArrayEmpty(publicKey)){
-            console.log(`empty publicKey`);
-            return false;
-        }*/
+        return !isArrayEmpty(service);
 
-        return true;
     })
     return organisations;
 }
@@ -155,7 +134,7 @@ const extractEndpoints = (organisations) => {
         return organisations;
     let endpoints = [];
     organisations.forEach(org => {
-        const {organization: {id,did, service}} = org;
+        const {organization: {id,service}} = org;
         service.forEach(svc => {
             endpoints.push({id:id, serviceEndpoint:svc.serviceEndpoint})
         })
@@ -210,9 +189,7 @@ const _getActiveHotels = async (lat, lon) => {
 
     let result = await runGraphQuery(createQuery('hotels'));
     let organisations = (result && result.directoryOrganizations)?result.directoryOrganizations:[]
-    console.log('Hotels before filtering:',organisations)
     organisations = filterInvalidOrganisations(organisations)
-    console.log('Final hotels:',organisations)
     return organisations;
 }
 
@@ -227,10 +204,7 @@ const _getActiveAirlines = async (origin, destination) => {
 
     let result = await runGraphQuery(createQuery('airlines'));
     let organisations = (result && result.directoryOrganizations)?result.directoryOrganizations:[]
-    console.log('Airlines before filtering:',organisations)
     organisations = filterInvalidOrganisations(organisations)
-
-    console.log('Final airlines:',organisations)
     return organisations;
 }
 
@@ -239,7 +213,7 @@ const createToken = async (issuer, audience, expiresIn, privateKey, fragment) =>
     let issuerDid=`did:orgid:${issuer}`;
 
     const priv = JWK.asKey(privateKey,{alg:'ES256K',use: 'sig'});
-    return JWT.sign(
+    let jwt = JWT.sign(
         {
         },
         priv,
@@ -251,17 +225,24 @@ const createToken = async (issuer, audience, expiresIn, privateKey, fragment) =>
             header: { typ: 'JWT' }
         }
     );
+    /*console.log(`Create JWT token:
+ISS:[${issuer}]
+AUD:[${audience}]
+expires:[${expiresIn}]
+keyID:[${fragment}]
+privateKey:[${privateKey}]
+JWT:[${jwt}]`)*/
+    return jwt;
 };
 
 
 const isArrayEmpty = (arr) =>{
-    if(!arr || !Array.isArray(arr) || arr.length === 0)
-        return true;
-    return false;
+    return !arr || !Array.isArray(arr) || arr.length === 0;
+
 }
 
 
 module.exports = {
-    getEndpoints
+    getEndpoints, createTokenForProvider, createToken
 }
 
