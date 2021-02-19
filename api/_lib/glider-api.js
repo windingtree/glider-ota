@@ -58,7 +58,7 @@ async function searchOffers(criteria) {
     };
     if (response && response.data) {
         searchResults = response.data;
-        enrichResponseWithDictionaryData(searchResults)
+        enrichResponseWithDictionaryData(criteria, searchResults)
     } else {
         logger.info("Response from /searchOffers API was empty, search criteria:", criteria)
     }
