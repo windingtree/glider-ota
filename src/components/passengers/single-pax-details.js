@@ -171,29 +171,13 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     if(!paxTypeLabel) {
         paxTypeLabel=typeToLabel[DEFAULT_PAXTYPE];
     }
-    const formIsNotYetValidMessage = () => (
-        <Alert variant="danger">
-                Not all required fields are filled
-        </Alert>
-    );
+   
     return (
         <>
             <div className={style.header}>{paxTypeLabel}</div>
 
             <Form validated={validated} onSubmit={handleSubmit} ref={formRef}>
                 <Form.Row className={style.paxDetailsFormRow}>
-                    <Col>
-                        <Form.Label className={style.label}>Surname</Form.Label>
-                        <Form.Control type="text" placeholder="Lastname"
-                                      name='lastName'
-                                      onBlur={onFieldBlur}
-                                      onChange={onFieldValueChanged}
-                                      value={fieldValues['lastName']}
-                                      required
-                                      isInvalid={showInvalidStatus('lastName')}
-                                    onInput={onFieldInput}/>
-                        <Form.Control.Feedback type="invalid">{errors.lastName}</Form.Control.Feedback>
-                    </Col>
                     <Col>
                         <Form.Label className={style.label}>Name</Form.Label>
                         <Form.Control type="text"
@@ -207,6 +191,18 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       required
                         />
                         <Form.Control.Feedback type="invalid">{errors.firstName}</Form.Control.Feedback>
+                    </Col>
+                    <Col>
+                        <Form.Label className={style.label}>Surname</Form.Label>
+                        <Form.Control type="text" placeholder="Lastname"
+                                      name='lastName'
+                                      onBlur={onFieldBlur}
+                                      onChange={onFieldValueChanged}
+                                      value={fieldValues['lastName']}
+                                      required
+                                      isInvalid={showInvalidStatus('lastName')}
+                                      onInput={onFieldInput}/>
+                        <Form.Control.Feedback type="invalid">{errors.lastName}</Form.Control.Feedback>
                     </Col>
                 </Form.Row>
                 <Form.Row>
