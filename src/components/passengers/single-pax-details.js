@@ -1,10 +1,9 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import {Col, Form} from 'react-bootstrap'
 import style from "./single-pax-details.module.scss";
 import Button from "react-bootstrap/Button";
 import 'react-phone-number-input/style.css';
 import PhoneInput, {isPossiblePhoneNumber} from 'react-phone-number-input';
-import Alert from "react-bootstrap/Alert";
 import {differenceInYears} from 'date-fns';
 
 const DEFAULT_PAXTYPE='ADT';
@@ -47,6 +46,14 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
 
     const [validated, setValidated] = useState(false);
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
+
+    useEffect(()=>{
+        //we need to perform form validation after it is rendered to enable/disable 'submit' button
+        //since form can be prepopulated with passenger details (from either sessionStorage or server side) we can't validate only onBlur but also shortly after form is displayed
+        const form = formRef.current;
+        onDataChange(passengerId, fieldValues, form.checkValidity());
+
+    },[])
 
     // Function to determine if all fields are valid
     const allFieldsValid = () => {
@@ -171,29 +178,13 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     if(!paxTypeLabel) {
         paxTypeLabel=typeToLabel[DEFAULT_PAXTYPE];
     }
-    const formIsNotYetValidMessage = () => (
-        <Alert variant="danger">
-                Not all required fields are filled
-        </Alert>
-    );
+    console.log('Render form, fieldValues:',fieldValues);
     return (
         <>
             <div className={style.header}>{paxTypeLabel}</div>
 
             <Form validated={validated} onSubmit={handleSubmit} ref={formRef}>
                 <Form.Row className={style.paxDetailsFormRow}>
-                    <Col>
-                        <Form.Label className={style.label}>Surname</Form.Label>
-                        <Form.Control type="text" placeholder="Lastname"
-                                      name='lastName'
-                                      onBlur={onFieldBlur}
-                                      onChange={onFieldValueChanged}
-                                      value={fieldValues['lastName']}
-                                      required
-                                      isInvalid={showInvalidStatus('lastName')}
-                                    onInput={onFieldInput}/>
-                        <Form.Control.Feedback type="invalid">{errors.lastName}</Form.Control.Feedback>
-                    </Col>
                     <Col>
                         <Form.Label className={style.label}>Name</Form.Label>
                         <Form.Control type="text"
@@ -207,6 +198,18 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
                                       required
                         />
                         <Form.Control.Feedback type="invalid">{errors.firstName}</Form.Control.Feedback>
+                    </Col>
+                    <Col>
+                        <Form.Label className={style.label}>Surname</Form.Label>
+                        <Form.Control type="text" placeholder="Lastname"
+                                      name='lastName'
+                                      onBlur={onFieldBlur}
+                                      onChange={onFieldValueChanged}
+                                      value={fieldValues['lastName']}
+                                      required
+                                      isInvalid={showInvalidStatus('lastName')}
+                                      onInput={onFieldInput}/>
+                        <Form.Control.Feedback type="invalid">{errors.lastName}</Form.Control.Feedback>
                     </Col>
                 </Form.Row>
                 <Form.Row>

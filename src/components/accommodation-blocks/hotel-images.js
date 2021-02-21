@@ -1,10 +1,12 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import style from "./hotel-images.module.scss"
 import {Splide, SplideSlide} from '@splidejs/react-splide';
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 export const ImageGallery = ({images}) => {
+    const [selectedImage, setSelectedImage] = useState();
     const secondaryRef = useRef();
+
     const secondaryOptions = {
         type        : 'slide',
         rewind      : true,
@@ -19,11 +21,10 @@ export const ImageGallery = ({images}) => {
         arrow: false
     };
 
-    const onThumbnailClicked = (slide) => {
-        console.log('Clicked', slide)
+    const onThumbnailClicked = (slide, param1) => {
+        setSelectedImage(images[param1.index]);
     }
-    const onArrows = (slide) => {
-        console.log('onArrows', slide)
+    const onArrows = () => {
     }
 
     const getImages = () =>{
@@ -34,14 +35,19 @@ export const ImageGallery = ({images}) => {
 
     const renderSlides = () => {
         return getImages().map( slide => (
-            <SplideSlide key={ slide.src } >
-                <img src={ slide.src } alt={ slide.alt } className={style.slideImage} />
+            <SplideSlide key={ slide.src }>
+                <img src={ slide.src } alt={ slide.alt } className={style.slideImage}/>
             </SplideSlide>
         ) );
     };
 
+    const mouseClicked = () => {
+        setSelectedImage(undefined)
+    }
+
     return (
         <>
+            {selectedImage && <div className={style.imagePreviewContainer} onClick={mouseClicked}><img alt='room preview' src={selectedImage.url}/></div>}
         <Splide options={ secondaryOptions } ref={ secondaryRef } onClick={onThumbnailClicked} onArrowsMounted={onArrows}>
             { renderSlides() }
         </Splide>

@@ -203,7 +203,8 @@ const HotelOfferCartItem = ({hotelOffer, onRemoveOfferFromCart}) => {
     if (!hotelOffer)
         return (<></>);
 
-    const {offerId, hotel, room, checkInDate, checkOutDate} = hotelOffer;
+    const {offerId, hotel, room, offer} = hotelOffer;
+    let {arrival: checkInDate, departure: checkOutDate} = offer.travelDates;
 
     const cityName = _.get(hotel, 'contactInformation.address.locality');
 

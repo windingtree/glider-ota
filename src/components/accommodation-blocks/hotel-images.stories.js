@@ -107,9 +107,7 @@ let images3 = [
         "url": "https://s3.amazonaws.com/images.hotels/images/07119/4.jpg"
     }
 ]
-
-    let big=[...images1,...images2,...images3];
-console.log(big)
+let big=[...images1,...images2,...images3];
 export const Images = () => (<ImageGallery images={images1}/> )
 export const Images2 = () => (<ImageGallery images={images2}/> )
 export const Images3 = () => (<ImageGallery images={big}/> )

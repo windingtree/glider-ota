@@ -6,16 +6,34 @@ const { utcToZonedTime} = require('date-fns-tz');
 const logger = createLogger('response-decorator-logger');
 
 
-function enrichResponseWithDictionaryData(results){
+function enrichResponseWithDictionaryData(searchCriteria, results){
     enrichAirportCodesWithAirportDetails(results);
     enrichOperatingCarrierWithAirlineNames(results);
     convertUTCtoLocalAirportTime(results);
     increaseOfferPriceWithStripeCommission(results);
+
+    //hotel search results & hotel offers do not have check in/out DATE (only time)
+    //we need that (e.g. to display accommodation info in shopping cart) - thus here we need to decorate it (based on search dates)
+    addSearchCriteriaToOffers(results, searchCriteria);
     results['metadata']={
         uuid:v4(),
         timestamp:new Date(),
         numberOfOffers:results.offers?Object.keys(results.offers).length:0
     }
+}
+function addSearchCriteriaToOffers(results, searchCriteria) {
+    if(!results.accommodations || !results.offers){
+        //if it's only flight search results or not offers at all - skip it
+        return;
+    }
+    const {arrival, departure} = searchCriteria.accommodation;
+    Object.keys(results.offers).forEach(offerId=>{
+        const offer=results.offers[offerId];
+        offer.travelDates={
+            arrival:arrival,
+            departure:departure
+        }
+    })
 }
 
 function enrichAirportCodesWithAirportDetails(results){
@@ -104,7 +122,7 @@ function increaseOfferPriceWithStripeCommission(results){
     let offers = _.get(results,'offers',{})
     _.each(offers, (offer,id)=>{
         let price = offer.price;
-        price.public=_roundToTwoDecimals(_addOPCFee(price.public));;
+        price.public=_roundToTwoDecimals(_addOPCFee(price.public));
     });
 }
 

@@ -14,6 +14,7 @@ export class HotelSearchResultsFilterHelper {
      */
     generateSearchResults(filters = {}) {
         let result = [];
+        console.log('Hotels - generateSearchResults, filters:', filters)
         let hotels = this.searchResultsWrapper.getAllAccommodations();
         let offers = this.searchResultsWrapper.getAllOffers();
         //filter out offers that do not pass 'offer level' filters (e.g. price filter)
@@ -22,6 +23,8 @@ export class HotelSearchResultsFilterHelper {
         //iterate over all hotels
         Object.keys(hotels).forEach(accommodationId => {
             let hotel = this.searchResultsWrapper.getAccommodation(accommodationId);
+            console.log('filters:',filters)
+            console.log('Hotel:',hotel)
 
             //check if hotel passes 'hotel level' criteria (e.g. rating filter)
             if (this.applyHotelFilters(hotel, filters)) {
@@ -106,11 +109,20 @@ export class HotelSearchResultsFilterHelper {
     checkHotelAmenities(filter, hotel) {
         if (filter['ALL'] && filter['ALL'] === true)
             return true;
-        let result = false;
-        let hotelRating = hotel.rating;
-        if (filter[hotelRating] === true)
-            result = true;
-
+        let result = true;
+        const availableHotelAmenities = [];
+        //collect all available amenities from all hotel rooms
+        Object.keys(hotel.roomTypes).forEach(roomId=>{
+            let room = hotel.roomTypes[roomId];
+            if(Array.isArray(room.amenities))
+                availableHotelAmenities.push(...room.amenities)
+        })
+        //check if selected amenities from filter are available in those that we collected in prev step
+        Object.keys(filter).map(amenityName=>{
+            if (filter[amenityName]){
+                result = result && availableHotelAmenities.includes(amenityName)
+            }
+        })
         return result;
     }
     getOffersOfAccommodationOnly(accommodationId, allOffers){
