@@ -72,7 +72,7 @@ export const BookingFlowBreadcrumb = ({isFlightBooking, isHotelBooking, currentS
                     if (!currentStepAlreadyFound) {
                         breadcrumb=<Breadcrumb.Item key={index} href={url} onClick={(e) => onClickHandler(e, id,url)}>{label}</Breadcrumb.Item>;
                     } else {
-                        breadcrumb=<Breadcrumb.Item key={index} active={isActive} linkAs='text' >{label}</Breadcrumb.Item>;
+                        breadcrumb=<Breadcrumb.Item key={index} active={isActive} linkAs='span' >{label}</Breadcrumb.Item>;
                     }
                     return breadcrumb;
                 }
