@@ -1,10 +1,9 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import {Col, Form} from 'react-bootstrap'
 import style from "./single-pax-details.module.scss";
 import Button from "react-bootstrap/Button";
 import 'react-phone-number-input/style.css';
 import PhoneInput, {isPossiblePhoneNumber} from 'react-phone-number-input';
-import Alert from "react-bootstrap/Alert";
 import {differenceInYears} from 'date-fns';
 
 const DEFAULT_PAXTYPE='ADT';
@@ -47,6 +46,14 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
 
     const [validated, setValidated] = useState(false);
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
+
+    useEffect(()=>{
+        //we need to perform form validation after it is rendered to enable/disable 'submit' button
+        //since form can be prepopulated with passenger details (from either sessionStorage or server side) we can't validate only onBlur but also shortly after form is displayed
+        const form = formRef.current;
+        onDataChange(passengerId, fieldValues, form.checkValidity());
+
+    },[])
 
     // Function to determine if all fields are valid
     const allFieldsValid = () => {
@@ -171,7 +178,7 @@ export default function SinglePaxDetails({passengerId, passengerType, onDataChan
     if(!paxTypeLabel) {
         paxTypeLabel=typeToLabel[DEFAULT_PAXTYPE];
     }
-   
+    console.log('Render form, fieldValues:',fieldValues);
     return (
         <>
             <div className={style.header}>{paxTypeLabel}</div>
