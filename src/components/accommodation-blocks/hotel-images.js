@@ -15,11 +15,17 @@ export const ImageGallery = ({images}) => {
         fixedWidth  : 110,
         fixedHeight : 70,
         cover       : true,
-        focus       : 'center',
         isNavigation: true,
         updateOnMove: true,
-        arrow: false
+        arrows: true,
+        perPage: 3,
+        classes: {
+            prev: style.splideArrowPrev,
+            next: style.splideArrowNext,
+            track: `splide__track`
+        }
     };
+    console.log('Splide options', secondaryOptions);
 
     const onThumbnailClicked = (slide, param1) => {
         setSelectedImage(images[param1.index]);
