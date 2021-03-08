@@ -37,3 +37,16 @@
 .horizontalContainer{
 
 }
+
+.splideArrowPrev {
+  left: 0
+}
+
+.splideArrowNext {
+  right: 0
+}
+
+:global(.splide__track) {
+  margin: 0 3rem 0 3rem !important;
+  overflow: visible;
+}
