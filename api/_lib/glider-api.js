@@ -5,7 +5,6 @@ const logger = createLogger('aggregator-api');
 const {
     enrichResponseWithDictionaryData,
     setDepartureDatesToNoonUTC,
-    increaseConfirmedPriceWithMaxOPCFee
 } = require('./response-decorator');
 const {createErrorResponse, mergeAggregatorResponse, ERRORS} = require('./rest-utils');
 const OrgId = require('./orgId');
@@ -162,7 +161,7 @@ async function reprice(offerId, options, endpoint) {
     let repriceResponse = {};
     if (response && response.data) {
         repriceResponse = response.data;
-        increaseConfirmedPriceWithMaxOPCFee(repriceResponse)
+        // increaseConfirmedPriceWithMaxOPCFee(repriceResponse) //not needed here - OPC commission is calculated in shopping cart
     }
 
     //we may have a new offerID at this stage (e.g. aircanada) - we need to store metadata for this offer too
