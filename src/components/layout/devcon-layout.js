@@ -1,12 +1,16 @@
 import React from "react";
 import style from "./devcon-layout.module.scss";
+import { useHistory } from 'react-router-dom';
 
 
 export default function DevConLayout(props) {
+    const history = useHistory();
     return (
         <div className={style.pageWrapper}>
-            <header className={style.devconHeader}>
-              <a href="/">Your Logo</a>
+            <header
+                className={style.header}
+                onClick={() => { window.location.assign(window.location.origin); }}
+            >
             </header>
             <div className={props.pageClass ? " " + props.pageClass : ""}>
                 {props.children}

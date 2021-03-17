@@ -203,7 +203,8 @@ const HotelOfferCartItem = ({hotelOffer, onRemoveOfferFromCart}) => {
     if (!hotelOffer)
         return (<></>);
 
-    const {offerId, hotel, room, checkInDate, checkOutDate} = hotelOffer;
+    const {offerId, hotel, room, offer} = hotelOffer;
+    let {arrival: checkInDate, departure: checkOutDate} = offer.travelDates;
 
     const cityName = _.get(hotel, 'contactInformation.address.locality');
 
@@ -257,15 +258,24 @@ export const ShoppingCart = (props) => {
 
     const toggleMobileCart = () => setMobileCartOpen(!mobileCartOpen);
 
+    //make sure shopping cart is shown at the top of the page (regardless of scroll position)
+    const onScroll = () => {
+        if (cartRef.current) {
+            cartRef.current.style.top = `${window.scrollY}px`;
+        }
+    };
+
     useEffect(() => {
-        const onScroll = e => {
-            if (cartRef.current) {
-                cartRef.current.style.top = `${e.target.documentElement.scrollTop}px`;
-            }
-        };
+        //install scroll event handler to display shopping cart sticky at the top of the page when user scrolls
         window.addEventListener('scroll', onScroll);
         return () => window.removeEventListener('scroll', onScroll);
     }, [cartRef]);
+
+
+    useEffect(() => {
+        //once item is added to the cart - update cart position to be at the top of the page
+        onScroll();
+    }, [totalPrice]);
 
     //redirect to booking flow (pax details page)
     const onProceedToBook = (e) => {

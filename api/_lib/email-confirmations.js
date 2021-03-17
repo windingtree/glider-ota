@@ -24,7 +24,7 @@ const sendBookingConfirmations =  async (confirmation) => {
         const msg = {
             to:recipientEmail,
             from: SENDGRID_CONFIG.FROM_EMAIL_ADDR,
-            subject:'Booking confirmation',
+            subject:'Your booking confirmation',
             templateId: SENDGRID_CONFIG.TEMPLATE_ID,
             dynamicTemplateData: data,
             text:'Booking confirmation',

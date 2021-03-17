@@ -9,7 +9,7 @@ export class HotelSearchResultsWrapper extends BaseSearchResultsWrapper{
 
     getAllAccommodations(){
         let hotels={};
-        Object.keys(this.accommodations).forEach(accommodationId=>{
+        this.accommodations && Object.keys(this.accommodations).forEach(accommodationId=>{
             hotels[accommodationId] = this.getAccommodation(accommodationId);
         });
         return hotels;

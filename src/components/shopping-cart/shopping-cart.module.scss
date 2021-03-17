@@ -14,7 +14,7 @@
   position: relative;
   background: $glider-color-primary-background;
   border-radius: 8px;
-
+  z-index: 10;
   @include media-max-md {
     position: fixed;
     min-width: 300px;
@@ -24,7 +24,7 @@
     bottom: 20px;
     margin-right: auto;
     margin-left: auto;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -54,7 +54,7 @@
   background-color: $glider-color-primary;
   border-radius: 8px;
   text-align: center;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 
   @include media-max-md {
@@ -109,7 +109,7 @@
 .hotelItemHotelImage{
     width: 100%;
     height: 100%;
-  margin: 20px 0px;
+  margin: 20px 0;
   border-radius: 8px;
 }
 
@@ -168,6 +168,6 @@
 }
 .removeFromCartBtn {
   position: absolute;
-  top:0px;
-  right:0px;
+  top:0;
+  right:0;
 }

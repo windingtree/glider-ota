@@ -5,6 +5,7 @@ import HotelsSearchResults from "../hotelresults/hotels-search-results";
 import {Container, Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import ShoppingCart from "../shopping-cart/shopping-cart";
+import Welcome from '../../components/welcome';
 
 export default function HotelsShoppingComponent(props) {
     const {
@@ -21,6 +22,7 @@ export default function HotelsShoppingComponent(props) {
                 </Col>
                 <Col xs={12} sm={12} md={6} xl={6}>
                     <HotelsSearchResults initSearch={initSearch} />
+                    <Welcome />
                 </Col>
                 <Col xs={0} sm={0} md={3} xl={3}>
                     <ShoppingCart/>

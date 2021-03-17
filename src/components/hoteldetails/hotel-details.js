@@ -15,6 +15,7 @@ import {
     isShoppingCartUpdateInProgress
 } from "../../redux/sagas/shopping-cart-store";
 import {connect} from "react-redux";
+import {getLeadingHotelImageUrl} from "../../utils/hotel-utils";
 
 
 export function HotelDetails(props) {
@@ -152,16 +153,6 @@ function getRoomPricePlansWithOffers(roomType, hotelPlansWithOffers) {
     return hotelPlansWithOffers.filter(rec => {
         return rec.roomType === roomType;
     })
-}
-
-
-
-const getLeadingHotelImageUrl = (hotel) => {
-    const {media: images} = hotel;
-    if(images && Array.isArray(images) && images.length > 0){
-        return images[0].url;
-    }
-    return null;
 }
 
 

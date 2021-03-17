@@ -6,21 +6,39 @@ const { utcToZonedTime} = require('date-fns-tz');
 const logger = createLogger('response-decorator-logger');
 
 
-function enrichResponseWithDictionaryData(results){
+function enrichResponseWithDictionaryData(searchCriteria, results){
     enrichAirportCodesWithAirportDetails(results);
     enrichOperatingCarrierWithAirlineNames(results);
     convertUTCtoLocalAirportTime(results);
-    increaseOfferPriceWithStripeCommission(results);
+    // increaseOfferPriceWithStripeCommission(results);     //this is not needed here - commission is added in shoppingcart::estimatePriceInUserPreferredCurrency
+
+    //hotel search results & hotel offers do not have check in/out DATE (only time)
+    //we need that (e.g. to display accommodation info in shopping cart) - thus here we need to decorate it (based on search dates)
+    addSearchCriteriaToOffers(results, searchCriteria);
     results['metadata']={
         uuid:v4(),
         timestamp:new Date(),
         numberOfOffers:results.offers?Object.keys(results.offers).length:0
     }
 }
+function addSearchCriteriaToOffers(results, searchCriteria) {
+    if(!results.accommodations || !results.offers){
+        //if it's only flight search results or not offers at all - skip it
+        return;
+    }
+    const {arrival, departure} = searchCriteria.accommodation;
+    Object.keys(results.offers).forEach(offerId=>{
+        const offer=results.offers[offerId];
+        offer.travelDates={
+            arrival:arrival,
+            departure:departure
+        }
+    })
+}
 
 function enrichAirportCodesWithAirportDetails(results){
     let segments = _.get(results,'itineraries.segments',[])
-    _.each(segments, (segment,id)=>{
+    _.each(segments, (segment)=>{
         let origin = segment.origin;
         let airportCode = origin.iataCode;
         let airportDetails = getAirportByIataCode(airportCode);
@@ -47,7 +65,7 @@ function enrichAirportCodesWithAirportDetails(results){
 
 function enrichOperatingCarrierWithAirlineNames(results){
     let segments = _.get(results,'itineraries.segments',[])
-    _.each(segments, (segment,id)=>{
+    _.each(segments, (segment)=>{
         let operator = segment.operator;
         let airlineCode  = operator.iataCode;
         let airlineDetails = getAirlineByIataCode(airlineCode);
@@ -68,7 +86,7 @@ function enrichOperatingCarrierWithAirlineNames(results){
  */
 function setDepartureDatesToNoonUTC(criteria){
     let segments = _.get(criteria,'itinerary.segments',[])
-    _.each(segments, (segment,id)=>{
+    _.each(segments, (segment)=>{
 
         let d=segment.departureTime.substr(0,10).split("-");
         let utc = new Date(Date.UTC(d[0],d[1]-1,d[2]))
@@ -80,7 +98,7 @@ function setDepartureDatesToNoonUTC(criteria){
 
 function convertUTCtoLocalAirportTime(results){
     let segments = _.get(results,'itineraries.segments',[])
-    _.each(segments, (segment,id)=>{
+    _.each(segments, (segment)=>{
         let airportData = getAirportByIataCode(segment.origin.iataCode);
         if(airportData!==undefined && airportData.timezone){
             segment.departureTimeUtc=segment.departureTime;
@@ -99,15 +117,16 @@ function convertUTCtoLocalAirportTime(results){
     });
 }
 
-
+/*
 function increaseOfferPriceWithStripeCommission(results){
     let offers = _.get(results,'offers',{})
     _.each(offers, (offer,id)=>{
         let price = offer.price;
-        price.public=_roundToTwoDecimals(_addOPCFee(price.public));;
+        price.public=_roundToTwoDecimals(_addOPCFee(price.public));
     });
 }
-
+*/
+/*
 
 function increaseConfirmedPriceWithMaxOPCFee(repriceResponse){
     if (repriceResponse && repriceResponse.offer && repriceResponse.offer.price){
@@ -116,25 +135,24 @@ function increaseConfirmedPriceWithMaxOPCFee(repriceResponse){
         let priceWithOpcFee = _addOPCFee(price.public);
         price.public=_roundToTwoDecimals(priceWithOpcFee);
         price.publicWithoutFees=priceWithoutOpcFee;
-        let diff = _roundToTwoDecimals(priceWithOpcFee-priceWithoutOpcFee);
-        price.opcFee=diff;
+        price.opcFee=_roundToTwoDecimals(priceWithOpcFee - priceWithoutOpcFee);
     }
 }
+*/
 
 //add 5% on top of the total price to cover for OPC fee
 //FIXME - replace hardcoded commision with configurable value
-function _addOPCFee(amount){
+/*function _addOPCFee(amount){
     return Number(amount)*1.05;
 }
 
 function _roundToTwoDecimals(number){
     return Math.round( number * 100 + Number.EPSILON ) / 100
-}
+}*/
 module.exports={
     enrichResponseWithDictionaryData,
     enrichAirportCodesWithAirportDetails,
     enrichOperatingCarrierWithAirlineNames,
     replaceUTCTimeWithLocalAirportTime: convertUTCtoLocalAirportTime,
     setDepartureDatesToNoonUTC,
-    increaseConfirmedPriceWithMaxOPCFee,
 }

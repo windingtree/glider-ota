@@ -1,13 +1,14 @@
 const {createLogger} = require('./logger');
-const _ = require('lodash');
 const axios = require('axios').default;
-const {GLIDER_CONFIG} = require('./config');
 const {storeOffersMetadata} = require('./models/offerMetadata');
 const logger = createLogger('aggregator-api');
-const {enrichResponseWithDictionaryData, setDepartureDatesToNoonUTC, increaseConfirmedPriceWithMaxOPCFee} = require('./response-decorator');
-const {createErrorResponse,mergeAggregatorResponse, ERRORS} = require ('./rest-utils');
-const OrgId= require('./orgId');
-const SEARCH_TIMEOUT=1000*40;
+const {
+    enrichResponseWithDictionaryData,
+    setDepartureDatesToNoonUTC,
+} = require('./response-decorator');
+const {createErrorResponse, mergeAggregatorResponse, ERRORS} = require('./rest-utils');
+const OrgId = require('./orgId');
+const SEARCH_TIMEOUT = 1000 * 40;
 
 function createHeaders(token) {
     return {
@@ -31,34 +32,33 @@ async function searchOffers(criteria) {
     let availableAPIsURLs = await OrgId.getEndpoints(criteria);
 
     try {
-        const searchPromises = availableAPIsURLs.map(endpoint=>{
-            return searchOffersUsingEndpoint(criteria,endpoint,SEARCH_TIMEOUT);
+        const searchPromises = availableAPIsURLs.map(endpoint => {
+            return searchOffersUsingEndpoint(criteria, endpoint, SEARCH_TIMEOUT);
         })
         const allSearchResults = await Promise.all(searchPromises.map(p => p.catch(e => e)));
         let validResults = allSearchResults.filter(result => (!(result instanceof Error)));
         await storeOfferToOrgIdMapping(validResults)
 
 
-        if (validResults.length === 0) {
-            throw new Error('No results.')
-        } else{
+        if (validResults.length > 0) {
             let propsToMerge;
-            if(criteria.accommodation)
+            if (criteria.accommodation)
                 propsToMerge = ['accommodations', 'pricePlans', 'offers', 'passengers']
-            if(criteria.itinerary)
+            if (criteria.itinerary)
                 propsToMerge = ['pricePlans', 'offers', 'passengers', 'itineraries']
             response = mergeAggregatorResponse(validResults, propsToMerge)
         }
-
-    }catch(err){
-        logger.error("Error ",err)
-        return createErrorResponse(400,ERRORS.INVALID_SERVER_RESPONSE,err.message,criteria);
+    } catch (err) {
+        logger.error("Error ", err)
+        return createErrorResponse(400, ERRORS.INVALID_SERVER_RESPONSE, err.message, criteria);
     }
-    let searchResults = [];
-    if(response && response.data) {
+    let searchResults = {
+        offers: {}
+    };
+    if (response && response.data) {
         searchResults = response.data;
-        enrichResponseWithDictionaryData(searchResults)
-    }else{
+        enrichResponseWithDictionaryData(criteria, searchResults)
+    } else {
         logger.info("Response from /searchOffers API was empty, search criteria:", criteria)
     }
     return searchResults;
@@ -68,12 +68,12 @@ const storeOfferToOrgIdMapping = async (validResults) => {
     let offersMetadata = [];
     validResults.forEach(result => {
         let {endpoint, data} = result;
-        let {offers,passengers} = data;
-        Object.keys(offers).forEach(offerId=>{
+        let {offers, passengers} = data;
+        Object.keys(offers).forEach(offerId => {
             let offerMetadata = {
-                endpoint:endpoint,
-                offerId:offerId,
-                passengers:passengers
+                endpoint: endpoint,
+                offerId: offerId,
+                passengers: passengers
             }
             offersMetadata.push(offerMetadata)
         })
@@ -109,8 +109,7 @@ async function searchOffersUsingEndpoint (criteria, endpoint, timeout) {
 async function createWithOffer(criteria, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint).CREATE_WITH_OFFER_URL;
-    console.log('Creating order with URL:',url, 'JWT:',jwt)
-    console.log('JWT:',jwt)
+    console.log('Creating order with URL:', url, 'JWT:', jwt)
 
     let response = await axios({
         method: 'post',
@@ -129,8 +128,8 @@ async function createWithOffer(criteria, endpoint) {
  */
 async function seatmap(offerId, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
-    let url = urlFactory(serviceEndpoint,offerId).SEATMAP_URL;
-    console.log('Retrieve seatmap with URL:',url, 'JWT:',jwt)
+    let url = urlFactory(serviceEndpoint, offerId).SEATMAP_URL;
+    console.log('Retrieve seatmap with URL:', url, 'JWT:', jwt)
     let response = await axios({
         method: 'get',
         url: url,
@@ -150,8 +149,8 @@ async function seatmap(offerId, endpoint) {
  */
 async function reprice(offerId, options, endpoint) {
     const {serviceEndpoint, jwt} = endpoint;
-    let url = urlFactory(serviceEndpoint,offerId).REPRICE_OFFER_URL;
-    console.log('Reprice using URL:',url, 'JWT:',jwt)
+    let url = urlFactory(serviceEndpoint, offerId).REPRICE_OFFER_URL;
+    console.log('Reprice using URL:', url, 'JWT:', jwt)
 
     let response = await axios({
         method: 'post',
@@ -162,14 +161,14 @@ async function reprice(offerId, options, endpoint) {
     let repriceResponse = {};
     if (response && response.data) {
         repriceResponse = response.data;
-        increaseConfirmedPriceWithMaxOPCFee(repriceResponse)
+        // increaseConfirmedPriceWithMaxOPCFee(repriceResponse) //not needed here - OPC commission is calculated in shopping cart
     }
 
     //we may have a new offerID at this stage (e.g. aircanada) - we need to store metadata for this offer too
     let offerMetadata = {
-        endpoint:endpoint,
-        offerId:offerId,
-        passengers:repriceResponse.offer.passengers
+        endpoint: endpoint,
+        offerId: offerId,
+        passengers: repriceResponse.offer.passengers
     }
     await storeOffersMetadata([offerMetadata])
 
@@ -185,6 +184,8 @@ async function reprice(offerId, options, endpoint) {
  * @param guaranteeId - guaranteeId previously created with Simard API
  * @returns {Promise<any>} - booking confirmation, response from Glider /orders/.../fulfill API
  */
+/*
+NOT USED ANYMORE BUT MAY BE NEEDED - DON'T REMOVE IT
 async function fulfill(orderId, orderItems, passengers, guaranteeId) {
     let request = createFulfilmentRequest(orderItems, passengers, guaranteeId)
     let urlTemplate = GLIDER_CONFIG.FULFILL_URL;
@@ -200,6 +201,7 @@ async function fulfill(orderId, orderItems, passengers, guaranteeId) {
 }
 
 
+
 function createFulfilmentRequest(orderItems, passengers, guaranteeId) {
     let passengerReferences = [];
     _.each(passengers, (rec, key) => {
@@ -212,7 +214,7 @@ function createFulfilmentRequest(orderItems, passengers, guaranteeId) {
         guaranteeId: guaranteeId
     }
 }
-
+*/
 const urlFactory = (baseUrl, param) => {
     return {
         SEARCH_OFFERS_URL: baseUrl + "/offers/search",
@@ -226,7 +228,7 @@ const urlFactory = (baseUrl, param) => {
 module.exports = {
     createWithOffer,
     searchOffers,
-    fulfill,
+    // fulfill,
     reprice,
     seatmap,
 };

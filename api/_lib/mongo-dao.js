@@ -45,8 +45,8 @@ function getConnection() {
                 });
 
                 // Update cached connection and resolve
-                // Get the database name from setting, or URI otherwise
-                _db=client.db(MONGO_CONFIG.DBNAME || url.parse(MONGO_CONFIG.URL).pathname.substr(1));
+                // Get the database name from URI
+                _db=client.db(url.parse(MONGO_CONFIG.URL).pathname.substr(1));
 
                 _db.on('close', ()=>{
                     logger.info("onclose event received");
@@ -148,6 +148,9 @@ function updateOne(collection, criteria, doc) {
  * @param offer
  * @param passengers
  * @param exchangeQuote
+ * @param orderType
+ * @param subOfferIDs
+ * @param masterOrderId
  * @returns {Promise<*>}
  */
 

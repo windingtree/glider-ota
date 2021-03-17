@@ -98,7 +98,7 @@ export function PaxDetailsContent(props) {
                         //we need to try to match passengers by their type, rather than paxID
                         let passengersFromSessionStorage = retrievePassengerDetailsFromSessionStorage();
                         //iterate over passengers from search
-                        passengers.map(pax=>{
+                        passengers.forEach(pax=>{
                             console.log('Pax from search to find data for:', pax)
                             //try to find passenger with same passenger type in sessionStorage and use it's data
                             let paxFromSession = passengersFromSessionStorage.find(p=>(p.type === pax.type));
@@ -172,7 +172,7 @@ export function PaxDetailsContent(props) {
         storePassengerDetailsInSessionStorage(passengerDetails);
         //store pax details also in cart
         let results = storePassengerDetailsInShoppingCart(passengerDetails);
-        results.then((response) => {
+        results.then(() => {
             redirectToNextStep();
         }).catch(err => {
             console.error("Failed to store passenger details", err);

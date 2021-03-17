@@ -4,6 +4,8 @@ import {Col, Container, Image, Row} from 'react-bootstrap'
 import _ from 'lodash'
 import {HotelAddress} from "../accommodation-blocks/hotel-address"
 import {RoomAmenities} from "../accommodation-blocks/room-amenities";
+import {getLeadingHotelImageUrl} from "../../utils/hotel-utils";
+import {HotelLeadingImage} from "../accommodation-blocks/hotel-leading-image";
 
 
 export function HotelOfferSummary({hotel, room, price}) {
@@ -15,11 +17,14 @@ export function HotelOfferSummary({hotel, room, price}) {
         if(hotelAddress  && hotelAddress.locality)
             hotelCity=hotelAddress.locality;
 
+        const hotelLeadingImageUrl =  getLeadingHotelImageUrl(hotel);
+
         return (
             <>
                 {hotelCity && <div className={style.hotelStayHeader}>Hotel stay in {hotelCity}</div>}
             <Container>
             <Row className={style.hotelName}>{hotelName}</Row>
+                {hotelLeadingImageUrl && <HotelLeadingImage url={hotelLeadingImageUrl}/>}
                 <Row>{hotelAddress && <HotelAddress address={hotelAddress}/>}</Row>
                 <Row>{hotelDescription && <div className={style.hotelDescription}>{hotelDescription}</div>}</Row>
             </Container></>)
