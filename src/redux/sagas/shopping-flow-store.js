@@ -8,6 +8,11 @@ import extendResponse from "../../utils/flight-search-results-extender";
 
 import history from '../history';
 import {storageKeys} from '../../config/default';
+import {
+    gaFlightSearchResults,
+    gaHotelSearch, gaHotelSearchResults,
+    gaSearchError
+} from "../../components/cookie-consent-banner/google-analytics";
 
 /**
  * Search/filtering/results store
@@ -377,6 +382,8 @@ function* searchForFlightsSaga() {
             code: destinationCode
         } = destination;
         console.log('Criteria:', searchCriteria);
+        //send event to GA
+        gaHotelSearch(originCode,destinationCode,departureDate,returnDate, adults, children, infants)
         let searchRequest = buildFlightsSearchCriteria(originCode, destinationCode, departureDate, returnDate, adults, children, infants);
 
         // Update URL parameters
@@ -403,9 +410,11 @@ function* searchForFlightsSaga() {
         });
 
         let results = yield call(findFlights,searchRequest);
+        gaFlightSearchResults(results);
         yield put(flightSearchCompletedAction(results));
     } catch (error) {
         console.warn('Failure while searching for flights',error);
+        gaSearchError(error, 'flight_search');
         yield put(flightSearchFailedAction(error))
     }
 }
@@ -418,6 +427,8 @@ function* searchForHotelsSaga() {
             latitude,
             longitude
         } = destination;
+        //send event to GA
+        gaHotelSearch(latitude,latitude,departureDate,returnDate, adults, children, infants)
         let searchRequest = buildHotelsSearchCriteria(latitude,longitude,departureDate,returnDate, adults,children,infants)
 
         // Update URL parameters
@@ -435,9 +446,11 @@ function* searchForHotelsSaga() {
         });
 
         let results = yield call(findFlights,searchRequest);
+        gaHotelSearchResults(results)
         yield put(hotelSearchCompletedAction(results));
     } catch (error) {
         console.warn('Failure while searching for hotels',error);
+        gaSearchError(error, 'hotel_search');
         yield put(hotelSearchFailedAction(error))
     }
 }

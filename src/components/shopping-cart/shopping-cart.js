@@ -28,6 +28,7 @@ import Container from 'react-bootstrap/Container';
 import {fetchGet, invalidateCache} from '../../utils/api-utils';
 import deleteIcon from '../../assets/delete-cartitem-checkmark.svg';
 import { storageKeys } from '../../config/default';
+import {gaUserEvent} from "../cookie-consent-banner/google-analytics";
 
 let cx = classNames.bind(style);
 
@@ -282,6 +283,7 @@ export const ShoppingCart = (props) => {
         e.preventDefault();
         let url = '/pax';
         history.push(url);
+        gaUserEvent('cart_book_button_clicked')
     }
 
     //debug only action (for DEV mode only) -- restore cart from server
