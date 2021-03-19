@@ -53,4 +53,3 @@ export const storageKeys = {
 
 export const CRYPTO_PAYMENTS_DISABLED = true;
 export const CRYPTO_PAYMENTS_DISABLED_LABEL = 'Pay with Crypto — Coming 2021';
-export const GA_TRACKING_ID='G-PVJSQGMDW5';

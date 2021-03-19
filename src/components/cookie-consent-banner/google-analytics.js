@@ -1,7 +1,8 @@
 import React from 'react';
-import {GA_TRACKING_ID,config} from "../../config/default";
+import {config} from "../../config/default";
 import {useLocation} from 'react-router-dom';
 import ReactGA from 'react-ga';
+const GA_TRACKING_ID = process.env.REACT_APP_GA_TRACKING_ID || 'G-PVJSQGMDW5'
 
 ReactGA.initialize(GA_TRACKING_ID, {
     debug: true,
