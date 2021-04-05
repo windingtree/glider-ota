@@ -36,7 +36,7 @@ export const CookieConsentBanner = () => {
                             <Col xs={12} className={style.banner} >
                                 <Row>
                                     <Col xs={7} md={8}>
-                                        🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪
+                                        🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪 🍪
                                     </Col>
                                     <Col xs={5} md={4}>
                                         <Button onClick={onAgreeClick} bsPrefix={'cookiebtn'}>Ah, cookies... Fine</Button>

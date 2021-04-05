@@ -2,7 +2,7 @@
 
 
 :global(.cookiebtn){
-  @include g-font($glider-font-size-m,'#ffffff',$g-fontweight-normal);
+  @include g-font($glider-font-size-xs,'#ffffff',$g-fontweight-normal);
   color: #FFFFFF;
   border: 1px solid #FFFFFF;
   border-radius: 4px;
