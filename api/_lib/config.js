@@ -1,18 +1,37 @@
 const path = require('path');
-
-const profiles = require('@windingtree/config-profiles');
+const useDBConfiguration = false;
 const activeProfile = process.env.ACTIVE_PROFILE || 'staging';
-profiles.init({
-    baseFolder: path.join(process.cwd(),'api/profiles'),
-        dbUrl: profiles.getEnvironmentEntry(activeProfile, 'MONGO_URL'),
-        encryptionDetails: profiles.getEnvironmentEntry(activeProfile, 'PROFILE_SECRET')
-    }
-)
 
+if(useDBConfiguration) {
+    const profiles = require('@windingtree/config-profiles');
+    profiles.init({
+            baseFolder: path.join(process.cwd(), 'api/profiles'),
+            dbUrl: profiles.getEnvironmentEntry(activeProfile, 'MONGO_URL'),
+            encryptionDetails: profiles.getEnvironmentEntry(activeProfile, 'PROFILE_SECRET')
+        }
+    )
+}else{
+    const result = require('dotenv').config({})
+    if (result.error) {
+        throw result.error
+    }
+
+    console.log(result.parsed)
+}
 
 // Get an an environment variable
 const getConfigKey = (key, defaultValue) => {
-    return profiles.getEnvOrProfileEntry(key, defaultValue);
+    if(useDBConfiguration)
+        return profiles.getEnvOrProfileEntry(key, defaultValue);
+    else {
+        if (process.env.hasOwnProperty(key)) {
+            return process.env[key]
+        }else{
+            console.warn(`Missing configuration entry:${key}`);
+            return "MISSING";
+        }
+    }
+
 };
 module.exports.getConfigKey = getConfigKey;
 
