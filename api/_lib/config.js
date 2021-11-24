@@ -15,8 +15,6 @@ if(useDBConfiguration) {
     if (result.error) {
         throw result.error
     }
-
-    console.log(result.parsed)
 }
 
 // Get an an environment variable
@@ -101,10 +99,6 @@ const STRIPE_CONFIG =
         WEBHOOK_SECRET: getConfigKey('STRIPE_WEBHOOK_SECRET'),
         BYPASS_WEBHOOK_SIGNATURE_CHECK: (getConfigKey('STRIPE_BYPASS_WEBHOOK_SIGNATURE_CHECK',"no") === "yes")
     };
-const ELASTIC_CONFIG =
-    {
-        URL: getConfigKey('ELASTIC_URL'),
-    };
 
 const GENERIC_CONFIG =
     {
@@ -131,7 +125,6 @@ module.exports = {
     REDIS_CONFIG,
     MONGO_CONFIG,
     STRIPE_CONFIG,
-    ELASTIC_CONFIG,
     ORGID,
     GENERIC_CONFIG,
     SENDGRID_CONFIG,

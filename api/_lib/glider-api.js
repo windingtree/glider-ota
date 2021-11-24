@@ -85,7 +85,6 @@ async function searchOffersUsingEndpoint (criteria, endpoint, timeout) {
     const {serviceEndpoint, jwt} = endpoint;
     let url = urlFactory(serviceEndpoint).SEARCH_OFFERS_URL;
     console.log('Searching with URL:',url, 'JWT:',jwt)
-    console.log('JWT:',jwt)
 
     let response = await axios({
             method: 'post',
