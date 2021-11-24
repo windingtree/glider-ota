@@ -29,16 +29,7 @@ const getMongoConnection = async () => {
 
   if (!connectionPromise) {
     newConnection = true;
-    connectionPromise = mongoose.createConnection(
-        MONGO_CONFIG.URL,
-      {
-        bufferCommands: false,
-        bufferMaxEntries: 0,
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-      }
-    );
+    connectionPromise = mongoose.createConnection(MONGO_CONFIG.URL);
   }
 
   db = await connectionPromise;
