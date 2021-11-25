@@ -1,0 +1,37 @@
+@import 'src/styles/mixins';
+
+
+:global(.cookiebtn){
+  @include g-font($glider-font-size-xs,'#ffffff',$g-fontweight-normal);
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+  border-radius: 4px;
+  //width: 160px;
+  margin: 0 10px;
+
+}
+.cookietext{
+  text-align: center;
+}
+.cookiealert {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 54px;
+  margin: 0 !important;
+  z-index: 999;
+}
+
+.banner {
+  @include g-font(2.5vw,$g-color-primary,$g-fontweight-normal);
+  //max-width: 660px;
+  padding: 10px 10px 10px 16px;
+  background: #543CE2;
+  transition: all 500ms ease-out;
+  color: #ecf0f1;
+  border-radius: 10px;
+  @include glider-media-medium_768{
+    @include g-font($g-fontsize-l,$g-color-primary,$g-fontweight-normal);
+  }
+}

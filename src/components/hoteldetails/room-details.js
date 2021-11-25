@@ -7,7 +7,7 @@ import _ from 'lodash'
 import {ImageGallery} from "../accommodation-blocks/hotel-images"
 import {RoomAmenities} from "../accommodation-blocks/room-amenities"
 import {AddToTrip} from "../common-blocks/add-to-trip-button"
-
+import {parseISO,differenceInCalendarDays } from 'date-fns'
 
 export function Room(props) {
     const {
@@ -89,17 +89,22 @@ export function RoomPricePlan(props) {
         cartHotelOffer
     } = props;
     let price = offer.price;
+    let numberOfNights=0;
+
+    try {
+        let travelDates = offer.travelDates;    //travel dates taken from search query, we need it to calculate number of nights
+        if (travelDates && travelDates.departure && travelDates.arrival) {
+            numberOfNights = differenceInCalendarDays(parseISO(travelDates.departure), parseISO(travelDates.arrival))
+        }
+    }catch(err){
+        console.warn('Cannot calculate stay duration')
+    }
+
     const [updateStarted, setUpdateStarted] = useState(false);
-    // let isThisSelectedOffer = false;
-    // if(selectedOffer){
-    //     if(selectedOffer.offerId === offer.offerId)
-    //         isThisSelectedOffer=true;
-    // }
-    let {name,penalties} = pricePlan||{};
+    let {penalties} = pricePlan||{};
     const isAlreadyAdded= cartHotelOffer &&
     cartHotelOffer.offerId === offer.offerId;
 
-    console.log('###@!@@', isCartInProgress);
 
     const onAddPricePlanToCart = () =>{
         if (onAddOfferToCart) {
@@ -127,6 +132,7 @@ export function RoomPricePlan(props) {
             <AddToTrip
                 priceAmount={price.public}
                 priceCurrency={price.currency}
+                numberOfNights={numberOfNights}
                 isProgress={isCartInProgress && updateStarted}
                 isAlreadyAdded={isAlreadyAdded}
                 onAdd={isAlreadyAdded ? deleteOfferFromCart : onAddPricePlanToCart}

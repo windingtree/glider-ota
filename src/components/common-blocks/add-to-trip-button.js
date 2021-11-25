@@ -6,7 +6,7 @@ import {Col, Row, Spinner} from "react-bootstrap";
 let cx = classNames.bind(style);
 
 
-export const AddToTrip = ({priceAmount, priceCurrency, isAlreadyAdded, onAdd, isProgress}) => {
+export const AddToTrip = ({priceAmount, numberOfNights, priceCurrency, isAlreadyAdded, onAdd, isProgress}) => {
 
     const handleButtonClick = () => {
         if(onAdd){
@@ -36,6 +36,7 @@ export const AddToTrip = ({priceAmount, priceCurrency, isAlreadyAdded, onAdd, is
         <div>
             <Row className={style.priceRow}>
                 <Col className={style.priceWrapper}>
+                    {numberOfNights>0 && <div className={style.numberOfNights}>Price for {numberOfNights} night{numberOfNights>1?'s':''}</div>}
                     <div className={priceClassnames}>{priceAmount} {priceCurrency}</div>
                 </Col>
                 <Col className={style.addButtonWrapper}>

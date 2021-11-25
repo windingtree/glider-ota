@@ -37,7 +37,7 @@ export function HotelDetails(props) {
     const hotelAddress = _.get(hotel, 'contactInformation.address');
     const hotelCoordinates = _.get(hotel, 'location.coordinates');
     const hotelLeadingImageUrl =  getLeadingHotelImageUrl(hotel);
-
+    console.log('hotelPricePlansWithOffers',hotelPricePlansWithOffers)
     const handleAddOfferToCart = ({offerId, price, room}) => {
         onAddOfferToCart(offerId, room, hotel, price)
     }
@@ -107,6 +107,7 @@ const displayRooms = (
         {
             _.map(rooms, (room, roomId) => {
                 const roomPricePlansWithOffers=getRoomPricePlansWithOffers(roomId,hotelPricePlansWithOffers)
+                console.log('roomPricePlansWithOffers=',roomPricePlansWithOffers)
                 return (<Room
                     room={room}
                     key={roomId}
@@ -137,6 +138,7 @@ function getHotelPricePlansWithOffers(hotel, offers, pricePlans){
                     pricePlan:pricePlans[ppRefId],
                     price:offer.price,
                     offerId:offerId,
+                    travelDates:offer.travelDates,
                     room:roomTypes[ppRef.roomType]
                 })
             }
