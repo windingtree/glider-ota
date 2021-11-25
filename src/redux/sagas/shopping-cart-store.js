@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect';
-import { all, call, put, takeEvery, select} from 'redux-saga/effects';
-import {
-    shoppingFlowStateSelector
-} from "./shopping-flow-store";
+import { all, call, put, takeEvery} from 'redux-saga/effects';
+
 import {
     // storeItemInCart,
     // retrieveItemFromCart,
@@ -10,6 +8,7 @@ import {
     retrieveCart,
     deleteItemFromCartByOfferId
 } from "../../utils/api-utils"
+import {gaGenericError, gaItemAddedToCart} from "../../components/cookie-consent-banner/google-analytics";
 
 /**
  * Shopping cart & booking flow store
@@ -246,7 +245,8 @@ function* restoreCartFromServerSideSaga() {
 function* addOfferIdToCart({payload}) {
     try {
         const {offerId, type} = payload;
-        const data = yield call(storeOfferId, offerId, type );
+        yield call(storeOfferId, offerId, type );
+        gaItemAddedToCart(type)
         const itemsInCart = yield call(retrieveCart);
         let flightOffer=null;
         let hotelOffer=null;
@@ -275,6 +275,7 @@ function* addOfferIdToCart({payload}) {
         yield put(cartSuccessfullyUpdatedAction(flightOffer, hotelOffer, totalPrice))
     } catch (error) {
         console.log('*restoreCartFromServerSideSaga failed, error:',error)
+        gaGenericError(error,'cart_add_error')
         yield put(cartUpdateFailedAction(error))
     }
 }
@@ -285,6 +286,7 @@ function* deleteCartItemSaga({offerId}) {
         yield put(requestCartUpdateAction())
     } catch (error) {
         console.log('*deleteCartItemSaga failed, error:',error)
+        gaGenericError(error,'cart_delete_error')
         yield put(cartUpdateFailedAction(error))
     }
 }

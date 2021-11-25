@@ -33,15 +33,21 @@
   @include g-font($g-fontsize-xl,$g-color-darkgrey,$g-fontweight-normal);
 }
 
+.numberOfNights {
+  @include g-font($g-fontsize-xs,$g-color-primary,$g-fontweight-normal);
+  display: block;
+}
+
+
 .priceRow {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
 
 .priceWrapper {
-  padding-left: 40px;
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  flex-direction: column;
 }
 
 .addButtonWrapper {

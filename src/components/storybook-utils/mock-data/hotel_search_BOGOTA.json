@@ -1,13 +1,13 @@
 {
   "accommodations": {
-    "5fb965566eefeb0008ad9613": {
-      "name": "Grand",
+    "5fdb094a9dca5100082b2abd": {
+      "name": "Tryp Bogota Hotel",
       "type": "hotel",
-      "description": "Hotel provided by Rooms project.",
+      "description": "The Tryp Bogota by Wyndham hotel is located just 15 minutes away from El Dorado International airport, surrounded by some of the major government and commercial organizations such as Corferias convention center, the Embassy of the United States and Gran Station shopping mall. With a fresh style, easy going and an excellent personal service.",
       "location": {
         "coordinates": {
-          "latitude": 4.678678206786526,
-          "longitude": -74.06963109970094
+          "latitude": 4.639003,
+          "longitude": -74.098074
         }
       },
       "rating": 5,
@@ -15,7 +15,7 @@
         "phoneNumbers": [],
         "emails": [],
         "address": {
-          "streetAddress": "Some place in South America",
+          "streetAddress": "Ac. 24 #No 51 - 40, Bogotá, Colombia",
           "premise": "",
           "locality": "",
           "postalCode": "",
@@ -27,20 +27,20 @@
         "checkoutTime": "24:00"
       },
       "otherPolicies": {},
-      "media": [
-        {
-          "type": "photo",
-          "url": "https://www.avontuura.com/wp-content/uploads/2019/06/1-1024x777.jpg"
-        }
-      ],
+      "media": [],
       "roomTypes": {
-        "5fbf5bcc643398000987181c": {
-          "name": "Small",
-          "description": "Room provided by Rooms project.",
+        "5fdb0a6254d3e900085c1ff3": {
+          "name": "Single Room",
+          "description": "After closing a business or after enjoying the best experience of the city, nothing is better than a good rest in the hotel or why not a nice snap in our QUEEN ROOM. A space thinking in your conford and a great rest full of productivity that you need in your stay in Bogota.",
           "amenities": [
-            "WiFi",
-            "Double Bed",
-            "Phone"
+            "Buffet breakfast at the restaurant",
+            "Shuttle Service: Airport - Hotel - Airport, at times established by the hotel",
+            "Spinning Center Gym (Sótano 1) not SPA services",
+            "Internet (High Speed) y Wi-Fi",
+            "5 first minutes in local calls",
+            "Business Center 24 hours",
+            "Safe box, air conditioning, hair dryer, iron and ironing board, laundry services",
+            "Room service 24 hours"
           ],
           "size": {
             "value": "",
@@ -50,112 +50,19 @@
             "adults": 2,
             "childs": 1
           },
-          "media": [
-            {
-              "type": "photo",
-              "url": "https://caspiannews.com/media/caspian_news/all_original_photos/1532877540_1694257_1532877439_2977984main.jpg"
-            }
-          ],
-          "policies": {}
-        },
-        "5fbf5bd1643398000987181d": {
-          "name": "Large x",
-          "description": "Room provided by Rooms project.",
-          "amenities": [
-            "Air Conditioning"
-          ],
-          "size": {
-            "value": "",
-            "unit": "metric"
-          },
-          "maximumOccupancy": {
-            "adults": 2,
-            "childs": 1
-          },
-          "media": [
-            {
-              "type": "photo",
-              "url": "https://images.oyoroomscdn.com/uploads/hotel_image/85734/acb05ff883b580d5.jpg"
-            }
-          ],
-          "policies": {}
-        },
-        "5fbf5bd5643398000987181e": {
-          "name": "Very Small",
-          "description": "Room provided by Rooms project.",
-          "amenities": [
-            "Phone",
-            "Massage"
-          ],
-          "size": {
-            "value": "",
-            "unit": "metric"
-          },
-          "maximumOccupancy": {
-            "adults": 2,
-            "childs": 1
-          },
-          "media": [
-            {
-              "type": "photo",
-              "url": "https://www.nepalnow.blog/wp-content/uploads/2018/07/IMG_5403.jpg"
-            }
-          ],
-          "policies": {}
-        },
-        "5fbf706740aeff00083ddaf2": {
-          "name": "Maybe this?",
-          "description": "Room provided by Rooms project.",
-          "amenities": [],
-          "size": {
-            "value": "",
-            "unit": "metric"
-          },
-          "maximumOccupancy": {
-            "adults": 2,
-            "childs": 1
-          },
-          "media": [
-            {
-              "type": "photo",
-              "url": "https://media.timeout.com/images/103327378/image.jpg"
-            }
-          ],
-          "policies": {}
-        },
-        "5fc8b57025c09c00083c2dff": {
-          "name": "Minor",
-          "description": "Room provided by Rooms project.",
-          "amenities": [
-            "Massage",
-            "Balcony"
-          ],
-          "size": {
-            "value": "",
-            "unit": "metric"
-          },
-          "maximumOccupancy": {
-            "adults": 2,
-            "childs": 1
-          },
-          "media": [
-            {
-              "type": "photo",
-              "url": "https://images.adsttc.com/media/images/5010/15f8/28ba/0d42/2200/09b1/newsletter/stringio.jpg?1414026169"
-            }
-          ],
+          "media": [],
           "policies": {}
         }
       }
     },
-    "5fbfa12d3151060008397a0e": {
-      "name": "Bogota Grande",
+    "5fdb27975df38500083296d4": {
+      "name": "Hotel Wyndham Bogota Art",
       "type": "hotel",
-      "description": "Hotel provided by Rooms project.",
+      "description": "Bright and modern spaces await the most demanding traveler at Wyndham Bogotá in Colombia, perfectly located within the Capital Towers business complex in the west of the city. This elegant hotel offers spacious and well-equipped rooms, state-of-the-art event facilities and a wide variety of services. From a privileged location in the center of Ciudad Salitre, our hotel is close to the United States Embassy, ​​the Corferias Convention Center, the Ágora International Convention Center, business parks and corporate offices; as well as shops, restaurants and entertainment venues. Just 15 minutes from El Dorado International Airport (BOG).",
       "location": {
         "coordinates": {
-          "latitude": 4.64379524702172,
-          "longitude": -74.1110122203827
+          "latitude": 4.639003,
+          "longitude": -74.098074
         }
       },
       "rating": 5,
@@ -163,7 +70,7 @@
         "phoneNumbers": [],
         "emails": [],
         "address": {
-          "streetAddress": "PROS Ingeniería, Cl. 60 #30 14 Of. 202, Bogotá, Colombia",
+          "streetAddress": "Ac. 24 ##51-40, Bogotá, Colombia",
           "premise": "",
           "locality": "",
           "postalCode": "",
@@ -175,20 +82,19 @@
         "checkoutTime": "24:00"
       },
       "otherPolicies": {},
-      "media": [
-        {
-          "type": "photo",
-          "url": "https://specials-images.forbesimg.com/imageserve/1182337590/960x0.jpg?fit=scale"
-        }
-      ],
+      "media": [],
       "roomTypes": {
-        "5fbfa1f884170f0008a2da0f": {
-          "name": "Double room",
-          "description": "Room provided by Rooms project.",
+        "5fdb2986da50cb00094619db": {
+          "name": "Single Room",
+          "description": "26m2 modern room with a queen bed, free WiFi and buffet breakfast included in your stay. The room offers all the comforts to make your stay really pleasant. It has a laptop safe, minibar, coffee maker, iron and ironing board, flat screen TV, VOD and PPV channels, workspace with ergonomic chair.",
           "amenities": [
-            "Double Bed",
-            "Balcony",
-            "Air Conditioning"
+            "Shuttle Service: Airport - Hotel - Airport, at times established by the hotel",
+            "American breakfast in the restaurant",
+            "Spinning Center Gym (Basement Floor) except Spa and Hair Salon Services",
+            "High Speed Wired Internet and Wi-Fi inside the hotel",
+            "5 minutes of local calls",
+            "Business Center open 24 hours with printing services",
+            "Safe deposit box, air conditioning and bioclimatic ventilation"
           ],
           "size": {
             "value": "",
@@ -198,76 +104,21 @@
             "adults": 2,
             "childs": 1
           },
-          "media": [
-            {
-              "type": "photo",
-              "url": "https://breathelife2030.org/wp-content/uploads/2019/05/Bogota_Candelaria.jpg"
-            }
-          ],
+          "media": [],
           "policies": {}
         },
-        "5fbfa22684170f0008a2da10": {
-          "name": "Single room",
-          "description": "Room provided by Rooms project.",
-          "amenities": [
-            "Massage"
-          ],
-          "size": {
-            "value": "",
-            "unit": "metric"
-          },
-          "maximumOccupancy": {
-            "adults": 2,
-            "childs": 1
-          },
-          "media": [
-            {
-              "type": "photo",
-              "url": "https://cf.bstatic.com/images/hotel/max1024x768/162/162320170.jpg"
-            }
-          ],
-          "policies": {}
-        }
-      }
-    },
-    "5fbfb4e37ab5af000821a38a": {
-      "name": "Devcon Hotel 1",
-      "type": "hotel",
-      "description": "Hotel provided by Rooms project.",
-      "location": {
-        "coordinates": {
-          "latitude": 4.633012969621998,
-          "longitude": -74.08055305480958
-        }
-      },
-      "rating": 5,
-      "contactInformation": {
-        "phoneNumbers": [],
-        "emails": [],
-        "address": {
-          "streetAddress": "bogota",
-          "premise": "",
-          "locality": "",
-          "postalCode": "",
-          "country": ""
-        }
-      },
-      "checkinoutPolicy": {
-        "checkinTime": "15:00",
-        "checkoutTime": "24:00"
-      },
-      "otherPolicies": {},
-      "media": [
-        {
-          "type": "photo",
-          "url": "https://cms.qz.com/wp-content/uploads/2015/06/exterior.jpg?quality=75&strip=all&w=900&h=900&crop=1"
-        }
-      ],
-      "roomTypes": {
-        "5fbfb585e8dca2000805bc32": {
+        "5fdb2ab6da50cb00094619dc": {
           "name": "Double Room",
-          "description": "Room provided by Rooms project.",
-          "amenities": [],
+          "description": "26m2 modern room with a double bed, free WiFi and buffet breakfast included in your stay. The room offers all the comforts to make your stay really pleasant. It has a laptop safe, minibar, coffee maker, iron and ironing board, flat screen TV, VOD and PPV channels, workspace with ergonomic chair.",
+          "amenities": [
+            "Shuttle Service: Airport - Hotel - Airport, at times established by the hotel",
+            "American breakfast in the restaurant",
+            "Spinning Center Gym (Basement Floor) except Spa and Hair Salon Services",
+            "High Speed Wired Internet and Wi-Fi inside the hotel",
+            "5 minutes of local calls",
+            "Business Center open 24 hours with printing services",
+            "Safe deposit box, air conditioning and bioclimatic ventilation"
+          ],
           "size": {
             "value": "",
             "unit": "metric"
@@ -276,17 +127,307 @@
             "adults": 2,
             "childs": 1
           },
-          "media": [
-            {
-              "type": "photo",
-              "url": "https://i0.wp.com/curlytraveller.com/wp-content/uploads/2014/08/coolhotelssingapore1.jpg?resize=1000%2C750"
-            }
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "5fdb2d8109a9ff00084aad8c": {
+      "name": "Hotel Macao",
+      "type": "hotel",
+      "description": "Hotel Macao Colombia is located in Bogotá, just 400 meters from Corferias convention center and Agora, the most modern convention center and international events planner in Bogotá. Our hotel is fully equipped with restaurant, free Wi-Fi, Gym, lounges, laundry, cable TV, executive transport service, 24-hour medical assistance, local newspaper and parking. Hotel Macao is 5 minutes walking distance from: the American Embassy, El Dorado international airport, Montevideo free zone and Fontibon / Puente Aranda Industrial zones, the historic downtown of the city and La Candelaria neighborhood. Also the hotel is surrounded by four of the most renowned Universities: National, Andes, Rosario and Pontificia Universidad Javeriana and it is in the middle of a diversity of malls like Multiplaza, Gran Estación, Calima, Salitre, outlets and Plaza central.",
+      "location": {
+        "coordinates": {
+          "latitude": 4.63356,
+          "longitude": -74.094812
+        }
+      },
+      "rating": 5,
+      "contactInformation": {
+        "phoneNumbers": [],
+        "emails": [],
+        "address": {
+          "streetAddress": "Av. La Esperanza # 44A - 21, Bogotá, Colombia",
+          "premise": "",
+          "locality": "",
+          "postalCode": "",
+          "country": ""
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {},
+      "media": [],
+      "roomTypes": {
+        "5fdb2dfc8795de00086ecd02": {
+          "name": "Single Room",
+          "description": "Modern rooms, some with terrace, are equipped with flat screen TV with Direct TV, safe-deposit box and private bathroom with shower. Natural light is surrounded all the hotel: On the 7th floor restaurant, meeting rooms and a panoramic view of the city on the 12th floor.",
+          "amenities": [
+            "Room with Queen Bed",
+            "Private bathroom with shower",
+            "Flat screen TV",
+            "DirecTV cable channels"
           ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
           "policies": {}
         },
-        "5fbfb5a4e8dca2000805bc33": {
+        "5fdb2e8ab52d8300085786d1": {
+          "name": "Double Room",
+          "description": "Modern rooms, some with terrace, are equipped with flat screen TV with Direct TV, safe-deposit box and private bathroom with shower. Natural light is surrounded all the hotel: On the 7th floor restaurant, meeting rooms and a panoramic view of the city on the 12th floor.",
+          "amenities": [
+            "Room with double beds",
+            "Private bathroom with shower",
+            "Flat screen TV",
+            "DirecTV cable channels"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "5fdb2ecdb52d8300085786d2": {
           "name": "Triple Room",
-          "description": "Room provided by Rooms project.",
+          "description": "Modern rooms, some with terrace, are equipped with flat screen TV with Direct TV, safe-deposit box and private bathroom with shower. Natural light is surrounded all the hotel: On the 7th floor restaurant, meeting rooms and a panoramic view of the city on the 12th floor.",
+          "amenities": [
+            "Room with three beds",
+            "Private bathroom with shower",
+            "Flat screen TV",
+            "DirecTV cable channels"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "5fdb2fa9004ac60009d245a7": {
+      "name": "Hotel Grand Plaza",
+      "type": "hotel",
+      "description": "If you are looking for a hotel near Corferias and the American Embassy, ​​Grand Plaza Hotel is the best option among the hotels in Corferias Bogotá. It is located just 50 meters from the International Business and Exhibition Center of the capital.",
+      "location": {
+        "coordinates": {
+          "latitude": 4.631241,
+          "longitude": -74.092535
+        }
+      },
+      "rating": 5,
+      "contactInformation": {
+        "phoneNumbers": [],
+        "emails": [],
+        "address": {
+          "streetAddress": "Cra. 40 #24-31, Bogotá, Cundinamarca, Colombia",
+          "premise": "",
+          "locality": "",
+          "postalCode": "",
+          "country": ""
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {},
+      "media": [],
+      "roomTypes": {
+        "5fdb313cbc3f5200086b0172": {
+          "name": "Single Room",
+          "description": "A beautiful single room.",
+          "amenities": [
+            "Minibar",
+            "Exercises room",
+            "Parking lot",
+            "Free Wi-Fi throughout the building",
+            "Security box",
+            "Free local calls",
+            "Free amenities",
+            "Hair dryer",
+            "Biosafety Certificate \"Check In certified\"",
+            "Breakfast included in the rate"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "5fdb31e6660eff0008f119a7": {
+          "name": "Double Room",
+          "description": "A beautiful double room.",
+          "amenities": [
+            "Minibar",
+            "Exercises room",
+            "Parking lot",
+            "Free Wi-Fi throughout the building",
+            "Security box",
+            "Free local calls",
+            "Hair dryer",
+            "Biosafety Certificate \"Check In certified\"",
+            "Breakfast included in the rate"
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "5fdb332c544fbb000622a7e9": {
+      "name": "Claron Hotel Bogota Plaza",
+      "type": "hotel",
+      "description": "5-star hotel cataloged as one of the best hotels in the north of Bogotá, located on Calle 100 in front of the Barraquer Clinic near important shopping centers, Unicentro, Andino also in the Zona Rosa, Parque de la 93 and Usaquén. With easy access from the airport and places of interest in the city. We offer accommodation services in spacious, comfortable and contemporary rooms with 24-hour room service and internet. 15 rooms for events and congresses, coffee bar, La Macuira restaurant. Gym and Spa with massage service, beauty treatments and water circuit. 24-hour business center with advice for tours and reservations at entertainment sites.",
+      "location": {
+        "coordinates": {
+          "latitude": 4.686373,
+          "longitude": -74.051159
+        }
+      },
+      "rating": 5,
+      "contactInformation": {
+        "phoneNumbers": [],
+        "emails": [],
+        "address": {
+          "streetAddress": "Cra. 18a ##100 41, Bogotá, Cundinamarca, Colombia",
+          "premise": "",
+          "locality": "",
+          "postalCode": "",
+          "country": ""
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {},
+      "media": [],
+      "roomTypes": {
+        "5fdb3499c2b22c0008a9c764": {
+          "name": "Single Room",
+          "description": "Single Room",
+          "amenities": [
+            "Minibar",
+            "Gym",
+            "Spa and wet areas (sauna and Turkish)",
+            "La Macuira restaurant",
+            "Free Wi-Fi in rooms and throughout the building",
+            "Security box",
+            "Free local calls",
+            "Free amenities",
+            "Hair dryer",
+            "Business center",
+            "Bar - Cafe",
+            "Parking",
+            "Breakfast included in the rate",
+            "Biosafety Certificate \"Check in certificate\""
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "5fdb358cacd1d70009db7b9f": {
+          "name": "Double Room",
+          "description": "",
+          "amenities": [
+            "Minibar",
+            "Gym",
+            "Spa and wet areas (sauna and Turkish)",
+            "La Macuira restaurant",
+            "Free Wi-Fi in rooms and throughout the building",
+            "Security box",
+            "Free local calls",
+            "Free amenities",
+            "Hair dryer",
+            "Business center",
+            "Bar - Cafe",
+            "Parking",
+            "Breakfast included in the rate",
+            "Biosafety Certificate \"Check in certificate\""
+          ],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
+          "policies": {}
+        }
+      }
+    },
+    "5fdb36da4f80510008627f16": {
+      "name": "Black Tower Premium Hotel",
+      "type": "hotel",
+      "description": "Hotel Black Tower Premium is located in Bogotá, a 5-minute walk from the US Embassy and Corferias International Exhibition Center. Free WiFi access and free private parking are available. Each room here will provide you with a satellite TV, a mini-bar and a coffee maker. There is also a private bathroom with a shower and a hairdryer, as well as ironing facilities and air conditioning.",
+      "location": {
+        "coordinates": {
+          "latitude": 4.632462,
+          "longitude": -74.094171
+        }
+      },
+      "rating": 5,
+      "contactInformation": {
+        "phoneNumbers": [],
+        "emails": [],
+        "address": {
+          "streetAddress": "Calle 24 No 43A 21, Teusaquillo, 110010 Bogotá, Colombia",
+          "premise": "",
+          "locality": "",
+          "postalCode": "",
+          "country": ""
+        }
+      },
+      "checkinoutPolicy": {
+        "checkinTime": "15:00",
+        "checkoutTime": "24:00"
+      },
+      "otherPolicies": {},
+      "media": [],
+      "roomTypes": {
+        "5fdb37cdd13179000936edfa": {
+          "name": "Single Room",
+          "description": "Single Room",
           "amenities": [],
           "size": {
             "value": "",
@@ -296,12 +437,52 @@
             "adults": 2,
             "childs": 1
           },
-          "media": [
-            {
-              "type": "photo",
-              "url": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F28%2F2020%2F02%2Faerial-the-oasis-at-death-valley-DVOASIS0419.jpg"
-            }
-          ],
+          "media": [],
+          "policies": {}
+        },
+        "5fdb37dad13179000936edfb": {
+          "name": "Double Room",
+          "description": "Double Room",
+          "amenities": [],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "5fdb37e4d13179000936edfc": {
+          "name": "Triple Room",
+          "description": "Triple Room",
+          "amenities": [],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
+          "policies": {}
+        },
+        "5fdb37ebd13179000936edfd": {
+          "name": "Suite",
+          "description": "Suite",
+          "amenities": [],
+          "size": {
+            "value": "",
+            "unit": "metric"
+          },
+          "maximumOccupancy": {
+            "adults": 2,
+            "childs": 1
+          },
+          "media": [],
           "policies": {}
         }
       }
@@ -318,132 +499,256 @@
     }
   },
   "offers": {
-    "b0871bad-b21d-42cb-ba23-cbba21138612": {
+    "a311d515-f72d-4fec-bb03-7ca5e5cb4650": {
       "pricePlansReferences": {
         "BAR": {
-          "accommodation": "5fb965566eefeb0008ad9613",
-          "roomType": "5fbf5bcc643398000987181c"
+          "accommodation": "5fdb094a9dca5100082b2abd",
+          "roomType": "5fdb0a6254d3e900085c1ff3"
         }
       },
       "price": {
         "currency": "USD",
-        "public": 74.03,
-        "taxes": 0
+        "public": "61.95",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
       }
     },
-    "98a978e2-bbcc-4b13-bc5f-e519d96d8215": {
+    "6a180b3d-29ab-41d7-937c-0a262018596c": {
       "pricePlansReferences": {
         "BAR": {
-          "accommodation": "5fb965566eefeb0008ad9613",
-          "roomType": "5fbf5bd1643398000987181d"
+          "accommodation": "5fdb27975df38500083296d4",
+          "roomType": "5fdb2986da50cb00094619db"
         }
       },
       "price": {
         "currency": "USD",
-        "public": 85.04,
-        "taxes": 0
+        "public": "52.50",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
       }
     },
-    "38132557-4227-42fc-8055-29737d37c5d0": {
+    "9611b250-53ab-4a89-a49c-dc9b13f54f90": {
       "pricePlansReferences": {
         "BAR": {
-          "accommodation": "5fb965566eefeb0008ad9613",
-          "roomType": "5fbf5bd5643398000987181e"
+          "accommodation": "5fdb27975df38500083296d4",
+          "roomType": "5fdb2ab6da50cb00094619dc"
         }
       },
       "price": {
         "currency": "USD",
-        "public": 126.53,
-        "taxes": 0
+        "public": "60.90",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
       }
     },
-    "fc764366-2a9c-4ecd-88f9-6b7acb16eae5": {
+    "9a961810-dbff-4df1-bcc2-094e5ed749ba": {
       "pricePlansReferences": {
         "BAR": {
-          "accommodation": "5fb965566eefeb0008ad9613",
-          "roomType": "5fbf706740aeff00083ddaf2"
+          "accommodation": "5fdb2d8109a9ff00084aad8c",
+          "roomType": "5fdb2dfc8795de00086ecd02"
         }
       },
       "price": {
         "currency": "USD",
-        "public": 143.85,
-        "taxes": 0
+        "public": "49.22",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
       }
     },
-    "d24ff5dc-caa8-41fd-9349-430aadc7b40e": {
+    "74151c8c-3d04-4ae3-9f17-ecbf73a8a279": {
       "pricePlansReferences": {
         "BAR": {
-          "accommodation": "5fbfa12d3151060008397a0e",
-          "roomType": "5fbfa1f884170f0008a2da0f"
+          "accommodation": "5fdb2d8109a9ff00084aad8c",
+          "roomType": "5fdb2e8ab52d8300085786d1"
         }
       },
       "price": {
         "currency": "USD",
-        "public": 133.56,
-        "taxes": 0
+        "public": "53.70",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
       }
     },
-    "dabd2b26-54cc-40a0-bb72-c8cd9210b23f": {
+    "8179c7f3-0fbd-435e-b155-2316ba0bac44": {
       "pricePlansReferences": {
         "BAR": {
-          "accommodation": "5fbfa12d3151060008397a0e",
-          "roomType": "5fbfa22684170f0008a2da10"
+          "accommodation": "5fdb2d8109a9ff00084aad8c",
+          "roomType": "5fdb2ecdb52d8300085786d2"
         }
       },
       "price": {
         "currency": "USD",
-        "public": 91.35,
-        "taxes": 0
+        "public": "62.65",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
       }
     },
-    "6a3bfc7c-2650-4740-a99a-a6355611036a": {
+    "ec770157-fb5c-4be9-b4cd-749345320324": {
       "pricePlansReferences": {
         "BAR": {
-          "accommodation": "5fbfb4e37ab5af000821a38a",
-          "roomType": "5fbfb585e8dca2000805bc32"
+          "accommodation": "5fdb2fa9004ac60009d245a7",
+          "roomType": "5fdb313cbc3f5200086b0172"
         }
       },
       "price": {
         "currency": "USD",
-        "public": 103.95,
-        "taxes": 0
+        "public": "52.50",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
       }
     },
-    "38338d68-03e3-423e-a874-3056de530ca9": {
+    "002e1406-b756-4b5d-9214-fd7e287505fd": {
       "pricePlansReferences": {
         "BAR": {
-          "accommodation": "5fbfb4e37ab5af000821a38a",
-          "roomType": "5fbfb5a4e8dca2000805bc33"
+          "accommodation": "5fdb2fa9004ac60009d245a7",
+          "roomType": "5fdb31e6660eff0008f119a7"
         }
       },
       "price": {
         "currency": "USD",
-        "public": 208.95,
-        "taxes": 0
+        "public": "61.95",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
       }
     },
-    "61867182-366a-4836-9c3e-a29ef35c23c5": {
+    "f72668c6-f933-409b-ab3d-ebb6e66ede47": {
       "pricePlansReferences": {
         "BAR": {
-          "accommodation": "5fb965566eefeb0008ad9613",
-          "roomType": "5fc8b57025c09c00083c2dff"
+          "accommodation": "5fdb332c544fbb000622a7e9",
+          "roomType": "5fdb3499c2b22c0008a9c764"
         }
       },
       "price": {
         "currency": "USD",
-        "public": 104.48,
-        "taxes": 0
+        "public": "71.40",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
+      }
+    },
+    "8dac325d-4277-415b-9418-decf9791ee3a": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fdb332c544fbb000622a7e9",
+          "roomType": "5fdb358cacd1d70009db7b9f"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": "84.00",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
+      }
+    },
+    "4c6992dc-5015-4faa-9053-ae6f4054b354": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fdb36da4f80510008627f16",
+          "roomType": "5fdb37cdd13179000936edfa"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": "54.60",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
+      }
+    },
+    "582593d9-429c-4fcc-b0e8-61a080b738d1": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fdb36da4f80510008627f16",
+          "roomType": "5fdb37dad13179000936edfb"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": "65.10",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
+      }
+    },
+    "6d45d027-75a0-4cf0-b49d-418d124882e6": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fdb36da4f80510008627f16",
+          "roomType": "5fdb37e4d13179000936edfc"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": "75.60",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
+      }
+    },
+    "3d9ca7f7-b3c2-42af-be6b-a934c962486f": {
+      "pricePlansReferences": {
+        "BAR": {
+          "accommodation": "5fdb36da4f80510008627f16",
+          "roomType": "5fdb37ebd13179000936edfd"
+        }
+      },
+      "price": {
+        "currency": "USD",
+        "public": "75.60",
+        "isEstimated": false
+      },
+      "travelDates": {
+        "arrival": "2021-08-18T12:00:00+02:00",
+        "departure": "2021-08-19T12:00:00+02:00"
       }
     }
   },
   "passengers": {
-    "PAX1": {
+    "c408fceb-6483-4462-ac51-eca57345dd65": {
+      "type": "ADT"
+    },
+    "2aa5fc53-f5d5-407b-bdcc-dbaa1e47953a": {
       "type": "ADT"
     }
   },
   "metadata": {
-    "uuid": "c39ee1eb-c71f-4f09-9e32-811f33063771",
-    "timestamp": "2020-12-08T19:59:01.994Z",
-    "numberOfOffers": 9
+    "uuid": "5016f5a8-9ac3-47cc-98f2-93668e33b331",
+    "timestamp": "2021-03-19T15:38:19.049Z",
+    "numberOfOffers": 14
   }
 }
